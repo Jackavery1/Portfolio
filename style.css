@@ -51,6 +51,8 @@ body {
   color: var(--couleur-texte-normal);
   font-family: var(--police-crt);
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   cursor: crosshair;
   overflow-x: hidden;
 }
@@ -98,35 +100,56 @@ button { cursor: pointer; border: none; background: none; font-family: var(--pol
 
 /* ---------------------------------------------------------------- ENVELOPPE */
 .ecran {
+  flex: 1;
   max-width: 960px; margin: 24px auto 0;
-  min-height: calc(100vh - 24px);
+  display: flex;
+  flex-direction: column;
   box-shadow: 0 0 40px rgba(74,111,255,.15), 0 0 80px rgba(74,111,255,.05);
 }
 
 /* ---------------------------------------------------------------- NAV */
 .nav {
-  display: flex; align-items: center; gap: .75rem;
-  padding: .65rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: .9rem 1.5rem;
   border-bottom: 1px solid var(--couleur-bordure);
   background-color: var(--couleur-fond);
-  position: sticky; top: 24px; z-index: 100;
+  position: sticky;
+  top: 24px;
+  z-index: 100;
   box-shadow: 0 2px 20px rgba(74,111,255,.1);
 }
 .nav__logo {
-  font-family: var(--police-pixel); font-size: clamp(.42rem, 1.6vw, .6rem);
-  color: var(--couleur-accent-vif); letter-spacing: 2px;
-  text-shadow: 0 0 10px var(--couleur-accent); white-space: nowrap; flex-shrink: 0;
+  font-family: var(--police-pixel);
+  font-size: clamp(.5rem, 2vw, .7rem);
+  color: var(--couleur-accent-vif);
+  letter-spacing: 2px;
+  text-shadow: 0 0 10px var(--couleur-accent);
+  white-space: nowrap;
+  flex-shrink: 0;
 }
-.nav__arcade-info { display: flex; flex-direction: column; align-items: center; line-height: 1; flex-shrink: 0; }
-.arcade-label  { font-family: var(--police-pixel); font-size: .33rem; color: var(--couleur-texte-discret); letter-spacing: 2px; }
-.arcade-valeur { font-family: var(--police-pixel); font-size: .55rem; color: var(--couleur-actif); text-shadow: 0 0 8px var(--couleur-actif); letter-spacing: 3px; }
+.nav__arcade-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  line-height: 1.2;
+  flex-shrink: 0;
+}
+.arcade-label  { font-family: var(--police-pixel); font-size: .4rem; color: var(--couleur-texte-discret); letter-spacing: 2px; }
+.arcade-valeur { font-family: var(--police-pixel); font-size: .65rem; color: var(--couleur-actif); text-shadow: 0 0 8px var(--couleur-actif); letter-spacing: 3px; }
 
 .nav__liens { display: flex; flex-wrap: wrap; margin-left: auto; }
 .nav__bouton {
-  font-family: var(--police-pixel); font-size: clamp(.33rem, 1.2vw, .47rem);
-  color: var(--couleur-texte-discret); letter-spacing: 1px;
-  padding: .45rem .6rem; border-bottom: 2px solid transparent;
-  transition: color .15s, text-shadow .15s; margin-bottom: -1px;
+  font-family: var(--police-pixel);
+  font-size: clamp(.4rem, 1.5vw, .55rem);
+  color: var(--couleur-texte-discret);
+  letter-spacing: 1px;
+  padding: .55rem .75rem;
+  border-bottom: 2px solid transparent;
+  transition: color .15s, text-shadow .15s;
+  margin-bottom: -1px;
 }
 .nav__bouton:hover { color: var(--couleur-accent-vif); text-shadow: 0 0 8px var(--couleur-accent); }
 .nav__bouton.actif { color: var(--couleur-accent-vif); border-bottom-color: var(--couleur-accent-vif); text-shadow: 0 0 10px var(--couleur-accent); }
@@ -145,7 +168,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--pol
 .nav__burger[aria-expanded="true"] .nav__burger-trait:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
 /* ---------------------------------------------------------------- SECTIONS */
-.section { padding: 1.75rem 1.5rem 2.5rem; animation: apparition .25s ease; }
+.section { flex: 1; padding: 1.75rem 1.5rem 1rem; animation: apparition .25s ease; }
 @keyframes apparition { from { opacity:0; transform: translateY(6px); } to { opacity:1; transform: translateY(0); } }
 
 /* Utilitaires */
@@ -175,18 +198,49 @@ button { cursor: pointer; border: none; background: none; font-family: var(--pol
 
 /* ================================================================ HOME */
 .accueil__grille {
-  display: grid; grid-template-columns: 1fr auto;
-  gap: 2rem; align-items: center;
-  min-height: calc(100vh - 24px - 56px - 5rem);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 3rem;
+  align-items: center;
+  height: 100%;
+  padding: 3rem 0;
 }
 .etiquette-crt { font-family: var(--police-pixel); font-size: clamp(.36rem,1.2vw,.48rem); color: var(--couleur-texte-discret); letter-spacing: 3px; margin-bottom: .9rem; }
 .titre-arcade { font-family: var(--police-pixel); line-height: 1.6; margin-bottom: .7rem; }
-.titre-arcade__prenom { display: block; font-size: clamp(.85rem,3.5vw,1.4rem); color: var(--couleur-texte-fort); text-shadow: 0 0 20px rgba(74,111,255,.5); }
-.titre-arcade__nom    { display: block; font-size: clamp(.85rem,3.5vw,1.4rem); color: var(--couleur-accent-vif); text-shadow: 0 0 20px var(--couleur-accent), 0 0 40px rgba(74,111,255,.3); }
+.titre-arcade__prenom { display: block; font-size: clamp(1.1rem,4.5vw,2rem); color: var(--couleur-texte-fort); text-shadow: 0 0 20px rgba(74,111,255,.5); }
+.titre-arcade__nom    { display: block; font-size: clamp(1.1rem,4.5vw,2rem); color: var(--couleur-accent-vif); text-shadow: 0 0 20px var(--couleur-accent), 0 0 40px rgba(74,111,255,.3); }
 .sous-titre-arcade { font-family: var(--police-crt); font-size: clamp(1.1rem,2.8vw,1.4rem); color: var(--couleur-texte-fort); letter-spacing: 3px; margin-bottom: .65rem; display: flex; align-items: center; gap: .5rem; }
-.separateur-arcade { font-family: var(--police-crt); font-size: clamp(.8rem,2vw,1rem); color: var(--couleur-accent-dim); letter-spacing: 2px; margin-bottom: .9rem; }
-.texte-intro { font-family: var(--police-lisible); font-size: clamp(1rem,2.8vw,1.2rem); color: var(--couleur-texte-normal); line-height: 1.7; margin-bottom: 1.1rem; max-width: 430px; }
+.separateur-arcade {
+  font-family: var(--police-crt);
+  font-size: clamp(1rem, 2.5vw, 1.3rem);
+  color: var(--couleur-accent-dim);
+  letter-spacing: -1px;
+  margin-top: .3rem;
+  margin-bottom: .9rem;
+  line-height: 1;
+}
+.texte-intro { font-family: var(--police-lisible); font-size: clamp(1rem,2.8vw,1.2rem); color: var(--couleur-texte-normal); line-height: 1.7; margin-bottom: 1.1rem; max-width: 100%; }
 .badges-statut { display: flex; flex-wrap: wrap; gap: .45rem; margin-bottom: 1.3rem; }
+.accueil__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: .75rem;
+}
+.lien-github {
+  font-family: var(--police-pixel);
+  font-size: clamp(.33rem, 1.2vw, .46rem);
+  color: var(--couleur-texte-discret);
+  letter-spacing: 2px;
+  text-decoration: none;
+  border-bottom: 1px solid var(--couleur-bordure);
+  padding-bottom: 2px;
+  transition: color .2s, border-color .2s;
+}
+.lien-github:hover {
+  color: var(--couleur-accent-vif);
+  border-color: var(--couleur-accent);
+}
 .bouton-arcade {
   font-family: var(--police-pixel); font-size: clamp(.36rem,1.3vw,.5rem);
   color: var(--couleur-accent-vif); border: 1px solid var(--couleur-accent);
@@ -196,8 +250,20 @@ button { cursor: pointer; border: none; background: none; font-family: var(--pol
 .bouton-arcade:hover { background-color: var(--couleur-accent-alpha); box-shadow: 0 0 20px rgba(74,111,255,.3); color: #fff; }
 
 /* Bonhomme */
-.accueil__illustration { display: flex; justify-content: center; align-items: center; padding-right: 1rem; }
-.svg-bonhomme { width: clamp(110px,22vw,180px); height: auto; filter: drop-shadow(0 0 12px rgba(74,111,255,.35)); animation: levitation 3s ease-in-out infinite; }
+.accueil__illustration {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+  padding-right: 1.5rem;
+}
+.svg-bonhomme {
+  width: clamp(180px, 26vw, 280px);
+  height: auto;
+  overflow: visible;
+  filter: drop-shadow(0 0 12px rgba(74,111,255,.35));
+  animation: levitation 3s ease-in-out infinite;
+}
 @keyframes levitation { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-10px);} }
 .bras-coucou { transform-origin: 0px 0px; animation: coucou 1.4s ease-in-out infinite; }
 @keyframes coucou { 0%,100%{transform:rotate(0deg);} 30%{transform:rotate(-22deg);} 60%{transform:rotate(8deg);} }
@@ -403,7 +469,20 @@ button { cursor: pointer; border: none; background: none; font-family: var(--pol
 }
 
 /* ================================================================ PIED */
-.pied-page { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: .5rem; padding: .9rem 1.5rem; border-top: 1px solid var(--couleur-bordure); font-family: var(--police-pixel); font-size: .36rem; color: var(--couleur-texte-fantome); letter-spacing: 1px; }
+.pied-page {
+  margin-top: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: .5rem;
+  padding: .9rem 1.5rem;
+  border-top: 1px solid var(--couleur-bordure);
+  font-family: var(--police-pixel);
+  font-size: .36rem;
+  color: var(--couleur-texte-fantome);
+  letter-spacing: 1px;
+}
 
 /* ================================================================ RESPONSIVE */
 @media (min-width: 560px) {
