@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Portfolio de Joris Martinez, développeur web junior — Node.js, Express, WordPress, MongoDB. La Rochelle · disponible pour un premier poste."
+    />
+    <meta name="theme-color" content="#03040f" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Joris Martinez · Développeur Web" />
+    <meta
+      property="og:description"
+      content="Portfolio développeur web — projets GameHub, LSF, WordPress, apps Express/MongoDB. La Jarne · La Rochelle."
+    />
+    <meta property="og:image" content="assets/og.png" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Joris Martinez · Développeur Web" />
+    <meta
+      name="twitter:description"
+      content="Portfolio développeur web — projets, stack technique, parcours."
+    />
+    <meta name="twitter:image" content="assets/og.png" />
+
+    <link rel="canonical" href="" id="link-canonical" />
+
+    <title>Compétences · Joris Martinez</title>
+
+    <!-- Favicon : tête du bonhomme pixel art (casquette + yeux) -->
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' shape-rendering='crispEdges'%3E%3Crect width='32' height='32' fill='%2303040f'/%3E%3C!-- casquette --%3E%3Crect x='6' y='5' width='20' height='5' fill='%231e3080'/%3E%3Crect x='8' y='4' width='16' height='3' fill='%231e3080'/%3E%3C!-- tête --%3E%3Crect x='8' y='10' width='16' height='14' fill='%23e8a87c'/%3E%3C!-- yeux --%3E%3Crect x='11' y='15' width='4' height='3' fill='%231a0a00'/%3E%3Crect x='19' y='15' width='4' height='3' fill='%231a0a00'/%3E%3C!-- bouche --%3E%3Crect x='12' y='22' width='8' height='1' fill='%23c0654a'/%3E%3C/svg%3E"
+    />
+
+    <!-- Polices -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Rajdhani:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body data-section-id="competences">
+    <div id="partial-crt"></div>
+
+    <div id="partial-marquee"></div>
+
+
+    <div class="ecran">
+      <div id="partial-nav"></div>
+
+      <section id="competences" class="section" aria-label="Compétences">
+        <h2 class="titre-section">
+          <span class="pixel-accent">▶</span> HIGH SCORES — ハイスコア
+        </h2>
+
+        <div class="stats-grille">
+          <!-- Tableau High Scores -->
+          <div class="scores-tableau-zone">
+            <table
+              class="scores-tableau"
+              aria-label="Classement des technologies"
+            >
+              <thead>
+                <tr>
+                  <th>RANK</th>
+                  <th>TECHNO</th>
+                  <th>SCORE</th>
+                  <th>LAST USED</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="score-ligne">
+                  <td class="score-rang">01.</td>
+                  <td class="score-techno">HTML / CSS</td>
+                  <td class="score-barre-cell">
+                    <div class="score-barre-fond">
+                      <div class="score-barre" style="--cible: 92%"></div>
+                    </div>
+                  </td>
+                  <td class="score-last">PORTFOLIO</td>
+                </tr>
+                <tr class="score-ligne">
+                  <td class="score-rang">02.</td>
+                  <td class="score-techno">JAVASCRIPT</td>
+                  <td class="score-barre-cell">
+                    <div class="score-barre-fond">
+                      <div class="score-barre" style="--cible: 84%"></div>
+                    </div>
+                  </td>
+                  <td class="score-last">RENTER-CAR</td>
+                </tr>
+                <tr class="score-ligne">
+                  <td class="score-rang">03.</td>
+                  <td class="score-techno">NODE / EXPRESS</td>
+                  <td class="score-barre-cell">
+                    <div class="score-barre-fond">
+                      <div class="score-barre" style="--cible: 80%"></div>
+                    </div>
+                  </td>
+                  <td class="score-last">BOÎTE-IDÉES</td>
+                </tr>
+                <tr class="score-ligne">
+                  <td class="score-rang">04.</td>
+                  <td class="score-techno">EJS</td>
+                  <td class="score-barre-cell">
+                    <div class="score-barre-fond">
+                      <div class="score-barre" style="--cible: 77%"></div>
+                    </div>
+                  </td>
+                  <td class="score-last">PROJ-LSF</td>
+                </tr>
+                <tr class="score-ligne">
+                  <td class="score-rang">05.</td>
+                  <td class="score-techno">TAILWIND</td>
+                  <td class="score-barre-cell">
+                    <div class="score-barre-fond">
+                      <div class="score-barre" style="--cible: 75%"></div>
+                    </div>
+                  </td>
+                  <td class="score-last">GAMEHUB</td>
+                </tr>
+                <tr class="score-ligne">
+                  <td class="score-rang">06.</td>
+                  <td class="score-techno">MONGODB</td>
+                  <td class="score-barre-cell">
+                    <div class="score-barre-fond">
+                      <div class="score-barre" style="--cible: 72%"></div>
+                    </div>
+                  </td>
+                  <td class="score-last">PROJ-LSF</td>
+                </tr>
+                <tr class="score-ligne">
+                  <td class="score-rang">07.</td>
+                  <td class="score-techno">SQL / POSTGRESQL</td>
+                  <td class="score-barre-cell">
+                    <div class="score-barre-fond">
+                      <div class="score-barre" style="--cible: 63%"></div>
+                    </div>
+                  </td>
+                  <td class="score-last">STAT-ALIM</td>
+                </tr>
+                <tr class="score-ligne">
+                  <td class="score-rang">08.</td>
+                  <td class="score-techno">WORDPRESS</td>
+                  <td class="score-barre-cell">
+                    <div class="score-barre-fond">
+                      <div class="score-barre" style="--cible: 68%"></div>
+                    </div>
+                  </td>
+                  <td class="score-last">HUBTRAINING</td>
+                </tr>
+                <tr class="score-ligne">
+                  <td class="score-rang">09.</td>
+                  <td class="score-techno">GIT / GITHUB</td>
+                  <td class="score-barre-cell">
+                    <div class="score-barre-fond">
+                      <div class="score-barre" style="--cible: 74%"></div>
+                    </div>
+                  </td>
+                  <td class="score-last">TOUT PROJET</td>
+                </tr>
+                <tr class="score-ligne">
+                  <td class="score-rang">10.</td>
+                  <td class="score-techno">PYTHON / SELENIUM</td>
+                  <td class="score-barre-cell">
+                    <div class="score-barre-fond">
+                      <div class="score-barre" style="--cible: 38%"></div>
+                    </div>
+                  </td>
+                  <td class="score-last">POEI</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Panneau latéral : Langues + Bonus Stats -->
+          <div class="stats-lateral">
+            <div class="stats-bloc">
+              <h3 class="stats-bloc__titre">LANGUES</h3>
+              <div class="langue-item">
+                <span class="langue-item__drapeau">🌍</span>
+                <span class="langue-item__nom">Anglais</span>
+                <div class="langue-item__barre-fond">
+                  <div class="langue-item__barre" style="--cible: 75%"></div>
+                </div>
+                <span class="langue-item__val">B2</span>
+              </div>
+              <div class="langue-item">
+                <span class="langue-item__drapeau">🤟</span>
+                <span class="langue-item__nom">LSF</span>
+                <div class="langue-item__barre-fond">
+                  <div class="langue-item__barre" style="--cible: 30%"></div>
+                </div>
+                <span class="langue-item__val">déb.</span>
+              </div>
+              <div class="langue-item">
+                <span class="langue-item__drapeau">🇪🇸</span>
+                <span class="langue-item__nom">Espagnol</span>
+                <div class="langue-item__barre-fond">
+                  <div class="langue-item__barre" style="--cible: 15%"></div>
+                </div>
+                <span class="langue-item__val">déb.</span>
+              </div>
+            </div>
+
+            <div class="stats-bloc">
+              <h3 class="stats-bloc__titre">BONUS STATS</h3>
+              <div class="bonus-item">
+                <span class="bonus-item__icone">🧗</span>
+                <span class="bonus-item__nom">Escalade</span>
+                <span class="bonus-item__etoiles">★★★★</span>
+              </div>
+              <div class="bonus-item">
+                <span class="bonus-item__icone">🏃</span>
+                <span class="bonus-item__nom">Running</span>
+                <span class="bonus-item__etoiles">★★★</span>
+              </div>
+              <div class="bonus-item">
+                <span class="bonus-item__icone">🎸</span>
+                <span class="bonus-item__nom">Guitare</span>
+                <span class="bonus-item__etoiles">★</span>
+              </div>
+              <div class="bonus-item">
+                <span class="bonus-item__icone">🎮</span>
+                <span class="bonus-item__nom">Gaming</span>
+                <span class="bonus-item__etoiles">★★★★★</span>
+              </div>
+              <div class="bonus-item">
+                <span class="bonus-item__icone">💪</span>
+                <span class="bonus-item__nom">Muscu</span>
+                <span class="bonus-item__etoiles">★★★</span>
+              </div>
+              <div class="bonus-item">
+                <span class="bonus-item__icone">🗺️</span>
+                <span class="bonus-item__nom">Exploration</span>
+                <span class="bonus-item__etoiles">★★★★</span>
+              </div>
+            </div>
+
+            <div class="stats-bloc">
+              <h3 class="stats-bloc__titre">SOFT SKILLS</h3>
+              <div class="soft-item"><span>🔬</span> Rigueur expérimentale</div>
+              <div class="soft-item"><span>📊</span> Analyse de données</div>
+              <div class="soft-item"><span>📝</span> Rédaction technique</div>
+              <div class="soft-item"><span>🔄</span> Reconversion active</div>
+              <div class="soft-item"><span>🤝</span> Travail en équipe</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div id="partial-footer"></div>
+    </div>
+    <!-- fin .ecran -->
+
+    <div id="partial-popup-hs"></div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

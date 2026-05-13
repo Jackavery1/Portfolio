@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Portfolio de Joris Martinez, développeur web junior — Node.js, Express, WordPress, MongoDB. La Rochelle · disponible pour un premier poste."
+    />
+    <meta name="theme-color" content="#03040f" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Joris Martinez · Développeur Web" />
+    <meta
+      property="og:description"
+      content="Portfolio développeur web — projets GameHub, LSF, WordPress, apps Express/MongoDB. La Jarne · La Rochelle."
+    />
+    <meta property="og:image" content="assets/og.png" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Joris Martinez · Développeur Web" />
+    <meta
+      name="twitter:description"
+      content="Portfolio développeur web — projets, stack technique, parcours."
+    />
+    <meta name="twitter:image" content="assets/og.png" />
+
+    <link rel="canonical" href="" id="link-canonical" />
+
+    <title>Contact · Joris Martinez</title>
+
+    <!-- Favicon : tête du bonhomme pixel art (casquette + yeux) -->
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' shape-rendering='crispEdges'%3E%3Crect width='32' height='32' fill='%2303040f'/%3E%3C!-- casquette --%3E%3Crect x='6' y='5' width='20' height='5' fill='%231e3080'/%3E%3Crect x='8' y='4' width='16' height='3' fill='%231e3080'/%3E%3C!-- tête --%3E%3Crect x='8' y='10' width='16' height='14' fill='%23e8a87c'/%3E%3C!-- yeux --%3E%3Crect x='11' y='15' width='4' height='3' fill='%231a0a00'/%3E%3Crect x='19' y='15' width='4' height='3' fill='%231a0a00'/%3E%3C!-- bouche --%3E%3Crect x='12' y='22' width='8' height='1' fill='%23c0654a'/%3E%3C/svg%3E"
+    />
+
+    <!-- Polices -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Rajdhani:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body data-section-id="contact">
+    <div id="partial-crt"></div>
+
+    <div id="partial-marquee"></div>
+
+
+    <div class="ecran">
+      <div id="partial-nav"></div>
+
+      <section id="contact" class="section" aria-label="Contact">
+        <h2 class="titre-section">
+          <span class="pixel-accent">▶</span> CONTINUE ? — INSERT COIN
+        </h2>
+
+        <p class="texte-continue" aria-hidden="true">
+          ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░<br />
+          ░&nbsp;&nbsp;DISPONIBLE — PREMIER POSTE DEV WEB&nbsp;&nbsp;░<br />
+          ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+        </p>
+
+        <div class="contact-grille">
+          <!-- Infos + formulaire -->
+          <div class="contact-gauche">
+            <div class="grille-contact">
+              <div class="carte-contact">
+                <p class="carte-contact__label">📞 TÉLÉPHONE</p>
+                <p class="carte-contact__valeur">06 74 52 24 96</p>
+              </div>
+              <div class="carte-contact">
+                <p class="carte-contact__label">✉ EMAIL</p>
+                <p class="carte-contact__valeur">
+                  jorisdavid.martinez<wbr />.pro@gmail.com
+                </p>
+              </div>
+              <div class="carte-contact">
+                <p class="carte-contact__label">📍 LOCALISATION</p>
+                <p class="carte-contact__valeur">La Jarne — 17220</p>
+              </div>
+              <div class="carte-contact">
+                <p class="carte-contact__label">⚡ STATUT</p>
+                <p class="carte-contact__valeur">Ouvert aux opportunités</p>
+              </div>
+            </div>
+
+            <!-- Formulaire de contact : data-formspree="https://formspree.io/f/xxxx" pour envoi serveur ; sinon ouverture du client mail -->
+            <div class="formulaire-zone">
+              <h3 class="formulaire-titre">▶ ENVOYER UN MESSAGE</h3>
+              <form
+                class="formulaire-crt"
+                id="js-formulaire"
+                method="post"
+                action="#"
+                data-formspree=""
+                novalidate
+              >
+                <div class="champ-groupe">
+                  <label class="champ-label" for="contact-nom"
+                    >PLAYER NAME</label
+                  >
+                  <input
+                    class="champ-input"
+                    type="text"
+                    id="contact-nom"
+                    name="nom"
+                    placeholder="Votre nom..."
+                    autocomplete="name"
+                    required
+                  />
+                </div>
+
+                <div class="champ-groupe">
+                  <label class="champ-label" for="contact-email"
+                    >EMAIL ADDRESS</label
+                  >
+                  <input
+                    class="champ-input"
+                    type="email"
+                    id="contact-email"
+                    name="email"
+                    placeholder="votre@email.com"
+                    autocomplete="email"
+                    required
+                  />
+                </div>
+
+                <div class="champ-groupe">
+                  <label class="champ-label" for="contact-sujet"
+                    >MISSION TYPE</label
+                  >
+                  <select
+                    class="champ-input champ-select"
+                    id="contact-sujet"
+                    name="sujet"
+                  >
+                    <option value="">— Sélectionner —</option>
+                    <option value="emploi">💼 Proposition d'emploi</option>
+                    <option value="stage">🎯 Stage / Alternance</option>
+                    <option value="freelance">⚡ Mission freelance</option>
+                    <option value="collab">🤝 Collaboration</option>
+                    <option value="autre">🎮 Autre</option>
+                  </select>
+                </div>
+
+                <div class="champ-groupe">
+                  <label class="champ-label" for="contact-message"
+                    >MESSAGE</label
+                  >
+                  <textarea
+                    class="champ-input champ-textarea"
+                    id="contact-message"
+                    name="message"
+                    rows="4"
+                    placeholder="Votre message..."
+                    required
+                  ></textarea>
+                </div>
+
+                <p class="formulaire-confidentialite">
+                  Les informations transmises servent uniquement à vous
+                  recontacter au sujet de votre demande. Aucune utilisation
+                  commerciale ou conservation au-delà de cet échange, sauf
+                  obligation légale.
+                </p>
+
+                <button
+                  class="bouton-envoyer"
+                  id="js-btn-envoyer"
+                  type="submit"
+                >
+                  <span aria-hidden="true">► </span>ENVOYER LE MESSAGE
+                </button>
+
+                <!-- Confirmation pixel -->
+                <div
+                  class="envoi-confirmation"
+                  id="js-confirmation"
+                  aria-live="polite"
+                  hidden
+                >
+                  <p>✓ MESSAGE REÇU — À BIENTÔT PLAYER_01 !</p>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <!-- Panneau droite : profil + liens -->
+          <div class="contact-droite">
+            <div class="profil-recap">
+              <h3 class="profil-recap__titre">PLAYER CARD</h3>
+
+              <div class="profil-recap__bonhomme" aria-hidden="true">
+                <svg
+                  viewBox="0 0 64 104"
+                  width="80"
+                  height="130"
+                  shape-rendering="crispEdges"
+                >
+                  <ellipse
+                    cx="32"
+                    cy="88"
+                    rx="22"
+                    ry="10"
+                    fill="var(--couleur-accent)"
+                    opacity="0.12"
+                  />
+                  <rect
+                    x="18"
+                    y="96"
+                    width="12"
+                    height="6"
+                    fill="var(--couleur-pixel-chaussure)"
+                  />
+                  <rect
+                    x="34"
+                    y="96"
+                    width="12"
+                    height="6"
+                    fill="var(--couleur-pixel-chaussure)"
+                  />
+                  <rect
+                    x="20"
+                    y="78"
+                    width="8"
+                    height="18"
+                    fill="var(--couleur-pixel-corps)"
+                  />
+                  <rect
+                    x="36"
+                    y="78"
+                    width="8"
+                    height="18"
+                    fill="var(--couleur-pixel-corps)"
+                  />
+                  <rect
+                    x="18"
+                    y="52"
+                    width="28"
+                    height="28"
+                    fill="var(--couleur-pixel-corps)"
+                  />
+                  <rect
+                    x="22"
+                    y="58"
+                    width="4"
+                    height="4"
+                    fill="var(--couleur-pixel-accent-detail)"
+                  />
+                  <rect
+                    x="38"
+                    y="58"
+                    width="4"
+                    height="4"
+                    fill="var(--couleur-pixel-accent-detail)"
+                  />
+                  <rect
+                    x="31"
+                    y="52"
+                    width="2"
+                    height="24"
+                    fill="var(--couleur-pixel-accent-detail)"
+                  />
+                  <rect
+                    x="26"
+                    y="46"
+                    width="12"
+                    height="8"
+                    fill="var(--couleur-pixel-peau)"
+                  />
+                  <rect
+                    x="22"
+                    y="28"
+                    width="20"
+                    height="20"
+                    fill="var(--couleur-pixel-peau)"
+                  />
+                  <rect
+                    x="20"
+                    y="24"
+                    width="24"
+                    height="6"
+                    fill="var(--couleur-pixel-bonnet)"
+                  />
+                  <rect
+                    x="22"
+                    y="22"
+                    width="20"
+                    height="4"
+                    fill="var(--couleur-pixel-bonnet)"
+                  />
+                  <rect
+                    x="26"
+                    y="34"
+                    width="3"
+                    height="3"
+                    fill="var(--couleur-pixel-yeux)"
+                  />
+                  <rect
+                    x="35"
+                    y="34"
+                    width="3"
+                    height="3"
+                    fill="var(--couleur-pixel-yeux)"
+                  />
+                  <rect
+                    x="28"
+                    y="41"
+                    width="8"
+                    height="1"
+                    fill="var(--couleur-pixel-bouche)"
+                  />
+                  <rect
+                    x="44"
+                    y="54"
+                    width="6"
+                    height="18"
+                    fill="var(--couleur-pixel-corps)"
+                  />
+                  <rect
+                    x="44"
+                    y="70"
+                    width="8"
+                    height="6"
+                    fill="var(--couleur-pixel-peau)"
+                  />
+                  <rect
+                    x="12"
+                    y="54"
+                    width="6"
+                    height="18"
+                    fill="var(--couleur-pixel-corps)"
+                  />
+                  <rect
+                    x="12"
+                    y="70"
+                    width="8"
+                    height="6"
+                    fill="var(--couleur-pixel-peau)"
+                  />
+                </svg>
+              </div>
+
+              <ul class="profil-recap__infos">
+                <li><span class="profil-label">NAME</span> Joris Martinez</li>
+                <li><span class="profil-label">CLASS</span> Développeur Web</li>
+                <li>
+                  <span class="profil-label">LVL</span> Junior · En formation
+                </li>
+                <li><span class="profil-label">LOC</span> La Jarne, 17220</li>
+                <li><span class="profil-label">EXP</span> Reconverti Bac+5</li>
+              </ul>
+
+              <div class="profil-liens">
+                <p class="profil-liens__label">LIENS EXTERNES</p>
+                <p class="profil-liens__note">
+                  GitHub &amp; LinkedIn sur demande
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- fin contact-grille -->
+      </section>
+
+      <div id="partial-footer"></div>
+    </div>
+    <!-- fin .ecran -->
+
+    <div id="partial-popup-hs"></div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

@@ -1,8 +1,38 @@
 /* ================================================================
    PORTFOLIO ARCADE CRT v6 — script.js
-   Navigation, burger, score, barres animées, modal projets, dojo
+   Multi-pages, burger, score, barres animées, modal projets, dojo
 ================================================================ */
 'use strict';
+
+async function chargerPartials() {
+  const partials = [
+    { id: 'partial-nav',       fichier: 'partials/nav.html' },
+    { id: 'partial-footer',    fichier: 'partials/footer.html' },
+    { id: 'partial-marquee',   fichier: 'partials/marquee.html' },
+    { id: 'partial-crt',       fichier: 'partials/crt.html' },
+    { id: 'partial-popup-hs',  fichier: 'partials/popup-highscore.html' },
+  ];
+
+  await Promise.all(partials.map(async ({ id, fichier }) => {
+    const conteneur = document.getElementById(id);
+    if (!conteneur) return;
+    try {
+      const reponse = await fetch(fichier);
+      const html    = await reponse.text();
+      conteneur.outerHTML = html;
+    } catch (e) {
+      console.warn(`Partial non chargé : ${fichier}`, e);
+    }
+  }));
+
+  const page = window.location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.nav__bouton').forEach(lien => {
+    if (lien.getAttribute('href') === page) {
+      lien.classList.add('actif');
+      lien.setAttribute('aria-current', 'page');
+    }
+  });
+}
 
 let ctxAudio = null;
 
@@ -16,7 +46,6 @@ function obtenirContexteAudio() {
   }
 }
 
-/* ---------------------------------------------------------------- SON */
 function jouerBip(frequence = 440, duree = 60, type = 'square') {
   const ctx = obtenirContexteAudio();
   if (!ctx) return;
@@ -32,27 +61,74 @@ function jouerBip(frequence = 440, duree = 60, type = 'square') {
   } catch (_) {}
 }
 
-/* ---------------------------------------------------------------- SCORE */
-let scoreActuel = 0;
+const SCORE_KEY = 'jm_portfolio_score';
+
+function lireScore() {
+  try {
+    const raw = sessionStorage.getItem(SCORE_KEY);
+    if (raw == null || raw === '') return 0;
+    const n = parseInt(String(raw).trim(), 10);
+    if (!Number.isFinite(n) || n < 0) {
+      sauvegarderScore(0);
+      return 0;
+    }
+    if (n > 9999) {
+      sauvegarderScore(9999);
+      return 9999;
+    }
+    return n;
+  } catch (_) {
+    return 0;
+  }
+}
+
+function sauvegarderScore(valeur) {
+  try {
+    const n = Math.max(0, Math.min(Number(valeur) || 0, 9999));
+    sessionStorage.setItem(SCORE_KEY, String(n));
+  } catch (_) {}
+}
+
+function afficherScore(valeur) {
+  const n = Math.max(0, Math.min(Number(valeur) || 0, 9999));
+  const el = document.getElementById('js-score');
+  if (el) el.textContent = String(n).padStart(6, '0');
+}
 
 function ajouterScore(pts) {
-  scoreActuel += pts;
-  const el = document.getElementById('js-score');
-  if (el) el.textContent = String(scoreActuel).padStart(6, '0');
+  const avant = lireScore();
+  if (avant >= 9999) return;
+  const apres = Math.min(avant + pts, 9999);
+  sauvegarderScore(apres);
+  afficherScore(apres);
+  if (apres >= 9999) {
+    setTimeout(afficherPopupHighScore, 600);
+  }
 }
 
-function animerScoreInitial() {
-  const cible = 1337; const steps = 30; const delta = Math.ceil(cible / steps);
-  let n = 0;
-  const iv = setInterval(() => {
-    scoreActuel = Math.min(scoreActuel + delta, cible);
-    const el = document.getElementById('js-score');
-    if (el) el.textContent = String(scoreActuel).padStart(6, '0');
-    if (++n >= steps) clearInterval(iv);
-  }, 40);
+function afficherPopupHighScore() {
+  const popup = document.getElementById('js-popup-hs');
+  if (!popup) return;
+  const sc = popup.querySelector('.popup-highscore__score');
+  if (sc) sc.textContent = String(Math.min(lireScore(), 9999)).padStart(6, '0');
+  popup.hidden = false;
+  sessionStorage.setItem('hs_popup_vu', '1');
+  jouerBip(523, 150, 'square');
+  setTimeout(() => jouerBip(659, 150, 'square'), 160);
+  setTimeout(() => jouerBip(784, 150, 'square'), 320);
+  setTimeout(() => jouerBip(1047, 300, 'square'), 480);
 }
 
-/* ---------------------------------------------------------------- BARRES ANIMÉES */
+function initPopupHighScoreFermer() {
+  const btnFermerHS = document.getElementById('js-popup-hs-fermer');
+  if (!btnFermerHS || btnFermerHS.dataset.ecouteurHs) return;
+  btnFermerHS.dataset.ecouteurHs = '1';
+  btnFermerHS.addEventListener('click', () => {
+    const pu = document.getElementById('js-popup-hs');
+    if (pu) pu.hidden = true;
+  });
+}
+
 const sectionsAnimees = new Set();
 
 function animerBarresSection(id) {
@@ -76,90 +152,68 @@ function animerBarresSection(id) {
   });
 }
 
-/* ---------------------------------------------------------------- NAVIGATION */
-const boutons  = document.querySelectorAll('.nav__bouton');
-const sections = document.querySelectorAll('.section');
-
-function activerSection(cibleId) {
-  boutons.forEach(btn => {
-    const actif = btn.dataset.cible === cibleId;
-    btn.classList.toggle('actif', actif);
-    btn.setAttribute('aria-selected', String(actif));
-  });
-  sections.forEach(s => {
-    const visible = s.id === cibleId;
-    s.classList.toggle('actif', visible);
-    s.hidden = !visible;
-  });
-  jouerBip(300, 50, 'square');
-  ajouterScore(100);
-  animerBarresSection(cibleId);
-  fermerMenuBurger();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-boutons.forEach(btn => btn.addEventListener('click', () => activerSection(btn.dataset.cible)));
-
-/* Bouton "PRESS START" */
-const btnStart = document.querySelector('.bouton-arcade[data-cible]');
-if (btnStart) btnStart.addEventListener('click', () => { jouerBip(440, 80); activerSection(btnStart.dataset.cible); });
-
-/* Bouton DOJO */
-const btnDojo = document.getElementById('js-btn-dojo');
-if (btnDojo) btnDojo.addEventListener('click', () => { jouerBip(550, 80, 'sine'); activerSection('dojo'); });
-
-/* Bouton retour Work */
-document.querySelectorAll('.bouton-retour-work[data-cible]').forEach(btn => {
-  btn.addEventListener('click', () => activerSection(btn.dataset.cible));
-});
-
-/* ---------------------------------------------------------------- BURGER */
-const burger  = document.getElementById('js-burger');
-const menuNav = document.getElementById('js-menu');
-
 function fermerMenuBurger() {
+  const burger = document.getElementById('js-burger');
+  const menuNav = document.getElementById('js-menu');
   if (!burger) return;
   burger.setAttribute('aria-expanded', 'false');
-  menuNav.classList.remove('ouvert');
+  if (menuNav) menuNav.classList.remove('ouvert');
 }
 
-if (burger) {
+function initNavigationArcade() {
+  const burger = document.getElementById('js-burger');
+  const menuNav = document.getElementById('js-menu');
+  if (!burger || !menuNav) return;
+
   burger.addEventListener('click', () => {
     const estOuvert = burger.getAttribute('aria-expanded') === 'true';
     burger.setAttribute('aria-expanded', String(!estOuvert));
     menuNav.classList.toggle('ouvert', !estOuvert);
     jouerBip(estOuvert ? 220 : 330, 40);
   });
+
+  document.addEventListener('click', evt => {
+    if (!burger.contains(evt.target) && !menuNav.contains(evt.target)) fermerMenuBurger();
+  });
+
+  document.addEventListener('keydown', evt => {
+    if (evt.key === 'Escape' && menuNav.classList.contains('ouvert')) {
+      fermerMenuBurger();
+      burger.focus();
+    }
+  });
 }
 
-document.addEventListener('click', evt => {
-  if (!burger || !menuNav) return;
-  if (!burger.contains(evt.target) && !menuNav.contains(evt.target)) fermerMenuBurger();
-});
+const NAV_ORDRE = ['index.html', 'projets.html', 'competences.html', 'parcours.html', 'contact.html'];
 
-document.addEventListener('keydown', evt => {
-  if (evt.key === 'Escape' && menuNav?.classList.contains('ouvert')) { fermerMenuBurger(); burger.focus(); }
-});
+function indexNavigationClavier() {
+  const file = (window.location.pathname.split('/').pop() || 'index.html').split('?')[0].toLowerCase();
+  return NAV_ORDRE.indexOf(file);
+}
 
-/* ---------------------------------------------------------------- NAVIGATION CLAVIER FLÈCHES */
-const ordreOnglets = ['accueil', 'projets', 'competences', 'parcours', 'contact'];
+const modalOverlay = document.getElementById('js-modal');
+const modalTitre   = document.getElementById('js-modal-titre');
+const modalImg     = document.getElementById('js-modal-img');
+const modalDesc    = document.getElementById('js-modal-desc');
+const modalTech    = document.getElementById('js-modal-tech');
+const btnFermer    = document.getElementById('js-modal-fermer');
 
 document.addEventListener('keydown', evt => {
   if (modalOverlay && !modalOverlay.hidden) return;
-  if (['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName)) return;
-  if (menuNav?.classList.contains('ouvert')) return;
-  const actuel = document.querySelector('.nav__bouton.actif')?.dataset.cible || 'accueil';
-  const idx    = ordreOnglets.indexOf(actuel);
-  if (evt.key === 'ArrowRight' && idx < ordreOnglets.length - 1) { jouerBip(440, 40); activerSection(ordreOnglets[idx + 1]); }
-  if (evt.key === 'ArrowLeft'  && idx > 0)                        { jouerBip(330, 40); activerSection(ordreOnglets[idx - 1]); }
+  if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return;
+  if (document.getElementById('js-menu')?.classList.contains('ouvert')) return;
+  const idx = indexNavigationClavier();
+  if (idx < 0) return;
+  if (evt.key === 'ArrowRight' && idx < NAV_ORDRE.length - 1) {
+    jouerBip(440, 40);
+    window.location.href = NAV_ORDRE[idx + 1];
+  }
+  if (evt.key === 'ArrowLeft' && idx > 0) {
+    jouerBip(330, 40);
+    window.location.href = NAV_ORDRE[idx - 1];
+  }
 });
 
-/* ---------------------------------------------------------------- MODAL PROJETS */
-
-/**
- * Données des projets pour la modal
- * Les images proviennent du fichier assets/previews_data.js (base64)
- */
 const PROJETS_DATA = {
   gamehub: {
     titre: 'GAMEHUB RETRO',
@@ -193,13 +247,6 @@ const PROJETS_DATA = {
   },
 };
 
-const modalOverlay = document.getElementById('js-modal');
-const modalTitre   = document.getElementById('js-modal-titre');
-const modalImg     = document.getElementById('js-modal-img');
-const modalDesc    = document.getElementById('js-modal-desc');
-const modalTech    = document.getElementById('js-modal-tech');
-const btnFermer    = document.getElementById('js-modal-fermer');
-
 let elementFocusAvantModal = null;
 
 function focusablesModal(container) {
@@ -207,10 +254,9 @@ function focusablesModal(container) {
     .filter(el => !el.hasAttribute('disabled') && el.offsetParent !== null);
 }
 
-/** Ouvre la modal pour un projet donné */
 function ouvrirModal(projetKey) {
   const data = PROJETS_DATA[projetKey];
-  if (!data || !modalOverlay) return;
+  if (!data || !modalOverlay || !modalTitre || !modalDesc || !modalTech || !modalImg || !btnFermer) return;
 
   elementFocusAvantModal = document.activeElement;
 
@@ -238,7 +284,6 @@ function ouvrirModal(projetKey) {
   btnFermer.focus();
 }
 
-/** Ferme la modal */
 function fermerModal() {
   if (!modalOverlay) return;
   modalOverlay.hidden = true;
@@ -276,19 +321,16 @@ document.addEventListener('keydown', evt => {
   }
 });
 
-/* Clic sur une carte projet */
 document.querySelectorAll('.carte-projet[data-projet]').forEach(carte => {
   carte.addEventListener('click',  () => ouvrirModal(carte.dataset.projet));
   carte.addEventListener('keydown', evt => { if (evt.key === 'Enter' || evt.key === ' ') { evt.preventDefault(); ouvrirModal(carte.dataset.projet); } });
 });
 
-/* Fermeture modal */
 if (btnFermer) btnFermer.addEventListener('click', fermerModal);
 if (modalOverlay) {
   modalOverlay.addEventListener('click', evt => { if (evt.target === modalOverlay) fermerModal(); });
 }
 
-/* ---------------------------------------------------------------- FORMULAIRE CONTACT */
 const formulaire = document.getElementById('js-formulaire');
 const EMAIL_CONTACT = 'jorisdavid.martinez.pro@gmail.com';
 
@@ -354,7 +396,6 @@ if (formulaire) {
   });
 }
 
-/* ---------------------------------------------------------------- KONAMI CODE */
 const KONAMI_SEQ = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
 let saisieKonami = [];
 
@@ -370,11 +411,15 @@ document.addEventListener('keydown', evt => {
   if (saisieKonami.join(',') === KONAMI_SEQ.join(',')) {
     document.body.classList.toggle('konami-actif');
     [523,659,784,1047].forEach((f,i) => setTimeout(() => jouerBip(f,120,'square'), i*130));
-    ajouterScore(9999);
+    const k = lireScore();
+    if (k < 9999) {
+      sauvegarderScore(9999);
+      afficherScore(9999);
+      setTimeout(afficherPopupHighScore, 600);
+    }
   }
 });
 
-/* ---------------------------------------------------------------- INIT */
 function initMetaPartage() {
   const pageUrl = window.location.href.split('#')[0];
   const canon = document.getElementById('link-canonical');
@@ -396,8 +441,51 @@ function initMetaPartage() {
   ogUrl.setAttribute('content', pageUrl);
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+function initBonusScore() {
+  const PAGE_KEY = 'jm_page_' + window.location.pathname;
+  if (!sessionStorage.getItem(PAGE_KEY)) {
+    sessionStorage.setItem(PAGE_KEY, '1');
+    ajouterScore(200);
+  }
+
+  document.querySelectorAll('.carte-projet').forEach(carte => {
+    carte.addEventListener('click', () => ajouterScore(300));
+  });
+
+  document.querySelectorAll('.carte-dojo').forEach(carte => {
+    carte.addEventListener('click', () => ajouterScore(150));
+  });
+
+  const lienGithub = document.querySelector('.lien-github');
+  if (lienGithub) {
+    lienGithub.addEventListener('click', () => ajouterScore(500));
+  }
+
+  document.querySelectorAll('.carte-projet').forEach(carte => {
+    let dejaSurvole = false;
+    carte.addEventListener('mouseenter', () => {
+      if (!dejaSurvole) {
+        ajouterScore(100);
+        dejaSurvole = true;
+      }
+    });
+  });
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
+  const etaitDejaAuMax = lireScore() >= 9999;
+  await chargerPartials();
+  const popupHs = document.getElementById('js-popup-hs');
+  if (popupHs) popupHs.hidden = true;
+  initPopupHighScoreFermer();
+  initBonusScore();
+  afficherScore(lireScore());
   initMetaPartage();
-  animerScoreInitial();
-  setTimeout(() => animerBarresSection('accueil'), 300);
+  initNavigationArcade();
+  const sid = document.body.dataset.sectionId || 'accueil';
+  setTimeout(() => animerBarresSection(sid), 300);
+
+  if (etaitDejaAuMax && !sessionStorage.getItem('hs_popup_vu')) {
+    setTimeout(afficherPopupHighScore, 1000);
+  }
 });
