@@ -1,0 +1,141 @@
+/* ============================================
+   Composant : cartes projet + barres + tags tech
+   ============================================ */
+
+.etiquettes-tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.5rem;
+}
+
+.etiquettes-tech li {
+  font-family: var(--police-crt);
+  font-size: clamp(0.85rem, 2vw, 1.05rem);
+  color: var(--couleur-accent);
+  border: 1px solid var(--couleur-bordure);
+  padding: 0.12rem 0.45rem;
+  letter-spacing: 1px;
+}
+
+.barre-completion {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.65rem;
+}
+
+.barre-completion__fond {
+  flex: 1;
+  height: 7px;
+  background-color: var(--couleur-separateur);
+  border: 1px solid var(--couleur-bordure);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.barre-completion__fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(
+    90deg,
+    var(--couleur-accent-dim),
+    var(--couleur-accent),
+    var(--couleur-accent-vif)
+  );
+  background-size: 20px 100%;
+  animation: barre-anim 2s linear infinite;
+  border-radius: 2px;
+  transition: width 1.1s ease-out;
+}
+
+@keyframes barre-anim {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 20px 0;
+  }
+}
+
+.barre-completion__val {
+  font-family: var(--police-pixel);
+  font-size: 0.4rem;
+  color: var(--couleur-accent-vif);
+  text-shadow: 0 0 6px var(--couleur-accent);
+  width: 2.8rem;
+  text-align: right;
+}
+
+.carte-projet {
+  background-color: var(--couleur-fond-carte);
+  border: 1px solid var(--couleur-bordure);
+  border-radius: 4px;
+  padding: 1.1rem;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+  position: relative;
+}
+
+.carte-projet:hover,
+.carte-projet:focus {
+  border-color: var(--couleur-accent);
+  box-shadow: 0 0 20px rgba(74, 111, 255, 0.22);
+  transform: translateY(-2px);
+  outline: none;
+}
+
+.carte-projet__entete {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.45rem;
+  gap: 0.5rem;
+}
+
+.carte-projet__num {
+  font-family: var(--police-pixel);
+  font-size: 0.42rem;
+  color: var(--couleur-accent);
+  text-shadow: 0 0 6px var(--couleur-accent);
+  letter-spacing: 2px;
+  flex-shrink: 0;
+}
+
+.carte-projet__icone {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.carte-projet__diff {
+  font-family: var(--police-crt);
+  font-size: clamp(0.9rem, 2vw, 1.1rem);
+  color: var(--couleur-actif);
+  flex-shrink: 0;
+}
+
+.carte-projet__nom {
+  font-family: var(--police-pixel);
+  font-size: clamp(0.42rem, 1.6vw, 0.6rem);
+  color: var(--couleur-texte-fort);
+  letter-spacing: 1px;
+  margin-bottom: 0.35rem;
+  line-height: 1.8;
+}
+
+.carte-projet__desc {
+  font-family: var(--police-lisible);
+  font-size: clamp(0.95rem, 2.3vw, 1.05rem);
+  color: var(--couleur-texte-normal);
+  line-height: 1.6;
+}
+
+.carte-projet__clic-hint {
+  font-family: var(--police-pixel);
+  font-size: 0.32rem;
+  color: var(--couleur-texte-fantome);
+  text-align: right;
+  margin-top: 0.4rem;
+  letter-spacing: 1px;
+}

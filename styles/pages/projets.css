@@ -1,0 +1,40 @@
+/* ============================================
+   Page : projets (grille liste + lien Dojo)
+   ============================================ */
+
+.grille-projets {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.9rem;
+}
+
+.work-dojo-zone {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--couleur-separateur);
+}
+
+.bouton-dojo {
+  font-family: var(--police-pixel);
+  font-size: clamp(0.35rem, 1.3vw, 0.5rem);
+  color: var(--couleur-actif);
+  border: 1px solid var(--couleur-actif-dim);
+  padding: 0.65rem 1.2rem;
+  letter-spacing: 2px;
+  background: none;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+.bouton-dojo:hover {
+  background-color: rgba(255, 204, 68, 0.08);
+  box-shadow: 0 0 16px rgba(255, 204, 68, 0.2);
+}
+
+@media (min-width: 560px) {
+  .grille-projets {
+    grid-template-columns: 1fr 1fr;
+  }
+}

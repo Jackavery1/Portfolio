@@ -1,0 +1,135 @@
+/* ============================================
+   Page : contact (cartes coordonnées, récap profil)
+   ============================================ */
+
+.contact-grille {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+.grille-contact {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.65rem;
+  margin-bottom: 1.25rem;
+}
+
+.carte-contact {
+  background-color: var(--couleur-fond-carte);
+  border: 1px solid var(--couleur-bordure);
+  border-radius: 4px;
+  padding: 0.9rem;
+  transition: border-color 0.2s;
+}
+
+.carte-contact:hover {
+  border-color: var(--couleur-accent);
+}
+
+.carte-contact__label {
+  font-family: var(--police-pixel);
+  font-size: 0.37rem;
+  color: var(--couleur-texte-discret);
+  letter-spacing: 1px;
+  margin-bottom: 0.4rem;
+}
+
+.carte-contact__valeur {
+  font-family: var(--police-crt);
+  font-size: clamp(0.95rem, 2.3vw, 1.15rem);
+  color: var(--couleur-accent-vif);
+  letter-spacing: 1px;
+  line-height: 1.4;
+  word-break: break-all;
+}
+
+.texte-continue {
+  font-family: var(--police-crt);
+  font-size: clamp(0.85rem, 2.2vw, 1.05rem);
+  color: var(--couleur-accent-vif);
+  text-align: center;
+  line-height: 1.8;
+  margin-bottom: 1.25rem;
+  letter-spacing: 2px;
+  animation: pulsation 2s ease-in-out infinite;
+}
+
+.profil-recap {
+  background-color: var(--couleur-fond-carte);
+  border: 1px solid var(--couleur-bordure);
+  border-radius: 4px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.profil-recap__titre {
+  font-family: var(--police-pixel);
+  font-size: 0.45rem;
+  color: var(--couleur-accent);
+  letter-spacing: 2px;
+}
+
+.profil-recap__bonhomme {
+  filter: drop-shadow(0 0 8px rgba(74, 111, 255, 0.3));
+}
+
+.profil-recap__infos {
+  width: 100%;
+}
+
+.profil-recap__infos li {
+  font-family: var(--police-crt);
+  font-size: clamp(0.95rem, 2.3vw, 1.1rem);
+  color: var(--couleur-texte-normal);
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.25rem 0;
+  border-bottom: 1px solid var(--couleur-separateur);
+  letter-spacing: 1px;
+}
+
+.profil-recap__infos li:last-child {
+  border-bottom: none;
+}
+
+.profil-label {
+  color: var(--couleur-accent);
+  width: 3.5rem;
+  flex-shrink: 0;
+}
+
+.profil-liens {
+  width: 100%;
+  text-align: center;
+}
+
+.profil-liens__label {
+  font-family: var(--police-pixel);
+  font-size: 0.35rem;
+  color: var(--couleur-texte-discret);
+  letter-spacing: 2px;
+  margin-bottom: 0.35rem;
+}
+
+.profil-liens__note {
+  font-family: var(--police-crt);
+  font-size: clamp(0.95rem, 2.3vw, 1.1rem);
+  color: var(--couleur-texte-normal);
+  letter-spacing: 1px;
+}
+
+@media (min-width: 700px) {
+  .contact-grille {
+    grid-template-columns: 1fr 220px;
+  }
+}
+
+@media (max-width: 600px) {
+  .grille-contact {
+    grid-template-columns: 1fr;
+  }
+}

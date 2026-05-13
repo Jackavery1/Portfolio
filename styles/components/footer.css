@@ -1,0 +1,19 @@
+/* ============================================
+   Composant : pied de page
+   ============================================ */
+
+.pied-page {
+  margin-top: auto;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0.9rem 1.5rem;
+  border-top: 1px solid var(--couleur-bordure);
+  font-family: var(--police-pixel);
+  font-size: 0.36rem;
+  color: var(--couleur-texte-fantome);
+  letter-spacing: 1px;
+}

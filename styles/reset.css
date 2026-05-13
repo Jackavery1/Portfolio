@@ -1,0 +1,49 @@
+/* ============================================
+   Normalisation des styles navigateur
+   ============================================ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  background-color: #000008;
+  color: var(--couleur-texte-normal);
+  font-family: var(--police-crt);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  cursor: crosshair;
+  overflow-x: hidden;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: var(--police-pixel);
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--couleur-accent-vif);
+  outline-offset: 3px;
+}

@@ -1,0 +1,144 @@
+/* ============================================
+   Page : parcours (frise, timeline, arbre SVG)
+   ============================================ */
+
+.story-grille {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+.frise-progression {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  font-family: var(--police-pixel);
+  font-size: 0.4rem;
+  color: var(--couleur-texte-discret);
+  letter-spacing: 1px;
+}
+
+.frise-progression__ligne {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    var(--couleur-accent-dim),
+    var(--couleur-accent-vif)
+  );
+  top: 50%;
+  z-index: 0;
+}
+
+.frise-progression__debut,
+.frise-progression__milieu,
+.frise-progression__fin {
+  position: relative;
+  z-index: 1;
+  background-color: var(--couleur-fond);
+  padding: 0 0.4rem;
+}
+
+.frise-progression__fin {
+  color: var(--couleur-accent-vif);
+  text-shadow: 0 0 8px var(--couleur-accent);
+}
+
+.liste-parcours {
+  display: flex;
+  flex-direction: column;
+}
+
+.entree-parcours {
+  display: flex;
+  gap: 0.9rem;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--couleur-separateur);
+}
+
+.entree-parcours:last-child {
+  border-bottom: none;
+}
+
+.entree-parcours__marqueur {
+  font-family: var(--police-pixel);
+  font-size: 0.48rem;
+  color: var(--couleur-accent);
+  text-shadow: 0 0 6px var(--couleur-accent);
+  width: 2.2rem;
+  flex-shrink: 0;
+  padding-top: 0.25rem;
+  line-height: 2;
+}
+
+.entree-parcours--actif .entree-parcours__marqueur,
+.entree-parcours--actif .entree-parcours__titre {
+  color: var(--couleur-actif);
+  text-shadow: 0 0 6px var(--couleur-actif);
+}
+
+.entree-parcours__haut {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-bottom: 0.3rem;
+  flex-wrap: wrap;
+}
+
+.entree-parcours__date {
+  font-family: var(--police-pixel);
+  font-size: 0.36rem;
+  color: var(--couleur-texte-fantome);
+  letter-spacing: 1px;
+}
+
+.entree-parcours__titre {
+  font-family: var(--police-pixel);
+  font-size: clamp(0.38rem, 1.4vw, 0.52rem);
+  color: var(--couleur-texte-fort);
+  letter-spacing: 1px;
+  margin-bottom: 0.25rem;
+  line-height: 1.8;
+}
+
+.entree-parcours__organisation {
+  font-family: var(--police-crt);
+  font-size: clamp(0.95rem, 2.3vw, 1.1rem);
+  color: var(--couleur-accent-dim);
+  letter-spacing: 1px;
+  margin-bottom: 0.3rem;
+}
+
+.entree-parcours__detail {
+  font-family: var(--police-lisible);
+  font-size: clamp(0.95rem, 2.3vw, 1.05rem);
+  color: var(--couleur-texte-normal);
+  line-height: 1.6;
+}
+
+.entree-parcours__detail strong {
+  color: var(--couleur-texte-fort);
+}
+
+.story-arbre {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.svg-arbre {
+  width: 100%;
+  max-width: 200px;
+  height: auto;
+  filter: drop-shadow(0 0 8px rgba(74, 111, 255, 0.2));
+}
+
+@media (min-width: 700px) {
+  .story-grille {
+    grid-template-columns: 1fr 220px;
+  }
+}

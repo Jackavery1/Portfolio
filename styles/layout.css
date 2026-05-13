@@ -1,0 +1,185 @@
+/* ============================================
+   Mise en page et structure globale
+   ============================================ */
+
+/* Bandeau défilant (fixe sous le haut de viewport) */
+.marquee-bande {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 24px;
+  background-color: var(--couleur-accent-dim);
+  border-bottom: 1px solid var(--couleur-accent);
+  overflow: hidden;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+}
+
+.marquee-contenu {
+  display: inline-block;
+  white-space: nowrap;
+  font-family: var(--police-pixel);
+  font-size: 0.45rem;
+  color: var(--couleur-accent-vif);
+  letter-spacing: 2px;
+  animation: marquee-anim 30s linear infinite;
+}
+
+@keyframes marquee-anim {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Colonne principale centrée (même largeur / hauteur min sur toutes les pages) */
+.ecran {
+  flex: 1;
+  width: 100%;
+  max-width: 960px;
+  margin: 24px auto 0;
+  min-height: calc(100vh - 24px);
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 40px rgba(74, 111, 255, 0.15), 0 0 80px rgba(74, 111, 255, 0.05);
+}
+
+/* Zone de contenu sous la nav : occupe l’espace entre nav et pied */
+.section {
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 1.75rem 1.5rem 1rem;
+  animation: apparition 0.25s ease;
+}
+
+@keyframes apparition {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Petits utilitaires texte */
+.pixel-accent {
+  color: var(--couleur-accent-vif);
+  text-shadow: 0 0 8px var(--couleur-accent);
+}
+
+.curseur-clignotant {
+  color: var(--couleur-accent-vif);
+  animation: clignotement 1s step-end infinite;
+}
+
+@keyframes clignotement {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+.titre-section {
+  font-family: var(--police-pixel);
+  font-size: clamp(0.48rem, 1.8vw, 0.7rem);
+  color: var(--couleur-accent-vif);
+  text-shadow: 0 0 12px var(--couleur-accent);
+  letter-spacing: 2px;
+  margin-bottom: 1.75rem;
+  line-height: 1.8;
+}
+
+/* Badges (parcours, accueil, etc.) */
+.badge {
+  font-family: var(--police-crt);
+  font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+  color: var(--couleur-accent-vif);
+  border: 1px solid var(--couleur-bordure-active);
+  padding: 0.2rem 0.55rem;
+  background-color: var(--couleur-accent-alpha);
+  letter-spacing: 1px;
+}
+
+.badge--valide {
+  color: var(--couleur-valide);
+  border-color: var(--couleur-valide-dim);
+  background-color: rgba(68, 204, 136, 0.1);
+}
+
+.badge--actif {
+  color: var(--couleur-actif);
+  border-color: var(--couleur-actif-dim);
+  background-color: rgba(255, 204, 68, 0.1);
+  animation: pulsation 2s ease-in-out infinite;
+}
+
+@keyframes pulsation {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+/* Liens CTA type bouton arcade (sans soulignement) */
+a.nav__logo {
+  text-decoration: none;
+  color: inherit;
+}
+
+a.nav__bouton {
+  text-decoration: none;
+  color: inherit;
+  display: inline-block;
+}
+
+a.bouton-arcade,
+a.bouton-dojo,
+a.bouton-retour-work {
+  text-decoration: none;
+  display: inline-block;
+}
+
+@media (max-width: 600px) {
+  .section {
+    padding: 1.25rem 1rem 2rem;
+  }
+}
+
+/* Réduction des animations (accessibilité) */
+@media (prefers-reduced-motion: reduce) {
+  .marquee-contenu,
+  .curseur-clignotant,
+  .badge--actif,
+  .texte-continue,
+  .svg-bonhomme,
+  .bras-coucou,
+  .bulle-coucou,
+  .barre-completion__fill {
+    animation: none;
+  }
+
+  .section {
+    animation: none;
+  }
+
+  .barre-completion__fill,
+  .score-barre,
+  .langue-item__barre {
+    transition: none;
+  }
+}

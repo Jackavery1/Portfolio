@@ -1,0 +1,48 @@
+/* ============================================
+   Variables et tokens (couleurs, polices)
+   ============================================ */
+
+:root {
+  /* Fonds et surfaces */
+  --couleur-fond: #03040f;
+  --couleur-fond-carte: #060818;
+  --couleur-fond-survol: #0a0e25;
+  --couleur-separateur: #0d1230;
+  --couleur-bordure: #1a2050;
+  --couleur-bordure-active: #4a6fff;
+
+  /* Accent bleu */
+  --couleur-accent: #4a6fff;
+  --couleur-accent-vif: #88aaff;
+  --couleur-accent-dim: #1e3080;
+  --couleur-accent-alpha: rgba(74, 111, 255, 0.12);
+
+  /* Texte */
+  --couleur-texte-fort: #d0ddff;
+  --couleur-texte-normal: #8899cc;
+  --couleur-texte-discret: #3a4a80;
+  --couleur-texte-fantome: #1e2850;
+
+  /* États succès / actif (jaune arcade) */
+  --couleur-valide: #44cc88;
+  --couleur-valide-dim: #1a4a33;
+  --couleur-actif: #ffcc44;
+  --couleur-actif-dim: #4a3a00;
+
+  /* Effet CRT */
+  --couleur-scanline: rgba(0, 0, 20, 0.28);
+
+  /* Pixel art (bonhomme SVG) */
+  --couleur-pixel-peau: #e8a87c;
+  --couleur-pixel-corps: #1e3a6a;
+  --couleur-pixel-bonnet: #1e3080;
+  --couleur-pixel-yeux: #1a0a00;
+  --couleur-pixel-bouche: #c0654a;
+  --couleur-pixel-chaussure: #0a0a1a;
+  --couleur-pixel-accent-detail: #44aaff;
+
+  /* Polices */
+  --police-pixel: "Press Start 2P", monospace;
+  --police-crt: "VT323", monospace;
+  --police-lisible: "Rajdhani", sans-serif;
+}

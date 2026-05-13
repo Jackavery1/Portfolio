@@ -1,0 +1,100 @@
+/* ============================================
+   Composant : formulaire contact (champs CRT)
+   ============================================ */
+
+.formulaire-titre {
+  font-family: var(--police-pixel);
+  font-size: clamp(0.38rem, 1.4vw, 0.52rem);
+  color: var(--couleur-accent);
+  letter-spacing: 2px;
+  margin-bottom: 1rem;
+}
+
+.formulaire-crt {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.champ-groupe {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.champ-label {
+  font-family: var(--police-pixel);
+  font-size: 0.35rem;
+  color: var(--couleur-texte-discret);
+  letter-spacing: 2px;
+}
+
+.champ-input {
+  font-family: var(--police-crt);
+  font-size: clamp(1rem, 2.3vw, 1.15rem);
+  color: var(--couleur-texte-fort);
+  letter-spacing: 1px;
+  background-color: var(--couleur-separateur);
+  border: 1px solid var(--couleur-bordure);
+  border-radius: 3px;
+  padding: 0.6rem 0.75rem;
+  width: 100%;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  cursor: text;
+}
+
+.champ-input:focus {
+  outline: none;
+  border-color: var(--couleur-accent);
+  box-shadow: 0 0 10px rgba(74, 111, 255, 0.2);
+}
+
+.champ-input::placeholder {
+  color: var(--couleur-texte-discret);
+}
+
+.champ-select {
+  cursor: pointer;
+}
+
+.champ-textarea {
+  resize: vertical;
+  min-height: 90px;
+}
+
+.bouton-envoyer {
+  font-family: var(--police-pixel);
+  font-size: clamp(0.35rem, 1.3vw, 0.5rem);
+  color: var(--couleur-accent-vif);
+  border: 1px solid var(--couleur-accent);
+  padding: 0.7rem 1.1rem;
+  letter-spacing: 2px;
+  background: none;
+  cursor: pointer;
+  align-self: flex-start;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+.bouton-envoyer:hover {
+  background-color: var(--couleur-accent-alpha);
+  box-shadow: 0 0 16px rgba(74, 111, 255, 0.25);
+}
+
+.envoi-confirmation {
+  font-family: var(--police-pixel);
+  font-size: 0.42rem;
+  color: var(--couleur-valide);
+  text-shadow: 0 0 8px var(--couleur-valide);
+  letter-spacing: 2px;
+  padding: 0.75rem;
+  border: 1px solid var(--couleur-valide-dim);
+  background-color: rgba(68, 204, 136, 0.08);
+}
+
+.formulaire-confidentialite {
+  font-family: var(--police-lisible);
+  font-size: clamp(0.8rem, 2vw, 0.9rem);
+  color: var(--couleur-texte-discret);
+  line-height: 1.5;
+  margin-top: 0.25rem;
+}
