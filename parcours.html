@@ -1,0 +1,604 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Portfolio de Joris Martinez, développeur web junior — Node.js, Express, WordPress, MongoDB. La Rochelle · disponible pour un premier poste."
+    />
+    <meta name="theme-color" content="#03040f" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Joris Martinez · Développeur Web" />
+    <meta
+      property="og:description"
+      content="Portfolio développeur web — projets GameHub, LSF, WordPress, apps Express/MongoDB. La Jarne · La Rochelle."
+    />
+    <meta property="og:image" content="assets/og.png" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Joris Martinez · Développeur Web" />
+    <meta
+      name="twitter:description"
+      content="Portfolio développeur web — projets, stack technique, parcours."
+    />
+    <meta name="twitter:image" content="assets/og.png" />
+
+    <link rel="canonical" href="" id="link-canonical" />
+
+    <title>Parcours · Joris Martinez</title>
+
+    <!-- Favicon : tête du bonhomme pixel art (casquette + yeux) -->
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' shape-rendering='crispEdges'%3E%3Crect width='32' height='32' fill='%2303040f'/%3E%3C!-- casquette --%3E%3Crect x='6' y='5' width='20' height='5' fill='%231e3080'/%3E%3Crect x='8' y='4' width='16' height='3' fill='%231e3080'/%3E%3C!-- tête --%3E%3Crect x='8' y='10' width='16' height='14' fill='%23e8a87c'/%3E%3C!-- yeux --%3E%3Crect x='11' y='15' width='4' height='3' fill='%231a0a00'/%3E%3Crect x='19' y='15' width='4' height='3' fill='%231a0a00'/%3E%3C!-- bouche --%3E%3Crect x='12' y='22' width='8' height='1' fill='%23c0654a'/%3E%3C/svg%3E"
+    />
+
+    <!-- Polices -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Rajdhani:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body data-section-id="parcours">
+    <div id="partial-crt"></div>
+
+    <div id="partial-marquee"></div>
+
+
+    <div class="ecran">
+      <div id="partial-nav"></div>
+
+      <main id="js-contenu-principal">
+      <section id="parcours" class="section" aria-label="Parcours">
+        <h2 class="titre-section">
+          <span class="pixel-accent">▶</span> STORY MODE
+        </h2>
+
+        <div class="story-grille">
+          <!-- Timeline à gauche -->
+          <div class="story-timeline">
+            <div class="frise-progression" aria-hidden="true">
+              <div class="frise-progression__ligne"></div>
+              <span class="frise-progression__debut">2014</span>
+              <span class="frise-progression__milieu">2021</span>
+              <span class="frise-progression__fin">2025 →</span>
+            </div>
+
+            <ol class="liste-parcours">
+              <li class="entree-parcours entree-parcours--actif">
+                <div class="entree-parcours__marqueur" aria-hidden="true">
+                  ▶▶
+                </div>
+                <div class="entree-parcours__contenu">
+                  <div class="entree-parcours__haut">
+                    <span class="entree-parcours__date">2024–2025</span>
+                    <span class="badge badge--actif">EN COURS</span>
+                  </div>
+                  <h3 class="entree-parcours__titre">
+                    POEI DÉVELOPPEUR D'APPLICATION
+                  </h3>
+                  <p class="entree-parcours__organisation">
+                    Formation · Eric Plichon · La Rochelle
+                  </p>
+                  <p class="entree-parcours__detail">
+                    SQL/Oracle, Java, NS-DK, NatStar, Python/Selenium, Robot
+                    Framework.
+                  </p>
+                </div>
+              </li>
+
+              <li class="entree-parcours">
+                <div class="entree-parcours__marqueur" aria-hidden="true">
+                  ✓
+                </div>
+                <div class="entree-parcours__contenu">
+                  <div class="entree-parcours__haut">
+                    <span class="entree-parcours__date">2025</span>
+                    <span class="badge badge--valide">VALIDÉ</span>
+                  </div>
+                  <h3 class="entree-parcours__titre">
+                    DÉVELOPPEUR WEB — STAGE
+                  </h3>
+                  <p class="entree-parcours__organisation">
+                    HubTraining · La Rochelle
+                  </p>
+                  <p class="entree-parcours__detail">
+                    <strong>Client réel.</strong> WordPress Gutenberg, UX/UI,
+                    SEO, performance, sécurité.
+                  </p>
+                </div>
+              </li>
+
+              <li class="entree-parcours">
+                <div class="entree-parcours__marqueur" aria-hidden="true">
+                  ✓
+                </div>
+                <div class="entree-parcours__contenu">
+                  <div class="entree-parcours__haut">
+                    <span class="entree-parcours__date">2025</span>
+                    <span class="badge badge--valide">VALIDÉ</span>
+                  </div>
+                  <h3 class="entree-parcours__titre">
+                    TP DÉVELOPPEUR WEB / WEB MOBILE
+                  </h3>
+                  <p class="entree-parcours__organisation">AFEC La Rochelle</p>
+                  <p class="entree-parcours__detail">
+                    Titre professionnel. Stack Node / Express / MongoDB /
+                    Tailwind. <strong>Projet : LSF.</strong>
+                  </p>
+                </div>
+              </li>
+
+              <li class="entree-parcours">
+                <div class="entree-parcours__marqueur" aria-hidden="true">
+                  ■
+                </div>
+                <div class="entree-parcours__contenu">
+                  <div class="entree-parcours__haut">
+                    <span class="entree-parcours__date">2021–2023</span>
+                  </div>
+                  <h3 class="entree-parcours__titre">
+                    TECHNICIEN D'EXPÉRIMENTATION
+                  </h3>
+                  <p class="entree-parcours__organisation">UNILET</p>
+                  <p class="entree-parcours__detail">
+                    80 essais au champ, analyses STATBOX, rapports techniques.
+                  </p>
+                </div>
+              </li>
+
+              <li class="entree-parcours">
+                <div class="entree-parcours__marqueur" aria-hidden="true">
+                  ■
+                </div>
+                <div class="entree-parcours__contenu">
+                  <div class="entree-parcours__haut">
+                    <span class="entree-parcours__date">2020</span>
+                  </div>
+                  <h3 class="entree-parcours__titre">
+                    TECHNICIEN D'EXPÉRIMENTATION
+                  </h3>
+                  <p class="entree-parcours__organisation">
+                    BIOTEK Agriculture
+                  </p>
+                  <p class="entree-parcours__detail">
+                    123 essais, analyses de données, conclusions d'essais.
+                  </p>
+                </div>
+              </li>
+
+              <li class="entree-parcours">
+                <div class="entree-parcours__marqueur" aria-hidden="true">
+                  ◆
+                </div>
+                <div class="entree-parcours__contenu">
+                  <div class="entree-parcours__haut">
+                    <span class="entree-parcours__date">2014–2017</span>
+                  </div>
+                  <h3 class="entree-parcours__titre">
+                    MASTER SCIENCES DU VÉGÉTAL — BAC+5
+                  </h3>
+                  <p class="entree-parcours__organisation">
+                    Université Paris-Saclay
+                  </p>
+                  <p class="entree-parcours__detail">
+                    Protocoles, rigueur analytique.
+                    <strong>Socle transféré vers le dev.</strong>
+                  </p>
+                </div>
+              </li>
+            </ol>
+          </div>
+
+          <!-- Arbre SVG à droite -->
+          <div class="story-arbre" aria-hidden="true">
+            <svg
+              viewBox="0 0 200 320"
+              xmlns="http://www.w3.org/2000/svg"
+              class="svg-arbre"
+            >
+              <!-- Label bas : racines -->
+              <text
+                x="100"
+                y="318"
+                text-anchor="middle"
+                class="svg-label"
+                font-size="6"
+                fill="var(--couleur-texte-discret)"
+              >
+                SCIENCES VÉGÉTALES
+              </text>
+
+              <!-- Racines -->
+              <line
+                x1="100"
+                y1="285"
+                x2="60"
+                y2="308"
+                stroke="var(--couleur-accent-dim)"
+                stroke-width="2"
+              />
+              <line
+                x1="100"
+                y1="285"
+                x2="100"
+                y2="312"
+                stroke="var(--couleur-accent-dim)"
+                stroke-width="2"
+              />
+              <line
+                x1="100"
+                y1="285"
+                x2="140"
+                y2="308"
+                stroke="var(--couleur-accent-dim)"
+                stroke-width="2"
+              />
+              <line
+                x1="60"
+                y1="308"
+                x2="45"
+                y2="314"
+                stroke="var(--couleur-accent-dim)"
+                stroke-width="1"
+              />
+              <line
+                x1="140"
+                y1="308"
+                x2="155"
+                y2="314"
+                stroke="var(--couleur-accent-dim)"
+                stroke-width="1"
+              />
+
+              <!-- Sol pixelisé -->
+              <rect
+                x="22"
+                y="285"
+                width="8"
+                height="4"
+                fill="var(--couleur-accent-dim)"
+              />
+              <rect
+                x="34"
+                y="283"
+                width="8"
+                height="4"
+                fill="var(--couleur-accent-dim)"
+              />
+              <rect
+                x="46"
+                y="285"
+                width="8"
+                height="4"
+                fill="var(--couleur-accent-dim)"
+              />
+              <rect
+                x="150"
+                y="284"
+                width="8"
+                height="4"
+                fill="var(--couleur-accent-dim)"
+              />
+              <rect
+                x="162"
+                y="285"
+                width="8"
+                height="4"
+                fill="var(--couleur-accent-dim)"
+              />
+
+              <!-- Tronc (la reconversion) -->
+              <rect
+                x="96"
+                y="200"
+                width="8"
+                height="88"
+                fill="var(--couleur-accent-dim)"
+              />
+
+              <!-- Nœud transition -->
+              <rect
+                x="90"
+                y="196"
+                width="20"
+                height="8"
+                rx="2"
+                fill="var(--couleur-accent-dim)"
+              />
+
+              <!-- Branche gauche : dev web (passé) -->
+              <line
+                x1="100"
+                y1="240"
+                x2="55"
+                y2="195"
+                stroke="var(--couleur-accent)"
+                stroke-width="2"
+              />
+              <line
+                x1="55"
+                y1="195"
+                x2="35"
+                y2="170"
+                stroke="var(--couleur-accent)"
+                stroke-width="1.5"
+              />
+              <line
+                x1="55"
+                y1="195"
+                x2="50"
+                y2="165"
+                stroke="var(--couleur-accent)"
+                stroke-width="1"
+              />
+              <!-- Feuilles gauche -->
+              <rect
+                x="27"
+                y="158"
+                width="6"
+                height="6"
+                fill="var(--couleur-accent)"
+              />
+              <rect
+                x="33"
+                y="152"
+                width="6"
+                height="6"
+                fill="var(--couleur-accent)"
+              />
+              <rect
+                x="39"
+                y="158"
+                width="6"
+                height="6"
+                fill="var(--couleur-accent)"
+              />
+              <rect
+                x="33"
+                y="164"
+                width="6"
+                height="6"
+                fill="var(--couleur-accent)"
+              />
+              <text
+                x="36"
+                y="148"
+                text-anchor="middle"
+                class="svg-label"
+                font-size="6"
+                fill="var(--couleur-accent-vif)"
+              >
+                DEV WEB
+              </text>
+
+              <!-- Branche droite : tech pro -->
+              <line
+                x1="100"
+                y1="225"
+                x2="148"
+                y2="180"
+                stroke="var(--couleur-accent)"
+                stroke-width="2"
+              />
+              <line
+                x1="148"
+                y1="180"
+                x2="163"
+                y2="158"
+                stroke="var(--couleur-accent)"
+                stroke-width="1.5"
+              />
+              <line
+                x1="148"
+                y1="180"
+                x2="158"
+                y2="152"
+                stroke="var(--couleur-accent)"
+                stroke-width="1"
+              />
+              <!-- Feuilles droite -->
+              <rect
+                x="155"
+                y="142"
+                width="6"
+                height="6"
+                fill="var(--couleur-accent-vif)"
+              />
+              <rect
+                x="161"
+                y="136"
+                width="6"
+                height="6"
+                fill="var(--couleur-accent-vif)"
+              />
+              <rect
+                x="167"
+                y="142"
+                width="6"
+                height="6"
+                fill="var(--couleur-accent-vif)"
+              />
+              <rect
+                x="161"
+                y="148"
+                width="6"
+                height="6"
+                fill="var(--couleur-accent-vif)"
+              />
+              <text
+                x="165"
+                y="132"
+                text-anchor="middle"
+                class="svg-label"
+                font-size="6"
+                fill="var(--couleur-accent-vif)"
+              >
+                POEI
+              </text>
+
+              <!-- Tronc supérieur -->
+              <line
+                x1="100"
+                y1="200"
+                x2="100"
+                y2="130"
+                stroke="var(--couleur-accent)"
+                stroke-width="2"
+              />
+
+              <!-- Branche gauche niveau 2 : stage -->
+              <line
+                x1="100"
+                y1="168"
+                x2="70"
+                y2="145"
+                stroke="var(--couleur-valide)"
+                stroke-width="1.5"
+              />
+              <rect
+                x="60"
+                y="133"
+                width="6"
+                height="6"
+                fill="var(--couleur-valide)"
+              />
+              <rect
+                x="66"
+                y="127"
+                width="6"
+                height="6"
+                fill="var(--couleur-valide)"
+              />
+              <rect
+                x="72"
+                y="133"
+                width="6"
+                height="6"
+                fill="var(--couleur-valide)"
+              />
+              <text
+                x="67"
+                y="124"
+                text-anchor="middle"
+                class="svg-label"
+                font-size="5"
+                fill="var(--couleur-valide)"
+              >
+                STAGE
+              </text>
+
+              <!-- Couronne pixel (futur) -->
+              <line
+                x1="100"
+                y1="130"
+                x2="100"
+                y2="85"
+                stroke="var(--couleur-accent-vif)"
+                stroke-width="2"
+              />
+              <rect
+                x="82"
+                y="68"
+                width="8"
+                height="8"
+                fill="var(--couleur-accent-vif)"
+              />
+              <rect
+                x="90"
+                y="60"
+                width="8"
+                height="8"
+                fill="var(--couleur-accent-vif)"
+              />
+              <rect
+                x="98"
+                y="52"
+                width="8"
+                height="8"
+                fill="var(--couleur-accent-vif)"
+              />
+              <rect
+                x="106"
+                y="60"
+                width="8"
+                height="8"
+                fill="var(--couleur-accent-vif)"
+              />
+              <rect
+                x="114"
+                y="68"
+                width="8"
+                height="8"
+                fill="var(--couleur-accent-vif)"
+              />
+              <rect
+                x="90"
+                y="68"
+                width="8"
+                height="8"
+                fill="var(--couleur-accent-vif)"
+              />
+              <rect
+                x="98"
+                y="60"
+                width="8"
+                height="8"
+                fill="var(--couleur-accent-vif)"
+              />
+              <rect
+                x="106"
+                y="68"
+                width="8"
+                height="8"
+                fill="var(--couleur-accent-vif)"
+              />
+              <rect
+                x="98"
+                y="68"
+                width="8"
+                height="8"
+                fill="var(--couleur-accent-vif)"
+              />
+              <!-- Lueur couronne -->
+              <ellipse
+                cx="100"
+                cy="64"
+                rx="22"
+                ry="14"
+                fill="var(--couleur-accent-vif)"
+                opacity="0.06"
+              />
+              <text
+                x="100"
+                y="46"
+                text-anchor="middle"
+                class="svg-label"
+                font-size="6"
+                fill="var(--couleur-accent-vif)"
+              >
+                FUTUR
+              </text>
+            </svg>
+          </div>
+        </div>
+      </section>
+      </main>
+
+      <div id="partial-footer"></div>
+    </div>
+    <!-- fin .ecran -->
+
+    <div id="partial-popup-hs"></div>
+
+    <script type="module" src="js/main.js"></script>
+  </body>
+</html>

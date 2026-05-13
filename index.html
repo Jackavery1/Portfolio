@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Portfolio de Joris Martinez, développeur web junior — Node.js, Express, WordPress, MongoDB. La Rochelle · disponible pour un premier poste."
+    />
+    <meta name="theme-color" content="#03040f" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Joris Martinez · Développeur Web" />
+    <meta
+      property="og:description"
+      content="Portfolio développeur web — projets GameHub, LSF, WordPress, apps Express/MongoDB. La Jarne · La Rochelle."
+    />
+    <meta property="og:image" content="assets/og.png" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Joris Martinez · Développeur Web" />
+    <meta
+      name="twitter:description"
+      content="Portfolio développeur web — projets, stack technique, parcours."
+    />
+    <meta name="twitter:image" content="assets/og.png" />
+
+    <link rel="canonical" href="" id="link-canonical" />
+
+    <title>Joris Martinez · Développeur Web</title>
+
+    <!-- Favicon : tête du bonhomme pixel art (casquette + yeux) -->
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' shape-rendering='crispEdges'%3E%3Crect width='32' height='32' fill='%2303040f'/%3E%3C!-- casquette --%3E%3Crect x='6' y='5' width='20' height='5' fill='%231e3080'/%3E%3Crect x='8' y='4' width='16' height='3' fill='%231e3080'/%3E%3C!-- tête --%3E%3Crect x='8' y='10' width='16' height='14' fill='%23e8a87c'/%3E%3C!-- yeux --%3E%3Crect x='11' y='15' width='4' height='3' fill='%231a0a00'/%3E%3Crect x='19' y='15' width='4' height='3' fill='%231a0a00'/%3E%3C!-- bouche --%3E%3Crect x='12' y='22' width='8' height='1' fill='%23c0654a'/%3E%3C/svg%3E"
+    />
+
+    <!-- Polices -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Rajdhani:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body data-section-id="accueil">
+    <div id="partial-crt"></div>
+
+    <div id="partial-marquee"></div>
+
+    <div class="ecran">
+      <div id="partial-nav"></div>
+
+      <main id="js-contenu-principal">
+      <section id="accueil" class="section" aria-label="Accueil">
+        <div class="accueil__grille">
+          <!-- Texte gauche -->
+          <div class="accueil__texte">
+            <p class="etiquette-crt">// PLAYER_01 · LA JARNE · 17220</p>
+
+            <h1 class="titre-arcade">
+              <span class="titre-arcade__prenom">JORIS</span>
+              <span class="titre-arcade__nom">MARTINEZ</span>
+            </h1>
+
+            <p class="sous-titre-arcade">
+              <span class="pixel-accent">█</span>
+              DÉVELOPPEUR WEB
+              <span class="curseur-clignotant" aria-hidden="true">_</span>
+            </p>
+
+            <div class="separateur-arcade" aria-hidden="true">════════════════════</div>
+
+
+            <p class="texte-intro">
+              Du terrain à la prod', je me reconvertis en codant des projets
+              concrets.
+            </p>
+
+            <div class="badges-statut">
+              <span class="badge badge--actif">▶ EN FORMATION</span>
+              <span class="badge badge--valide">✓ TP DEV WEB</span>
+              <span class="badge badge--valide">✓ STAGE CLIENT</span>
+            </div>
+
+            <div class="accueil__actions">
+              <a class="bouton-arcade" href="projets.html">
+                <span aria-hidden="true">► </span>PRESS START — VOIR MES PROJETS
+              </a>
+              <a
+                class="lien-github"
+                href="https://github.com/Jackavery1"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                ↗ VOIR MON GITHUB
+              </a>
+            </div>
+          </div>
+
+          <!-- Bonhomme pixel art — code fourni par l'utilisateur + animations -->
+          <div class="accueil__illustration" aria-hidden="true">
+            <svg
+              class="svg-bonhomme"
+              viewBox="0 0 92 104"
+              xmlns="http://www.w3.org/2000/svg"
+              shape-rendering="crispEdges"
+            >
+              <g class="pixel-personnage">
+                <!-- aura -->
+                <ellipse
+                  cx="32"
+                  cy="88"
+                  rx="22"
+                  ry="10"
+                  fill="var(--couleur-accent)"
+                  opacity="0.12"
+                />
+
+                <!-- chaussures -->
+                <rect
+                  x="18"
+                  y="96"
+                  width="12"
+                  height="6"
+                  fill="var(--couleur-pixel-chaussure)"
+                />
+                <rect
+                  x="34"
+                  y="96"
+                  width="12"
+                  height="6"
+                  fill="var(--couleur-pixel-chaussure)"
+                />
+
+                <!-- jambes -->
+                <rect
+                  x="20"
+                  y="78"
+                  width="8"
+                  height="18"
+                  fill="var(--couleur-pixel-corps)"
+                />
+                <rect
+                  x="36"
+                  y="78"
+                  width="8"
+                  height="18"
+                  fill="var(--couleur-pixel-corps)"
+                />
+
+                <!-- corps / veste -->
+                <rect
+                  x="18"
+                  y="52"
+                  width="28"
+                  height="28"
+                  fill="var(--couleur-pixel-corps)"
+                />
+                <!-- poches cyan -->
+                <rect
+                  x="22"
+                  y="58"
+                  width="4"
+                  height="4"
+                  fill="var(--couleur-pixel-accent-detail)"
+                />
+                <rect
+                  x="38"
+                  y="58"
+                  width="4"
+                  height="4"
+                  fill="var(--couleur-pixel-accent-detail)"
+                />
+                <!-- fermeture / glissière -->
+                <rect
+                  x="31"
+                  y="52"
+                  width="2"
+                  height="24"
+                  fill="var(--couleur-pixel-accent-detail)"
+                />
+
+                <!-- cou -->
+                <rect
+                  x="26"
+                  y="46"
+                  width="12"
+                  height="8"
+                  fill="var(--couleur-pixel-peau)"
+                />
+
+                <!-- tête -->
+                <rect
+                  x="22"
+                  y="28"
+                  width="20"
+                  height="20"
+                  fill="var(--couleur-pixel-peau)"
+                />
+
+                <!-- casquette -->
+                <rect
+                  x="20"
+                  y="24"
+                  width="24"
+                  height="6"
+                  fill="var(--couleur-pixel-bonnet)"
+                />
+                <rect
+                  x="22"
+                  y="22"
+                  width="20"
+                  height="4"
+                  fill="var(--couleur-pixel-bonnet)"
+                />
+
+                <!-- yeux -->
+                <rect
+                  x="26"
+                  y="34"
+                  width="3"
+                  height="3"
+                  fill="var(--couleur-pixel-yeux)"
+                />
+                <rect
+                  x="35"
+                  y="34"
+                  width="3"
+                  height="3"
+                  fill="var(--couleur-pixel-yeux)"
+                />
+
+                <!-- bouche : ligne fine -->
+                <rect
+                  x="28"
+                  y="41"
+                  width="8"
+                  height="1"
+                  fill="var(--couleur-pixel-bouche)"
+                />
+
+                <!-- bras droit au repos -->
+                <rect
+                  x="44"
+                  y="54"
+                  width="6"
+                  height="18"
+                  fill="var(--couleur-pixel-corps)"
+                />
+                <rect
+                  x="44"
+                  y="70"
+                  width="8"
+                  height="6"
+                  fill="var(--couleur-pixel-peau)"
+                />
+
+                <!-- bras gauche — coucou animé -->
+                <g transform="translate(22 56)">
+                  <g class="bras-coucou">
+                    <rect
+                      x="-3"
+                      y="-16"
+                      width="6"
+                      height="16"
+                      fill="var(--couleur-pixel-corps)"
+                    />
+                    <rect
+                      x="-5"
+                      y="-24"
+                      width="10"
+                      height="8"
+                      fill="var(--couleur-pixel-peau)"
+                    />
+                  </g>
+                </g>
+              </g>
+
+              <g class="bulle-coucou">
+                <rect
+                  x="36"
+                  y="4"
+                  width="54"
+                  height="18"
+                  rx="2"
+                  fill="var(--couleur-fond-carte)"
+                  stroke="var(--couleur-accent)"
+                  stroke-width="1"
+                />
+                <polygon
+                  points="36,12 36,18 30,15"
+                  fill="var(--couleur-fond-carte)"
+                />
+                <polygon
+                  points="36,11 36,19 30,15"
+                  fill="var(--couleur-accent)"
+                  opacity="0.6"
+                />
+                <text
+                  x="63"
+                  y="16"
+                  text-anchor="middle"
+                  font-family="'Press Start 2P',monospace"
+                  font-size="5"
+                  fill="var(--couleur-accent-vif)"
+                >
+                  COUCOU !
+                </text>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </section>
+      </main>
+
+      <div id="partial-footer"></div>
+    </div>
+    <!-- fin .ecran -->
+
+    <div id="partial-popup-hs"></div>
+
+    <script type="module" src="js/main.js"></script>
+  </body>
+</html>
