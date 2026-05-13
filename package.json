@@ -1,0 +1,26 @@
+{
+  "name": "portfolio-arcade",
+  "version": "1.0.0",
+  "description": "Portfolio arcade personnel — build + optimize + deploy",
+  "private": true,
+  "scripts": {
+    "build": "node build.js",
+    "watch": "node build.js --watch",
+    "serve": "python3 -m http.server 8000"
+  },
+  "keywords": [
+    "portfolio",
+    "arcade",
+    "developer"
+  ],
+  "author": "Joris",
+  "license": "MIT",
+  "dependencies": {
+    "clean-css": "^5.3.2",
+    "uglify-js": "^3.17.4",
+    "imagemin": "^8.0.1",
+    "imagemin-mozjpeg": "^10.0.0",
+    "imagemin-pngquant": "^9.0.2",
+    "imagemin-webp": "^7.0.0"
+  }
+}

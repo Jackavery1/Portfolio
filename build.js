@@ -1,0 +1,353 @@
+/* ============================================
+   Build script — minify CSS/JS, optimize images, copy assets
+   Racine du dépôt = source (pas de dossier src/).
+   ============================================ */
+
+const fs = require('fs');
+const path = require('path');
+
+['clean-css', 'uglify-js'].forEach((dep) => {
+  try {
+    require.resolve(dep);
+  } catch {
+    console.error(`\n❌ Dépendance manquante: "${dep}"\n   → Exécutez: npm install\n`);
+    console.error(
+      '   Si npm échoue avec UNABLE_TO_VERIFY_LEAF_SIGNATURE : proxy / certificat entreprise — voir README (section Dépannage npm).\n'
+    );
+    process.exit(1);
+  }
+});
+
+const CleanCSS = require('clean-css');
+const UglifyJS = require('uglify-js');
+
+const ROOT = __dirname;
+const DIST_DIR = path.join(ROOT, 'dist');
+const WATCH_MODE = process.argv.includes('--watch');
+
+const HTML_FILES = [
+  'index.html',
+  'projets.html',
+  'competences.html',
+  'parcours.html',
+  'contact.html',
+  'dojo.html',
+];
+
+/* ============================================
+   Utilities
+   ============================================ */
+
+function ensureDir(dirPath) {
+  if (!fs.existsSync(dirPath)) {
+    fs.mkdirSync(dirPath, { recursive: true });
+  }
+}
+
+function copyFile(src, dst) {
+  if (!fs.existsSync(src)) return false;
+  ensureDir(path.dirname(dst));
+  fs.copyFileSync(src, dst);
+  return true;
+}
+
+function copyDirRecursive(src, dst) {
+  if (!fs.existsSync(src)) return;
+  ensureDir(dst);
+  const files = fs.readdirSync(src);
+  files.forEach((file) => {
+    const srcPath = path.join(src, file);
+    const dstPath = path.join(dst, file);
+    if (fs.statSync(srcPath).isDirectory()) {
+      copyDirRecursive(srcPath, dstPath);
+    } else {
+      copyFile(srcPath, dstPath);
+    }
+  });
+}
+
+function walkJsFiles(dir, acc = []) {
+  if (!fs.existsSync(dir)) return acc;
+  for (const name of fs.readdirSync(dir)) {
+    const p = path.join(dir, name);
+    if (fs.statSync(p).isDirectory()) walkJsFiles(p, acc);
+    else if (p.endsWith('.js')) acc.push(p);
+  }
+  return acc;
+}
+
+function log(msg, type = 'info') {
+  const prefix = {
+    info: '📋',
+    success: '✅',
+    error: '❌',
+    warning: '⚠️',
+  }[type] || '→';
+  console.log(`${prefix} ${msg}`);
+}
+
+/* ============================================
+   Build functions
+   ============================================ */
+
+function createDist() {
+  if (fs.existsSync(DIST_DIR)) {
+    fs.rmSync(DIST_DIR, { recursive: true, force: true });
+  }
+  ensureDir(DIST_DIR);
+  log('Dossier dist/ créé');
+}
+
+function copyHTML() {
+  let n = 0;
+  HTML_FILES.forEach((file) => {
+    const src = path.join(ROOT, file);
+    if (copyFile(src, path.join(DIST_DIR, file))) n += 1;
+  });
+  log(`${n} fichier(s) HTML copié(s)`, 'success');
+}
+
+function minifyCSS() {
+  const srcFile = path.join(ROOT, 'style.css');
+  const dstFile = path.join(DIST_DIR, 'style.css');
+
+  if (!fs.existsSync(srcFile)) {
+    log(`CSS source non trouvé: ${srcFile}`, 'warning');
+    return;
+  }
+
+  const input = fs.readFileSync(srcFile, 'utf8');
+  const result = new CleanCSS({
+    level: 2,
+    relativeTo: ROOT,
+    rebaseTo: ROOT,
+    inline: ['local'],
+  }).minify({ 'style.css': { styles: input } });
+
+  if (result.errors && result.errors.length > 0) {
+    log(`Erreurs CleanCSS: ${result.errors.join(', ')}`, 'error');
+    return;
+  }
+
+  ensureDir(path.dirname(dstFile));
+  fs.writeFileSync(dstFile, result.styles);
+  const originalSize = input.length;
+  const minifiedSize = result.styles.length;
+  const savings = ((1 - minifiedSize / originalSize) * 100).toFixed(1);
+  log(`CSS minifié (@import inlinés): ${originalSize} → ${minifiedSize} octets (-${savings}%)`, 'success');
+}
+
+function minifyAllJs() {
+  const jsRoot = path.join(ROOT, 'js');
+  const dstRoot = path.join(DIST_DIR, 'js');
+  if (!fs.existsSync(jsRoot)) {
+    log('Dossier js/ non trouvé', 'warning');
+    return;
+  }
+
+  const files = walkJsFiles(jsRoot);
+  let totalIn = 0;
+  let totalOut = 0;
+
+  files.forEach((absSrc) => {
+    const rel = path.relative(jsRoot, absSrc);
+    const input = fs.readFileSync(absSrc, 'utf8');
+    const result = UglifyJS.minify(input, {
+      ecma: 2020,
+      parse: { ecma: 2020 },
+      compress: { ecma: 2020, module: true, passes: 2 },
+      mangle: { module: true },
+      format: { ecma: 2020, comments: false },
+      module: true,
+    });
+
+    if (result.error) {
+      log(`UglifyJS ${rel}: ${result.error.message}`, 'error');
+      return;
+    }
+
+    const dst = path.join(dstRoot, rel);
+    ensureDir(path.dirname(dst));
+    fs.writeFileSync(dst, result.code);
+    totalIn += input.length;
+    totalOut += result.code.length;
+  });
+
+  if (files.length === 0) {
+    log('Aucun .js sous js/', 'warning');
+    return;
+  }
+  const savings = ((1 - totalOut / totalIn) * 100).toFixed(1);
+  log(`${files.length} module(s) JS minifié(s): ${totalIn} → ${totalOut} octets (-${savings}%)`, 'success');
+}
+
+async function loadImageminPlugins() {
+  const imagemin = (await import('imagemin')).default;
+  const imageminMozjpeg = (await import('imagemin-mozjpeg')).default;
+  const imageminPngquant = (await import('imagemin-pngquant')).default;
+  const imageminWebp = (await import('imagemin-webp')).default;
+  return { imagemin, imageminMozjpeg, imageminPngquant, imageminWebp };
+}
+
+async function optimizeImages() {
+  const assetsDir = path.join(ROOT, 'assets');
+  const dstDir = path.join(DIST_DIR, 'assets');
+
+  if (!fs.existsSync(assetsDir)) {
+    log('Pas de dossier assets/ — ignoré', 'warning');
+    return;
+  }
+
+  const raster = fs
+    .readdirSync(assetsDir)
+    .filter((f) => /\.(png|jpe?g)$/i.test(f));
+
+  if (raster.length === 0) {
+    log('Aucune image PNG/JPEG dans assets/', 'warning');
+    return;
+  }
+
+  try {
+    const { imagemin, imageminMozjpeg, imageminPngquant, imageminWebp } =
+      await loadImageminPlugins();
+    ensureDir(dstDir);
+    log(`Optimisation de ${raster.length} image(s)...`, 'info');
+
+    for (const name of raster) {
+      const srcPath = path.join(assetsDir, name);
+      const buf = fs.readFileSync(srcPath);
+      const ext = path.extname(name).toLowerCase();
+      let optimized = buf;
+
+      if (ext === '.jpg' || ext === '.jpeg') {
+        [optimized] = await imagemin.buffer(buf, {
+          plugins: [imageminMozjpeg({ quality: 80 })],
+        });
+      } else if (ext === '.png') {
+        [optimized] = await imagemin.buffer(buf, {
+          plugins: [imageminPngquant({ quality: [0.6, 0.8] })],
+        });
+      }
+
+      fs.writeFileSync(path.join(dstDir, name), optimized);
+
+      const webpBuf = await imagemin.buffer(optimized, {
+        plugins: [imageminWebp({ quality: 75 })],
+      });
+      const webpName = name.replace(/\.(png|jpe?g)$/i, '.webp');
+      fs.writeFileSync(path.join(dstDir, webpName), webpBuf);
+    }
+
+    log(`Images → ${dstDir}`, 'success');
+  } catch (err) {
+    log(`Erreur optimisation images: ${err.message}`, 'error');
+  }
+}
+
+function copyAssets() {
+  const assetsToCopy = [
+    { src: path.join(ROOT, 'partials'), dst: path.join(DIST_DIR, 'partials') },
+    { src: path.join(ROOT, 'assets', 'previews_data.js'), dst: path.join(DIST_DIR, 'assets', 'previews_data.js') },
+    { src: path.join(ROOT, 'assets', 'favicon.ico'), dst: path.join(DIST_DIR, 'assets', 'favicon.ico') },
+  ];
+
+  assetsToCopy.forEach(({ src, dst }) => {
+    if (!fs.existsSync(src)) {
+      log(`Optionnel absent: ${path.relative(ROOT, src)}`, 'warning');
+      return;
+    }
+    if (fs.statSync(src).isDirectory()) {
+      copyDirRecursive(src, dst);
+    } else {
+      copyFile(src, dst);
+    }
+  });
+
+  const previews = path.join(DIST_DIR, 'assets', 'previews_data.js');
+  if (fs.existsSync(previews)) {
+    const code = fs.readFileSync(previews, 'utf8');
+    const out = UglifyJS.minify(code, {
+      ecma: 2020,
+      compress: { passes: 1 },
+      mangle: false,
+      format: { comments: false },
+    });
+    if (!out.error) {
+      fs.writeFileSync(previews, out.code);
+    }
+  }
+
+  log('Partials + assets JS copiés / minifiés', 'success');
+}
+
+function watchSrc() {
+  log('Mode watch — rebuild sur changement (hors node_modules)', 'info');
+
+  const debounce = (fn, ms) => {
+    let id;
+    return () => {
+      clearTimeout(id);
+      id = setTimeout(fn, ms);
+    };
+  };
+  const run = debounce(() => {
+    runBuild().catch((e) => {
+      log(e.message, 'error');
+      process.exitCode = 1;
+    });
+  }, 250);
+
+  const watchRoots = ['style.css', 'js', 'styles', 'assets', 'partials'];
+  watchRoots.forEach((rel) => {
+    const p = path.join(ROOT, rel);
+    if (fs.existsSync(p)) {
+      fs.watch(p, { recursive: true }, run);
+    }
+  });
+  HTML_FILES.forEach((f) => {
+    const p = path.join(ROOT, f);
+    if (fs.existsSync(p)) fs.watch(p, run);
+  });
+
+  log('Ctrl+C pour arrêter', 'info');
+  process.on('SIGINT', () => {
+    log('Watch arrêté', 'warning');
+    process.exit(0);
+  });
+}
+
+async function runBuild() {
+  console.log(`\n${'='.repeat(50)}`);
+  log('▶️  Démarrage du build...', 'info');
+  console.log(`${'='.repeat(50)}\n`);
+
+  try {
+    createDist();
+    copyHTML();
+    minifyCSS();
+    minifyAllJs();
+    await optimizeImages();
+    copyAssets();
+
+    console.log(`\n${'='.repeat(50)}`);
+    log('Build terminé — dist/ prêt à déployer', 'success');
+    console.log(`${'='.repeat(50)}\n`);
+  } catch (err) {
+    log(`Erreur build: ${err.message}`, 'error');
+    process.exit(1);
+  }
+}
+
+async function main() {
+  if (WATCH_MODE) {
+    await runBuild();
+    watchSrc();
+  } else {
+    await runBuild();
+  }
+}
+
+main().catch((err) => {
+  log(`Erreur fatale: ${err.message}`, 'error');
+  process.exit(1);
+});

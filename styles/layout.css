@@ -48,7 +48,16 @@
   box-shadow: 0 0 40px rgba(74, 111, 255, 0.15), 0 0 80px rgba(74, 111, 255, 0.05);
 }
 
-/* Zone de contenu sous la nav : occupe l’espace entre nav et pied */
+/* Landmark unique : flex entre nav et pied (même comportement qu’avant pour .section) */
+.ecran > main {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Zone de contenu principal (dans <main>) */
 .section {
   flex: 1 1 auto;
   width: 100%;

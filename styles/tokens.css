@@ -20,7 +20,8 @@
   /* Texte */
   --couleur-texte-fort: #d0ddff;
   --couleur-texte-normal: #8899cc;
-  --couleur-texte-discret: #3a4a80;
+  /* Lisible sur fond #03040f (≈ AA texte normal) tout en restant secondaire vs --couleur-texte-normal */
+  --couleur-texte-discret: #6b7fc9;
   --couleur-texte-fantome: #1e2850;
 
   /* États succès / actif (jaune arcade) */

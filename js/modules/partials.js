@@ -12,10 +12,13 @@ export async function chargerPartials() {
       if (!conteneur) return;
       try {
         const reponse = await fetch(fichier);
+        if (!reponse.ok) {
+          throw new Error(`HTTP ${reponse.status} — ${fichier}`);
+        }
         const html = await reponse.text();
         conteneur.outerHTML = html;
-      } catch (e) {
-        console.warn(`Partial non chargé : ${fichier}`, e);
+      } catch (_) {
+        /* Échec réseau ou statut hors 2xx : ne pas injecter le corps d’erreur dans le DOM */
       }
     })
   );
