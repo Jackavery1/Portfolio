@@ -13,7 +13,7 @@ Site statique (HTML / CSS / JS) thème arcade CRT, découpé en **plusieurs page
 | `parcours.html` | Parcours (STORY) |
 | `contact.html` | Contact + formulaire |
 
-Les styles et scripts sont communs : `style.css`, `script.js`. La page projets charge en plus `assets/previews_data.js` pour les images de la modale.
+Les styles et scripts sont communs : `style.css`, point d’entrée `js/main.js` (modules ES6). La page projets charge en plus `assets/previews_data.js` pour les images de la modale.
 
 Pour un changement global (menu, bandeau CRT, pied de page), reprendre le même bloc dans chaque fichier `.html` concerné.
 
@@ -40,11 +40,11 @@ Ou l’extension Live Server de VS Code sur le dossier du projet.
 
 - Les balises `meta` (description, Open Graph, Twitter) sont dupliquées dans le `<head>` de chaque page ; tu peux affiner le titre et la description par page si besoin.
 - Image de partage : `assets/og.png` (1200×630 recommandé pour les aperçus).
-- Au chargement, `script.js` met à jour l’URL absolue de `og:image`, ajoute `og:url` et le lien **canonical** selon l’URL actuelle. Pour une URL absolue figée en production, tu peux remplacer dans chaque HTML la valeur de `content` de `og:image` par `https://votredomaine.fr/assets/og.png`.
+- Au chargement, `js/main.js` (module `meta.js`) met à jour l’URL absolue de `og:image`, ajoute `og:url` et le lien **canonical** selon l’URL actuelle. Pour une URL absolue figée en production, tu peux remplacer dans chaque HTML la valeur de `content` de `og:image` par `https://votredomaine.fr/assets/og.png`.
 
 ## Aperçus des projets (modal sur `projets.html`)
 
-Éditer `assets/previews_data.js` : l’objet `IMG` associe des clés (`v5_home`, `work`, etc.) à des chaînes data-URL ou chemins d’images, comme attendu par `script.js` et `PROJETS_DATA`.
+Éditer `assets/previews_data.js` : l’objet `IMG` associe des clés (`v5_home`, `work`, etc.) à des chaînes data-URL ou chemins d’images, comme attendu par `js/config.js` (`CONFIG.PROJETS`) et la modale dans `js/modules/modal.js`.
 
 ## Fichiers principaux
 
@@ -52,6 +52,6 @@ Ou l’extension Live Server de VS Code sur le dossier du projet.
 |--------|------|
 | `*.html` | Pages (structure + contenu) |
 | `style.css` | Thème, responsive, modale |
-| `script.js` | Burger, score, flèches entre pages, modale, formulaire, Konami |
+| `js/main.js` + `js/modules/*` | Burger, score, flèches entre pages, modale, formulaire, Konami |
 | `assets/previews_data.js` | Images d’aperçu des projets |
 | `assets/og.png` | Image Open Graph |
