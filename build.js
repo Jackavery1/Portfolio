@@ -1,6 +1,12 @@
 /* ============================================
    Build script — minify CSS/JS, optimize images, copy assets
    Racine du dépôt = source (pas de dossier src/).
+
+   Images : tout PNG/JPEG placé dans assets/ est recopié optimisé dans
+   dist/assets/ et une variante .webp est générée à côté. Le HTML copié
+   n’est pas réécrit : les balises meta og:image et les <img> qui
+   pointent vers .png/.jpg restent valides ; les .webp servent pour une
+   évolution future (<picture>) ou liens explicites.
    ============================================ */
 
 const fs = require('fs');
@@ -148,6 +154,7 @@ function minifyAllJs() {
   const files = walkJsFiles(jsRoot);
   let totalIn = 0;
   let totalOut = 0;
+  const uglifyErrors = [];
 
   files.forEach((absSrc) => {
     const rel = path.relative(jsRoot, absSrc);
@@ -162,7 +169,7 @@ function minifyAllJs() {
     });
 
     if (result.error) {
-      log(`UglifyJS ${rel}: ${result.error.message}`, 'error');
+      uglifyErrors.push(`${rel}: ${result.error.message}`);
       return;
     }
 
@@ -172,6 +179,11 @@ function minifyAllJs() {
     totalIn += input.length;
     totalOut += result.code.length;
   });
+
+  if (uglifyErrors.length) {
+    uglifyErrors.forEach((m) => log(m, 'error'));
+    throw new Error('UglifyJS a échoué sur un ou plusieurs fichiers');
+  }
 
   if (files.length === 0) {
     log('Aucun .js sous js/', 'warning');

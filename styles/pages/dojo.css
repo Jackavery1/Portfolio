@@ -80,7 +80,7 @@
 
 .bouton-retour-work:hover {
   background-color: var(--couleur-accent-alpha);
-  box-shadow: 0 0 14px rgba(74, 111, 255, 0.25);
+  box-shadow: 0 0 14px rgba(var(--couleur-accent-rgb), 0.25);
 }
 
 @media (min-width: 560px) {

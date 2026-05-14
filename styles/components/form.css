@@ -46,7 +46,7 @@
 .champ-input:focus {
   outline: none;
   border-color: var(--couleur-accent);
-  box-shadow: 0 0 10px rgba(74, 111, 255, 0.2);
+  box-shadow: 0 0 10px rgba(var(--couleur-accent-rgb), 0.2);
 }
 
 .champ-input::placeholder {
@@ -77,7 +77,7 @@
 
 .bouton-envoyer:hover {
   background-color: var(--couleur-accent-alpha);
-  box-shadow: 0 0 16px rgba(74, 111, 255, 0.25);
+  box-shadow: 0 0 16px rgba(var(--couleur-accent-rgb), 0.25);
 }
 
 .envoi-confirmation {

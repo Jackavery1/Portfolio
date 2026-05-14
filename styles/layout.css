@@ -45,7 +45,7 @@
   min-height: calc(100vh - 24px);
   display: flex;
   flex-direction: column;
-  box-shadow: 0 0 40px rgba(74, 111, 255, 0.15), 0 0 80px rgba(74, 111, 255, 0.05);
+  box-shadow: 0 0 40px rgba(var(--couleur-accent-rgb), 0.15), 0 0 80px rgba(var(--couleur-accent-rgb), 0.05);
 }
 
 /* Landmark unique : flex entre nav et pied (même comportement qu’avant pour .section) */

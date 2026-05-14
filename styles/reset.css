@@ -17,7 +17,7 @@ html {
 }
 
 body {
-  background-color: #000008;
+  background-color: var(--couleur-fond-page);
   color: var(--couleur-texte-normal);
   font-family: var(--police-crt);
   min-height: 100vh;

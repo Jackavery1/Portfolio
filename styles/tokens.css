@@ -4,6 +4,7 @@
 
 :root {
   /* Fonds et surfaces */
+  --couleur-fond-page: #000008;
   --couleur-fond: #03040f;
   --couleur-fond-carte: #060818;
   --couleur-fond-survol: #0a0e25;
@@ -13,9 +14,10 @@
 
   /* Accent bleu */
   --couleur-accent: #4a6fff;
+  --couleur-accent-rgb: 74, 111, 255;
   --couleur-accent-vif: #88aaff;
   --couleur-accent-dim: #1e3080;
-  --couleur-accent-alpha: rgba(74, 111, 255, 0.12);
+  --couleur-accent-alpha: rgba(var(--couleur-accent-rgb), 0.12);
 
   /* Texte */
   --couleur-texte-fort: #d0ddff;
@@ -29,6 +31,9 @@
   --couleur-valide-dim: #1a4a33;
   --couleur-actif: #ffcc44;
   --couleur-actif-dim: #4a3a00;
+
+  /* Erreurs (validation champs, etc.) */
+  --couleur-erreur: #ff4444;
 
   /* Effet CRT */
   --couleur-scanline: rgba(0, 0, 20, 0.28);

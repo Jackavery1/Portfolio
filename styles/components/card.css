@@ -80,7 +80,7 @@
 .carte-projet:hover,
 .carte-projet:focus {
   border-color: var(--couleur-accent);
-  box-shadow: 0 0 20px rgba(74, 111, 255, 0.22);
+  box-shadow: 0 0 20px rgba(var(--couleur-accent-rgb), 0.22);
   transform: translateY(-2px);
   outline: none;
 }

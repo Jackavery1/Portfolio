@@ -134,7 +134,7 @@
   width: 100%;
   max-width: 200px;
   height: auto;
-  filter: drop-shadow(0 0 8px rgba(74, 111, 255, 0.2));
+  filter: drop-shadow(0 0 8px rgba(var(--couleur-accent-rgb), 0.2));
 }
 
 @media (min-width: 700px) {

@@ -74,7 +74,7 @@
 }
 
 .profil-recap__bonhomme {
-  filter: drop-shadow(0 0 8px rgba(74, 111, 255, 0.3));
+  filter: drop-shadow(0 0 8px rgba(var(--couleur-accent-rgb), 0.3));
 }
 
 .profil-recap__infos {

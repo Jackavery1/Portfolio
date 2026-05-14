@@ -30,7 +30,7 @@
   display: block;
   font-size: clamp(1.1rem, 4.5vw, 2rem);
   color: var(--couleur-texte-fort);
-  text-shadow: 0 0 20px rgba(74, 111, 255, 0.5);
+  text-shadow: 0 0 20px rgba(var(--couleur-accent-rgb), 0.5);
 }
 
 .titre-arcade__nom {
@@ -39,7 +39,7 @@
   color: var(--couleur-accent-vif);
   text-shadow:
     0 0 20px var(--couleur-accent),
-    0 0 40px rgba(74, 111, 255, 0.3);
+    0 0 40px rgba(var(--couleur-accent-rgb), 0.3);
 }
 
 .sous-titre-arcade {
@@ -116,7 +116,7 @@
 
 .bouton-arcade:hover {
   background-color: var(--couleur-accent-alpha);
-  box-shadow: 0 0 20px rgba(74, 111, 255, 0.3);
+  box-shadow: 0 0 20px rgba(var(--couleur-accent-rgb), 0.3);
   color: #fff;
 }
 
@@ -132,7 +132,7 @@
   width: clamp(180px, 26vw, 280px);
   height: auto;
   overflow: visible;
-  filter: drop-shadow(0 0 12px rgba(74, 111, 255, 0.35));
+  filter: drop-shadow(0 0 12px rgba(var(--couleur-accent-rgb), 0.35));
   animation: levitation 3s ease-in-out infinite;
 }
 
