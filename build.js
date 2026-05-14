@@ -38,6 +38,7 @@ const HTML_FILES = [
   'parcours.html',
   'contact.html',
   'dojo.html',
+  'mentions-legales.html',
 ];
 
 /* ============================================

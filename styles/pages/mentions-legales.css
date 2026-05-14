@@ -1,0 +1,71 @@
+/* ============================================
+   Page : mentions légales & confidentialité
+   ============================================ */
+
+.mentions-intro {
+  font-family: var(--police-lisible);
+  font-size: clamp(0.95rem, 2.1vw, 1.1rem);
+  color: var(--couleur-texte-normal);
+  line-height: 1.65;
+  margin-bottom: 1.5rem;
+  max-width: 65ch;
+}
+
+.mentions-bloc {
+  margin-bottom: 1.35rem;
+  max-width: 65ch;
+}
+
+.mentions-bloc h3 {
+  font-family: var(--police-pixel);
+  font-size: clamp(0.36rem, 1.35vw, 0.52rem);
+  color: var(--couleur-accent-vif);
+  letter-spacing: 1px;
+  margin-bottom: 0.45rem;
+  text-shadow: 0 0 8px rgba(var(--couleur-accent-rgb), 0.25);
+}
+
+.mentions-bloc p,
+.mentions-bloc li {
+  font-family: var(--police-lisible);
+  font-size: clamp(0.92rem, 2vw, 1.05rem);
+  color: var(--couleur-texte-normal);
+  line-height: 1.6;
+}
+
+.mentions-bloc ul {
+  margin-top: 0.35rem;
+  padding-left: 1.1rem;
+  list-style: disc;
+}
+
+.mentions-bloc a {
+  color: var(--couleur-accent-vif);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.mentions-bloc a:hover {
+  color: var(--couleur-texte-fort);
+}
+
+.mentions-retour {
+  display: inline-block;
+  margin-top: 0.75rem;
+  font-family: var(--police-pixel);
+  font-size: clamp(0.34rem, 1.2vw, 0.48rem);
+  color: var(--couleur-accent-vif);
+  letter-spacing: 1px;
+  text-decoration: none;
+  border: 1px solid var(--couleur-bordure);
+  padding: 0.4rem 0.65rem;
+  transition:
+    color 0.2s,
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+
+.mentions-retour:hover {
+  border-color: var(--couleur-accent);
+  box-shadow: 0 0 12px rgba(var(--couleur-accent-rgb), 0.2);
+}

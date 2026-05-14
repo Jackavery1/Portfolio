@@ -12,6 +12,10 @@
   padding: 3rem 0;
 }
 
+.accueil__texte {
+  min-width: 0;
+}
+
 .etiquette-crt {
   font-family: var(--police-pixel);
   font-size: clamp(0.36rem, 1.2vw, 0.48rem);
@@ -84,6 +88,9 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 0.75rem;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
 }
 
 .lien-github {
@@ -100,6 +107,102 @@
 .lien-github:hover {
   color: var(--couleur-accent-vif);
   border-color: var(--couleur-accent);
+}
+
+.accueil__wip {
+  --wip-rouge: var(--couleur-erreur);
+  --wip-rouge-sombre: #b83232;
+  --wip-rouge-rgb: 255, 68, 68;
+
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  column-gap: 0.5rem;
+  row-gap: 0.2rem;
+  margin: 0;
+  margin-top: 0.25rem;
+  padding: 0.55rem 0.65rem 0.6rem 0.85rem;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  font-family: var(--police-crt);
+  font-size: clamp(0.85rem, 1.85vw, 1.02rem);
+  color: var(--wip-rouge);
+  letter-spacing: 0.35px;
+  line-height: 1.45;
+  border: 1px solid var(--wip-rouge-sombre);
+  border-left: 4px solid var(--wip-rouge);
+  background:
+    linear-gradient(90deg, var(--wip-rouge), transparent 78%) top / 100% 2px
+      no-repeat,
+    linear-gradient(
+      118deg,
+      rgba(var(--wip-rouge-rgb), 0.14) 0%,
+      var(--couleur-fond-carte) 38%,
+      rgba(74, 111, 255, 0.06) 100%
+    );
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 0 0 1px rgba(0, 0, 0, 0.35),
+    0 0 10px rgba(var(--wip-rouge-rgb), 0.12);
+  text-shadow: 0 0 8px rgba(var(--wip-rouge-rgb), 0.35);
+  animation: accueil-wip-glow 3.2s ease-in-out infinite;
+}
+
+.accueil__wip-line {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.45rem;
+  min-width: 0;
+}
+
+.accueil__wip-picto {
+  flex: 0 0 auto;
+  color: var(--wip-rouge);
+  line-height: 0;
+  filter: drop-shadow(0 0 4px rgba(var(--wip-rouge-rgb), 0.45));
+}
+
+.accueil__wip-icone {
+  display: block;
+  width: clamp(26px, 5vw, 32px);
+  height: auto;
+}
+
+.accueil__wip-texte {
+  min-width: 0;
+  overflow-wrap: break-word;
+}
+
+.accueil__wip-badge {
+  grid-column: 2;
+  grid-row: 1;
+  font-family: var(--police-pixel);
+  font-size: clamp(0.26rem, 0.95vw, 0.36rem);
+  letter-spacing: 2px;
+  color: #ff9a9a;
+  padding: 0.08rem 0.3rem;
+  background: var(--couleur-fond);
+  border: 1px solid var(--wip-rouge-sombre);
+  line-height: 1.2;
+  text-shadow: 0 0 6px rgba(var(--wip-rouge-rgb), 0.5);
+  white-space: nowrap;
+}
+
+@keyframes accueil-wip-glow {
+  0%,
+  100% {
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.05),
+      0 0 0 1px rgba(0, 0, 0, 0.35),
+      0 0 8px rgba(var(--wip-rouge-rgb), 0.08);
+  }
+  50% {
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.06),
+      0 0 0 1px rgba(0, 0, 0, 0.35),
+      0 0 14px rgba(var(--wip-rouge-rgb), 0.22);
+  }
 }
 
 .bouton-arcade {
@@ -126,6 +229,7 @@
   justify-content: center;
   overflow: visible;
   padding-right: 1.5rem;
+  min-width: 0;
 }
 
 .svg-bonhomme {
@@ -191,5 +295,15 @@
 
   .accueil__illustration {
     order: -1;
+  }
+
+  .accueil__wip-badge {
+    font-size: clamp(0.24rem, 2.8vw, 0.34rem);
+  }
+}
+
+@media (max-height: 780px) {
+  .accueil__grille {
+    padding: 1.5rem 0;
   }
 }
