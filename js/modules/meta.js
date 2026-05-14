@@ -35,7 +35,7 @@ export function initBonusScore() {
   }
 
   document.querySelectorAll('.carte-projet').forEach((carte) => {
-    carte.addEventListener('click', () => ajouterScore(300));
+    carte.addEventListener('click', () => ajouterScore(1100));
   });
 
   document.querySelectorAll('.carte-dojo').forEach((carte) => {
@@ -51,7 +51,7 @@ export function initBonusScore() {
     let dejaSurvole = false;
     carte.addEventListener('mouseenter', () => {
       if (!dejaSurvole) {
-        ajouterScore(100);
+        ajouterScore(220);
         dejaSurvole = true;
       }
     });

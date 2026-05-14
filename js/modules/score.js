@@ -62,12 +62,42 @@ export function afficherPopupHighScore() {
   setTimeout(() => jouerBip(1047, 300, 'square'), 480);
 }
 
+function fermerPopupHighScoreEtReset() {
+  const pu = byId(CONFIG.SELECTORS.POPUP_HS);
+  if (!pu || pu.hidden) return;
+  pu.hidden = true;
+  try {
+    sessionStorage.removeItem(CONFIG.STORAGE.HS_POPUP_VU);
+  } catch (_) {}
+  sauvegarderScore(0);
+  afficherScore(0);
+}
+
 export function initPopupHighScoreFermer() {
+  const popup = byId(CONFIG.SELECTORS.POPUP_HS);
   const btnFermerHS = byId(CONFIG.SELECTORS.POPUP_HS_FERMER);
-  if (!btnFermerHS || btnFermerHS.dataset.ecouteurHs) return;
-  btnFermerHS.dataset.ecouteurHs = '1';
-  btnFermerHS.addEventListener('click', () => {
-    const pu = byId(CONFIG.SELECTORS.POPUP_HS);
-    if (pu) pu.hidden = true;
-  });
+  if (popup && !popup.dataset.hsEcouteurs) {
+    popup.dataset.hsEcouteurs = '1';
+    popup.addEventListener('click', (evt) => {
+      if (evt.target === popup) fermerPopupHighScoreEtReset();
+    });
+  }
+  if (!document.documentElement.dataset.hsPopupEscape) {
+    document.documentElement.dataset.hsPopupEscape = '1';
+    document.addEventListener(
+      'keydown',
+      (evt) => {
+        if (evt.key !== 'Escape') return;
+        const pu = byId(CONFIG.SELECTORS.POPUP_HS);
+        if (!pu || pu.hidden) return;
+        evt.preventDefault();
+        fermerPopupHighScoreEtReset();
+      },
+      true
+    );
+  }
+  if (btnFermerHS && !btnFermerHS.dataset.ecouteurHs) {
+    btnFermerHS.dataset.ecouteurHs = '1';
+    btnFermerHS.addEventListener('click', fermerPopupHighScoreEtReset);
+  }
 }

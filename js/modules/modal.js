@@ -43,7 +43,7 @@ export function ouvrirModal(projetKey) {
 
   modalOverlay.hidden = false;
   jouerBip(440, 60, 'sine');
-  ajouterScore(50);
+  ajouterScore(350);
   btnFermer.focus();
 }
 
