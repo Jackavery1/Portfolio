@@ -47,3 +47,8 @@ button {
   outline: 2px solid var(--couleur-accent-vif);
   outline-offset: 3px;
 }
+
+/* Masquage natif : [hidden] force display:none même si une règle CSS l'écrase */
+[hidden] {
+  display: none !important;
+}

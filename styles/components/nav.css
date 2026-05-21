@@ -56,6 +56,12 @@
   margin-left: auto;
 }
 
+@media (min-width: 601px) {
+  .nav__liens {
+    flex-wrap: nowrap;
+  }
+}
+
 .nav__bouton {
   font-family: var(--police-pixel);
   font-size: clamp(0.4rem, 1.5vw, 0.55rem);

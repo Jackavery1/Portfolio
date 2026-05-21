@@ -14,7 +14,7 @@
     "developer"
   ],
   "author": "Joris",
-  "license": "MIT",
+  "license": "UNLICENSED",
   "dependencies": {
     "clean-css": "^5.3.2",
     "uglify-js": "^3.17.4",
