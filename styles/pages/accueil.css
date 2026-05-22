@@ -9,7 +9,7 @@
   align-items: center;
   flex: 1;
   min-height: 0;
-  padding: 3 rem 0 3rem;
+  padding: 1.5rem 0;
 }
 
 .accueil__texte {
@@ -343,6 +343,36 @@
 
   .accueil__wip-badge {
     font-size: clamp(0.24rem, 2.8vw, 0.34rem);
+  }
+
+  .titre-arcade__prenom,
+  .titre-arcade__nom {
+    font-size: clamp(1.6rem, 7vw, 2.4rem);
+  }
+
+  .sous-titre-arcade {
+    font-size: clamp(1.4rem, 5vw, 1.8rem);
+  }
+
+  .etiquette-crt {
+    font-size: clamp(0.45rem, 2vw, 0.6rem);
+  }
+
+  .texte-intro {
+    font-size: clamp(1.1rem, 4vw, 1.4rem);
+  }
+
+  .badge {
+    font-size: clamp(1rem, 3.5vw, 1.3rem);
+  }
+
+  .bouton-arcade {
+    font-size: clamp(0.45rem, 2vw, 0.6rem);
+    padding: 0.9rem 1.2rem;
+  }
+
+  .lien-github {
+    font-size: clamp(0.42rem, 2vw, 0.55rem);
   }
 }
 

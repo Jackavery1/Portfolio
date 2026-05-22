@@ -7,11 +7,11 @@
   align-items: center;
   gap: 1rem;
   width: 100%;
-  padding: 0.35rem 1.25rem;
+  padding: 0.6rem 1.5rem;
   border-bottom: 1px solid var(--couleur-bordure);
   background-color: var(--couleur-fond);
   position: sticky;
-  top: 24px;
+  top: 32px;
   z-index: 100;
   box-shadow: 0 2px 20px rgba(var(--couleur-accent-rgb), 0.1);
 }
@@ -161,5 +161,22 @@
     border-left-color: var(--couleur-accent-vif);
     border-bottom: none;
     background-color: var(--couleur-accent-alpha);
+  }
+
+  .nav__logo {
+    font-size: clamp(0.55rem, 3vw, 0.75rem);
+  }
+
+  .nav__bouton {
+    font-size: clamp(0.5rem, 2.5vw, 0.65rem);
+    padding: 0.8rem 1.5rem;
+  }
+
+  .arcade-valeur {
+    font-size: clamp(0.7rem, 3.5vw, 0.9rem);
+  }
+
+  .arcade-label {
+    font-size: clamp(0.4rem, 2vw, 0.5rem);
   }
 }

@@ -8,7 +8,7 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 24px;
+  height: 32px;
   background-color: var(--couleur-accent-dim);
   border-bottom: 1px solid var(--couleur-accent);
   overflow: hidden;
@@ -21,7 +21,7 @@
   display: inline-block;
   white-space: nowrap;
   font-family: var(--police-pixel);
-  font-size: 0.6rem;
+  font-size: 0.65rem;
   color: var(--couleur-accent-vif);
   letter-spacing: 2px;
   animation: marquee-anim 30s linear infinite;
@@ -41,7 +41,7 @@
   flex: 1;
   width: 100%;
   max-width: 960px;
-  margin: 24px auto 0;
+  margin: 32px auto 0;
   min-height: calc(100vh - 24px);
   display: flex;
   flex-direction: column;
