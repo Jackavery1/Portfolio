@@ -30,7 +30,7 @@ const WATCH_MODE = process.argv.includes("--watch");
 /* CSP injectée dans dist/ uniquement (meta : pas de frame-ancestors ; dev sans CSP) */
 const CSP_META = `<meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self' https://www.google.com https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data:; frame-src https://www.google.com; connect-src 'self' https://formspree.io https://www.google.com; form-action 'self' https://formspree.io; base-uri 'self'; object-src 'none';"
+      content="default-src 'self'; script-src 'self' https://www.google.com https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https://www.gstatic.com; frame-src https://www.google.com https://recaptcha.google.com; connect-src 'self' https://formspree.io https://www.google.com https://www.gstatic.com https://recaptcha.google.com; form-action 'self' https://formspree.io; base-uri 'self'; object-src 'none';"
     />`;
 
 const HTML_FILES = [

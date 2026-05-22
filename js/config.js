@@ -14,9 +14,8 @@ export const CONFIG = {
     EMAIL_B64: "am9yaXNkYXZpZC5tYXJ0aW5lei5wcm9AZ21haWwuY29t",
     PHONE_PARTS: [6, 74, 52, 24, 96],
     FORMSPREE_ENDPOINT: "https://formspree.io/f/mlgzkqbz",
-    /* Clé SITE Google reCAPTCHA (même paire que dans Formspree → Custom reCAPTCHA) */
-    RECAPTCHA_SITE_KEY: "6Lc3f_csAAAAAM4pPYJgRcN9qb4gyguLOpGVVkHl",
-    /* 3 = clé reCAPTCHA v3 (invisible). Mettre 2 seulement si la clé Google est « case à cocher » v2. */
+    /* Clé SITE Google reCAPTCHA */
+    RECAPTCHA_SITE_KEY: "6Lc3f_csAAAAABC3ubiYwYolwRlS4XEolAMLnlqw",
     RECAPTCHA_VERSION: 3,
     HONEYPOT_NAME: "_gotcha",
     RATE_LIMIT_MS: 60_000,

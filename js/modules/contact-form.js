@@ -115,6 +115,19 @@ function optionsRecaptcha() {
   };
 }
 
+function messageErreurCatch(err) {
+  const m = String(err?.message || err || '').trim();
+  if (/recaptcha|grecaptcha|jeton/i.test(m)) {
+    return m.startsWith('reCAPTCHA') || m.startsWith('Jeton') ? m : `reCAPTCHA : ${m}`;
+  }
+  if (m === 'Failed to fetch' || /network|fetch/i.test(m)) {
+    return (
+      'Connexion bloquée vers Formspree (AdBlock, extension ou hors ligne). Autorisez formspree.io et google.com, ou testez en navigation privée sans extensions.'
+    );
+  }
+  return m || 'Erreur inattendue lors de l’envoi.';
+}
+
 function construireFormDataFormspree({ nom, email, message, sujetLabel, recaptchaToken }) {
   const fd = new FormData();
   fd.append('name', nom);
@@ -209,36 +222,46 @@ export async function initContactForm() {
       const labelEnvoyer = btnEnvoyer.textContent;
       btnEnvoyer.disabled = true;
       btnEnvoyer.removeAttribute('title');
+      let recaptchaToken = null;
       try {
-        let recaptchaToken = null;
         if (recaptchaKey) {
           recaptchaToken = await obtenirTokenRecaptcha(optionsRecaptcha());
-          if (!recaptchaToken) {
-            jouerBip(150, 120, 'sawtooth');
-            btnEnvoyer.disabled = false;
-            const msg =
-              CONFIG.CONTACT.RECAPTCHA_VERSION === 3
-                ? 'Vérification anti-spam en cours… réessayez.'
-                : 'Cochez la case « Je ne suis pas un robot ».';
-            btnEnvoyer.setAttribute('title', msg);
-            afficherErreurFormulaire(msg);
-            return;
-          }
         }
+      } catch (err) {
+        jouerBip(150, 120, 'sawtooth');
+        btnEnvoyer.disabled = false;
+        const msg = messageErreurCatch(err);
+        btnEnvoyer.setAttribute('title', msg);
+        afficherErreurFormulaire(msg);
+        return;
+      }
 
-        const sujetSelect = byId(CONFIG.SELECTORS.CONTACT_SUJET);
-        const sujetLabel =
-          sujetSelect?.options[sujetSelect.selectedIndex]?.text?.trim() || '';
-        const sujetUtile = sujetLabel && !/^—/.test(sujetLabel) ? sujetLabel : '';
+      if (recaptchaKey && !recaptchaToken) {
+        jouerBip(150, 120, 'sawtooth');
+        btnEnvoyer.disabled = false;
+        const msg =
+          CONFIG.CONTACT.RECAPTCHA_VERSION === 3
+            ? 'Vérification anti-spam en cours… réessayez.'
+            : 'Cochez la case « Je ne suis pas un robot ».';
+        btnEnvoyer.setAttribute('title', msg);
+        afficherErreurFormulaire(msg);
+        return;
+      }
 
-        const fd = construireFormDataFormspree({
-          nom,
-          email,
-          message,
-          sujetLabel: sujetUtile,
-          recaptchaToken,
-        });
+      const sujetSelect = byId(CONFIG.SELECTORS.CONTACT_SUJET);
+      const sujetLabel =
+        sujetSelect?.options[sujetSelect.selectedIndex]?.text?.trim() || '';
+      const sujetUtile = sujetLabel && !/^—/.test(sujetLabel) ? sujetLabel : '';
 
+      const fd = construireFormDataFormspree({
+        nom,
+        email,
+        message,
+        sujetLabel: sujetUtile,
+        recaptchaToken,
+      });
+
+      try {
         const res = await fetch(endpoint, {
           method: 'POST',
           body: fd,
@@ -267,12 +290,12 @@ export async function initContactForm() {
           btnEnvoyer.setAttribute('title', msg);
           afficherErreurFormulaire(msg);
         }
-      } catch {
+      } catch (err) {
         jouerBip(150, 120, 'sawtooth');
         btnEnvoyer.disabled = false;
         btnEnvoyer.textContent = labelEnvoyer;
         resetRecaptcha();
-        const msg = 'Erreur réseau ou blocage (reCAPTCHA / CSP)';
+        const msg = messageErreurCatch(err);
         btnEnvoyer.setAttribute('title', msg);
         afficherErreurFormulaire(msg);
       }
