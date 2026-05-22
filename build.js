@@ -27,6 +27,12 @@ const ROOT = __dirname;
 const DIST_DIR = path.join(ROOT, "dist");
 const WATCH_MODE = process.argv.includes("--watch");
 
+/* CSP injectée dans dist/ uniquement (meta : pas de frame-ancestors ; dev sans CSP) */
+const CSP_META = `<meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' https://www.google.com https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data:; frame-src https://www.google.com; connect-src 'self' https://formspree.io https://www.google.com; form-action 'self' https://formspree.io; base-uri 'self'; object-src 'none';"
+    />`;
+
 const HTML_FILES = [
   "index.html",
   "projets.html",
@@ -104,11 +110,23 @@ function createDist() {
 
 function copyHTML() {
   let n = 0;
+  const viewportNeedle =
+    '<meta name="viewport" content="width=device-width, initial-scale=1.0" />';
+
   HTML_FILES.forEach((file) => {
     const src = path.join(ROOT, file);
-    if (copyFile(src, path.join(DIST_DIR, file))) n += 1;
+    const dst = path.join(DIST_DIR, file);
+    if (!fs.existsSync(src)) return;
+
+    let html = fs.readFileSync(src, "utf8");
+    if (html.includes(viewportNeedle) && !html.includes("Content-Security-Policy")) {
+      html = html.replace(viewportNeedle, `${viewportNeedle}\n    ${CSP_META}`);
+    }
+    ensureDir(path.dirname(dst));
+    fs.writeFileSync(dst, html);
+    n += 1;
   });
-  log(`${n} fichier(s) HTML copié(s)`, "success");
+  log(`${n} fichier(s) HTML copié(s) + CSP (dist)`, "success");
 }
 
 function minifyCSS() {

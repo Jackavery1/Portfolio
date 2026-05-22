@@ -1,15 +1,15 @@
-# Portfolio Arcade CRT v6
+# Portfolio Arcade CRT
 
-Portfolio personnel avec thème arcade rétro, système de score, modal projets.
+Portfolio personnel de **Joris Martinez** (développeur web junior) — thème arcade rétro, effet CRT, système de score, navigation clavier et modales projets.
 
-**Stack** : HTML5 + CSS modulé (`styles/`, agrégateur `style.css`) + JavaScript ES6 modules (`js/`) + Formspree (optionnel).
+**Stack** : HTML5 · CSS modulé (`styles/`, agrégateur `style.css`) · JavaScript ES6 modules (`js/`) · build Node (`build.js`) · déploiement GitHub Pages (workflow fourni).
 
 ---
 
 ## Prérequis
 
 - **Node.js** 18+ recommandé (minimum 14+) — [nodejs.org](https://nodejs.org/)
-- **Python 3** — pour servir les fichiers en HTTP en local (voir ci-dessous)
+- **Python 3** (ou `python` sous Windows) — pour servir `dist/` en HTTP local
 
 ---
 
@@ -22,15 +22,15 @@ npm install
 
 ### Dépannage npm (certificat TLS)
 
-Si `npm install` affiche **`UNABLE_TO_VERIFY_LEAF_SIGNATURE`** ou *unable to verify the first certificate*, le registre npm n’est pas validé (réseau d’entreprise, proxy SSL, antivirus, etc.). Pistes : autre réseau, VPN coupé, variable **`NODE_EXTRA_CA_CERTS`** vers le PEM racine fourni par l’IT. Tant que `npm install` échoue, **`npm run build`** ne pourra pas installer `clean-css` / `uglify-js`.
+Si `npm install` affiche **`UNABLE_TO_VERIFY_LEAF_SIGNATURE`** ou *unable to verify the first certificate*, le registre npm n’est pas validé (réseau d’entreprise, proxy SSL, antivirus, etc.). Pistes : autre réseau, VPN coupé, variable **`NODE_EXTRA_CA_CERTS`** vers le PEM racine fourni par l’IT. Tant que `npm install` échoue, **`npm run build`** ne pourra pas installer `clean-css`, `uglify-js` ni les plugins `imagemin`.
 
-Autres échecs d’install : supprimer `node_modules` (et éventuellement le lockfile si tu en utilises un), puis relancer `npm install`.
+Autres échecs d’install : supprimer `node_modules` (et éventuellement le lockfile), puis relancer `npm install`.
 
 ---
 
 ## Développement
 
-Les sources sont à la **racine du dépôt** (il n’y a **pas** de dossier `src/`).
+Les sources sont à la **racine du dépôt** (pas de dossier `src/`).
 
 ### Watch (rebuild `dist/`)
 
@@ -38,17 +38,17 @@ Les sources sont à la **racine du dépôt** (il n’y a **pas** de dossier `src
 npm run watch
 ```
 
-Surveille notamment `style.css`, `styles/`, `js/`, `assets/`, `partials/` et les six pages HTML, puis relance le build.
+Surveille `style.css`, `styles/`, `js/`, `assets/`, `partials/` et les **7 pages HTML**, puis relance le build.
 
 ### Serveur local — sources (dev)
 
-Les partials passent par `fetch` : il faut un **serveur HTTP** (pas d’ouverture en `file://`).
+Les partials sont chargés via `fetch` : il faut un **serveur HTTP** (pas d’ouverture en `file://`).
 
 ```bash
 npx serve .
 ```
 
-Ou Live Server sur le dossier du projet.
+Ou l’extension Live Server sur le dossier du projet.
 
 ### Serveur local — après build (`dist/`)
 
@@ -60,7 +60,7 @@ python3 -m http.server 8000
 
 Puis **http://localhost:8000**. Sous Windows, souvent `python -m http.server 8000` si `python3` est absent.
 
-Le script npm **`npm run serve`** exécute `python3 -m http.server 8000` depuis le répertoire **courant** : pour prévisualiser le build, lance-le **depuis `dist/`** (ou utilise `npx serve dist` depuis la racine).
+Le script **`npm run serve`** lance `python3 -m http.server 8000` depuis le répertoire **courant** : pour prévisualiser le build, exécute-le **depuis `dist/`** (ou `npx serve dist` depuis la racine).
 
 **Combiné** : terminal 1 `npm run watch`, terminal 2 `cd dist && python3 -m http.server 8000` (rafraîchir le navigateur après chaque build).
 
@@ -74,10 +74,13 @@ npm run build
 
 Sortie **`dist/`** :
 
-- **CSS** : un seul `dist/style.css` (minifié, `@import` locaux inlinés)
-- **JS** : tous les fichiers sous `js/` minifiés, **mêmes noms** (`main.js`, `modules/*.js`, etc.) pour garder les imports ES modules
-- **Images** : PNG/JPEG dans `assets/` optimisés + variantes `.webp` dans `dist/assets/`
-- **Copie** : HTML, `partials/`, `previews_data.js` (minifié si possible), `favicon.ico` s’il existe
+| Étape | Détail |
+|--------|--------|
+| **HTML** | Copie des 7 pages listées dans `build.js` |
+| **CSS** | Un seul `dist/style.css` (minifié, `@import` locaux inlinés) |
+| **JS** | Tous les fichiers sous `js/` minifiés, **mêmes chemins** (imports ES modules inchangés) |
+| **Images** | PNG/JPEG dans `assets/` optimisés + variantes `.webp` dans `dist/assets/` |
+| **Autres** | `partials/`, `assets/previews_data.js` (minifié si possible), `favicon.ico` s’il existe |
 
 ### Arborescence `dist/` (réelle)
 
@@ -89,20 +92,23 @@ dist/
 ├── parcours.html
 ├── contact.html
 ├── dojo.html
-├── style.css              # bundle minifié (pas de sous-dossier styles/)
+├── mentions-legales.html
+├── style.css
 ├── js/
 │   ├── main.js
 │   ├── config.js
 │   ├── modules/
 │   └── utils/
 ├── assets/
-│   ├── og.png / og.webp   # si présent à la source
+│   ├── og.png / og.webp
 │   ├── previews_data.js
 │   └── …
 └── partials/
     ├── nav.html
     ├── footer.html
-    └── …
+    ├── marquee.html
+    ├── crt.html
+    └── popup-highscore.html
 ```
 
 Déploiement : publier la racine **`dist/`** (GitHub Pages, Netlify, etc.).
@@ -111,55 +117,97 @@ Déploiement : publier la racine **`dist/`** (GitHub Pages, Netlify, etc.).
 
 ## Pages
 
-| Fichier | Contenu |
-|--------|---------|
+| Fichier | Rôle |
+|--------|------|
 | `index.html` | Accueil (HOME) |
-| `projets.html` | Projets (WORK) + modale |
-| `dojo.html` | Dojo |
-| `competences.html` | Compétences (STATS) |
+| `projets.html` | Projets (WORK) + modale détail |
+| `competences.html` | Compétences (STATS) — barres animées |
 | `parcours.html` | Parcours (STORY) |
 | `contact.html` | Contact + formulaire |
+| `dojo.html` | Page bonus (lien depuis `projets.html`, hors menu principal) |
+| `mentions-legales.html` | Mentions légales, RGPD, propriété intellectuelle |
 
-Partials (nav, footer, marquee, CRT, popup score) : chargés par `js/modules/partials.js`.
+**Partials** (injectés par `js/modules/partials.js`) : navigation, pied de page, bandeau marquee, overlay CRT, popup high score.
+
+**Navigation clavier** (← / →) : enchaîne les pages de `CONFIG.NAVIGATION.ORDER` dans `js/config.js` (`index` → `projets` → `competences` → `parcours` → `contact`). `dojo.html` et `mentions-legales.html` sont hors de cet ordre.
+
+---
+
+## Expérience arcade (score & easter eggs)
+
+- **Score** (`sessionStorage`, affiché dans la nav) : plafond **9999**, format `000000`.
+- **Bonus** (`js/modules/meta.js`) : +200 à la première visite d’une page, points sur cartes projets / dojo, survol projet, lien GitHub, etc.
+- **Popup high score** : à l’atteinte de 9999 (`partials/popup-highscore.html`).
+- **Code Konami** : séquence définie dans `CONFIG.KONAMI` — active la classe `konami-actif` sur le `body`, fanfare Web Audio, score max si besoin.
+- **Sons** : bips via Web Audio API (`js/modules/audio.js`) — menu burger, navigation clavier.
+- **Animations** : barres de progression / stats au chargement (`js/modules/animations.js`, `data-section-id` sur le `body`).
+
+---
+
+## JavaScript (modules)
+
+| Fichier | Rôle |
+|--------|------|
+| `main.js` | Orchestration au `DOMContentLoaded` |
+| `config.js` | Constantes (sélecteurs, projets, partials, navigation, Konami) |
+| `modules/partials.js` | Chargement HTML des partials + lien actif |
+| `modules/navigation.js` | Menu burger, flèches gauche/droite entre pages |
+| `modules/modal.js` | Modale projets (clavier + clic) |
+| `modules/contact-form.js` | Formulaire contact (Formspree ou `mailto:`) |
+| `modules/score.js` | Lecture/écriture score, popup HS |
+| `modules/meta.js` | Canonical, OG absolus, bonus score |
+| `modules/konami.js` | Détection code Konami |
+| `modules/audio.js` | Sons arcade |
+| `modules/animations.js` | Animation des barres par section |
+| `utils/dom.js` | Helpers DOM (`byId`, etc.) |
+| `utils/focus.js` | Piège de focus modale / popup |
+
+Données projets modale : `assets/previews_data.js` (`IMG`) + `CONFIG.PROJETS` + `modal.js`.
 
 ---
 
 ## Formulaire — Formspree
 
-1. Créer un compte / formulaire sur [formspree.io](https://formspree.io) et récupérer l’URL du type `https://formspree.io/f/XXXXXXX`.
-2. Dans **`contact.html`** (à la racine), sur `<form id="js-formulaire">`, ajouter :
+1. Créer un formulaire sur [formspree.io](https://formspree.io) → **CAPTCHA** activé → **Custom reCAPTCHA** (clé secrète dans Formspree).
+2. Créer une clé [Google reCAPTCHA](https://www.google.com/recaptcha/admin) (**v2** case à cocher ou **v3** invisible) pour ton domaine.
+3. Dans **`js/config.js`** :
+   - `FORMSPREE_ENDPOINT` : URL du formulaire
+   - `RECAPTCHA_SITE_KEY` : clé **SITE** Google (pas la clé secrète)
+   - `RECAPTCHA_VERSION` : `2` ou `3` (identique à Formspree / Google)
+4. Sans `RECAPTCHA_SITE_KEY`, Formspree renvoie **403** si le CAPTCHA est activé côté dashboard.
+5. Laisser `FORMSPREE_ENDPOINT` vide pour le fallback **`mailto:`**.
+6. Tester en HTTP (pas `file://`) ; en prod, `npm run build` (CSP `dist/` autorise Google reCAPTCHA).
 
-```html
-<form id="js-formulaire" data-formspree="https://formspree.io/f/XXXXXXX" …>
-```
+**Localhost (`127.0.0.1`)** : ajoute `127.0.0.1` et `localhost` dans Google reCAPTCHA. Sur Formspree, laisse **Restrict to Domain** vide pendant les tests locaux (sinon seul `jackavery1.github.io` est accepté). En cas de **400**, ouvre l’onglet Network → requête `mlgzkqbz` → **Response** : le JSON indique la cause (souvent reCAPTCHA secret incorrecte).
 
-3. Sans `data-formspree`, le script utilise le fallback **`mailto:`** (email dans `js/config.js` → `CONFIG.CONTACT`).
+### Mesures de sécurité (front)
 
-4. Tester avec un serveur HTTP sur `contact.html` et vérifier la console (F12) en cas d’échec.
+- **CSP** : injectée au **build** dans `dist/` uniquement (pas en dev — compatible Live Server). `frame-ancestors` nécessite un en-tête HTTP (non disponible sur GitHub Pages via meta).
+- **Honeypot** : champ `_gotcha` (ignoré si rempli).
+- **Rate limit** : 60 s entre deux envois (`sessionStorage`).
+- **Validation** : longueurs max, email, nettoyage caractères de contrôle.
+- **Coordonnées** : email / téléphone injectés en JS (`contact-coordonnees.js`) pour limiter le scraping HTML statique ; fallback `<noscript>` sur les mentions légales.
 
 ---
 
 ## Déployer (GitHub Pages)
 
+### Automatique (recommandé)
+
+Le workflow **`.github/workflows/deploy.yml`** : à chaque push sur `main`, Node 18 → `npm install` → `npm run build` → publication de **`dist/`** via [peaceiris/actions-gh-pages](https://github.com/peaceiris/actions-gh-pages). Vérifier **Settings → Pages** (souvent branche `gh-pages`). Pour un domaine perso, décommenter `cname` dans le workflow.
+
 ### Manuel
 
 ```bash
 npm run build
-# Publier le contenu de dist/ (branche gh-pages ou dossier /docs selon ton réglage Pages)
-git add dist && git commit -m "Deploy" && git push
+# Publier le contenu de dist/ (branche gh-pages ou dossier configuré dans Pages)
 ```
-
-Configurer **Pages** pour servir `dist/` (ou la branche générée).
-
-### Automatique (GitHub Actions)
-
-Un workflow `.github/workflows/deploy.yml` est fourni : à chaque push sur `main`, Node 18, `npm install`, `npm run build`, puis publication de **`dist/`** avec [peaceiris/actions-gh-pages v3](https://github.com/peaceiris/actions-gh-pages). Vérifier dans **Settings → Pages** que la source correspond (souvent branche `gh-pages`). Pour un domaine perso, renseigner `cname` dans le workflow (voir commentaire dans le fichier).
 
 ---
 
 ## Performance
 
-Les gains (tailles, score Lighthouse) **dépendent** du contenu réel (images data-URL dans `previews_data.js`, etc.). Mesure locale recommandée : DevTools → Lighthouse après `npm run build` et test sur `dist/`.
+Les gains (poids, Lighthouse) dépendent du contenu (notamment les previews en data-URL dans `previews_data.js`). Mesure recommandée : DevTools → Lighthouse sur `dist/` après build.
 
 ---
 
@@ -167,28 +215,30 @@ Les gains (tailles, score Lighthouse) **dépendent** du contenu réel (images da
 
 ```
 .
-├── *.html
+├── *.html                    # 7 pages
 ├── style.css                 # agrégateur @import
-├── styles/                   # tokens, reset, layout, components/, pages/
+├── styles/
+│   ├── tokens.css, reset.css, layout.css
+│   ├── components/           # crt, nav, modal, card, form, footer
+│   └── pages/                # accueil, projets, competences, …
 ├── js/
-│   ├── main.js
-│   ├── config.js
+│   ├── main.js, config.js
 │   ├── modules/
 │   └── utils/
 ├── partials/
 ├── assets/                   # og.png, previews_data.js, …
 ├── build.js
 ├── package.json
+├── .github/workflows/deploy.yml
 └── README.md
 ```
 
 ---
 
-## SEO & aperçus projets
+## SEO & partage
 
-- Métas par page ; image OG : `assets/og.png`.
-- `js/modules/meta.js` : canonical, `og:url`, URLs absolues pour les images OG si besoin.
-- Modale projets : `assets/previews_data.js` (`IMG`) + `js/config.js` (`CONFIG.PROJETS`) + `js/modules/modal.js`.
+- Métas Open Graph / Twitter par page ; image OG : `assets/og.png`.
+- `js/modules/meta.js` : `link[rel=canonical]`, `og:url`, URLs absolues pour les images OG.
 
 ---
 
@@ -197,20 +247,22 @@ Les gains (tailles, score Lighthouse) **dépendent** du contenu réel (images da
 | Problème | Piste |
 |----------|--------|
 | `npm install` / certificat | Section TLS ci-dessus |
-| `Python not found` au `serve` | Windows : `python` ou `py` ; macOS : `brew install python3` |
-| Images non optimisées | Fichiers **directement dans `assets/`** (jpg/png), pas un sous-dossier `images/` obligatoire |
-| Formspree ne reçoit rien | Vérifier `data-formspree`, réponse réseau dans l’onglet Network |
+| Partials vides en local | Servir en HTTP (`npx serve .`), pas `file://` |
+| `Python not found` au `serve` | Windows : `python` ou `py` |
+| Images non optimisées | Fichiers **directement dans `assets/`** (jpg/png) |
+| Formspree ne reçoit rien | Vérifier `FORMSPREE_ENDPOINT` dans `config.js`, réponse Network |
+| Score ne bouge pas | `sessionStorage` — nouvelle session ou onglet privé pour retester |
 
 ---
 
 ## Licence
 
-MIT — utilisation libre.
+**Tous droits réservés** — voir le fichier [`LICENSE`](LICENSE). Le code et le design de ce portfolio ne sont pas sous licence open source ; toute réutilisation nécessite une autorisation écrite (contact dans le fichier LICENSE). Les dépendances npm restent soumises à leurs propres licences.
 
 ---
 
 ## Pistes d’évolution
 
-- Déployer sur GitHub Pages et valider les URLs en production
-- Mesurer Lighthouse sur `dist/`
-- Analytics, ESLint / tests si le projet grossit
+- Mesures Lighthouse régulières sur `dist/`
+- ESLint / tests si le projet continue de grossir
+- Analytics léger si besoin en production

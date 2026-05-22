@@ -8,6 +8,7 @@ import { chargerPartials } from './modules/partials.js';
 import { initNavigationArcade, initNavigationClavier } from './modules/navigation.js';
 import { initModalClavier, initModalClicks } from './modules/modal.js';
 import { initContactForm } from './modules/contact-form.js';
+import { initContactCoordonnees } from './modules/contact-coordonnees.js';
 import {
   afficherPopupHighScore,
   afficherScore,
@@ -34,7 +35,8 @@ async function init() {
   initModalClicks();
   initBonusScore();
   afficherScore(lireScore());
-  initContactForm();
+  initContactCoordonnees();
+  await initContactForm();
   initKonamiCode();
 
   const sid = document.body.dataset.sectionId || 'accueil';
