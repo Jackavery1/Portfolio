@@ -7,7 +7,7 @@
   align-items: center;
   gap: 1rem;
   width: 100%;
-  padding: 0.9rem 1.5rem;
+  padding: 0.35rem 1.25rem;
   border-bottom: 1px solid var(--couleur-bordure);
   background-color: var(--couleur-fond);
   position: sticky;

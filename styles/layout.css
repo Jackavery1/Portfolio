@@ -21,7 +21,7 @@
   display: inline-block;
   white-space: nowrap;
   font-family: var(--police-pixel);
-  font-size: 0.45rem;
+  font-size: 0.6rem;
   color: var(--couleur-accent-vif);
   letter-spacing: 2px;
   animation: marquee-anim 30s linear infinite;
