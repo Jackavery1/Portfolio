@@ -10,6 +10,10 @@ import { ajouterScore } from "./score.js";
 
 let elementFocusAvantModal = null;
 
+function resolveApercuSrc(data) {
+  return data.apercu || null;
+}
+
 export function ouvrirModal(projetKey) {
   const data = CONFIG.PROJETS[projetKey];
   const modalOverlay = byId(CONFIG.SELECTORS.MODAL);
@@ -54,11 +58,20 @@ export function ouvrirModal(projetKey) {
     modalLien.hidden = true;
   }
 
-  if (typeof IMG !== "undefined" && IMG[data.img]) {
-    modalImg.src = IMG[data.img];
-    modalImg.style.display = "block";
+  const srcApercu = resolveApercuSrc(data);
+  if (srcApercu) {
+    modalImg.src = srcApercu;
+    modalImg.alt = `Aperçu — ${data.titre}`;
+    modalImg.hidden = false;
+    modalImg.classList.toggle(
+      "modal-img--svg",
+      /\.svg($|\?)/i.test(srcApercu),
+    );
   } else {
-    modalImg.style.display = "none";
+    modalImg.removeAttribute("src");
+    modalImg.alt = "";
+    modalImg.hidden = true;
+    modalImg.classList.remove("modal-img--svg");
   }
 
   modalTech.innerHTML = "";

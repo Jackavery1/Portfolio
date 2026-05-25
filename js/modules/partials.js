@@ -6,8 +6,14 @@ import { CONFIG } from '../config.js';
 import { byId } from '../utils/dom.js';
 
 export async function chargerPartials() {
+  const aCharger = CONFIG.PARTIALS.filter(({ id }) => byId(id));
+  if (aCharger.length === 0) {
+    marquerLienActif();
+    return;
+  }
+
   await Promise.all(
-    CONFIG.PARTIALS.map(async ({ id, fichier }) => {
+    aCharger.map(async ({ id, fichier }) => {
       const conteneur = byId(id);
       if (!conteneur) return;
       try {
@@ -20,7 +26,7 @@ export async function chargerPartials() {
       } catch (_) {
         /* Échec réseau ou statut hors 2xx : ne pas injecter le corps d’erreur dans le DOM */
       }
-    })
+    }),
   );
   marquerLienActif();
 }

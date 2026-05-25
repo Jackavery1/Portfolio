@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
@@ -17,6 +17,8 @@
     />
     <meta property="og:image" content="assets/og.png" />
     <meta property="og:locale" content="fr_FR" />
+    <meta property="og:url" content="" id="meta-og-url" />
+
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Joris Martinez · Développeur Web" />
     <meta
@@ -40,14 +42,17 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Rajdhani:wght@400;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Rajdhani:wght@400;600&display=swap"
       rel="stylesheet"
     />
 
+    <link rel="preload" href="style.css" as="style" />
     <link rel="stylesheet" href="style.css" />
   </head>
 
   <body data-section-id="contact">
+    <a class="lien-evitement" href="#js-contenu-principal">Aller au contenu principal</a>
+
     <div id="partial-crt"></div>
 
     <div id="partial-marquee"></div>
@@ -55,11 +60,11 @@
     <div class="ecran">
       <div id="partial-nav"></div>
 
-      <main id="js-contenu-principal">
+      <main id="js-contenu-principal" tabindex="-1">
         <section id="contact" class="section" aria-label="Contact">
-          <h2 class="titre-section">
+          <h1 class="titre-section">
             <span class="pixel-accent">▶</span> CONTINUE ? — INSERT COIN
-          </h2>
+          </h1>
 
           <p class="texte-continue" aria-hidden="true">
             ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░<br />
@@ -91,7 +96,7 @@
 
               <!-- Formulaire de contact pour envoi serveur ; sinon ouverture du client mail -->
               <div class="formulaire-zone">
-                <h3 class="formulaire-titre">▶ ENVOYER UN MESSAGE</h3>
+                <h2 class="formulaire-titre">▶ ENVOYER UN MESSAGE</h2>
                 <form
                   class="formulaire-crt"
                   id="js-formulaire"
@@ -219,7 +224,7 @@
             <!-- Panneau droite : profil + liens -->
             <div class="contact-droite">
               <div class="profil-recap">
-                <h3 class="profil-recap__titre">PLAYER CARD</h3>
+                <h2 class="profil-recap__titre">PLAYER CARD</h2>
 
                 <div class="profil-recap__bonhomme" aria-hidden="true">
                   <svg

@@ -80,7 +80,7 @@ Sortie **`dist/`** :
 | **CSS** | Un seul `dist/style.css` (minifié, `@import` locaux inlinés) |
 | **JS** | Tous les fichiers sous `js/` minifiés, **mêmes chemins** (imports ES modules inchangés) |
 | **Images** | PNG/JPEG dans `assets/` optimisés + variantes `.webp` dans `dist/assets/` |
-| **Autres** | `partials/`, `assets/previews_data.js` (minifié si possible), `favicon.ico` s’il existe |
+| **Autres** | `assets/previews/`, `favicon.ico` s’il existe |
 
 ### Arborescence `dist/` (réelle)
 
@@ -101,15 +101,10 @@ dist/
 │   └── utils/
 ├── assets/
 │   ├── og.png / og.webp
-│   ├── previews_data.js
-│   └── …
-└── partials/
-    ├── nav.html
-    ├── footer.html
-    ├── marquee.html
-    ├── crt.html
-    └── popup-highscore.html
+│   └── previews/
 ```
+
+Les partials sont **inlinés** dans chaque page HTML de `dist/` (pas de dossier `partials/` en prod).
 
 Déploiement : publier la racine **`dist/`** (GitHub Pages, Netlify, etc.).
 
@@ -162,7 +157,14 @@ Déploiement : publier la racine **`dist/`** (GitHub Pages, Netlify, etc.).
 | `utils/dom.js` | Helpers DOM (`byId`, etc.) |
 | `utils/focus.js` | Piège de focus modale / popup |
 
-Données projets modale : `assets/previews_data.js` (`IMG`) + `CONFIG.PROJETS` + `modal.js`.
+Données projets modale : `CONFIG.PROJETS` (`apercu`, liens) + `modal.js`. Build : URLs canoniques / Open Graph absolues injectées dans `dist/` (variable `PORTFOLIO_SITE_URL`, défaut `https://jackavery1.github.io/Portfolio`).
+
+### Accessibilité & SEO (pages)
+
+- **Lien d’évitement** : « Aller au contenu principal » → `#js-contenu-principal` (focus visible, `scroll-margin` sous le bandeau).
+- **Titres** : un `<h1>` par page (`titre-arcade` sur l’accueil, `titre-section` ailleurs) ; sous-titres en `<h2>`.
+- **Open Graph** : `og:url` + images en URL absolues en production (`build.js`) ; en dev, `meta.js` complète depuis `CONFIG.SITE_ORIGIN` ou l’URL courante.
+- **Polices** : `display=swap` sur l’import Google Fonts.
 
 ---
 
@@ -207,7 +209,20 @@ npm run build
 
 ## Performance
 
-Les gains (poids, Lighthouse) dépendent du contenu (notamment les previews en data-URL dans `previews_data.js`). Mesure recommandée : DevTools → Lighthouse sur `dist/` après build.
+Le build applique plusieurs optimisations pour la prod (`dist/`) :
+
+| Mesure | Effet |
+|--------|--------|
+| **Partials inlinés** | Nav, footer, marquee, CRT et popup HS intégrés dans chaque HTML — **0 requête `fetch`** au chargement en prod |
+| **JS conditionnel** | `modal.js` uniquement sur WORK ; `contact-form` / `recaptcha` uniquement sur CONTACT (imports dynamiques) |
+| **CSS / JS minifiés** | Un seul `style.css` ; modules sous `js/` |
+| **Preload `style.css`** | Démarrage du rendu plus tôt |
+| **Polices** | Rajdhani limité à 400 et 600 ; `display=swap` |
+| **Overlay CRT** | Désactivé si `prefers-reduced-motion: reduce` |
+
+En **développement** (racine + serveur HTTP), les partials restent chargés via `fetch` (`partials.js`).
+
+Mesure recommandée : DevTools → Lighthouse sur `dist/` après `npm run build` (mode mobile, throttling).
 
 ---
 
@@ -226,7 +241,7 @@ Les gains (poids, Lighthouse) dépendent du contenu (notamment les previews en d
 │   ├── modules/
 │   └── utils/
 ├── partials/
-├── assets/                   # og.png, previews_data.js, …
+├── assets/                   # og.png, previews/, …
 ├── build.js
 ├── package.json
 ├── .github/workflows/deploy.yml

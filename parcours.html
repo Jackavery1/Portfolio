@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
@@ -17,6 +17,8 @@
     />
     <meta property="og:image" content="assets/og.png" />
     <meta property="og:locale" content="fr_FR" />
+    <meta property="og:url" content="" id="meta-og-url" />
+
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Joris Martinez · Développeur Web" />
     <meta
@@ -40,14 +42,17 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Rajdhani:wght@400;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Rajdhani:wght@400;600&display=swap"
       rel="stylesheet"
     />
 
+    <link rel="preload" href="style.css" as="style" />
     <link rel="stylesheet" href="style.css" />
   </head>
 
   <body data-section-id="parcours">
+    <a class="lien-evitement" href="#js-contenu-principal">Aller au contenu principal</a>
+
     <div id="partial-crt"></div>
 
     <div id="partial-marquee"></div>
@@ -55,11 +60,11 @@
     <div class="ecran">
       <div id="partial-nav"></div>
 
-      <main id="js-contenu-principal">
+      <main id="js-contenu-principal" tabindex="-1">
         <section id="parcours" class="section" aria-label="Parcours">
-          <h2 class="titre-section">
+          <h1 class="titre-section">
             <span class="pixel-accent">▶</span> STORY MODE
-          </h2>
+          </h1>
 
           <div class="story-grille">
             <!-- Timeline à gauche -->
@@ -81,9 +86,9 @@
                       <span class="entree-parcours__date">2024–2025</span>
                       <span class="badge badge--actif">EN COURS</span>
                     </div>
-                    <h3 class="entree-parcours__titre">
+                    <h2 class="entree-parcours__titre">
                       POEI DÉVELOPPEUR D'APPLICATION
-                    </h3>
+                    </h2>
                     <p class="entree-parcours__organisation">
                       Formation · Eric Plichon · La Rochelle
                     </p>
@@ -103,9 +108,9 @@
                       <span class="entree-parcours__date">2025</span>
                       <span class="badge badge--valide">VALIDÉ</span>
                     </div>
-                    <h3 class="entree-parcours__titre">
+                    <h2 class="entree-parcours__titre">
                       DÉVELOPPEUR WEB — STAGE
-                    </h3>
+                    </h2>
                     <p class="entree-parcours__organisation">
                       HubTraining · La Rochelle
                     </p>
@@ -125,9 +130,9 @@
                       <span class="entree-parcours__date">2025</span>
                       <span class="badge badge--valide">VALIDÉ</span>
                     </div>
-                    <h3 class="entree-parcours__titre">
+                    <h2 class="entree-parcours__titre">
                       TP DÉVELOPPEUR WEB / WEB MOBILE
-                    </h3>
+                    </h2>
                     <p class="entree-parcours__organisation">
                       AFEC La Rochelle
                     </p>
@@ -146,9 +151,9 @@
                     <div class="entree-parcours__haut">
                       <span class="entree-parcours__date">2021–2023</span>
                     </div>
-                    <h3 class="entree-parcours__titre">
+                    <h2 class="entree-parcours__titre">
                       TECHNICIEN D'EXPÉRIMENTATION
-                    </h3>
+                    </h2>
                     <p class="entree-parcours__organisation">UNILET</p>
                     <p class="entree-parcours__detail">
                       80 essais au champ, analyses STATBOX, rapports techniques.
@@ -164,9 +169,9 @@
                     <div class="entree-parcours__haut">
                       <span class="entree-parcours__date">2020</span>
                     </div>
-                    <h3 class="entree-parcours__titre">
+                    <h2 class="entree-parcours__titre">
                       TECHNICIEN D'EXPÉRIMENTATION
-                    </h3>
+                    </h2>
                     <p class="entree-parcours__organisation">
                       BIOTEK Agriculture
                     </p>
@@ -184,9 +189,9 @@
                     <div class="entree-parcours__haut">
                       <span class="entree-parcours__date">2014–2017</span>
                     </div>
-                    <h3 class="entree-parcours__titre">
+                    <h2 class="entree-parcours__titre">
                       MASTER SCIENCES DU VÉGÉTAL — BAC+5
-                    </h3>
+                    </h2>
                     <p class="entree-parcours__organisation">
                       Université Paris-Saclay
                     </p>

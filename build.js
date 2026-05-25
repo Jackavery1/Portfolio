@@ -27,6 +27,83 @@ const ROOT = __dirname;
 const DIST_DIR = path.join(ROOT, "dist");
 const WATCH_MODE = process.argv.includes("--watch");
 
+const SITE_BASE = (
+  process.env.PORTFOLIO_SITE_URL || "https://jackavery1.github.io/Portfolio"
+).replace(/\/$/, "");
+
+function urlPageProd(htmlFile) {
+  if (htmlFile === "index.html") return `${SITE_BASE}/`;
+  return `${SITE_BASE}/${htmlFile}`;
+}
+
+function injectSeoMeta(html, htmlFile) {
+  const pageUrl = urlPageProd(htmlFile);
+  const ogImage = `${SITE_BASE}/assets/og.png`;
+
+  let out = html.replace(
+    /content="assets\/og\.png"/g,
+    `content="${ogImage}"`,
+  );
+
+  out = out.replace(
+    '<link rel="canonical" href="" id="link-canonical" />',
+    `<link rel="canonical" href="${pageUrl}" id="link-canonical" />`,
+  );
+
+  const ogUrlTag = `<meta property="og:url" content="${pageUrl}" id="meta-og-url" />`;
+  if (out.includes('id="meta-og-url"')) {
+    out = out.replace(
+      /<meta property="og:url" content="[^"]*" id="meta-og-url" \/>/,
+      ogUrlTag,
+    );
+  } else {
+    out = out.replace(
+      '<meta property="og:locale" content="fr_FR" />',
+      `<meta property="og:locale" content="fr_FR" />\n    ${ogUrlTag}`,
+    );
+  }
+
+  return out;
+}
+
+const PARTIAL_PLACEHOLDERS = [
+  { id: "partial-crt", fichier: "partials/crt.html" },
+  { id: "partial-marquee", fichier: "partials/marquee.html" },
+  { id: "partial-nav", fichier: "partials/nav.html" },
+  { id: "partial-footer", fichier: "partials/footer.html" },
+  { id: "partial-popup-hs", fichier: "partials/popup-highscore.html" },
+];
+
+function inlinePartials(html) {
+  let out = html;
+  PARTIAL_PLACEHOLDERS.forEach(({ id, fichier }) => {
+    const src = path.join(ROOT, fichier);
+    if (!fs.existsSync(src)) return;
+    const contenu = fs.readFileSync(src, "utf8").trim();
+    const re = new RegExp(
+      `<div id="${id}"[^>]*>\\s*</div>`,
+      "i",
+    );
+    out = out.replace(re, contenu);
+  });
+  return out;
+}
+
+function injectPerfHead(html) {
+  let out = html.replace(
+    /Rajdhani:wght@400;600;700&display=swap/g,
+    "Rajdhani:wght@400;600&display=swap",
+  );
+  const preload = '<link rel="preload" href="style.css" as="style" />';
+  if (!out.includes('rel="preload" href="style.css"')) {
+    out = out.replace(
+      '<link rel="stylesheet" href="style.css" />',
+      `${preload}\n    <link rel="stylesheet" href="style.css" />`,
+    );
+  }
+  return out;
+}
+
 /* CSP injectée dans dist/ uniquement (meta : pas de frame-ancestors ; dev sans CSP) */
 const CSP_META = `<meta
       http-equiv="Content-Security-Policy"
@@ -119,6 +196,9 @@ function copyHTML() {
     if (!fs.existsSync(src)) return;
 
     let html = fs.readFileSync(src, "utf8");
+    html = injectSeoMeta(html, file);
+    html = injectPerfHead(html);
+    html = inlinePartials(html);
     if (html.includes(viewportNeedle) && !html.includes("Content-Security-Policy")) {
       html = html.replace(viewportNeedle, `${viewportNeedle}\n    ${CSP_META}`);
     }
@@ -126,7 +206,7 @@ function copyHTML() {
     fs.writeFileSync(dst, html);
     n += 1;
   });
-  log(`${n} fichier(s) HTML copié(s) + CSP (dist)`, "success");
+  log(`${n} fichier(s) HTML (SEO + perf + partials inlinés)`, "success");
 }
 
 function minifyCSS() {
@@ -280,10 +360,9 @@ async function optimizeImages() {
 
 function copyAssets() {
   const assetsToCopy = [
-    { src: path.join(ROOT, "partials"), dst: path.join(DIST_DIR, "partials") },
     {
-      src: path.join(ROOT, "assets", "previews_data.js"),
-      dst: path.join(DIST_DIR, "assets", "previews_data.js"),
+      src: path.join(ROOT, "assets", "previews"),
+      dst: path.join(DIST_DIR, "assets", "previews"),
     },
     {
       src: path.join(ROOT, "assets", "favicon.ico"),
@@ -303,21 +382,7 @@ function copyAssets() {
     }
   });
 
-  const previews = path.join(DIST_DIR, "assets", "previews_data.js");
-  if (fs.existsSync(previews)) {
-    const code = fs.readFileSync(previews, "utf8");
-    const out = UglifyJS.minify(code, {
-      ecma: 2020,
-      compress: { passes: 1 },
-      mangle: false,
-      format: { comments: false },
-    });
-    if (!out.error) {
-      fs.writeFileSync(previews, out.code);
-    }
-  }
-
-  log("Partials + assets JS copiés / minifiés", "success");
+  log("Assets (previews, favicon) copiés", "success");
 }
 
 function watchSrc() {

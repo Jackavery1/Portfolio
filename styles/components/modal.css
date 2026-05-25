@@ -60,14 +60,26 @@
   gap: 1rem;
 }
 
+.modal-apercu {
+  margin: 0;
+}
+
 .modal-img {
   width: 100%;
   border-radius: 3px;
   border: 1px solid var(--couleur-bordure);
   image-rendering: auto;
-  max-height: 400px;
+  max-height: 220px;
   object-fit: cover;
   object-position: top;
+  background-color: var(--couleur-fond);
+}
+
+.modal-img--svg {
+  object-fit: contain;
+  image-rendering: pixelated;
+  aspect-ratio: 2 / 1;
+  max-height: 200px;
 }
 
 .modal-desc {

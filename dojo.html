@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
@@ -17,6 +17,8 @@
     />
     <meta property="og:image" content="assets/og.png" />
     <meta property="og:locale" content="fr_FR" />
+    <meta property="og:url" content="" id="meta-og-url" />
+
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Joris Martinez · Développeur Web" />
     <meta
@@ -40,14 +42,17 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Rajdhani:wght@400;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Rajdhani:wght@400;600&display=swap"
       rel="stylesheet"
     />
 
+    <link rel="preload" href="style.css" as="style" />
     <link rel="stylesheet" href="style.css" />
   </head>
 
   <body data-section-id="dojo">
+    <a class="lien-evitement" href="#js-contenu-principal">Aller au contenu principal</a>
+
     <div id="partial-crt"></div>
 
     <div id="partial-marquee"></div>
@@ -55,11 +60,11 @@
     <div class="ecran">
       <div id="partial-nav"></div>
 
-      <main id="js-contenu-principal">
+      <main id="js-contenu-principal" tabindex="-1">
         <section id="dojo" class="section" aria-label="Dojo — Exercices">
-          <h2 class="titre-section">
+          <h1 class="titre-section">
             <span class="pixel-accent">▶</span> DOJO — 道場 · TRAINING MODE
-          </h2>
+          </h1>
           <p class="dojo-intro">
             Pas tous les combats sont dans le portfolio. Voici les entraînements
             et petits projets qui ont forgé le reste.
@@ -71,7 +76,7 @@
                 <span class="carte-dojo__type">JS</span>
                 <span class="carte-dojo__xp">+150 XP</span>
               </div>
-              <h3 class="carte-dojo__nom">EXERCICES JS DOM</h3>
+              <h2 class="carte-dojo__nom">EXERCICES JS DOM</h2>
               <p class="carte-dojo__desc">
                 Sélecteurs, traversal, events, manipulation dynamique. Todo
                 list, trieur de voitures, palindromes.
@@ -88,7 +93,7 @@
                 <span class="carte-dojo__type">NODE</span>
                 <span class="carte-dojo__xp">+200 XP</span>
               </div>
-              <h3 class="carte-dojo__nom">MINI-PROJETS EXPRESS</h3>
+              <h2 class="carte-dojo__nom">MINI-PROJETS EXPRESS</h2>
               <p class="carte-dojo__desc">
                 Routeurs CRUD, middleware auth, API REST, validation Joi,
                 schemas Mongoose.
@@ -105,7 +110,7 @@
                 <span class="carte-dojo__type">POO</span>
                 <span class="carte-dojo__xp">+120 XP</span>
               </div>
-              <h3 class="carte-dojo__nom">EXERCICES POO</h3>
+              <h2 class="carte-dojo__nom">EXERCICES POO</h2>
               <p class="carte-dojo__desc">
                 Classes, héritage, #private, static methods, factory pattern en
                 JavaScript.
@@ -122,7 +127,7 @@
                 <span class="carte-dojo__type">DB</span>
                 <span class="carte-dojo__xp">+180 XP</span>
               </div>
-              <h3 class="carte-dojo__nom">STAT_ALIM / KIND.POE</h3>
+              <h2 class="carte-dojo__nom">STAT_ALIM / KIND.POE</h2>
               <p class="carte-dojo__desc">
                 Projets sur Oracle, PostgreSQL et QGIS. Import CSV Agribalyse,
                 requêtes SQL.
@@ -139,7 +144,7 @@
                 <span class="carte-dojo__type">PY</span>
                 <span class="carte-dojo__xp">+100 XP</span>
               </div>
-              <h3 class="carte-dojo__nom">SELENIUM</h3>
+              <h2 class="carte-dojo__nom">SELENIUM</h2>
               <p class="carte-dojo__desc">
                 Premiers scripts d'automatisation, tests UI avec Selenium, Robot
                 Framework basics.
@@ -155,7 +160,7 @@
                 <span class="carte-dojo__type">DOM</span>
                 <span class="carte-dojo__xp">+150 XP</span>
               </div>
-              <h3 class="carte-dojo__nom">RENTER-CAR</h3>
+              <h2 class="carte-dojo__nom">RENTER-CAR</h2>
               <p class="carte-dojo__desc">
                 Interface location de voitures — catalogue trié dynamiquement
                 via JS DOM.
@@ -172,7 +177,7 @@
                 <span class="carte-dojo__type">NODE</span>
                 <span class="carte-dojo__xp">+150 XP</span>
               </div>
-              <h3 class="carte-dojo__nom">BOÎTE À IDÉES</h3>
+              <h2 class="carte-dojo__nom">BOÎTE À IDÉES</h2>
               <p class="carte-dojo__desc">
                 App inclusive — idées, likes, commentaires, auth JWT, rôles,
                 accessibilité ARIA.

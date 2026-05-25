@@ -6,9 +6,6 @@ import { CONFIG } from './config.js';
 import { byId } from './utils/dom.js';
 import { chargerPartials } from './modules/partials.js';
 import { initNavigationArcade, initNavigationClavier } from './modules/navigation.js';
-import { initModalClavier, initModalClicks } from './modules/modal.js';
-import { initContactForm } from './modules/contact-form.js';
-import { initContactCoordonnees } from './modules/contact-coordonnees.js';
 import {
   afficherPopupHighScore,
   afficherScore,
@@ -20,6 +17,7 @@ import { initKonamiCode } from './modules/konami.js';
 import { animerBarresSection } from './modules/animations.js';
 
 async function init() {
+  const sid = document.body.dataset.sectionId || 'accueil';
   const etaitDejaAuMax = lireScore() >= 9999;
 
   await chargerPartials();
@@ -31,15 +29,27 @@ async function init() {
   initMetaPartage();
   initNavigationArcade();
   initNavigationClavier();
-  initModalClavier();
-  initModalClicks();
   initBonusScore();
   afficherScore(lireScore());
-  initContactCoordonnees();
-  await initContactForm();
   initKonamiCode();
 
-  const sid = document.body.dataset.sectionId || 'accueil';
+  if (sid === 'projets') {
+    const { initModalClavier, initModalClicks } = await import(
+      './modules/modal.js'
+    );
+    initModalClavier();
+    initModalClicks();
+  }
+
+  if (sid === 'contact') {
+    const { initContactCoordonnees } = await import(
+      './modules/contact-coordonnees.js'
+    );
+    const { initContactForm } = await import('./modules/contact-form.js');
+    initContactCoordonnees();
+    await initContactForm();
+  }
+
   setTimeout(() => animerBarresSection(sid), 300);
 
   if (etaitDejaAuMax && !sessionStorage.getItem(CONFIG.STORAGE.HS_POPUP_VU)) {

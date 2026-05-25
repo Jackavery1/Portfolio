@@ -16,7 +16,7 @@
   max-width: 65ch;
 }
 
-.mentions-bloc h3 {
+.mentions-bloc h2 {
   font-family: var(--police-pixel);
   font-size: clamp(0.36rem, 1.35vw, 0.52rem);
   color: var(--couleur-accent-vif);

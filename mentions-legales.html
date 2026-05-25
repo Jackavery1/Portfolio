@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
@@ -17,6 +17,8 @@
     />
     <meta property="og:image" content="assets/og.png" />
     <meta property="og:locale" content="fr_FR" />
+    <meta property="og:url" content="" id="meta-og-url" />
+
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Mentions légales · Joris Martinez" />
     <meta
@@ -38,14 +40,17 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Rajdhani:wght@400;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Rajdhani:wght@400;600&display=swap"
       rel="stylesheet"
     />
 
+    <link rel="preload" href="style.css" as="style" />
     <link rel="stylesheet" href="style.css" />
   </head>
 
   <body data-section-id="mentions">
+    <a class="lien-evitement" href="#js-contenu-principal">Aller au contenu principal</a>
+
     <div id="partial-crt"></div>
 
     <div id="partial-marquee"></div>
@@ -53,11 +58,11 @@
     <div class="ecran">
       <div id="partial-nav"></div>
 
-      <main id="js-contenu-principal">
+      <main id="js-contenu-principal" tabindex="-1">
         <section class="section" aria-label="Mentions légales">
-          <h2 class="titre-section">
+          <h1 class="titre-section">
             <span class="pixel-accent">▶</span> MENTIONS LÉGALES
-          </h2>
+          </h1>
 
           <p class="mentions-intro">
             Conformément aux usages en vigueur pour un site vitrine personnel,
@@ -66,7 +71,7 @@
           </p>
 
           <div class="mentions-bloc">
-            <h3>Éditeur du site</h3>
+            <h2>Éditeur du site</h2>
             <p>
               <strong>Joris Martinez</strong> — site personnel (portfolio).<br />
               Contact :
@@ -80,7 +85,7 @@
           </div>
 
           <div class="mentions-bloc">
-            <h3>Hébergement</h3>
+            <h2>Hébergement</h2>
             <p>
               Le site et ses fichiers statiques sont déployés sur
               l’infrastructure d’hébergement choisie par l’éditeur (par ex. GitHub
@@ -90,7 +95,7 @@
           </div>
 
           <div class="mentions-bloc" id="propriete-intellectuelle">
-            <h3>Propriété intellectuelle — tous droits réservés</h3>
+            <h2>Propriété intellectuelle — tous droits réservés</h2>
             <p>
               <strong>© 2026 Joris Martinez.</strong> L’ensemble des contenus
               originaux de ce portfolio (textes, visuels, charte graphique,
@@ -112,7 +117,7 @@
           </div>
 
           <div class="mentions-bloc" id="donnees-personnelles">
-            <h3>Données personnelles &amp; formulaire</h3>
+            <h2>Données personnelles &amp; formulaire</h2>
             <p>
               Le formulaire de contact peut transmettre les données saisies via
               le service tiers <strong>Formspree</strong>, lequel agit en tant
@@ -130,7 +135,7 @@
           </div>
 
           <div class="mentions-bloc">
-            <h3>Cookies &amp; traceurs</h3>
+            <h2>Cookies &amp; traceurs</h2>
             <p>
               Ce site ne dépose pas de cookies de mesure d’audience
               propriétaires. Des cookies ou stockages locaux techniques peuvent

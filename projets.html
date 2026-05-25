@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
@@ -17,6 +17,8 @@
     />
     <meta property="og:image" content="assets/og.png" />
     <meta property="og:locale" content="fr_FR" />
+    <meta property="og:url" content="" id="meta-og-url" />
+
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Joris Martinez · Développeur Web" />
     <meta
@@ -40,14 +42,17 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Rajdhani:wght@400;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Rajdhani:wght@400;600&display=swap"
       rel="stylesheet"
     />
 
+    <link rel="preload" href="style.css" as="style" />
     <link rel="stylesheet" href="style.css" />
   </head>
 
   <body data-section-id="projets">
+    <a class="lien-evitement" href="#js-contenu-principal">Aller au contenu principal</a>
+
     <div id="partial-crt"></div>
 
     <div id="partial-marquee"></div>
@@ -55,11 +60,11 @@
     <div class="ecran">
       <div id="partial-nav"></div>
 
-      <main id="js-contenu-principal">
+      <main id="js-contenu-principal" tabindex="-1">
         <section id="projets" class="section" aria-label="Projets">
-          <h2 class="titre-section">
+          <h1 class="titre-section">
             <span class="pixel-accent">▶</span> SELECT YOUR STAGE
-          </h2>
+          </h1>
 
           <div class="grille-projets">
             <!-- GameHub Retro -->
@@ -132,7 +137,7 @@
                   >★★★</span
                 >
               </div>
-              <h3 class="carte-projet__nom">GAMEHUB RETRO</h3>
+              <h2 class="carte-projet__nom">GAMEHUB RETRO</h2>
               <p class="carte-projet__desc">
                 Hub de jeux rétro — catalogue, gestion utilisateur, interface
                 d'émulation.
@@ -219,7 +224,7 @@
                   >★★★</span
                 >
               </div>
-              <h3 class="carte-projet__nom">PROJET LSF</h3>
+              <h2 class="carte-projet__nom">PROJET LSF</h2>
               <p class="carte-projet__desc">
                 App web d'apprentissage de la langue des signes française.
                 Projet fil rouge TP Dev Web.
@@ -326,7 +331,7 @@
                   >★★☆</span
                 >
               </div>
-              <h3 class="carte-projet__nom">HUBTRAINING</h3>
+              <h2 class="carte-projet__nom">HUBTRAINING</h2>
               <p class="carte-projet__desc">
                 Site WordPress pour client réel — UX/UI, réservations, SEO,
                 sécurité.
@@ -421,7 +426,7 @@
                   >★★★</span
                 >
               </div>
-              <h3 class="carte-projet__nom">PIXEL QUEST</h3>
+              <h2 class="carte-projet__nom">PIXEL QUEST</h2>
               <p class="carte-projet__desc">
                 Plateforme 2D navigateur — moteur ECS, Canvas 2D, niveaux et
                 boss. Démo Mario-like originale.
@@ -439,7 +444,7 @@
                     style="--cible: 30%"
                   ></div>
                 </div>
-                <span class="barre-completion__val">100%</span>
+                <span class="barre-completion__val">30%</span>
               </div>
               <p class="carte-projet__clic-hint" aria-hidden="true">
                 ↩ cliquer pour aperçu
@@ -478,13 +483,16 @@
           </button>
         </div>
         <div class="modal-contenu">
-          <img
-            class="modal-img"
-            id="js-modal-img"
-            src=""
-            alt="Aperçu du projet"
-            loading="lazy"
-          />
+          <figure class="modal-apercu">
+            <img
+              class="modal-img"
+              id="js-modal-img"
+              src=""
+              alt=""
+              loading="lazy"
+              hidden
+            />
+          </figure>
           <p class="modal-desc" id="js-modal-desc"></p>
           <p class="modal-lien" id="js-modal-lien" hidden></p>
           <div class="modal-tech" id="js-modal-tech"></div>
@@ -494,7 +502,6 @@
 
     <div id="partial-popup-hs"></div>
 
-    <script src="assets/previews_data.js"></script>
     <script type="module" src="js/main.js"></script>
   </body>
 </html>

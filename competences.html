@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
@@ -17,6 +17,8 @@
     />
     <meta property="og:image" content="assets/og.png" />
     <meta property="og:locale" content="fr_FR" />
+    <meta property="og:url" content="" id="meta-og-url" />
+
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Joris Martinez · Développeur Web" />
     <meta
@@ -40,14 +42,17 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Rajdhani:wght@400;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Rajdhani:wght@400;600&display=swap"
       rel="stylesheet"
     />
 
+    <link rel="preload" href="style.css" as="style" />
     <link rel="stylesheet" href="style.css" />
   </head>
 
   <body data-section-id="competences">
+    <a class="lien-evitement" href="#js-contenu-principal">Aller au contenu principal</a>
+
     <div id="partial-crt"></div>
 
     <div id="partial-marquee"></div>
@@ -55,11 +60,11 @@
     <div class="ecran">
       <div id="partial-nav"></div>
 
-      <main id="js-contenu-principal">
+      <main id="js-contenu-principal" tabindex="-1">
         <section id="competences" class="section" aria-label="Compétences">
-          <h2 class="titre-section">
+          <h1 class="titre-section">
             <span class="pixel-accent">▶</span> HIGH SCORES — ハイスコア
-          </h2>
+          </h1>
 
           <div class="stats-grille">
             <!-- Tableau High Scores -->
@@ -174,7 +179,7 @@
             <!-- Panneau latéral : Langues + Bonus Stats -->
             <div class="stats-lateral">
               <div class="stats-bloc">
-                <h3 class="stats-bloc__titre">LANGUES</h3>
+                <h2 class="stats-bloc__titre">LANGUES</h2>
                 <div class="langue-item">
                   <span class="langue-item__drapeau">🌍</span>
                   <span class="langue-item__nom">Anglais</span>
@@ -202,7 +207,7 @@
               </div>
 
               <div class="stats-bloc">
-                <h3 class="stats-bloc__titre">BONUS STATS</h3>
+                <h2 class="stats-bloc__titre">BONUS STATS</h2>
                 <div class="bonus-item">
                   <span class="bonus-item__icone">🏃</span>
                   <span class="bonus-item__nom">Running</span>
@@ -241,7 +246,7 @@
               </div>
 
               <div class="stats-bloc">
-                <h3 class="stats-bloc__titre">SOFT SKILLS</h3>
+                <h2 class="stats-bloc__titre">SOFT SKILLS</h2>
                 <div class="soft-item"><span>🔄</span> Reconversion active</div>
                 <div class="soft-item">
                   <span>🔬</span> Rigueur expérimentale
