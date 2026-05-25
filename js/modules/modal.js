@@ -34,6 +34,26 @@ export function ouvrirModal(projetKey) {
   modalTitre.textContent = data.titre;
   modalDesc.textContent = data.desc;
 
+  let modalLien = byId(CONFIG.SELECTORS.MODAL_LIEN);
+  if (data.lien) {
+    if (!modalLien) {
+      modalLien = document.createElement("p");
+      modalLien.id = CONFIG.SELECTORS.MODAL_LIEN;
+      modalLien.className = "modal-lien";
+      modalDesc.insertAdjacentElement("afterend", modalLien);
+    }
+    modalLien.hidden = false;
+    modalLien.innerHTML = "";
+    const a = document.createElement("a");
+    a.href = data.lien;
+    a.target = "_blank";
+    a.rel = "noopener noreferrer";
+    a.textContent = data.lienLabel || "▶ Voir le dépôt GitHub";
+    modalLien.append(a);
+  } else if (modalLien) {
+    modalLien.hidden = true;
+  }
+
   if (typeof IMG !== "undefined" && IMG[data.img]) {
     modalImg.src = IMG[data.img];
     modalImg.style.display = "block";

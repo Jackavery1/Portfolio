@@ -289,6 +289,23 @@
 }
 
 @media (max-width: 600px) {
+  html:has(body[data-section-id="accueil"]) {
+    height: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  body[data-section-id="accueil"] {
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  body[data-section-id="accueil"] .section {
+    flex: none;
+    min-height: auto;
+    overflow: visible;
+  }
+
   .accueil__grille {
     display: flex;
     flex-direction: column;
@@ -376,22 +393,27 @@
   }
 }
 
-/* Accueil : pas de scroll — grille pour nav/footer hauteur auto (comme les autres pages) */
-html:has(body[data-section-id="accueil"]) {
-  height: 100%;
-  overflow: hidden;
+/* Accueil desktop : pas de scroll — hero centré dans le viewport */
+@media (min-width: 601px) {
+  html:has(body[data-section-id="accueil"]) {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  body[data-section-id="accueil"] {
+    overflow: hidden;
+  }
+
+  body[data-section-id="accueil"] .section {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+    justify-content: center;
+    padding: 1.75rem 1.5rem 0.5rem;
+  }
 }
 
-body[data-section-id="accueil"] {
-  overflow: hidden;
-}
-
-/* Même bandeau sous la nav que les autres pages (padding section identique) */
 body[data-section-id="accueil"] .section {
-  flex: 1;
-  min-height: 0;
-  overflow: hidden;
-  justify-content: center;
   padding: 1.75rem 1.5rem 0.5rem;
 }
 

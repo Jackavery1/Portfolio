@@ -48,6 +48,7 @@ export const CONFIG = {
     CONTACT_PHONE_DISPLAY: "js-contact-phone",
     MENTIONS_EMAIL_LINK: "js-mentions-email",
     CANONICAL: "link-canonical",
+    MODAL_LIEN: "js-modal-lien",
   },
 
   NAVIGATION: {
@@ -89,30 +90,29 @@ export const CONFIG = {
       desc: "Hub de jeux rétro — catalogue de jeux, gestion de compte utilisateur, interface d'émulation. Les émulateurs sont en cours d'intégration (70%).",
       tech: ["Node.js", "MongoDB", "EJS", "Tailwind CSS"],
       img: "v5_home",
+      lien: "https://github.com/Jackavery1/GameHub.-retro",
     },
     lsf: {
       titre: "PROJET LSF",
       desc: "Application web d'apprentissage de la Langue des Signes Française. Dictionnaire visuel, quiz, ressources. Projet fil rouge TP Dev Web. De nombreuses fonctionnalités encore à venir (60%).",
       tech: ["Express", "Mongoose", "Tailwind", "bcrypt"],
       img: "v5_home",
+      lien: "https://github.com/Jackavery1/ProjetLSF",
     },
     hub: {
       titre: "HUBTRAINING",
       desc: "Site WordPress pour un client réel (HubTraining). Intégration Gutenberg, optimisation SEO, sécurité renforcée, UX/UI, formulaire de réservation. Quasi finalisé (98%).",
       tech: ["WordPress", "Gutenberg", "SEO", "ACF"],
       img: "work",
+      lien: "https://h-training.fr/",
+      lienLabel: "▶ Voir le site client",
     },
-    renter: {
-      titre: "RENTER-CAR",
-      desc: "Interface de location de voitures. Catalogue filtrable et trié dynamiquement. Bootstrap responsive, manipulation du DOM en JavaScript pur. Projet d'évaluation.",
-      tech: ["HTML", "CSS", "Bootstrap", "JavaScript DOM"],
+    pixelquest: {
+      titre: "PIXEL QUEST",
+      desc: "Plateforme 2D dans le navigateur — moteur ECS léger, physique AABB, rendu Canvas 2D et audio Web Audio. Niveaux, arène boss, progression sauvegardée. Démo originale inspirée des jeux 8 bits, sans dépendance npm.",
+      tech: ["JavaScript", "Canvas 2D", "ECS", "Web Audio"],
       img: "work",
-    },
-    idees: {
-      titre: "BOÎTE À IDÉES",
-      desc: "Application inclusive permettant de soumettre des idées, les liker, commenter. Authentification JWT, système de rôles, accessibilité ARIA. (80%)",
-      tech: ["Express", "MongoDB", "Tailwind 4", "JWT"],
-      img: "work",
+      lien: "https://github.com/Jackavery1/Pixel-quest",
     },
   },
 };

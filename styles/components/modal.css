@@ -77,6 +77,19 @@
   line-height: 1.7;
 }
 
+.modal-lien a {
+  font-family: var(--police-pixel);
+  font-size: clamp(0.35rem, 1.2vw, 0.48rem);
+  color: var(--couleur-accent-vif);
+  letter-spacing: 2px;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.modal-lien a:hover {
+  color: var(--couleur-actif);
+}
+
 .modal-tech {
   display: flex;
   flex-wrap: wrap;
