@@ -1,51 +1,11 @@
 /* ============================================
-   Page : parcours (frise, timeline, arbre SVG)
+   Page : parcours (timeline, arbre SVG)
    ============================================ */
 
 .story-grille {
   display: grid;
   grid-template-columns: 1fr;
   gap: 2rem;
-}
-
-.frise-progression {
-  position: relative;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1.5rem;
-  font-family: var(--police-pixel);
-  font-size: 0.4rem;
-  color: var(--couleur-texte-discret);
-  letter-spacing: 1px;
-}
-
-.frise-progression__ligne {
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    var(--couleur-accent-dim),
-    var(--couleur-accent-vif)
-  );
-  top: 50%;
-  z-index: 0;
-}
-
-.frise-progression__debut,
-.frise-progression__milieu,
-.frise-progression__fin {
-  position: relative;
-  z-index: 1;
-  background-color: var(--couleur-fond);
-  padding: 0 0.4rem;
-}
-
-.frise-progression__fin {
-  color: var(--couleur-accent-vif);
-  text-shadow: 0 0 8px var(--couleur-accent);
 }
 
 .liste-parcours {
@@ -132,7 +92,7 @@
 
 .svg-arbre {
   width: 100%;
-  max-width: 200px;
+  max-width: 240px;
   height: auto;
   filter: drop-shadow(0 0 8px rgba(var(--couleur-accent-rgb), 0.2));
 }

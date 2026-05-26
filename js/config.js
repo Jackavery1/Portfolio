@@ -88,19 +88,27 @@ export const CONFIG = {
   ],
 
   PROJETS: {
-    gamehub: {
-      titre: "GAMEHUB RETRO",
-      desc: "Hub de jeux rétro — catalogue de jeux, gestion de compte utilisateur, interface d'émulation. Les émulateurs sont en cours d'intégration (70%).",
-      tech: ["Node.js", "MongoDB", "EJS", "Tailwind CSS"],
-      apercu: "assets/previews/gamehub.svg",
-      lien: "https://github.com/Jackavery1/GameHub.-retro",
-    },
     lsf: {
       titre: "PROJET LSF",
-      desc: "Application web d'apprentissage de la Langue des Signes Française. Dictionnaire visuel, quiz, ressources. Projet fil rouge TP Dev Web. De nombreuses fonctionnalités encore à venir (60%).",
+      desc: "Application web d'apprentissage de la Langue des Signes Française. Dictionnaire visuel, quiz, ressources. Projet fil rouge TP Dev Web — l'un des plus aboutis côté stack full-stack (Express, MongoDB, auth). De nombreuses fonctionnalités encore à venir (60%).",
       tech: ["Express", "Mongoose", "Tailwind", "bcrypt"],
       apercu: "assets/previews/lsf.svg",
       lien: "https://github.com/Jackavery1/ProjetLSF",
+    },
+    floppybird: {
+      titre: "FLOPPY BIRD",
+      desc: "Clone arcade type Flappy Bird — Phaser 3, scores locaux, trois difficultés, audio Web Audio. PWA installable, tests Vitest, déployé sur GitHub Pages. Projet personnel mené à terme (100%).",
+      tech: ["Phaser 3", "JavaScript", "PWA", "Vitest"],
+      apercu: "assets/previews/floppybird.svg",
+      lien: "https://github.com/Jackavery1/Floppy-Bird",
+      lienLabel: "▶ Voir le dépôt GitHub",
+    },
+    gamehub: {
+      titre: "GAMEHUB RETRO",
+      desc: "Hub de jeux rétro — catalogue de jeux, gestion de compte utilisateur, interface d'émulation. Les émulateurs sont en cours d'intégation (70%).",
+      tech: ["Node.js", "MongoDB", "EJS", "Tailwind CSS"],
+      apercu: "assets/previews/gamehub.svg",
+      lien: "https://github.com/Jackavery1/GameHub.-retro",
     },
     hub: {
       titre: "HUBTRAINING",

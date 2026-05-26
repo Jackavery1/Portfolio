@@ -51,7 +51,9 @@
   </head>
 
   <body data-section-id="projets">
-    <a class="lien-evitement" href="#js-contenu-principal">Aller au contenu principal</a>
+    <a class="lien-evitement" href="#js-contenu-principal"
+      >Aller au contenu principal</a
+    >
 
     <div id="partial-crt"></div>
 
@@ -67,6 +69,196 @@
           </h1>
 
           <div class="grille-projets">
+            <!-- Projet LSF -->
+            <article
+              class="carte-projet"
+              tabindex="0"
+              data-projet="lsf"
+              aria-label="Ouvrir le projet LSF"
+            >
+              <div class="carte-projet__entete">
+                <span class="carte-projet__num">PRJ-01</span>
+                <div class="carte-projet__icone" aria-hidden="true">
+                  <svg
+                    viewBox="0 0 24 30"
+                    width="30"
+                    height="37"
+                    shape-rendering="crispEdges"
+                  >
+                    <rect
+                      x="9"
+                      y="1"
+                      width="6"
+                      height="10"
+                      rx="3"
+                      fill="var(--couleur-accent)"
+                    />
+                    <rect
+                      x="4"
+                      y="4"
+                      width="5"
+                      height="9"
+                      rx="2"
+                      fill="var(--couleur-accent)"
+                    />
+                    <rect
+                      x="15"
+                      y="4"
+                      width="5"
+                      height="9"
+                      rx="2"
+                      fill="var(--couleur-accent)"
+                    />
+                    <rect
+                      x="2"
+                      y="9"
+                      width="20"
+                      height="13"
+                      rx="4"
+                      fill="var(--couleur-accent)"
+                    />
+                    <rect
+                      x="0"
+                      y="13"
+                      width="5"
+                      height="7"
+                      rx="2"
+                      fill="var(--couleur-accent)"
+                    />
+                  </svg>
+                </div>
+                <span class="carte-projet__diff" aria-label="3 étoiles"
+                  >★★★</span
+                >
+              </div>
+              <h2 class="carte-projet__nom">PROJET LSF</h2>
+              <p class="carte-projet__desc">
+                App web d'apprentissage de la LSF — projet fil rouge TP, le plus
+                abouti côté full-stack.
+              </p>
+              <ul class="etiquettes-tech">
+                <li>Express</li>
+                <li>Mongoose</li>
+                <li>Tailwind</li>
+                <li>bcrypt</li>
+              </ul>
+              <div class="barre-completion">
+                <div class="barre-completion__fond">
+                  <div
+                    class="barre-completion__fill"
+                    style="--cible: 60%"
+                  ></div>
+                </div>
+                <span class="barre-completion__val">60%</span>
+              </div>
+              <p class="carte-projet__clic-hint" aria-hidden="true">
+                ↩ cliquer pour aperçu
+              </p>
+            </article>
+
+            <!-- Floppy Bird -->
+            <article
+              class="carte-projet"
+              tabindex="0"
+              data-projet="floppybird"
+              aria-label="Ouvrir le projet Floppy Bird"
+            >
+              <div class="carte-projet__entete">
+                <span class="carte-projet__num">PRJ-02</span>
+                <div class="carte-projet__icone" aria-hidden="true">
+                  <svg
+                    viewBox="0 0 32 24"
+                    width="40"
+                    height="30"
+                    shape-rendering="crispEdges"
+                  >
+                    <rect
+                      x="0"
+                      y="0"
+                      width="32"
+                      height="24"
+                      fill="#5c94fc"
+                      opacity="0.35"
+                    />
+                    <rect
+                      x="20"
+                      y="0"
+                      width="5"
+                      height="11"
+                      fill="var(--couleur-valide)"
+                    />
+                    <rect
+                      x="20"
+                      y="17"
+                      width="5"
+                      height="7"
+                      fill="var(--couleur-valide)"
+                    />
+                    <rect
+                      x="8"
+                      y="2"
+                      width="5"
+                      height="7"
+                      fill="var(--couleur-valide)"
+                    />
+                    <rect
+                      x="8"
+                      y="17"
+                      width="5"
+                      height="7"
+                      fill="var(--couleur-valide)"
+                    />
+                    <rect
+                      x="4"
+                      y="10"
+                      width="9"
+                      height="7"
+                      fill="var(--couleur-actif)"
+                    />
+                    <rect
+                      x="11"
+                      y="12"
+                      width="4"
+                      height="4"
+                      fill="var(--couleur-actif)"
+                    />
+                    <rect
+                      x="12"
+                      y="11"
+                      width="2"
+                      height="2"
+                      fill="var(--couleur-fond)"
+                    />
+                  </svg>
+                </div>
+                <span class="carte-projet__diff" aria-label="3 étoiles"
+                  >★★★</span
+                >
+              </div>
+              <h2 class="carte-projet__nom">FLOPPY BIRD</h2>
+              <p class="carte-projet__desc">
+                Clone Flappy Bird — Phaser 3, PWA installable, tests Vitest.
+              </p>
+              <ul class="etiquettes-tech">
+                <li>Phaser 3</li>
+                <li>JavaScript</li>
+                <li>PWA</li>
+                <li>Vitest</li>
+              </ul>
+              <div class="barre-completion">
+                <div class="barre-completion__fond">
+                  <div
+                    class="barre-completion__fill"
+                    style="--cible: 100%"
+                  ></div>
+                </div>
+                <span class="barre-completion__val">100%</span>
+              </div>
+              <p class="carte-projet__clic-hint" aria-hidden="true">
+                ↩ cliquer pour aperçu
+              </p>
+            </article>
+
             <!-- GameHub Retro -->
             <article
               class="carte-projet"
@@ -75,7 +267,7 @@
               aria-label="Ouvrir le projet GameHub Retro"
             >
               <div class="carte-projet__entete">
-                <span class="carte-projet__num">STG-01</span>
+                <span class="carte-projet__num">PRJ-03</span>
                 <div class="carte-projet__icone" aria-hidden="true">
                   <svg
                     viewBox="0 0 32 20"
@@ -162,93 +354,6 @@
               </p>
             </article>
 
-            <!-- Projet LSF -->
-            <article
-              class="carte-projet"
-              tabindex="0"
-              data-projet="lsf"
-              aria-label="Ouvrir le projet LSF"
-            >
-              <div class="carte-projet__entete">
-                <span class="carte-projet__num">STG-02</span>
-                <div class="carte-projet__icone" aria-hidden="true">
-                  <svg
-                    viewBox="0 0 24 30"
-                    width="30"
-                    height="37"
-                    shape-rendering="crispEdges"
-                  >
-                    <rect
-                      x="9"
-                      y="1"
-                      width="6"
-                      height="10"
-                      rx="3"
-                      fill="var(--couleur-accent)"
-                    />
-                    <rect
-                      x="4"
-                      y="4"
-                      width="5"
-                      height="9"
-                      rx="2"
-                      fill="var(--couleur-accent)"
-                    />
-                    <rect
-                      x="15"
-                      y="4"
-                      width="5"
-                      height="9"
-                      rx="2"
-                      fill="var(--couleur-accent)"
-                    />
-                    <rect
-                      x="2"
-                      y="9"
-                      width="20"
-                      height="13"
-                      rx="4"
-                      fill="var(--couleur-accent)"
-                    />
-                    <rect
-                      x="0"
-                      y="13"
-                      width="5"
-                      height="7"
-                      rx="2"
-                      fill="var(--couleur-accent)"
-                    />
-                  </svg>
-                </div>
-                <span class="carte-projet__diff" aria-label="3 étoiles"
-                  >★★★</span
-                >
-              </div>
-              <h2 class="carte-projet__nom">PROJET LSF</h2>
-              <p class="carte-projet__desc">
-                App web d'apprentissage de la langue des signes française.
-                Projet fil rouge TP Dev Web.
-              </p>
-              <ul class="etiquettes-tech">
-                <li>Express</li>
-                <li>Mongoose</li>
-                <li>Tailwind</li>
-                <li>bcrypt</li>
-              </ul>
-              <div class="barre-completion">
-                <div class="barre-completion__fond">
-                  <div
-                    class="barre-completion__fill"
-                    style="--cible: 60%"
-                  ></div>
-                </div>
-                <span class="barre-completion__val">60%</span>
-              </div>
-              <p class="carte-projet__clic-hint" aria-hidden="true">
-                ↩ cliquer pour aperçu
-              </p>
-            </article>
-
             <!-- HubTraining -->
             <article
               class="carte-projet"
@@ -257,7 +362,7 @@
               aria-label="Ouvrir le projet HubTraining"
             >
               <div class="carte-projet__entete">
-                <span class="carte-projet__num">STG-03</span>
+                <span class="carte-projet__num">STG-01</span>
                 <div class="carte-projet__icone" aria-hidden="true">
                   <svg
                     viewBox="0 0 32 24"
@@ -363,7 +468,7 @@
               aria-label="Ouvrir le projet Pixel Quest"
             >
               <div class="carte-projet__entete">
-                <span class="carte-projet__num">STG-04</span>
+                <span class="carte-projet__num">PRJ-04</span>
                 <div class="carte-projet__icone" aria-hidden="true">
                   <svg
                     viewBox="0 0 32 24"
