@@ -10,7 +10,12 @@ export function animerBarresSection(id) {
   const section = document.getElementById(id);
   if (!section) return;
 
-  const selecteurs = ['.barre-completion__fill', '.score-barre', '.langue-item__barre'];
+  const selecteurs = [
+    '.barre-completion__fill',
+    '.score-barre',
+    '.langue-item__barre',
+    '.boss-carte__vie-fill',
+  ];
 
   selecteurs.forEach((sel) => {
     section.querySelectorAll(sel).forEach((barre) => {

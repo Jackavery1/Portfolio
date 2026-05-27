@@ -61,7 +61,7 @@ export function initBonusScore() {
     carte.addEventListener('click', () => ajouterScore(1100));
   });
 
-  document.querySelectorAll('.carte-dojo').forEach((carte) => {
+  document.querySelectorAll('.boss-carte').forEach((carte) => {
     carte.addEventListener('click', () => ajouterScore(150));
   });
 

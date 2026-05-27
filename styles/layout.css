@@ -213,10 +213,13 @@ a.bouton-retour-work {
   .badge--actif,
   .accueil__wip,
   .texte-continue,
+  .contact-bandeau,
   .svg-bonhomme,
   .bras-coucou,
   .bulle-coucou,
-  .barre-completion__fill {
+  .barre-completion__fill,
+  .boss-carte__sprite--pulse,
+  .boss-carte__statut--en-cours {
     animation: none;
   }
 
@@ -226,7 +229,8 @@ a.bouton-retour-work {
 
   .barre-completion__fill,
   .score-barre,
-  .langue-item__barre {
+  .langue-item__barre,
+  .boss-carte__vie-fill {
     transition: none;
   }
 }

@@ -368,6 +368,10 @@ function copyAssets() {
       src: path.join(ROOT, "assets", "favicon.ico"),
       dst: path.join(DIST_DIR, "assets", "favicon.ico"),
     },
+    {
+      src: path.join(ROOT, "assets", "cv-martinez-joris.pdf"),
+      dst: path.join(DIST_DIR, "assets", "cv-martinez-joris.pdf"),
+    },
   ];
 
   assetsToCopy.forEach(({ src, dst }) => {

@@ -46,7 +46,9 @@ async function init() {
       './modules/contact-coordonnees.js'
     );
     const { initContactForm } = await import('./modules/contact-form.js');
+    const { initContactBandeau } = await import('./modules/contact-bandeau.js');
     initContactCoordonnees();
+    initContactBandeau();
     await initContactForm();
   }
 

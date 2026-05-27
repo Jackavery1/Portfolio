@@ -1,5 +1,5 @@
 /* ============================================
-   Page : dojo (cartes entraînement, retour Work)
+   Page : dojo (boss rush, retour Work)
    ============================================ */
 
 .dojo-intro {
@@ -10,60 +10,182 @@
   margin-bottom: 1.5rem;
 }
 
-.grille-dojo {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 0.9rem;
-  margin-bottom: 1.5rem;
+.boss-rush {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
 }
 
-.carte-dojo {
+.boss-carte {
+  display: flex;
+  gap: 1.25rem;
   background-color: var(--couleur-fond-carte);
   border: 1px solid var(--couleur-bordure);
   border-radius: 4px;
-  padding: 1.1rem;
-  transition: border-color 0.2s;
+  padding: 1rem 1.25rem;
+  transition: border-color 0.2s, transform 0.2s;
 }
 
-.carte-dojo:hover {
-  border-color: var(--couleur-actif-dim);
+.boss-carte:hover {
+  transform: translateX(4px);
 }
 
-.carte-dojo__header {
+.boss-carte--vaincu {
+  border-left: 3px solid var(--couleur-valide);
+}
+
+.boss-carte--en-cours {
+  border-left: 3px solid var(--couleur-actif);
+}
+
+.boss-carte--locked {
+  border-left: 3px solid var(--couleur-bordure);
+  opacity: 0.5;
+}
+
+.boss-carte__gauche {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+  width: 72px;
+}
+
+.boss-carte__rang {
+  font-family: var(--police-pixel);
+  font-size: 0.35rem;
+  color: var(--couleur-texte-discret);
+  letter-spacing: 1px;
+  text-align: center;
+}
+
+.boss-carte__sprite--pulse {
+  animation: pulsation 1.5s ease-in-out infinite;
+}
+
+.boss-carte__contenu {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.boss-carte__haut {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 0.4rem;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
-.carte-dojo__type {
+.boss-carte__nom {
   font-family: var(--police-pixel);
-  font-size: 0.38rem;
-  color: var(--couleur-actif);
-  letter-spacing: 2px;
-}
-
-.carte-dojo__xp {
-  font-family: var(--police-crt);
-  font-size: 0.9rem;
-  color: var(--couleur-valide);
-  letter-spacing: 1px;
-}
-
-.carte-dojo__nom {
-  font-family: var(--police-pixel);
-  font-size: clamp(0.38rem, 1.4vw, 0.52rem);
+  font-size: clamp(0.38rem, 1.4vw, 0.55rem);
   color: var(--couleur-texte-fort);
   letter-spacing: 1px;
-  margin-bottom: 0.35rem;
   line-height: 1.8;
 }
 
-.carte-dojo__desc {
+.boss-carte__statut {
+  font-family: var(--police-crt);
+  font-size: clamp(0.9rem, 2vw, 1.1rem);
+  letter-spacing: 1px;
+  padding: 0.15rem 0.5rem;
+  border-radius: 2px;
+}
+
+.boss-carte__statut--vaincu {
+  color: var(--couleur-valide);
+  border: 1px solid var(--couleur-valide-dim);
+  background: rgba(68, 204, 136, 0.08);
+}
+
+.boss-carte__statut--en-cours {
+  color: var(--couleur-actif);
+  border: 1px solid var(--couleur-actif-dim);
+  background: rgba(255, 204, 68, 0.08);
+  animation: pulsation 2s ease-in-out infinite;
+}
+
+.boss-carte__statut--locked {
+  color: var(--couleur-texte-discret);
+  border: 1px solid var(--couleur-bordure);
+}
+
+.boss-carte__techno {
+  font-family: var(--police-crt);
+  font-size: clamp(0.95rem, 2.2vw, 1.1rem);
+  color: var(--couleur-accent);
+  letter-spacing: 1px;
+}
+
+.boss-carte__desc {
   font-family: var(--police-lisible);
-  font-size: clamp(0.95rem, 2.3vw, 1.05rem);
+  font-size: clamp(0.95rem, 2.2vw, 1.05rem);
   color: var(--couleur-texte-normal);
   line-height: 1.6;
-  margin-bottom: 0.5rem;
+}
+
+.boss-carte__xp {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.2rem;
+}
+
+.boss-carte__xp-label {
+  font-family: var(--police-pixel);
+  font-size: 0.3rem;
+  color: var(--couleur-texte-discret);
+  letter-spacing: 1px;
+}
+
+.boss-carte__xp-val {
+  font-family: var(--police-pixel);
+  font-size: 0.35rem;
+  color: var(--couleur-valide);
+  text-shadow: 0 0 6px var(--couleur-valide);
+}
+
+.boss-carte__barre-vie {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.2rem;
+}
+
+.boss-carte__vie-label {
+  font-family: var(--police-pixel);
+  font-size: 0.32rem;
+  color: var(--couleur-actif);
+  letter-spacing: 1px;
+}
+
+.boss-carte__vie-fond {
+  flex: 1;
+  height: 7px;
+  background-color: var(--couleur-separateur);
+  border: 1px solid var(--couleur-bordure);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.boss-carte__vie-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #ff4400, var(--couleur-actif));
+  border-radius: 2px;
+  transition: width 1s ease-out;
+}
+
+.boss-carte__vie-pct {
+  font-family: var(--police-pixel);
+  font-size: 0.32rem;
+  color: var(--couleur-actif);
+  width: 2.5rem;
+  text-align: right;
 }
 
 .bouton-retour-work {
@@ -83,8 +205,61 @@
   box-shadow: 0 0 14px rgba(var(--couleur-accent-rgb), 0.25);
 }
 
-@media (min-width: 560px) {
-  .grille-dojo {
-    grid-template-columns: 1fr 1fr;
+@media (max-width: 480px) {
+  .boss-carte {
+    flex-direction: column;
+    align-items: stretch;
   }
+
+  .boss-carte__gauche {
+    flex-direction: row;
+    width: auto;
+    justify-content: flex-start;
+  }
+}
+
+/* Citations hover boss */
+.boss-citation {
+  position: absolute;
+  top: -2.2rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  background: var(--couleur-fond-carte);
+  border: 1px solid var(--couleur-accent);
+  color: var(--couleur-accent-vif);
+  font-family: var(--police-crt);
+  font-size: clamp(0.85rem, 2vw, 1rem);
+  padding: 0.25rem 0.6rem;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s, transform 0.2s;
+  z-index: 10;
+  letter-spacing: 1px;
+}
+
+.boss-citation--visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Flash victoire au clic */
+@keyframes boss-victoire {
+  0%   { box-shadow: 0 0 0 0 rgba(68, 204, 136, 0); }
+  30%  { box-shadow: 0 0 0 6px rgba(68, 204, 136, 0.5); }
+  100% { box-shadow: 0 0 0 0 rgba(68, 204, 136, 0); }
+}
+
+.boss-flash {
+  animation: boss-victoire 0.6s ease-out forwards;
+}
+
+/* Hover général boss */
+.boss-carte--vaincu:hover {
+  cursor: pointer;
+}
+
+.boss-carte--en-cours:hover {
+  border-left-color: var(--couleur-actif);
+  box-shadow: 0 0 12px rgba(255, 204, 68, 0.15);
 }

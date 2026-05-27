@@ -55,6 +55,43 @@
   animation: pulsation 2s ease-in-out infinite;
 }
 
+.contact-bandeau {
+  cursor: pointer;
+  margin-bottom: 0.35rem;
+  transition: color 0.15s, text-shadow 0.15s;
+  outline: none;
+}
+
+.contact-bandeau:hover,
+.contact-bandeau:focus-visible {
+  color: var(--couleur-actif);
+  text-shadow: 0 0 12px var(--couleur-accent);
+}
+
+.contact-bandeau__ligne {
+  margin: 0;
+}
+
+.contact-bandeau__lien-cv {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.contact-bandeau__lien-cv:hover,
+.contact-bandeau__lien-cv:focus-visible {
+  color: var(--couleur-valide);
+}
+
+.contact-bandeau-aide {
+  font-family: var(--police-pixel);
+  font-size: 0.35rem;
+  color: var(--couleur-texte-discret);
+  text-align: center;
+  letter-spacing: 1px;
+  margin: 0 0 1.25rem;
+}
+
 .profil-recap {
   background-color: var(--couleur-fond-carte);
   border: 1px solid var(--couleur-bordure);

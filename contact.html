@@ -51,7 +51,9 @@
   </head>
 
   <body data-section-id="contact">
-    <a class="lien-evitement" href="#js-contenu-principal">Aller au contenu principal</a>
+    <a class="lien-evitement" href="#js-contenu-principal"
+      >Aller au contenu principal</a
+    >
 
     <div id="partial-crt"></div>
 
@@ -66,11 +68,30 @@
             <span class="pixel-accent">▶</span> CONTINUE ? — INSERT COIN
           </h1>
 
-          <p class="texte-continue" aria-hidden="true">
-            ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░<br />
-            ░&nbsp;&nbsp;DISPONIBLE — PREMIER POSTE DEV WEB&nbsp;&nbsp;░<br />
-            ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-          </p>
+          <div
+            class="contact-bandeau texte-continue"
+            id="js-contact-bandeau"
+            tabindex="0"
+            role="button"
+            aria-label="Disponible pour un premier poste développeur web. Cliquer pour afficher le téléchargement du CV."
+          >
+            <p class="contact-bandeau__ligne" id="js-bandeau-dispo">
+              ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░<br />
+              ░&nbsp;&nbsp;CLIQUEZ ICI POUR TELECHARGER LE CV&nbsp;&nbsp;░<br />
+              ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+            </p>
+            <a
+              class="contact-bandeau__ligne contact-bandeau__lien-cv"
+              id="js-bandeau-cv"
+              href="assets/cv-martinez-joris.pdf"
+              download="CV-Martinez-Joris.pdf"
+              hidden
+            >
+              ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░<br />
+              ░&nbsp;&nbsp;▼ TÉLÉCHARGER LE CV (PDF)&nbsp;&nbsp;░<br />
+              ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+            </a>
+          </div>
 
           <div class="contact-grille">
             <!-- Infos + formulaire -->

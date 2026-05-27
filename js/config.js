@@ -22,6 +22,8 @@ export const CONFIG = {
     HONEYPOT_NAME: "_gotcha",
     RATE_LIMIT_MS: 60_000,
     LIMITS: { nom: 120, email: 254, message: 5000 },
+    CV_HREF: "assets/cv-martinez-joris.pdf",
+    CV_DOWNLOAD: "CV-Martinez-Joris.pdf",
   },
 
   SELECTORS: {
@@ -48,6 +50,9 @@ export const CONFIG = {
     CONTACT_ERREUR: "js-formulaire-erreur",
     CONTACT_EMAIL_DISPLAY: "js-contact-email",
     CONTACT_PHONE_DISPLAY: "js-contact-phone",
+    CONTACT_BANDEAU: "js-contact-bandeau",
+    CONTACT_BANDEAU_DISPO: "js-bandeau-dispo",
+    CONTACT_BANDEAU_CV: "js-bandeau-cv",
     MENTIONS_EMAIL_LINK: "js-mentions-email",
     CANONICAL: "link-canonical",
     OG_URL: "meta-og-url",
