@@ -1,35 +1,32 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
-      name="description"
-      content="Portfolio de Joris Martinez, développeur web junior — Node.js, Express, WordPress, MongoDB. La Rochelle · disponible pour un premier poste."
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' https://www.google.com https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https://www.gstatic.com; frame-src https://www.google.com https://recaptcha.google.com; connect-src 'self' https://formspree.io https://www.google.com https://www.gstatic.com https://recaptcha.google.com; form-action 'self' https://formspree.io; base-uri 'self'; object-src 'none';"
     />
+    <meta name="description" content="Parcours agro → dev web : master sciences du végétal, BIOTEK/UNILET, TP, stage HubTraining, formation continue." />
     <meta name="theme-color" content="#03040f" />
 
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Joris Martinez · Développeur Web" />
-    <meta
-      property="og:description"
-      content="Portfolio développeur web — projets GameHub, LSF, WordPress, apps Express/MongoDB. La Jarne · La Rochelle."
-    />
-    <meta property="og:image" content="assets/og.png" />
+    <meta property="og:description" content="STORY — timeline de reconversion vers le développement web." />
+    <meta property="og:image" content="https://jackavery1.github.io/Portfolio/assets/og.png" />
     <meta property="og:locale" content="fr_FR" />
+    <meta property="og:url" content="https://jackavery1.github.io/Portfolio/parcours.html" id="meta-og-url" />
+
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Joris Martinez · Développeur Web" />
-    <meta
-      name="twitter:description"
-      content="Portfolio développeur web — projets, stack technique, parcours."
-    />
-    <meta name="twitter:image" content="assets/og.png" />
+    <meta name="twitter:description" content="Parcours professionnel — Joris Martinez." />
+    <meta name="twitter:image" content="https://jackavery1.github.io/Portfolio/assets/og.png" />
 
-    <link rel="canonical" href="" id="link-canonical" />
+    <link rel="canonical" href="https://jackavery1.github.io/Portfolio/parcours.html" id="link-canonical" />
 
     <title>Parcours · Joris Martinez</title>
 
-    <!-- Favicon : tête du bonhomme pixel art (casquette + yeux) -->
+    <!-- Favicon -->
     <link
       rel="icon"
       type="image/svg+xml"
@@ -40,564 +37,844 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Rajdhani:wght@400;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Rajdhani:wght@400;600&display=swap"
       rel="stylesheet"
     />
 
+    <link rel="preload" href="style.css" as="style" />
     <link rel="stylesheet" href="style.css" />
   </head>
 
   <body data-section-id="parcours">
-    <div id="partial-crt"></div>
+    <a class="lien-evitement" href="#js-contenu-principal"
+      >Aller au contenu principal</a
+    >
 
-    <div id="partial-marquee"></div>
+    <div class="crt-scanlines" aria-hidden="true"></div>
+<div class="crt-lueur" aria-hidden="true"></div>
+<div class="crt-coins" aria-hidden="true"></div>
 
+    <div class="marquee-bande" aria-hidden="true">
+  <div class="marquee-contenu">
+    ▶ Travail du moment : THE ODIN PROJECT ▶ Approfondissement REACT ▶
+    Découverte JAVA, Angular, Spring Boot ▶ PROJET LSF ▶ FLOPPY BIRD ▶
+    GAMEHUB RETRO ▶ HUBTRAINING ▶ PIXEL QUEST ▶ FLOPPY BIRD ▶
+  </div>
+</div>
 
     <div class="ecran">
-      <div id="partial-nav"></div>
+      <header class="nav" role="banner">
+  <a href="index.html" class="nav__logo" aria-label="Joris Martinez portfolio">
+    <span class="pixel-accent">▶</span> J.MARTINEZ
+  </a>
+  <div
+    class="nav__arcade-info"
+    role="status"
+    aria-live="polite"
+    aria-atomic="true"
+    aria-label="Score du portfolio"
+  >
+    <span class="arcade-label" aria-hidden="true">SCORE</span>
+    <span class="arcade-valeur" id="js-score">000000</span>
+  </div>
+  <button
+    class="nav__burger"
+    id="js-burger"
+    aria-label="Ouvrir le menu"
+    aria-expanded="false"
+    aria-controls="js-menu"
+  >
+    <span class="nav__burger-trait"></span>
+    <span class="nav__burger-trait"></span>
+    <span class="nav__burger-trait"></span>
+  </button>
+  <nav
+    class="nav__liens"
+    id="js-menu"
+    role="navigation"
+    aria-label="Pages"
+  >
+    <a class="nav__bouton" href="index.html">HOME</a>
+    <a class="nav__bouton" href="projets.html">WORK</a>
+    <a class="nav__bouton" href="competences.html">STATS</a>
+    <a class="nav__bouton" href="parcours.html">STORY</a>
+    <a class="nav__bouton" href="contact.html">CONTACT</a>
+  </nav>
+</header>
 
-      <main id="js-contenu-principal">
-      <section id="parcours" class="section" aria-label="Parcours">
-        <h2 class="titre-section">
-          <span class="pixel-accent">▶</span> STORY MODE
-        </h2>
+      <main id="js-contenu-principal" tabindex="-1">
+        <section id="parcours" class="section" aria-label="Parcours">
+          <h1 class="titre-section">
+            <span class="pixel-accent">▶</span> STORY MODE
+          </h1>
 
-        <div class="story-grille">
-          <!-- Timeline à gauche -->
-          <div class="story-timeline">
-            <div class="frise-progression" aria-hidden="true">
-              <div class="frise-progression__ligne"></div>
-              <span class="frise-progression__debut">2014</span>
-              <span class="frise-progression__milieu">2021</span>
-              <span class="frise-progression__fin">2025 →</span>
+          <div class="story-grille">
+            <!-- Timeline à gauche -->
+            <div class="story-timeline">
+              <ol class="liste-parcours">
+                <li class="entree-parcours entree-parcours--actif">
+                  <div class="entree-parcours__marqueur" aria-hidden="true">
+                    ▶▶
+                  </div>
+                  <div class="entree-parcours__contenu">
+                    <div class="entree-parcours__haut">
+                      <span class="entree-parcours__date">2026 →</span>
+                      <span class="badge badge--actif">EN COURS</span>
+                    </div>
+                    <h3 class="entree-parcours__titre">
+                      EN FORMATION CONTINUE
+                    </h3>
+                    <p class="entree-parcours__organisation">
+                      Autodidacte · The Odin Project · La Rochelle
+                    </p>
+                    <p class="entree-parcours__detail">
+                      SQL/Oracle, PostgreSQL, QGIS. Java, Angular en découverte.
+                      <strong>The Odin Project</strong> comme fil conducteur.
+                    </p>
+                  </div>
+                </li>
+
+                <li class="entree-parcours">
+                  <div class="entree-parcours__marqueur" aria-hidden="true">
+                    ✓
+                  </div>
+                  <div class="entree-parcours__contenu">
+                    <div class="entree-parcours__haut">
+                      <span class="entree-parcours__date">2025–2026</span>
+                      <span class="badge badge--valide">VALIDÉ</span>
+                    </div>
+                    <h2 class="entree-parcours__titre">
+                      DÉVELOPPEUR WEB — STAGE
+                    </h2>
+                    <p class="entree-parcours__organisation">
+                      HubTraining · La Rochelle
+                    </p>
+                    <p class="entree-parcours__detail">
+                      <strong>Client réel.</strong> WordPress Gutenberg, UX/UI,
+                      SEO, performance, sécurité.
+                    </p>
+                  </div>
+                </li>
+
+                <li class="entree-parcours">
+                  <div class="entree-parcours__marqueur" aria-hidden="true">
+                    ✓
+                  </div>
+                  <div class="entree-parcours__contenu">
+                    <div class="entree-parcours__haut">
+                      <span class="entree-parcours__date">2025–2026</span>
+                      <span class="badge badge--valide">VALIDÉ</span>
+                    </div>
+                    <h2 class="entree-parcours__titre">
+                      TP DÉVELOPPEUR WEB / WEB MOBILE
+                    </h2>
+                    <p class="entree-parcours__organisation">
+                      AFEC La Rochelle
+                    </p>
+                    <p class="entree-parcours__detail">
+                      Titre professionnel. Stack Node / Express / MongoDB /
+                      Tailwind. <strong>Projet : LSF.</strong>
+                    </p>
+                  </div>
+                </li>
+
+                <li class="entree-parcours">
+                  <div class="entree-parcours__marqueur" aria-hidden="true">
+                    ■
+                  </div>
+                  <div class="entree-parcours__contenu">
+                    <div class="entree-parcours__haut">
+                      <span class="entree-parcours__date">2021–2023</span>
+                    </div>
+                    <h2 class="entree-parcours__titre">
+                      TECHNICIEN D'EXPÉRIMENTATION
+                    </h2>
+                    <p class="entree-parcours__organisation">UNILET</p>
+                    <p class="entree-parcours__detail">
+                      80 essais au champ, analyses STATBOX, rapports techniques.
+                    </p>
+                  </div>
+                </li>
+
+                <li class="entree-parcours">
+                  <div class="entree-parcours__marqueur" aria-hidden="true">
+                    ■
+                  </div>
+                  <div class="entree-parcours__contenu">
+                    <div class="entree-parcours__haut">
+                      <span class="entree-parcours__date">2020</span>
+                    </div>
+                    <h2 class="entree-parcours__titre">
+                      TECHNICIEN D'EXPÉRIMENTATION
+                    </h2>
+                    <p class="entree-parcours__organisation">
+                      BIOTEK Agriculture
+                    </p>
+                    <p class="entree-parcours__detail">
+                      123 essais, analyses de données, conclusions d'essais.
+                    </p>
+                  </div>
+                </li>
+
+                <li class="entree-parcours">
+                  <div class="entree-parcours__marqueur" aria-hidden="true">
+                    ◆
+                  </div>
+                  <div class="entree-parcours__contenu">
+                    <div class="entree-parcours__haut">
+                      <span class="entree-parcours__date">2014–2017</span>
+                    </div>
+                    <h2 class="entree-parcours__titre">
+                      MASTER SCIENCES DU VÉGÉTAL — BAC+5
+                    </h2>
+                    <p class="entree-parcours__organisation">
+                      Université Paris-Saclay
+                    </p>
+                    <p class="entree-parcours__detail">
+                      Protocoles, rigueur analytique.
+                      <strong>Socle transféré vers le dev.</strong>
+                    </p>
+                  </div>
+                </li>
+              </ol>
             </div>
 
-            <ol class="liste-parcours">
-              <li class="entree-parcours entree-parcours--actif">
-                <div class="entree-parcours__marqueur" aria-hidden="true">
-                  ▶▶
-                </div>
-                <div class="entree-parcours__contenu">
-                  <div class="entree-parcours__haut">
-                    <span class="entree-parcours__date">2024–2025</span>
-                    <span class="badge badge--actif">EN COURS</span>
-                  </div>
-                  <h3 class="entree-parcours__titre">
-                    POEI DÉVELOPPEUR D'APPLICATION
-                  </h3>
-                  <p class="entree-parcours__organisation">
-                    Formation · Eric Plichon · La Rochelle
-                  </p>
-                  <p class="entree-parcours__detail">
-                    SQL/Oracle, Java, NS-DK, NatStar, Python/Selenium, Robot
-                    Framework.
-                  </p>
-                </div>
-              </li>
+            <!-- Arbre SVG à droite -->
+            <div class="story-arbre" aria-hidden="true">
+              <svg
+                viewBox="0 0 200 480"
+                xmlns="http://www.w3.org/2000/svg"
+                class="svg-arbre"
+              >
+                <!-- Label bas -->
+                <text
+                  x="100"
+                  y="476"
+                  text-anchor="middle"
+                  font-family="'Press Start 2P',monospace"
+                  font-size="5"
+                  fill="var(--couleur-texte-discret)"
+                >
+                  SCIENCES VÉGÉTALES
+                </text>
 
-              <li class="entree-parcours">
-                <div class="entree-parcours__marqueur" aria-hidden="true">
-                  ✓
-                </div>
-                <div class="entree-parcours__contenu">
-                  <div class="entree-parcours__haut">
-                    <span class="entree-parcours__date">2025</span>
-                    <span class="badge badge--valide">VALIDÉ</span>
-                  </div>
-                  <h3 class="entree-parcours__titre">
-                    DÉVELOPPEUR WEB — STAGE
-                  </h3>
-                  <p class="entree-parcours__organisation">
-                    HubTraining · La Rochelle
-                  </p>
-                  <p class="entree-parcours__detail">
-                    <strong>Client réel.</strong> WordPress Gutenberg, UX/UI,
-                    SEO, performance, sécurité.
-                  </p>
-                </div>
-              </li>
+                <!-- Racines -->
+                <line
+                  x1="100"
+                  y1="450"
+                  x2="60"
+                  y2="468"
+                  stroke="var(--couleur-accent-dim)"
+                  stroke-width="2"
+                />
+                <line
+                  x1="100"
+                  y1="450"
+                  x2="100"
+                  y2="472"
+                  stroke="var(--couleur-accent-dim)"
+                  stroke-width="2"
+                />
+                <line
+                  x1="100"
+                  y1="450"
+                  x2="140"
+                  y2="468"
+                  stroke="var(--couleur-accent-dim)"
+                  stroke-width="2"
+                />
+                <line
+                  x1="60"
+                  y1="468"
+                  x2="45"
+                  y2="474"
+                  stroke="var(--couleur-accent-dim)"
+                  stroke-width="1"
+                />
+                <line
+                  x1="140"
+                  y1="468"
+                  x2="155"
+                  y2="474"
+                  stroke="var(--couleur-accent-dim)"
+                  stroke-width="1"
+                />
 
-              <li class="entree-parcours">
-                <div class="entree-parcours__marqueur" aria-hidden="true">
-                  ✓
-                </div>
-                <div class="entree-parcours__contenu">
-                  <div class="entree-parcours__haut">
-                    <span class="entree-parcours__date">2025</span>
-                    <span class="badge badge--valide">VALIDÉ</span>
-                  </div>
-                  <h3 class="entree-parcours__titre">
-                    TP DÉVELOPPEUR WEB / WEB MOBILE
-                  </h3>
-                  <p class="entree-parcours__organisation">AFEC La Rochelle</p>
-                  <p class="entree-parcours__detail">
-                    Titre professionnel. Stack Node / Express / MongoDB /
-                    Tailwind. <strong>Projet : LSF.</strong>
-                  </p>
-                </div>
-              </li>
+                <!-- Sol pixelisé -->
+                <rect
+                  x="22"
+                  y="448"
+                  width="8"
+                  height="4"
+                  fill="var(--couleur-accent-dim)"
+                />
+                <rect
+                  x="34"
+                  y="446"
+                  width="8"
+                  height="4"
+                  fill="var(--couleur-accent-dim)"
+                />
+                <rect
+                  x="46"
+                  y="448"
+                  width="8"
+                  height="4"
+                  fill="var(--couleur-accent-dim)"
+                />
+                <rect
+                  x="150"
+                  y="447"
+                  width="8"
+                  height="4"
+                  fill="var(--couleur-accent-dim)"
+                />
+                <rect
+                  x="162"
+                  y="448"
+                  width="8"
+                  height="4"
+                  fill="var(--couleur-accent-dim)"
+                />
 
-              <li class="entree-parcours">
-                <div class="entree-parcours__marqueur" aria-hidden="true">
-                  ■
-                </div>
-                <div class="entree-parcours__contenu">
-                  <div class="entree-parcours__haut">
-                    <span class="entree-parcours__date">2021–2023</span>
-                  </div>
-                  <h3 class="entree-parcours__titre">
-                    TECHNICIEN D'EXPÉRIMENTATION
-                  </h3>
-                  <p class="entree-parcours__organisation">UNILET</p>
-                  <p class="entree-parcours__detail">
-                    80 essais au champ, analyses STATBOX, rapports techniques.
-                  </p>
-                </div>
-              </li>
+                <!-- TRONC UNIQUE CONTINU : racines → couronne -->
+                <!-- Segment 1 : agro (dim) -->
+                <line
+                  x1="100"
+                  y1="256"
+                  x2="100"
+                  y2="450"
+                  stroke="var(--couleur-accent-dim)"
+                  stroke-width="3"
+                />
+                <!-- Segment 2 : reconversion → formation (accent) -->
+                <line
+                  x1="100"
+                  y1="144"
+                  x2="100"
+                  y2="256"
+                  stroke="var(--couleur-accent)"
+                  stroke-width="3"
+                />
+                <!-- Segment 3 : formation → couronne (vif) -->
+                <line
+                  x1="100"
+                  y1="66"
+                  x2="100"
+                  y2="144"
+                  stroke="var(--couleur-accent-vif)"
+                  stroke-width="3"
+                />
 
-              <li class="entree-parcours">
-                <div class="entree-parcours__marqueur" aria-hidden="true">
-                  ■
-                </div>
-                <div class="entree-parcours__contenu">
-                  <div class="entree-parcours__haut">
-                    <span class="entree-parcours__date">2020</span>
-                  </div>
-                  <h3 class="entree-parcours__titre">
-                    TECHNICIEN D'EXPÉRIMENTATION
-                  </h3>
-                  <p class="entree-parcours__organisation">
-                    BIOTEK Agriculture
-                  </p>
-                  <p class="entree-parcours__detail">
-                    123 essais, analyses de données, conclusions d'essais.
-                  </p>
-                </div>
-              </li>
+                <!-- Branche droite : BIOTEK 2020 -->
+                <line
+                  x1="100"
+                  y1="380"
+                  x2="148"
+                  y2="355"
+                  stroke="var(--couleur-accent-dim)"
+                  stroke-width="1.5"
+                />
+                <rect
+                  x="141"
+                  y="342"
+                  width="6"
+                  height="6"
+                  fill="var(--couleur-accent-dim)"
+                />
+                <rect
+                  x="147"
+                  y="336"
+                  width="6"
+                  height="6"
+                  fill="var(--couleur-accent-dim)"
+                />
+                <rect
+                  x="153"
+                  y="342"
+                  width="6"
+                  height="6"
+                  fill="var(--couleur-accent-dim)"
+                />
+                <text
+                  x="149"
+                  y="332"
+                  text-anchor="middle"
+                  font-family="'Press Start 2P',monospace"
+                  font-size="4.5"
+                  fill="var(--couleur-texte-discret)"
+                >
+                  BIOTEK
+                </text>
+                <text
+                  x="149"
+                  y="325"
+                  text-anchor="middle"
+                  font-family="'Press Start 2P',monospace"
+                  font-size="4"
+                  fill="var(--couleur-texte-discret)"
+                >
+                  2020
+                </text>
 
-              <li class="entree-parcours">
-                <div class="entree-parcours__marqueur" aria-hidden="true">
-                  ◆
-                </div>
-                <div class="entree-parcours__contenu">
-                  <div class="entree-parcours__haut">
-                    <span class="entree-parcours__date">2014–2017</span>
-                  </div>
-                  <h3 class="entree-parcours__titre">
-                    MASTER SCIENCES DU VÉGÉTAL — BAC+5
-                  </h3>
-                  <p class="entree-parcours__organisation">
-                    Université Paris-Saclay
-                  </p>
-                  <p class="entree-parcours__detail">
-                    Protocoles, rigueur analytique.
-                    <strong>Socle transféré vers le dev.</strong>
-                  </p>
-                </div>
-              </li>
-            </ol>
+                <!-- Branche gauche : UNILET 2021-23 -->
+                <line
+                  x1="100"
+                  y1="350"
+                  x2="55"
+                  y2="325"
+                  stroke="var(--couleur-accent-dim)"
+                  stroke-width="1.5"
+                />
+                <rect
+                  x="44"
+                  y="312"
+                  width="6"
+                  height="6"
+                  fill="var(--couleur-accent-dim)"
+                />
+                <rect
+                  x="50"
+                  y="306"
+                  width="6"
+                  height="6"
+                  fill="var(--couleur-accent-dim)"
+                />
+                <rect
+                  x="56"
+                  y="312"
+                  width="6"
+                  height="6"
+                  fill="var(--couleur-accent-dim)"
+                />
+                <text
+                  x="50"
+                  y="302"
+                  text-anchor="middle"
+                  font-family="'Press Start 2P',monospace"
+                  font-size="4.5"
+                  fill="var(--couleur-texte-discret)"
+                >
+                  UNILET
+                </text>
+                <text
+                  x="50"
+                  y="295"
+                  text-anchor="middle"
+                  font-family="'Press Start 2P',monospace"
+                  font-size="4"
+                  fill="var(--couleur-texte-discret)"
+                >
+                  2021-23
+                </text>
+
+                <!-- Nœud RECONVERSION -->
+                <rect
+                  x="86"
+                  y="250"
+                  width="28"
+                  height="8"
+                  rx="2"
+                  fill="var(--couleur-accent)"
+                />
+                <text
+                  x="120"
+                  y="263"
+                  font-family="'Press Start 2P',monospace"
+                  font-size="4"
+                  fill="var(--couleur-texte-discret)"
+                >
+                  RECONVERSION
+                </text>
+
+                <!-- Branche gauche : DEV WEB 2025-26 -->
+                <line
+                  x1="100"
+                  y1="228"
+                  x2="52"
+                  y2="200"
+                  stroke="var(--couleur-accent)"
+                  stroke-width="2"
+                />
+                <line
+                  x1="52"
+                  y1="200"
+                  x2="32"
+                  y2="182"
+                  stroke="var(--couleur-accent)"
+                  stroke-width="1.5"
+                />
+                <rect
+                  x="24"
+                  y="169"
+                  width="6"
+                  height="6"
+                  fill="var(--couleur-accent)"
+                />
+                <rect
+                  x="30"
+                  y="163"
+                  width="6"
+                  height="6"
+                  fill="var(--couleur-accent)"
+                />
+                <rect
+                  x="36"
+                  y="169"
+                  width="6"
+                  height="6"
+                  fill="var(--couleur-accent)"
+                />
+                <rect
+                  x="30"
+                  y="175"
+                  width="6"
+                  height="6"
+                  fill="var(--couleur-accent)"
+                />
+                <text
+                  x="32"
+                  y="159"
+                  text-anchor="middle"
+                  font-family="'Press Start 2P',monospace"
+                  font-size="5"
+                  fill="var(--couleur-accent-vif)"
+                >
+                  DEV WEB
+                </text>
+                <text
+                  x="32"
+                  y="151"
+                  text-anchor="middle"
+                  font-family="'Press Start 2P',monospace"
+                  font-size="4"
+                  fill="var(--couleur-texte-discret)"
+                >
+                  2025-26
+                </text>
+
+                <!-- Branche droite : STAGE 2025-26 -->
+                <line
+                  x1="100"
+                  y1="210"
+                  x2="150"
+                  y2="182"
+                  stroke="var(--couleur-valide)"
+                  stroke-width="2"
+                />
+                <rect
+                  x="143"
+                  y="168"
+                  width="6"
+                  height="6"
+                  fill="var(--couleur-valide)"
+                />
+                <rect
+                  x="149"
+                  y="162"
+                  width="6"
+                  height="6"
+                  fill="var(--couleur-valide)"
+                />
+                <rect
+                  x="155"
+                  y="168"
+                  width="6"
+                  height="6"
+                  fill="var(--couleur-valide)"
+                />
+                <rect
+                  x="149"
+                  y="174"
+                  width="6"
+                  height="6"
+                  fill="var(--couleur-valide)"
+                />
+                <text
+                  x="152"
+                  y="158"
+                  text-anchor="middle"
+                  font-family="'Press Start 2P',monospace"
+                  font-size="5"
+                  fill="var(--couleur-valide)"
+                >
+                  STAGE
+                </text>
+                <text
+                  x="152"
+                  y="150"
+                  text-anchor="middle"
+                  font-family="'Press Start 2P',monospace"
+                  font-size="4"
+                  fill="var(--couleur-texte-discret)"
+                >
+                  2025-26
+                </text>
+
+                <!-- Nœud FORMATION CONTINUE -->
+                <rect
+                  x="86"
+                  y="138"
+                  width="28"
+                  height="8"
+                  rx="2"
+                  fill="var(--couleur-accent-vif)"
+                />
+
+                <!-- Branche gauche : SQL / ORACLE-PG -->
+                <line
+                  x1="100"
+                  y1="120"
+                  x2="55"
+                  y2="102"
+                  stroke="var(--couleur-accent-vif)"
+                  stroke-width="1.5"
+                />
+                <rect
+                  x="44"
+                  y="90"
+                  width="6"
+                  height="6"
+                  fill="var(--couleur-accent-vif)"
+                />
+                <rect
+                  x="50"
+                  y="84"
+                  width="6"
+                  height="6"
+                  fill="var(--couleur-accent-vif)"
+                />
+                <rect
+                  x="56"
+                  y="90"
+                  width="6"
+                  height="6"
+                  fill="var(--couleur-accent-vif)"
+                />
+                <text
+                  x="50"
+                  y="80"
+                  text-anchor="middle"
+                  font-family="'Press Start 2P',monospace"
+                  font-size="4.5"
+                  fill="var(--couleur-accent-vif)"
+                >
+                  SQL
+                </text>
+                <text
+                  x="50"
+                  y="73"
+                  text-anchor="middle"
+                  font-family="'Press Start 2P',monospace"
+                  font-size="4"
+                  fill="var(--couleur-texte-discret)"
+                >
+                  ORACLE/PG
+                </text>
+
+                <!-- Branche droite : QGIS -->
+                <line
+                  x1="100"
+                  y1="110"
+                  x2="148"
+                  y2="95"
+                  stroke="var(--couleur-accent-vif)"
+                  stroke-width="1.5"
+                />
+                <rect
+                  x="141"
+                  y="83"
+                  width="6"
+                  height="6"
+                  fill="var(--couleur-accent-vif)"
+                />
+                <rect
+                  x="147"
+                  y="77"
+                  width="6"
+                  height="6"
+                  fill="var(--couleur-accent-vif)"
+                />
+                <rect
+                  x="153"
+                  y="83"
+                  width="6"
+                  height="6"
+                  fill="var(--couleur-accent-vif)"
+                />
+                <text
+                  x="152"
+                  y="73"
+                  text-anchor="middle"
+                  font-family="'Press Start 2P',monospace"
+                  font-size="4.5"
+                  fill="var(--couleur-accent-vif)"
+                >
+                  QGIS
+                </text>
+
+                <!-- Couronne pixel -->
+                <rect
+                  x="82"
+                  y="52"
+                  width="8"
+                  height="8"
+                  fill="var(--couleur-actif)"
+                />
+                <rect
+                  x="90"
+                  y="44"
+                  width="8"
+                  height="8"
+                  fill="var(--couleur-actif)"
+                />
+                <rect
+                  x="98"
+                  y="36"
+                  width="8"
+                  height="8"
+                  fill="var(--couleur-actif)"
+                />
+                <rect
+                  x="106"
+                  y="44"
+                  width="8"
+                  height="8"
+                  fill="var(--couleur-actif)"
+                />
+                <rect
+                  x="114"
+                  y="52"
+                  width="8"
+                  height="8"
+                  fill="var(--couleur-actif)"
+                />
+                <rect
+                  x="90"
+                  y="52"
+                  width="8"
+                  height="8"
+                  fill="var(--couleur-actif)"
+                />
+                <rect
+                  x="98"
+                  y="44"
+                  width="8"
+                  height="8"
+                  fill="var(--couleur-actif)"
+                />
+                <rect
+                  x="106"
+                  y="52"
+                  width="8"
+                  height="8"
+                  fill="var(--couleur-actif)"
+                />
+                <rect
+                  x="98"
+                  y="52"
+                  width="8"
+                  height="8"
+                  fill="var(--couleur-actif)"
+                />
+                <ellipse
+                  cx="100"
+                  cy="48"
+                  rx="22"
+                  ry="14"
+                  fill="var(--couleur-actif)"
+                  opacity="0.08"
+                />
+                <text
+                  x="100"
+                  y="30"
+                  text-anchor="middle"
+                  font-family="'Press Start 2P',monospace"
+                  font-size="5"
+                  fill="var(--couleur-actif)"
+                >
+                  EN COURS
+                </text>
+                <text
+                  x="100"
+                  y="22"
+                  text-anchor="middle"
+                  font-family="'Press Start 2P',monospace"
+                  font-size="4"
+                  fill="var(--couleur-actif)"
+                >
+                  2026 →
+                </text>
+              </svg>
+            </div>
           </div>
-
-          <!-- Arbre SVG à droite -->
-          <div class="story-arbre" aria-hidden="true">
-            <svg
-              viewBox="0 0 200 320"
-              xmlns="http://www.w3.org/2000/svg"
-              class="svg-arbre"
-            >
-              <!-- Label bas : racines -->
-              <text
-                x="100"
-                y="318"
-                text-anchor="middle"
-                class="svg-label"
-                font-size="6"
-                fill="var(--couleur-texte-discret)"
-              >
-                SCIENCES VÉGÉTALES
-              </text>
-
-              <!-- Racines -->
-              <line
-                x1="100"
-                y1="285"
-                x2="60"
-                y2="308"
-                stroke="var(--couleur-accent-dim)"
-                stroke-width="2"
-              />
-              <line
-                x1="100"
-                y1="285"
-                x2="100"
-                y2="312"
-                stroke="var(--couleur-accent-dim)"
-                stroke-width="2"
-              />
-              <line
-                x1="100"
-                y1="285"
-                x2="140"
-                y2="308"
-                stroke="var(--couleur-accent-dim)"
-                stroke-width="2"
-              />
-              <line
-                x1="60"
-                y1="308"
-                x2="45"
-                y2="314"
-                stroke="var(--couleur-accent-dim)"
-                stroke-width="1"
-              />
-              <line
-                x1="140"
-                y1="308"
-                x2="155"
-                y2="314"
-                stroke="var(--couleur-accent-dim)"
-                stroke-width="1"
-              />
-
-              <!-- Sol pixelisé -->
-              <rect
-                x="22"
-                y="285"
-                width="8"
-                height="4"
-                fill="var(--couleur-accent-dim)"
-              />
-              <rect
-                x="34"
-                y="283"
-                width="8"
-                height="4"
-                fill="var(--couleur-accent-dim)"
-              />
-              <rect
-                x="46"
-                y="285"
-                width="8"
-                height="4"
-                fill="var(--couleur-accent-dim)"
-              />
-              <rect
-                x="150"
-                y="284"
-                width="8"
-                height="4"
-                fill="var(--couleur-accent-dim)"
-              />
-              <rect
-                x="162"
-                y="285"
-                width="8"
-                height="4"
-                fill="var(--couleur-accent-dim)"
-              />
-
-              <!-- Tronc (la reconversion) -->
-              <rect
-                x="96"
-                y="200"
-                width="8"
-                height="88"
-                fill="var(--couleur-accent-dim)"
-              />
-
-              <!-- Nœud transition -->
-              <rect
-                x="90"
-                y="196"
-                width="20"
-                height="8"
-                rx="2"
-                fill="var(--couleur-accent-dim)"
-              />
-
-              <!-- Branche gauche : dev web (passé) -->
-              <line
-                x1="100"
-                y1="240"
-                x2="55"
-                y2="195"
-                stroke="var(--couleur-accent)"
-                stroke-width="2"
-              />
-              <line
-                x1="55"
-                y1="195"
-                x2="35"
-                y2="170"
-                stroke="var(--couleur-accent)"
-                stroke-width="1.5"
-              />
-              <line
-                x1="55"
-                y1="195"
-                x2="50"
-                y2="165"
-                stroke="var(--couleur-accent)"
-                stroke-width="1"
-              />
-              <!-- Feuilles gauche -->
-              <rect
-                x="27"
-                y="158"
-                width="6"
-                height="6"
-                fill="var(--couleur-accent)"
-              />
-              <rect
-                x="33"
-                y="152"
-                width="6"
-                height="6"
-                fill="var(--couleur-accent)"
-              />
-              <rect
-                x="39"
-                y="158"
-                width="6"
-                height="6"
-                fill="var(--couleur-accent)"
-              />
-              <rect
-                x="33"
-                y="164"
-                width="6"
-                height="6"
-                fill="var(--couleur-accent)"
-              />
-              <text
-                x="36"
-                y="148"
-                text-anchor="middle"
-                class="svg-label"
-                font-size="6"
-                fill="var(--couleur-accent-vif)"
-              >
-                DEV WEB
-              </text>
-
-              <!-- Branche droite : tech pro -->
-              <line
-                x1="100"
-                y1="225"
-                x2="148"
-                y2="180"
-                stroke="var(--couleur-accent)"
-                stroke-width="2"
-              />
-              <line
-                x1="148"
-                y1="180"
-                x2="163"
-                y2="158"
-                stroke="var(--couleur-accent)"
-                stroke-width="1.5"
-              />
-              <line
-                x1="148"
-                y1="180"
-                x2="158"
-                y2="152"
-                stroke="var(--couleur-accent)"
-                stroke-width="1"
-              />
-              <!-- Feuilles droite -->
-              <rect
-                x="155"
-                y="142"
-                width="6"
-                height="6"
-                fill="var(--couleur-accent-vif)"
-              />
-              <rect
-                x="161"
-                y="136"
-                width="6"
-                height="6"
-                fill="var(--couleur-accent-vif)"
-              />
-              <rect
-                x="167"
-                y="142"
-                width="6"
-                height="6"
-                fill="var(--couleur-accent-vif)"
-              />
-              <rect
-                x="161"
-                y="148"
-                width="6"
-                height="6"
-                fill="var(--couleur-accent-vif)"
-              />
-              <text
-                x="165"
-                y="132"
-                text-anchor="middle"
-                class="svg-label"
-                font-size="6"
-                fill="var(--couleur-accent-vif)"
-              >
-                POEI
-              </text>
-
-              <!-- Tronc supérieur -->
-              <line
-                x1="100"
-                y1="200"
-                x2="100"
-                y2="130"
-                stroke="var(--couleur-accent)"
-                stroke-width="2"
-              />
-
-              <!-- Branche gauche niveau 2 : stage -->
-              <line
-                x1="100"
-                y1="168"
-                x2="70"
-                y2="145"
-                stroke="var(--couleur-valide)"
-                stroke-width="1.5"
-              />
-              <rect
-                x="60"
-                y="133"
-                width="6"
-                height="6"
-                fill="var(--couleur-valide)"
-              />
-              <rect
-                x="66"
-                y="127"
-                width="6"
-                height="6"
-                fill="var(--couleur-valide)"
-              />
-              <rect
-                x="72"
-                y="133"
-                width="6"
-                height="6"
-                fill="var(--couleur-valide)"
-              />
-              <text
-                x="67"
-                y="124"
-                text-anchor="middle"
-                class="svg-label"
-                font-size="5"
-                fill="var(--couleur-valide)"
-              >
-                STAGE
-              </text>
-
-              <!-- Couronne pixel (futur) -->
-              <line
-                x1="100"
-                y1="130"
-                x2="100"
-                y2="85"
-                stroke="var(--couleur-accent-vif)"
-                stroke-width="2"
-              />
-              <rect
-                x="82"
-                y="68"
-                width="8"
-                height="8"
-                fill="var(--couleur-accent-vif)"
-              />
-              <rect
-                x="90"
-                y="60"
-                width="8"
-                height="8"
-                fill="var(--couleur-accent-vif)"
-              />
-              <rect
-                x="98"
-                y="52"
-                width="8"
-                height="8"
-                fill="var(--couleur-accent-vif)"
-              />
-              <rect
-                x="106"
-                y="60"
-                width="8"
-                height="8"
-                fill="var(--couleur-accent-vif)"
-              />
-              <rect
-                x="114"
-                y="68"
-                width="8"
-                height="8"
-                fill="var(--couleur-accent-vif)"
-              />
-              <rect
-                x="90"
-                y="68"
-                width="8"
-                height="8"
-                fill="var(--couleur-accent-vif)"
-              />
-              <rect
-                x="98"
-                y="60"
-                width="8"
-                height="8"
-                fill="var(--couleur-accent-vif)"
-              />
-              <rect
-                x="106"
-                y="68"
-                width="8"
-                height="8"
-                fill="var(--couleur-accent-vif)"
-              />
-              <rect
-                x="98"
-                y="68"
-                width="8"
-                height="8"
-                fill="var(--couleur-accent-vif)"
-              />
-              <!-- Lueur couronne -->
-              <ellipse
-                cx="100"
-                cy="64"
-                rx="22"
-                ry="14"
-                fill="var(--couleur-accent-vif)"
-                opacity="0.06"
-              />
-              <text
-                x="100"
-                y="46"
-                text-anchor="middle"
-                class="svg-label"
-                font-size="6"
-                fill="var(--couleur-accent-vif)"
-              >
-                FUTUR
-              </text>
-            </svg>
-          </div>
-        </div>
-      </section>
+        </section>
       </main>
 
-      <div id="partial-footer"></div>
+      <footer class="pied-page" role="contentinfo">
+  <nav class="pied-page__nav" aria-label="Informations légales">
+    <a href="mentions-legales.html" class="pied-page__lien">Mentions légales</a>
+    <a href="mentions-legales.html#donnees-personnelles" class="pied-page__lien"
+      >Données personnelles</a
+    >
+  </nav>
+  <p class="pied-page__certif">
+    <span class="pied-page__certif-deco pixel-accent" aria-hidden="true"
+      >▓▒░</span
+    >
+    <a
+      href="mentions-legales.html#propriete-intellectuelle"
+      class="pied-page__certif-texte"
+      title="Tous droits réservés — propriété intellectuelle"
+      >© 2026 Joris Martinez</a
+    >
+    <span class="pied-page__certif-deco pixel-accent" aria-hidden="true"
+      >░▒▓</span
+    >
+  </p>
+  <div class="pied-page__droite">
+    <p class="pied-page__tagline-ia">
+      Made with code, curiosité <br /> &amp; assisté par IA
+    </p>
+  </div>
+</footer>
     </div>
     <!-- fin .ecran -->
 
-    <div id="partial-popup-hs"></div>
+    <div
+  class="popup-highscore"
+  id="js-popup-hs"
+  hidden
+  role="dialog"
+  aria-modal="true"
+  aria-label="High Score atteint !"
+>
+  <div class="popup-highscore__boite">
+    <div class="popup-highscore__titre" aria-hidden="true">
+      ★ HIGH SCORE ★
+    </div>
+
+    <div class="popup-highscore__score"></div>
+
+    <p class="popup-highscore__texte">
+      Tu as exploré tout le portfolio.<br />
+      Respect, PLAYER_01.
+    </p>
+
+    <p class="popup-highscore__sous-texte">
+      Si t'as aimé ce que tu as vu,<br />
+      la suite se passe ici →
+    </p>
+
+    <a class="popup-highscore__btn" href="contact.html">
+      ► CONTACTER JORIS
+    </a>
+
+    <button class="popup-highscore__fermer" id="js-popup-hs-fermer" type="button">
+      ✕ FERMER
+    </button>
+  </div>
+</div>
 
     <script type="module" src="js/main.js"></script>
   </body>

@@ -1,0 +1,1 @@
+import{CONFIG as i}from"../config.js";function e(){var e=i.SOCIAL?.LINKEDIN?.trim(),n=document.getElementById("js-lien-linkedin");n&&e&&(n.href=e,n.hidden=!1)}export{e as initAccueilSocial};

@@ -1,35 +1,32 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
-      name="description"
-      content="Portfolio de Joris Martinez, développeur web junior — Node.js, Express, WordPress, MongoDB. La Rochelle · disponible pour un premier poste."
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' https://www.google.com https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https://www.gstatic.com; frame-src https://www.google.com https://recaptcha.google.com; connect-src 'self' https://formspree.io https://www.google.com https://www.gstatic.com https://recaptcha.google.com; form-action 'self' https://formspree.io; base-uri 'self'; object-src 'none';"
     />
+    <meta name="description" content="Dojo — exercices et boss techniques : DOM, Express, EJS, SQL, stack web, Angular et Java en cours." />
     <meta name="theme-color" content="#03040f" />
 
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Joris Martinez · Développeur Web" />
-    <meta
-      property="og:description"
-      content="Portfolio développeur web — projets GameHub, LSF, WordPress, apps Express/MongoDB. La Jarne · La Rochelle."
-    />
-    <meta property="og:image" content="assets/og.png" />
+    <meta property="og:description" content="Entraînements et mini-projets hors portfolio principal." />
+    <meta property="og:image" content="https://jackavery1.github.io/Portfolio/assets/og.png" />
     <meta property="og:locale" content="fr_FR" />
+    <meta property="og:url" content="https://jackavery1.github.io/Portfolio/dojo.html" id="meta-og-url" />
+
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Joris Martinez · Développeur Web" />
-    <meta
-      name="twitter:description"
-      content="Portfolio développeur web — projets, stack technique, parcours."
-    />
-    <meta name="twitter:image" content="assets/og.png" />
+    <meta name="twitter:description" content="Boss rush technique — portfolio Joris Martinez." />
+    <meta name="twitter:image" content="https://jackavery1.github.io/Portfolio/assets/og.png" />
 
-    <link rel="canonical" href="" id="link-canonical" />
+    <link rel="canonical" href="https://jackavery1.github.io/Portfolio/dojo.html" id="link-canonical" />
 
     <title>Dojo · Joris Martinez</title>
 
-    <!-- Favicon : tête du bonhomme pixel art (casquette + yeux) -->
+    <!-- Favicon -->
     <link
       rel="icon"
       type="image/svg+xml"
@@ -40,148 +37,540 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Rajdhani:wght@400;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Rajdhani:wght@400;600&display=swap"
       rel="stylesheet"
     />
 
+    <link rel="preload" href="style.css" as="style" />
     <link rel="stylesheet" href="style.css" />
   </head>
 
   <body data-section-id="dojo">
-    <div id="partial-crt"></div>
+    <a class="lien-evitement" href="#js-contenu-principal">Aller au contenu principal</a>
 
-    <div id="partial-marquee"></div>
+    <div class="crt-scanlines" aria-hidden="true"></div>
+<div class="crt-lueur" aria-hidden="true"></div>
+<div class="crt-coins" aria-hidden="true"></div>
 
+    <div class="marquee-bande" aria-hidden="true">
+  <div class="marquee-contenu">
+    ▶ Travail du moment : THE ODIN PROJECT ▶ Approfondissement REACT ▶
+    Découverte JAVA, Angular, Spring Boot ▶ PROJET LSF ▶ FLOPPY BIRD ▶
+    GAMEHUB RETRO ▶ HUBTRAINING ▶ PIXEL QUEST ▶ FLOPPY BIRD ▶
+  </div>
+</div>
 
     <div class="ecran">
-      <div id="partial-nav"></div>
+      <header class="nav" role="banner">
+  <a href="index.html" class="nav__logo" aria-label="Joris Martinez portfolio">
+    <span class="pixel-accent">▶</span> J.MARTINEZ
+  </a>
+  <div
+    class="nav__arcade-info"
+    role="status"
+    aria-live="polite"
+    aria-atomic="true"
+    aria-label="Score du portfolio"
+  >
+    <span class="arcade-label" aria-hidden="true">SCORE</span>
+    <span class="arcade-valeur" id="js-score">000000</span>
+  </div>
+  <button
+    class="nav__burger"
+    id="js-burger"
+    aria-label="Ouvrir le menu"
+    aria-expanded="false"
+    aria-controls="js-menu"
+  >
+    <span class="nav__burger-trait"></span>
+    <span class="nav__burger-trait"></span>
+    <span class="nav__burger-trait"></span>
+  </button>
+  <nav
+    class="nav__liens"
+    id="js-menu"
+    role="navigation"
+    aria-label="Pages"
+  >
+    <a class="nav__bouton" href="index.html">HOME</a>
+    <a class="nav__bouton" href="projets.html">WORK</a>
+    <a class="nav__bouton" href="competences.html">STATS</a>
+    <a class="nav__bouton" href="parcours.html">STORY</a>
+    <a class="nav__bouton" href="contact.html">CONTACT</a>
+  </nav>
+</header>
 
-      <main id="js-contenu-principal">
-      <section id="dojo" class="section" aria-label="Dojo — Exercices">
-        <h2 class="titre-section">
-          <span class="pixel-accent">▶</span> DOJO — 道場 · TRAINING MODE
-        </h2>
-        <p class="dojo-intro">
-          Pas tous les combats sont dans le portfolio. Voici les entraînements
-          qui ont forgé le reste.
-        </p>
+      <main id="js-contenu-principal" tabindex="-1">
+        <section id="dojo" class="section" aria-label="Dojo — Exercices">
+          <h1 class="titre-section">
+            <span class="pixel-accent">▶</span> DOJO — 道場 · TRAINING MODE
+          </h1>
+          <p class="dojo-intro">
+            Pas tous les combats sont dans le portfolio. Voici les entraînements
+            et petits projets qui ont forgé le reste.
+          </p>
 
-        <div class="grille-dojo">
-          <div class="carte-dojo">
-            <div class="carte-dojo__header">
-              <span class="carte-dojo__type">JS</span>
-              <span class="carte-dojo__xp">+150 XP</span>
-            </div>
-            <h3 class="carte-dojo__nom">EXERCICES JS DOM</h3>
-            <p class="carte-dojo__desc">
-              Sélecteurs, traversal, events, manipulation dynamique. Todo list,
-              trieur de voitures, palindromes.
-            </p>
-            <ul class="etiquettes-tech">
-              <li>JS</li>
-              <li>DOM</li>
-              <li>Events</li>
-            </ul>
-          </div>
+          <h2 class="boss-rush__titre">BOSS RUSH — COMBATS D'ENTRAÎNEMENT</h2>
 
-          <div class="carte-dojo">
-            <div class="carte-dojo__header">
-              <span class="carte-dojo__type">NODE</span>
-              <span class="carte-dojo__xp">+200 XP</span>
-            </div>
-            <h3 class="carte-dojo__nom">MINI-PROJETS EXPRESS</h3>
-            <p class="carte-dojo__desc">
-              Routeurs CRUD, middleware auth, API REST, validation Joi, schemas
-              Mongoose.
-            </p>
-            <ul class="etiquettes-tech">
-              <li>Express</li>
-              <li>Joi</li>
-              <li>Mongoose</li>
-            </ul>
-          </div>
+          <div class="boss-rush">
 
-          <div class="carte-dojo">
-            <div class="carte-dojo__header">
-              <span class="carte-dojo__type">POO</span>
-              <span class="carte-dojo__xp">+120 XP</span>
-            </div>
-            <h3 class="carte-dojo__nom">EXERCICES POO</h3>
-            <p class="carte-dojo__desc">
-              Classes, héritage, #private, static methods, factory pattern en
-              JavaScript.
-            </p>
-            <ul class="etiquettes-tech">
-              <li>JS</li>
-              <li>POO</li>
-              <li>ES6+</li>
-            </ul>
-          </div>
+  <div class="boss-carte boss-carte--vaincu" data-boss="domslayer">
+    <div class="boss-carte__gauche">
+      <span class="boss-carte__rang">★ 01</span>
+      <div class="boss-carte__sprite" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="64" height="64" shape-rendering="crispEdges">
+          <rect x="8"  y="8"  width="16" height="16" fill="#1e3080"/>
+          <rect x="6"  y="10" width="20" height="12" fill="#1e3080"/>
+          <rect x="10" y="6"  width="12" height="4"  fill="#1e3080"/>
+          <rect x="10" y="12" width="4"  height="4"  fill="#ff4444"/>
+          <rect x="18" y="12" width="4"  height="4"  fill="#ff4444"/>
+          <rect x="11" y="13" width="1"  height="1"  fill="white"/>
+          <rect x="19" y="13" width="1"  height="1"  fill="white"/>
+          <rect x="11" y="19" width="10" height="2"  fill="#ff4444"/>
+          <rect x="10" y="21" width="2"  height="2"  fill="#ff4444"/>
+          <rect x="20" y="21" width="2"  height="2"  fill="#ff4444"/>
+          <line x1="2" y1="2" x2="30" y2="30" stroke="#44cc88" stroke-width="2" opacity="0.6"/>
+          <line x1="30" y1="2" x2="2" y2="30" stroke="#44cc88" stroke-width="2" opacity="0.6"/>
+        </svg>
+      </div>
+    </div>
+    <div class="boss-carte__contenu">
+      <div class="boss-carte__haut">
+        <p class="boss-carte__nom">DOM-SLAYER</p>
+        <span class="boss-carte__statut boss-carte__statut--vaincu">✓ VAINCU</span>
+      </div>
+      <p class="boss-carte__techno">JS · DOM · Events · Traversal</p>
+      <p class="boss-carte__desc">
+        Maître de la manipulation du DOM. Vaincu grâce aux sélecteurs,
+        événements et traversal. Todo list, trieur de voitures, palindromes.
+      </p>
+      <div class="boss-carte__xp">
+        <span class="boss-carte__xp-label">XP GAGNÉ</span>
+        <span class="boss-carte__xp-val">+150 XP</span>
+      </div>
+    </div>
+  </div>
 
-          <div class="carte-dojo">
-            <div class="carte-dojo__header">
-              <span class="carte-dojo__type">DB</span>
-              <span class="carte-dojo__xp">+180 XP</span>
-            </div>
-            <h3 class="carte-dojo__nom">STAT_ALIM / KIND.POE</h3>
-            <p class="carte-dojo__desc">
-              Projets NatStar/NS-DK sur Oracle & PostgreSQL. Import CSV
-              Agribalyse, requêtes SQL.
-            </p>
-            <ul class="etiquettes-tech">
-              <li>Oracle</li>
-              <li>NS-DK</li>
-              <li>PostgreSQL</li>
-            </ul>
-          </div>
+  <div class="boss-carte boss-carte--vaincu" data-boss="crud">
+    <div class="boss-carte__gauche">
+      <span class="boss-carte__rang">★ 02</span>
+      <div class="boss-carte__sprite" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="64" height="64" shape-rendering="crispEdges">
+          <rect x="4"  y="14" width="24" height="8"  fill="#2a1a6a"/>
+          <rect x="2"  y="10" width="8"  height="8"  fill="#2a1a6a"/>
+          <rect x="22" y="10" width="8"  height="8"  fill="#2a1a6a"/>
+          <rect x="3"  y="11" width="2"  height="2"  fill="#ff8800"/>
+          <rect x="7"  y="11" width="2"  height="2"  fill="#ff8800"/>
+          <rect x="23" y="11" width="2"  height="2"  fill="#ff8800"/>
+          <rect x="27" y="11" width="2"  height="2"  fill="#ff8800"/>
+          <line x1="2" y1="2" x2="30" y2="30" stroke="#44cc88" stroke-width="2" opacity="0.6"/>
+          <line x1="30" y1="2" x2="2" y2="30" stroke="#44cc88" stroke-width="2" opacity="0.6"/>
+        </svg>
+      </div>
+    </div>
+    <div class="boss-carte__contenu">
+      <div class="boss-carte__haut">
+        <p class="boss-carte__nom">LE CRUD BICÉPHALE</p>
+        <span class="boss-carte__statut boss-carte__statut--vaincu">✓ VAINCU</span>
+      </div>
+      <p class="boss-carte__techno">Express · MongoDB · Mongoose · Joi</p>
+      <p class="boss-carte__desc">
+        Deux têtes, deux bases. Terrassé via routes CRUD complètes,
+        middleware auth, validation Joi et schemas Mongoose.
+      </p>
+      <div class="boss-carte__xp">
+        <span class="boss-carte__xp-label">XP GAGNÉ</span>
+        <span class="boss-carte__xp-val">+200 XP</span>
+      </div>
+    </div>
+  </div>
 
-          <div class="carte-dojo">
-            <div class="carte-dojo__header">
-              <span class="carte-dojo__type">PY</span>
-              <span class="carte-dojo__xp">+100 XP</span>
-            </div>
-            <h3 class="carte-dojo__nom">PYTHON / SELENIUM</h3>
-            <p class="carte-dojo__desc">
-              Premiers scripts d'automatisation, tests UI avec Selenium, Robot
-              Framework basics.
-            </p>
-            <ul class="etiquettes-tech">
-              <li>Python</li>
-              <li>Selenium</li>
-              <li>RF</li>
-            </ul>
-          </div>
+  <div class="boss-carte boss-carte--vaincu" data-boss="ejs">
+    <div class="boss-carte__gauche">
+      <span class="boss-carte__rang">★ 03</span>
+      <div class="boss-carte__sprite" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="64" height="64" shape-rendering="crispEdges">
+          <rect x="8"  y="4"  width="16" height="18" fill="#4a2080"/>
+          <rect x="6"  y="6"  width="20" height="14" fill="#4a2080"/>
+          <rect x="6"  y="20" width="4"  height="6"  fill="#4a2080"/>
+          <rect x="12" y="22" width="4"  height="4"  fill="#4a2080"/>
+          <rect x="18" y="20" width="4"  height="6"  fill="#4a2080"/>
+          <rect x="22" y="22" width="4"  height="4"  fill="#4a2080"/>
+          <rect x="10" y="10" width="4"  height="4"  fill="white"/>
+          <rect x="18" y="10" width="4"  height="4"  fill="white"/>
+          <rect x="11" y="11" width="2"  height="2"  fill="#4a2080"/>
+          <rect x="19" y="11" width="2"  height="2"  fill="#4a2080"/>
+          <line x1="2" y1="2" x2="30" y2="30" stroke="#44cc88" stroke-width="2" opacity="0.6"/>
+          <line x1="30" y1="2" x2="2" y2="30" stroke="#44cc88" stroke-width="2" opacity="0.6"/>
+        </svg>
+      </div>
+    </div>
+    <div class="boss-carte__contenu">
+      <div class="boss-carte__haut">
+        <p class="boss-carte__nom">MADAME EJS</p>
+        <span class="boss-carte__statut boss-carte__statut--vaincu">✓ VAINCU</span>
+      </div>
+      <p class="boss-carte__techno">EJS · Partials · res.render · Locals</p>
+      <p class="boss-carte__desc">
+        Fantôme des templates. Maîtrisée via partials imbriqués,
+        includes et passage de données avec res.render.
+      </p>
+      <div class="boss-carte__xp">
+        <span class="boss-carte__xp-label">XP GAGNÉ</span>
+        <span class="boss-carte__xp-val">+120 XP</span>
+      </div>
+    </div>
+  </div>
 
-          <div class="carte-dojo">
-            <div class="carte-dojo__header">
-              <span class="carte-dojo__type">CSS</span>
-              <span class="carte-dojo__xp">+90 XP</span>
-            </div>
-            <h3 class="carte-dojo__nom">CE PORTFOLIO</h3>
-            <p class="carte-dojo__desc">
-              Animation CSS, effets CRT SVG pixel art, responsive mobile-first,
-              menu burger accessible.
-            </p>
-            <ul class="etiquettes-tech">
-              <li>HTML</li>
-              <li>CSS</li>
-              <li>JS</li>
-              <li>SVG</li>
-            </ul>
-          </div>
+  <div class="boss-carte boss-carte--vaincu" data-boss="poo">
+    <div class="boss-carte__gauche">
+      <span class="boss-carte__rang">★ 04</span>
+      <div class="boss-carte__sprite" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="64" height="64" shape-rendering="crispEdges">
+          <rect x="12" y="10" width="8"  height="8"  fill="#6a1a1a"/>
+          <rect x="10" y="8"  width="12" height="12" fill="#6a1a1a"/>
+          <rect x="2"  y="10" width="8"  height="2"  fill="#6a1a1a"/>
+          <rect x="22" y="10" width="8"  height="2"  fill="#6a1a1a"/>
+          <rect x="4"  y="14" width="6"  height="2"  fill="#6a1a1a"/>
+          <rect x="22" y="14" width="6"  height="2"  fill="#6a1a1a"/>
+          <rect x="2"  y="18" width="8"  height="2"  fill="#6a1a1a"/>
+          <rect x="22" y="18" width="8"  height="2"  fill="#6a1a1a"/>
+          <rect x="12" y="12" width="2"  height="2"  fill="#ff4444"/>
+          <rect x="16" y="12" width="2"  height="2"  fill="#ff4444"/>
+          <rect x="18" y="12" width="2"  height="2"  fill="#ff4444"/>
+          <line x1="2" y1="2" x2="30" y2="30" stroke="#44cc88" stroke-width="2" opacity="0.6"/>
+          <line x1="30" y1="2" x2="2" y2="30" stroke="#44cc88" stroke-width="2" opacity="0.6"/>
+        </svg>
+      </div>
+    </div>
+    <div class="boss-carte__contenu">
+      <div class="boss-carte__haut">
+        <p class="boss-carte__nom">LE POLYMORPHE</p>
+        <span class="boss-carte__statut boss-carte__statut--vaincu">✓ VAINCU</span>
+      </div>
+      <p class="boss-carte__techno">POO · Classes ES6 · Héritage · #private</p>
+      <p class="boss-carte__desc">
+        Change de forme à chaque tour.
+        Vaincu via classes, héritage extends, méthodes statiques et #private.
+      </p>
+      <div class="boss-carte__xp">
+        <span class="boss-carte__xp-label">XP GAGNÉ</span>
+        <span class="boss-carte__xp-val">+120 XP</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="boss-carte boss-carte--vaincu" data-boss="selenium">
+    <div class="boss-carte__gauche">
+      <span class="boss-carte__rang">★ 05</span>
+      <div class="boss-carte__sprite" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="64" height="64" shape-rendering="crispEdges">
+          <rect x="6"  y="18" width="20" height="10" fill="#1a3a1a"/>
+          <rect x="4"  y="14" width="24" height="8"  fill="#1a3a1a"/>
+          <rect x="8"  y="8"  width="6"  height="8"  fill="#1a3a1a"/>
+          <rect x="18" y="8"  width="6"  height="8"  fill="#1a3a1a"/>
+          <rect x="10" y="4"  width="4"  height="6"  fill="#44cc88"/>
+          <rect x="18" y="4"  width="4"  height="6"  fill="#44cc88"/>
+          <rect x="9"  y="16" width="3"  height="3"  fill="#44cc88"/>
+          <rect x="20" y="16" width="3"  height="3"  fill="#44cc88"/>
+          <line x1="2" y1="2" x2="30" y2="30" stroke="#44cc88" stroke-width="2" opacity="0.6"/>
+          <line x1="30" y1="2" x2="2" y2="30" stroke="#44cc88" stroke-width="2" opacity="0.6"/>
+        </svg>
+      </div>
+    </div>
+    <div class="boss-carte__contenu">
+      <div class="boss-carte__haut">
+        <p class="boss-carte__nom">LE SÉLÉNIURE</p>
+        <span class="boss-carte__statut boss-carte__statut--vaincu">✓ VAINCU</span>
+      </div>
+      <p class="boss-carte__techno">Python · Selenium · Robot Framework</p>
+      <p class="boss-carte__desc">
+        Créature des tests automatisés. Premiers scripts
+        d'automatisation UI, Robot Framework basics.
+      </p>
+      <div class="boss-carte__xp">
+        <span class="boss-carte__xp-label">XP GAGNÉ</span>
+        <span class="boss-carte__xp-val">+100 XP</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="boss-carte boss-carte--vaincu" data-boss="rentercar">
+    <div class="boss-carte__gauche">
+      <span class="boss-carte__rang">★ 06</span>
+      <div class="boss-carte__sprite" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="64" height="64" shape-rendering="crispEdges">
+          <rect x="8"  y="12" width="16" height="14" fill="#1a3a6a"/>
+          <rect x="6"  y="8"  width="20" height="10" fill="#1a3a6a"/>
+          <rect x="4"  y="6"  width="4"  height="6"  fill="#1a3a6a"/>
+          <rect x="24" y="6"  width="4"  height="6"  fill="#1a3a6a"/>
+          <rect x="10" y="10" width="3"  height="3"  fill="#88aaff"/>
+          <rect x="19" y="10" width="3"  height="3"  fill="#88aaff"/>
+          <rect x="12" y="20" width="8"  height="3"  fill="#88aaff"/>
+          <line x1="2" y1="2" x2="30" y2="30" stroke="#44cc88" stroke-width="2" opacity="0.6"/>
+          <line x1="30" y1="2" x2="2" y2="30" stroke="#44cc88" stroke-width="2" opacity="0.6"/>
+        </svg>
+      </div>
+    </div>
+    <div class="boss-carte__contenu">
+      <div class="boss-carte__haut">
+        <p class="boss-carte__nom">RENTER-CAR GUARDIAN</p>
+        <span class="boss-carte__statut boss-carte__statut--vaincu">✓ VAINCU</span>
+      </div>
+      <p class="boss-carte__techno">HTML · Bootstrap · JS DOM</p>
+      <p class="boss-carte__desc">
+        Gardien du catalogue dynamique.
+        Vaincu via tri JS DOM, Bootstrap responsive et filtres.
+      </p>
+      <div class="boss-carte__xp">
+        <span class="boss-carte__xp-label">XP GAGNÉ</span>
+        <span class="boss-carte__xp-val">+150 XP</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="boss-carte boss-carte--vaincu" data-boss="oracle">
+    <div class="boss-carte__gauche">
+      <span class="boss-carte__rang">★ 07</span>
+      <div class="boss-carte__sprite" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="64" height="64" shape-rendering="crispEdges">
+          <rect x="10" y="8"  width="12" height="14" fill="#3a1a00"/>
+          <rect x="8"  y="10" width="16" height="10" fill="#3a1a00"/>
+          <rect x="6"  y="6"  width="4"  height="6"  fill="#3a1a00"/>
+          <rect x="22" y="6"  width="4"  height="6"  fill="#3a1a00"/>
+          <rect x="14" y="4"  width="4"  height="6"  fill="#3a1a00"/>
+          <rect x="10" y="12" width="3"  height="3"  fill="#ff8800"/>
+          <rect x="19" y="12" width="3"  height="3"  fill="#ff8800"/>
+          <rect x="13" y="22" width="6"  height="4"  fill="#ff4400"/>
+          <rect x="14" y="26" width="4"  height="2"  fill="#ffaa00"/>
+          <line x1="2" y1="2" x2="30" y2="30" stroke="#44cc88" stroke-width="2" opacity="0.6"/>
+          <line x1="30" y1="2" x2="2" y2="30" stroke="#44cc88" stroke-width="2" opacity="0.6"/>
+        </svg>
+      </div>
+    </div>
+    <div class="boss-carte__contenu">
+      <div class="boss-carte__haut">
+        <p class="boss-carte__nom">LE GARDIEN DES BASES</p>
+        <span class="boss-carte__statut boss-carte__statut--vaincu">✓ VAINCU</span>
+      </div>
+      <p class="boss-carte__techno">Oracle · SQL · PL/SQL · PostgreSQL · QGIS</p>
+      <p class="boss-carte__desc">
+        Dragon des bases de données relationnelles et géospatiales.
+        Terrassé via KIND.POE, STAT_ALIM, requêtes complexes et cartographie QGIS.
+      </p>
+      <div class="boss-carte__xp">
+        <span class="boss-carte__xp-label">XP GAGNÉ</span>
+        <span class="boss-carte__xp-val">+180 XP</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="boss-carte boss-carte--vaincu" data-boss="stack">
+    <div class="boss-carte__gauche">
+      <span class="boss-carte__rang">★ 08</span>
+      <div class="boss-carte__sprite" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="64" height="64" shape-rendering="crispEdges">
+          <rect x="4"  y="22" width="24" height="4"  fill="#1e3080"/>
+          <rect x="6"  y="16" width="20" height="4"  fill="#2a3a9a"/>
+          <rect x="8"  y="10" width="16" height="4"  fill="#3a4aaa"/>
+          <rect x="10" y="4"  width="12" height="4"  fill="#4a6fff"/>
+          <rect x="5"  y="23" width="3"  height="2"  fill="#88aaff"/>
+          <rect x="10" y="17" width="3"  height="2"  fill="#88aaff"/>
+          <rect x="15" y="11" width="3"  height="2"  fill="#88aaff"/>
+          <rect x="20" y="5"  width="3"  height="2"  fill="#88aaff"/>
+          <line x1="2" y1="2" x2="30" y2="30" stroke="#44cc88" stroke-width="2" opacity="0.6"/>
+          <line x1="30" y1="2" x2="2" y2="30" stroke="#44cc88" stroke-width="2" opacity="0.6"/>
+        </svg>
+      </div>
+    </div>
+    <div class="boss-carte__contenu">
+      <div class="boss-carte__haut">
+        <p class="boss-carte__nom">LA TOUR DE BABEL WEB</p>
+        <span class="boss-carte__statut boss-carte__statut--vaincu">✓ VAINCU</span>
+      </div>
+      <p class="boss-carte__techno">HTML · CSS · JS · Node.js · Bootstrap · Tailwind</p>
+      <p class="boss-carte__desc">
+        Stack de base maîtrisée via The Odin Project. Chaque couche
+        vaincue l'une après l'autre — du markup au serveur.
+      </p>
+      <div class="boss-carte__xp">
+        <span class="boss-carte__xp-label">XP GAGNÉ</span>
+        <span class="boss-carte__xp-val">+300 XP</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="boss-carte boss-carte--en-cours" data-boss="angular">
+    <div class="boss-carte__gauche">
+      <span class="boss-carte__rang">⚡ 09</span>
+      <div class="boss-carte__sprite boss-carte__sprite--pulse" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="64" height="64" shape-rendering="crispEdges">
+          <rect x="14" y="2"  width="4"  height="6"  fill="#dd0031"/>
+          <rect x="8"  y="6"  width="16" height="4"  fill="#dd0031"/>
+          <rect x="6"  y="8"  width="20" height="16" fill="#dd0031"/>
+          <rect x="8"  y="22" width="16" height="4"  fill="#dd0031"/>
+          <rect x="10" y="26" width="4"  height="4"  fill="#dd0031"/>
+          <rect x="18" y="26" width="4"  height="4"  fill="#dd0031"/>
+          <rect x="10" y="12" width="12" height="2"  fill="#ff6b6b"/>
+          <rect x="10" y="17" width="12" height="2"  fill="#ff6b6b"/>
+          <rect x="10" y="12" width="2"  height="7"  fill="#ff6b6b"/>
+          <rect x="20" y="12" width="2"  height="7"  fill="#ff6b6b"/>
+        </svg>
+      </div>
+    </div>
+    <div class="boss-carte__contenu">
+      <div class="boss-carte__haut">
+        <p class="boss-carte__nom">L'ANGULAIRE ROUGE</p>
+        <span class="boss-carte__statut boss-carte__statut--en-cours">⚡ EN COURS</span>
+      </div>
+      <p class="boss-carte__techno">Angular · TypeScript · Components · Services</p>
+      <p class="boss-carte__desc">
+        Framework puissant et exigeant. Combat engagé —
+        composants, directives et injection de dépendances en cours d'apprentissage.
+      </p>
+      <div class="boss-carte__barre-vie">
+        <span class="boss-carte__vie-label">HP</span>
+        <div class="boss-carte__vie-fond">
+          <div class="boss-carte__vie-fill" style="--cible: 20%"></div>
         </div>
+        <span class="boss-carte__vie-pct">20%</span>
+      </div>
+    </div>
+  </div>
 
-        <a class="bouton-retour-work" href="projets.html">
-          <span aria-hidden="true">◀</span> RETOUR AU WORK
-        </a>
-      </section>
+  <div class="boss-carte boss-carte--en-cours" data-boss="java">
+    <div class="boss-carte__gauche">
+      <span class="boss-carte__rang">⚡ 10</span>
+      <div class="boss-carte__sprite boss-carte__sprite--pulse" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="64" height="64" shape-rendering="crispEdges">
+          <rect x="12" y="2"  width="8"  height="4"  fill="#f89820"/>
+          <rect x="10" y="4"  width="12" height="4"  fill="#f89820"/>
+          <rect x="8"  y="6"  width="16" height="18" fill="#5382a1"/>
+          <rect x="6"  y="8"  width="20" height="14" fill="#5382a1"/>
+          <rect x="10" y="24" width="12" height="4"  fill="#5382a1"/>
+          <rect x="8"  y="26" width="16" height="2"  fill="#f89820"/>
+          <rect x="12" y="10" width="8"  height="2"  fill="#88ccff"/>
+          <rect x="12" y="14" width="8"  height="2"  fill="#88ccff"/>
+          <rect x="12" y="18" width="5"  height="2"  fill="#88ccff"/>
+        </svg>
+      </div>
+    </div>
+    <div class="boss-carte__contenu">
+      <div class="boss-carte__haut">
+        <p class="boss-carte__nom">JAVA LE COLOSSAL</p>
+        <span class="boss-carte__statut boss-carte__statut--en-cours">⚡ EN COURS</span>
+      </div>
+      <p class="boss-carte__techno">Java · Spring Boot · POO · Maven</p>
+      <p class="boss-carte__desc">
+        Colosse du backend entreprise. Tout début d'apprentissage —
+        syntaxe, POO Java et premiers pas avec Spring Boot.
+      </p>
+      <div class="boss-carte__barre-vie">
+        <span class="boss-carte__vie-label">HP</span>
+        <div class="boss-carte__vie-fond">
+          <div class="boss-carte__vie-fill" style="--cible: 10%"></div>
+        </div>
+        <span class="boss-carte__vie-pct">10%</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="boss-carte boss-carte--locked" data-boss="react">
+    <div class="boss-carte__gauche">
+      <span class="boss-carte__rang">? 11</span>
+      <div class="boss-carte__sprite" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="64" height="64" shape-rendering="crispEdges">
+          <rect x="10" y="14" width="12" height="12" fill="#1a2050"/>
+          <rect x="12" y="8"  width="8"  height="8"
+                rx="4" fill="none" stroke="#1a2050" stroke-width="3"/>
+          <rect x="14" y="18" width="4"  height="4"  fill="#3a4a80"/>
+        </svg>
+      </div>
+    </div>
+    <div class="boss-carte__contenu">
+      <div class="boss-carte__haut">
+        <p class="boss-carte__nom">??? INCONNU ???</p>
+        <span class="boss-carte__statut boss-carte__statut--locked">🔒 VERROUILLÉ</span>
+      </div>
+      <p class="boss-carte__techno">React · TypeScript</p>
+      <p class="boss-carte__desc">
+        Ce boss se déverrouille quand le moment sera venu. Prépare-toi.
+      </p>
+    </div>
+  </div>
+
+</div><!-- fin .boss-rush -->
+
+          <a class="bouton-retour-work" href="projets.html">
+            <span aria-hidden="true">◀</span> RETOUR AU WORK
+          </a>
+        </section>
       </main>
 
-      <div id="partial-footer"></div>
+      <footer class="pied-page" role="contentinfo">
+  <nav class="pied-page__nav" aria-label="Informations légales">
+    <a href="mentions-legales.html" class="pied-page__lien">Mentions légales</a>
+    <a href="mentions-legales.html#donnees-personnelles" class="pied-page__lien"
+      >Données personnelles</a
+    >
+  </nav>
+  <p class="pied-page__certif">
+    <span class="pied-page__certif-deco pixel-accent" aria-hidden="true"
+      >▓▒░</span
+    >
+    <a
+      href="mentions-legales.html#propriete-intellectuelle"
+      class="pied-page__certif-texte"
+      title="Tous droits réservés — propriété intellectuelle"
+      >© 2026 Joris Martinez</a
+    >
+    <span class="pied-page__certif-deco pixel-accent" aria-hidden="true"
+      >░▒▓</span
+    >
+  </p>
+  <div class="pied-page__droite">
+    <p class="pied-page__tagline-ia">
+      Made with code, curiosité <br /> &amp; assisté par IA
+    </p>
+  </div>
+</footer>
     </div>
     <!-- fin .ecran -->
 
-    <div id="partial-popup-hs"></div>
+    <div
+  class="popup-highscore"
+  id="js-popup-hs"
+  hidden
+  role="dialog"
+  aria-modal="true"
+  aria-label="High Score atteint !"
+>
+  <div class="popup-highscore__boite">
+    <div class="popup-highscore__titre" aria-hidden="true">
+      ★ HIGH SCORE ★
+    </div>
+
+    <div class="popup-highscore__score"></div>
+
+    <p class="popup-highscore__texte">
+      Tu as exploré tout le portfolio.<br />
+      Respect, PLAYER_01.
+    </p>
+
+    <p class="popup-highscore__sous-texte">
+      Si t'as aimé ce que tu as vu,<br />
+      la suite se passe ici →
+    </p>
+
+    <a class="popup-highscore__btn" href="contact.html">
+      ► CONTACTER JORIS
+    </a>
+
+    <button class="popup-highscore__fermer" id="js-popup-hs-fermer" type="button">
+      ✕ FERMER
+    </button>
+  </div>
+</div>
 
     <script type="module" src="js/main.js"></script>
   </body>

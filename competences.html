@@ -1,35 +1,32 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
-      name="description"
-      content="Portfolio de Joris Martinez, développeur web junior — Node.js, Express, WordPress, MongoDB. La Rochelle · disponible pour un premier poste."
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' https://www.google.com https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https://www.gstatic.com; frame-src https://www.google.com https://recaptcha.google.com; connect-src 'self' https://formspree.io https://www.google.com https://www.gstatic.com https://recaptcha.google.com; form-action 'self' https://formspree.io; base-uri 'self'; object-src 'none';"
     />
+    <meta name="description" content="Stack technique : HTML/CSS/JS, Node/Express, Phaser, WordPress, SQL, Angular et Java en cours." />
     <meta name="theme-color" content="#03040f" />
 
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Joris Martinez · Développeur Web" />
-    <meta
-      property="og:description"
-      content="Portfolio développeur web — projets GameHub, LSF, WordPress, apps Express/MongoDB. La Jarne · La Rochelle."
-    />
-    <meta property="og:image" content="assets/og.png" />
+    <meta property="og:description" content="STATS — niveaux par techno et soft skills." />
+    <meta property="og:image" content="https://jackavery1.github.io/Portfolio/assets/og.png" />
     <meta property="og:locale" content="fr_FR" />
+    <meta property="og:url" content="https://jackavery1.github.io/Portfolio/competences.html" id="meta-og-url" />
+
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Joris Martinez · Développeur Web" />
-    <meta
-      name="twitter:description"
-      content="Portfolio développeur web — projets, stack technique, parcours."
-    />
-    <meta name="twitter:image" content="assets/og.png" />
+    <meta name="twitter:description" content="Compétences développeur web — Joris Martinez." />
+    <meta name="twitter:image" content="https://jackavery1.github.io/Portfolio/assets/og.png" />
 
-    <link rel="canonical" href="" id="link-canonical" />
+    <link rel="canonical" href="https://jackavery1.github.io/Portfolio/competences.html" id="link-canonical" />
 
     <title>Compétences · Joris Martinez</title>
 
-    <!-- Favicon : tête du bonhomme pixel art (casquette + yeux) -->
+    <!-- Favicon -->
     <link
       rel="icon"
       type="image/svg+xml"
@@ -40,230 +37,363 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Rajdhani:wght@400;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Rajdhani:wght@400;600&display=swap"
       rel="stylesheet"
     />
 
+    <link rel="preload" href="style.css" as="style" />
     <link rel="stylesheet" href="style.css" />
   </head>
 
   <body data-section-id="competences">
-    <div id="partial-crt"></div>
+    <a class="lien-evitement" href="#js-contenu-principal">Aller au contenu principal</a>
 
-    <div id="partial-marquee"></div>
+    <div class="crt-scanlines" aria-hidden="true"></div>
+<div class="crt-lueur" aria-hidden="true"></div>
+<div class="crt-coins" aria-hidden="true"></div>
 
+    <div class="marquee-bande" aria-hidden="true">
+  <div class="marquee-contenu">
+    ▶ Travail du moment : THE ODIN PROJECT ▶ Approfondissement REACT ▶
+    Découverte JAVA, Angular, Spring Boot ▶ PROJET LSF ▶ FLOPPY BIRD ▶
+    GAMEHUB RETRO ▶ HUBTRAINING ▶ PIXEL QUEST ▶ FLOPPY BIRD ▶
+  </div>
+</div>
 
     <div class="ecran">
-      <div id="partial-nav"></div>
+      <header class="nav" role="banner">
+  <a href="index.html" class="nav__logo" aria-label="Joris Martinez portfolio">
+    <span class="pixel-accent">▶</span> J.MARTINEZ
+  </a>
+  <div
+    class="nav__arcade-info"
+    role="status"
+    aria-live="polite"
+    aria-atomic="true"
+    aria-label="Score du portfolio"
+  >
+    <span class="arcade-label" aria-hidden="true">SCORE</span>
+    <span class="arcade-valeur" id="js-score">000000</span>
+  </div>
+  <button
+    class="nav__burger"
+    id="js-burger"
+    aria-label="Ouvrir le menu"
+    aria-expanded="false"
+    aria-controls="js-menu"
+  >
+    <span class="nav__burger-trait"></span>
+    <span class="nav__burger-trait"></span>
+    <span class="nav__burger-trait"></span>
+  </button>
+  <nav
+    class="nav__liens"
+    id="js-menu"
+    role="navigation"
+    aria-label="Pages"
+  >
+    <a class="nav__bouton" href="index.html">HOME</a>
+    <a class="nav__bouton" href="projets.html">WORK</a>
+    <a class="nav__bouton" href="competences.html">STATS</a>
+    <a class="nav__bouton" href="parcours.html">STORY</a>
+    <a class="nav__bouton" href="contact.html">CONTACT</a>
+  </nav>
+</header>
 
-      <main id="js-contenu-principal">
-      <section id="competences" class="section" aria-label="Compétences">
-        <h2 class="titre-section">
-          <span class="pixel-accent">▶</span> HIGH SCORES — ハイスコア
-        </h2>
+      <main id="js-contenu-principal" tabindex="-1">
+        <section id="competences" class="section" aria-label="Compétences">
+          <h1 class="titre-section">
+            <span class="pixel-accent">▶</span> HIGH SCORES — ハイスコア
+          </h1>
 
-        <div class="stats-grille">
-          <!-- Tableau High Scores -->
-          <div class="scores-tableau-zone">
-            <table
-              class="scores-tableau"
-              aria-label="Classement des technologies"
-            >
-              <thead>
-                <tr>
-                  <th>RANK</th>
-                  <th>TECHNO</th>
-                  <th>SCORE</th>
-                  <th>LAST USED</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="score-ligne">
-                  <td class="score-rang">01.</td>
-                  <td class="score-techno">HTML / CSS</td>
-                  <td class="score-barre-cell">
-                    <div class="score-barre-fond">
-                      <div class="score-barre" style="--cible: 92%"></div>
-                    </div>
-                  </td>
-                  <td class="score-last">PORTFOLIO</td>
-                </tr>
-                <tr class="score-ligne">
-                  <td class="score-rang">02.</td>
-                  <td class="score-techno">JAVASCRIPT</td>
-                  <td class="score-barre-cell">
-                    <div class="score-barre-fond">
-                      <div class="score-barre" style="--cible: 84%"></div>
-                    </div>
-                  </td>
-                  <td class="score-last">RENTER-CAR</td>
-                </tr>
-                <tr class="score-ligne">
-                  <td class="score-rang">03.</td>
-                  <td class="score-techno">NODE / EXPRESS</td>
-                  <td class="score-barre-cell">
-                    <div class="score-barre-fond">
-                      <div class="score-barre" style="--cible: 80%"></div>
-                    </div>
-                  </td>
-                  <td class="score-last">BOÎTE-IDÉES</td>
-                </tr>
-                <tr class="score-ligne">
-                  <td class="score-rang">04.</td>
-                  <td class="score-techno">EJS</td>
-                  <td class="score-barre-cell">
-                    <div class="score-barre-fond">
-                      <div class="score-barre" style="--cible: 77%"></div>
-                    </div>
-                  </td>
-                  <td class="score-last">PROJ-LSF</td>
-                </tr>
-                <tr class="score-ligne">
-                  <td class="score-rang">05.</td>
-                  <td class="score-techno">TAILWIND</td>
-                  <td class="score-barre-cell">
-                    <div class="score-barre-fond">
-                      <div class="score-barre" style="--cible: 75%"></div>
-                    </div>
-                  </td>
-                  <td class="score-last">GAMEHUB</td>
-                </tr>
-                <tr class="score-ligne">
-                  <td class="score-rang">06.</td>
-                  <td class="score-techno">MONGODB</td>
-                  <td class="score-barre-cell">
-                    <div class="score-barre-fond">
-                      <div class="score-barre" style="--cible: 72%"></div>
-                    </div>
-                  </td>
-                  <td class="score-last">PROJ-LSF</td>
-                </tr>
-                <tr class="score-ligne">
-                  <td class="score-rang">07.</td>
-                  <td class="score-techno">SQL / POSTGRESQL</td>
-                  <td class="score-barre-cell">
-                    <div class="score-barre-fond">
-                      <div class="score-barre" style="--cible: 63%"></div>
-                    </div>
-                  </td>
-                  <td class="score-last">STAT-ALIM</td>
-                </tr>
-                <tr class="score-ligne">
-                  <td class="score-rang">08.</td>
-                  <td class="score-techno">WORDPRESS</td>
-                  <td class="score-barre-cell">
-                    <div class="score-barre-fond">
-                      <div class="score-barre" style="--cible: 68%"></div>
-                    </div>
-                  </td>
-                  <td class="score-last">HUBTRAINING</td>
-                </tr>
-                <tr class="score-ligne">
-                  <td class="score-rang">09.</td>
-                  <td class="score-techno">GIT / GITHUB</td>
-                  <td class="score-barre-cell">
-                    <div class="score-barre-fond">
-                      <div class="score-barre" style="--cible: 74%"></div>
-                    </div>
-                  </td>
-                  <td class="score-last">TOUT PROJET</td>
-                </tr>
-                <tr class="score-ligne">
-                  <td class="score-rang">10.</td>
-                  <td class="score-techno">PYTHON / SELENIUM</td>
-                  <td class="score-barre-cell">
-                    <div class="score-barre-fond">
-                      <div class="score-barre" style="--cible: 38%"></div>
-                    </div>
-                  </td>
-                  <td class="score-last">POEI</td>
-                </tr>
-              </tbody>
-            </table>
+          <div class="stats-grille">
+            <!-- Tableau High Scores -->
+            <div class="scores-tableau-zone">
+              <table
+                class="scores-tableau"
+                aria-label="Classement des technologies"
+              >
+                <thead>
+                  <tr>
+                    <th>RANK</th>
+                    <th>TECHNO</th>
+                    <th>SCORE</th>
+                    <th>LAST USED</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="score-ligne">
+                    <td class="score-rang">01.</td>
+                    <td class="score-techno">HTML / CSS</td>
+                    <td class="score-barre-cell">
+                      <div class="score-barre-fond">
+                        <div class="score-barre" style="--cible: 92%"></div>
+                      </div>
+                    </td>
+                    <td class="score-last">PORTFOLIO</td>
+                  </tr>
+                  <tr class="score-ligne">
+                    <td class="score-rang">02.</td>
+                    <td class="score-techno">JAVASCRIPT</td>
+                    <td class="score-barre-cell">
+                      <div class="score-barre-fond">
+                        <div class="score-barre" style="--cible: 86%"></div>
+                      </div>
+                    </td>
+                    <td class="score-last">FLOPPY-BIRD</td>
+                  </tr>
+                  <tr class="score-ligne">
+                    <td class="score-rang">03.</td>
+                    <td class="score-techno">PHASER 3</td>
+                    <td class="score-barre-cell">
+                      <div class="score-barre-fond">
+                        <div class="score-barre" style="--cible: 82%"></div>
+                      </div>
+                    </td>
+                    <td class="score-last">FLOPPY-BIRD</td>
+                  </tr>
+                  <tr class="score-ligne">
+                    <td class="score-rang">04.</td>
+                    <td class="score-techno">NODE / EXPRESS</td>
+                    <td class="score-barre-cell">
+                      <div class="score-barre-fond">
+                        <div class="score-barre" style="--cible: 80%"></div>
+                      </div>
+                    </td>
+                    <td class="score-last">PROJ-LSF</td>
+                  </tr>
+                  <tr class="score-ligne">
+                    <td class="score-rang">05.</td>
+                    <td class="score-techno">EJS</td>
+                    <td class="score-barre-cell">
+                      <div class="score-barre-fond">
+                        <div class="score-barre" style="--cible: 77%"></div>
+                      </div>
+                    </td>
+                    <td class="score-last">GAMEHUB</td>
+                  </tr>
+                  <tr class="score-ligne">
+                    <td class="score-rang">06.</td>
+                    <td class="score-techno">TAILWIND</td>
+                    <td class="score-barre-cell">
+                      <div class="score-barre-fond">
+                        <div class="score-barre" style="--cible: 75%"></div>
+                      </div>
+                    </td>
+                    <td class="score-last">PROJ-LSF</td>
+                  </tr>
+                  <tr class="score-ligne">
+                    <td class="score-rang">07.</td>
+                    <td class="score-techno">GIT / GITHUB</td>
+                    <td class="score-barre-cell">
+                      <div class="score-barre-fond">
+                        <div class="score-barre" style="--cible: 74%"></div>
+                      </div>
+                    </td>
+                    <td class="score-last">FLOPPY-BIRD</td>
+                  </tr>
+                  <tr class="score-ligne">
+                    <td class="score-rang">08.</td>
+                    <td class="score-techno">MONGODB</td>
+                    <td class="score-barre-cell">
+                      <div class="score-barre-fond">
+                        <div class="score-barre" style="--cible: 72%"></div>
+                      </div>
+                    </td>
+                    <td class="score-last">PROJ-LSF</td>
+                  </tr>
+                  <tr class="score-ligne">
+                    <td class="score-rang">09.</td>
+                    <td class="score-techno">PWA</td>
+                    <td class="score-barre-cell">
+                      <div class="score-barre-fond">
+                        <div class="score-barre" style="--cible: 71%"></div>
+                      </div>
+                    </td>
+                    <td class="score-last">FLOPPY-BIRD</td>
+                  </tr>
+                  <tr class="score-ligne">
+                    <td class="score-rang">10.</td>
+                    <td class="score-techno">VITEST</td>
+                    <td class="score-barre-cell">
+                      <div class="score-barre-fond">
+                        <div class="score-barre" style="--cible: 69%"></div>
+                      </div>
+                    </td>
+                    <td class="score-last">FLOPPY-BIRD</td>
+                  </tr>
+                  <tr class="score-ligne">
+                    <td class="score-rang">11.</td>
+                    <td class="score-techno">WORDPRESS</td>
+                    <td class="score-barre-cell">
+                      <div class="score-barre-fond">
+                        <div class="score-barre" style="--cible: 68%"></div>
+                      </div>
+                    </td>
+                    <td class="score-last">HUBTRAINING</td>
+                  </tr>
+                  <tr class="score-ligne">
+                    <td class="score-rang">12.</td>
+                    <td class="score-techno">SQL / POSTGRESQL</td>
+                    <td class="score-barre-cell">
+                      <div class="score-barre-fond">
+                        <div class="score-barre" style="--cible: 63%"></div>
+                      </div>
+                    </td>
+                    <td class="score-last">STAT-ALIM</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Panneau latéral : Langues + Bonus Stats -->
+            <div class="stats-lateral">
+              <div class="stats-bloc">
+                <h2 class="stats-bloc__titre">LANGUES</h2>
+                <div class="langue-item">
+                  <span class="langue-item__drapeau">🌍</span>
+                  <span class="langue-item__nom">Anglais</span>
+                  <div class="langue-item__barre-fond">
+                    <div class="langue-item__barre" style="--cible: 90%"></div>
+                  </div>
+                  <span class="langue-item__val">B2</span>
+                </div>
+                <div class="langue-item">
+                  <span class="langue-item__drapeau">🇪🇸</span>
+                  <span class="langue-item__nom">Espagnol</span>
+                  <div class="langue-item__barre-fond">
+                    <div class="langue-item__barre" style="--cible: 35%"></div>
+                  </div>
+                  <span class="langue-item__val">Fonctionnel</span>
+                </div>
+                <div class="langue-item">
+                  <span class="langue-item__drapeau">🤟</span>
+                  <span class="langue-item__nom">LSF</span>
+                  <div class="langue-item__barre-fond">
+                    <div class="langue-item__barre" style="--cible: 20%"></div>
+                  </div>
+                  <span class="langue-item__val">déb.</span>
+                </div>
+              </div>
+
+              <div class="stats-bloc">
+                <h2 class="stats-bloc__titre">BONUS STATS</h2>
+                <div class="bonus-item">
+                  <span class="bonus-item__icone">🏃</span>
+                  <span class="bonus-item__nom">Running</span>
+                  <span class="bonus-item__etoiles">★★★★</span>
+                </div>
+                <div class="bonus-item">
+                  <span class="bonus-item__icone">💪</span>
+                  <span class="bonus-item__nom">Muscu</span>
+                  <span class="bonus-item__etoiles">★★★★★</span>
+                </div>
+                <div class="bonus-item">
+                  <span class="bonus-item__icone">🏸</span>
+                  <span class="bonus-item__nom">Badminton</span>
+                  <span class="bonus-item__etoiles">★★★★★</span>
+                </div>
+                <div class="bonus-item">
+                  <span class="bonus-item__icone">🧗</span>
+                  <span class="bonus-item__nom">Escalade</span>
+                  <span class="bonus-item__etoiles">★★</span>
+                </div>
+                <div class="bonus-item">
+                  <span class="bonus-item__icone">🗺️</span>
+                  <span class="bonus-item__nom">Exploration culturelle</span>
+                  <span class="bonus-item__etoiles">★★★★★</span>
+                </div>
+                <div class="bonus-item">
+                  <span class="bonus-item__icone">🎸</span>
+                  <span class="bonus-item__nom">Guitare</span>
+                  <span class="bonus-item__etoiles">★★</span>
+                </div>
+                <div class="bonus-item">
+                  <span class="bonus-item__icone">🎮</span>
+                  <span class="bonus-item__nom">Gaming / dev jeu</span>
+                  <span class="bonus-item__etoiles">★★★★</span>
+                </div>
+              </div>
+
+              <div class="stats-bloc">
+                <h2 class="stats-bloc__titre">SOFT SKILLS</h2>
+                <div class="soft-item"><span>🔄</span> Reconversion active</div>
+                <div class="soft-item">
+                  <span>🔬</span> Rigueur expérimentale
+                </div>
+                <div class="soft-item"><span>📊</span> Analyse de données</div>
+                <div class="soft-item"><span>📝</span> Rédaction technique</div>
+                <div class="soft-item"><span>🤝</span> Travail en équipe</div>
+              </div>
+            </div>
           </div>
-
-          <!-- Panneau latéral : Langues + Bonus Stats -->
-          <div class="stats-lateral">
-            <div class="stats-bloc">
-              <h3 class="stats-bloc__titre">LANGUES</h3>
-              <div class="langue-item">
-                <span class="langue-item__drapeau">🌍</span>
-                <span class="langue-item__nom">Anglais</span>
-                <div class="langue-item__barre-fond">
-                  <div class="langue-item__barre" style="--cible: 75%"></div>
-                </div>
-                <span class="langue-item__val">B2</span>
-              </div>
-              <div class="langue-item">
-                <span class="langue-item__drapeau">🤟</span>
-                <span class="langue-item__nom">LSF</span>
-                <div class="langue-item__barre-fond">
-                  <div class="langue-item__barre" style="--cible: 30%"></div>
-                </div>
-                <span class="langue-item__val">déb.</span>
-              </div>
-              <div class="langue-item">
-                <span class="langue-item__drapeau">🇪🇸</span>
-                <span class="langue-item__nom">Espagnol</span>
-                <div class="langue-item__barre-fond">
-                  <div class="langue-item__barre" style="--cible: 15%"></div>
-                </div>
-                <span class="langue-item__val">déb.</span>
-              </div>
-            </div>
-
-            <div class="stats-bloc">
-              <h3 class="stats-bloc__titre">BONUS STATS</h3>
-              <div class="bonus-item">
-                <span class="bonus-item__icone">🧗</span>
-                <span class="bonus-item__nom">Escalade</span>
-                <span class="bonus-item__etoiles">★★★★</span>
-              </div>
-              <div class="bonus-item">
-                <span class="bonus-item__icone">🏃</span>
-                <span class="bonus-item__nom">Running</span>
-                <span class="bonus-item__etoiles">★★★</span>
-              </div>
-              <div class="bonus-item">
-                <span class="bonus-item__icone">🎸</span>
-                <span class="bonus-item__nom">Guitare</span>
-                <span class="bonus-item__etoiles">★</span>
-              </div>
-              <div class="bonus-item">
-                <span class="bonus-item__icone">🎮</span>
-                <span class="bonus-item__nom">Gaming</span>
-                <span class="bonus-item__etoiles">★★★★★</span>
-              </div>
-              <div class="bonus-item">
-                <span class="bonus-item__icone">💪</span>
-                <span class="bonus-item__nom">Muscu</span>
-                <span class="bonus-item__etoiles">★★★</span>
-              </div>
-              <div class="bonus-item">
-                <span class="bonus-item__icone">🗺️</span>
-                <span class="bonus-item__nom">Exploration</span>
-                <span class="bonus-item__etoiles">★★★★</span>
-              </div>
-            </div>
-
-            <div class="stats-bloc">
-              <h3 class="stats-bloc__titre">SOFT SKILLS</h3>
-              <div class="soft-item"><span>🔬</span> Rigueur expérimentale</div>
-              <div class="soft-item"><span>📊</span> Analyse de données</div>
-              <div class="soft-item"><span>📝</span> Rédaction technique</div>
-              <div class="soft-item"><span>🔄</span> Reconversion active</div>
-              <div class="soft-item"><span>🤝</span> Travail en équipe</div>
-            </div>
-          </div>
-        </div>
-      </section>
+        </section>
       </main>
 
-      <div id="partial-footer"></div>
+      <footer class="pied-page" role="contentinfo">
+  <nav class="pied-page__nav" aria-label="Informations légales">
+    <a href="mentions-legales.html" class="pied-page__lien">Mentions légales</a>
+    <a href="mentions-legales.html#donnees-personnelles" class="pied-page__lien"
+      >Données personnelles</a
+    >
+  </nav>
+  <p class="pied-page__certif">
+    <span class="pied-page__certif-deco pixel-accent" aria-hidden="true"
+      >▓▒░</span
+    >
+    <a
+      href="mentions-legales.html#propriete-intellectuelle"
+      class="pied-page__certif-texte"
+      title="Tous droits réservés — propriété intellectuelle"
+      >© 2026 Joris Martinez</a
+    >
+    <span class="pied-page__certif-deco pixel-accent" aria-hidden="true"
+      >░▒▓</span
+    >
+  </p>
+  <div class="pied-page__droite">
+    <p class="pied-page__tagline-ia">
+      Made with code, curiosité <br /> &amp; assisté par IA
+    </p>
+  </div>
+</footer>
     </div>
     <!-- fin .ecran -->
 
-    <div id="partial-popup-hs"></div>
+    <div
+  class="popup-highscore"
+  id="js-popup-hs"
+  hidden
+  role="dialog"
+  aria-modal="true"
+  aria-label="High Score atteint !"
+>
+  <div class="popup-highscore__boite">
+    <div class="popup-highscore__titre" aria-hidden="true">
+      ★ HIGH SCORE ★
+    </div>
+
+    <div class="popup-highscore__score"></div>
+
+    <p class="popup-highscore__texte">
+      Tu as exploré tout le portfolio.<br />
+      Respect, PLAYER_01.
+    </p>
+
+    <p class="popup-highscore__sous-texte">
+      Si t'as aimé ce que tu as vu,<br />
+      la suite se passe ici →
+    </p>
+
+    <a class="popup-highscore__btn" href="contact.html">
+      ► CONTACTER JORIS
+    </a>
+
+    <button class="popup-highscore__fermer" id="js-popup-hs-fermer" type="button">
+      ✕ FERMER
+    </button>
+  </div>
+</div>
 
     <script type="module" src="js/main.js"></script>
   </body>

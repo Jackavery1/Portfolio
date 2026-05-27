@@ -1,35 +1,50 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
-      name="description"
-      content="Portfolio de Joris Martinez, développeur web junior — Node.js, Express, WordPress, MongoDB. La Rochelle · disponible pour un premier poste."
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' https://www.google.com https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https://www.gstatic.com; frame-src https://www.google.com https://recaptcha.google.com; connect-src 'self' https://formspree.io https://www.google.com https://www.gstatic.com https://recaptcha.google.com; form-action 'self' https://formspree.io; base-uri 'self'; object-src 'none';"
     />
+    <meta name="description" content="Portfolio de Joris Martinez, développeur web junior — reconversion, projets LSF et Floppy Bird, stage client. La Jarne · La Rochelle · premier poste." />
     <meta name="theme-color" content="#03040f" />
 
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Joris Martinez · Développeur Web" />
-    <meta
-      property="og:description"
-      content="Portfolio développeur web — projets GameHub, LSF, WordPress, apps Express/MongoDB. La Jarne · La Rochelle."
-    />
-    <meta property="og:image" content="assets/og.png" />
+    <meta property="og:description" content="Développeur web junior — projets concrets, parcours de reconversion, disponible pour un premier poste." />
+    <meta property="og:image" content="https://jackavery1.github.io/Portfolio/assets/og.png" />
     <meta property="og:locale" content="fr_FR" />
+    <meta property="og:url" content="https://jackavery1.github.io/Portfolio/" id="meta-og-url" />
+
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Joris Martinez · Développeur Web" />
-    <meta
-      name="twitter:description"
-      content="Portfolio développeur web — projets, stack technique, parcours."
-    />
-    <meta name="twitter:image" content="assets/og.png" />
+    <meta name="twitter:description" content="Portfolio arcade de Joris Martinez — développeur web junior, La Rochelle." />
+    <meta name="twitter:image" content="https://jackavery1.github.io/Portfolio/assets/og.png" />
 
-    <link rel="canonical" href="" id="link-canonical" />
+    <link rel="canonical" href="https://jackavery1.github.io/Portfolio/" id="link-canonical" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Joris Martinez",
+        "jobTitle": "Développeur web junior",
+        "url": "https://jackavery1.github.io/Portfolio/",
+        "image": "https://jackavery1.github.io/Portfolio/assets/og.png",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "La Jarne",
+          "postalCode": "17220",
+          "addressCountry": "FR"
+        },
+        "sameAs": ["https://github.com/Jackavery1"]
+      }
+    </script>
 
     <title>Joris Martinez · Développeur Web</title>
 
-    <!-- Favicon : tête du bonhomme pixel art (casquette + yeux) -->
+    <!-- Favicon -->
     <link
       rel="icon"
       type="image/svg+xml"
@@ -40,289 +55,436 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Rajdhani:wght@400;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Rajdhani:wght@400;600&display=swap"
       rel="stylesheet"
     />
 
+    <link rel="preload" href="style.css" as="style" />
     <link rel="stylesheet" href="style.css" />
   </head>
 
   <body data-section-id="accueil">
-    <div id="partial-crt"></div>
+    <a class="lien-evitement" href="#js-contenu-principal">Aller au contenu principal</a>
 
-    <div id="partial-marquee"></div>
+    <div class="crt-scanlines" aria-hidden="true"></div>
+<div class="crt-lueur" aria-hidden="true"></div>
+<div class="crt-coins" aria-hidden="true"></div>
+
+    <div class="marquee-bande" aria-hidden="true">
+  <div class="marquee-contenu">
+    ▶ Travail du moment : THE ODIN PROJECT ▶ Approfondissement REACT ▶
+    Découverte JAVA, Angular, Spring Boot ▶ PROJET LSF ▶ FLOPPY BIRD ▶
+    GAMEHUB RETRO ▶ HUBTRAINING ▶ PIXEL QUEST ▶ FLOPPY BIRD ▶
+  </div>
+</div>
 
     <div class="ecran">
-      <div id="partial-nav"></div>
+      <header class="nav" role="banner">
+  <a href="index.html" class="nav__logo" aria-label="Joris Martinez portfolio">
+    <span class="pixel-accent">▶</span> J.MARTINEZ
+  </a>
+  <div
+    class="nav__arcade-info"
+    role="status"
+    aria-live="polite"
+    aria-atomic="true"
+    aria-label="Score du portfolio"
+  >
+    <span class="arcade-label" aria-hidden="true">SCORE</span>
+    <span class="arcade-valeur" id="js-score">000000</span>
+  </div>
+  <button
+    class="nav__burger"
+    id="js-burger"
+    aria-label="Ouvrir le menu"
+    aria-expanded="false"
+    aria-controls="js-menu"
+  >
+    <span class="nav__burger-trait"></span>
+    <span class="nav__burger-trait"></span>
+    <span class="nav__burger-trait"></span>
+  </button>
+  <nav
+    class="nav__liens"
+    id="js-menu"
+    role="navigation"
+    aria-label="Pages"
+  >
+    <a class="nav__bouton" href="index.html">HOME</a>
+    <a class="nav__bouton" href="projets.html">WORK</a>
+    <a class="nav__bouton" href="competences.html">STATS</a>
+    <a class="nav__bouton" href="parcours.html">STORY</a>
+    <a class="nav__bouton" href="contact.html">CONTACT</a>
+  </nav>
+</header>
 
-      <main id="js-contenu-principal">
-      <section id="accueil" class="section" aria-label="Accueil">
-        <div class="accueil__grille">
-          <!-- Texte gauche -->
-          <div class="accueil__texte">
-            <p class="etiquette-crt">// PLAYER_01 · LA JARNE · 17220</p>
+      <main id="js-contenu-principal" tabindex="-1">
+        <section id="accueil" class="section" aria-label="Accueil">
+          <div class="accueil__grille">
+            <!-- Texte gauche -->
+            <div class="accueil__texte">
+              <p class="etiquette-crt">// PLAYER_01 · LA JARNE · 17220</p>
 
-            <h1 class="titre-arcade">
-              <span class="titre-arcade__prenom">JORIS</span>
-              <span class="titre-arcade__nom">MARTINEZ</span>
-            </h1>
+              <h1 class="titre-arcade">
+                <span class="titre-arcade__prenom">JORIS</span>
+                <span class="titre-arcade__nom">MARTINEZ</span>
+              </h1>
 
-            <p class="sous-titre-arcade">
-              <span class="pixel-accent">█</span>
-              DÉVELOPPEUR WEB
-              <span class="curseur-clignotant" aria-hidden="true">_</span>
-            </p>
+              <p class="sous-titre-arcade">
+                <span class="pixel-accent">█</span>
+                DÉVELOPPEUR WEB
+                <span class="curseur-clignotant" aria-hidden="true">_</span>
+              </p>
 
-            <div class="separateur-arcade" aria-hidden="true">════════════════════</div>
+              <div class="separateur-arcade" aria-hidden="true">
+                ════════════════════
+              </div>
 
+              <p class="texte-intro">
+                Du terrain à la prod', je me reconvertis en codant des projets
+                concrets.
+              </p>
 
-            <p class="texte-intro">
-              Du terrain à la prod', je me reconvertis en codant des projets
-              concrets.
-            </p>
+              <div class="badges-statut">
+                <span class="badge badge--actif">▶ EN FORMATION</span>
+                <span class="badge badge--valide">✓ TP DEV WEB</span>
+                <span class="badge badge--valide">✓ STAGE CLIENT</span>
+              </div>
 
-            <div class="badges-statut">
-              <span class="badge badge--actif">▶ EN FORMATION</span>
-              <span class="badge badge--valide">✓ TP DEV WEB</span>
-              <span class="badge badge--valide">✓ STAGE CLIENT</span>
+              <div class="accueil__actions">
+                <a class="bouton-arcade" href="projets.html">
+                  <span aria-hidden="true">► </span>PRESS START — VOIR MES
+                  PROJETS
+                </a>
+                <a
+                  class="lien-github"
+                  href="https://github.com/Jackavery1"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  ↗ VOIR MON GITHUB
+                </a>
+                <a
+                  class="lien-github lien-linkedin"
+                  id="js-lien-linkedin"
+                  href="#"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  hidden
+                >
+                  ↗ LINKEDIN
+                </a>
+                <p class="accueil__wip" role="status">
+                  <span class="accueil__wip-line">
+                    <span class="accueil__wip-picto" aria-hidden="true">
+                      <svg
+                        class="accueil__wip-icone"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 22"
+                        width="32"
+                        height="28"
+                        focusable="false"
+                      >
+                        <path
+                          fill="currentColor"
+                          d="M12 1.2 22.8 20H1.2L12 1.2z"
+                        />
+                        <path
+                          fill="var(--couleur-fond-carte)"
+                          d="M11.2 7.8h1.6v5.2h-1.6V7.8zm0 6.8h1.6v3h-1.6v-3z"
+                        />
+                      </svg>
+                    </span>
+                    <span class="accueil__wip-texte">
+                      Site en construction — Le contenu et lesfinitions évoluent
+                      encore.
+                    </span>
+                  </span>
+                  <span class="accueil__wip-badge" aria-hidden="true">WIP</span>
+                </p>
+              </div>
             </div>
 
-            <div class="accueil__actions">
-              <a class="bouton-arcade" href="projets.html">
-                <span aria-hidden="true">► </span>PRESS START — VOIR MES PROJETS
-              </a>
-              <a
-                class="lien-github"
-                href="https://github.com/Jackavery1"
-                target="_blank"
-                rel="noopener noreferrer"
+            <!-- Bonhomme pixel art -->
+            <div class="accueil__illustration" aria-hidden="true">
+              <svg
+                class="svg-bonhomme"
+                viewBox="0 0 92 104"
+                xmlns="http://www.w3.org/2000/svg"
+                shape-rendering="crispEdges"
               >
-                ↗ VOIR MON GITHUB
-              </a>
-            </div>
-          </div>
+                <g class="pixel-personnage">
+                  <!-- aura -->
+                  <ellipse
+                    cx="32"
+                    cy="88"
+                    rx="22"
+                    ry="10"
+                    fill="var(--couleur-accent)"
+                    opacity="0.12"
+                  />
 
-          <!-- Bonhomme pixel art — code fourni par l'utilisateur + animations -->
-          <div class="accueil__illustration" aria-hidden="true">
-            <svg
-              class="svg-bonhomme"
-              viewBox="0 0 92 104"
-              xmlns="http://www.w3.org/2000/svg"
-              shape-rendering="crispEdges"
-            >
-              <g class="pixel-personnage">
-                <!-- aura -->
-                <ellipse
-                  cx="32"
-                  cy="88"
-                  rx="22"
-                  ry="10"
-                  fill="var(--couleur-accent)"
-                  opacity="0.12"
-                />
+                  <!-- chaussures -->
+                  <rect
+                    x="18"
+                    y="96"
+                    width="12"
+                    height="6"
+                    fill="var(--couleur-pixel-chaussure)"
+                  />
+                  <rect
+                    x="34"
+                    y="96"
+                    width="12"
+                    height="6"
+                    fill="var(--couleur-pixel-chaussure)"
+                  />
 
-                <!-- chaussures -->
-                <rect
-                  x="18"
-                  y="96"
-                  width="12"
-                  height="6"
-                  fill="var(--couleur-pixel-chaussure)"
-                />
-                <rect
-                  x="34"
-                  y="96"
-                  width="12"
-                  height="6"
-                  fill="var(--couleur-pixel-chaussure)"
-                />
+                  <!-- jambes -->
+                  <rect
+                    x="20"
+                    y="78"
+                    width="8"
+                    height="18"
+                    fill="var(--couleur-pixel-corps)"
+                  />
+                  <rect
+                    x="36"
+                    y="78"
+                    width="8"
+                    height="18"
+                    fill="var(--couleur-pixel-corps)"
+                  />
 
-                <!-- jambes -->
-                <rect
-                  x="20"
-                  y="78"
-                  width="8"
-                  height="18"
-                  fill="var(--couleur-pixel-corps)"
-                />
-                <rect
-                  x="36"
-                  y="78"
-                  width="8"
-                  height="18"
-                  fill="var(--couleur-pixel-corps)"
-                />
+                  <!-- corps / veste -->
+                  <rect
+                    x="18"
+                    y="52"
+                    width="28"
+                    height="28"
+                    fill="var(--couleur-pixel-corps)"
+                  />
+                  <!-- poches cyan -->
+                  <rect
+                    x="22"
+                    y="58"
+                    width="4"
+                    height="4"
+                    fill="var(--couleur-pixel-accent-detail)"
+                  />
+                  <rect
+                    x="38"
+                    y="58"
+                    width="4"
+                    height="4"
+                    fill="var(--couleur-pixel-accent-detail)"
+                  />
+                  <!-- fermeture / glissière -->
+                  <rect
+                    x="31"
+                    y="52"
+                    width="2"
+                    height="24"
+                    fill="var(--couleur-pixel-accent-detail)"
+                  />
 
-                <!-- corps / veste -->
-                <rect
-                  x="18"
-                  y="52"
-                  width="28"
-                  height="28"
-                  fill="var(--couleur-pixel-corps)"
-                />
-                <!-- poches cyan -->
-                <rect
-                  x="22"
-                  y="58"
-                  width="4"
-                  height="4"
-                  fill="var(--couleur-pixel-accent-detail)"
-                />
-                <rect
-                  x="38"
-                  y="58"
-                  width="4"
-                  height="4"
-                  fill="var(--couleur-pixel-accent-detail)"
-                />
-                <!-- fermeture / glissière -->
-                <rect
-                  x="31"
-                  y="52"
-                  width="2"
-                  height="24"
-                  fill="var(--couleur-pixel-accent-detail)"
-                />
+                  <!-- cou -->
+                  <rect
+                    x="26"
+                    y="46"
+                    width="12"
+                    height="8"
+                    fill="var(--couleur-pixel-peau)"
+                  />
 
-                <!-- cou -->
-                <rect
-                  x="26"
-                  y="46"
-                  width="12"
-                  height="8"
-                  fill="var(--couleur-pixel-peau)"
-                />
+                  <!-- tête -->
+                  <rect
+                    x="22"
+                    y="28"
+                    width="20"
+                    height="20"
+                    fill="var(--couleur-pixel-peau)"
+                  />
 
-                <!-- tête -->
-                <rect
-                  x="22"
-                  y="28"
-                  width="20"
-                  height="20"
-                  fill="var(--couleur-pixel-peau)"
-                />
+                  <!-- casquette -->
+                  <rect
+                    x="20"
+                    y="24"
+                    width="24"
+                    height="6"
+                    fill="var(--couleur-pixel-bonnet)"
+                  />
+                  <rect
+                    x="22"
+                    y="22"
+                    width="20"
+                    height="4"
+                    fill="var(--couleur-pixel-bonnet)"
+                  />
 
-                <!-- casquette -->
-                <rect
-                  x="20"
-                  y="24"
-                  width="24"
-                  height="6"
-                  fill="var(--couleur-pixel-bonnet)"
-                />
-                <rect
-                  x="22"
-                  y="22"
-                  width="20"
-                  height="4"
-                  fill="var(--couleur-pixel-bonnet)"
-                />
+                  <!-- yeux -->
+                  <rect
+                    x="26"
+                    y="34"
+                    width="3"
+                    height="3"
+                    fill="var(--couleur-pixel-yeux)"
+                  />
+                  <rect
+                    x="35"
+                    y="34"
+                    width="3"
+                    height="3"
+                    fill="var(--couleur-pixel-yeux)"
+                  />
 
-                <!-- yeux -->
-                <rect
-                  x="26"
-                  y="34"
-                  width="3"
-                  height="3"
-                  fill="var(--couleur-pixel-yeux)"
-                />
-                <rect
-                  x="35"
-                  y="34"
-                  width="3"
-                  height="3"
-                  fill="var(--couleur-pixel-yeux)"
-                />
+                  <!-- bouche : ligne fine -->
+                  <rect
+                    x="28"
+                    y="41"
+                    width="8"
+                    height="1"
+                    fill="var(--couleur-pixel-bouche)"
+                  />
 
-                <!-- bouche : ligne fine -->
-                <rect
-                  x="28"
-                  y="41"
-                  width="8"
-                  height="1"
-                  fill="var(--couleur-pixel-bouche)"
-                />
+                  <!-- bras droit au repos -->
+                  <rect
+                    x="44"
+                    y="54"
+                    width="6"
+                    height="18"
+                    fill="var(--couleur-pixel-corps)"
+                  />
+                  <rect
+                    x="44"
+                    y="70"
+                    width="8"
+                    height="6"
+                    fill="var(--couleur-pixel-peau)"
+                  />
 
-                <!-- bras droit au repos -->
-                <rect
-                  x="44"
-                  y="54"
-                  width="6"
-                  height="18"
-                  fill="var(--couleur-pixel-corps)"
-                />
-                <rect
-                  x="44"
-                  y="70"
-                  width="8"
-                  height="6"
-                  fill="var(--couleur-pixel-peau)"
-                />
-
-                <!-- bras gauche — coucou animé -->
-                <g transform="translate(22 56)">
-                  <g class="bras-coucou">
-                    <rect
-                      x="-3"
-                      y="-16"
-                      width="6"
-                      height="16"
-                      fill="var(--couleur-pixel-corps)"
-                    />
-                    <rect
-                      x="-5"
-                      y="-24"
-                      width="10"
-                      height="8"
-                      fill="var(--couleur-pixel-peau)"
-                    />
+                  <!-- bras gauche — coucou animé -->
+                  <g transform="translate(22 56)">
+                    <g class="bras-coucou">
+                      <rect
+                        x="-3"
+                        y="-16"
+                        width="6"
+                        height="16"
+                        fill="var(--couleur-pixel-corps)"
+                      />
+                      <rect
+                        x="-5"
+                        y="-24"
+                        width="10"
+                        height="8"
+                        fill="var(--couleur-pixel-peau)"
+                      />
+                    </g>
                   </g>
                 </g>
-              </g>
 
-              <g class="bulle-coucou">
-                <rect
-                  x="36"
-                  y="4"
-                  width="54"
-                  height="18"
-                  rx="2"
-                  fill="var(--couleur-fond-carte)"
-                  stroke="var(--couleur-accent)"
-                  stroke-width="1"
-                />
-                <polygon
-                  points="36,12 36,18 30,15"
-                  fill="var(--couleur-fond-carte)"
-                />
-                <polygon
-                  points="36,11 36,19 30,15"
-                  fill="var(--couleur-accent)"
-                  opacity="0.6"
-                />
-                <text
-                  x="63"
-                  y="16"
-                  text-anchor="middle"
-                  font-family="'Press Start 2P',monospace"
-                  font-size="5"
-                  fill="var(--couleur-accent-vif)"
-                >
-                  COUCOU !
-                </text>
-              </g>
-            </svg>
+                <g class="bulle-coucou">
+                  <rect
+                    x="36"
+                    y="4"
+                    width="54"
+                    height="18"
+                    rx="2"
+                    fill="var(--couleur-fond-carte)"
+                    stroke="var(--couleur-accent)"
+                    stroke-width="1"
+                  />
+                  <polygon
+                    points="36,12 36,18 30,15"
+                    fill="var(--couleur-fond-carte)"
+                  />
+                  <polygon
+                    points="36,11 36,19 30,15"
+                    fill="var(--couleur-accent)"
+                    opacity="0.6"
+                  />
+                  <text
+                    x="63"
+                    y="16"
+                    text-anchor="middle"
+                    font-family="'Press Start 2P',monospace"
+                    font-size="5"
+                    fill="var(--couleur-accent-vif)"
+                  >
+                    COUCOU !
+                  </text>
+                </g>
+              </svg>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
       </main>
 
-      <div id="partial-footer"></div>
+      <footer class="pied-page" role="contentinfo">
+  <nav class="pied-page__nav" aria-label="Informations légales">
+    <a href="mentions-legales.html" class="pied-page__lien">Mentions légales</a>
+    <a href="mentions-legales.html#donnees-personnelles" class="pied-page__lien"
+      >Données personnelles</a
+    >
+  </nav>
+  <p class="pied-page__certif">
+    <span class="pied-page__certif-deco pixel-accent" aria-hidden="true"
+      >▓▒░</span
+    >
+    <a
+      href="mentions-legales.html#propriete-intellectuelle"
+      class="pied-page__certif-texte"
+      title="Tous droits réservés — propriété intellectuelle"
+      >© 2026 Joris Martinez</a
+    >
+    <span class="pied-page__certif-deco pixel-accent" aria-hidden="true"
+      >░▒▓</span
+    >
+  </p>
+  <div class="pied-page__droite">
+    <p class="pied-page__tagline-ia">
+      Made with code, curiosité <br /> &amp; assisté par IA
+    </p>
+  </div>
+</footer>
     </div>
     <!-- fin .ecran -->
 
-    <div id="partial-popup-hs"></div>
+    <div
+  class="popup-highscore"
+  id="js-popup-hs"
+  hidden
+  role="dialog"
+  aria-modal="true"
+  aria-label="High Score atteint !"
+>
+  <div class="popup-highscore__boite">
+    <div class="popup-highscore__titre" aria-hidden="true">
+      ★ HIGH SCORE ★
+    </div>
+
+    <div class="popup-highscore__score"></div>
+
+    <p class="popup-highscore__texte">
+      Tu as exploré tout le portfolio.<br />
+      Respect, PLAYER_01.
+    </p>
+
+    <p class="popup-highscore__sous-texte">
+      Si t'as aimé ce que tu as vu,<br />
+      la suite se passe ici →
+    </p>
+
+    <a class="popup-highscore__btn" href="contact.html">
+      ► CONTACTER JORIS
+    </a>
+
+    <button class="popup-highscore__fermer" id="js-popup-hs-fermer" type="button">
+      ✕ FERMER
+    </button>
+  </div>
+</div>
 
     <script type="module" src="js/main.js"></script>
   </body>

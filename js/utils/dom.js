@@ -1,0 +1,1 @@
+function e(e){return document.getElementById(e)}function r(e,r=document){return r.querySelector(e)}function t(e,r=document){return Array.from(r.querySelectorAll(e))}export{e as byId,r as byQs,t as byQsAll};

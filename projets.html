@@ -1,35 +1,32 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
-      name="description"
-      content="Portfolio de Joris Martinez, développeur web junior — Node.js, Express, WordPress, MongoDB. La Rochelle · disponible pour un premier poste."
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' https://www.google.com https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https://www.gstatic.com; frame-src https://www.google.com https://recaptcha.google.com; connect-src 'self' https://formspree.io https://www.google.com https://www.gstatic.com https://recaptcha.google.com; form-action 'self' https://formspree.io; base-uri 'self'; object-src 'none';"
     />
+    <meta name="description" content="Projets web : LSF (Express/MongoDB), Floppy Bird (PWA), GameHub, site WordPress HubTraining, Pixel Quest." />
     <meta name="theme-color" content="#03040f" />
 
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Joris Martinez · Développeur Web" />
-    <meta
-      property="og:description"
-      content="Portfolio développeur web — projets GameHub, LSF, WordPress, apps Express/MongoDB. La Jarne · La Rochelle."
-    />
-    <meta property="og:image" content="assets/og.png" />
+    <meta property="og:description" content="WORK — projets développeur web : full-stack, jeu Phaser, client réel WordPress." />
+    <meta property="og:image" content="https://jackavery1.github.io/Portfolio/assets/og.png" />
     <meta property="og:locale" content="fr_FR" />
+    <meta property="og:url" content="https://jackavery1.github.io/Portfolio/projets.html" id="meta-og-url" />
+
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Joris Martinez · Développeur Web" />
-    <meta
-      name="twitter:description"
-      content="Portfolio développeur web — projets, stack technique, parcours."
-    />
-    <meta name="twitter:image" content="assets/og.png" />
+    <meta name="twitter:description" content="Sélection de projets web — portfolio Joris Martinez." />
+    <meta name="twitter:image" content="https://jackavery1.github.io/Portfolio/assets/og.png" />
 
-    <link rel="canonical" href="" id="link-canonical" />
+    <link rel="canonical" href="https://jackavery1.github.io/Portfolio/projets.html" id="link-canonical" />
 
     <title>Projets · Joris Martinez</title>
 
-    <!-- Favicon : tête du bonhomme pixel art (casquette + yeux) -->
+    <!-- Favicon -->
     <link
       rel="icon"
       type="image/svg+xml"
@@ -40,470 +37,604 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Rajdhani:wght@400;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Rajdhani:wght@400;600&display=swap"
       rel="stylesheet"
     />
 
+    <link rel="preload" href="style.css" as="style" />
     <link rel="stylesheet" href="style.css" />
   </head>
 
   <body data-section-id="projets">
-    <div id="partial-crt"></div>
+    <a class="lien-evitement" href="#js-contenu-principal"
+      >Aller au contenu principal</a
+    >
 
-    <div id="partial-marquee"></div>
+    <div class="crt-scanlines" aria-hidden="true"></div>
+<div class="crt-lueur" aria-hidden="true"></div>
+<div class="crt-coins" aria-hidden="true"></div>
 
+    <div class="marquee-bande" aria-hidden="true">
+  <div class="marquee-contenu">
+    ▶ Travail du moment : THE ODIN PROJECT ▶ Approfondissement REACT ▶
+    Découverte JAVA, Angular, Spring Boot ▶ PROJET LSF ▶ FLOPPY BIRD ▶
+    GAMEHUB RETRO ▶ HUBTRAINING ▶ PIXEL QUEST ▶ FLOPPY BIRD ▶
+  </div>
+</div>
 
     <div class="ecran">
-      <div id="partial-nav"></div>
+      <header class="nav" role="banner">
+  <a href="index.html" class="nav__logo" aria-label="Joris Martinez portfolio">
+    <span class="pixel-accent">▶</span> J.MARTINEZ
+  </a>
+  <div
+    class="nav__arcade-info"
+    role="status"
+    aria-live="polite"
+    aria-atomic="true"
+    aria-label="Score du portfolio"
+  >
+    <span class="arcade-label" aria-hidden="true">SCORE</span>
+    <span class="arcade-valeur" id="js-score">000000</span>
+  </div>
+  <button
+    class="nav__burger"
+    id="js-burger"
+    aria-label="Ouvrir le menu"
+    aria-expanded="false"
+    aria-controls="js-menu"
+  >
+    <span class="nav__burger-trait"></span>
+    <span class="nav__burger-trait"></span>
+    <span class="nav__burger-trait"></span>
+  </button>
+  <nav
+    class="nav__liens"
+    id="js-menu"
+    role="navigation"
+    aria-label="Pages"
+  >
+    <a class="nav__bouton" href="index.html">HOME</a>
+    <a class="nav__bouton" href="projets.html">WORK</a>
+    <a class="nav__bouton" href="competences.html">STATS</a>
+    <a class="nav__bouton" href="parcours.html">STORY</a>
+    <a class="nav__bouton" href="contact.html">CONTACT</a>
+  </nav>
+</header>
 
-      <main id="js-contenu-principal">
-      <section id="projets" class="section" aria-label="Projets">
-        <h2 class="titre-section">
-          <span class="pixel-accent">▶</span> SELECT YOUR STAGE
-        </h2>
+      <main id="js-contenu-principal" tabindex="-1">
+        <section id="projets" class="section" aria-label="Projets">
+          <h1 class="titre-section">
+            <span class="pixel-accent">▶</span> SELECT YOUR STAGE
+          </h1>
 
-        <div class="grille-projets">
-          <!-- GameHub Retro -->
-          <article
-            class="carte-projet"
-            tabindex="0"
-            data-projet="gamehub"
-            aria-label="Ouvrir le projet GameHub Retro"
-          >
-            <div class="carte-projet__entete">
-              <span class="carte-projet__num">STG-01</span>
-              <div class="carte-projet__icone" aria-hidden="true">
-                <svg
-                  viewBox="0 0 32 20"
-                  width="40"
-                  height="25"
-                  shape-rendering="crispEdges"
-                >
-                  <rect
-                    x="1"
-                    y="4"
+          <div class="grille-projets">
+            <!-- Projet LSF -->
+            <article
+              class="carte-projet"
+              tabindex="0"
+              data-projet="lsf"
+              aria-label="Ouvrir le projet LSF"
+            >
+              <div class="carte-projet__entete">
+                <span class="carte-projet__num">PRJ-01</span>
+                <div class="carte-projet__icone" aria-hidden="true">
+                  <svg
+                    viewBox="0 0 24 30"
                     width="30"
-                    height="14"
-                    rx="4"
-                    fill="none"
-                    stroke="var(--couleur-accent)"
-                    stroke-width="1.5"
-                  />
-                  <rect
-                    x="5"
-                    y="8"
-                    width="2"
-                    height="6"
-                    fill="var(--couleur-accent)"
-                  />
-                  <rect
-                    x="3"
-                    y="10"
-                    width="6"
-                    height="2"
-                    fill="var(--couleur-accent)"
-                  />
-                  <circle
-                    cx="22"
-                    cy="9"
-                    r="1.5"
-                    fill="var(--couleur-accent-vif)"
-                  />
-                  <circle
-                    cx="26"
-                    cy="11"
-                    r="1.5"
-                    fill="var(--couleur-accent-vif)"
-                  />
-                  <circle
-                    cx="22"
-                    cy="13"
-                    r="1.5"
-                    fill="var(--couleur-accent-vif)"
-                  />
-                  <circle
-                    cx="18"
-                    cy="11"
-                    r="1.5"
-                    fill="var(--couleur-accent-vif)"
-                  />
-                </svg>
-              </div>
-              <span class="carte-projet__diff" aria-label="3 étoiles">★★★</span>
-            </div>
-            <h3 class="carte-projet__nom">GAMEHUB RETRO</h3>
-            <p class="carte-projet__desc">
-              Hub de jeux rétro — catalogue, gestion utilisateur, interface
-              d'émulation.
-            </p>
-            <ul class="etiquettes-tech">
-              <li>Node.js</li>
-              <li>MongoDB</li>
-              <li>EJS</li>
-              <li>Tailwind</li>
-            </ul>
-            <div class="barre-completion">
-              <div class="barre-completion__fond">
-                <div class="barre-completion__fill" style="--cible: 70%"></div>
-              </div>
-              <span class="barre-completion__val">70%</span>
-            </div>
-            <p class="carte-projet__clic-hint" aria-hidden="true">
-              ↩ cliquer pour aperçu
-            </p>
-          </article>
-
-          <!-- Projet LSF -->
-          <article
-            class="carte-projet"
-            tabindex="0"
-            data-projet="lsf"
-            aria-label="Ouvrir le projet LSF"
-          >
-            <div class="carte-projet__entete">
-              <span class="carte-projet__num">STG-02</span>
-              <div class="carte-projet__icone" aria-hidden="true">
-                <svg
-                  viewBox="0 0 24 30"
-                  width="30"
-                  height="37"
-                  shape-rendering="crispEdges"
+                    height="37"
+                    shape-rendering="crispEdges"
+                  >
+                    <rect
+                      x="9"
+                      y="1"
+                      width="6"
+                      height="10"
+                      rx="3"
+                      fill="var(--couleur-accent)"
+                    />
+                    <rect
+                      x="4"
+                      y="4"
+                      width="5"
+                      height="9"
+                      rx="2"
+                      fill="var(--couleur-accent)"
+                    />
+                    <rect
+                      x="15"
+                      y="4"
+                      width="5"
+                      height="9"
+                      rx="2"
+                      fill="var(--couleur-accent)"
+                    />
+                    <rect
+                      x="2"
+                      y="9"
+                      width="20"
+                      height="13"
+                      rx="4"
+                      fill="var(--couleur-accent)"
+                    />
+                    <rect
+                      x="0"
+                      y="13"
+                      width="5"
+                      height="7"
+                      rx="2"
+                      fill="var(--couleur-accent)"
+                    />
+                  </svg>
+                </div>
+                <span class="carte-projet__diff" aria-label="3 étoiles"
+                  >★★★</span
                 >
-                  <rect
-                    x="9"
-                    y="1"
-                    width="6"
-                    height="10"
-                    rx="3"
-                    fill="var(--couleur-accent)"
-                  />
-                  <rect
-                    x="4"
-                    y="4"
-                    width="5"
-                    height="9"
-                    rx="2"
-                    fill="var(--couleur-accent)"
-                  />
-                  <rect
-                    x="15"
-                    y="4"
-                    width="5"
-                    height="9"
-                    rx="2"
-                    fill="var(--couleur-accent)"
-                  />
-                  <rect
-                    x="2"
-                    y="9"
-                    width="20"
-                    height="13"
-                    rx="4"
-                    fill="var(--couleur-accent)"
-                  />
-                  <rect
-                    x="0"
-                    y="13"
-                    width="5"
-                    height="7"
-                    rx="2"
-                    fill="var(--couleur-accent)"
-                  />
-                </svg>
               </div>
-              <span class="carte-projet__diff" aria-label="3 étoiles">★★★</span>
-            </div>
-            <h3 class="carte-projet__nom">PROJET LSF</h3>
-            <p class="carte-projet__desc">
-              App web d'apprentissage de la langue des signes française. Projet
-              fil rouge TP Dev Web.
-            </p>
-            <ul class="etiquettes-tech">
-              <li>Express</li>
-              <li>Mongoose</li>
-              <li>Tailwind</li>
-              <li>bcrypt</li>
-            </ul>
-            <div class="barre-completion">
-              <div class="barre-completion__fond">
-                <div class="barre-completion__fill" style="--cible: 60%"></div>
+              <h2 class="carte-projet__nom">PROJET LSF</h2>
+              <p class="carte-projet__desc">
+                App web d'apprentissage de la LSF — projet fil rouge TP, le plus
+                abouti côté full-stack.
+              </p>
+              <ul class="etiquettes-tech">
+                <li>Express</li>
+                <li>Mongoose</li>
+                <li>Tailwind</li>
+                <li>bcrypt</li>
+              </ul>
+              <div class="barre-completion">
+                <div class="barre-completion__fond">
+                  <div
+                    class="barre-completion__fill"
+                    style="--cible: 60%"
+                  ></div>
+                </div>
+                <span class="barre-completion__val">60%</span>
               </div>
-              <span class="barre-completion__val">60%</span>
-            </div>
-            <p class="carte-projet__clic-hint" aria-hidden="true">
-              ↩ cliquer pour aperçu
-            </p>
-          </article>
+              <p class="carte-projet__clic-hint" aria-hidden="true">
+                ↩ cliquer pour aperçu
+              </p>
+            </article>
 
-          <!-- HubTraining -->
-          <article
-            class="carte-projet"
-            tabindex="0"
-            data-projet="hub"
-            aria-label="Ouvrir le projet HubTraining"
-          >
-            <div class="carte-projet__entete">
-              <span class="carte-projet__num">STG-03</span>
-              <div class="carte-projet__icone" aria-hidden="true">
-                <svg
-                  viewBox="0 0 32 24"
-                  width="40"
-                  height="30"
-                  shape-rendering="crispEdges"
+            <!-- Floppy Bird -->
+            <article
+              class="carte-projet"
+              tabindex="0"
+              data-projet="floppybird"
+              aria-label="Ouvrir le projet Floppy Bird"
+            >
+              <div class="carte-projet__entete">
+                <span class="carte-projet__num">PRJ-02</span>
+                <div class="carte-projet__icone" aria-hidden="true">
+                  <svg
+                    viewBox="0 0 32 24"
+                    width="40"
+                    height="30"
+                    shape-rendering="crispEdges"
+                  >
+                    <rect
+                      x="0"
+                      y="0"
+                      width="32"
+                      height="24"
+                      fill="#5c94fc"
+                      opacity="0.35"
+                    />
+                    <rect
+                      x="20"
+                      y="0"
+                      width="5"
+                      height="11"
+                      fill="var(--couleur-valide)"
+                    />
+                    <rect
+                      x="20"
+                      y="17"
+                      width="5"
+                      height="7"
+                      fill="var(--couleur-valide)"
+                    />
+                    <rect
+                      x="8"
+                      y="2"
+                      width="5"
+                      height="7"
+                      fill="var(--couleur-valide)"
+                    />
+                    <rect
+                      x="8"
+                      y="17"
+                      width="5"
+                      height="7"
+                      fill="var(--couleur-valide)"
+                    />
+                    <rect
+                      x="4"
+                      y="10"
+                      width="9"
+                      height="7"
+                      fill="var(--couleur-actif)"
+                    />
+                    <rect
+                      x="11"
+                      y="12"
+                      width="4"
+                      height="4"
+                      fill="var(--couleur-actif)"
+                    />
+                    <rect
+                      x="12"
+                      y="11"
+                      width="2"
+                      height="2"
+                      fill="var(--couleur-fond)"
+                    />
+                  </svg>
+                </div>
+                <span class="carte-projet__diff" aria-label="3 étoiles"
+                  >★★★</span
                 >
-                  <rect
-                    x="1"
-                    y="1"
-                    width="30"
-                    height="20"
-                    rx="2"
-                    fill="none"
-                    stroke="var(--couleur-accent)"
-                    stroke-width="1.5"
-                  />
-                  <rect
-                    x="1"
-                    y="1"
-                    width="30"
-                    height="5"
-                    rx="2"
-                    fill="var(--couleur-accent-dim)"
-                  />
-                  <circle
-                    cx="4"
-                    cy="3.5"
-                    r="1"
-                    fill="var(--couleur-accent-vif)"
-                  />
-                  <circle cx="8" cy="3.5" r="1" fill="var(--couleur-accent)" />
-                  <circle cx="12" cy="3.5" r="1" fill="var(--couleur-accent)" />
-                  <rect
-                    x="4"
-                    y="9"
-                    width="12"
-                    height="1.5"
-                    rx="1"
-                    fill="var(--couleur-accent-dim)"
-                  />
-                  <rect
-                    x="4"
-                    y="13"
-                    width="20"
-                    height="1.5"
-                    rx="1"
-                    fill="var(--couleur-accent-dim)"
-                  />
-                  <rect
-                    x="4"
-                    y="17"
-                    width="8"
-                    height="1.5"
-                    rx="1"
-                    fill="var(--couleur-accent-dim)"
-                  />
-                </svg>
               </div>
-              <span class="carte-projet__diff" aria-label="2 étoiles">★★☆</span>
-            </div>
-            <h3 class="carte-projet__nom">HUBTRAINING</h3>
-            <p class="carte-projet__desc">
-              Site WordPress pour client réel — UX/UI, réservations, SEO,
-              sécurité.
-            </p>
-            <ul class="etiquettes-tech">
-              <li>WordPress</li>
-              <li>Gutenberg</li>
-              <li>SEO</li>
-            </ul>
-            <div class="barre-completion">
-              <div class="barre-completion__fond">
-                <div class="barre-completion__fill" style="--cible: 98%"></div>
+              <h2 class="carte-projet__nom">FLOPPY BIRD</h2>
+              <p class="carte-projet__desc">
+                Clone Flappy Bird — Phaser 3, PWA installable, tests Vitest.
+              </p>
+              <ul class="etiquettes-tech">
+                <li>Phaser 3</li>
+                <li>JavaScript</li>
+                <li>PWA</li>
+                <li>Vitest</li>
+              </ul>
+              <div class="barre-completion">
+                <div class="barre-completion__fond">
+                  <div
+                    class="barre-completion__fill"
+                    style="--cible: 100%"
+                  ></div>
+                </div>
+                <span class="barre-completion__val">100%</span>
               </div>
-              <span class="barre-completion__val">98%</span>
-            </div>
-            <p class="carte-projet__clic-hint" aria-hidden="true">
-              ↩ cliquer pour aperçu
-            </p>
-          </article>
+              <p class="carte-projet__clic-hint" aria-hidden="true">
+                ↩ cliquer pour aperçu
+              </p>
+            </article>
 
-          <!-- Renter-Car -->
-          <article
-            class="carte-projet"
-            tabindex="0"
-            data-projet="renter"
-            aria-label="Ouvrir le projet Renter-Car"
-          >
-            <div class="carte-projet__entete">
-              <span class="carte-projet__num">STG-04</span>
-              <div class="carte-projet__icone" aria-hidden="true">
-                <svg
-                  viewBox="0 0 36 22"
-                  width="45"
-                  height="28"
-                  shape-rendering="crispEdges"
+            <!-- GameHub Retro -->
+            <article
+              class="carte-projet"
+              tabindex="0"
+              data-projet="gamehub"
+              aria-label="Ouvrir le projet GameHub Retro"
+            >
+              <div class="carte-projet__entete">
+                <span class="carte-projet__num">PRJ-03</span>
+                <div class="carte-projet__icone" aria-hidden="true">
+                  <svg
+                    viewBox="0 0 32 20"
+                    width="40"
+                    height="25"
+                    shape-rendering="crispEdges"
+                  >
+                    <rect
+                      x="1"
+                      y="4"
+                      width="30"
+                      height="14"
+                      rx="4"
+                      fill="none"
+                      stroke="var(--couleur-accent)"
+                      stroke-width="1.5"
+                    />
+                    <rect
+                      x="5"
+                      y="8"
+                      width="2"
+                      height="6"
+                      fill="var(--couleur-accent)"
+                    />
+                    <rect
+                      x="3"
+                      y="10"
+                      width="6"
+                      height="2"
+                      fill="var(--couleur-accent)"
+                    />
+                    <circle
+                      cx="22"
+                      cy="9"
+                      r="1.5"
+                      fill="var(--couleur-accent-vif)"
+                    />
+                    <circle
+                      cx="26"
+                      cy="11"
+                      r="1.5"
+                      fill="var(--couleur-accent-vif)"
+                    />
+                    <circle
+                      cx="22"
+                      cy="13"
+                      r="1.5"
+                      fill="var(--couleur-accent-vif)"
+                    />
+                    <circle
+                      cx="18"
+                      cy="11"
+                      r="1.5"
+                      fill="var(--couleur-accent-vif)"
+                    />
+                  </svg>
+                </div>
+                <span class="carte-projet__diff" aria-label="3 étoiles"
+                  >★★★</span
                 >
-                  <rect
-                    x="4"
-                    y="8"
-                    width="28"
-                    height="10"
-                    rx="2"
-                    fill="var(--couleur-accent-dim)"
-                  />
-                  <rect
-                    x="8"
-                    y="4"
-                    width="18"
-                    height="7"
-                    rx="2"
-                    fill="var(--couleur-accent)"
-                  />
-                  <circle
-                    cx="10"
-                    cy="19"
-                    r="3"
-                    fill="var(--couleur-texte-fort)"
-                  />
-                  <circle
-                    cx="26"
-                    cy="19"
-                    r="3"
-                    fill="var(--couleur-texte-fort)"
-                  />
-                  <circle cx="10" cy="19" r="1.5" fill="var(--couleur-fond)" />
-                  <circle cx="26" cy="19" r="1.5" fill="var(--couleur-fond)" />
-                  <rect
-                    x="0"
-                    y="10"
-                    width="5"
-                    height="5"
-                    rx="1"
-                    fill="var(--couleur-accent-dim)"
-                  />
-                  <rect
-                    x="31"
-                    y="10"
-                    width="5"
-                    height="5"
-                    rx="1"
-                    fill="var(--couleur-accent-dim)"
-                  />
-                </svg>
               </div>
-              <span class="carte-projet__diff" aria-label="2 étoiles">★★☆</span>
-            </div>
-            <h3 class="carte-projet__nom">RENTER-CAR</h3>
-            <p class="carte-projet__desc">
-              Interface location de voitures — catalogue trié dynamiquement via
-              JS DOM.
-            </p>
-            <ul class="etiquettes-tech">
-              <li>HTML</li>
-              <li>Bootstrap</li>
-              <li>JS DOM</li>
-            </ul>
-            <div class="barre-completion">
-              <div class="barre-completion__fond">
-                <div class="barre-completion__fill" style="--cible: 100%"></div>
+              <h2 class="carte-projet__nom">GAMEHUB RETRO</h2>
+              <p class="carte-projet__desc">
+                Hub de jeux rétro — catalogue, gestion utilisateur, interface
+                d'émulation.
+              </p>
+              <ul class="etiquettes-tech">
+                <li>Node.js</li>
+                <li>MongoDB</li>
+                <li>EJS</li>
+                <li>Tailwind</li>
+              </ul>
+              <div class="barre-completion">
+                <div class="barre-completion__fond">
+                  <div
+                    class="barre-completion__fill"
+                    style="--cible: 70%"
+                  ></div>
+                </div>
+                <span class="barre-completion__val">70%</span>
               </div>
-              <span class="barre-completion__val">100%</span>
-            </div>
-            <p class="carte-projet__clic-hint" aria-hidden="true">
-              ↩ cliquer pour aperçu
-            </p>
-          </article>
+              <p class="carte-projet__clic-hint" aria-hidden="true">
+                ↩ cliquer pour aperçu
+              </p>
+            </article>
 
-          <!-- Boîte à Idées -->
-          <article
-            class="carte-projet"
-            tabindex="0"
-            data-projet="idees"
-            aria-label="Ouvrir le projet Boîte à Idées"
-          >
-            <div class="carte-projet__entete">
-              <span class="carte-projet__num">STG-05</span>
-              <div class="carte-projet__icone" aria-hidden="true">
-                <svg
-                  viewBox="0 0 28 34"
-                  width="35"
-                  height="43"
-                  shape-rendering="crispEdges"
+            <!-- HubTraining -->
+            <article
+              class="carte-projet"
+              tabindex="0"
+              data-projet="hub"
+              aria-label="Ouvrir le projet HubTraining"
+            >
+              <div class="carte-projet__entete">
+                <span class="carte-projet__num">STG-01</span>
+                <div class="carte-projet__icone" aria-hidden="true">
+                  <svg
+                    viewBox="0 0 32 24"
+                    width="40"
+                    height="30"
+                    shape-rendering="crispEdges"
+                  >
+                    <rect
+                      x="1"
+                      y="1"
+                      width="30"
+                      height="20"
+                      rx="2"
+                      fill="none"
+                      stroke="var(--couleur-accent)"
+                      stroke-width="1.5"
+                    />
+                    <rect
+                      x="1"
+                      y="1"
+                      width="30"
+                      height="5"
+                      rx="2"
+                      fill="var(--couleur-accent-dim)"
+                    />
+                    <circle
+                      cx="4"
+                      cy="3.5"
+                      r="1"
+                      fill="var(--couleur-accent-vif)"
+                    />
+                    <circle
+                      cx="8"
+                      cy="3.5"
+                      r="1"
+                      fill="var(--couleur-accent)"
+                    />
+                    <circle
+                      cx="12"
+                      cy="3.5"
+                      r="1"
+                      fill="var(--couleur-accent)"
+                    />
+                    <rect
+                      x="4"
+                      y="9"
+                      width="12"
+                      height="1.5"
+                      rx="1"
+                      fill="var(--couleur-accent-dim)"
+                    />
+                    <rect
+                      x="4"
+                      y="13"
+                      width="20"
+                      height="1.5"
+                      rx="1"
+                      fill="var(--couleur-accent-dim)"
+                    />
+                    <rect
+                      x="4"
+                      y="17"
+                      width="8"
+                      height="1.5"
+                      rx="1"
+                      fill="var(--couleur-accent-dim)"
+                    />
+                  </svg>
+                </div>
+                <span class="carte-projet__diff" aria-label="2 étoiles"
+                  >★★☆</span
                 >
-                  <circle
-                    cx="14"
-                    cy="10"
-                    r="8"
-                    fill="none"
-                    stroke="var(--couleur-actif)"
-                    stroke-width="1.5"
-                  />
-                  <circle cx="14" cy="10" r="3" fill="var(--couleur-actif)" />
-                  <rect
-                    x="11"
-                    y="17"
-                    width="6"
-                    height="8"
-                    rx="1"
-                    fill="var(--couleur-actif)"
-                    opacity=".6"
-                  />
-                  <rect
-                    x="10"
-                    y="23"
-                    width="8"
-                    height="2"
-                    rx="1"
-                    fill="var(--couleur-actif)"
-                    opacity=".4"
-                  />
-                  <rect
-                    x="11"
-                    y="25"
-                    width="6"
-                    height="2"
-                    rx="1"
-                    fill="var(--couleur-actif)"
-                    opacity=".3"
-                  />
-                </svg>
               </div>
-              <span class="carte-projet__diff" aria-label="3 étoiles">★★★</span>
-            </div>
-            <h3 class="carte-projet__nom">BOÎTE À IDÉES</h3>
-            <p class="carte-projet__desc">
-              App inclusive — idées, likes, commentaires, auth JWT, rôles,
-              accessibilité ARIA.
-            </p>
-            <ul class="etiquettes-tech">
-              <li>Express</li>
-              <li>MongoDB</li>
-              <li>Tailwind 4</li>
-              <li>JWT</li>
-            </ul>
-            <div class="barre-completion">
-              <div class="barre-completion__fond">
-                <div class="barre-completion__fill" style="--cible: 80%"></div>
+              <h2 class="carte-projet__nom">HUBTRAINING</h2>
+              <p class="carte-projet__desc">
+                Site WordPress pour client réel — UX/UI, réservations, SEO,
+                sécurité.
+              </p>
+              <ul class="etiquettes-tech">
+                <li>WordPress</li>
+                <li>Gutenberg</li>
+                <li>SEO</li>
+              </ul>
+              <div class="barre-completion">
+                <div class="barre-completion__fond">
+                  <div
+                    class="barre-completion__fill"
+                    style="--cible: 98%"
+                  ></div>
+                </div>
+                <span class="barre-completion__val">98%</span>
               </div>
-              <span class="barre-completion__val">80%</span>
-            </div>
-            <p class="carte-projet__clic-hint" aria-hidden="true">
-              ↩ cliquer pour aperçu
-            </p>
-          </article>
-        </div>
-        <!-- fin grille-projets -->
+              <p class="carte-projet__clic-hint" aria-hidden="true">
+                ↩ cliquer pour aperçu
+              </p>
+            </article>
 
-        <!-- Bouton Dojo caché -->
-        <div class="work-dojo-zone">
-          <a class="bouton-dojo" href="dojo.html" id="js-btn-dojo">
-            <span aria-hidden="true">⚡</span> DOJO — EXERCICES &amp; PROJETS
-            MINEURS
-          </a>
-        </div>
-      </section>
+            <!-- Pixel Quest -->
+            <article
+              class="carte-projet"
+              tabindex="0"
+              data-projet="pixelquest"
+              aria-label="Ouvrir le projet Pixel Quest"
+            >
+              <div class="carte-projet__entete">
+                <span class="carte-projet__num">PRJ-04</span>
+                <div class="carte-projet__icone" aria-hidden="true">
+                  <svg
+                    viewBox="0 0 32 24"
+                    width="40"
+                    height="30"
+                    shape-rendering="crispEdges"
+                  >
+                    <rect
+                      x="2"
+                      y="18"
+                      width="28"
+                      height="4"
+                      fill="var(--couleur-accent-dim)"
+                    />
+                    <rect
+                      x="6"
+                      y="14"
+                      width="6"
+                      height="4"
+                      fill="var(--couleur-accent)"
+                    />
+                    <rect
+                      x="20"
+                      y="10"
+                      width="6"
+                      height="8"
+                      fill="var(--couleur-accent-dim)"
+                    />
+                    <rect
+                      x="10"
+                      y="8"
+                      width="4"
+                      height="4"
+                      fill="var(--couleur-actif)"
+                    />
+                    <rect
+                      x="8"
+                      y="4"
+                      width="8"
+                      height="4"
+                      fill="var(--couleur-actif-dim)"
+                    />
+                    <rect
+                      x="9"
+                      y="6"
+                      width="2"
+                      height="2"
+                      fill="var(--couleur-fond)"
+                    />
+                    <rect
+                      x="13"
+                      y="6"
+                      width="2"
+                      height="2"
+                      fill="var(--couleur-fond)"
+                    />
+                  </svg>
+                </div>
+                <span class="carte-projet__diff" aria-label="3 étoiles"
+                  >★★★</span
+                >
+              </div>
+              <h2 class="carte-projet__nom">PIXEL QUEST</h2>
+              <p class="carte-projet__desc">
+                Plateforme 2D navigateur — moteur ECS, Canvas 2D, niveaux et
+                boss. Démo Mario-like originale.
+              </p>
+              <ul class="etiquettes-tech">
+                <li>JavaScript</li>
+                <li>Canvas 2D</li>
+                <li>ECS</li>
+                <li>Web Audio</li>
+              </ul>
+              <div class="barre-completion">
+                <div class="barre-completion__fond">
+                  <div
+                    class="barre-completion__fill"
+                    style="--cible: 30%"
+                  ></div>
+                </div>
+                <span class="barre-completion__val">30%</span>
+              </div>
+              <p class="carte-projet__clic-hint" aria-hidden="true">
+                ↩ cliquer pour aperçu
+              </p>
+            </article>
+          </div>
+          <!-- fin grille-projets -->
+
+          <!-- Bouton Dojo caché -->
+          <div class="work-dojo-zone">
+            <a class="bouton-dojo" href="dojo.html" id="js-btn-dojo">
+              <span aria-hidden="true">⚡</span> DOJO — EXERCICES &amp; PROJETS
+              MINEURS
+            </a>
+          </div>
+        </section>
       </main>
 
-      <div id="partial-footer"></div>
+      <footer class="pied-page" role="contentinfo">
+  <nav class="pied-page__nav" aria-label="Informations légales">
+    <a href="mentions-legales.html" class="pied-page__lien">Mentions légales</a>
+    <a href="mentions-legales.html#donnees-personnelles" class="pied-page__lien"
+      >Données personnelles</a
+    >
+  </nav>
+  <p class="pied-page__certif">
+    <span class="pied-page__certif-deco pixel-accent" aria-hidden="true"
+      >▓▒░</span
+    >
+    <a
+      href="mentions-legales.html#propriete-intellectuelle"
+      class="pied-page__certif-texte"
+      title="Tous droits réservés — propriété intellectuelle"
+      >© 2026 Joris Martinez</a
+    >
+    <span class="pied-page__certif-deco pixel-accent" aria-hidden="true"
+      >░▒▓</span
+    >
+  </p>
+  <div class="pied-page__droite">
+    <p class="pied-page__tagline-ia">
+      Made with code, curiosité <br /> &amp; assisté par IA
+    </p>
+  </div>
+</footer>
     </div>
     <!-- fin .ecran -->
     <!-- Modal prévisualisation projet -->
@@ -523,22 +654,58 @@
           </button>
         </div>
         <div class="modal-contenu">
-          <img
-            class="modal-img"
-            id="js-modal-img"
-            src=""
-            alt="Aperçu du projet"
-            loading="lazy"
-          />
+          <figure class="modal-apercu">
+            <img
+              class="modal-img"
+              id="js-modal-img"
+              src=""
+              alt=""
+              loading="lazy"
+              hidden
+            />
+          </figure>
           <p class="modal-desc" id="js-modal-desc"></p>
+          <p class="modal-lien" id="js-modal-lien" hidden></p>
           <div class="modal-tech" id="js-modal-tech"></div>
         </div>
       </div>
     </div>
 
-    <div id="partial-popup-hs"></div>
+    <div
+  class="popup-highscore"
+  id="js-popup-hs"
+  hidden
+  role="dialog"
+  aria-modal="true"
+  aria-label="High Score atteint !"
+>
+  <div class="popup-highscore__boite">
+    <div class="popup-highscore__titre" aria-hidden="true">
+      ★ HIGH SCORE ★
+    </div>
 
-    <script src="assets/previews_data.js"></script>
+    <div class="popup-highscore__score"></div>
+
+    <p class="popup-highscore__texte">
+      Tu as exploré tout le portfolio.<br />
+      Respect, PLAYER_01.
+    </p>
+
+    <p class="popup-highscore__sous-texte">
+      Si t'as aimé ce que tu as vu,<br />
+      la suite se passe ici →
+    </p>
+
+    <a class="popup-highscore__btn" href="contact.html">
+      ► CONTACTER JORIS
+    </a>
+
+    <button class="popup-highscore__fermer" id="js-popup-hs-fermer" type="button">
+      ✕ FERMER
+    </button>
+  </div>
+</div>
+
     <script type="module" src="js/main.js"></script>
   </body>
 </html>

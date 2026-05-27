@@ -1,0 +1,1 @@
+function r(r){try{return atob(r)}catch{return""}}function t(r){var t,a;return!Array.isArray(r)||r.length<2?{affichage:"",tel:""}:([r,...t]=r.map(r=>String(r).replace(/\D/g,"")),a=""+r+t.join(""),{affichage:`0${r} `+t.join(" "),tel:"+33"+a})}export{r as decodeBase64Utf8,t as formatTelephoneFr};
