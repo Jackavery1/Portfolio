@@ -28,7 +28,7 @@ function chargerScriptV3(siteKey) {
   const existant = document.querySelector('script[data-recaptcha-v3]');
   const renderActuel = cleDansScriptV3(existant);
 
-  if (existent && renderActuel && renderActuel !== key) {
+  if (existant && renderActuel && renderActuel !== key) {
     retirerScriptsRecaptcha();
   }
 
@@ -36,7 +36,7 @@ function chargerScriptV3(siteKey) {
     return scriptPromise;
   }
 
-  if (existent && renderActuel === key && window.grecaptcha) {
+  if (existant && renderActuel === key && window.grecaptcha) {
     cleSiteChargee = key;
     return Promise.resolve(window.grecaptcha).then(
       (g) =>
