@@ -4,6 +4,7 @@
 
 import { CONFIG } from '../config.js';
 import { byId } from '../utils/dom.js';
+import { getCurrentPageFile } from '../utils/page.js';
 import { ajouterScore } from './score.js';
 
 function baseOrigine() {
@@ -24,8 +25,7 @@ function urlAbsolue(cheminRelatif) {
 }
 
 function urlPageCourante() {
-  const file =
-    window.location.pathname.split('/').pop() || 'index.html';
+  const file = getCurrentPageFile();
   if (file === 'index.html' || file === '') {
     return `${baseOrigine()}/`;
   }
@@ -57,10 +57,6 @@ export function initBonusScore() {
     ajouterScore(200);
   }
 
-  document.querySelectorAll('.carte-projet').forEach((carte) => {
-    carte.addEventListener('click', () => ajouterScore(1100));
-  });
-
   document.querySelectorAll('.boss-carte').forEach((carte) => {
     carte.addEventListener('click', () => ajouterScore(150));
   });
@@ -69,14 +65,4 @@ export function initBonusScore() {
   if (lienGithub) {
     lienGithub.addEventListener('click', () => ajouterScore(500));
   }
-
-  document.querySelectorAll('.carte-projet').forEach((carte) => {
-    let dejaSurvole = false;
-    carte.addEventListener('mouseenter', () => {
-      if (!dejaSurvole) {
-        ajouterScore(220);
-        dejaSurvole = true;
-      }
-    });
-  });
 }

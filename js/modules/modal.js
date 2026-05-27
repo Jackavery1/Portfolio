@@ -129,9 +129,8 @@ export function ouvrirModal(projetKey) {
   modalTech.innerHTML = "";
   data.tech.forEach((t) => {
     const li = document.createElement("span");
+    li.className = "modal-tech-tag";
     li.textContent = t;
-    li.style.cssText =
-      "font-family:var(--police-crt);font-size:1rem;color:var(--couleur-accent);border:1px solid var(--couleur-bordure);padding:.1rem .45rem;letter-spacing:1px;";
     modalTech.appendChild(li);
   });
 

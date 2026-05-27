@@ -3,10 +3,21 @@
   "version": "1.0.0",
   "description": "Portfolio arcade personnel — build + optimize + deploy",
   "private": true,
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "build": "node build.js",
     "watch": "node build.js --watch",
-    "serve": "python3 -m http.server 8000"
+    "serve": "python3 -m http.server 8000",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "prebuild": "node build/sync-defaults.cjs",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:lhci": "lhci autorun"
   },
   "keywords": [
     "portfolio",
@@ -16,11 +27,26 @@
   "author": "Joris",
   "license": "UNLICENSED",
   "dependencies": {
-    "clean-css": "^5.3.2",
-    "uglify-js": "^3.17.4",
-    "imagemin": "^8.0.1",
-    "imagemin-mozjpeg": "^10.0.0",
-    "imagemin-pngquant": "^9.0.2",
-    "imagemin-webp": "^7.0.0"
+    "clean-css": "^5.3.3",
+    "uglify-js": "^3.19.3",
+    "sharp": "^0.34.4"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.0",
+    "eslint": "^9.39.0",
+    "globals": "^16.5.0",
+    "prettier": "^3.8.0",
+    "vitest": "^3.2.4",
+    "@lhci/cli": "^0.14.0",
+    "@playwright/test": "^1.52.0",
+    "@axe-core/playwright": "^4.10.1",
+    "serve": "^14.2.4"
+  },
+  "overrides": {
+    "cross-spawn": "^7.0.6",
+    "http-cache-semantics": "^4.1.1",
+    "semver-regex": "^4.0.5",
+    "got": "^11.8.6",
+    "tmp": ">=0.2.6"
   }
 }

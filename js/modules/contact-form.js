@@ -4,7 +4,16 @@
 
 import { CONFIG } from '../config.js';
 import { byId } from '../utils/dom.js';
+import {
+  construireFormDataFormspree,
+  honeypotEstRempli,
+  libellerSujetSelect,
+  messageErreurCatch,
+  messageErreurFormspree,
+  peutSoumettre,
+} from '../utils/contact-form-helpers.js';
 import { decodeBase64Utf8 } from '../utils/pii.js';
+import { estEmailValide, nettoyerChamp } from '../utils/validation.js';
 import { jouerBip } from './audio.js';
 import { ajouterScore } from './score.js';
 import { initRecaptcha, obtenirTokenRecaptcha, resetRecaptcha } from './recaptcha.js';
@@ -21,66 +30,20 @@ function afficherErreurFormulaire(texte) {
   }
 }
 
-function messageErreurFormspree(payload, res) {
-  if (res.status === 403) {
-    return (
-      'Envoi refusé (403). Vérifiez reCAPTCHA : clé SITE dans js/config.js, même version (2 ou 3) que sur Formspree.'
-    );
-  }
-  if (res.status === 400) {
-    const detail =
-      payload && typeof payload.error === 'string' ? payload.error.trim() : '';
-    if (detail) return detail;
-    return (
-      'Envoi refusé (400). Souvent : clé secrète reCAPTCHA incorrecte dans Formspree, ou domaine non autorisé (Settings → Restrict to Domain : laisser vide pour tester en local).'
-    );
-  }
-  if (!payload || typeof payload !== 'object') {
-    return `Envoi refusé (${res.status})`;
-  }
-  if (typeof payload.error === 'string' && payload.error.trim()) {
-    return payload.error.trim();
-  }
-  const errs = payload.errors;
-  if (errs && typeof errs === 'object') {
-    const parts = Object.entries(errs).flatMap(([key, val]) => {
-      if (typeof val === 'string') return [`${key}: ${val}`];
-      if (Array.isArray(val)) return val.map((v) => `${key}: ${v}`);
-      return [];
-    });
-    if (parts.length) return parts.join(' — ');
-  }
-  return `Envoi refusé (${res.status})`;
-}
-
-function nettoyerChamp(texte, maxLen) {
-  const t = String(texte ?? '')
-    .trim()
-    .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F]/g, '');
-  return t.length > maxLen ? t.slice(0, maxLen) : t;
-}
-
-function estEmailValide(email) {
-  return (
-    email.length > 0 &&
-    email.length <= CONFIG.CONTACT.LIMITS.email &&
-    /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i.test(email)
-  );
-}
-
 function honeypotRempli(formulaire) {
   const hp =
     byId(CONFIG.SELECTORS.CONTACT_HONEYPOT) ||
     formulaire.querySelector(`[name="${CONFIG.CONTACT.HONEYPOT_NAME}"]`);
-  return Boolean(hp?.value?.trim());
+  return honeypotEstRempli(hp?.value);
 }
 
-function peutSoumettre() {
+function peutSoumettreFormulaire() {
   try {
     const last = sessionStorage.getItem(CONFIG.STORAGE.CONTACT_LAST_SUBMIT);
-    if (!last) return true;
-    const elapsed = Date.now() - parseInt(last, 10);
-    return !Number.isFinite(elapsed) || elapsed >= CONFIG.CONTACT.RATE_LIMIT_MS;
+    return peutSoumettre({
+      dernierEnvoi: last,
+      rateLimitMs: CONFIG.CONTACT.RATE_LIMIT_MS,
+    });
   } catch {
     return true;
   }
@@ -115,29 +78,9 @@ function optionsRecaptcha() {
   };
 }
 
-function messageErreurCatch(err) {
-  const m = String(err?.message || err || '').trim();
-  if (/recaptcha|grecaptcha|jeton/i.test(m)) {
-    return m.startsWith('reCAPTCHA') || m.startsWith('Jeton') ? m : `reCAPTCHA : ${m}`;
-  }
-  if (m === 'Failed to fetch' || /network|fetch/i.test(m)) {
-    return (
-      'Connexion bloquée vers Formspree (AdBlock, extension ou hors ligne). Autorisez formspree.io et google.com, ou testez en navigation privée sans extensions.'
-    );
-  }
-  return m || 'Erreur inattendue lors de l’envoi.';
-}
-
-function construireFormDataFormspree({ nom, email, message, sujetLabel, recaptchaToken }) {
-  const fd = new FormData();
-  fd.append('name', nom);
-  fd.append('email', email);
-  fd.append('message', message);
-  if (sujetLabel) fd.append('sujet', sujetLabel);
-  fd.append('_replyto', email);
-  fd.append('_subject', `[Portfolio] ${sujetLabel ? `${sujetLabel} — ` : ''}${nom}`);
-  if (recaptchaToken) fd.append('g-recaptcha-response', recaptchaToken);
-  return fd;
+function lireSujetUtile() {
+  const sujetSelect = byId(CONFIG.SELECTORS.CONTACT_SUJET);
+  return libellerSujetSelect(sujetSelect?.options[sujetSelect.selectedIndex]?.text);
 }
 
 export async function initContactForm() {
@@ -175,7 +118,7 @@ export async function initContactForm() {
       return;
     }
 
-    if (!peutSoumettre()) {
+    if (!peutSoumettreFormulaire()) {
       jouerBip(150, 120, 'sawtooth');
       const btn = byId(CONFIG.SELECTORS.BTN_ENVOYER);
       if (btn) {
@@ -198,7 +141,7 @@ export async function initContactForm() {
       byId(CONFIG.SELECTORS.CONTACT_MESSAGE),
     ];
 
-    if (!nom || !email || !message || !estEmailValide(email)) {
+    if (!nom || !email || !message || !estEmailValide(email, CONFIG.CONTACT.LIMITS.email)) {
       marquerChampsInvalides(champs);
       formulaire.reportValidity();
       return;
@@ -248,10 +191,7 @@ export async function initContactForm() {
         return;
       }
 
-      const sujetSelect = byId(CONFIG.SELECTORS.CONTACT_SUJET);
-      const sujetLabel =
-        sujetSelect?.options[sujetSelect.selectedIndex]?.text?.trim() || '';
-      const sujetUtile = sujetLabel && !/^—/.test(sujetLabel) ? sujetLabel : '';
+      const sujetUtile = lireSujetUtile();
 
       const fd = construireFormDataFormspree({
         nom,
@@ -305,9 +245,7 @@ export async function initContactForm() {
     const emailDest = decodeBase64Utf8(CONFIG.CONTACT.EMAIL_B64);
     if (!emailDest) return;
 
-    const sujetSelect = byId(CONFIG.SELECTORS.CONTACT_SUJET);
-    const sujetLabel = sujetSelect?.options[sujetSelect.selectedIndex]?.text?.trim() || '';
-    const sujetUtile = sujetLabel && !/^—/.test(sujetLabel) ? sujetLabel : '';
+    const sujetUtile = lireSujetUtile();
     const subject = `[Portfolio] ${sujetUtile ? `${sujetUtile} — ` : ''}${nom}`;
     const body = `De : ${nom} <${email}>\n\n${message}`;
     window.location.href = `mailto:${emailDest}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;

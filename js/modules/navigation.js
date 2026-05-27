@@ -4,6 +4,7 @@
 
 import { CONFIG } from '../config.js';
 import { byId } from '../utils/dom.js';
+import { pageFileFromPathname } from '../utils/page.js';
 import { jouerBip } from './audio.js';
 
 export function fermerMenuBurger() {
@@ -15,7 +16,7 @@ export function fermerMenuBurger() {
 }
 
 export function indexNavigationClavier() {
-  const file = (window.location.pathname.split('/').pop() || 'index.html').split('?')[0].toLowerCase();
+  const file = pageFileFromPathname(window.location.pathname);
   return CONFIG.NAVIGATION.ORDER.indexOf(file);
 }
 

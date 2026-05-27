@@ -4,12 +4,14 @@ Portfolio personnel de **Joris Martinez** (développeur web junior) — thème a
 
 **Stack** : HTML5 · CSS modulé (`styles/`, agrégateur `style.css`) · JavaScript ES6 modules (`js/`) · build Node (`build.js`) · déploiement GitHub Pages (workflow fourni).
 
+- [Contribuer](CONTRIBUTING.md) · [Sécurité](SECURITY.md) · [Plan de correction](docs/PLAN_CORRECTION.md)
+
 ---
 
 ## Prérequis
 
 - **Node.js** 18+ recommandé (minimum 14+) — [nodejs.org](https://nodejs.org/)
-- **Python 3** (ou `python` sous Windows) — pour servir `dist/` en HTTP local
+- **Python 3** (ou `python` sous Windows) — pour servir `.dist-staging/` en HTTP local
 
 ---
 
@@ -17,12 +19,63 @@ Portfolio personnel de **Joris Martinez** (développeur web junior) — thème a
 
 ```bash
 cd Portfolio
-npm install
+npm ci
 ```
+
+### Qualité (avant PR)
+
+```bash
+npm run lint
+npm run format:check
+npm test
+npm run build
+npm run test:e2e
+npm run test:lhci
+```
+
+### Tests E2E (Playwright)
+
+Les tests ciblent le build `.dist-staging/` (comme en production). Premier lancement :
+
+```bash
+npx playwright install chromium   # CI Linux ; en local Chrome/Edge via channel si install échoue (certificat TLS)
+npm run test:e2e
+```
+
+### Lighthouse CI
+
+Après `npm run build` :
+
+```bash
+npm run test:lhci
+```
+
+Seuils appliqués en mode **error** (voir `lighthouserc.cjs`). Le job `lighthouse` est bloquant en CI.
+```
+
+### Variables d'environnement (build)
+
+Copier `.env.example` vers `.env.local` pour surcharger l’URL du site, Formspree ou la clé reCAPTCHA **site** au build. Les valeurs par défaut sont définies dans **`build/config-defaults.cjs`** (synchronisées vers `js/config/defaults.js` via `npm run prebuild`). Fichier non versionné.
+
+```bash
+cp .env.example .env.local   # puis éditer
+npm run build
+```
+
+### Mises à jour des dépendances (Dependabot)
+
+Les PR de dépendances sont ouvertes automatiquement par [Dependabot](https://docs.github.com/en/code-security/dependabot) (config : `.github/dependabot.yml`) :
+
+- **Hebdo** : npm (groupes `dev-dependencies`, `build-tools`, `images`)
+- **Mensuel** : GitHub Actions
+
+Après merge d’une PR Dependabot, vérifier en local : `npm ci`, `npm run lint`, `npm test`, `npm run build`.
+
+Les vulnérabilités **high** connues (`cross-spawn`, `semver-regex`, `tmp` via LHCI) sont corrigées via `overrides` dans `package.json`. La CI bloque sur `npm audit --omit=dev --audit-level=high`. La chaîne images est désormais basée sur `sharp` (plus robuste que les anciens binaires `imagemin` sous Windows).
 
 ### Dépannage npm (certificat TLS)
 
-Si `npm install` affiche **`UNABLE_TO_VERIFY_LEAF_SIGNATURE`** ou *unable to verify the first certificate*, le registre npm n’est pas validé (réseau d’entreprise, proxy SSL, antivirus, etc.). Pistes : autre réseau, VPN coupé, variable **`NODE_EXTRA_CA_CERTS`** vers le PEM racine fourni par l’IT. Tant que `npm install` échoue, **`npm run build`** ne pourra pas installer `clean-css`, `uglify-js` ni les plugins `imagemin`.
+Si `npm install` affiche **`UNABLE_TO_VERIFY_LEAF_SIGNATURE`** ou *unable to verify the first certificate*, le registre npm n’est pas validé (réseau d’entreprise, proxy SSL, antivirus, etc.). Pistes : autre réseau, VPN coupé, variable **`NODE_EXTRA_CA_CERTS`** vers le PEM racine fourni par l’IT. Tant que `npm install` échoue, **`npm run build`** ne pourra pas installer `clean-css`, `uglify-js` ou `sharp`.
 
 Autres échecs d’install : supprimer `node_modules` (et éventuellement le lockfile), puis relancer `npm install`.
 
@@ -32,7 +85,9 @@ Autres échecs d’install : supprimer `node_modules` (et éventuellement le loc
 
 Les sources sont à la **racine du dépôt** (pas de dossier `src/`).
 
-### Watch (rebuild `dist/`)
+Pour prévisualiser sans build complet, les fichiers `*.html` à la racine incluent un bloc `HEAD_DEV_MIN` (CSS + polices). En production, `build.js` le retire et injecte `partials/head-common.html` à la place de `<!-- HEAD_COMMON -->`.
+
+### Watch (rebuild `.dist-staging/`)
 
 ```bash
 npm run watch
@@ -50,19 +105,19 @@ npx serve .
 
 Ou l’extension Live Server sur le dossier du projet.
 
-### Serveur local — après build (`dist/`)
+### Serveur local — après build (`.dist-staging/`)
 
 ```bash
 npm run build
-cd dist
+cd .dist-staging
 python3 -m http.server 8000
 ```
 
 Puis **http://localhost:8000**. Sous Windows, souvent `python -m http.server 8000` si `python3` est absent.
 
-Le script **`npm run serve`** lance `python3 -m http.server 8000` depuis le répertoire **courant** : pour prévisualiser le build, exécute-le **depuis `dist/`** (ou `npx serve dist` depuis la racine).
+Le script **`npm run serve`** lance `python3 -m http.server 8000` depuis le répertoire **courant** : pour prévisualiser le build, exécute-le **depuis `.dist-staging/`** (ou `npx serve .dist-staging` depuis la racine).
 
-**Combiné** : terminal 1 `npm run watch`, terminal 2 `cd dist && python3 -m http.server 8000` (rafraîchir le navigateur après chaque build).
+**Combiné** : terminal 1 `npm run watch`, terminal 2 `cd .dist-staging && python3 -m http.server 8000` (rafraîchir le navigateur après chaque build).
 
 ---
 
@@ -72,20 +127,20 @@ Le script **`npm run serve`** lance `python3 -m http.server 8000` depuis le rép
 npm run build
 ```
 
-Sortie **`dist/`** :
+Sortie principale **`.dist-staging/`** (copiée ensuite vers `dist/` en best-effort local) :
 
 | Étape | Détail |
 |--------|--------|
 | **HTML** | Copie des 7 pages listées dans `build.js` |
-| **CSS** | Un seul `dist/style.css` (minifié, `@import` locaux inlinés) |
+| **CSS** | Un seul `.dist-staging/style.css` (minifié, `@import` locaux inlinés) |
 | **JS** | Tous les fichiers sous `js/` minifiés, **mêmes chemins** (imports ES modules inchangés) |
-| **Images** | PNG/JPEG dans `assets/` optimisés + variantes `.webp` dans `dist/assets/` |
-| **Autres** | `assets/previews/`, `favicon.ico` s’il existe |
+| **Images** | PNG/JPEG dans `assets/` optimisés + variantes `.webp` dans `.dist-staging/assets/` |
+| **Autres** | `assets/previews/`, `favicon.png` s’il existe |
 
-### Arborescence `dist/` (réelle)
+### Arborescence `.dist-staging/` (réelle)
 
 ```
-dist/
+.dist-staging/
 ├── index.html
 ├── projets.html
 ├── competences.html
@@ -104,9 +159,9 @@ dist/
 │   └── previews/
 ```
 
-Les partials sont **inlinés** dans chaque page HTML de `dist/` (pas de dossier `partials/` en prod).
+Les partials sont **inlinés** dans chaque page HTML de `.dist-staging/` (pas de dossier `partials/` en prod).
 
-Déploiement : publier la racine **`dist/`** (GitHub Pages, Netlify, etc.).
+Déploiement : publier la racine **`.dist-staging/`** (GitHub Pages, Netlify, etc.).
 
 ---
 
@@ -124,7 +179,7 @@ Déploiement : publier la racine **`dist/`** (GitHub Pages, Netlify, etc.).
 
 **Partials** (injectés par `js/modules/partials.js`) : navigation, pied de page, bandeau marquee, overlay CRT, popup high score.
 
-**Navigation clavier** (← / →) : enchaîne les pages de `CONFIG.NAVIGATION.ORDER` dans `js/config.js` (`index` → `projets` → `competences` → `parcours` → `contact`). `dojo.html` et `mentions-legales.html` sont hors de cet ordre.
+**Navigation clavier** (← / →) : enchaîne les pages de `CONFIG.NAVIGATION.ORDER` dans `js/config/navigation.js` (`index` → `projets` → `competences` → `parcours` → `contact`). `dojo.html` et `mentions-legales.html` sont hors de cet ordre.
 
 ---
 
@@ -144,7 +199,7 @@ Déploiement : publier la racine **`dist/`** (GitHub Pages, Netlify, etc.).
 | Fichier | Rôle |
 |--------|------|
 | `main.js` | Orchestration au `DOMContentLoaded` |
-| `config.js` | Constantes (sélecteurs, projets, partials, navigation, Konami) |
+| `config/index.js` | Agrégation de la configuration |
 | `modules/partials.js` | Chargement HTML des partials + lien actif |
 | `modules/navigation.js` | Menu burger, flèches gauche/droite entre pages |
 | `modules/modal.js` | Modale projets (clavier + clic) |
@@ -157,7 +212,7 @@ Déploiement : publier la racine **`dist/`** (GitHub Pages, Netlify, etc.).
 | `utils/dom.js` | Helpers DOM (`byId`, etc.) |
 | `utils/focus.js` | Piège de focus modale / popup |
 
-Données projets modale : `CONFIG.PROJETS` (`apercu`, liens) + `modal.js`. Build : URLs canoniques / Open Graph absolues injectées dans `dist/` (variable `PORTFOLIO_SITE_URL`, défaut `https://jackavery1.github.io/Portfolio`).
+Données projets modale : `CONFIG.PROJETS` (`apercu`, liens) + `modal.js`. Build : URLs canoniques / Open Graph absolues injectées dans `.dist-staging/` (variable `PORTFOLIO_SITE_URL`, défaut `https://jackavery1.github.io/Portfolio`).
 
 ### Accessibilité & SEO (pages)
 
@@ -172,19 +227,19 @@ Données projets modale : `CONFIG.PROJETS` (`apercu`, liens) + `modal.js`. Build
 
 1. Créer un formulaire sur [formspree.io](https://formspree.io) → **CAPTCHA** activé → **Custom reCAPTCHA** (clé secrète dans Formspree).
 2. Créer une clé [Google reCAPTCHA](https://www.google.com/recaptcha/admin) (**v2** case à cocher ou **v3** invisible) pour ton domaine.
-3. Dans **`js/config.js`** :
+3. Dans **`js/config/contact.js`** :
    - `FORMSPREE_ENDPOINT` : URL du formulaire
    - `RECAPTCHA_SITE_KEY` : clé **SITE** Google (pas la clé secrète)
    - `RECAPTCHA_VERSION` : `2` ou `3` (identique à Formspree / Google)
 4. Sans `RECAPTCHA_SITE_KEY`, Formspree renvoie **403** si le CAPTCHA est activé côté dashboard.
 5. Laisser `FORMSPREE_ENDPOINT` vide pour le fallback **`mailto:`**.
-6. Tester en HTTP (pas `file://`) ; en prod, `npm run build` (CSP `dist/` autorise Google reCAPTCHA).
+6. Tester en HTTP (pas `file://`) ; en prod, `npm run build` (CSP `.dist-staging/` autorise Google reCAPTCHA).
 
 **Localhost (`127.0.0.1`)** : ajoute `127.0.0.1` et `localhost` dans Google reCAPTCHA. Sur Formspree, laisse **Restrict to Domain** vide pendant les tests locaux (sinon seul `jackavery1.github.io` est accepté). En cas de **400**, ouvre l’onglet Network → requête `mlgzkqbz` → **Response** : le JSON indique la cause (souvent reCAPTCHA secret incorrecte).
 
 ### Mesures de sécurité (front)
 
-- **CSP** : injectée au **build** dans `dist/` uniquement (pas en dev — compatible Live Server). `frame-ancestors` nécessite un en-tête HTTP (non disponible sur GitHub Pages via meta).
+- **CSP** : injectée au **build** dans `.dist-staging/` uniquement (pas en dev — compatible Live Server). `frame-ancestors` nécessite un en-tête HTTP (non disponible sur GitHub Pages via meta).
 - **Honeypot** : champ `_gotcha` (ignoré si rempli).
 - **Rate limit** : 60 s entre deux envois (`sessionStorage`).
 - **Validation** : longueurs max, email, nettoyage caractères de contrôle.
@@ -196,20 +251,20 @@ Données projets modale : `CONFIG.PROJETS` (`apercu`, liens) + `modal.js`. Build
 
 ### Automatique (recommandé)
 
-Le workflow **`.github/workflows/deploy.yml`** : à chaque push sur `main`, Node 18 → `npm install` → `npm run build` → publication de **`dist/`** via [peaceiris/actions-gh-pages](https://github.com/peaceiris/actions-gh-pages). Vérifier **Settings → Pages** (souvent branche `gh-pages`). Pour un domaine perso, décommenter `cname` dans le workflow.
+Le job **`deploy`** du workflow **`.github/workflows/ci.yml`** : après lint, tests et e2e verts sur `main`, publication de l’artefact **`.dist-staging/`** validé via [peaceiris/actions-gh-pages](https://github.com/peaceiris/actions-gh-pages). Vérifier **Settings → Pages** (souvent branche `gh-pages`). Pour un domaine perso, décommenter `cname` dans le job deploy du workflow CI.
 
 ### Manuel
 
 ```bash
 npm run build
-# Publier le contenu de dist/ (branche gh-pages ou dossier configuré dans Pages)
+# Publier le contenu de .dist-staging/ (branche gh-pages ou dossier configuré dans Pages)
 ```
 
 ---
 
 ## Performance
 
-Le build applique plusieurs optimisations pour la prod (`dist/`) :
+Le build applique plusieurs optimisations pour la prod (`.dist-staging/`) :
 
 | Mesure | Effet |
 |--------|--------|
@@ -222,7 +277,7 @@ Le build applique plusieurs optimisations pour la prod (`dist/`) :
 
 En **développement** (racine + serveur HTTP), les partials restent chargés via `fetch` (`partials.js`).
 
-Mesure recommandée : DevTools → Lighthouse sur `dist/` après `npm run build` (mode mobile, throttling).
+Mesure recommandée : DevTools → Lighthouse sur `.dist-staging/` après `npm run build` (mode mobile, throttling).
 
 ---
 
@@ -237,14 +292,14 @@ Mesure recommandée : DevTools → Lighthouse sur `dist/` après `npm run build`
 │   ├── components/           # crt, nav, modal, card, form, footer
 │   └── pages/                # accueil, projets, competences, …
 ├── js/
-│   ├── main.js, config.js
+│   ├── main.js, config/
 │   ├── modules/
 │   └── utils/
 ├── partials/
 ├── assets/                   # og.png, previews/, …
 ├── build.js
 ├── package.json
-├── .github/workflows/deploy.yml
+├── .github/workflows/ci.yml
 └── README.md
 ```
 
@@ -265,7 +320,7 @@ Mesure recommandée : DevTools → Lighthouse sur `dist/` après `npm run build`
 | Partials vides en local | Servir en HTTP (`npx serve .`), pas `file://` |
 | `Python not found` au `serve` | Windows : `python` ou `py` |
 | Images non optimisées | Fichiers **directement dans `assets/`** (jpg/png) |
-| Formspree ne reçoit rien | Vérifier `FORMSPREE_ENDPOINT` dans `config.js`, réponse Network |
+| Formspree ne reçoit rien | Vérifier `FORMSPREE_ENDPOINT` dans `js/config/contact.js`, réponse Network |
 | Score ne bouge pas | `sessionStorage` — nouvelle session ou onglet privé pour retester |
 
 ---
@@ -278,6 +333,6 @@ Mesure recommandée : DevTools → Lighthouse sur `dist/` après `npm run build`
 
 ## Pistes d’évolution
 
-- Mesures Lighthouse régulières sur `dist/`
+- Mesures Lighthouse régulières sur `.dist-staging/`
 - ESLint / tests si le projet continue de grossir
 - Analytics léger si besoin en production

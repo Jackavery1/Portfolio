@@ -4,6 +4,15 @@
 
 import { CONFIG } from '../config.js';
 import { byId } from '../utils/dom.js';
+import { getCurrentPageFile } from '../utils/page.js';
+
+function estEnvironnementDev() {
+  return (
+    location.hostname === 'localhost' ||
+    location.hostname === '127.0.0.1' ||
+    new URLSearchParams(location.search).has('dev')
+  );
+}
 
 export async function chargerPartials() {
   const aCharger = CONFIG.PARTIALS.filter(({ id }) => byId(id));
@@ -23,8 +32,13 @@ export async function chargerPartials() {
         }
         const html = await reponse.text();
         conteneur.outerHTML = html;
-      } catch (_) {
-        /* Échec réseau ou statut hors 2xx : ne pas injecter le corps d’erreur dans le DOM */
+      } catch (err) {
+        if (estEnvironnementDev()) {
+          console.warn(
+            `[partials] Échec chargement ${fichier} (${id}) :`,
+            err?.message || err,
+          );
+        }
       }
     }),
   );
@@ -32,7 +46,7 @@ export async function chargerPartials() {
 }
 
 export function marquerLienActif() {
-  const page = window.location.pathname.split('/').pop() || 'index.html';
+  const page = getCurrentPageFile();
   document.querySelectorAll('.nav__bouton').forEach((lien) => {
     if (lien.getAttribute('href') === page) {
       lien.classList.add('actif');

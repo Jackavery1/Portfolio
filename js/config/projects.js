@@ -1,0 +1,41 @@
+export const PROJETS = {
+  lsf: {
+    titre: 'PROJET LSF',
+    desc: "Application web d'apprentissage de la Langue des Signes Française. Dictionnaire visuel, quiz, ressources. Projet fil rouge TP Dev Web — l'un des plus aboutis côté stack full-stack (Express, MongoDB, auth). De nombreuses fonctionnalités encore à venir (60%).",
+    tech: ['Express', 'Mongoose', 'Tailwind', 'bcrypt'],
+    apercu: 'assets/previews/lsf.png',
+    lien: 'https://github.com/Jackavery1/ProjetLSF',
+  },
+  floppybird: {
+    titre: 'FLOPPY BIRD',
+    desc: 'Clone arcade type Flappy Bird — Phaser 3, scores locaux, trois difficultés, audio Web Audio. PWA installable, tests Vitest, déployé sur GitHub Pages. Projet personnel mené à terme (100%).',
+    tech: ['Phaser 3', 'JavaScript', 'PWA', 'Vitest'],
+    apercu: 'assets/previews/floppybird.png',
+    lien: 'https://github.com/Jackavery1/Floppy-Bird',
+    lienLabel: '▶ Voir le dépôt GitHub',
+    lienDemo: 'https://jackavery1.github.io/Floppy-Bird/',
+    lienDemoLabel: '▶ Jouer en ligne (PWA)',
+  },
+  gamehub: {
+    titre: 'GAMEHUB RETRO',
+    desc: "Hub de jeux rétro — catalogue de jeux, gestion de compte utilisateur, interface d'émulation. Les émulateurs sont en cours d'intégation (70%).",
+    tech: ['Node.js', 'MongoDB', 'EJS', 'Tailwind CSS'],
+    apercu: 'assets/previews/gamehub.png',
+    lien: 'https://github.com/Jackavery1/GameHub.-retro',
+  },
+  hub: {
+    titre: 'HUBTRAINING',
+    desc: 'Site WordPress pour un client réel (HubTraining). Intégration Gutenberg, optimisation SEO, sécurité renforcée, UX/UI, formulaire de réservation. Quasi finalisé (98%).',
+    tech: ['WordPress', 'Gutenberg', 'SEO', 'ACF'],
+    apercu: 'assets/previews/hub.png',
+    lien: 'https://h-training.fr/',
+    lienLabel: '▶ Voir le site client',
+  },
+  pixelquest: {
+    titre: 'PIXEL QUEST',
+    desc: 'Plateforme 2D dans le navigateur — moteur ECS léger, physique AABB, rendu Canvas 2D et audio Web Audio. Niveaux, arène boss, progression sauvegardée. Démo originale inspirée des jeux 8 bits, sans dépendance npm.',
+    tech: ['JavaScript', 'Canvas 2D', 'ECS', 'Web Audio'],
+    apercu: 'assets/previews/pixelquest.png',
+    lien: 'https://github.com/Jackavery1/Pixel-quest',
+  },
+};

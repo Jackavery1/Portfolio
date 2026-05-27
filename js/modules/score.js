@@ -20,7 +20,7 @@ export function lireScore() {
       return 9999;
     }
     return n;
-  } catch (_) {
+  } catch {
     return 0;
   }
 }
@@ -29,7 +29,9 @@ export function sauvegarderScore(valeur) {
   try {
     const n = Math.max(0, Math.min(Number(valeur) || 0, 9999));
     sessionStorage.setItem(CONFIG.STORAGE.SCORE_KEY, String(n));
-  } catch (_) {}
+  } catch {
+    /* sessionStorage indisponible */
+  }
 }
 
 export function afficherScore(valeur) {
@@ -68,7 +70,9 @@ function fermerPopupHighScoreEtReset() {
   pu.hidden = true;
   try {
     sessionStorage.removeItem(CONFIG.STORAGE.HS_POPUP_VU);
-  } catch (_) {}
+  } catch {
+    /* sessionStorage indisponible */
+  }
   sauvegarderScore(0);
   afficherScore(0);
 }

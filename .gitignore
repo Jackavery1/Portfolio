@@ -4,6 +4,12 @@ yarn.lock
 
 # Build output
 dist/
+.dist-staging/
+
+# Tests E2E / Lighthouse
+playwright-report/
+test-results/
+.lighthouseci/
 
 # OS
 .DS_Store
@@ -25,3 +31,4 @@ yarn-error.log*
 .env
 .env.local
 .env.*.local
+!.env.example

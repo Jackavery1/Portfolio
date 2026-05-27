@@ -114,6 +114,15 @@
   gap: 0.35rem;
 }
 
+.modal-tech-tag {
+  font-family: var(--police-crt);
+  font-size: 1rem;
+  color: #a9c2ff;
+  border: 1px solid var(--couleur-bordure);
+  padding: 0.1rem 0.45rem;
+  letter-spacing: 1px;
+}
+
 /* Popup High Score (score 9999) */
 .popup-highscore {
   position: fixed;

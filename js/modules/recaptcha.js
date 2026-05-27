@@ -3,16 +3,11 @@
    ============================================ */
 
 import { byId } from '../utils/dom.js';
+import { cleDansScriptRecaptchaV3 } from '../utils/validation.js';
 
 let scriptPromise = null;
 let widgetId = null;
 let cleSiteChargee = null;
-
-function cleDansScriptV3(script) {
-  if (!script?.src) return null;
-  const m = script.src.match(/[?&]render=([^&]+)/);
-  return m ? decodeURIComponent(m[1]) : null;
-}
 
 function retirerScriptsRecaptcha() {
   document
@@ -26,7 +21,7 @@ function retirerScriptsRecaptcha() {
 function chargerScriptV3(siteKey) {
   const key = siteKey?.trim();
   const existant = document.querySelector('script[data-recaptcha-v3]');
-  const renderActuel = cleDansScriptV3(existant);
+  const renderActuel = cleDansScriptRecaptchaV3(existant);
 
   if (existant && renderActuel && renderActuel !== key) {
     retirerScriptsRecaptcha();
@@ -137,6 +132,7 @@ export async function initRecaptcha({ siteKey, version, mountId }) {
 export async function obtenirTokenRecaptcha({ siteKey, version, action = 'submit' }) {
   const key = siteKey?.trim();
   if (!key) return null;
+  if (window.__E2E_RECAPTCHA_TOKEN) return window.__E2E_RECAPTCHA_TOKEN;
 
   if (version === 3) {
     const g = await chargerScriptV3(key);

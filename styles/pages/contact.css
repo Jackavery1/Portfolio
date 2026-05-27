@@ -58,13 +58,14 @@
 .contact-bandeau {
   cursor: pointer;
   margin-bottom: 0.35rem;
+  color: #9fbaff;
   transition: color 0.15s, text-shadow 0.15s;
   outline: none;
 }
 
 .contact-bandeau:hover,
 .contact-bandeau:focus-visible {
-  color: var(--couleur-actif);
+  color: #c5dcff;
   text-shadow: 0 0 12px var(--couleur-accent);
 }
 

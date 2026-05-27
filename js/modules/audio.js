@@ -13,7 +13,7 @@ function obtenirContexteAudio() {
       ctxAudio.resume().catch(() => {});
     }
     return ctxAudio;
-  } catch (_) {
+  } catch {
     return null;
   }
 }
@@ -32,7 +32,9 @@ export function jouerBip(frequence = 440, duree = 60, type = 'square') {
     gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + duree / 1000);
     osc.start(ctx.currentTime);
     osc.stop(ctx.currentTime + duree / 1000);
-  } catch (_) {}
+  } catch {
+    /* Web Audio indisponible */
+  }
 }
 
 /** Suite de bips espacés (ex. fanfare Konami) */

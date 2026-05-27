@@ -15,7 +15,6 @@ export function initContactBandeau() {
   cv.href = CONFIG.CONTACT.CV_HREF;
   cv.download = CONFIG.CONTACT.CV_DOWNLOAD;
 
-  const aide = byId("js-bandeau-aide");
   let mode = "dispo";
 
   const majAffichage = () => {
@@ -37,8 +36,6 @@ export function initContactBandeau() {
   };
 
   cv.addEventListener("click", (evt) => evt.stopPropagation());
-
-  if (aide) aide.addEventListener("click", basculer);
 
   zone.addEventListener("click", () => basculer());
 
