@@ -2,8 +2,14 @@
   <a href="index.html" class="nav__logo" aria-label="Joris Martinez portfolio">
     <span class="pixel-accent">▶</span> J.MARTINEZ
   </a>
-  <div class="nav__arcade-info" aria-hidden="true">
-    <span class="arcade-label">SCORE</span>
+  <div
+    class="nav__arcade-info"
+    role="status"
+    aria-live="polite"
+    aria-atomic="true"
+    aria-label="Score du portfolio"
+  >
+    <span class="arcade-label" aria-hidden="true">SCORE</span>
     <span class="arcade-valeur" id="js-score">000000</span>
   </div>
   <button

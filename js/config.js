@@ -5,6 +5,11 @@
 export const CONFIG = {
   SITE_ORIGIN: "https://jackavery1.github.io/Portfolio",
 
+  SOCIAL: {
+    GITHUB: "https://github.com/Jackavery1",
+    LINKEDIN: "",
+  },
+
   STORAGE: {
     SCORE_KEY: "jm_portfolio_score",
     PAGE_PREFIX: "jm_page_",
@@ -107,6 +112,8 @@ export const CONFIG = {
       apercu: "assets/previews/floppybird.png",
       lien: "https://github.com/Jackavery1/Floppy-Bird",
       lienLabel: "▶ Voir le dépôt GitHub",
+      lienDemo: "https://jackavery1.github.io/Floppy-Bird/",
+      lienDemoLabel: "▶ Jouer en ligne (PWA)",
     },
     gamehub: {
       titre: "GAMEHUB RETRO",

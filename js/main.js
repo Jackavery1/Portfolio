@@ -41,6 +41,16 @@ async function init() {
     initModalClicks();
   }
 
+  if (sid === 'accueil') {
+    const { initAccueilSocial } = await import('./modules/accueil-social.js');
+    initAccueilSocial();
+  }
+
+  if (sid === 'dojo') {
+    const { initDojoBoss } = await import('./modules/dojo-boss.js');
+    initDojoBoss();
+  }
+
   if (sid === 'contact') {
     const { initContactCoordonnees } = await import(
       './modules/contact-coordonnees.js'

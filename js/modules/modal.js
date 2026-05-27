@@ -14,6 +14,75 @@ function resolveApercuSrc(data) {
   return data.apercu || null;
 }
 
+function estImageRaster(src) {
+  return /\.(png|jpe?g)$/i.test(src || "");
+}
+
+function preparerImageModale(modalImg, src, titre) {
+  modalImg.loading = "lazy";
+  modalImg.decoding = "async";
+  modalImg.alt = `Aperçu — ${titre}`;
+
+  const parent = modalImg.parentElement;
+  let picture =
+    parent?.tagName === "PICTURE" ? parent : null;
+
+  if (!src || !estImageRaster(src)) {
+    if (picture) {
+      picture.replaceWith(modalImg);
+    }
+    modalImg.classList.toggle("modal-img--svg", /\.svg($|\?)/i.test(src || ""));
+    return;
+  }
+
+  if (!picture) {
+    picture = document.createElement("picture");
+    modalImg.parentNode.insertBefore(picture, modalImg);
+    picture.appendChild(modalImg);
+  }
+
+  let source = picture.querySelector("source[type='image/webp']");
+  if (!source) {
+    source = document.createElement("source");
+    source.type = "image/webp";
+    picture.insertBefore(source, modalImg);
+  }
+  source.srcset = src.replace(/\.(png|jpe?g)$/i, ".webp");
+
+  modalImg.src = src;
+  modalImg.classList.remove("modal-img--svg");
+}
+
+function remplirLiensModale(modalLien, data) {
+  const liens = [];
+  if (data.lienDemo) {
+    liens.push({ href: data.lienDemo, label: data.lienDemoLabel || "▶ Voir la démo" });
+  }
+  if (data.lien) {
+    liens.push({
+      href: data.lien,
+      label: data.lienLabel || "▶ Voir le dépôt GitHub",
+    });
+  }
+
+  if (!liens.length) {
+    modalLien.hidden = true;
+    modalLien.innerHTML = "";
+    return;
+  }
+
+  modalLien.hidden = false;
+  modalLien.innerHTML = "";
+  liens.forEach(({ href, label }) => {
+    const a = document.createElement("a");
+    a.href = href;
+    a.target = "_blank";
+    a.rel = "noopener noreferrer";
+    a.textContent = label;
+    modalLien.append(a);
+  });
+}
+
 export function ouvrirModal(projetKey) {
   const data = CONFIG.PROJETS[projetKey];
   const modalOverlay = byId(CONFIG.SELECTORS.MODAL);
@@ -39,39 +108,22 @@ export function ouvrirModal(projetKey) {
   modalDesc.textContent = data.desc;
 
   let modalLien = byId(CONFIG.SELECTORS.MODAL_LIEN);
-  if (data.lien) {
-    if (!modalLien) {
-      modalLien = document.createElement("p");
-      modalLien.id = CONFIG.SELECTORS.MODAL_LIEN;
-      modalLien.className = "modal-lien";
-      modalDesc.insertAdjacentElement("afterend", modalLien);
-    }
-    modalLien.hidden = false;
-    modalLien.innerHTML = "";
-    const a = document.createElement("a");
-    a.href = data.lien;
-    a.target = "_blank";
-    a.rel = "noopener noreferrer";
-    a.textContent = data.lienLabel || "▶ Voir le dépôt GitHub";
-    modalLien.append(a);
-  } else if (modalLien) {
-    modalLien.hidden = true;
+  if (!modalLien) {
+    modalLien = document.createElement("p");
+    modalLien.id = CONFIG.SELECTORS.MODAL_LIEN;
+    modalLien.className = "modal-lien";
+    modalDesc.insertAdjacentElement("afterend", modalLien);
   }
+  remplirLiensModale(modalLien, data);
 
   const srcApercu = resolveApercuSrc(data);
   if (srcApercu) {
-    modalImg.src = srcApercu;
-    modalImg.alt = `Aperçu — ${data.titre}`;
+    preparerImageModale(modalImg, srcApercu, data.titre);
     modalImg.hidden = false;
-    modalImg.classList.toggle(
-      "modal-img--svg",
-      /\.svg($|\?)/i.test(srcApercu),
-    );
   } else {
+    preparerImageModale(modalImg, "", data.titre);
     modalImg.removeAttribute("src");
-    modalImg.alt = "";
     modalImg.hidden = true;
-    modalImg.classList.remove("modal-img--svg");
   }
 
   modalTech.innerHTML = "";

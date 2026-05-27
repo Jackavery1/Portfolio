@@ -66,6 +66,91 @@ function injectSeoMeta(html, htmlFile) {
   return out;
 }
 
+const PAGE_META = {
+  "index.html": {
+    description:
+      "Portfolio de Joris Martinez, développeur web junior — reconversion, projets LSF et Floppy Bird, stage client. La Jarne · La Rochelle · premier poste.",
+    ogDescription:
+      "Développeur web junior — projets concrets, parcours de reconversion, disponible pour un premier poste.",
+    twitterDescription:
+      "Portfolio arcade de Joris Martinez — développeur web junior, La Rochelle.",
+  },
+  "projets.html": {
+    description:
+      "Projets web : LSF (Express/MongoDB), Floppy Bird (PWA), GameHub, site WordPress HubTraining, Pixel Quest.",
+    ogDescription:
+      "WORK — projets développeur web : full-stack, jeu Phaser, client réel WordPress.",
+    twitterDescription:
+      "Sélection de projets web — portfolio Joris Martinez.",
+  },
+  "competences.html": {
+    description:
+      "Stack technique : HTML/CSS/JS, Node/Express, Phaser, WordPress, SQL, Angular et Java en cours.",
+    ogDescription:
+      "STATS — niveaux par techno et soft skills.",
+    twitterDescription:
+      "Compétences développeur web — Joris Martinez.",
+  },
+  "parcours.html": {
+    description:
+      "Parcours agro → dev web : master sciences du végétal, BIOTEK/UNILET, TP, stage HubTraining, formation continue.",
+    ogDescription:
+      "STORY — timeline de reconversion vers le développement web.",
+    twitterDescription:
+      "Parcours professionnel — Joris Martinez.",
+  },
+  "contact.html": {
+    description:
+      "Contact et CV — Joris Martinez, développeur web junior, La Jarne (17220), disponible pour opportunités.",
+    ogDescription:
+      "CONTACT — formulaire, téléchargement du CV, premier poste recherché.",
+    twitterDescription:
+      "Contacter Joris Martinez — développeur web.",
+  },
+  "dojo.html": {
+    description:
+      "Dojo — exercices et boss techniques : DOM, Express, EJS, SQL, stack web, Angular et Java en cours.",
+    ogDescription:
+      "Entraînements et mini-projets hors portfolio principal.",
+    twitterDescription:
+      "Boss rush technique — portfolio Joris Martinez.",
+  },
+  "mentions-legales.html": {
+    description:
+      "Mentions légales du portfolio Joris Martinez — éditeur, hébergement, données personnelles.",
+    ogDescription:
+      "Mentions légales et politique de confidentialité.",
+    twitterDescription:
+      "Mentions légales — portfolio Joris Martinez.",
+  },
+};
+
+function injectPageMeta(html, htmlFile) {
+  const meta = PAGE_META[htmlFile];
+  if (!meta) return html;
+
+  let out = html;
+  if (meta.description) {
+    out = out.replace(
+      /<meta\s+name="description"\s+content="[^"]*"\s*\/>/,
+      `<meta name="description" content="${meta.description}" />`,
+    );
+  }
+  if (meta.ogDescription) {
+    out = out.replace(
+      /<meta\s+property="og:description"\s+content="[^"]*"\s*\/>/,
+      `<meta property="og:description" content="${meta.ogDescription}" />`,
+    );
+  }
+  if (meta.twitterDescription) {
+    out = out.replace(
+      /<meta\s+name="twitter:description"\s+content="[^"]*"\s*\/>/,
+      `<meta name="twitter:description" content="${meta.twitterDescription}" />`,
+    );
+  }
+  return out;
+}
+
 const PARTIAL_PLACEHOLDERS = [
   { id: "partial-crt", fichier: "partials/crt.html" },
   { id: "partial-marquee", fichier: "partials/marquee.html" },
@@ -197,6 +282,7 @@ function copyHTML() {
 
     let html = fs.readFileSync(src, "utf8");
     html = injectSeoMeta(html, file);
+    html = injectPageMeta(html, file);
     html = injectPerfHead(html);
     html = inlinePartials(html);
     if (html.includes(viewportNeedle) && !html.includes("Content-Security-Policy")) {
@@ -258,12 +344,11 @@ function minifyAllJs() {
   files.forEach((absSrc) => {
     const rel = path.relative(jsRoot, absSrc);
     const input = fs.readFileSync(absSrc, "utf8");
-    const result = UglifyJS.minify(input, {
-      ecma: 2020,
-      parse: { ecma: 2020 },
-      compress: { ecma: 2020, module: true, passes: 2 },
-      mangle: { module: true },
-      format: { ecma: 2020, comments: false },
+    const result = UglifyJS.minify({ [rel]: input }, {
+      parse: { module: true },
+      compress: { module: true, passes: 2 },
+      mangle: true,
+      output: { comments: false },
       module: true,
     });
 
@@ -301,6 +386,58 @@ async function loadImageminPlugins() {
   const imageminPngquant = (await import("imagemin-pngquant")).default;
   const imageminWebp = (await import("imagemin-webp")).default;
   return { imagemin, imageminMozjpeg, imageminPngquant, imageminWebp };
+}
+
+async function optimizePreviewImages() {
+  const srcDir = path.join(ROOT, "assets", "previews");
+  const dstDir = path.join(DIST_DIR, "assets", "previews");
+
+  if (!fs.existsSync(srcDir)) {
+    log("Pas de assets/previews/ — ignoré", "warning");
+    return;
+  }
+
+  const raster = fs
+    .readdirSync(srcDir)
+    .filter((f) => /\.(png|jpe?g)$/i.test(f));
+
+  if (raster.length === 0) {
+    log("Aucun aperçu PNG/JPEG dans assets/previews/", "warning");
+    return;
+  }
+
+  try {
+    const { imagemin, imageminPngquant, imageminWebp } =
+      await loadImageminPlugins();
+    ensureDir(dstDir);
+    log(`Optimisation de ${raster.length} aperçu(s) projet…`, "info");
+
+    for (const name of raster) {
+      const buf = fs.readFileSync(path.join(srcDir, name));
+      let optimized = buf;
+
+      if (/\.png$/i.test(name)) {
+        [optimized] = await imagemin.buffer(buf, {
+          plugins: [imageminPngquant({ quality: [0.65, 0.85] })],
+        });
+      }
+
+      fs.writeFileSync(path.join(dstDir, name), optimized);
+
+      const webpBuf = await imagemin.buffer(optimized, {
+        plugins: [imageminWebp({ quality: 78 })],
+      });
+      fs.writeFileSync(
+        path.join(dstDir, name.replace(/\.(png|jpe?g)$/i, ".webp")),
+        webpBuf,
+      );
+    }
+
+    log(`Aperçus → ${dstDir} (+ WebP)`, "success");
+  } catch (err) {
+    log(`Erreur optimisation aperçus: ${err.message}`, "error");
+    copyDirRecursive(srcDir, dstDir);
+  }
 }
 
 async function optimizeImages() {
@@ -360,10 +497,6 @@ async function optimizeImages() {
 
 function copyAssets() {
   const assetsToCopy = [
-    {
-      src: path.join(ROOT, "assets", "previews"),
-      dst: path.join(DIST_DIR, "assets", "previews"),
-    },
     {
       src: path.join(ROOT, "assets", "favicon.ico"),
       dst: path.join(DIST_DIR, "assets", "favicon.ico"),
@@ -436,6 +569,7 @@ async function runBuild() {
     minifyCSS();
     minifyAllJs();
     await optimizeImages();
+    await optimizePreviewImages();
     copyAssets();
 
     console.log(`\n${"=".repeat(50)}`);
