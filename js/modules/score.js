@@ -2,8 +2,9 @@
    Score arcade (sessionStorage, popup 9999)
    ============================================ */
 
-import { CONFIG } from '../config.js';
+import { CONFIG } from '../config/index.js';
 import { byId } from '../utils/dom.js';
+import { formaterScoreAffichage, plafonnerScore } from '../utils/score-helpers.js';
 import { jouerBip } from './audio.js';
 
 export function lireScore() {
@@ -15,11 +16,11 @@ export function lireScore() {
       sauvegarderScore(0);
       return 0;
     }
-    if (n > 9999) {
-      sauvegarderScore(9999);
-      return 9999;
+    const borne = plafonnerScore(n);
+    if (borne !== n) {
+      sauvegarderScore(borne);
     }
-    return n;
+    return borne;
   } catch {
     return 0;
   }
@@ -27,7 +28,7 @@ export function lireScore() {
 
 export function sauvegarderScore(valeur) {
   try {
-    const n = Math.max(0, Math.min(Number(valeur) || 0, 9999));
+    const n = plafonnerScore(valeur);
     sessionStorage.setItem(CONFIG.STORAGE.SCORE_KEY, String(n));
   } catch {
     /* sessionStorage indisponible */
@@ -35,15 +36,14 @@ export function sauvegarderScore(valeur) {
 }
 
 export function afficherScore(valeur) {
-  const n = Math.max(0, Math.min(Number(valeur) || 0, 9999));
   const el = byId(CONFIG.SELECTORS.SCORE);
-  if (el) el.textContent = String(n).padStart(6, '0');
+  if (el) el.textContent = formaterScoreAffichage(valeur);
 }
 
 export function ajouterScore(pts) {
   const avant = lireScore();
   if (avant >= 9999) return;
-  const apres = Math.min(avant + pts, 9999);
+  const apres = plafonnerScore(avant + pts);
   sauvegarderScore(apres);
   afficherScore(apres);
   if (apres >= 9999) {
@@ -55,7 +55,7 @@ export function afficherPopupHighScore() {
   const popup = byId(CONFIG.SELECTORS.POPUP_HS);
   if (!popup) return;
   const sc = popup.querySelector('.popup-highscore__score');
-  if (sc) sc.textContent = String(Math.min(lireScore(), 9999)).padStart(6, '0');
+  if (sc) sc.textContent = formaterScoreAffichage(lireScore());
   popup.hidden = false;
   sessionStorage.setItem(CONFIG.STORAGE.HS_POPUP_VU, '1');
   jouerBip(523, 150, 'square');

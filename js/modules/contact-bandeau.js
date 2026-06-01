@@ -2,7 +2,7 @@
    Bandeau contact : disponibilité ↔ téléchargement CV
    ============================================ */
 
-import { CONFIG } from "../config.js";
+import { CONFIG } from "../config/index.js";
 import { byId } from "../utils/dom.js";
 import { jouerBip } from "./audio.js";
 

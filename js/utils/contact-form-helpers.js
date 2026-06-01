@@ -1,7 +1,7 @@
 export function messageErreurFormspree(payload, res) {
   if (res.status === 403) {
     return (
-      'Envoi refusé (403). Vérifiez reCAPTCHA : clé SITE dans js/config.js, même version (2 ou 3) que sur Formspree.'
+      'Envoi refusé (403). Vérifiez reCAPTCHA : clé SITE dans js/config/contact.js, même version (2 ou 3) que sur Formspree.'
     );
   }
   if (res.status === 400) {

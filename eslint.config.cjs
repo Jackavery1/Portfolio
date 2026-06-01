@@ -7,7 +7,6 @@ module.exports = [
       'dist/**',
       '.dist-staging/**',
       'node_modules/**',
-      'scripts/**',
       'e2e/**',
       'playwright-report/**',
       'test-results/**',

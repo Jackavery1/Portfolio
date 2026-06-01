@@ -1,4 +1,4 @@
-// Métadonnées SEO par page.
+// Textes description / Open Graph / Twitter — un jeu par fichier HTML.
 const PAGE_META = {
   'index.html': {
     description:

@@ -2,7 +2,7 @@
    Affichage email / téléphone (hors HTML statique)
    ============================================ */
 
-import { CONFIG } from '../config.js';
+import { CONFIG } from '../config/index.js';
 import { byId } from '../utils/dom.js';
 import { decodeBase64Utf8, formatTelephoneFr } from '../utils/pii.js';
 

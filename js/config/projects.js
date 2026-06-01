@@ -5,6 +5,8 @@ export const PROJETS = {
     tech: ['Express', 'Mongoose', 'Tailwind', 'bcrypt'],
     apercu: 'assets/previews/lsf.png',
     lien: 'https://github.com/Jackavery1/ProjetLSF',
+    lienDemo: 'https://projetlsf.onrender.com/',
+    lienDemoLabel: '▶ Voir le site en ligne',
   },
   floppybird: {
     titre: 'FLOPPY BIRD',

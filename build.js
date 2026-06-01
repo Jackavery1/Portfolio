@@ -43,7 +43,6 @@ const BUILD_ENV = resolveBuildEnv();
 const SITE_BASE = BUILD_ENV.siteOrigin;
 
 function watchSrc() {
-  // Surveille les sources et relance un build débouncé.
   log('Mode watch — rebuild sur changement (hors node_modules)', 'info');
 
   const debounce = (fn, ms) => {
@@ -80,7 +79,6 @@ function watchSrc() {
 }
 
 async function runBuild() {
-  // Construit d'abord le staging, puis synchronise vers dist.
   console.log(`\n${'='.repeat(50)}`);
   log('▶️  Démarrage du build...', 'info');
   console.log(`${'='.repeat(50)}\n`);

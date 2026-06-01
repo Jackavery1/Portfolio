@@ -130,8 +130,12 @@
                       placeholder="Votre nom..."
                       autocomplete="name"
                       maxlength="120"
+                      aria-describedby="contact-nom-aide"
                       required
                     />
+                    <p class="champ-aide" id="contact-nom-aide">
+                      120 caractères maximum.
+                    </p>
                   </div>
 
                   <div class="champ-groupe">
@@ -146,8 +150,12 @@
                       placeholder="votre@email.com"
                       autocomplete="email"
                       maxlength="254"
+                      aria-describedby="contact-email-aide"
                       required
                     />
+                    <p class="champ-aide" id="contact-email-aide">
+                      Format attendu&nbsp;: nom@domaine.fr
+                    </p>
                   </div>
 
                   <div class="champ-groupe">
@@ -179,8 +187,12 @@
                       rows="4"
                       placeholder="Votre message..."
                       maxlength="5000"
+                      aria-describedby="contact-message-aide"
                       required
                     ></textarea>
+                    <p class="champ-aide" id="contact-message-aide">
+                      5&nbsp;000 caractères maximum.
+                    </p>
                   </div>
 
                   <p class="formulaire-confidentialite">
@@ -230,12 +242,7 @@
                 <h2 class="profil-recap__titre">PLAYER CARD</h2>
 
                 <div class="profil-recap__bonhomme" aria-hidden="true">
-                  <svg
-                    viewBox="0 0 64 104"
-                    width="80"
-                    height="130"
-                    shape-rendering="crispEdges"
-                  >
+                  <svg viewBox="0 0 64 104" aria-hidden="true" focusable="false">
                     <ellipse
                       cx="32"
                       cy="88"

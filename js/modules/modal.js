@@ -2,55 +2,36 @@
    Modale aperçu projet (WORK)
    ============================================ */
 
-import { CONFIG } from "../config.js";
+import { CONFIG } from "../config/index.js";
 import { byId, byQsAll } from "../utils/dom.js";
 import { trapTabModal } from "../utils/focus.js";
+import { estImageRaster, resolveApercuSrc } from "../utils/modal-helpers.js";
 import { jouerBip } from "./audio.js";
 import { ajouterScore } from "./score.js";
 
 let elementFocusAvantModal = null;
 
-function resolveApercuSrc(data) {
-  return data.apercu || null;
-}
-
-function estImageRaster(src) {
-  return /\.(png|jpe?g)$/i.test(src || "");
-}
-
 function preparerImageModale(modalImg, src, titre) {
-  modalImg.loading = "lazy";
+  const parent = modalImg.parentElement;
+  if (parent?.tagName === "PICTURE") {
+    parent.replaceWith(modalImg);
+  }
+
+  modalImg.loading = "eager";
   modalImg.decoding = "async";
   modalImg.alt = `Aperçu — ${titre}`;
 
-  const parent = modalImg.parentElement;
-  let picture =
-    parent?.tagName === "PICTURE" ? parent : null;
-
-  if (!src || !estImageRaster(src)) {
-    if (picture) {
-      picture.replaceWith(modalImg);
-    }
-    modalImg.classList.toggle("modal-img--svg", /\.svg($|\?)/i.test(src || ""));
+  if (!src) {
+    modalImg.removeAttribute("src");
+    modalImg.classList.remove("modal-img--svg");
     return;
   }
 
-  if (!picture) {
-    picture = document.createElement("picture");
-    modalImg.parentNode.insertBefore(picture, modalImg);
-    picture.appendChild(modalImg);
-  }
-
-  let source = picture.querySelector("source[type='image/webp']");
-  if (!source) {
-    source = document.createElement("source");
-    source.type = "image/webp";
-    picture.insertBefore(source, modalImg);
-  }
-  source.srcset = src.replace(/\.(png|jpe?g)$/i, ".webp");
-
   modalImg.src = src;
-  modalImg.classList.remove("modal-img--svg");
+  modalImg.classList.toggle("modal-img--svg", /\.svg($|\?)/i.test(src));
+  if (estImageRaster(src)) {
+    modalImg.classList.remove("modal-img--svg");
+  }
 }
 
 function remplirLiensModale(modalLien, data) {

@@ -237,7 +237,7 @@
   box-shadow: 0 0 14px rgba(var(--couleur-accent-rgb), 0.25);
 }
 
-@media (max-width: 480px) {
+@media (max-width: 960px) {
   .boss-carte {
     flex-direction: column;
     align-items: stretch;

@@ -2,7 +2,7 @@
    Formulaire contact (Formspree ou mailto)
    ============================================ */
 
-import { CONFIG } from '../config.js';
+import { CONFIG } from '../config/index.js';
 import { byId } from '../utils/dom.js';
 import {
   construireFormDataFormspree,
@@ -107,7 +107,7 @@ export async function initContactForm() {
     mount.className = 'recaptcha-zone recaptcha-zone--config';
     mount.setAttribute('role', 'alert');
     mount.textContent =
-      'reCAPTCHA non configuré : ajoutez RECAPTCHA_SITE_KEY dans js/config.js (clé SITE Google, identique à Formspree).';
+      'reCAPTCHA non configuré : ajoutez RECAPTCHA_SITE_KEY dans js/config/contact.js.';
   }
 
   formulaire.addEventListener('submit', async (evt) => {
@@ -156,7 +156,7 @@ export async function initContactForm() {
         jouerBip(150, 120, 'sawtooth');
         btnEnvoyer.setAttribute(
           'title',
-          'Renseignez RECAPTCHA_SITE_KEY dans js/config.js pour envoyer via Formspree.'
+          'Renseignez RECAPTCHA_SITE_KEY dans js/config/contact.js pour envoyer via Formspree.'
         );
         if (mount) mount.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         return;

@@ -105,26 +105,46 @@ a.pied-page__certif-texte:hover {
   opacity: 0.92;
 }
 
-@media (max-width: 720px) {
+@media (max-width: 960px) {
   .pied-page {
-    grid-template-columns: 1fr;
-    justify-items: stretch;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    padding: 1rem 1rem 1.1rem;
+    row-gap: 0.75rem;
   }
 
   .pied-page__nav {
-    justify-self: stretch;
-    align-items: flex-start;
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: start;
+    align-self: start;
   }
 
   .pied-page__certif {
+    grid-column: 1 / -1;
+    grid-row: 2;
     justify-self: center;
-    padding: 0.15rem 0;
   }
 
   .pied-page__droite {
-    justify-self: stretch;
-    align-items: flex-end;
-    padding-top: 0.15rem;
-    border-top: 1px solid var(--couleur-separateur);
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+    align-self: start;
+    border-top: none;
+    padding-top: 0;
+  }
+
+  .pied-page__lien {
+    font-size: clamp(0.9rem, 2.5vw, 1.05rem);
+  }
+
+  .pied-page__tagline-ia {
+    font-size: clamp(0.35rem, 1.2vw, 0.45rem);
+    text-align: right;
+  }
+
+  .pied-page__certif-texte {
+    font-size: clamp(0.38rem, 1.4vw, 0.48rem);
   }
 }

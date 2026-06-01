@@ -3,12 +3,10 @@ const path = require('path');
 const sharp = require('sharp');
 const { ensureDir, copyDirRecursive, log, copyFile } = require('./fs-utils.cjs');
 
-// Retourne les images raster d'un dossier (png/jpg/jpeg).
 function listerRasters(srcDir) {
   return fs.readdirSync(srcDir).filter((f) => /\.(png|jpe?g)$/i.test(f));
 }
 
-// Optimise une image source et génère aussi sa version webp.
 async function optimiserUneImage({
   srcPath,
   dstPath,

@@ -2,7 +2,7 @@
    Meta partage (OG, canonical) + bonus score pages
    ============================================ */
 
-import { CONFIG } from '../config.js';
+import { CONFIG } from '../config/index.js';
 import { byId } from '../utils/dom.js';
 import { getCurrentPageFile } from '../utils/page.js';
 import { ajouterScore } from './score.js';

@@ -1,5 +1,4 @@
 export async function mockRecaptcha(page) {
-  // Mock stable injecté avant tout script de page.
   await page.addInitScript(() => {
     window.__E2E_RECAPTCHA_TOKEN = 'e2e-mock-recaptcha-token';
     window.grecaptcha = {

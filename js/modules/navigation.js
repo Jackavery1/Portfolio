@@ -2,9 +2,9 @@
    Navigation : burger + flèches entre pages
    ============================================ */
 
-import { CONFIG } from '../config.js';
+import { CONFIG } from '../config/index.js';
 import { byId } from '../utils/dom.js';
-import { pageFileFromPathname } from '../utils/page.js';
+import { indexDansOrdreNavigation } from '../utils/navigation-helpers.js';
 import { jouerBip } from './audio.js';
 
 export function fermerMenuBurger() {
@@ -16,8 +16,7 @@ export function fermerMenuBurger() {
 }
 
 export function indexNavigationClavier() {
-  const file = pageFileFromPathname(window.location.pathname);
-  return CONFIG.NAVIGATION.ORDER.indexOf(file);
+  return indexDansOrdreNavigation(window.location.pathname, CONFIG.NAVIGATION.ORDER);
 }
 
 export function initNavigationArcade() {

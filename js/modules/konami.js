@@ -2,7 +2,7 @@
    Konami code (toggle + fanfare + score max)
    ============================================ */
 
-import { CONFIG } from '../config.js';
+import { CONFIG } from '../config/index.js';
 import { byId } from '../utils/dom.js';
 import { jouerSequenceBeeps } from './audio.js';
 import { afficherPopupHighScore, afficherScore, lireScore, sauvegarderScore } from './score.js';

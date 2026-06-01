@@ -94,11 +94,16 @@
   width: 100%;
   max-width: 240px;
   height: auto;
+  min-height: 420px;
   filter: drop-shadow(0 0 8px rgba(var(--couleur-accent-rgb), 0.2));
 }
 
-@media (min-width: 700px) {
+@media (min-width: 961px) {
   .story-grille {
     grid-template-columns: 1fr 220px;
+  }
+
+  .svg-arbre {
+    min-height: 480px;
   }
 }

@@ -33,7 +33,7 @@
   box-shadow: 0 0 16px rgba(255, 204, 68, 0.2);
 }
 
-@media (min-width: 560px) {
+@media (min-width: 961px) {
   .grille-projets {
     grid-template-columns: 1fr 1fr;
   }

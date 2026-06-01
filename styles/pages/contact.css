@@ -113,6 +113,17 @@
 
 .profil-recap__bonhomme {
   filter: drop-shadow(0 0 8px rgba(var(--couleur-accent-rgb), 0.3));
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.profil-recap__bonhomme svg {
+  display: block;
+  width: 100%;
+  max-width: 7.5rem;
+  height: auto;
+  shape-rendering: crispEdges;
 }
 
 .profil-recap__infos {
@@ -160,19 +171,36 @@
   letter-spacing: 1px;
 }
 
-@media (min-width: 700px) {
+/* Tablette (iPad Mini 768px) et plus */
+@media (min-width: 768px) {
   .contact-grille {
-    grid-template-columns: 1fr 220px;
+    grid-template-columns: 1fr 240px;
+    gap: 2.25rem;
+  }
+
+  .profil-recap__bonhomme svg {
+    max-width: 10rem;
   }
 }
 
-@media (max-width: 699px) {
+/* Desktop large */
+@media (min-width: 1024px) {
+  .contact-grille {
+    grid-template-columns: 1fr 260px;
+  }
+
+  .profil-recap__bonhomme svg {
+    max-width: 11.25rem;
+  }
+}
+
+@media (max-width: 767px) {
   .contact-droite {
     order: -1;
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 960px) {
   .grille-contact {
     grid-template-columns: 1fr;
   }

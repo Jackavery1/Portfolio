@@ -9,6 +9,8 @@
   --couleur-fond-carte: #060818;
   --couleur-fond-survol: #0a0e25;
   --couleur-separateur: #0d1230;
+  /* Champs formulaire : fond légèrement plus clair que --couleur-separateur (contraste texte / placeholder) */
+  --couleur-fond-champ: #0a0e25;
   --couleur-bordure: #1a2050;
   --couleur-bordure-active: #4a6fff;
 
@@ -51,4 +53,17 @@
   --police-pixel: "Press Start 2P", monospace;
   --police-crt: "VT323", monospace;
   --police-lisible: "Rajdhani", sans-serif;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --couleur-fond-page:   #05091a;
+    --couleur-fond:        #080d20;
+    --couleur-fond-carte:  #0d1230;
+    --couleur-separateur:  #141840;
+    --couleur-bordure:     #243070;
+    --couleur-texte-fort:  #e0eaff;
+    --couleur-texte-normal: #aabce8;
+    --couleur-texte-discret: #8898d8;
+  }
 }

@@ -288,7 +288,7 @@
   fill: var(--couleur-texte-discret);
 }
 
-@media (max-width: 600px) {
+@media (max-width: 960px) {
   html:has(body[data-section-id="accueil"]) {
     height: auto;
     overflow-x: hidden;
@@ -298,21 +298,32 @@
   body[data-section-id="accueil"] {
     overflow-x: hidden;
     overflow-y: auto;
+    height: auto;
+  }
+
+  body[data-section-id="accueil"] .ecran {
+    overflow: visible;
+    min-height: auto;
+    height: auto;
   }
 
   body[data-section-id="accueil"] .section {
     flex: none;
-    min-height: auto;
     overflow: visible;
+    height: auto;
+    min-height: auto;
   }
 
   .accueil__grille {
     display: flex;
     flex-direction: column;
-    gap: 0;
+    align-items: center;
+    text-align: center;
+    gap: 0.5rem;
     padding: 0.75rem 0 1.5rem;
     overflow: visible;
     height: auto;
+    width: 100%;
   }
 
   .accueil__texte {
@@ -321,41 +332,74 @@
 
   .etiquette-crt {
     order: 1;
+    width: 100%;
+    text-align: center;
   }
 
   .titre-arcade {
     order: 2;
+    width: 100%;
+    text-align: center;
   }
 
   .sous-titre-arcade {
     order: 3;
+    width: 100%;
+    justify-content: center;
+    text-align: center;
   }
 
   .separateur-arcade {
     order: 4;
+    width: 100%;
+    text-align: center;
   }
 
   .accueil__illustration {
     order: 5;
+    width: 100%;
     padding-right: 0;
+    display: flex;
     justify-content: center;
+    align-items: center;
     margin: 1rem 0;
   }
 
   .svg-bonhomme {
-    width: clamp(100px, 45vw, 160px);
+    width: clamp(180px, 28vw, 260px);
   }
 
   .texte-intro {
     order: 6;
+    width: 100%;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .badges-statut {
     order: 7;
+    width: 100%;
+    justify-content: center;
   }
 
   .accueil__actions {
     order: 8;
+    width: 100%;
+    align-items: center;
+  }
+
+  .bouton-arcade {
+    text-align: center;
+  }
+
+  .lien-github {
+    text-align: center;
+  }
+
+  .accueil__wip {
+    width: 100%;
+    max-width: 100%;
   }
 
   .accueil__wip-badge {
@@ -393,8 +437,56 @@
   }
 }
 
+@media (min-width: 601px) and (max-width: 960px) {
+  .titre-arcade__prenom,
+  .titre-arcade__nom {
+    font-size: clamp(2rem, 6vw, 3.5rem);
+  }
+
+  .sous-titre-arcade {
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
+  }
+
+  .etiquette-crt {
+    font-size: clamp(0.52rem, 1.5vw, 0.7rem);
+  }
+
+  .texte-intro {
+    font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+    max-width: 70%;
+  }
+
+  .badge {
+    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  }
+
+  .bouton-arcade {
+    font-size: clamp(0.5rem, 1.5vw, 0.65rem);
+    padding: 1rem 1.5rem;
+  }
+
+  .lien-github {
+    font-size: clamp(0.45rem, 1.3vw, 0.58rem);
+  }
+
+  .svg-bonhomme {
+    width: clamp(160px, 22vw, 240px);
+  }
+
+  .accueil__grille {
+    gap: 2rem;
+    padding: 2rem 0;
+    align-items: flex-start;
+  }
+
+  .accueil__illustration {
+    padding-right: 0;
+  }
+}
+
 /* Accueil desktop : pas de scroll — hero centré dans le viewport */
-@media (min-width: 601px) {
+/* Exclut le mobile paysage (hauteur < 551px) qui a besoin du scroll */
+@media (min-width: 601px) and (min-height: 551px) {
   html:has(body[data-section-id="accueil"]) {
     height: 100%;
     overflow: hidden;
@@ -410,6 +502,44 @@
     overflow: hidden;
     justify-content: center;
     padding: 1.75rem 1.5rem 0.5rem;
+  }
+}
+
+/* Mobile paysage : scroll activé, layout compact côte à côte */
+@media (max-height: 550px) and (orientation: landscape) {
+  html:has(body[data-section-id="accueil"]) {
+    height: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  body[data-section-id="accueil"] {
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: auto;
+  }
+
+  body[data-section-id="accueil"] .ecran {
+    overflow: visible;
+    min-height: auto;
+    height: auto;
+  }
+
+  body[data-section-id="accueil"] .section {
+    flex: none;
+    overflow: visible;
+    height: auto;
+    min-height: auto;
+    justify-content: flex-start;
+  }
+
+  .accueil__grille {
+    gap: 1.5rem;
+    padding: 0.5rem 0 1rem;
+  }
+
+  .svg-bonhomme {
+    width: clamp(100px, 18vw, 160px);
   }
 }
 
@@ -458,5 +588,73 @@ body[data-section-id="accueil"] .accueil__actions {
   body[data-section-id="accueil"] .pied-page {
     padding-top: 0.7rem;
     padding-bottom: 0.75rem;
+  }
+}
+
+/* Tablette portrait (601–900px) : scroll libre, layout côte à côte adapté */
+@media (min-width: 601px) and (max-width: 900px) and (min-height: 551px) {
+  html:has(body[data-section-id="accueil"]) {
+    height: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  body[data-section-id="accueil"] {
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: auto;
+  }
+
+  body[data-section-id="accueil"] .ecran {
+    height: auto;
+    min-height: auto;
+    overflow: visible;
+  }
+
+  body[data-section-id="accueil"] .section {
+    flex: none;
+    overflow: visible;
+    height: auto;
+    min-height: auto;
+    justify-content: flex-start;
+    padding: 2rem 2rem 2rem;
+  }
+
+  body[data-section-id="accueil"] .accueil__grille {
+    flex: none;
+    padding-top: 1.5rem;
+    padding-bottom: 2.5rem;
+    gap: 2.5rem;
+    align-items: center;
+  }
+
+  .svg-bonhomme {
+    width: clamp(140px, 20vw, 190px);
+  }
+
+  .accueil__illustration {
+    padding-right: 0;
+  }
+
+  .titre-arcade__prenom,
+  .titre-arcade__nom {
+    font-size: clamp(1.5rem, 6vw, 2.4rem);
+  }
+
+  .sous-titre-arcade {
+    font-size: clamp(1.2rem, 3.5vw, 1.6rem);
+  }
+
+  .texte-intro {
+    font-size: clamp(1.1rem, 2.5vw, 1.25rem);
+  }
+
+  .badge {
+    font-size: clamp(1rem, 2.5vw, 1.15rem);
+  }
+
+  .bouton-arcade {
+    font-size: clamp(0.42rem, 1.5vw, 0.54rem);
+    padding: 0.85rem 1.2rem;
   }
 }

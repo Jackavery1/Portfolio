@@ -37,7 +37,6 @@ function urlPageProd(htmlFile, siteBase) {
 }
 
 function injectSeoMeta(html, htmlFile, siteBase) {
-  // Harmonise canonical/OG avec l'URL de production.
   const pageUrl = urlPageProd(htmlFile, siteBase);
   const ogImage = `${siteBase}/assets/og.png`;
 
@@ -65,7 +64,6 @@ function injectSeoMeta(html, htmlFile, siteBase) {
 }
 
 function injectPageMeta(html, htmlFile) {
-  // Applique la description SEO spécifique à chaque page.
   const meta = PAGE_META[htmlFile];
   if (!meta) return html;
 
@@ -92,7 +90,6 @@ function injectPageMeta(html, htmlFile) {
 }
 
 function inlinePartials(html, root) {
-  // Remplace les placeholders par le HTML des partials.
   let out = html;
   PARTIAL_PLACEHOLDERS.forEach(({ id, fichier }) => {
     const src = path.join(root, fichier);
@@ -109,7 +106,6 @@ function stripDevHead(html) {
 }
 
 function injectHeadCommon(html, root) {
-  // Injecte le bloc head commun de production.
   let out = stripDevHead(html);
   if (!out.includes(HEAD_COMMON_MARKER)) return out;
   const headPath = path.join(root, 'partials/head-common.html');
@@ -122,7 +118,6 @@ function injectHeadCommon(html, root) {
 }
 
 function injectPerfHead(html) {
-  // Ajoute preload CSS et limite les fontes chargées.
   let out = html.replace(
     /Rajdhani:wght@400;600;700&display=swap/g,
     'Rajdhani:wght@400;600&display=swap',
@@ -137,8 +132,8 @@ function injectPerfHead(html) {
   return out;
 }
 
+// Chaîne appliquée à chaque page : SEO absolu → meta page → head prod → perf → partials → CSP
 function copyHTML(root, distDir, siteBase) {
-  // Génère les 7 pages HTML finales dans le dossier de build.
   let n = 0;
   const viewportNeedle =
     '<meta name="viewport" content="width=device-width, initial-scale=1.0" />';

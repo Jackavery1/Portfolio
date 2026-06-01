@@ -2,7 +2,7 @@
    Partials HTML (nav, footer, marquee, CRT, popup)
    ============================================ */
 
-import { CONFIG } from '../config.js';
+import { CONFIG } from '../config/index.js';
 import { byId } from '../utils/dom.js';
 import { getCurrentPageFile } from '../utils/page.js';
 

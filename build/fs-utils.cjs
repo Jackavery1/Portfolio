@@ -12,14 +12,12 @@ function log(msg, type = 'info') {
   console.log(`${prefix} ${msg}`);
 }
 
-// Crée un dossier s'il n'existe pas.
 function ensureDir(dirPath) {
   if (!fs.existsSync(dirPath)) {
     fs.mkdirSync(dirPath, { recursive: true });
   }
 }
 
-// Copie un fichier en créant son dossier parent.
 function copyFile(src, dst) {
   if (!fs.existsSync(src)) return false;
   ensureDir(path.dirname(dst));
@@ -27,7 +25,6 @@ function copyFile(src, dst) {
   return true;
 }
 
-// Copie récursive d'un dossier (fallback simple et lisible).
 function copyDirRecursive(src, dst) {
   if (!fs.existsSync(src)) return;
   ensureDir(dst);
@@ -43,7 +40,6 @@ function copyDirRecursive(src, dst) {
   });
 }
 
-// Liste tous les modules JS source (hors tests).
 function walkJsFiles(dir, acc = []) {
   if (!fs.existsSync(dir)) return acc;
   for (const name of fs.readdirSync(dir)) {
@@ -54,7 +50,6 @@ function walkJsFiles(dir, acc = []) {
   return acc;
 }
 
-// Prépare un dossier de staging propre pour le build.
 function prepareStagingDir(stagingDir) {
   if (fs.existsSync(stagingDir)) {
     fs.rmSync(stagingDir, {
@@ -67,7 +62,7 @@ function prepareStagingDir(stagingDir) {
   ensureDir(stagingDir);
 }
 
-// Synchronise le staging vers dist (best-effort sur Windows).
+// Copie staging → dist : plus fiable qu’un rename quand dist/ est verrouillé (Windows).
 function finalizeDist(stagingDir, distDir) {
   ensureDir(distDir);
   copyDirRecursive(stagingDir, distDir);

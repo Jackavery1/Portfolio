@@ -1,6 +1,6 @@
 {
   "name": "portfolio-arcade",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Portfolio arcade personnel — build + optimize + deploy",
   "private": true,
   "engines": {
@@ -9,14 +9,12 @@
   "scripts": {
     "build": "node build.js",
     "watch": "node build.js --watch",
-    "serve": "python3 -m http.server 8000",
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "prebuild": "node build/sync-defaults.cjs",
     "test": "vitest run",
     "test:e2e": "playwright test",
-    "test:e2e:ui": "playwright test --ui",
     "test:lhci": "lhci autorun"
   },
   "keywords": [
