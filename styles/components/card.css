@@ -77,10 +77,21 @@
   position: relative;
 }
 
-.carte-projet:hover,
-.carte-projet:focus {
+.carte-projet:hover {
   border-color: var(--couleur-accent);
   box-shadow: 0 0 20px rgba(var(--couleur-accent-rgb), 0.22);
+  transform: translateY(-2px);
+}
+
+.carte-projet:focus {
+  outline: none;
+}
+
+.carte-projet:focus-visible {
+  border-color: var(--couleur-accent);
+  box-shadow:
+    0 0 20px rgba(var(--couleur-accent-rgb), 0.22),
+    0 0 0 3px var(--couleur-accent-vif);
   transform: translateY(-2px);
   outline: none;
 }

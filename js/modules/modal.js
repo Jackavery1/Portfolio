@@ -5,7 +5,11 @@
 import { CONFIG } from "../config/index.js";
 import { byId, byQsAll } from "../utils/dom.js";
 import { trapTabModal } from "../utils/focus.js";
-import { estImageRaster, resolveApercuSrc } from "../utils/modal-helpers.js";
+import {
+  estImageRaster,
+  liensProjetValides,
+  resolveApercuSrc,
+} from "../utils/modal-helpers.js";
 import { jouerBip } from "./audio.js";
 import { ajouterScore } from "./score.js";
 
@@ -35,18 +39,9 @@ function preparerImageModale(modalImg, src, titre) {
 }
 
 function remplirLiensModale(modalLien, data) {
-  const liens = [];
-  if (data.lienDemo) {
-    liens.push({ href: data.lienDemo, label: data.lienDemoLabel || "▶ Voir la démo" });
-  }
-  if (data.lien) {
-    liens.push({
-      href: data.lien,
-      label: data.lienLabel || "▶ Voir le dépôt GitHub",
-    });
-  }
+  const liensValides = liensProjetValides(data);
 
-  if (!liens.length) {
+  if (!liensValides.length) {
     modalLien.hidden = true;
     modalLien.innerHTML = "";
     return;
@@ -54,7 +49,7 @@ function remplirLiensModale(modalLien, data) {
 
   modalLien.hidden = false;
   modalLien.innerHTML = "";
-  liens.forEach(({ href, label }) => {
+  liensValides.forEach(({ href, label }) => {
     const a = document.createElement("a");
     a.href = href;
     a.target = "_blank";

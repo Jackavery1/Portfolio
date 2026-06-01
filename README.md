@@ -1,103 +1,87 @@
-# Portfolio Arcade CRT
+# Portfolio Arcade — Joris Martinez
 
-Portfolio de **Joris Martinez** — thème arcade, score, navigation clavier, modales projets.  
-Site statique (HTML/CSS/JS) avec build Node et déploiement GitHub Pages.
+**→ [Voir le site en ligne](https://jackavery1.github.io/Portfolio/)**
 
-**En ligne :** [jackavery1.github.io/Portfolio](https://jackavery1.github.io/Portfolio/)
+Portfolio développeur web (thème arcade CRT) : projets, parcours, compétences, contact avec formulaire sécurisé, score session et easter eggs.
 
----
-
-## Prérequis
-
-- Node.js **18+** (voir `.nvmrc`)
-- `npm ci`
+Stack : HTML / CSS / JavaScript vanilla, build Node, déploiement GitHub Pages.
 
 ---
 
-## Commandes
+## Démarrage rapide
 
-| Commande | Rôle |
-|----------|------|
-| `npm run build` | Build prod → `.dist-staging/` |
-| `npm run watch` | Rebuild auto des sources |
-| `npm test` | Tests unitaires (Vitest) |
-| `npm run test:e2e` | Tests E2E (Playwright, sur le build) |
-| `npm run lint` | ESLint |
-| `npm run format:check` | Prettier |
+```bash
+npm ci
+npm run build
+npx serve .dist-staging
+```
 
-Avant une PR : `npm run lint && npm run format:check && npm test && npm run build && npm run test:e2e`
-
-Commits au format **Conventional Commits** (`feat:`, `fix:`, `chore:`, etc.) — vérifié en CI.
-
----
-
-## Développement local
-
-**Sources (racine)** — partials chargés en `fetch`, il faut un serveur HTTP :
+En développement sur les sources (partials chargés en `fetch`) :
 
 ```bash
 npx serve .
 ```
 
-**Build** — comme en prod :
+Node **18+** (`.nvmrc`).
 
-```bash
-npm run build
-npx serve .dist-staging
-```
+---
 
-En dev, la favicon est injectée par `main.js` si le head de prod n’est pas présent.
+## Commandes utiles
+
+| Commande | Description |
+|----------|-------------|
+| `npm run build` | Production → `.dist-staging/` |
+| `npm run watch` | Rebuild automatique |
+| `npm test` | Tests unitaires |
+| `npm run test:coverage` | Couverture Vitest (utils + config) |
+| `npm run test:e2e` | Playwright (nécessite un build) |
+| `npm run lint` | ESLint |
+
+Checklist PR : `npm run lint && npm run format:check && npm test && npm run test:coverage && npm run build && npm run test:e2e`
 
 ---
 
 ## Configuration
 
-Valeurs par défaut : `build/config-defaults.cjs` (synchronisées vers `js/config/defaults.js` au build).
+Fichier `.env.local` (optionnel, voir `.env.example`) :
 
-Surcharge optionnelle : copier `.env.example` → `.env.local` puis `npm run build`.
-
-| Variable | Usage |
-|----------|--------|
+| Variable | Rôle |
+|----------|------|
 | `PORTFOLIO_SITE_URL` | URL canonique / Open Graph |
-| `PORTFOLIO_FORMSPREE` | Endpoint formulaire contact |
-| `PORTFOLIO_RECAPTCHA_SITE_KEY` | Clé site reCAPTCHA |
+| `PORTFOLIO_FORMSPREE` | Endpoint Formspree |
+| `PORTFOLIO_RECAPTCHA_SITE_KEY` | Clé site reCAPTCHA v3 |
 
-Formulaire : `js/config/contact.js` · Projets modale : `js/config/projects.js`
+Valeurs par défaut : `build/config-defaults.cjs` → synchronisées au `prebuild`.
 
 ---
 
-## Structure
+## Architecture (résumé)
 
 ```
-├── *.html, style.css, styles/, partials/
-├── js/main.js, js/config/, js/modules/, js/utils/
-├── assets/
-├── build/          # modules du build
-├── build.js
-└── e2e/
+*.html + partials/     Pages et fragments (inlinés au build)
+styles/                Tokens, layout, composants, pages
+js/main.js             Entrée ; modules lazy par data-section-id
+js/config/             Site, projets, contact, navigation…
+build/                 HTML, CSS, JS minify, images WebP
+e2e/                   Smoke, a11y (Axe), contact, navigation
 ```
 
----
-
-## Déploiement
-
-Push sur `main` → CI (lint, tests, build, e2e, Lighthouse) → publication de `.dist-staging/` sur `gh-pages` (workflow `ci.yml`).
+Push sur `main` → CI (lint, tests, Lighthouse) → GitHub Pages.
 
 ---
 
-## Dépannage rapide
-
-| Problème | Piste |
-|----------|--------|
-| Partials vides | Ne pas ouvrir en `file://` — utiliser `npx serve` |
-| `npm install` / certificat TLS | Réseau d’entreprise, proxy, ou `NODE_EXTRA_CA_CERTS` |
-| Formspree 403 | reCAPTCHA + domaines autorisés |
-| Favicon absente | Hard refresh ; vérifier `assets/favicon.png` après build |
-
----
-
-## Autres fichiers
+## Documentation
 
 - [CHANGELOG.md](CHANGELOG.md) — versions
-- [SECURITY.md](SECURITY.md) — signalement vulnérabilités
-- [LICENSE](LICENSE) — tous droits réservés
+- [CONTRIBUTING.md](CONTRIBUTING.md) — contribuer, tests, conventions
+- [SECURITY.md](SECURITY.md) — signalement de vulnérabilités
+
+---
+
+## Dépannage
+
+| Problème | Solution |
+|----------|----------|
+| Nav / footer vides | Utiliser un serveur HTTP (`npx serve`), pas `file://` |
+| Formulaire 403 | Domaines reCAPTCHA + Formspree pour votre URL |
+| Favicon absente | Hard refresh ; vérifier `assets/favicon.png` après build |

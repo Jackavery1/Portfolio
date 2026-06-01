@@ -1,6 +1,6 @@
 {
   "name": "portfolio-arcade",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Portfolio arcade personnel — build + optimize + deploy",
   "private": true,
   "engines": {
@@ -14,6 +14,7 @@
     "format:check": "prettier --check .",
     "prebuild": "node build/sync-defaults.cjs",
     "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
     "test:e2e": "playwright test",
     "test:lhci": "lhci autorun"
   },
@@ -26,19 +27,21 @@
   "license": "UNLICENSED",
   "dependencies": {
     "clean-css": "^5.3.3",
-    "uglify-js": "^3.19.3",
-    "sharp": "^0.34.4"
+    "sharp": "^0.34.4",
+    "uglify-js": "^3.19.3"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.10.1",
     "@eslint/js": "^9.39.0",
-    "eslint": "^9.39.0",
-    "globals": "^16.5.0",
-    "prettier": "^3.8.0",
-    "vitest": "^3.2.4",
     "@lhci/cli": "^0.14.0",
     "@playwright/test": "^1.52.0",
-    "@axe-core/playwright": "^4.10.1",
-    "serve": "^14.2.4"
+    "@vitest/coverage-v8": "^3.2.4",
+    "eslint": "^9.39.0",
+    "globals": "^16.5.0",
+    "jsdom": "^29.1.1",
+    "prettier": "^3.8.0",
+    "serve": "^14.2.4",
+    "vitest": "^3.2.4"
   },
   "overrides": {
     "cross-spawn": "^7.0.6",

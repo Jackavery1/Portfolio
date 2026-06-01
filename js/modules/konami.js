@@ -4,7 +4,7 @@
 
 import { CONFIG } from '../config/index.js';
 import { byId } from '../utils/dom.js';
-import { jouerSequenceBeeps } from './audio.js';
+import { jouerFanfareVictoire } from './audio.js';
 import { afficherPopupHighScore, afficherScore, lireScore, sauvegarderScore } from './score.js';
 
 let saisieKonami = [];
@@ -23,7 +23,7 @@ export function initKonamiCode() {
     if (saisieKonami.length > seq.length) saisieKonami.shift();
     if (saisieKonami.join(',') === seq.join(',')) {
       document.body.classList.toggle('konami-actif');
-      jouerSequenceBeeps([523, 659, 784, 1047]);
+      jouerFanfareVictoire();
       const k = lireScore();
       if (k < 9999) {
         sauvegarderScore(9999);

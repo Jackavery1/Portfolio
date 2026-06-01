@@ -1,5 +1,11 @@
 /* ============================================
    Mise en page et structure globale
+
+   Breakpoints projet (référence) :
+   - 960px / 961px : mobile-tablette vs desktop (nav, layout, footer, pages)
+   - 768px / 767px : contact (grille profil) + tokens palette mobile
+   - 601px         : nav desktop inline, accueil tablette
+   - 1024px        : contact desktop large
    ============================================ */
 
 /* Bandeau défilant (fixe sous le haut de viewport) */

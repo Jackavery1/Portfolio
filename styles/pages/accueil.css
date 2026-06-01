@@ -1,5 +1,13 @@
 /* ============================================
    Page : accueil (hero, bonhomme SVG, CTA)
+
+   Breakpoints (ordre cascade) :
+   - max-width 960px     : mobile + tablette, colonne centrée, scroll
+   - 601px–960px         : typo / espacements tablette (sous-requête)
+   - min-width 961px + min-height 551px : desktop sans scroll, hero centré
+   - max-height 550px landscape : mobile paysage, scroll compact
+   - 601px–960px + min-height 551px : tablette portrait, scroll libre
+   - max-height 780px / 720px : paddings compacts
    ============================================ */
 
 .accueil__grille {
@@ -485,8 +493,8 @@
 }
 
 /* Accueil desktop : pas de scroll — hero centré dans le viewport */
-/* Exclut le mobile paysage (hauteur < 551px) qui a besoin du scroll */
-@media (min-width: 601px) and (min-height: 551px) {
+/* Exclut mobile/tablette (≤960px) et mobile paysage (hauteur < 551px) */
+@media (min-width: 961px) and (min-height: 551px) {
   html:has(body[data-section-id="accueil"]) {
     height: 100%;
     overflow: hidden;
@@ -591,8 +599,8 @@ body[data-section-id="accueil"] .accueil__actions {
   }
 }
 
-/* Tablette portrait (601–900px) : scroll libre, layout côte à côte adapté */
-@media (min-width: 601px) and (max-width: 900px) and (min-height: 551px) {
+/* Tablette portrait (601–960px) : scroll libre, layout côte à côte adapté */
+@media (min-width: 601px) and (max-width: 960px) and (min-height: 551px) {
   html:has(body[data-section-id="accueil"]) {
     height: auto;
     overflow-x: hidden;

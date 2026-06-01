@@ -52,9 +52,13 @@ export function initMetaPartage() {
 
 export function initBonusScore() {
   const PAGE_KEY = CONFIG.STORAGE.PAGE_PREFIX + window.location.pathname;
-  if (!sessionStorage.getItem(PAGE_KEY)) {
-    sessionStorage.setItem(PAGE_KEY, '1');
-    ajouterScore(200);
+  try {
+    if (!sessionStorage.getItem(PAGE_KEY)) {
+      sessionStorage.setItem(PAGE_KEY, '1');
+      ajouterScore(200);
+    }
+  } catch {
+    /* sessionStorage indisponible */
   }
 
   document.querySelectorAll('.boss-carte').forEach((carte) => {

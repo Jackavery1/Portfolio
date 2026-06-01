@@ -32,8 +32,13 @@ export function jouerBip(frequence = 440, duree = 60, type = 'square') {
     gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + duree / 1000);
     osc.start(ctx.currentTime);
     osc.stop(ctx.currentTime + duree / 1000);
-  } catch {
-    /* Web Audio indisponible */
+  } catch (err) {
+    if (
+      typeof location !== 'undefined' &&
+      (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+    ) {
+      console.debug('[audio] Web Audio indisponible', err);
+    }
   }
 }
 
@@ -46,5 +51,17 @@ export function jouerSequenceBeeps(frequences, opts = {}) {
   frequences.forEach((f, i) => {
     const t = delais != null ? delais[i] : i * delai;
     setTimeout(() => jouerBip(f, duree, type), t);
+  });
+}
+
+export const FANFARE_VICTOIRE = [523, 659, 784, 1047];
+
+/** Fanfare arcade standard (high score, Konami, boss vaincu) */
+export function jouerFanfareVictoire(opts = {}) {
+  jouerSequenceBeeps(FANFARE_VICTOIRE, {
+    delai: opts.delai ?? 100,
+    duree: opts.duree ?? 120,
+    type: opts.type ?? 'square',
+    delais: opts.delais,
   });
 }

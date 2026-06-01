@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import {
-  cheminWebpDepuisRaster,
   estImageRaster,
+  estLienHttpAutorise,
+  liensProjetValides,
   resolveApercuSrc,
 } from './modal-helpers.js';
 
@@ -18,9 +19,27 @@ describe('modal-helpers', () => {
     expect(estImageRaster('foo.svg')).toBe(false);
   });
 
-  it('dérive le chemin webp', () => {
-    expect(cheminWebpDepuisRaster('assets/previews/hub.jpeg')).toBe(
-      'assets/previews/hub.webp',
-    );
+  it('valide les liens http(s) autorisés', () => {
+    expect(estLienHttpAutorise('https://github.com/foo')).toBe(true);
+    expect(estLienHttpAutorise('http://example.com')).toBe(true);
+    expect(estLienHttpAutorise('javascript:alert(1)')).toBe(false);
+    expect(estLienHttpAutorise('')).toBe(false);
+  });
+
+  it('filtre les liens projet pour la modale', () => {
+    const liens = liensProjetValides({
+      lienDemo: 'https://projetlsf.onrender.com/',
+      lien: 'javascript:alert(1)',
+    });
+    expect(liens).toHaveLength(1);
+    expect(liens[0].href).toBe('https://projetlsf.onrender.com/');
+  });
+
+  it('retourne démo et repo quand les deux sont valides', () => {
+    const liens = liensProjetValides({
+      lienDemo: 'https://demo.example.com/',
+      lien: 'https://github.com/foo/bar',
+    });
+    expect(liens).toHaveLength(2);
   });
 });

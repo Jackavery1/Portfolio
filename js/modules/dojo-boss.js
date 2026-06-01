@@ -2,7 +2,7 @@
    Dojo — boss rush (citations, victoire, barres HP)
    ============================================ */
 
-import { jouerBip } from "./audio.js";
+import { jouerFanfareVictoire } from "./audio.js";
 
 const CITATIONS = {
   domslayer: "⚔️ « Mauvais sélecteur ? Recommence. »",
@@ -17,12 +17,6 @@ const CITATIONS = {
   java: "⚡ « Première compile… on croise les doigts. »",
   react: "🔒 « Pas encore. Ce boss dort encore. »",
 };
-
-function jouerFanfareVictoire() {
-  [523, 659, 784, 1047].forEach((freq, i) => {
-    setTimeout(() => jouerBip(freq, 120, "square"), i * 100);
-  });
-}
 
 function labelBoss(carte) {
   const nom = carte.querySelector(".boss-carte__nom")?.textContent?.trim();
@@ -84,17 +78,28 @@ function initVictoireClavier() {
 }
 
 function initBarresHp() {
+  const intervalIds = [];
+
   document
     .querySelectorAll(".boss-carte--en-cours .boss-carte__vie-fill")
     .forEach((fill) => {
       const raw = fill.style.getPropertyValue("--cible") || "50%";
       const base = parseFloat(raw) || 50;
 
-      setInterval(() => {
+      const id = setInterval(() => {
         const jitter = (Math.random() - 0.5) * 3;
         fill.style.width = `${Math.max(2, base + jitter)}%`;
       }, 800);
+      intervalIds.push(id);
     });
+
+  if (intervalIds.length) {
+    window.addEventListener(
+      "pagehide",
+      () => intervalIds.forEach((id) => clearInterval(id)),
+      { once: true },
+    );
+  }
 }
 
 export function initDojoBoss() {

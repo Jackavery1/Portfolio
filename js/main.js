@@ -45,6 +45,11 @@ async function init() {
   assurerFaviconLocale();
   await chargerPartials();
 
+  const { initContactCoordonnees } = await import(
+    './modules/contact-coordonnees.js'
+  );
+  initContactCoordonnees();
+
   const popupHs = byId(CONFIG.SELECTORS.POPUP_HS);
   if (popupHs) popupHs.hidden = true;
 
@@ -75,20 +80,20 @@ async function init() {
   }
 
   if (sid === 'contact') {
-    const { initContactCoordonnees } = await import(
-      './modules/contact-coordonnees.js'
-    );
     const { initContactForm } = await import('./modules/contact-form.js');
     const { initContactBandeau } = await import('./modules/contact-bandeau.js');
-    initContactCoordonnees();
     initContactBandeau();
     await initContactForm();
   }
 
   setTimeout(() => animerBarresSection(sid), 300);
 
-  if (etaitDejaAuMax && !sessionStorage.getItem(CONFIG.STORAGE.HS_POPUP_VU)) {
-    setTimeout(afficherPopupHighScore, 1000);
+  try {
+    if (etaitDejaAuMax && !sessionStorage.getItem(CONFIG.STORAGE.HS_POPUP_VU)) {
+      setTimeout(afficherPopupHighScore, 1000);
+    }
+  } catch {
+    /* sessionStorage indisponible */
   }
 }
 

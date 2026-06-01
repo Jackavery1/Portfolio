@@ -5,7 +5,7 @@
 import { CONFIG } from '../config/index.js';
 import { byId } from '../utils/dom.js';
 import { formaterScoreAffichage, plafonnerScore } from '../utils/score-helpers.js';
-import { jouerBip } from './audio.js';
+import { jouerFanfareVictoire } from './audio.js';
 
 export function lireScore() {
   try {
@@ -57,11 +57,12 @@ export function afficherPopupHighScore() {
   const sc = popup.querySelector('.popup-highscore__score');
   if (sc) sc.textContent = formaterScoreAffichage(lireScore());
   popup.hidden = false;
-  sessionStorage.setItem(CONFIG.STORAGE.HS_POPUP_VU, '1');
-  jouerBip(523, 150, 'square');
-  setTimeout(() => jouerBip(659, 150, 'square'), 160);
-  setTimeout(() => jouerBip(784, 150, 'square'), 320);
-  setTimeout(() => jouerBip(1047, 300, 'square'), 480);
+  try {
+    sessionStorage.setItem(CONFIG.STORAGE.HS_POPUP_VU, '1');
+  } catch {
+    /* sessionStorage indisponible */
+  }
+  jouerFanfareVictoire({ delais: [0, 160, 320, 480], duree: 150 });
 }
 
 function fermerPopupHighScoreEtReset() {
