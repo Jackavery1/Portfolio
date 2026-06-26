@@ -2,6 +2,10 @@ const fs = require('fs');
 const path = require('path');
 const { ensureDir, log } = require('./fs-utils.cjs');
 const { PAGE_META } = require('./page-meta.cjs');
+const {
+  BASE_STYLE_FILE,
+  PAGE_STYLE_BY_HTML,
+} = require('./page-styles.cjs');
 
 const PARTIAL_PLACEHOLDERS = [
   { id: 'partial-crt', fichier: 'partials/crt.html' },
@@ -15,7 +19,7 @@ const HEAD_COMMON_MARKER = '<!-- HEAD_COMMON -->';
 
 const CSP_META = `<meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self' https://www.google.com https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https://www.gstatic.com; frame-src https://www.google.com https://recaptcha.google.com; connect-src 'self' https://formspree.io https://www.google.com https://www.gstatic.com https://recaptcha.google.com; form-action 'self' https://formspree.io; base-uri 'self'; object-src 'none';"
+      content="default-src 'self'; script-src 'self' https://www.google.com https://www.gstatic.com; style-src 'self' https://fonts.googleapis.com; style-src-attr 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https://www.gstatic.com; frame-src https://www.google.com https://recaptcha.google.com; connect-src 'self' https://formspree.io https://www.google.com https://www.gstatic.com https://recaptcha.google.com; form-action 'self' https://formspree.io; base-uri 'self'; object-src 'none';"
     />`;
 
 const HTML_FILES = [
@@ -29,7 +33,7 @@ const HTML_FILES = [
 ];
 
 const HEAD_DEV_MIN_RE =
-  /<!-- HEAD_DEV_MIN -->[\s\S]*?<!-- \/HEAD_DEV_MIN -->\s*/i;
+  /<!-- HEAD_DEV_MIN[^>]*-->[\s\S]*?<!-- \/HEAD_DEV_MIN -->\s*/i;
 
 function urlPageProd(htmlFile, siteBase) {
   if (htmlFile === 'index.html') return `${siteBase}/`;
@@ -80,6 +84,18 @@ function injectPageMeta(html, htmlFile) {
       `<meta property="og:description" content="${meta.ogDescription}" />`,
     );
   }
+  if (meta.ogTitle) {
+    out = out.replace(
+      /<meta\s+property="og:title"\s+content="[^"]*"\s*\/>/,
+      `<meta property="og:title" content="${meta.ogTitle}" />`,
+    );
+  }
+  if (meta.twitterTitle) {
+    out = out.replace(
+      /<meta\s+name="twitter:title"\s+content="[^"]*"\s*\/>/,
+      `<meta name="twitter:title" content="${meta.twitterTitle}" />`,
+    );
+  }
   if (meta.twitterDescription) {
     out = out.replace(
       /<meta\s+name="twitter:description"\s+content="[^"]*"\s*\/>/,
@@ -117,19 +133,66 @@ function injectHeadCommon(html, root) {
   return out.replace(HEAD_COMMON_MARKER, block);
 }
 
-function injectPerfHead(html) {
-  let out = html.replace(
-    /Rajdhani:wght@400;600;700&display=swap/g,
-    'Rajdhani:wght@400;600&display=swap',
-  );
-  const preload = '<link rel="preload" href="style.css" as="style" />';
-  if (!out.includes('rel="preload" href="style.css"')) {
-    out = out.replace(
-      '<link rel="stylesheet" href="style.css" />',
-      `${preload}\n    <link rel="stylesheet" href="style.css" />`,
-    );
+function injectFontsAsync(html, root) {
+  if (!html.includes('<!-- FONTS_ASYNC -->')) return html;
+  const fontsPath = path.join(root, 'partials/fonts-async.html');
+  if (!fs.existsSync(fontsPath)) {
+    log('partials/fonts-async.html manquant — FONTS_ASYNC ignoré', 'warning');
+    return html;
   }
-  return out;
+  const block = fs.readFileSync(fontsPath, 'utf8').trim();
+  return html.replace('<!-- FONTS_ASYNC -->', block);
+}
+
+function liensStylesProd(htmlFile) {
+  const page = PAGE_STYLE_BY_HTML[htmlFile];
+  if (!page) return [];
+  return [BASE_STYLE_FILE, page.outfile];
+}
+
+function balisesStylesProd(htmlFile) {
+  const fichiers = liensStylesProd(htmlFile);
+  const preloads = fichiers
+    .map((href) => `    <link rel="preload" href="${href}" as="style" />`)
+    .join('\n');
+  const stylesheets = fichiers
+    .map((href) => `    <link rel="stylesheet" href="${href}" />`)
+    .join('\n');
+  return `    <link rel="modulepreload" href="js/main.js" />\n${preloads}\n${stylesheets}`;
+}
+
+function injectJsonLd(html, htmlFile, siteBase) {
+  const meta = PAGE_META[htmlFile];
+  if (!meta?.ogTitle) return html;
+
+  const payload = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: meta.ogTitle,
+    url: urlPageProd(htmlFile, siteBase),
+    description: meta.description,
+    inLanguage: 'fr-FR',
+  };
+
+  const bloc = `<script type="application/ld+json">\n${JSON.stringify(payload, null, 2)}\n    </script>`;
+  return html.replace('</head>', `    ${bloc}\n  </head>`);
+}
+
+function injectPerfHead(html, htmlFile, root) {
+  let out = injectFontsAsync(html, root);
+  if (out.includes('<!-- STYLES_PROD -->')) {
+    out = out.replace('<!-- STYLES_PROD -->', balisesStylesProd(htmlFile));
+    return out;
+  }
+
+  const fichiers = liensStylesProd(htmlFile);
+  if (!fichiers.length) return out;
+
+  const needle = '<link rel="stylesheet" href="style.css" />';
+  if (!out.includes(needle)) return out;
+
+  const remplacement = balisesStylesProd(htmlFile);
+  return out.replace(needle, remplacement);
 }
 
 // Chaîne appliquée à chaque page : SEO absolu → meta page → head prod → perf → partials → CSP
@@ -144,10 +207,11 @@ function copyHTML(root, distDir, siteBase) {
     if (!fs.existsSync(src)) return;
 
     let html = fs.readFileSync(src, 'utf8');
-    html = injectSeoMeta(html, file, siteBase);
     html = injectPageMeta(html, file);
     html = injectHeadCommon(html, root);
-    html = injectPerfHead(html);
+    html = injectSeoMeta(html, file, siteBase);
+    html = injectJsonLd(html, file, siteBase);
+    html = injectPerfHead(html, file, root);
     html = inlinePartials(html, root);
     if (html.includes(viewportNeedle) && !html.includes('Content-Security-Policy')) {
       html = html.replace(viewportNeedle, `${viewportNeedle}\n    ${CSP_META}`);

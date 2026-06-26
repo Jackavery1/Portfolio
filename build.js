@@ -28,6 +28,8 @@ const { loadEnvFile, resolveBuildEnv } = require('./build/env.cjs');
 const { syncDefaults } = require('./build/sync-defaults.cjs');
 const { log, createDist, finalizeDist } = require('./build/fs-utils.cjs');
 const { copyHTML, HTML_FILES } = require('./build/html.cjs');
+const { writeSeoFiles } = require('./build/seo.cjs');
+const { patchOgImageWebp } = require('./build/og-image.cjs');
 const { minifyCSS } = require('./build/css.cjs');
 const { minifyAllJs } = require('./build/js-minify.cjs');
 const {
@@ -86,10 +88,12 @@ async function runBuild() {
   try {
     createDist(STAGING_DIR);
     copyHTML(ROOT, STAGING_DIR, SITE_BASE);
+    writeSeoFiles(STAGING_DIR, SITE_BASE);
     minifyCSS(ROOT, STAGING_DIR);
     minifyAllJs(ROOT, STAGING_DIR);
     await optimizeImages(ROOT, STAGING_DIR);
     await optimizePreviewImages(ROOT, STAGING_DIR);
+    patchOgImageWebp(STAGING_DIR, SITE_BASE);
     copyAssets(ROOT, STAGING_DIR);
     try {
       finalizeDist(STAGING_DIR, DIST_DIR);

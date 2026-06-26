@@ -25,14 +25,24 @@ module.exports = [
     rules: {
       'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
       'no-console': 'off',
+      quotes: ['warn', 'single', { avoidEscape: true }],
     },
   },
   {
-    files: ['build/**/*.test.js'],
+    files: ['js/**/*.test.js', 'build/**/*.test.js'],
     languageOptions: {
       ecmaVersion: 2022,
       sourceType: 'module',
-      globals: globals.node,
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+      },
+    },
+  },
+  {
+    files: ['js/config/defaults.js'],
+    rules: {
+      quotes: 'off',
     },
   },
   {

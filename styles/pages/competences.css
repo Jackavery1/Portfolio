@@ -19,7 +19,7 @@
 
 .scores-tableau th {
   font-family: var(--police-pixel);
-  font-size: 0.38rem;
+  font-size: clamp(var(--taille-pixel-min), 1.2vw, 0.42rem);
   color: var(--couleur-accent-vif);
   padding: 0.55rem 0.75rem;
   text-align: left;
@@ -37,8 +37,8 @@
 
 .score-rang {
   font-family: var(--police-pixel);
-  font-size: 0.36rem;
-  color: var(--couleur-accent-dim);
+  font-size: clamp(var(--taille-pixel-min), 1.1vw, 0.4rem);
+  color: var(--couleur-texte-discret);
   padding: 0.5rem 0.75rem;
   width: 3rem;
 }
@@ -78,7 +78,7 @@
 
 .score-last {
   font-family: var(--police-pixel);
-  font-size: 0.3rem;
+  font-size: var(--taille-pixel-min);
   color: var(--couleur-texte-discret);
   padding: 0.5rem 0.75rem;
   letter-spacing: 1px;
@@ -187,13 +187,34 @@
   letter-spacing: 1px;
 }
 
+.scores-tableau-zone {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (width < 600px) {
+  .score-rang {
+    width: auto;
+    min-width: 2.5rem;
+  }
+
+  .score-techno {
+    width: auto;
+    min-width: 5.5rem;
+  }
+
+  .score-barre-fond {
+    min-width: 4.5rem;
+  }
+}
+
 @media (min-width: 961px) {
   .stats-grille {
     grid-template-columns: 1fr 280px;
   }
 }
 
-@media (min-width: 601px) and (max-width: 960px) {
+@media (min-width: 600px) and (max-width: 960px) {
   .stats-lateral {
     display: grid;
     grid-template-columns: 1fr 1fr;

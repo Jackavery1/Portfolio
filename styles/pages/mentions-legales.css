@@ -50,10 +50,14 @@
 }
 
 .mentions-retour {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   margin-top: 0.75rem;
+  min-height: 44px;
+  box-sizing: border-box;
   font-family: var(--police-pixel);
-  font-size: clamp(0.34rem, 1.2vw, 0.48rem);
+  font-size: clamp(var(--taille-pixel-min), 1.2vw, 0.48rem);
   color: var(--couleur-accent-vif);
   letter-spacing: 1px;
   text-decoration: none;

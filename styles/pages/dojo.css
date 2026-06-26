@@ -57,7 +57,16 @@
 
 .boss-carte--locked {
   border-left: 3px solid var(--couleur-bordure);
-  opacity: 0.5;
+}
+
+.boss-carte--locked .boss-carte__sprite {
+  opacity: 0.55;
+}
+
+.boss-carte--locked .boss-carte__nom,
+.boss-carte--locked .boss-carte__techno,
+.boss-carte--locked .boss-carte__desc {
+  color: var(--couleur-texte-discret);
 }
 
 .boss-carte__gauche {
@@ -169,14 +178,14 @@
 
 .boss-carte__xp-label {
   font-family: var(--police-pixel);
-  font-size: 0.3rem;
+  font-size: clamp(var(--taille-pixel-min), 1vw, 0.38rem);
   color: var(--couleur-texte-discret);
   letter-spacing: 1px;
 }
 
 .boss-carte__xp-val {
   font-family: var(--police-pixel);
-  font-size: 0.35rem;
+  font-size: clamp(var(--taille-pixel-min), 1.1vw, 0.42rem);
   color: var(--couleur-valide);
   text-shadow: 0 0 6px var(--couleur-valide);
 }
@@ -214,7 +223,7 @@
 
 .boss-carte__vie-pct {
   font-family: var(--police-pixel);
-  font-size: 0.32rem;
+  font-size: clamp(var(--taille-pixel-min), 1vw, 0.38rem);
   color: var(--couleur-actif);
   width: 2.5rem;
   text-align: right;
@@ -222,9 +231,14 @@
 
 .bouton-retour-work {
   font-family: var(--police-pixel);
-  font-size: clamp(0.35rem, 1.2vw, 0.48rem);
+  font-size: clamp(var(--taille-pixel-min), 1.2vw, 0.48rem);
   color: var(--couleur-accent-vif);
   border: 1px solid var(--couleur-bordure-active);
+  min-height: 44px;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   padding: 0.6rem 1.1rem;
   letter-spacing: 2px;
   background: none;
@@ -262,7 +276,8 @@
   font-family: var(--police-crt);
   font-size: clamp(0.85rem, 2vw, 1rem);
   padding: 0.25rem 0.6rem;
-  white-space: nowrap;
+  white-space: normal;
+  text-align: center;
   max-width: min(92vw, 20rem);
   overflow: hidden;
   text-overflow: ellipsis;

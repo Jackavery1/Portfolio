@@ -24,10 +24,9 @@
     <link rel="stylesheet" href="style.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Rajdhani:wght@400;600&display=swap"
-      rel="stylesheet"
-    />
+    <noscript>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Rajdhani:wght@400;600&display=swap" />
+    </noscript>
     <!-- /HEAD_DEV_MIN -->
     <!-- HEAD_COMMON -->
 </head>
@@ -52,9 +51,9 @@
 
           <div class="grille-projets">
             <!-- Projet LSF -->
-            <article
+            <button
+              type="button"
               class="carte-projet"
-              tabindex="0"
               data-projet="lsf"
               aria-label="Ouvrir le projet LSF"
             >
@@ -113,7 +112,7 @@
                   >★★★</span
                 >
               </div>
-              <h2 class="carte-projet__nom">PROJET LSF</h2>
+              <span class="carte-projet__nom">PROJET LSF</span>
               <p class="carte-projet__desc">
                 App web d'apprentissage de la LSF — projet fil rouge TP, le plus
                 abouti côté full-stack.
@@ -136,12 +135,12 @@
               <p class="carte-projet__clic-hint" aria-hidden="true">
                 ↩ cliquer pour aperçu
               </p>
-            </article>
+            </button>
 
             <!-- Floppy Bird -->
-            <article
+            <button
+              type="button"
               class="carte-projet"
-              tabindex="0"
               data-projet="floppybird"
               aria-label="Ouvrir le projet Floppy Bird"
             >
@@ -217,7 +216,7 @@
                   >★★★</span
                 >
               </div>
-              <h2 class="carte-projet__nom">FLOPPY BIRD</h2>
+              <span class="carte-projet__nom">FLOPPY BIRD</span>
               <p class="carte-projet__desc">
                 Clone Flappy Bird — Phaser 3, PWA installable, tests Vitest.
               </p>
@@ -239,12 +238,12 @@
               <p class="carte-projet__clic-hint" aria-hidden="true">
                 ↩ cliquer pour aperçu
               </p>
-            </article>
+            </button>
 
             <!-- GameHub Retro -->
-            <article
+            <button
+              type="button"
               class="carte-projet"
-              tabindex="0"
               data-projet="gamehub"
               aria-label="Ouvrir le projet GameHub Retro"
             >
@@ -311,7 +310,7 @@
                   >★★★</span
                 >
               </div>
-              <h2 class="carte-projet__nom">GAMEHUB RETRO</h2>
+              <span class="carte-projet__nom">GAMEHUB RETRO</span>
               <p class="carte-projet__desc">
                 Hub de jeux rétro — catalogue, gestion utilisateur, interface
                 d'émulation.
@@ -334,12 +333,12 @@
               <p class="carte-projet__clic-hint" aria-hidden="true">
                 ↩ cliquer pour aperçu
               </p>
-            </article>
+            </button>
 
             <!-- HubTraining -->
-            <article
+            <button
+              type="button"
               class="carte-projet"
-              tabindex="0"
               data-projet="hub"
               aria-label="Ouvrir le projet HubTraining"
             >
@@ -418,7 +417,7 @@
                   >★★☆</span
                 >
               </div>
-              <h2 class="carte-projet__nom">HUBTRAINING</h2>
+              <span class="carte-projet__nom">HUBTRAINING</span>
               <p class="carte-projet__desc">
                 Site WordPress pour client réel — UX/UI, réservations, SEO,
                 sécurité.
@@ -440,12 +439,12 @@
               <p class="carte-projet__clic-hint" aria-hidden="true">
                 ↩ cliquer pour aperçu
               </p>
-            </article>
+            </button>
 
             <!-- Pixel Quest -->
-            <article
+            <button
+              type="button"
               class="carte-projet"
-              tabindex="0"
               data-projet="pixelquest"
               aria-label="Ouvrir le projet Pixel Quest"
             >
@@ -513,7 +512,7 @@
                   >★★★</span
                 >
               </div>
-              <h2 class="carte-projet__nom">PIXEL QUEST</h2>
+              <span class="carte-projet__nom">PIXEL QUEST</span>
               <p class="carte-projet__desc">
                 Plateforme 2D navigateur — moteur ECS, Canvas 2D, niveaux et
                 boss. Démo Mario-like originale.
@@ -536,7 +535,7 @@
               <p class="carte-projet__clic-hint" aria-hidden="true">
                 ↩ cliquer pour aperçu
               </p>
-            </article>
+            </button>
           </div>
           <!-- fin grille-projets -->
 
@@ -565,7 +564,7 @@
       <div class="modal-boite">
         <div class="modal-entete">
           <span class="modal-titre" id="js-modal-titre">NOM DU PROJET</span>
-          <button class="modal-fermer" id="js-modal-fermer" aria-label="Fermer">
+          <button type="button" class="modal-fermer" id="js-modal-fermer" aria-label="Fermer">
             ✕
           </button>
         </div>

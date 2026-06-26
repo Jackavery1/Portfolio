@@ -45,7 +45,10 @@
   font-family: var(--police-pixel);
   font-size: 0.55rem;
   color: var(--couleur-texte-discret);
-  padding: 0.25rem 0.5rem;
+  padding: 0.5rem 0.75rem;
+  min-height: 44px;
+  min-width: 44px;
+  box-sizing: border-box;
   transition: color 0.15s;
 }
 
@@ -97,10 +100,15 @@
 
 .modal-lien a {
   font-family: var(--police-pixel);
-  font-size: clamp(0.35rem, 1.2vw, 0.48rem);
+  font-size: clamp(var(--taille-pixel-min), 1.2vw, 0.48rem);
   color: var(--couleur-accent-vif);
   letter-spacing: 2px;
   text-decoration: none;
+  min-height: 44px;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 0.75rem;
   transition: color 0.15s;
 }
 
@@ -189,11 +197,16 @@
 
 .popup-highscore__btn {
   font-family: var(--police-pixel);
-  font-size: clamp(0.38rem, 1.5vw, 0.55rem);
+  font-size: clamp(var(--taille-pixel-min), 1.5vw, 0.55rem);
   color: var(--couleur-fond);
   background-color: var(--couleur-actif);
   border: none;
   border-radius: 3px;
+  min-height: 44px;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   padding: 0.75rem 1.5rem;
   letter-spacing: 2px;
   text-decoration: none;
@@ -208,12 +221,15 @@
 
 .popup-highscore__fermer {
   font-family: var(--police-pixel);
-  font-size: 0.38rem;
+  font-size: clamp(var(--taille-pixel-min), 1.4vw, 0.42rem);
   color: var(--couleur-texte-discret);
   letter-spacing: 2px;
   background: none;
   border: none;
   cursor: pointer;
+  min-height: 44px;
+  padding: 0.5rem 0.75rem;
+  box-sizing: border-box;
   transition: color 0.2s;
 }
 

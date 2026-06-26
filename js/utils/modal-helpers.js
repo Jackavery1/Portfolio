@@ -6,6 +6,12 @@ export function estImageRaster(src) {
   return /\.(png|jpe?g)$/i.test(src || '');
 }
 
+export function cheminWebpDepuisRaster(src) {
+  if (!src || typeof src !== 'string') return null;
+  if (!estImageRaster(src)) return null;
+  return src.replace(/\.(png|jpe?g)$/i, '.webp');
+}
+
 export function estLienHttpAutorise(href) {
   if (!href || typeof href !== 'string') return false;
   try {

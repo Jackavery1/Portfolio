@@ -2,6 +2,7 @@
    Orchestrateur principal — initialisation app
    ============================================ */
 
+import { initPolicesAsync } from './modules/fonts.js';
 import { CONFIG } from './config/index.js';
 import { byId } from './utils/dom.js';
 import { chargerPartials } from './modules/partials.js';
@@ -39,6 +40,7 @@ function assurerFaviconLocale() {
 }
 
 async function init() {
+  initPolicesAsync();
   const sid = document.body.dataset.sectionId || 'accueil';
   const etaitDejaAuMax = lireScore() >= 9999;
 
@@ -98,3 +100,5 @@ async function init() {
 }
 
 document.addEventListener('DOMContentLoaded', init);
+
+export { init };

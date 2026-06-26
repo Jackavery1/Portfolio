@@ -7,6 +7,7 @@ Merci de votre intérêt pour ce portfolio. Projet solo, mais les retours et PR 
 ```bash
 npm ci
 npm run lint
+npm run validate:html
 npm run format:check
 npm test
 npm run test:coverage
@@ -32,12 +33,14 @@ Ne pas ouvrir les HTML en `file://` : les partials et modules ES ne fonctionnero
 
 | Seuil | Usage |
 |-------|--------|
-| `max-width: 960px` | Mobile / tablette (nav burger, layout, footer, pages) |
-| `min-width: 961px` | Desktop (grilles 2 cols projets, parcours, compétences) |
-| `601px – 960px` | Accueil tablette, stats latérales compétences |
-| `768px / 767px` | Contact (grille profil) |
-| `768px` (tokens) | Palette couleurs mobile |
-| `1024px` | Contact desktop large |
+| `max-width: 960px` | Mobile / tablette (nav burger, layout, footer, pages, contact) |
+| `min-width: 961px` | Desktop (grilles 2 cols projets, parcours, compétences, contact) |
+| `600px – 960px` | Accueil tablette, stats latérales compétences, grilles 2 col projets/parcours |
+| `max-width: 960px` (tokens) | Palette couleurs mobile (`styles/tokens.css`) |
+| `max-width: 480px` | Footer une colonne |
+| `max-width: 400px` | Nav compacte (score masqué) |
+
+Pages hors navigation clavier (`dojo.html`, `mentions-legales.html`) : accessibles via liens footer ou projets.
 
 Détails accueil : en-tête de `styles/pages/accueil.css`.
 
@@ -49,8 +52,9 @@ Voir [SECURITY.md](SECURITY.md) pour signaler une vulnérabilité.
 
 ## Tests
 
-- **Unitaires** : `npm test` (Vitest) — utils, config, modules clés, build
-- **Couverture** : `npm run test:coverage` (seuils 70 % sur `js/utils/` + `js/config/`)
+- **Unitaires** : `npm test` (Vitest) — utils, config, tous les modules, build
+- **Couverture** : `npm run test:coverage` (seuils 60–70 % sur `js/utils/`, `js/config/`, `js/modules/`, `js/main.js`)
+- **HTML** : `npm run validate:html` (règles WCAG de base)
 - **E2E** : `npm run test:e2e` (Playwright sur `.dist-staging` après build)
 - **Lighthouse** : `npm run test:lhci` (seuils perf/a11y/SEO en CI)
 

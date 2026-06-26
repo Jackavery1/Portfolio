@@ -2,40 +2,60 @@
    Modale aperçu projet (WORK)
    ============================================ */
 
-import { CONFIG } from "../config/index.js";
-import { byId, byQsAll } from "../utils/dom.js";
-import { trapTabModal } from "../utils/focus.js";
+import { CONFIG } from '../config/index.js';
+import { byId, byQsAll } from '../utils/dom.js';
+import { trapTabModal } from '../utils/focus.js';
 import {
+  cheminWebpDepuisRaster,
   estImageRaster,
   liensProjetValides,
   resolveApercuSrc,
-} from "../utils/modal-helpers.js";
-import { jouerBip } from "./audio.js";
-import { ajouterScore } from "./score.js";
+} from '../utils/modal-helpers.js';
+import { jouerBip } from './audio.js';
+import { ajouterScore } from './score.js';
 
 let elementFocusAvantModal = null;
 
-function preparerImageModale(modalImg, src, titre) {
-  const parent = modalImg.parentElement;
-  if (parent?.tagName === "PICTURE") {
-    parent.replaceWith(modalImg);
-  }
+function detachPicture(img) {
+  const picture = img.closest('picture');
+  if (!picture?.parentElement) return;
+  picture.parentElement.insertBefore(img, picture);
+  picture.remove();
+}
 
-  modalImg.loading = "eager";
-  modalImg.decoding = "async";
+function preparerImageModale(modalImg, src, titre) {
+  detachPicture(modalImg);
+
+  modalImg.loading = 'eager';
+  modalImg.decoding = 'async';
   modalImg.alt = `Aperçu — ${titre}`;
 
   if (!src) {
-    modalImg.removeAttribute("src");
-    modalImg.classList.remove("modal-img--svg");
+    modalImg.removeAttribute('src');
+    modalImg.classList.remove('modal-img--svg');
+    return;
+  }
+
+  const estSvg = /\.svg($|\?)/i.test(src);
+  modalImg.classList.toggle('modal-img--svg', estSvg);
+
+  if (estImageRaster(src)) {
+    modalImg.classList.remove('modal-img--svg');
+    const webp = cheminWebpDepuisRaster(src);
+    modalImg.src = src;
+    if (webp) {
+      const parent = modalImg.parentElement;
+      const picture = document.createElement('picture');
+      const source = document.createElement('source');
+      source.type = 'image/webp';
+      source.srcset = webp;
+      picture.append(source, modalImg);
+      parent?.appendChild(picture);
+    }
     return;
   }
 
   modalImg.src = src;
-  modalImg.classList.toggle("modal-img--svg", /\.svg($|\?)/i.test(src));
-  if (estImageRaster(src)) {
-    modalImg.classList.remove("modal-img--svg");
-  }
 }
 
 function remplirLiensModale(modalLien, data) {
@@ -43,17 +63,17 @@ function remplirLiensModale(modalLien, data) {
 
   if (!liensValides.length) {
     modalLien.hidden = true;
-    modalLien.innerHTML = "";
+    modalLien.innerHTML = '';
     return;
   }
 
   modalLien.hidden = false;
-  modalLien.innerHTML = "";
+  modalLien.innerHTML = '';
   liensValides.forEach(({ href, label }) => {
-    const a = document.createElement("a");
+    const a = document.createElement('a');
     a.href = href;
-    a.target = "_blank";
-    a.rel = "noopener noreferrer";
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
     a.textContent = label;
     modalLien.append(a);
   });
@@ -85,10 +105,10 @@ export function ouvrirModal(projetKey) {
 
   let modalLien = byId(CONFIG.SELECTORS.MODAL_LIEN);
   if (!modalLien) {
-    modalLien = document.createElement("p");
+    modalLien = document.createElement('p');
     modalLien.id = CONFIG.SELECTORS.MODAL_LIEN;
-    modalLien.className = "modal-lien";
-    modalDesc.insertAdjacentElement("afterend", modalLien);
+    modalLien.className = 'modal-lien';
+    modalDesc.insertAdjacentElement('afterend', modalLien);
   }
   remplirLiensModale(modalLien, data);
 
@@ -97,21 +117,21 @@ export function ouvrirModal(projetKey) {
     preparerImageModale(modalImg, srcApercu, data.titre);
     modalImg.hidden = false;
   } else {
-    preparerImageModale(modalImg, "", data.titre);
-    modalImg.removeAttribute("src");
+    preparerImageModale(modalImg, '', data.titre);
+    modalImg.removeAttribute('src');
     modalImg.hidden = true;
   }
 
-  modalTech.innerHTML = "";
+  modalTech.innerHTML = '';
   data.tech.forEach((t) => {
-    const li = document.createElement("span");
-    li.className = "modal-tech-tag";
+    const li = document.createElement('span');
+    li.className = 'modal-tech-tag';
     li.textContent = t;
     modalTech.appendChild(li);
   });
 
   modalOverlay.hidden = false;
-  jouerBip(440, 60, "sine");
+  jouerBip(440, 60, 'sine');
   ajouterScore(350);
   btnFermer.focus();
 }
@@ -123,16 +143,16 @@ export function fermerModal() {
   jouerBip(220, 40);
   const prev = elementFocusAvantModal;
   elementFocusAvantModal = null;
-  if (prev && typeof prev.focus === "function") {
+  if (prev && typeof prev.focus === 'function') {
     requestAnimationFrame(() => prev.focus());
   }
 }
 
 export function initModalClavier() {
-  document.addEventListener("keydown", (evt) => {
+  document.addEventListener('keydown', (evt) => {
     const modalOverlay = byId(CONFIG.SELECTORS.MODAL);
     if (!modalOverlay || modalOverlay.hidden) return;
-    if (evt.key === "Escape") {
+    if (evt.key === 'Escape') {
       evt.preventDefault();
       fermerModal();
       return;
@@ -145,19 +165,13 @@ export function initModalClicks() {
   const modalOverlay = byId(CONFIG.SELECTORS.MODAL);
   const btnFermer = byId(CONFIG.SELECTORS.MODAL_FERMER);
 
-  byQsAll(".carte-projet[data-projet]").forEach((carte) => {
-    carte.addEventListener("click", () => ouvrirModal(carte.dataset.projet));
-    carte.addEventListener("keydown", (evt) => {
-      if (evt.key === "Enter" || evt.key === " ") {
-        evt.preventDefault();
-        ouvrirModal(carte.dataset.projet);
-      }
-    });
+  byQsAll('.carte-projet[data-projet]').forEach((carte) => {
+    carte.addEventListener('click', () => ouvrirModal(carte.dataset.projet));
   });
 
-  if (btnFermer) btnFermer.addEventListener("click", fermerModal);
+  if (btnFermer) btnFermer.addEventListener('click', fermerModal);
   if (modalOverlay) {
-    modalOverlay.addEventListener("click", (evt) => {
+    modalOverlay.addEventListener('click', (evt) => {
       if (evt.target === modalOverlay) fermerModal();
     });
   }

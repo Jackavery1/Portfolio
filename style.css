@@ -1,5 +1,5 @@
 /* Variables et tokens — breakpoints responsive :
-   ≤960px mobile/tablette · ≥961px desktop · 768px tokens contact · voir styles/layout.css */
+   ≤960px mobile/tablette · ≥961px desktop · 960px tokens · voir styles/layout.css */
 @import url("styles/tokens.css");
 
 /* Normalisation */

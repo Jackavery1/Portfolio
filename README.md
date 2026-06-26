@@ -22,6 +22,8 @@ En développement sur les sources (partials chargés en `fetch`) :
 npx serve .
 ```
 
+La **CSP** (meta `Content-Security-Policy`) n’est injectée qu’après `npm run build` — tester Formspree/reCAPTCHA sur `.dist-staging/`.
+
 Node **18+** (`.nvmrc`).
 
 ---
@@ -32,12 +34,13 @@ Node **18+** (`.nvmrc`).
 |----------|-------------|
 | `npm run build` | Production → `.dist-staging/` |
 | `npm run watch` | Rebuild automatique |
-| `npm test` | Tests unitaires |
-| `npm run test:coverage` | Couverture Vitest (utils + config) |
+| `npm test` | Tests unitaires (utils, config, modules clés) |
+| `npm run test:coverage` | Couverture Vitest (seuils : `js/utils/`, `js/config/`, `fonts.js`, `contact-bandeau.js`) |
 | `npm run test:e2e` | Playwright (nécessite un build) |
+| `npm run validate:html` | Validation HTML + règles a11y de base |
 | `npm run lint` | ESLint |
 
-Checklist PR : `npm run lint && npm run format:check && npm test && npm run test:coverage && npm run build && npm run test:e2e`
+Checklist PR : `npm run lint && npm run validate:html && npm run format:check && npm test && npm run test:coverage && npm run build && npm run test:e2e`
 
 ---
 
@@ -85,3 +88,11 @@ Push sur `main` → CI (lint, tests, Lighthouse) → GitHub Pages.
 | Nav / footer vides | Utiliser un serveur HTTP (`npx serve`), pas `file://` |
 | Formulaire 403 | Domaines reCAPTCHA + Formspree pour votre URL |
 | Favicon absente | Hard refresh ; vérifier `assets/favicon.png` après build |
+
+### Dépannage npm
+
+| Problème | Solution |
+|----------|----------|
+| `UNABLE_TO_VERIFY_LEAF_SIGNATURE` | Certificat entreprise / proxy TLS : configurer `npm config set strict-ssl false` (réseau de confiance uniquement) ou le certificat racine CA |
+| Dépendance manquante au build | `npm ci` puis relancer `npm run build` |
+| `dist/` verrouillé sous Windows | Fermer l’explorateur ou le serveur qui lit `dist/` ; le build utilise `.dist-staging/` en secours |

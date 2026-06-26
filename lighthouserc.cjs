@@ -2,8 +2,16 @@ module.exports = {
   ci: {
     collect: {
       staticDistDir: './.dist-staging',
-      url: ['index.html', 'projets.html', 'contact.html', 'dojo.html'],
-      numberOfRuns: 1,
+      url: [
+        'index.html',
+        'projets.html',
+        'competences.html',
+        'parcours.html',
+        'contact.html',
+        'dojo.html',
+        'mentions-legales.html',
+      ],
+      numberOfRuns: 2,
     },
     assert: {
       assertions: {

@@ -2,49 +2,34 @@
    Bandeau contact : disponibilité ↔ téléchargement CV
    ============================================ */
 
-import { CONFIG } from "../config/index.js";
-import { byId } from "../utils/dom.js";
-import { jouerBip } from "./audio.js";
+import { CONFIG } from '../config/index.js';
+import { byId } from '../utils/dom.js';
+import { jouerBip } from './audio.js';
 
 export function initContactBandeau() {
-  const zone = byId(CONFIG.SELECTORS.CONTACT_BANDEAU);
   const dispo = byId(CONFIG.SELECTORS.CONTACT_BANDEAU_DISPO);
+  const cvBloc = byId('js-bandeau-cv-bloc');
   const cv = byId(CONFIG.SELECTORS.CONTACT_BANDEAU_CV);
-  if (!zone || !dispo || !cv) return;
+  const retour = byId('js-bandeau-retour');
+  if (!dispo || !cvBloc || !cv || !retour) return;
 
   cv.href = CONFIG.CONTACT.CV_HREF;
   cv.download = CONFIG.CONTACT.CV_DOWNLOAD;
 
-  let mode = "dispo";
-
-  const majAffichage = () => {
-    const surCv = mode === "cv";
-    dispo.hidden = surCv;
-    cv.hidden = !surCv;
-    zone.setAttribute(
-      "aria-label",
-      surCv
-        ? "Télécharger le CV au format PDF. Cliquer pour revenir au statut de disponibilité."
-        : "Disponible pour un premier poste développeur web. Cliquer pour afficher le téléchargement du CV.",
-    );
+  const afficherCv = () => {
+    dispo.hidden = true;
+    cvBloc.hidden = false;
+    jouerBip(523, 50, 'square');
+    cv.focus();
   };
 
-  const basculer = () => {
-    mode = mode === "dispo" ? "cv" : "dispo";
-    majAffichage();
-    jouerBip(mode === "cv" ? 523 : 392, 50, "square");
+  const afficherDispo = () => {
+    cvBloc.hidden = true;
+    dispo.hidden = false;
+    jouerBip(392, 50, 'square');
+    dispo.focus();
   };
 
-  cv.addEventListener("click", (evt) => evt.stopPropagation());
-
-  zone.addEventListener("click", () => basculer());
-
-  zone.addEventListener("keydown", (evt) => {
-    if (evt.key !== "Enter" && evt.key !== " ") return;
-    if (mode === "cv" && evt.target === cv) return;
-    evt.preventDefault();
-    basculer();
-  });
-
-  majAffichage();
+  dispo.addEventListener('click', afficherCv);
+  retour.addEventListener('click', afficherDispo);
 }

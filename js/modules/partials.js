@@ -8,9 +8,9 @@ import { getCurrentPageFile } from '../utils/page.js';
 
 const FALLBACKS_PARTIELS = {
   'partial-nav':
-    '<nav class="nav nav--fallback" role="navigation" aria-label="Navigation principale"><p class="nav__fallback" role="alert">Navigation indisponible — rechargez la page ou vérifiez votre connexion.</p></nav>',
+    '<nav class="nav nav--fallback" role="navigation" aria-label="Navigation principale"><p class="nav__fallback" role="alert">Navigation indisponible — rechargez la page ou vérifiez votre connexion.</p><button type="button" class="nav__fallback-retry">Réessayer</button></nav>',
   'partial-footer':
-    '<footer class="pied-page pied-page--fallback" role="contentinfo"><p role="alert">Pied de page indisponible.</p></footer>',
+    '<footer class="pied-page pied-page--fallback" role="contentinfo"><p role="alert">Pied de page indisponible.</p><button type="button" class="nav__fallback-retry">Réessayer</button></footer>',
 };
 
 function estEnvironnementDev() {
@@ -25,6 +25,9 @@ function appliquerFallbackPartial(conteneur, id) {
   const html = FALLBACKS_PARTIELS[id];
   if (html) {
     conteneur.outerHTML = html;
+    document.querySelectorAll('.nav__fallback-retry').forEach((btn) => {
+      btn.addEventListener('click', () => location.reload());
+    });
     return;
   }
   conteneur.innerHTML = `<p role="alert">Contenu indisponible (${id}).</p>`;

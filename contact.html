@@ -24,10 +24,9 @@
     <link rel="stylesheet" href="style.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Rajdhani:wght@400;600&display=swap"
-      rel="stylesheet"
-    />
+    <noscript>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Rajdhani:wght@400;600&display=swap" />
+    </noscript>
     <!-- /HEAD_DEV_MIN -->
     <!-- HEAD_COMMON -->
 </head>
@@ -50,29 +49,35 @@
             <span class="pixel-accent">▶</span> CONTINUE ? — INSERT COIN
           </h1>
 
-          <div
-            class="contact-bandeau texte-continue"
-            id="js-contact-bandeau"
-            tabindex="0"
-            role="button"
-            aria-label="Disponible pour un premier poste développeur web. Cliquer pour afficher le téléchargement du CV."
-          >
-            <p class="contact-bandeau__ligne" id="js-bandeau-dispo">
-              ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░<br />
-              ░&nbsp;&nbsp;CLIQUEZ ICI POUR TELECHARGER LE CV&nbsp;&nbsp;░<br />
-              ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-            </p>
-            <a
-              class="contact-bandeau__ligne contact-bandeau__lien-cv"
-              id="js-bandeau-cv"
-              href="assets/cv-martinez-joris.pdf"
-              download="CV-Martinez-Joris.pdf"
-              hidden
+          <div class="contact-bandeau texte-continue" id="js-contact-bandeau">
+            <button
+              type="button"
+              class="contact-bandeau__ligne contact-bandeau__action"
+              id="js-bandeau-dispo"
             >
               ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░<br />
-              ░&nbsp;&nbsp;▼ TÉLÉCHARGER LE CV (PDF)&nbsp;&nbsp;░<br />
+              ░&nbsp;&nbsp;AFFICHER LE TELECHARGEMENT DU CV&nbsp;&nbsp;░<br />
               ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-            </a>
+            </button>
+            <div id="js-bandeau-cv-bloc" class="contact-bandeau__cv-bloc" hidden>
+              <a
+                class="contact-bandeau__ligne contact-bandeau__lien-cv"
+                id="js-bandeau-cv"
+                href="assets/cv-martinez-joris.pdf"
+                download="CV-Martinez-Joris.pdf"
+              >
+                ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░<br />
+                ░&nbsp;&nbsp;▼ TÉLÉCHARGER LE CV (PDF)&nbsp;&nbsp;░<br />
+                ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+              </a>
+              <button
+                type="button"
+                class="contact-bandeau-aide"
+                id="js-bandeau-retour"
+              >
+                ◀ RETOUR AU STATUT DISPONIBLE
+              </button>
+            </div>
           </div>
 
           <div class="contact-grille">
@@ -80,19 +85,41 @@
             <div class="contact-gauche">
               <div class="grille-contact">
                 <div class="carte-contact">
-                  <p class="carte-contact__label">📞 TÉLÉPHONE</p>
-                  <p class="carte-contact__valeur" id="js-contact-phone"></p>
+                  <p class="carte-contact__label">
+                    <span aria-hidden="true">📞 </span>TÉLÉPHONE
+                  </p>
+                  <p class="carte-contact__valeur" id="js-contact-phone">
+                    <noscript>
+                      <span class="carte-contact__indispo"
+                        >Activez JavaScript pour afficher le téléphone, ou
+                        utilisez le formulaire ci-dessous.</span
+                      >
+                    </noscript>
+                  </p>
                 </div>
                 <div class="carte-contact">
-                  <p class="carte-contact__label">✉ EMAIL</p>
-                  <p class="carte-contact__valeur" id="js-contact-email"></p>
+                  <p class="carte-contact__label">
+                    <span aria-hidden="true">✉ </span>EMAIL
+                  </p>
+                  <p class="carte-contact__valeur" id="js-contact-email">
+                    <noscript>
+                      <span class="carte-contact__indispo"
+                        >Activez JavaScript pour afficher l'email, ou utilisez le
+                        formulaire ci-dessous.</span
+                      >
+                    </noscript>
+                  </p>
                 </div>
                 <div class="carte-contact">
-                  <p class="carte-contact__label">📍 LOCALISATION</p>
+                  <p class="carte-contact__label">
+                    <span aria-hidden="true">📍 </span>LOCALISATION
+                  </p>
                   <p class="carte-contact__valeur">La Jarne — 17220</p>
                 </div>
                 <div class="carte-contact">
-                  <p class="carte-contact__label">⚡ STATUT</p>
+                  <p class="carte-contact__label">
+                    <span aria-hidden="true">⚡ </span>STATUT
+                  </p>
                   <p class="carte-contact__valeur">Ouvert aux opportunités</p>
                 </div>
               </div>
@@ -212,6 +239,7 @@
                     class="formulaire-erreur"
                     id="js-formulaire-erreur"
                     role="alert"
+                    aria-live="polite"
                     hidden
                   ></div>
 

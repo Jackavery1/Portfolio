@@ -51,8 +51,8 @@
 
 .entree-parcours__date {
   font-family: var(--police-pixel);
-  font-size: 0.36rem;
-  color: var(--couleur-texte-fantome);
+  font-size: clamp(var(--taille-pixel-min), 1.1vw, 0.4rem);
+  color: var(--couleur-texte-discret);
   letter-spacing: 1px;
 }
 
@@ -68,7 +68,7 @@
 .entree-parcours__organisation {
   font-family: var(--police-crt);
   font-size: clamp(0.95rem, 2.3vw, 1.1rem);
-  color: var(--couleur-accent-dim);
+  color: var(--couleur-texte-normal);
   letter-spacing: 1px;
   margin-bottom: 0.3rem;
 }
@@ -94,8 +94,21 @@
   width: 100%;
   max-width: 240px;
   height: auto;
-  min-height: 420px;
+  min-height: clamp(240px, 52vw, 360px);
   filter: drop-shadow(0 0 8px rgba(var(--couleur-accent-rgb), 0.2));
+}
+
+@media (min-width: 600px) and (max-width: 960px) {
+  .story-grille {
+    grid-template-columns: minmax(0, 1fr) minmax(140px, 180px);
+    gap: 1.25rem;
+    align-items: start;
+  }
+
+  .svg-arbre {
+    min-height: 300px;
+    max-width: 180px;
+  }
 }
 
 @media (min-width: 961px) {

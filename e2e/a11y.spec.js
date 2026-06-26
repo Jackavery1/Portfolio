@@ -3,8 +3,10 @@ import AxeBuilder from '@axe-core/playwright';
 
 test.describe.configure({ mode: 'serial' });
 
-function violationsCritiques(violations) {
-  return violations.filter((v) => v.impact === 'critical' || v.impact === 'serious');
+function violationsA11y(violations) {
+  return violations.filter(
+    (v) => v.impact === 'critical' || v.impact === 'serious' || v.impact === 'moderate',
+  );
 }
 
 test('a11y accueil — pas de violation critique', async ({ page }) => {
@@ -13,7 +15,7 @@ test('a11y accueil — pas de violation critique', async ({ page }) => {
 
   const results = await new AxeBuilder({ page }).analyze();
 
-  expect(violationsCritiques(results.violations)).toEqual([]);
+  expect(violationsA11y(results.violations)).toEqual([]);
 });
 
 test('a11y compétences — pas de violation critique', async ({ page }) => {
@@ -22,7 +24,7 @@ test('a11y compétences — pas de violation critique', async ({ page }) => {
 
   const results = await new AxeBuilder({ page }).analyze();
 
-  expect(violationsCritiques(results.violations)).toEqual([]);
+  expect(violationsA11y(results.violations)).toEqual([]);
 });
 
 test('a11y dojo — pas de violation critique', async ({ page }) => {
@@ -31,7 +33,7 @@ test('a11y dojo — pas de violation critique', async ({ page }) => {
 
   const results = await new AxeBuilder({ page }).analyze();
 
-  expect(violationsCritiques(results.violations)).toEqual([]);
+  expect(violationsA11y(results.violations)).toEqual([]);
 });
 
 test('a11y parcours — pas de violation critique', async ({ page }) => {
@@ -40,7 +42,7 @@ test('a11y parcours — pas de violation critique', async ({ page }) => {
 
   const results = await new AxeBuilder({ page }).analyze();
 
-  expect(violationsCritiques(results.violations)).toEqual([]);
+  expect(violationsA11y(results.violations)).toEqual([]);
 });
 
 test('a11y menu burger mobile — pas de violation critique', async ({ page }) => {
@@ -53,7 +55,7 @@ test('a11y menu burger mobile — pas de violation critique', async ({ page }) =
 
   const results = await new AxeBuilder({ page }).include('header.nav').analyze();
 
-  expect(violationsCritiques(results.violations)).toEqual([]);
+  expect(violationsA11y(results.violations)).toEqual([]);
 });
 
 test('a11y contact — pas de violation critique', async ({ page }) => {
@@ -64,7 +66,7 @@ test('a11y contact — pas de violation critique', async ({ page }) => {
     .exclude('#js-recaptcha-mount')
     .analyze();
 
-  expect(violationsCritiques(results.violations)).toEqual([]);
+  expect(violationsA11y(results.violations)).toEqual([]);
 });
 
 test('a11y mentions légales — email hydraté, pas de violation critique', async ({ page }) => {
@@ -77,7 +79,16 @@ test('a11y mentions légales — email hydraté, pas de violation critique', asy
 
   const results = await new AxeBuilder({ page }).analyze();
 
-  expect(violationsCritiques(results.violations)).toEqual([]);
+  expect(violationsA11y(results.violations)).toEqual([]);
+});
+
+test('a11y projets page entière — pas de violation critique', async ({ page }) => {
+  await page.goto('/projets.html');
+  await expect(page.locator('h1')).toBeVisible();
+
+  const results = await new AxeBuilder({ page }).analyze();
+
+  expect(violationsA11y(results.violations)).toEqual([]);
 });
 
 test('a11y navigation modale projets — pas de violation critique', async ({ page }) => {
@@ -91,5 +102,5 @@ test('a11y navigation modale projets — pas de violation critique', async ({ pa
     .include('#js-modal')
     .analyze();
 
-  expect(violationsCritiques(results.violations)).toEqual([]);
+  expect(violationsA11y(results.violations)).toEqual([]);
 });

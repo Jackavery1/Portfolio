@@ -7,30 +7,37 @@ test.beforeEach(async ({ page }) => {
 });
 
 test('formulaire contact — envoi mocké Formspree', async ({ page }) => {
+  test.setTimeout(45_000);
+
   await page.goto('/contact.html');
-  await expect(page.locator('#js-formulaire')).toBeVisible();
+  const formulaire = page.locator('#js-formulaire');
+  await formulaire.scrollIntoViewIfNeeded();
+  await expect(formulaire).toBeVisible();
 
-  await page.evaluate(() => {
-    const nom = document.querySelector('#contact-nom');
-    const email = document.querySelector('#contact-email');
-    const sujet = document.querySelector('#contact-sujet');
-    const message = document.querySelector('#contact-message');
-    if (!nom || !email || !sujet || !message) return;
+  await page.evaluate(() => sessionStorage.clear());
 
-    nom.value = 'Test E2E';
-    email.value = 'e2e@example.com';
-    sujet.value = 'stage';
-    message.value = 'Message de test automatisé Playwright.';
+  await formulaire.locator('#contact-nom').fill('Test E2E');
+  await formulaire.locator('#contact-email').fill('e2e@example.com');
+  await formulaire.locator('#contact-sujet').selectOption('stage');
+  await formulaire.locator('#contact-message').fill('Message de test automatisé Playwright.');
 
-    [nom, email, sujet, message].forEach((el) => {
-      el.dispatchEvent(new Event('input', { bubbles: true }));
-      el.dispatchEvent(new Event('change', { bubbles: true }));
-    });
-  });
+  await expect(formulaire.locator('#contact-nom')).toHaveValue('Test E2E');
+  await expect(formulaire.locator('#contact-sujet')).toHaveValue('stage');
 
   await expect(page.locator('#js-btn-envoyer')).toBeEnabled();
   await page.locator('#js-btn-envoyer').click();
 
   await expect(page.locator('#js-confirmation')).toBeVisible({ timeout: 15_000 });
   await expect(page.locator('#js-btn-envoyer')).toHaveText(/ENVOYÉ/i);
+});
+
+test('contact mobile — formulaire accessible après scroll', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 667 });
+  await page.goto('/contact.html');
+  await expect(page.locator('h1')).toBeVisible();
+
+  const formulaire = page.locator('#js-formulaire');
+  await formulaire.scrollIntoViewIfNeeded();
+  await expect(formulaire).toBeVisible();
+  await expect(formulaire.locator('#contact-nom')).toBeVisible();
 });

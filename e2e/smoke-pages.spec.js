@@ -11,6 +11,7 @@ const PAGES = [
 ];
 
 function erreursConsoleBloquantes(erreurs) {
+  // Favicon manquant, reCAPTCHA tiers et 404 assets optionnels : bruit attendu en local/CI.
   return erreurs.filter(
     (msg) =>
       !/favicon\.ico/i.test(msg) &&

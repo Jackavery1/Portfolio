@@ -53,9 +53,17 @@
   --police-pixel: "Press Start 2P", monospace;
   --police-crt: "VT323", monospace;
   --police-lisible: "Rajdhani", sans-serif;
+
+  /* Taille minimale lisible pour libellés pixel (≈ 8px) */
+  --taille-pixel-min: 0.5rem;
+
+  /* Breakpoints (référence layout.css — non utilisables dans @media) */
+  --bp-tablette-min: 600px;
+  --bp-mobile-max: 960px;
+  --bp-desktop: 961px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 960px) {
   :root {
     --couleur-fond-page:   #05091a;
     --couleur-fond:        #080d20;

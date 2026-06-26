@@ -12,6 +12,7 @@ export function fermerMenuBurger() {
   const menuNav = byId(CONFIG.SELECTORS.MENU);
   if (!burger) return;
   burger.setAttribute('aria-expanded', 'false');
+  burger.setAttribute('aria-label', 'Ouvrir le menu');
   if (menuNav) menuNav.classList.remove('ouvert');
 }
 
@@ -26,8 +27,10 @@ export function initNavigationArcade() {
 
   burger.addEventListener('click', () => {
     const estOuvert = burger.getAttribute('aria-expanded') === 'true';
-    burger.setAttribute('aria-expanded', String(!estOuvert));
-    menuNav.classList.toggle('ouvert', !estOuvert);
+    const ouvre = !estOuvert;
+    burger.setAttribute('aria-expanded', String(ouvre));
+    burger.setAttribute('aria-label', ouvre ? 'Fermer le menu' : 'Ouvrir le menu');
+    menuNav.classList.toggle('ouvert', ouvre);
     jouerBip(estOuvert ? 220 : 330, 40);
   });
 

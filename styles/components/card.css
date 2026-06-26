@@ -60,7 +60,7 @@
 
 .barre-completion__val {
   font-family: var(--police-pixel);
-  font-size: 0.4rem;
+  font-size: var(--taille-pixel-min);
   color: var(--couleur-accent-vif);
   text-shadow: 0 0 6px var(--couleur-accent);
   width: 2.8rem;
@@ -75,6 +75,13 @@
   cursor: pointer;
   transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
   position: relative;
+  display: block;
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  appearance: none;
+  -webkit-appearance: none;
 }
 
 .carte-projet:hover {
@@ -106,9 +113,9 @@
 
 .carte-projet__num {
   font-family: var(--police-pixel);
-  font-size: 0.42rem;
-  color: var(--couleur-accent);
-  text-shadow: 0 0 6px var(--couleur-accent);
+  font-size: var(--taille-pixel-min);
+  color: var(--couleur-accent-vif);
+  text-shadow: 0 0 6px rgba(var(--couleur-accent-rgb), 0.45);
   letter-spacing: 2px;
   flex-shrink: 0;
 }
@@ -127,6 +134,7 @@
 }
 
 .carte-projet__nom {
+  display: block;
   font-family: var(--police-pixel);
   font-size: clamp(0.42rem, 1.6vw, 0.6rem);
   color: var(--couleur-texte-fort);
@@ -144,8 +152,8 @@
 
 .carte-projet__clic-hint {
   font-family: var(--police-pixel);
-  font-size: 0.32rem;
-  color: var(--couleur-texte-fantome);
+  font-size: var(--taille-pixel-min);
+  color: var(--couleur-texte-discret);
   text-align: right;
   margin-top: 0.4rem;
   letter-spacing: 1px;

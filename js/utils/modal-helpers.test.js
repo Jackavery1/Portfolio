@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
+  cheminWebpDepuisRaster,
   estImageRaster,
   estLienHttpAutorise,
   liensProjetValides,
@@ -17,6 +18,13 @@ describe('modal-helpers', () => {
   it('détecte les images raster', () => {
     expect(estImageRaster('foo.png')).toBe(true);
     expect(estImageRaster('foo.svg')).toBe(false);
+  });
+
+  it('dérive le chemin WebP depuis un raster', () => {
+    expect(cheminWebpDepuisRaster('assets/previews/lsf.png')).toBe(
+      'assets/previews/lsf.webp',
+    );
+    expect(cheminWebpDepuisRaster('foo.svg')).toBeNull();
   });
 
   it('valide les liens http(s) autorisés', () => {

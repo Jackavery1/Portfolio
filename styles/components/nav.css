@@ -14,6 +14,7 @@
   top: 32px;
   z-index: 100;
   box-shadow: 0 2px 20px rgba(var(--couleur-accent-rgb), 0.1);
+  isolation: isolate;
 }
 
 .nav__logo {
@@ -37,7 +38,7 @@
 
 .arcade-label {
   font-family: var(--police-pixel);
-  font-size: 0.4rem;
+  font-size: clamp(var(--taille-pixel-min), 1vw, 0.45rem);
   color: var(--couleur-texte-discret);
   letter-spacing: 2px;
 }
@@ -56,7 +57,7 @@
   margin-left: auto;
 }
 
-@media (min-width: 601px) {
+@media (min-width: 961px) {
   .nav__liens {
     flex-wrap: nowrap;
   }
@@ -64,9 +65,13 @@
 
 .nav__bouton {
   font-family: var(--police-pixel);
-  font-size: clamp(0.4rem, 1.5vw, 0.55rem);
+  font-size: clamp(var(--taille-pixel-min), 1.5vw, 0.55rem);
   color: var(--couleur-texte-discret);
   letter-spacing: 1px;
+  min-height: 44px;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
   padding: 0.55rem 0.75rem;
   border-bottom: 2px solid transparent;
   transition: color 0.15s, text-shadow 0.15s;
@@ -90,12 +95,15 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 5px;
-  width: 34px;
-  height: 34px;
+  gap: 6px;
+  box-sizing: border-box;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
   border: 1px solid var(--couleur-bordure);
   border-radius: 3px;
-  padding: 6px;
+  padding: 10px;
   margin-left: auto;
   flex-shrink: 0;
   transition: border-color 0.2s;
@@ -107,7 +115,7 @@
 
 .nav__burger-trait {
   display: block;
-  width: 16px;
+  width: 18px;
   height: 2px;
   background-color: var(--couleur-accent-vif);
   border-radius: 1px;
@@ -115,7 +123,7 @@
 }
 
 .nav__burger[aria-expanded="true"] .nav__burger-trait:nth-child(1) {
-  transform: translateY(7px) rotate(45deg);
+  transform: translateY(8px) rotate(45deg);
 }
 
 .nav__burger[aria-expanded="true"] .nav__burger-trait:nth-child(2) {
@@ -123,7 +131,20 @@
 }
 
 .nav__burger[aria-expanded="true"] .nav__burger-trait:nth-child(3) {
-  transform: translateY(-7px) rotate(-45deg);
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+.nav__fallback-retry {
+  font-family: var(--police-crt);
+  font-size: 1rem;
+  min-height: 44px;
+  margin-top: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  color: var(--couleur-accent-vif);
+  background: none;
+  border: 1px solid var(--couleur-bordure);
+  border-radius: 3px;
+  cursor: pointer;
 }
 
 @media (max-width: 960px) {
@@ -181,6 +202,23 @@
   }
 }
 
+@media (max-width: 480px) {
+  .nav {
+    padding-left: 0.85rem;
+    padding-right: 0.85rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .nav__arcade-info {
+    display: none;
+  }
+
+  .nav__logo {
+    font-size: clamp(0.5rem, 4vw, 0.65rem);
+  }
+}
+
 .nav__fallback {
   margin: 0;
   padding: 0.75rem 1.5rem;
@@ -188,4 +226,26 @@
   font-size: clamp(0.95rem, 2.5vw, 1.1rem);
   color: var(--couleur-erreur);
   letter-spacing: 0.5px;
+}
+
+.nav__hint-clavier {
+  display: none;
+  margin: 0;
+  margin-left: auto;
+  font-family: var(--police-crt);
+  font-size: clamp(0.8rem, 1.4vw, 0.95rem);
+  color: var(--couleur-texte-discret);
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+
+.nav__hint-clavier-texte {
+  margin-left: 0.35rem;
+}
+
+@media (min-width: 961px) {
+  .nav__hint-clavier {
+    display: flex;
+    align-items: center;
+  }
 }

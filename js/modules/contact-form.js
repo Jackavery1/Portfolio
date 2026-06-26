@@ -120,10 +120,7 @@ export async function initContactForm() {
 
     if (!peutSoumettreFormulaire()) {
       jouerBip(150, 120, 'sawtooth');
-      const btn = byId(CONFIG.SELECTORS.BTN_ENVOYER);
-      if (btn) {
-        btn.setAttribute('title', 'Veuillez patienter avant un nouvel envoi.');
-      }
+      afficherErreurFormulaire('Veuillez patienter avant un nouvel envoi.');
       return;
     }
 
