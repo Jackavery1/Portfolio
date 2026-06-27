@@ -10,12 +10,12 @@
     <meta property="og:title" content="Mentions légales · Joris Martinez" />
     <meta
       property="og:description"
-      content="Informations éditeur, hébergement, propriété intellectuelle et données personnelles."
+      content="Éditeur, hébergement, propriété intellectuelle, RGPD et cookies."
     />
     <meta name="twitter:title" content="Mentions légales · Joris Martinez" />
     <meta
       name="twitter:description"
-      content="Informations éditeur, hébergement, propriété intellectuelle et données personnelles."
+      content="Éditeur, hébergement, propriété intellectuelle, RGPD et cookies."
     />
 
     <title>Mentions légales · Joris Martinez</title>
@@ -42,87 +42,11 @@
             <span class="pixel-accent">▶</span> MENTIONS LÉGALES
           </h1>
 
-          <p class="mentions-intro">
-            Conformément aux usages en vigueur pour un site vitrine personnel,
-            vous trouverez ci-dessous les informations relatives à l’éditeur, à
-            l’hébergement et au traitement des données.
-          </p>
+          <p class="mentions-intro" id="js-mentions-intro"></p>
 
-          <div class="mentions-bloc">
-            <h2>Éditeur du site</h2>
-            <p>
-              <strong>Joris Martinez</strong> — site personnel (portfolio).<br />
-              Contact :
-              <a href="#" id="js-mentions-email" hidden>Chargement…</a>
-              <noscript>
-                <a href="mailto:jorisdavid.martinez.pro@gmail.com"
-                  >jorisdavid.martinez.pro@gmail.com</a
-                >
-              </noscript>
-            </p>
-          </div>
+          <div id="js-mentions-sommaire"></div>
 
-          <div class="mentions-bloc">
-            <h2>Hébergement</h2>
-            <p>
-              Le site et ses fichiers statiques sont déployés sur
-              l’infrastructure d’hébergement choisie par l’éditeur (par ex. GitHub
-              Pages, Netlify ou équivalent). L’URL effective correspond au nom de
-              domaine ou sous-domaine publié au moment de votre visite.
-            </p>
-          </div>
-
-          <div class="mentions-bloc" id="propriete-intellectuelle">
-            <h2>Propriété intellectuelle — tous droits réservés</h2>
-            <p>
-              <strong>© 2026 Joris Martinez.</strong> L’ensemble des contenus
-              originaux de ce portfolio (textes, visuels, charte graphique,
-              structure HTML/CSS, scripts JavaScript, animations et code source)
-              est protégé par le droit d’auteur. <strong>Tous droits réservés.</strong>
-            </p>
-            <p>
-              Sauf accord écrit préalable de l’éditeur, toute reproduction,
-              représentation, modification, extraction, redistribution ou
-              réutilisation du site, de son code ou de ses éléments graphiques,
-              à titre gratuit ou onéreux, est interdite.
-            </p>
-            <p>
-              Les ressources tierces (polices Google Fonts, services externes
-              tels que Formspree, dépendances npm du projet) restent soumises à
-              leurs licences respectives. Le fichier <code>LICENSE</code> à la
-              racine du dépôt reprend ces conditions pour le code source.
-            </p>
-          </div>
-
-          <div class="mentions-bloc" id="donnees-personnelles">
-            <h2>Données personnelles &amp; formulaire</h2>
-            <p>
-              Le formulaire de contact peut transmettre les données saisies via
-              le service tiers <strong>Formspree</strong>, lequel agit en tant
-              que sous-traitant pour la délivrance des messages. Les finalités sont
-              la prise de contact professionnelle et la réponse à votre demande.
-              Conservez vos messages pertinents et proportionnés ; aucune
-              prospection commerciale n’est réalisée à partir de ces envois sans
-              base légale appropriée.
-            </p>
-            <p>
-              Conformément au RGPD, vous pouvez demander l’accès, la
-              rectification ou l’effacement des données vous concernant en
-              écrivant à l’adresse e-mail ci-dessus.
-            </p>
-          </div>
-
-          <div class="mentions-bloc">
-            <h2>Cookies &amp; traceurs</h2>
-            <p>
-              Ce site ne dépose pas de cookies de mesure d’audience
-              propriétaires. Des cookies ou stockages locaux techniques peuvent
-              être utilisés par votre navigateur pour le fonctionnement du site
-              (par ex. score local « arcade »). Les polices chargées depuis
-              Google Fonts peuvent impliquer une communication vers les serveurs
-              de Google lors de l’affichage des pages.
-            </p>
-          </div>
+          <div id="js-mentions-sections" aria-live="polite"></div>
 
           <a class="mentions-retour" href="index.html">◀ Retour à l’accueil</a>
         </section>

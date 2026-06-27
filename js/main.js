@@ -84,6 +84,11 @@ async function init() {
     await initContactForm();
   }
 
+  if (sid === 'mentions') {
+    const { initMentionsLegales } = await import('./modules/mentions-legales.js');
+    initMentionsLegales();
+  }
+
   setTimeout(() => animerBarresSection(sid), 300);
 
   try {

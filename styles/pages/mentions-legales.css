@@ -1,19 +1,54 @@
-/* ============================================
-   Page : mentions légales & confidentialité
-   ============================================ */
+/* Page mentions légales & confidentialité */
 
 .mentions-intro {
   font-family: var(--police-lisible);
   font-size: clamp(0.95rem, 2.1vw, 1.1rem);
   color: var(--couleur-texte-normal);
   line-height: 1.65;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
   max-width: 65ch;
 }
 
-.mentions-bloc {
-  margin-bottom: 1.35rem;
+.mentions-sommaire {
+  margin-bottom: 1.75rem;
   max-width: 65ch;
+}
+
+.mentions-sommaire__liste {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem 0.75rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.mentions-sommaire__liste a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0.35rem 0.65rem;
+  font-family: var(--police-pixel);
+  font-size: clamp(var(--taille-pixel-min), 1.1vw, 0.46rem);
+  color: var(--couleur-accent-vif);
+  letter-spacing: 1px;
+  text-decoration: none;
+  border: 1px solid var(--couleur-bordure);
+  transition:
+    color 0.2s,
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+
+.mentions-sommaire__liste a:hover {
+  border-color: var(--couleur-accent);
+  box-shadow: 0 0 10px rgba(var(--couleur-accent-rgb), 0.2);
+}
+
+.mentions-bloc {
+  margin-bottom: 1.75rem;
+  max-width: 65ch;
+  scroll-margin-top: 5rem;
 }
 
 .mentions-bloc h2 {
@@ -21,8 +56,22 @@
   font-size: clamp(0.36rem, 1.35vw, 0.52rem);
   color: var(--couleur-accent-vif);
   letter-spacing: 1px;
-  margin-bottom: 0.45rem;
+  margin-bottom: 0.65rem;
   text-shadow: 0 0 8px rgba(var(--couleur-accent-rgb), 0.25);
+}
+
+.mentions-sous-bloc {
+  margin-top: 1rem;
+  padding-left: 0.85rem;
+  border-left: 2px solid var(--couleur-bordure);
+}
+
+.mentions-sous-bloc h3 {
+  font-family: var(--police-crt);
+  font-size: clamp(1rem, 2.2vw, 1.15rem);
+  color: var(--couleur-texte-fort);
+  letter-spacing: 1px;
+  margin-bottom: 0.4rem;
 }
 
 .mentions-bloc p,
@@ -31,6 +80,11 @@
   font-size: clamp(0.92rem, 2vw, 1.05rem);
   color: var(--couleur-texte-normal);
   line-height: 1.6;
+}
+
+.mentions-bloc p + p,
+.mentions-sous-bloc p + p {
+  margin-top: 0.65rem;
 }
 
 .mentions-bloc ul {
@@ -47,6 +101,12 @@
 
 .mentions-bloc a:hover {
   color: var(--couleur-texte-fort);
+}
+
+.mentions-bloc code {
+  font-family: var(--police-crt);
+  font-size: 0.95em;
+  color: var(--couleur-accent-vif);
 }
 
 .mentions-retour {

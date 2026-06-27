@@ -227,25 +227,3 @@
   color: var(--couleur-erreur);
   letter-spacing: 0.5px;
 }
-
-.nav__hint-clavier {
-  display: none;
-  margin: 0;
-  margin-left: auto;
-  font-family: var(--police-crt);
-  font-size: clamp(0.8rem, 1.4vw, 0.95rem);
-  color: var(--couleur-texte-discret);
-  letter-spacing: 1px;
-  white-space: nowrap;
-}
-
-.nav__hint-clavier-texte {
-  margin-left: 0.35rem;
-}
-
-@media (min-width: 961px) {
-  .nav__hint-clavier {
-    display: flex;
-    align-items: center;
-  }
-}

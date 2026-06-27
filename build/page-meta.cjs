@@ -56,8 +56,8 @@ const PAGE_META = {
     twitterTitle: 'Mentions légales · Joris Martinez',
     description:
       'Mentions légales du portfolio Joris Martinez — éditeur, hébergement, données personnelles.',
-    ogDescription: 'Mentions légales et politique de confidentialité.',
-    twitterDescription: 'Mentions légales — portfolio Joris Martinez.',
+    ogDescription: 'Éditeur, hébergement, propriété intellectuelle, RGPD et cookies.',
+    twitterDescription: 'Mentions légales & confidentialité — portfolio Joris Martinez.',
   },
 };
 

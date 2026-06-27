@@ -5,9 +5,11 @@ vi.mock('../config/index.js', () => ({
   CONFIG: {
     CONTACT: {
       EMAIL_B64: btoa('test@example.com'),
+      PHONE_PARTS: [6, 74, 52, 24, 96],
     },
     SELECTORS: {
-      MENTIONS_EMAIL_LINK: 'js-mentions-email',
+      CONTACT_EMAIL_DISPLAY: 'js-contact-email',
+      CONTACT_PHONE_DISPLAY: 'js-contact-phone',
     },
   },
 }));
@@ -15,15 +17,16 @@ vi.mock('../config/index.js', () => ({
 import { initContactCoordonnees } from './contact-coordonnees.js';
 
 describe('contact-coordonnees', () => {
-  it('hydrate le lien email des mentions légales', () => {
+  it('hydrate email et téléphone sur la page contact', () => {
     document.body.innerHTML =
-      '<a id="js-mentions-email" href="#" hidden>Chargement…</a>';
+      '<span id="js-contact-email"></span><span id="js-contact-phone"></span>';
 
     initContactCoordonnees();
 
-    const lien = document.getElementById('js-mentions-email');
-    expect(lien.getAttribute('href')).toBe('mailto:test@example.com');
-    expect(lien.textContent).toBe('test@example.com');
-    expect(lien.hasAttribute('hidden')).toBe(false);
+    const emailLien = document.querySelector('#js-contact-email a');
+    expect(emailLien?.getAttribute('href')).toBe('mailto:test@example.com');
+
+    const phoneLien = document.querySelector('#js-contact-phone a');
+    expect(phoneLien?.getAttribute('href')).toMatch(/^tel:\+33/);
   });
 });

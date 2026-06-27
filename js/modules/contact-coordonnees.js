@@ -1,6 +1,4 @@
-/* ============================================
-   Affichage email / téléphone (hors HTML statique)
-   ============================================ */
+/* Affichage email / téléphone sur la page contact (hors HTML statique) */
 
 import { CONFIG } from '../config/index.js';
 import { byId } from '../utils/dom.js';
@@ -36,12 +34,5 @@ export function initContactCoordonnees() {
       lien.textContent = affichage;
       phoneEl.replaceChildren(lien);
     }
-  }
-
-  const mentionsLien = byId(CONFIG.SELECTORS.MENTIONS_EMAIL_LINK);
-  if (mentionsLien) {
-    mentionsLien.href = `mailto:${email}`;
-    mentionsLien.textContent = email;
-    mentionsLien.removeAttribute('hidden');
   }
 }
