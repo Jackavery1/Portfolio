@@ -57,7 +57,7 @@
   /* Taille minimale lisible pour libellés pixel (≈ 8px) */
   --taille-pixel-min: 0.5rem;
 
-  /* Breakpoints (référence layout.css — non utilisables dans @media) */
+  /* Breakpoints (réf. CONTRIBUTING.md — non utilisables dans @media) */
   --bp-tablette-min: 600px;
   --bp-mobile-max: 960px;
   --bp-desktop: 961px;

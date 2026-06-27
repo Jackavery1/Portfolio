@@ -253,4 +253,6 @@ export async function initContactForm() {
     btnEnvoyer.disabled = true;
     btnEnvoyer.textContent = '✓ ENVOYÉ';
   });
+
+  formulaire.dataset.ready = '1';
 }

@@ -23,12 +23,7 @@ Format basé sur [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 - Intervalles Dojo nettoyés au `pagehide` ; popup high score `aria-labelledby`.
 - Bandeau contact : couleurs via tokens ; typo accueil « les finitions ».
 - Responsive : breakpoints harmonisés 960/961 px ; layout mobile accueil et compétences.
-
-### Documentation
-
-- README simplifié avec lien portfolio en tête.
-- Référence breakpoints dans `layout.css`, `accueil.css`, `CONTRIBUTING.md`.
-- `coverage/` ignoré par Git.
+- README simplifié ; référence breakpoints dans `CONTRIBUTING.md` ; `coverage/` ignoré par Git.
 
 ## [1.0.1] — 2026-05-27
 

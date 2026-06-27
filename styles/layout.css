@@ -1,12 +1,4 @@
-/* ============================================
-   Mise en page et structure globale
-
-   Breakpoints projet (référence) :
-   - 960px / 961px : mobile-tablette vs desktop (nav, layout, footer, pages, contact)
-   - 960px         : tokens palette mobile
-   - 600px         : accueil tablette, stats latérales compétences (≥ --bp-tablette-min)
-   - 480px / 400px : footer étroit, nav compacte
-   ============================================ */
+/* Mise en page — breakpoints : CONTRIBUTING.md */
 
 /* Bandeau défilant (fixe sous le haut de viewport) */
 .marquee-bande {

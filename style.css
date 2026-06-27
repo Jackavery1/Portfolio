@@ -1,6 +1,6 @@
-/* Variables et tokens — breakpoints responsive :
-   ≤960px mobile/tablette · ≥961px desktop · 960px tokens · voir styles/layout.css */
+/* Entrée CSS — breakpoints : CONTRIBUTING.md */
 @import url("styles/tokens.css");
+@import url("styles/fonts-local.css");
 
 /* Normalisation */
 @import url("styles/reset.css");

@@ -14,7 +14,7 @@ const PAGE_META = {
     ogTitle: 'Projets · Joris Martinez',
     twitterTitle: 'Projets · Joris Martinez',
     description:
-      'Projets web : LSF (Express/MongoDB), Floppy Bird (PWA), GameHub, site WordPress HubTraining, Pixel Quest.',
+      'Projets web : LSF (Express/MongoDB), Floppy Bird (PWA), Dernière Ligne (Tetris narratif), GameHub, site WordPress HubTraining, Pixel Quest.',
     ogDescription:
       'WORK — projets développeur web : full-stack, jeu Phaser, client réel WordPress.',
     twitterDescription: 'Sélection de projets web — portfolio Joris Martinez.',

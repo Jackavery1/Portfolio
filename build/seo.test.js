@@ -17,6 +17,8 @@ describe('build seo', () => {
 
       expect(sitemap).toContain('<loc>https://example.com/</loc>');
       expect(sitemap).toContain('<loc>https://example.com/contact.html</loc>');
+      expect(sitemap).toContain('<lastmod>');
+      expect(sitemap).toContain('<changefreq>monthly</changefreq>');
       expect(robots).toContain('Sitemap: https://example.com/sitemap.xml');
     } finally {
       fs.rmSync(tmp, { recursive: true, force: true });

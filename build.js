@@ -1,7 +1,3 @@
-/* ============================================
-   Build script — orchestrateur (modules dans build/)
-   ============================================ */
-
 const fs = require('fs');
 const path = require('path');
 
@@ -13,7 +9,7 @@ const path = require('path');
       `\n❌ Dépendance manquante: "${dep}"\n   → Exécutez: npm install\n`,
     );
     console.error(
-      '   Si npm échoue avec UNABLE_TO_VERIFY_LEAF_SIGNATURE : proxy / certificat entreprise — voir README (section Dépannage npm).\n',
+      '   Si npm échoue avec UNABLE_TO_VERIFY_LEAF_SIGNATURE : voir CONTRIBUTING.md (Dépannage npm).\n',
     );
     process.exit(1);
   }
@@ -30,6 +26,7 @@ const { log, createDist, finalizeDist } = require('./build/fs-utils.cjs');
 const { copyHTML, HTML_FILES } = require('./build/html.cjs');
 const { writeSeoFiles } = require('./build/seo.cjs');
 const { patchOgImageWebp } = require('./build/og-image.cjs');
+const { copyFonts } = require('./build/fonts.cjs');
 const { minifyCSS } = require('./build/css.cjs');
 const { minifyAllJs } = require('./build/js-minify.cjs');
 const {
@@ -89,6 +86,7 @@ async function runBuild() {
     createDist(STAGING_DIR);
     copyHTML(ROOT, STAGING_DIR, SITE_BASE);
     writeSeoFiles(STAGING_DIR, SITE_BASE);
+    copyFonts(ROOT, STAGING_DIR);
     minifyCSS(ROOT, STAGING_DIR);
     minifyAllJs(ROOT, STAGING_DIR);
     await optimizeImages(ROOT, STAGING_DIR);

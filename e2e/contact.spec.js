@@ -10,11 +10,12 @@ test('formulaire contact — envoi mocké Formspree', async ({ page }) => {
   test.setTimeout(45_000);
 
   await page.goto('/contact.html');
+  await page.evaluate(() => sessionStorage.clear());
+
   const formulaire = page.locator('#js-formulaire');
   await formulaire.scrollIntoViewIfNeeded();
   await expect(formulaire).toBeVisible();
-
-  await page.evaluate(() => sessionStorage.clear());
+  await expect(formulaire).toHaveAttribute('data-ready', '1', { timeout: 15_000 });
 
   await formulaire.locator('#contact-nom').fill('Test E2E');
   await formulaire.locator('#contact-email').fill('e2e@example.com');
@@ -25,7 +26,13 @@ test('formulaire contact — envoi mocké Formspree', async ({ page }) => {
   await expect(formulaire.locator('#contact-sujet')).toHaveValue('stage');
 
   await expect(page.locator('#js-btn-envoyer')).toBeEnabled();
-  await page.locator('#js-btn-envoyer').click();
+
+  await Promise.all([
+    page.waitForResponse(
+      (res) => res.url().includes('formspree.io') && res.request().method() === 'POST',
+    ),
+    page.locator('#js-btn-envoyer').click(),
+  ]);
 
   await expect(page.locator('#js-confirmation')).toBeVisible({ timeout: 15_000 });
   await expect(page.locator('#js-btn-envoyer')).toHaveText(/ENVOYÉ/i);

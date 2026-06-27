@@ -24,25 +24,15 @@ export async function mockRecaptcha(page) {
 }
 
 export async function mockFormspree(page) {
-  await page.addInitScript(() => {
-    const fetchOrigine = window.fetch.bind(window);
-    window.fetch = async (input, init) => {
-      const url = typeof input === 'string' ? input : input?.url || '';
-      if (url.includes('formspree.io')) {
-        return new Response(JSON.stringify({ ok: true }), {
-          status: 200,
-          headers: { 'Content-Type': 'application/json' },
-        });
-      }
-      return fetchOrigine(input, init);
-    };
-  });
-
-  await page.route('**/formspree.io/**', (route) => {
-    route.fulfill({
-      status: 200,
-      contentType: 'application/json',
-      body: JSON.stringify({ ok: true }),
-    });
+  await page.route('**/formspree.io/**', async (route) => {
+    if (route.request().method() === 'POST') {
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({ ok: true }),
+      });
+      return;
+    }
+    await route.continue();
   });
 }

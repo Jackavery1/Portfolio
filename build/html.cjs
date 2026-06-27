@@ -6,6 +6,7 @@ const {
   BASE_STYLE_FILE,
   PAGE_STYLE_BY_HTML,
 } = require('./page-styles.cjs');
+const { buildJsonLd, jsonLdScriptTag } = require('./json-ld.cjs');
 
 const PARTIAL_PLACEHOLDERS = [
   { id: 'partial-crt', fichier: 'partials/crt.html' },
@@ -19,7 +20,7 @@ const HEAD_COMMON_MARKER = '<!-- HEAD_COMMON -->';
 
 const CSP_META = `<meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self' https://www.google.com https://www.gstatic.com; style-src 'self' https://fonts.googleapis.com; style-src-attr 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https://www.gstatic.com; frame-src https://www.google.com https://recaptcha.google.com; connect-src 'self' https://formspree.io https://www.google.com https://www.gstatic.com https://recaptcha.google.com; form-action 'self' https://formspree.io; base-uri 'self'; object-src 'none';"
+      content="default-src 'self'; script-src 'self' https://www.google.com https://www.gstatic.com; style-src 'self'; style-src-attr 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: https://www.gstatic.com; frame-src https://www.google.com https://recaptcha.google.com; connect-src 'self' https://formspree.io https://www.google.com https://www.gstatic.com https://recaptcha.google.com; form-action 'self' https://formspree.io; base-uri 'self'; object-src 'none';"
     />`;
 
 const HTML_FILES = [
@@ -163,19 +164,17 @@ function balisesStylesProd(htmlFile) {
 
 function injectJsonLd(html, htmlFile, siteBase) {
   const meta = PAGE_META[htmlFile];
-  if (!meta?.ogTitle) return html;
+  const pageUrl = urlPageProd(htmlFile, siteBase);
+  const payload = buildJsonLd(htmlFile, siteBase, meta, pageUrl);
+  if (!payload) return html;
 
-  const payload = {
-    '@context': 'https://schema.org',
-    '@type': 'WebPage',
-    name: meta.ogTitle,
-    url: urlPageProd(htmlFile, siteBase),
-    description: meta.description,
-    inLanguage: 'fr-FR',
-  };
+  let out = html.replace(
+    /<script type="application\/ld\+json">[\s\S]*?<\/script>\s*/i,
+    '',
+  );
 
-  const bloc = `<script type="application/ld+json">\n${JSON.stringify(payload, null, 2)}\n    </script>`;
-  return html.replace('</head>', `    ${bloc}\n  </head>`);
+  const bloc = jsonLdScriptTag(payload);
+  return out.replace('</head>', `    ${bloc}\n  </head>`);
 }
 
 function injectPerfHead(html, htmlFile, root) {

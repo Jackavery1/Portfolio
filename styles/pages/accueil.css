@@ -1,14 +1,4 @@
-/* ============================================
-   Page : accueil (hero, bonhomme SVG, CTA)
-
-   Breakpoints (ordre cascade) :
-   - max-width 960px     : mobile + tablette, colonne centrée, scroll
-   - 600px–960px         : typo / espacements tablette (sous-requête)
-   - min-width 961px + min-height 552px : desktop sans scroll, hero centré
-   - max-height 550px landscape : mobile paysage, scroll compact
-   - 600px–960px + min-height 552px : tablette portrait, scroll libre
-   - max-height 780px / 720px : paddings compacts
-   ============================================ */
+/* Page accueil — règles responsive spécifiques (voir aussi CONTRIBUTING.md) */
 
 .accueil__grille {
   flex: 1;
@@ -114,12 +104,16 @@
 
 .lien-github {
   font-family: var(--police-pixel);
-  font-size: clamp(0.33rem, 1.2vw, 0.46rem);
+  font-size: clamp(var(--taille-pixel-min), 1.2vw, 0.46rem);
   color: var(--couleur-texte-discret);
   letter-spacing: 2px;
   text-decoration: none;
   border-bottom: 1px solid var(--couleur-bordure);
-  padding-bottom: 2px;
+  padding: 0.35rem 0.15rem 0.2rem;
+  min-height: 44px;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
   transition:
     color 0.2s,
     border-color 0.2s;
@@ -202,7 +196,8 @@
   border: 1px solid #b83232;
   line-height: 1.2;
   text-shadow: 0 0 6px rgba(255, 68, 68, 0.5);
-  white-space: nowrap;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 @keyframes accueil-wip-glow {
@@ -491,7 +486,7 @@
 }
 
 /* Mobile paysage : scroll activé, layout compact côte à côte */
-@media (max-height: 550px) and (orientation: landscape) {
+@media (max-height: 552px) and (orientation: landscape) {
   html:has(body[data-section-id="accueil"]) {
     height: auto;
     overflow-x: hidden;

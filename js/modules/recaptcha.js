@@ -19,6 +19,16 @@ function retirerScriptsRecaptcha() {
 }
 
 function chargerScriptV3(siteKey) {
+  if (typeof window !== 'undefined' && window.__E2E_RECAPTCHA_TOKEN && window.grecaptcha) {
+    cleSiteChargee = siteKey?.trim();
+    return Promise.resolve(window.grecaptcha).then(
+      (g) =>
+        new Promise((resolve) => {
+          g.ready(() => resolve(g));
+        }),
+    );
+  }
+
   const key = siteKey?.trim();
   const existant = document.querySelector('script[data-recaptcha-v3]');
   const renderActuel = cleDansScriptRecaptchaV3(existant);
@@ -102,6 +112,10 @@ function chargerScriptV2(siteKey) {
 }
 
 export async function initRecaptcha({ siteKey, version, mountId }) {
+  if (typeof window !== 'undefined' && window.__E2E_RECAPTCHA_TOKEN) {
+    return true;
+  }
+
   const key = siteKey?.trim();
   if (!key) return false;
 

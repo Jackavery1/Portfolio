@@ -104,3 +104,17 @@ test('a11y navigation modale projets — pas de violation critique', async ({ pa
 
   expect(violationsA11y(results.violations)).toEqual([]);
 });
+
+test('a11y modale Dernière Ligne — pas de violation critique', async ({ page }) => {
+  await page.goto('/projets.html');
+  const carte = page.locator('.carte-projet[data-projet="derniereligne"]').first();
+  await expect(carte).toBeVisible();
+  await carte.click({ force: true });
+  await expect(page.locator('#js-modal')).toBeVisible();
+
+  const results = await new AxeBuilder({ page })
+    .include('#js-modal')
+    .analyze();
+
+  expect(violationsA11y(results.violations)).toEqual([]);
+});

@@ -10,6 +10,7 @@ describe('CONFIG', () => {
     expect(CONFIG.NAVIGATION.ORDER).toContain('index.html');
     expect(CONFIG.PARTIALS.length).toBeGreaterThan(0);
     expect(CONFIG.PROJETS.lsf?.titre).toBe('PROJET LSF');
+    expect(CONFIG.PROJETS.derniereligne?.num).toBe('PRJ-03');
     expect(CONFIG.SELECTORS.MODAL).toBe('js-modal');
   });
 });

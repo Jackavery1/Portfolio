@@ -37,13 +37,17 @@ describe('build html', () => {
         /<link[^>]+href="https:\/\/fonts\.googleapis\.com\/css2[^"]*"[^>]*rel="stylesheet"/,
       );
       expect(built).toContain('property="og:title" content="Contact · Joris Martinez"');
+      expect(built).toContain('"@type": "Person"');
+      expect(built).toContain('"@type": "WebSite"');
       expect(built).toContain('"@type": "WebPage"');
+      expect(built).toContain('"@id": "https://example.com/#person"');
       expect(built).toContain('rel="modulepreload" href="js/main.js"');
       expect(built).toContain('name="twitter:title" content="Contact · Joris Martinez"');
       expect(built).toContain('href="https://example.com/contact.html"');
       expect(built).not.toContain('href="" id="link-canonical"');
       expect(built).toContain('http-equiv="Content-Security-Policy"');
-      expect(built).toContain("style-src 'self' https://fonts.googleapis.com");
+      expect(built).toContain("style-src 'self'");
+      expect(built).not.toContain('fonts.googleapis.com');
       expect(built).toContain("style-src-attr 'unsafe-inline'");
       expect(built).not.toContain("style-src 'self' 'unsafe-inline'");
     } finally {

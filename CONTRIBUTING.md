@@ -29,20 +29,27 @@ npx serve .dist-staging   # après build, comme en prod
 
 Ne pas ouvrir les HTML en `file://` : les partials et modules ES ne fonctionneront pas.
 
-## Breakpoints CSS (référence)
+## Dépannage npm
+
+| Problème | Solution |
+|----------|----------|
+| `UNABLE_TO_VERIFY_LEAF_SIGNATURE` | Proxy / certificat entreprise : `npm config set strict-ssl false` (réseau de confiance) ou certificat racine CA |
+| Dépendance manquante au build | `npm ci` puis relancer `npm run build` |
+| `dist/` verrouillé sous Windows | Fermer l’explorateur ou le serveur qui lit `dist/` ; le build utilise `.dist-staging/` en secours |
+
+## Breakpoints CSS
 
 | Seuil | Usage |
 |-------|--------|
-| `max-width: 960px` | Mobile / tablette (nav burger, layout, footer, pages, contact) |
-| `min-width: 961px` | Desktop (grilles 2 cols projets, parcours, compétences, contact) |
-| `600px – 960px` | Accueil tablette, stats latérales compétences, grilles 2 col projets/parcours |
-| `max-width: 960px` (tokens) | Palette couleurs mobile (`styles/tokens.css`) |
+| `max-width: 960px` | Mobile / tablette (nav, layout, footer, pages, contact) |
+| `min-width: 961px` | Desktop (grilles 2 cols projets, parcours, compétences) |
+| `600px – 960px` | Accueil tablette, stats latérales compétences |
 | `max-width: 480px` | Footer une colonne |
 | `max-width: 400px` | Nav compacte (score masqué) |
 
-Pages hors navigation clavier (`dojo.html`, `mentions-legales.html`) : accessibles via liens footer ou projets.
+Référence technique : `build/breakpoints.cjs`, `styles/tokens.css`. Règles accueil : `styles/pages/accueil.css`.
 
-Détails accueil : en-tête de `styles/pages/accueil.css`.
+Pages hors navigation clavier (`dojo.html`, `mentions-legales.html`) : accessibles via liens footer ou projets.
 
 ## Configuration
 
@@ -52,9 +59,9 @@ Voir [SECURITY.md](SECURITY.md) pour signaler une vulnérabilité.
 
 ## Tests
 
-- **Unitaires** : `npm test` (Vitest) — utils, config, tous les modules, build
-- **Couverture** : `npm run test:coverage` (seuils 60–70 % sur `js/utils/`, `js/config/`, `js/modules/`, `js/main.js`)
-- **HTML** : `npm run validate:html` (règles WCAG de base)
+- **Unitaires** : `npm test` (Vitest) — utils, config, modules, build
+- **Couverture** : `npm run test:coverage` (seuils 65 % lignes / 58 % branches sur `js/`)
+- **HTML** : `npm run validate:html`
 - **E2E** : `npm run test:e2e` (Playwright sur `.dist-staging` après build)
 - **Lighthouse** : `npm run test:lhci` (seuils perf/a11y/SEO en CI)
 

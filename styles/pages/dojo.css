@@ -90,7 +90,7 @@
 
 .boss-carte__rang {
   font-family: var(--police-pixel);
-  font-size: 0.35rem;
+  font-size: clamp(var(--taille-pixel-min), 1.1vw, 0.38rem);
   color: var(--couleur-texte-discret);
   letter-spacing: 1px;
   text-align: center;
@@ -199,7 +199,7 @@
 
 .boss-carte__vie-label {
   font-family: var(--police-pixel);
-  font-size: 0.32rem;
+  font-size: clamp(var(--taille-pixel-min), 1vw, 0.36rem);
   color: var(--couleur-actif);
   letter-spacing: 1px;
 }

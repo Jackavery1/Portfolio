@@ -1,5 +1,6 @@
 const BASE_STYLE_SOURCES = [
   'styles/tokens.css',
+  'styles/fonts-local.css',
   'styles/reset.css',
   'styles/layout.css',
   'styles/components/crt.css',

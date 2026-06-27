@@ -9,9 +9,13 @@ function urlPageProd(htmlFile, siteBase) {
 }
 
 function writeSeoFiles(distDir, siteBase) {
+  const lastmod = new Date().toISOString().slice(0, 10);
   const urls = HTML_FILES.map((file) => urlPageProd(file, siteBase));
   const urlset = urls
-    .map((loc) => `  <url>\n    <loc>${loc}</loc>\n  </url>`)
+    .map(
+      (loc) =>
+        `  <url>\n    <loc>${loc}</loc>\n    <lastmod>${lastmod}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.8</priority>\n  </url>`,
+    )
     .join('\n');
 
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>

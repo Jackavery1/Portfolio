@@ -8,6 +8,47 @@
   gap: 0.9rem;
 }
 
+.projets-sommaire {
+  margin-bottom: 1rem;
+}
+
+.projets-sommaire__liste {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.75rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.projets-sommaire__liste a {
+  font-family: var(--police-pixel);
+  font-size: clamp(var(--taille-pixel-min), 1.2vw, 0.45rem);
+  color: var(--couleur-accent-vif);
+  text-decoration: none;
+  padding: 0.35rem 0.5rem;
+  min-height: 44px;
+  min-width: 44px;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--couleur-bordure);
+}
+
+.projets-sommaire__liste a:hover,
+.projets-sommaire__liste a:focus-visible {
+  border-color: var(--couleur-accent);
+  outline: none;
+  box-shadow: 0 0 0 2px var(--couleur-accent-alpha);
+}
+
+@media (min-width: 961px) {
+  .projets-sommaire {
+    display: none;
+  }
+}
+
 .work-dojo-zone {
   display: flex;
   justify-content: center;

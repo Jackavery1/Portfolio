@@ -20,9 +20,7 @@ updates:
         patterns:
           - "clean-css"
           - "uglify-js"
-      imagemin:
-        patterns:
-          - "imagemin*"
+          - "sharp"
         update-types:
           - minor
           - patch

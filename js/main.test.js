@@ -1,10 +1,6 @@
 /* @vitest-environment jsdom */
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-vi.mock('./modules/fonts.js', () => ({
-  initPolicesAsync: vi.fn(),
-}));
-
 vi.mock('./modules/partials.js', () => ({
   chargerPartials: vi.fn().mockResolvedValue(undefined),
 }));
@@ -39,7 +35,6 @@ vi.mock('./modules/contact-coordonnees.js', () => ({
 }));
 
 import { init } from './main.js';
-import { initPolicesAsync } from './modules/fonts.js';
 import { chargerPartials } from './modules/partials.js';
 
 describe('main', () => {
@@ -50,11 +45,10 @@ describe('main', () => {
     vi.useFakeTimers();
   });
 
-  it('initialise polices et partials au démarrage', async () => {
+  it('charge les partials au démarrage', async () => {
     await init();
     vi.runAllTimers();
 
-    expect(initPolicesAsync).toHaveBeenCalled();
     expect(chargerPartials).toHaveBeenCalled();
   });
 });
