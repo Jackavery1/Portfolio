@@ -1,0 +1,35 @@
+/* Mise en page — bandeau marquee */
+
+.marquee-bande {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: calc(32px + env(safe-area-inset-top, 0));
+  padding-top: env(safe-area-inset-top, 0);
+  background-color: var(--couleur-accent-dim);
+  border-bottom: 1px solid var(--couleur-accent);
+  overflow: hidden;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+}
+
+.marquee-contenu {
+  display: inline-block;
+  white-space: nowrap;
+  font-family: var(--police-pixel);
+  font-size: 0.65rem;
+  color: var(--couleur-accent-vif);
+  letter-spacing: 2px;
+  animation: marquee-anim 30s linear infinite;
+}
+
+@keyframes marquee-anim {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}

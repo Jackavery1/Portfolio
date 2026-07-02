@@ -58,7 +58,7 @@ function watchSrc() {
     });
   }, 250);
 
-  const watchRoots = ['style.css', 'js', 'styles', 'assets', 'partials'];
+  const watchRoots = ['style.css', 'js', 'styles', 'assets', 'partials', 'build'];
   watchRoots.forEach((rel) => {
     const p = path.join(ROOT, rel);
     if (fs.existsSync(p)) {

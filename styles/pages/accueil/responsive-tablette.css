@@ -1,0 +1,13 @@
+/* Accueil — tablette intermédiaire (600–960px) */
+
+@media (min-width: 600px) and (max-width: 960px) {
+  .accueil__grille {
+    gap: 2rem;
+    padding: 2rem 0;
+    align-items: flex-start;
+  }
+
+  .accueil__illustration {
+    padding-right: 0;
+  }
+}

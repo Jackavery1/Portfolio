@@ -1,0 +1,57 @@
+/* Accueil — bonhomme SVG et animations */
+
+.svg-bonhomme {
+  width: clamp(180px, 26vw, 280px);
+  height: auto;
+  overflow: visible;
+  filter: drop-shadow(0 0 12px rgba(var(--couleur-accent-rgb), 0.35));
+  animation: levitation 3s ease-in-out infinite;
+}
+
+@keyframes levitation {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.bras-coucou {
+  transform-origin: 0px 0px;
+  animation: coucou 1.4s ease-in-out infinite;
+}
+
+@keyframes coucou {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  30% {
+    transform: rotate(-22deg);
+  }
+  60% {
+    transform: rotate(8deg);
+  }
+}
+
+.bulle-coucou {
+  animation: bulle-pulse 2.2s ease-in-out infinite;
+}
+
+@keyframes bulle-pulse {
+  0%,
+  80%,
+  100% {
+    opacity: 1;
+  }
+  40% {
+    opacity: 0.5;
+  }
+}
+
+.svg-label {
+  font-family: var(--police-pixel);
+  fill: var(--couleur-texte-discret);
+}

@@ -1,18 +1,43 @@
+const LAYOUT_STYLE_SOURCES = [
+  'styles/layout/marquee.css',
+  'styles/layout/ecran.css',
+  'styles/layout/utilities.css',
+  'styles/layout/responsive.css',
+];
+
+const MODAL_STYLE_SOURCES = [
+  'styles/components/modal/overlay.css',
+  'styles/components/modal/highscore.css',
+  'styles/components/modal/responsive.css',
+];
+
 const BASE_STYLE_SOURCES = [
   'styles/tokens.css',
   'styles/fonts-local.css',
   'styles/reset.css',
-  'styles/layout.css',
+  ...LAYOUT_STYLE_SOURCES,
   'styles/components/crt.css',
   'styles/components/nav.css',
-  'styles/components/modal.css',
+  ...MODAL_STYLE_SOURCES,
   'styles/components/card.css',
   'styles/components/form.css',
   'styles/components/footer.css',
 ];
 
+const ACCUEIL_STYLE_SOURCES = [
+  'styles/pages/accueil/layout.css',
+  'styles/pages/accueil/hero.css',
+  'styles/pages/accueil/actions.css',
+  'styles/pages/accueil/illustration.css',
+  'styles/pages/accueil/responsive-mobile.css',
+  'styles/pages/accueil/responsive-tablette.css',
+  'styles/pages/accueil/responsive-landscape.css',
+  'styles/pages/accueil/responsive-short.css',
+  'styles/pages/accueil/responsive-tablette-portrait.css',
+];
+
 const PAGE_STYLE_BY_HTML = {
-  'index.html': { outfile: 'style-page-accueil.css', sources: ['styles/pages/accueil.css'] },
+  'index.html': { outfile: 'style-page-accueil.css', sources: ACCUEIL_STYLE_SOURCES },
   'projets.html': { outfile: 'style-page-projets.css', sources: ['styles/pages/projets.css'] },
   'competences.html': {
     outfile: 'style-page-competences.css',
@@ -50,6 +75,9 @@ function genererStyleCss() {
 module.exports = {
   BASE_STYLE_FILE,
   BASE_STYLE_SOURCES,
+  LAYOUT_STYLE_SOURCES,
+  MODAL_STYLE_SOURCES,
+  ACCUEIL_STYLE_SOURCES,
   PAGE_STYLE_BY_HTML,
   allMonolithSources,
   genererStyleCss,

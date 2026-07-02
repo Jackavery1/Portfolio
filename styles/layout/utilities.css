@@ -1,0 +1,130 @@
+/* Mise en page — utilitaires, badges, liens d’évitement */
+
+.pixel-accent {
+  color: var(--couleur-accent-vif);
+  text-shadow: 0 0 8px var(--couleur-accent);
+}
+
+.curseur-clignotant {
+  color: var(--couleur-accent-vif);
+  animation: clignotement 1s step-end infinite;
+}
+
+@keyframes clignotement {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+#js-contenu-principal {
+  scroll-margin-top: calc(2.75rem + env(safe-area-inset-top, 0));
+}
+
+.lien-evitement {
+  position: fixed;
+  top: env(safe-area-inset-top, 0);
+  left: 50%;
+  z-index: 10000;
+  min-height: 44px;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.6rem 1rem;
+  touch-action: manipulation;
+  font-family: var(--police-pixel);
+  font-size: clamp(0.35rem, 1.2vw, 0.48rem);
+  color: var(--couleur-fond);
+  background-color: var(--couleur-accent-vif);
+  border: 1px solid var(--couleur-accent);
+  border-radius: 0 0 4px 4px;
+  letter-spacing: 1px;
+  text-decoration: none;
+  transform: translate(-50%, -120%);
+  transition: transform 0.15s ease;
+}
+
+.lien-evitement:focus {
+  transform: translate(-50%, 0);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.lien-evitement:focus-visible {
+  outline: 2px solid var(--couleur-actif);
+  outline-offset: 2px;
+}
+
+.titre-section {
+  font-family: var(--police-pixel);
+  font-size: clamp(0.48rem, 1.8vw, 0.7rem);
+  color: var(--couleur-accent-vif);
+  text-shadow: 0 0 12px var(--couleur-accent);
+  letter-spacing: 2px;
+  margin-bottom: 1.75rem;
+  line-height: 1.8;
+}
+
+.badge {
+  font-family: var(--police-crt);
+  font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+  color: var(--couleur-accent-vif);
+  border: 1px solid var(--couleur-bordure-active);
+  padding: 0.2rem 0.55rem;
+  background-color: var(--couleur-accent-alpha);
+  letter-spacing: 1px;
+}
+
+.badge--valide {
+  color: var(--couleur-valide);
+  border-color: var(--couleur-valide-dim);
+  background-color: rgba(68, 204, 136, 0.1);
+}
+
+.badge--actif {
+  color: var(--couleur-actif);
+  border-color: var(--couleur-actif-dim);
+  background-color: rgba(255, 204, 68, 0.1);
+  animation: pulsation 2s ease-in-out infinite;
+}
+
+@keyframes pulsation {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+a.nav__logo {
+  text-decoration: none;
+  color: inherit;
+}
+
+a.nav__bouton {
+  text-decoration: none;
+  color: inherit;
+  display: inline-block;
+}
+
+a.bouton-arcade,
+a.bouton-dojo,
+a.bouton-retour-work {
+  text-decoration: none;
+  display: inline-block;
+}

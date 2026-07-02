@@ -18,6 +18,14 @@
   letter-spacing: 1px;
 }
 
+@media (max-width: 960px) {
+  .etiquettes-tech li {
+    padding: 0.28rem 0.55rem;
+    line-height: 1.35;
+    min-height: 2rem;
+  }
+}
+
 .barre-completion {
   display: flex;
   align-items: center;

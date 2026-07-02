@@ -1,0 +1,133 @@
+/* Modale projet — overlay, boîte et contenu */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  background-color: rgba(0, 0, 20, 0.88);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: max(1rem, env(safe-area-inset-top, 0)) max(1rem, env(safe-area-inset-right, 0))
+    max(1rem, env(safe-area-inset-bottom, 0)) max(1rem, env(safe-area-inset-left, 0));
+  backdrop-filter: blur(3px);
+  animation: apparition 0.2s ease;
+}
+
+.modal-boite {
+  background-color: var(--couleur-fond-carte);
+  border: 1px solid var(--couleur-accent);
+  border-radius: 4px;
+  max-width: 700px;
+  width: 100%;
+  box-shadow: 0 0 40px rgba(var(--couleur-accent-rgb), 0.3);
+  max-height: calc(90dvh - env(safe-area-inset-top, 0) - env(safe-area-inset-bottom, 0));
+  max-height: calc(90vh - env(safe-area-inset-top, 0) - env(safe-area-inset-bottom, 0));
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.modal-entete {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.9rem 1.1rem;
+  border-bottom: 1px solid var(--couleur-bordure);
+}
+
+.modal-titre {
+  font-family: var(--police-pixel);
+  font-size: clamp(0.4rem, 1.5vw, 0.55rem);
+  color: var(--couleur-accent-vif);
+  letter-spacing: 2px;
+}
+
+.modal-fermer {
+  font-family: var(--police-pixel);
+  font-size: 0.55rem;
+  color: var(--couleur-texte-discret);
+  padding: 0.5rem 0.75rem;
+  min-height: 44px;
+  min-width: 44px;
+  box-sizing: border-box;
+  transition: color 0.15s;
+}
+
+.modal-fermer:hover {
+  color: var(--couleur-accent-vif);
+}
+
+.modal-contenu {
+  padding: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.modal-apercu {
+  margin: 0;
+}
+
+.modal-img {
+  width: 100%;
+  border-radius: 3px;
+  border: 1px solid var(--couleur-bordure);
+  image-rendering: auto;
+  max-height: 280px;
+  object-fit: cover;
+  object-position: top center;
+  background-color: var(--couleur-fond);
+}
+
+.modal-img--svg {
+  object-fit: contain;
+  image-rendering: pixelated;
+  aspect-ratio: 2 / 1;
+  max-height: 200px;
+}
+
+.modal-desc {
+  font-family: var(--police-lisible);
+  font-size: clamp(1rem, 2.5vw, 1.15rem);
+  color: var(--couleur-texte-normal);
+  line-height: 1.7;
+}
+
+.modal-lien {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem 1rem;
+}
+
+.modal-lien a {
+  font-family: var(--police-pixel);
+  font-size: clamp(var(--taille-pixel-min), 1.2vw, 0.48rem);
+  color: var(--couleur-accent-vif);
+  letter-spacing: 2px;
+  text-decoration: none;
+  min-height: 44px;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 0.75rem;
+  transition: color 0.15s;
+}
+
+.modal-lien a:hover {
+  color: var(--couleur-actif);
+}
+
+.modal-tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.modal-tech-tag {
+  font-family: var(--police-crt);
+  font-size: 1rem;
+  color: #a9c2ff;
+  border: 1px solid var(--couleur-bordure);
+  padding: 0.1rem 0.45rem;
+  letter-spacing: 1px;
+}

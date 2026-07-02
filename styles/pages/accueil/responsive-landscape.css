@@ -1,0 +1,47 @@
+/* Accueil — paysage compact (≤552px hauteur) */
+
+@media (max-height: 552px) and (orientation: landscape) {
+  html:has(body[data-section-id="accueil"]) {
+    height: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  body[data-section-id="accueil"] {
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: auto;
+  }
+
+  body[data-section-id="accueil"] .ecran {
+    overflow: visible;
+    min-height: auto;
+    height: auto;
+  }
+
+  body[data-section-id="accueil"] .section {
+    flex: none;
+    overflow: visible;
+    height: auto;
+    min-height: auto;
+    justify-content: flex-start;
+  }
+
+  .accueil__grille {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 1.5rem;
+    padding: 0.5rem 0 1rem;
+    align-items: center;
+    text-align: left;
+  }
+
+  .accueil__texte {
+    display: block;
+    min-width: 0;
+  }
+
+  .svg-bonhomme {
+    width: clamp(100px, 18vw, 160px);
+  }
+}

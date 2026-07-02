@@ -19,8 +19,14 @@ export default defineConfig({
       name: 'responsive',
       testMatch: /responsive\.spec\.js/,
       use: {
-        ...devices['Desktop Chrome'],
-        ...(process.env.CI ? {} : { channel: 'chrome' }),
+        ...devices['Pixel 5'],
+      },
+    },
+    {
+      name: 'responsive-webkit',
+      testMatch: /responsive\.spec\.js/,
+      use: {
+        ...devices['iPhone 13'],
       },
     },
     {
@@ -42,7 +48,7 @@ export default defineConfig({
   webServer: {
     command: `npm run build && npx serve .dist-staging -l ${PORT}`,
     url: baseURL,
-    reuseExistingServer: false,
+    reuseExistingServer: !process.env.CI,
     timeout: 180_000,
   },
 });

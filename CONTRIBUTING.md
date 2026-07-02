@@ -45,9 +45,9 @@ Copier `.env.example` → `.env.local` pour surcharger :
 
 Valeurs par défaut : `build/config-defaults.cjs` → synchronisées au build dans `js/config/defaults.js`, `manifest.webmanifest` et métadonnées SEO.
 
-Fichiers générés (non versionnés, recréés par `npm test` / `npm run build`) : `js/config/defaults.js`, `js/config/partials.js`, `style.css`, `partials/parcours-arbre.html`, `sw.js`, `manifest.webmanifest` — **uniquement dans `.dist-staging/`** (plus à la racine après build). Source unique partials : `build/partials-list.cjs`. Arbre parcours : fragments dans `partials/parcours-arbre/` (assemblés en `parcours-arbre.html`, validés via `partials/*.html` — pas les fragments SVG isolés).
+Fichiers générés (non versionnés, recréés par `npm test` / `npm run build`) : `js/config/defaults.js`, `js/config/partials.js`, `style.css`, `partials/parcours-arbre.html`, `sw.js` — et `manifest.webmanifest` **à la racine** (dev local, URLs relatives via `sync-source`) **ou dans `.dist-staging/`** (build prod). Source unique partials : `build/partials-list.cjs`. Arbre parcours : fragments dans `partials/parcours-arbre/` (assemblés en `parcours-arbre.html`, validés via `partials/*.html` — pas les fragments SVG isolés).
 
-Métadonnées SEO par page : `build/page-meta.cjs` → injectées au build dans le dist (`build/html.cjs`). Pour mettre à jour les blocs `PAGE_META` dans les HTML sources : `npm run sync:page-meta` (évite de modifier les sources à chaque build).
+Métadonnées SEO par page : `build/page-meta.cjs` → injectées au build dans le dist (`build/html.cjs`). Pour mettre à jour les blocs `PAGE_META` dans les HTML sources : `npm run sync:page-meta` (évite de modifier les sources à chaque build). `npm run check:page-meta` vérifie l’alignement (exécuté avant les tests).
 
 `npm run validate:html` exécute `prevalidate:html` (sync des fichiers générés requis en CI avant les tests).
 
@@ -57,7 +57,7 @@ Ne jamais committer de secrets (clé secrète reCAPTCHA, tokens privés). Voir [
 
 ## PWA & hors ligne
 
-- `manifest.webmanifest` — généré au build depuis `build/manifest.cjs`
+- `manifest.webmanifest` — généré par `sync-source` à la racine (dev) et au build dans `.dist-staging/` depuis `build/manifest.cjs`
 - `sw.js` — généré au build (`build/sw.cjs`) : precache des pages/CSS/JS principaux, fallback `offline.html` en navigation hors ligne
 - Enregistrement SW : `js/modules/service-worker-register.js` (après `data-app-ready`)
 
@@ -75,9 +75,9 @@ Ne jamais committer de secrets (clé secrète reCAPTCHA, tokens privés). Voir [
 
 | Problème | Solution |
 |----------|----------|
-| Navigateur absent (`Executable doesn't exist`) | `npm run test:e2e:install` ou `npx playwright install --with-deps chromium` |
-| Téléchargement bloqué (certificat SSL) | Même correctif que npm ci-dessus, puis relancer l’install ; sous PowerShell : `$env:NODE_TLS_REJECT_UNAUTHORIZED='0'; npx playwright install chromium` (temporaire, réseau de confiance uniquement) |
-| E2e lent / timeout CI | La CI exécute desktop **et** mobile (Pixel 5) — timeout job e2e : 25 min |
+| Navigateur absent (`Executable doesn't exist`) | `npm run test:e2e:install` ou `npx playwright install --with-deps chromium webkit` |
+| Téléchargement bloqué (certificat SSL) | Même correctif que npm ci-dessus, puis relancer l’install ; sous PowerShell : `$env:NODE_TLS_REJECT_UNAUTHORIZED='0'; npx playwright install chromium webkit` (temporaire, réseau de confiance uniquement) |
+| E2e lent / timeout CI | La CI exécute Chromium (desktop + mobile) **et** WebKit (`responsive-webkit`, iPhone 13) — timeout job e2e : 35 min |
 
 ### Site / UX
 
@@ -107,11 +107,11 @@ Pages hors navigation clavier (`dojo.html`, `mentions-legales.html`) : accessibl
 - **Unitaires** : `npm test` (Vitest) — utils, config, modules, build
 - **Couverture** : `npm run test:coverage` (seuils 65 % lignes / 58 % branches sur `js/`)
 - **HTML** : `npm run validate:html` (sources) et `npm run validate:html:dist` (après build)
-- **E2E** : `npm run test:e2e` — projets Playwright `desktop-chrome` + `mobile-chrome` (build `.dist-staging` servi automatiquement)
+- **E2E** : `npm run test:e2e` — projets Playwright `responsive` (Pixel 5), `responsive-webkit` (iPhone 13), `desktop-chrome`, `mobile-chrome` (build `.dist-staging` servi automatiquement)
 - **Lighthouse** : `npm run test:lhci` (profil mobile, seuils perf/a11y/SEO en CI)
 
 ## Style de code
 
 - ESLint + Prettier (config racine)
-- CSS : tokens dans `styles/tokens.css`, composants vs pages
+- CSS : tokens dans `styles/tokens.css`, composants vs pages ; accueil en modules `styles/pages/accueil/`
 - JS : modules ES, config centralisée dans `js/config/`

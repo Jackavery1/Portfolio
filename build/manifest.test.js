@@ -21,4 +21,13 @@ describe('build manifest', () => {
     expect(manifest.icons[0].src).toContain('icon-192.png');
     expect(manifest.theme_color).toBe('#03040f');
   });
+
+  it('expose un manifest dev avec URLs relatives', () => {
+    const { buildDevManifest } = require('./manifest.cjs');
+    const manifest = buildDevManifest();
+
+    expect(manifest.start_url).toBe('./index.html');
+    expect(manifest.scope).toBe('./');
+    expect(manifest.icons[0].src).toBe('./assets/favicon.png');
+  });
 });

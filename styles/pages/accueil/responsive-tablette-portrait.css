@@ -1,0 +1,75 @@
+/* Accueil — tablette portrait (600–960px, ≥552px hauteur) */
+
+@media (min-width: 600px) and (max-width: 960px) and (min-height: 552px) {
+  html:has(body[data-section-id="accueil"]) {
+    height: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  body[data-section-id="accueil"] {
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: auto;
+  }
+
+  body[data-section-id="accueil"] .ecran {
+    height: auto;
+    min-height: auto;
+    overflow: visible;
+  }
+
+  body[data-section-id="accueil"] .section {
+    flex: none;
+    overflow: visible;
+    height: auto;
+    min-height: auto;
+    justify-content: flex-start;
+    padding: 2rem 2rem 2rem;
+  }
+
+  body[data-section-id="accueil"] .accueil__grille {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    flex: none;
+    padding-top: 1.5rem;
+    padding-bottom: 2.5rem;
+    gap: 2.5rem;
+    align-items: center;
+    text-align: left;
+  }
+
+  body[data-section-id="accueil"] .accueil__texte {
+    display: block;
+  }
+
+  body[data-section-id="accueil"] .accueil__illustration {
+    padding-right: 0;
+  }
+
+  .svg-bonhomme {
+    width: clamp(140px, 20vw, 190px);
+  }
+
+  .titre-arcade__prenom,
+  .titre-arcade__nom {
+    font-size: clamp(1.5rem, 6vw, 2.4rem);
+  }
+
+  .sous-titre-arcade {
+    font-size: clamp(1.2rem, 3.5vw, 1.6rem);
+  }
+
+  .texte-intro {
+    font-size: clamp(1.1rem, 2.5vw, 1.25rem);
+  }
+
+  .badge {
+    font-size: clamp(1rem, 2.5vw, 1.15rem);
+  }
+
+  .bouton-arcade {
+    font-size: clamp(0.42rem, 1.5vw, 0.54rem);
+    padding: 0.85rem 1.2rem;
+  }
+}

@@ -1,5 +1,13 @@
 import { test, expect } from '@playwright/test';
-import { gotoReady, waitForServiceWorker, lireEntreesPrecache, precacheContient } from './helpers.js';
+import {
+  gotoReady,
+  waitForServiceWorker,
+  lireEntreesPrecache,
+  precacheContient,
+  preparerServiceWorker,
+  assertHauteurTactile,
+  assertLargeurTactile,
+} from './helpers.js';
 
 const PAGES = [
   { path: '/index.html', h1: /MARTINEZ/i },
@@ -57,6 +65,34 @@ test('responsive paysage accueil — scroll et hero visibles', async ({ page }) 
   expect(scrollHeight).toBeGreaterThanOrEqual(clientHeight);
 });
 
+test('responsive mobile — cibles tactiles ≥ 44px', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 667 });
+  await gotoReady(page, '/index.html');
+
+  await assertHauteurTactile(page.locator('.nav__burger'));
+  await assertLargeurTactile(page.locator('.nav__burger'));
+  await assertHauteurTactile(page.locator('.bouton-arcade').first());
+
+  await gotoReady(page, '/dojo.html');
+  await assertHauteurTactile(page.locator('.boss-carte').first());
+
+  await gotoReady(page, '/projets.html');
+  await page.locator('.carte-projet[data-projet="lsf"]').first().click({ force: true });
+  await expect(page.locator('#js-modal')).toBeVisible();
+  await assertHauteurTactile(page.locator('.modal-fermer'));
+  await assertLargeurTactile(page.locator('.modal-fermer'));
+});
+
+test('safe-area — marquee et nav sticky', async ({ page }) => {
+  await gotoReady(page, '/index.html');
+
+  const marqueeHeight = await page.locator('.marquee-bande').evaluate((el) => getComputedStyle(el).height);
+  const navTop = await page.locator('.nav').evaluate((el) => getComputedStyle(el).top);
+
+  expect(marqueeHeight).toBe('32px');
+  expect(navTop).toBe('32px');
+});
+
 test('responsive mobile — sommaire projets et 6 cartes', async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 667 });
   await gotoReady(page, '/projets.html');
@@ -111,39 +147,34 @@ test.describe('service worker', () => {
 
   test('precache PWA — offline, previews et volume', async ({ page }) => {
     test.setTimeout(60_000);
-    await gotoReady(page, '/index.html');
-    await waitForServiceWorker(page);
-
-    if (!(await page.evaluate(() => Boolean(navigator.serviceWorker.controller)))) {
-      await page.reload({ waitUntil: 'domcontentloaded' });
-      await page.waitForSelector('body[data-app-ready="true"]', { timeout: 15_000 });
-      await waitForServiceWorker(page);
-    }
-
-    await expect
-      .poll(
-        async () => {
-          const { urls } = await lireEntreesPrecache(page);
-          if (urls.length < 60) return 0;
-          if (!precacheContient(urls, 'offline.html')) return 0;
-          if (
-            !precacheContient(urls, 'assets/previews/lsf.webp') &&
-            !precacheContient(urls, 'assets/previews/lsf.png')
-          ) {
-            return 0;
-          }
-          return urls.length;
-        },
-        { timeout: 30_000 },
-      )
-      .toBeGreaterThanOrEqual(60);
+    await preparerServiceWorker(page);
 
     const { urls } = await lireEntreesPrecache(page);
+    expect(urls.length).toBeGreaterThanOrEqual(60);
     expect(precacheContient(urls, 'offline.html')).toBe(true);
     expect(
       precacheContient(urls, 'assets/previews/lsf.webp') ||
         precacheContient(urls, 'assets/previews/lsf.png'),
     ).toBe(true);
+  });
+
+  test('navigation hors ligne — precache et fallback offline.html', async ({ page, context }) => {
+    test.setTimeout(60_000);
+    await preparerServiceWorker(page);
+
+    await context.setOffline(true);
+    try {
+      const precachee = await page.goto('/projets.html', { waitUntil: 'domcontentloaded' });
+      expect(precachee?.ok()).toBeTruthy();
+      await expect(page.locator('h1')).toContainText(/SELECT YOUR STAGE/i);
+
+      const fallback = await page.goto('/page-inconnue.html', { waitUntil: 'domcontentloaded' });
+      expect(fallback?.ok()).toBeTruthy();
+      await expect(page.locator('h1')).toContainText(/hors ligne/i);
+      await expect(page.locator('a[href="index.html"]')).toBeVisible();
+    } finally {
+      await context.setOffline(false);
+    }
   });
 
   test('enregistré après chargement', async ({ page }) => {

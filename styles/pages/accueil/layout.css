@@ -1,0 +1,34 @@
+/* Accueil — grille et zones structurelles */
+
+.accueil__grille {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 3rem;
+  align-items: center;
+  flex: 1;
+  min-height: 0;
+  padding: 1.5rem 0;
+}
+
+.accueil__texte {
+  min-width: 0;
+}
+
+.accueil__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.accueil__illustration {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+  padding-right: 1.5rem;
+  min-width: 0;
+}

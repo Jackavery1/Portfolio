@@ -45,6 +45,32 @@ function buildManifest(siteBase) {
   };
 }
 
+function buildDevManifest() {
+  const icon = (src, sizes) => ({
+    src,
+    sizes,
+    type: 'image/png',
+    purpose: 'any',
+  });
+
+  return {
+    name: person.siteName,
+    short_name: 'Portfolio',
+    description: `${person.jobTitle} — portfolio personnel`,
+    start_url: './index.html',
+    scope: './',
+    display: 'standalone',
+    background_color: '#03040f',
+    theme_color: '#03040f',
+    lang: 'fr-FR',
+    orientation: 'any',
+    icons: [
+      icon('./assets/favicon.png', '64x64'),
+      icon('./assets/og.png', '512x512'),
+    ],
+  };
+}
+
 function writeManifest(distDir, siteBase) {
   ensureDir(distDir);
   const contenu = `${JSON.stringify(buildManifest(siteBase), null, 2)}\n`;
@@ -52,4 +78,4 @@ function writeManifest(distDir, siteBase) {
   log('manifest.webmanifest généré', 'success');
 }
 
-module.exports = { buildManifest, writeManifest };
+module.exports = { buildManifest, buildDevManifest, writeManifest };

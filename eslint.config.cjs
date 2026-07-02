@@ -56,7 +56,7 @@ module.exports = [
     },
   },
   {
-    files: ['sw.js'],
+    files: ['.dist-staging/sw.js'],
     languageOptions: {
       ecmaVersion: 2022,
       sourceType: 'script',

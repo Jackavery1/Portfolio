@@ -1,0 +1,70 @@
+/* Mise en page — responsive et prefers-reduced-motion */
+
+@media (max-width: 960px) {
+  .section {
+    padding: 1.25rem 1rem 2rem;
+  }
+
+  .ecran {
+    min-height: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .crt-scanlines,
+  .crt-lueur,
+  .crt-coins {
+    display: none;
+  }
+
+  .marquee-contenu,
+  .curseur-clignotant,
+  .badge--actif,
+  .accueil__wip,
+  .texte-continue,
+  .contact-bandeau,
+  .svg-bonhomme,
+  .bras-coucou,
+  .bulle-coucou,
+  .barre-completion__fill,
+  .boss-carte__sprite--pulse,
+  .boss-carte__statut--en-cours,
+  .boss-flash,
+  .modal-overlay,
+  .popup-highscore,
+  .popup-highscore__titre {
+    animation: none !important;
+  }
+
+  .section,
+  .carte-projet,
+  .modal-overlay,
+  .popup-highscore,
+  .popup-highscore__btn,
+  .boss-carte,
+  .nav__burger-trait,
+  .nav__bouton,
+  .modal-fermer,
+  .modal-lien a,
+  .lien-evitement {
+    transition: none !important;
+  }
+
+  .carte-projet:hover,
+  .carte-projet:focus-visible,
+  .popup-highscore__btn:hover,
+  .boss-carte:hover {
+    transform: none !important;
+  }
+
+  .barre-completion__fill,
+  .score-barre,
+  .langue-item__barre,
+  .boss-carte__vie-fill {
+    transition: none;
+  }
+}

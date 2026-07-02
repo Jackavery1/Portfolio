@@ -1,14 +1,19 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { describe, expect, it } from 'vitest';
+import { beforeAll, describe, expect, it } from 'vitest';
 import { createRequire } from 'node:module';
+import { ensureSyncSource } from './ensure-sync.cjs';
 
 const require = createRequire(import.meta.url);
 const { allMonolithSources, BASE_STYLE_SOURCES, PAGE_STYLE_BY_HTML } = require('./page-styles.cjs');
 const rootDir = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 
 describe('style.css sync', () => {
+  beforeAll(() => {
+    ensureSyncSource();
+  });
+
   it('style.css reflète page-styles.cjs', () => {
     const styleCss = fs.readFileSync(path.join(rootDir, 'style.css'), 'utf8');
     allMonolithSources().forEach((source) => {

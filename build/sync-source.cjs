@@ -4,6 +4,7 @@ const { syncStyleCss } = require('./sync-style-css.cjs');
 const { syncPartials } = require('./sync-partials.cjs');
 const { syncParcoursArbre } = require('./sync-parcours-arbre.cjs');
 const { syncPageMeta } = require('./sync-page-meta.cjs');
+const { syncManifestDev } = require('./sync-manifest-dev.cjs');
 
 const ROOT = path.join(__dirname, '..');
 
@@ -12,6 +13,7 @@ function syncSource({ pageMeta = false } = {}) {
   syncStyleCss();
   syncPartials();
   syncParcoursArbre();
+  syncManifestDev(ROOT);
   if (pageMeta) syncPageMeta(ROOT);
 }
 

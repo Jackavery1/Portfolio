@@ -1,0 +1,47 @@
+/* Modales — paysage compact */
+
+@media (max-height: 480px) and (orientation: landscape) {
+  .modal-overlay {
+    align-items: flex-start;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .modal-boite {
+    max-height: calc(
+      100dvh - 2rem - env(safe-area-inset-top, 0) - env(safe-area-inset-bottom, 0)
+    );
+    max-height: calc(
+      100vh - 2rem - env(safe-area-inset-top, 0) - env(safe-area-inset-bottom, 0)
+    );
+    margin: 0.5rem 0;
+  }
+
+  .modal-img {
+    max-height: min(28vh, 140px);
+  }
+
+  .modal-contenu {
+    padding: 0.75rem;
+    gap: 0.65rem;
+  }
+
+  .popup-highscore {
+    align-items: flex-start;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .popup-highscore__boite {
+    margin: 0.5rem 0;
+    padding: 1.25rem 1rem;
+    max-height: calc(
+      100dvh - 2rem - env(safe-area-inset-top, 0) - env(safe-area-inset-bottom, 0)
+    );
+    max-height: calc(
+      100vh - 2rem - env(safe-area-inset-top, 0) - env(safe-area-inset-bottom, 0)
+    );
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}

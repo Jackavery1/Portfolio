@@ -27,6 +27,21 @@ describe('contact-form-recaptcha', () => {
     expect(initRecaptcha).toHaveBeenCalled();
   });
 
+  it('affiche une alerte si initRecaptcha échoue', async () => {
+    initRecaptcha.mockRejectedValue(new Error('network'));
+    const mount = document.getElementById('mount');
+
+    await initialiserRecaptchaContact({
+      endpoint: 'https://formspree.io/f/test',
+      recaptchaKey: 'site-key',
+      mount,
+      optionsRecaptcha: {},
+    });
+
+    expect(mount.className).toContain('recaptcha-zone--erreur');
+    expect(mount.textContent).toMatch(/indisponible/i);
+  });
+
   it('affiche une alerte si la clé manque', async () => {
     const mount = document.getElementById('mount');
 

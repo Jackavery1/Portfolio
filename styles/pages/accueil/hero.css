@@ -1,0 +1,68 @@
+/* Accueil — typographie hero et badges */
+
+.etiquette-crt {
+  font-family: var(--police-pixel);
+  font-size: clamp(0.36rem, 1.2vw, 0.48rem);
+  color: var(--couleur-texte-discret);
+  letter-spacing: 3px;
+  margin-bottom: 0.9rem;
+}
+
+.titre-arcade {
+  font-family: var(--police-pixel);
+  line-height: 1.6;
+  margin-bottom: 0.7rem;
+}
+
+.titre-arcade__prenom {
+  display: block;
+  font-size: clamp(1.1rem, 4.5vw, 2rem);
+  color: var(--couleur-texte-fort);
+  text-shadow: 0 0 20px rgba(var(--couleur-accent-rgb), 0.5);
+}
+
+.titre-arcade__nom {
+  display: block;
+  font-size: clamp(1.1rem, 4.5vw, 2rem);
+  color: var(--couleur-accent-vif);
+  text-shadow:
+    0 0 20px var(--couleur-accent),
+    0 0 40px rgba(var(--couleur-accent-rgb), 0.3);
+}
+
+.sous-titre-arcade {
+  font-family: var(--police-crt);
+  font-size: clamp(1.1rem, 2.8vw, 1.4rem);
+  color: var(--couleur-texte-fort);
+  letter-spacing: 3px;
+  margin-bottom: 0.65rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.separateur-arcade {
+  font-family: var(--police-crt);
+  font-size: clamp(1rem, 2.5vw, 1.3rem);
+  color: var(--couleur-accent-dim);
+  letter-spacing: -1px;
+  margin-top: 0.3rem;
+  margin-bottom: 0.9rem;
+  line-height: 1;
+}
+
+.texte-intro {
+  font-family: var(--police-lisible);
+  font-size: clamp(1rem, 2.8vw, 1.2rem);
+  color: var(--couleur-texte-normal);
+  line-height: 1.7;
+  margin-bottom: 1.1rem;
+  max-width: 100%;
+}
+
+.badges-statut {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-bottom: 1.3rem;
+}

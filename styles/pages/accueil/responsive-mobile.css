@@ -1,0 +1,189 @@
+/* Accueil — mobile (≤960px) */
+
+@media (max-width: 960px) {
+  html:has(body[data-section-id="accueil"]) {
+    height: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  body[data-section-id="accueil"] {
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: auto;
+  }
+
+  body[data-section-id="accueil"] .ecran {
+    overflow: visible;
+    min-height: auto;
+    height: auto;
+  }
+
+  body[data-section-id="accueil"] .section {
+    flex: none;
+    overflow: visible;
+    height: auto;
+    min-height: auto;
+  }
+
+  .accueil__grille {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.5rem;
+    padding: 0.75rem 0 1.5rem;
+    overflow: visible;
+    height: auto;
+    width: 100%;
+  }
+
+  .accueil__texte {
+    display: contents;
+  }
+
+  .etiquette-crt {
+    order: 1;
+    width: 100%;
+    text-align: center;
+  }
+
+  .titre-arcade {
+    order: 2;
+    width: 100%;
+    text-align: center;
+  }
+
+  .sous-titre-arcade {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .separateur-arcade {
+    order: 4;
+    width: 100%;
+    text-align: center;
+  }
+
+  .accueil__illustration {
+    order: 5;
+    width: 100%;
+    padding-right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem 0;
+  }
+
+  .texte-intro {
+    order: 6;
+  }
+
+  .badges-statut {
+    order: 7;
+  }
+
+  .accueil__actions {
+    order: 8;
+  }
+
+  .svg-bonhomme {
+    width: clamp(180px, 28vw, 260px);
+  }
+
+  .texte-intro {
+    width: 100%;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .badges-statut {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .accueil__actions {
+    width: 100%;
+    align-items: center;
+  }
+
+  .bouton-arcade {
+    text-align: center;
+  }
+
+  .lien-github {
+    text-align: center;
+  }
+
+  .accueil__wip {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .accueil__wip-badge {
+    font-size: clamp(0.5rem, 3.5vw, 0.65rem);
+  }
+
+  .titre-arcade__prenom,
+  .titre-arcade__nom {
+    font-size: clamp(1.6rem, 7vw, 2.4rem);
+  }
+
+  .sous-titre-arcade {
+    font-size: clamp(1.4rem, 5vw, 1.8rem);
+  }
+
+  .etiquette-crt {
+    font-size: clamp(0.45rem, 2vw, 0.6rem);
+  }
+
+  .texte-intro {
+    font-size: clamp(1.1rem, 4vw, 1.4rem);
+  }
+
+  .badge {
+    font-size: clamp(1rem, 3.5vw, 1.3rem);
+  }
+
+  .bouton-arcade {
+    font-size: clamp(0.45rem, 2vw, 0.6rem);
+    padding: 0.9rem 1.2rem;
+  }
+
+  .lien-github {
+    font-size: clamp(0.42rem, 2vw, 0.55rem);
+  }
+
+  body[data-section-id="accueil"] .section {
+    padding: 1.75rem 1.5rem 0.5rem;
+  }
+
+  body[data-section-id="accueil"] .accueil__grille {
+    padding-top: 0;
+    padding-bottom: 0.25rem;
+  }
+
+  body[data-section-id="accueil"] .etiquette-crt {
+    margin-bottom: 0.5rem;
+  }
+
+  body[data-section-id="accueil"] .titre-arcade {
+    margin-bottom: 0.45rem;
+  }
+
+  body[data-section-id="accueil"] .sous-titre-arcade {
+    margin-bottom: 0.45rem;
+  }
+
+  body[data-section-id="accueil"] .separateur-arcade {
+    margin-top: 0.15rem;
+    margin-bottom: 0.55rem;
+  }
+
+  body[data-section-id="accueil"] .accueil__actions {
+    gap: 0.55rem;
+  }
+}

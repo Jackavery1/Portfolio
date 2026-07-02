@@ -1,3 +1,5 @@
+import { expect } from '@playwright/test';
+
 export async function gotoReady(page, path) {
   await page.goto(path);
   await page.waitForSelector('body[data-app-ready="true"]');
@@ -32,6 +34,43 @@ export async function lireEntreesPrecache(page) {
 
 export function precacheContient(urls, fragment) {
   return urls.some((url) => url.includes(fragment));
+}
+
+export async function assertHauteurTactile(locator, minPx = 44) {
+  const box = await locator.boundingBox();
+  expect(box).not.toBeNull();
+  expect(box.height).toBeGreaterThanOrEqual(minPx - 1);
+}
+
+export async function assertLargeurTactile(locator, minPx = 44) {
+  const box = await locator.boundingBox();
+  expect(box).not.toBeNull();
+  expect(box.width).toBeGreaterThanOrEqual(minPx - 1);
+}
+
+export async function attendrePrecachePwa(page, { minEntrees = 60, timeoutMs = 30_000 } = {}) {
+  const deadline = Date.now() + timeoutMs;
+  while (Date.now() < deadline) {
+    const { urls } = await lireEntreesPrecache(page);
+    if (urls.length >= minEntrees && precacheContient(urls, 'offline.html')) {
+      return urls;
+    }
+    await page.waitForTimeout(200);
+  }
+  throw new Error('Precache PWA incomplet (offline.html ou volume)');
+}
+
+export async function preparerServiceWorker(page) {
+  await gotoReady(page, '/index.html');
+  await waitForServiceWorker(page);
+
+  if (!(await page.evaluate(() => Boolean(navigator.serviceWorker.controller)))) {
+    await page.reload({ waitUntil: 'domcontentloaded' });
+    await page.waitForSelector('body[data-app-ready="true"]', { timeout: 15_000 });
+    await waitForServiceWorker(page);
+  }
+
+  await attendrePrecachePwa(page);
 }
 
 export async function mockRecaptcha(page) {
