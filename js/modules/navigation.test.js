@@ -12,7 +12,8 @@ vi.mock('./audio.js', () => ({
   jouerBip: vi.fn(),
 }));
 
-import { fermerMenuBurger, initNavigationArcade } from './navigation.js';
+import { fermerMenuBurger, initNavigationArcade, initNavigationClavier } from './navigation.js';
+import { jouerBip } from './audio.js';
 
 describe('navigation', () => {
   beforeEach(() => {
@@ -22,6 +23,7 @@ describe('navigation', () => {
         <nav id="js-menu"><a class="nav__bouton" href="index.html">HOME</a></nav>
       </header>
     `;
+    vi.mocked(jouerBip).mockClear();
   });
 
   it('ouvre et ferme le menu burger', () => {
@@ -41,5 +43,46 @@ describe('navigation', () => {
     expect(burger.getAttribute('aria-expanded')).toBe('false');
     expect(menu.classList.contains('ouvert')).toBe(false);
     expect(document.body.classList.contains('nav-scroll-lock')).toBe(false);
+  });
+
+  it('ferme le menu au clic extérieur', () => {
+    initNavigationArcade();
+    document.getElementById('js-burger').click();
+    document.body.click();
+    expect(document.getElementById('js-burger').getAttribute('aria-expanded')).toBe('false');
+  });
+
+  it('ferme le menu avec Escape', () => {
+    initNavigationArcade();
+    const burger = document.getElementById('js-burger');
+    const menu = document.getElementById('js-menu');
+    burger.click();
+    document.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'Escape', code: 'Escape', bubbles: true }),
+    );
+    expect(burger.getAttribute('aria-expanded')).toBe('false');
+    expect(menu.classList.contains('ouvert')).toBe(false);
+  });
+
+  it('navigue vers la page suivante avec flèche droite', () => {
+    Object.defineProperty(window, 'location', {
+      value: { pathname: '/index.html', href: 'index.html' },
+      writable: true,
+    });
+    initNavigationClavier();
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
+    expect(window.location.href).toBe('projets.html');
+    expect(jouerBip).toHaveBeenCalled();
+  });
+
+  it('navigue vers la page précédente avec flèche gauche', () => {
+    Object.defineProperty(window, 'location', {
+      value: { pathname: '/projets.html', href: 'projets.html' },
+      writable: true,
+    });
+    initNavigationClavier();
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowLeft', bubbles: true }));
+    expect(window.location.href).toBe('index.html');
+    expect(jouerBip).toHaveBeenCalled();
   });
 });

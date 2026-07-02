@@ -96,6 +96,7 @@ async function runBuild() {
     patchOgImageWebp(STAGING_DIR, SITE_BASE);
     copyAssets(ROOT, STAGING_DIR);
     writeServiceWorker(STAGING_DIR, pkg.version);
+    fs.writeFileSync(path.join(STAGING_DIR, '.nojekyll'), '');
     for (const artefact of ['sw.js', 'manifest.webmanifest']) {
       const legacy = path.join(ROOT, artefact);
       if (fs.existsSync(legacy)) fs.unlinkSync(legacy);

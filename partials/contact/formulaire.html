@@ -1,0 +1,138 @@
+<!-- Formulaire de contact pour envoi serveur ; sinon ouverture du client mail -->
+              <div class="formulaire-zone">
+                <h2 class="formulaire-titre">▶ ENVOYER UN MESSAGE</h2>
+                <form
+                  class="formulaire-crt"
+                  id="js-formulaire"
+                  method="post"
+                  action="#"
+                  novalidate
+                >
+                  <div class="champ-honeypot" aria-hidden="true">
+                    <label for="contact-website">Site web</label>
+                    <input
+                      type="text"
+                      id="contact-website"
+                      name="_gotcha"
+                      tabindex="-1"
+                      autocomplete="off"
+                    />
+                  </div>
+
+                  <div class="champ-groupe">
+                    <label class="champ-label" for="contact-nom"
+                      >PLAYER NAME</label
+                    >
+                    <input
+                      class="champ-input"
+                      type="text"
+                      id="contact-nom"
+                      name="nom"
+                      placeholder="Votre nom..."
+                      autocomplete="name"
+                      maxlength="120"
+                      aria-describedby="contact-nom-aide"
+                      required
+                    />
+                    <p class="champ-aide" id="contact-nom-aide">
+                      120 caractères maximum.
+                    </p>
+                  </div>
+
+                  <div class="champ-groupe">
+                    <label class="champ-label" for="contact-email"
+                      >EMAIL ADDRESS</label
+                    >
+                    <input
+                      class="champ-input"
+                      type="email"
+                      id="contact-email"
+                      name="email"
+                      placeholder="votre@email.com"
+                      autocomplete="email"
+                      maxlength="254"
+                      aria-describedby="contact-email-aide"
+                      required
+                    />
+                    <p class="champ-aide" id="contact-email-aide">
+                      Format attendu&nbsp;: nom@domaine.fr
+                    </p>
+                  </div>
+
+                  <div class="champ-groupe">
+                    <label class="champ-label" for="contact-sujet"
+                      >MISSION TYPE</label
+                    >
+                    <select
+                      class="champ-input champ-select"
+                      id="contact-sujet"
+                      name="sujet"
+                    >
+                      <option value="">— Sélectionner —</option>
+                      <option value="emploi">💼 Proposition d'emploi</option>
+                      <option value="stage">🎯 Stage / Alternance</option>
+                      <option value="freelance">⚡ Mission freelance</option>
+                      <option value="collab">🤝 Collaboration</option>
+                      <option value="autre">🎮 Autre</option>
+                    </select>
+                  </div>
+
+                  <div class="champ-groupe">
+                    <label class="champ-label" for="contact-message"
+                      >MESSAGE</label
+                    >
+                    <textarea
+                      class="champ-input champ-textarea"
+                      id="contact-message"
+                      name="message"
+                      rows="4"
+                      placeholder="Votre message..."
+                      maxlength="5000"
+                      aria-describedby="contact-message-aide"
+                      required
+                    ></textarea>
+                    <p class="champ-aide" id="contact-message-aide">
+                      5&nbsp;000 caractères maximum.
+                    </p>
+                  </div>
+
+                  <p class="formulaire-confidentialite">
+                    Les informations transmises servent uniquement à vous
+                    recontacter au sujet de votre demande. Aucune utilisation
+                    commerciale ou conservation au-delà de cet échange, sauf
+                    obligation légale.
+                  </p>
+
+                  <div
+                    class="recaptcha-zone"
+                    id="js-recaptcha-mount"
+                    aria-label="Vérification anti-spam"
+                  ></div>
+
+                  <div
+                    class="formulaire-erreur"
+                    id="js-formulaire-erreur"
+                    role="alert"
+                    aria-live="polite"
+                    hidden
+                  ></div>
+
+                  <button
+                    class="bouton-envoyer"
+                    id="js-btn-envoyer"
+                    type="submit"
+                  >
+                    <span aria-hidden="true">► </span>ENVOYER LE MESSAGE
+                  </button>
+
+                  <!-- Confirmation pixel -->
+                  <div
+                    class="envoi-confirmation"
+                    id="js-confirmation"
+                    aria-live="polite"
+                    hidden
+                  >
+                    <p>✓ MESSAGE REÇU — À BIENTÔT PLAYER_01 !</p>
+                  </div>
+                </form>
+              </div>

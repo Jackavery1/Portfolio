@@ -45,7 +45,7 @@ Copier `.env.example` → `.env.local` pour surcharger :
 
 Valeurs par défaut : `build/config-defaults.cjs` → synchronisées au build dans `js/config/defaults.js`, `manifest.webmanifest` et métadonnées SEO.
 
-Fichiers générés (non versionnés, recréés par `npm test` / `npm run build`) : `js/config/defaults.js`, `js/config/partials.js`, `style.css`, `partials/parcours-arbre.html`, `sw.js` — et `manifest.webmanifest` **à la racine** (dev local, URLs relatives via `sync-source`) **ou dans `.dist-staging/`** (build prod). Source unique partials : `build/partials-list.cjs`. Arbre parcours : fragments dans `partials/parcours-arbre/` (assemblés en `parcours-arbre.html`, validés via `partials/*.html` — pas les fragments SVG isolés).
+Fichiers générés (non versionnés, recréés par `npm test` / `npm run build`) : `js/config/defaults.js`, `js/config/partials.js`, `style.css`, `partials/parcours-arbre.html`, `partials/dojo-boss-rush.html`, `sw.js` — et `manifest.webmanifest` **à la racine** (dev local, URLs relatives via `sync-source`) **ou dans `.dist-staging/`** (build prod). Source unique partials : `build/partials-list.cjs`. Fragments assemblés : `partials/parcours-arbre/` → `parcours-arbre.html`, `partials/dojo-boss/` → `dojo-boss-rush.html`. Partials contact : `partials/contact/*.html` (chargés uniquement sur `contact.html`). Seuils CSS : `build/breakpoints.cjs` → `styles/tokens.css` via `build/sync-breakpoints.cjs`.
 
 Métadonnées SEO par page : `build/page-meta.cjs` → injectées au build dans le dist (`build/html.cjs`). Pour mettre à jour les blocs `PAGE_META` dans les HTML sources : `npm run sync:page-meta` (évite de modifier les sources à chaque build). `npm run check:page-meta` vérifie l’alignement (exécuté avant les tests).
 
@@ -87,6 +87,7 @@ Ne jamais committer de secrets (clé secrète reCAPTCHA, tokens privés). Voir [
 | Formulaire 403 | Domaines reCAPTCHA + Formspree autorisés pour votre URL |
 | Favicon absente | Hard refresh ; vérifier `assets/favicon.png` après build |
 | Page blanche hors ligne | Visiter une fois en ligne pour remplir le cache ; sinon `offline.html` s’affiche |
+| **Prod sans styles** (HTML brut, blob SVG noir) | GitHub Pages sert probablement la branche `main` au lieu du build. *Settings → Pages → Source* = **GitHub Actions**. Vérifier que le job `deploy` de la CI a réussi après le push. Tester localement : `npm run build` puis `npx serve .dist-staging` |
 
 ## Breakpoints CSS
 
@@ -97,6 +98,7 @@ Ne jamais committer de secrets (clé secrète reCAPTCHA, tokens privés). Voir [
 | `min-width: 700px` | Grille projets 2 colonnes (tablette large) |
 | `600px – 960px` | Accueil tablette, stats latérales compétences |
 | `max-width: 480px` | Footer une colonne, nav compacte (score masqué) |
+| `max-width: 320px` | Contact / dojo très petits écrans (bandeau, boss cards) |
 
 Référence technique : `build/breakpoints.cjs`, `styles/tokens.css`. Listes CSS synchronisées via `build/page-styles.cjs` → `style.css`.
 

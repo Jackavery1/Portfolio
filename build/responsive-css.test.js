@@ -20,6 +20,7 @@ const FICHIERS_SAFE_AREA = [
 const FICHIERS_SCROLL_TACTILE = [
   'styles/components/modal/overlay.css',
   'styles/components/modal/responsive.css',
+  'styles/components/form.css',
   'styles/pages/competences.css',
   'styles/pages/parcours.css',
 ];
@@ -50,6 +51,10 @@ describe('responsive CSS', () => {
   it('scroll tactile iOS sur zones défilantes', () => {
     FICHIERS_SCROLL_TACTILE.forEach((file) => {
       const contenu = lire(file);
+      if (file.endsWith('form.css')) {
+        expect(contenu, file).toContain('scroll-margin-bottom');
+        return;
+      }
       expect(contenu, file).toContain('-webkit-overflow-scrolling: touch');
     });
   });

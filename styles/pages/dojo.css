@@ -337,3 +337,35 @@
     min-height: 44px;
   }
 }
+
+@media (max-width: 320px) {
+  body[data-section-id='dojo'] .section {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+
+  .boss-rush__titre {
+    letter-spacing: 0;
+    font-size: 0.38rem;
+  }
+
+  .boss-carte__gauche {
+    width: auto;
+    gap: 0.35rem;
+  }
+
+  .boss-carte__sprite svg {
+    width: 40px;
+    height: 40px;
+  }
+
+  .boss-carte__haut {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .boss-citation {
+    max-width: min(96vw, 18rem);
+    font-size: 0.8rem;
+  }
+}

@@ -3,6 +3,8 @@ const { syncDefaults } = require('./sync-defaults.cjs');
 const { syncStyleCss } = require('./sync-style-css.cjs');
 const { syncPartials } = require('./sync-partials.cjs');
 const { syncParcoursArbre } = require('./sync-parcours-arbre.cjs');
+const { syncDojoBoss } = require('./sync-dojo-boss.cjs');
+const { syncBreakpoints } = require('./sync-breakpoints.cjs');
 const { syncPageMeta } = require('./sync-page-meta.cjs');
 const { syncManifestDev } = require('./sync-manifest-dev.cjs');
 
@@ -13,6 +15,8 @@ function syncSource({ pageMeta = false } = {}) {
   syncStyleCss();
   syncPartials();
   syncParcoursArbre();
+  syncDojoBoss();
+  syncBreakpoints();
   syncManifestDev(ROOT);
   if (pageMeta) syncPageMeta(ROOT);
 }

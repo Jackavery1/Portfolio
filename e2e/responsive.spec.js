@@ -1,7 +1,6 @@
 import { test, expect } from '@playwright/test';
 import {
   gotoReady,
-  waitForServiceWorker,
   lireEntreesPrecache,
   precacheContient,
   preparerServiceWorker,
@@ -110,6 +109,36 @@ test('responsive mobile — scroll contact', async ({ page }) => {
   const clientHeight = await page.evaluate(() => document.documentElement.clientHeight);
   expect(scrollHeight).toBeGreaterThanOrEqual(clientHeight);
   await assertPasOverflowHorizontal(page);
+});
+
+test('responsive mobile étroit — contact et dojo sans overflow (280px)', async ({ page }) => {
+  await page.setViewportSize({ width: 280, height: 568 });
+
+  for (const path of ['/contact.html', '/dojo.html']) {
+    await gotoReady(page, path);
+    await assertPasOverflowHorizontal(page);
+    await expect(page.locator('h1')).toBeVisible();
+  }
+});
+
+test('responsive contact — champ message visible après focus', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 667 });
+  await gotoReady(page, '/contact.html');
+  await expect(page.locator('#js-formulaire')).toHaveAttribute('data-ready', '1', {
+    timeout: 15_000,
+  });
+
+  const message = page.locator('#contact-message');
+  await message.scrollIntoViewIfNeeded();
+  await message.focus();
+
+  const visible = await message.evaluate((el) => {
+    const rect = el.getBoundingClientRect();
+    const vv = window.visualViewport;
+    const hauteur = vv?.height ?? window.innerHeight;
+    return rect.top >= 0 && rect.bottom <= hauteur + 1;
+  });
+  expect(visible).toBe(true);
 });
 
 test('manifest PWA — présent et valide', async ({ page }) => {

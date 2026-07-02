@@ -16,7 +16,7 @@ npm run build
 npx serve .dist-staging
 ```
 
-Sources brutes (partials en `fetch`) : `npx serve .` — la CSP et le service worker ne sont actifs qu’après build.
+Sources brutes (partials en `fetch`, dont contact et dojo) : `npx serve .` — lancer `node build/sync-source.cjs` si les partials assemblés manquent. La CSP et le service worker ne sont actifs qu’après build.
 
 Node **18+** (`.nvmrc`).
 
@@ -46,7 +46,9 @@ build/                 HTML, CSS, JS minify, PWA (manifest + SW)
 e2e/                   Smoke, a11y, responsive, navigation
 ```
 
-Push sur `main` → CI (lint, tests desktop + mobile, Lighthouse) → GitHub Pages.
+Push sur `main` → CI (lint, tests desktop + mobile, Lighthouse) → déploiement GitHub Pages (artefact `.dist-staging/`).
+
+**GitHub Pages (une fois)** : *Settings → Pages → Build and deployment → Source* = **GitHub Actions** (pas la branche `main`). Si la source pointe sur `main`, le site sert les HTML sources sans CSS (`style.css` est généré au build, pas versionné).
 
 ---
 

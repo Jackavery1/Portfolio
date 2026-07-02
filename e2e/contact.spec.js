@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { mockFormspree, mockRecaptcha } from './helpers.js';
+import { gotoReady, mockFormspree, mockRecaptcha } from './helpers.js';
 
 test.beforeEach(async ({ page }) => {
   await mockRecaptcha(page);
@@ -9,7 +9,7 @@ test.beforeEach(async ({ page }) => {
 test('formulaire contact — envoi mocké Formspree', async ({ page }) => {
   test.setTimeout(45_000);
 
-  await page.goto('/contact.html');
+  await gotoReady(page, '/contact.html');
   await page.evaluate(() => sessionStorage.clear());
 
   const formulaire = page.locator('#js-formulaire');
@@ -40,7 +40,7 @@ test('formulaire contact — envoi mocké Formspree', async ({ page }) => {
 
 test('contact mobile — formulaire accessible après scroll', async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 667 });
-  await page.goto('/contact.html');
+  await gotoReady(page, '/contact.html');
   await expect(page.locator('h1')).toBeVisible();
 
   const formulaire = page.locator('#js-formulaire');

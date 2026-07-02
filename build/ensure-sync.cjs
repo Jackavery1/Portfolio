@@ -9,6 +9,7 @@ const FICHIERS_GENERES = [
   'js/config/partials.js',
   'style.css',
   'partials/parcours-arbre.html',
+  'partials/dojo-boss-rush.html',
 ];
 
 function ensureSyncSource() {

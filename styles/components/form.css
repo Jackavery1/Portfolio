@@ -215,3 +215,10 @@
   line-height: 1.5;
   margin-top: 0.25rem;
 }
+
+@media (max-width: 960px) {
+  .champ-input,
+  .champ-textarea {
+    scroll-margin-bottom: max(12rem, 30vh);
+  }
+}

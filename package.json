@@ -23,7 +23,7 @@
     "test:e2e": "playwright test",
     "test:e2e:install": "playwright install --with-deps chromium webkit",
     "test:lhci": "lhci autorun",
-    "validate:html": "html-validate *.html offline.html partials/*.html",
+    "validate:html": "html-validate *.html offline.html partials/*.html partials/contact/*.html",
     "validate:html:dist": "html-validate .dist-staging/*.html .dist-staging/offline.html"
   },
   "keywords": [

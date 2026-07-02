@@ -16,6 +16,7 @@ import {
   finaliserEnvoiReussi,
   lireSujetUtile,
 } from './contact-form-submit.js';
+import { initScrollChampClavier } from '../utils/visual-viewport.js';
 
 function optionsRecaptcha() {
   return {
@@ -60,6 +61,8 @@ export async function initContactForm() {
     mount,
     optionsRecaptcha: optionsRecaptcha(),
   });
+
+  initScrollChampClavier(formulaire);
 
   formulaire.addEventListener('submit', async (evt) => {
     evt.preventDefault();

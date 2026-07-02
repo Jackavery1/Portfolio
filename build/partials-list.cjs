@@ -7,6 +7,11 @@ const PARTIALS = [
   { id: 'partial-popup-hs', fichier: 'partials/popup-highscore.html' },
   { id: 'partial-parcours-timeline', fichier: 'partials/parcours-timeline.html' },
   { id: 'partial-parcours-arbre', fichier: 'partials/parcours-arbre.html' },
+  { id: 'partial-dojo-boss-rush', fichier: 'partials/dojo-boss-rush.html' },
+  { id: 'partial-contact-bandeau', fichier: 'partials/contact/bandeau.html' },
+  { id: 'partial-contact-coordonnees', fichier: 'partials/contact/coordonnees.html' },
+  { id: 'partial-contact-formulaire', fichier: 'partials/contact/formulaire.html' },
+  { id: 'partial-contact-profil', fichier: 'partials/contact/profil.html' },
 ];
 
 module.exports = { PARTIALS };
