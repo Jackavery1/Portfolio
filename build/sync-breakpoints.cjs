@@ -11,7 +11,7 @@ function echapperRegex(texte) {
 
 function genererVariablesBp() {
   return `${DEBUT}
-/** Seuils principaux — généré depuis build/breakpoints.cjs (non utilisables dans @media). */
+  /** Seuils principaux — généré depuis build/breakpoints.cjs (non utilisables dans @media). */
   --bp-tablette-min: ${BP.TABLETTE_MIN}px;
   --bp-mobile-max: ${BP.MOBILE_MAX}px;
   --bp-desktop: ${BP.DESKTOP}px;
@@ -20,7 +20,7 @@ function genererVariablesBp() {
   --bp-projets-2col: ${BP.PROJETS_2COL_MIN}px;
   --bp-accueil-landscape-h: ${BP.ACCUEIL_LANDSCAPE_MAX_HEIGHT}px;
   --bp-accueil-short-h: ${BP.ACCUEIL_SHORT_MAX_HEIGHT}px;
-${FIN}`;
+  ${FIN}`;
 }
 
 function syncBreakpoints(root = path.join(__dirname, '..')) {

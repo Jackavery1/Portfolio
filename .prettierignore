@@ -4,6 +4,7 @@ dist/
 /js/config/partials.js
 /style.css
 /partials/parcours-arbre.html
+/partials/dojo-boss-rush.html
 /partials/dojo-boss/_*.html
 /partials/parcours-arbre/_*.html
 /sw.js

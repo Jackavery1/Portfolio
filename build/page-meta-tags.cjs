@@ -1,8 +1,15 @@
 const PAGE_META_MARKER_START = '    <!-- PAGE_META_START -->';
 const PAGE_META_MARKER_END = '    <!-- PAGE_META_END -->';
+const META_LIGNE_MAX = 100;
 
 function escapeHtmlAttr(value) {
   return String(value).replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+}
+
+function metaTag(attrName, attrValue, content) {
+  const ligne = `    <meta ${attrName}="${escapeHtmlAttr(attrValue)}" content="${escapeHtmlAttr(content)}" />`;
+  if (ligne.length <= META_LIGNE_MAX) return ligne;
+  return `    <meta\n      ${attrName}="${escapeHtmlAttr(attrValue)}"\n      content="${escapeHtmlAttr(content)}"\n    />`;
 }
 
 function balisesPageMeta(meta) {
@@ -11,25 +18,19 @@ function balisesPageMeta(meta) {
   const lines = [];
 
   if (meta.description) {
-    lines.push(
-      `    <meta\n      name="description"\n      content="${escapeHtmlAttr(meta.description)}"\n    />`
-    );
+    lines.push(metaTag('name', 'description', meta.description));
   }
   if (meta.ogTitle) {
-    lines.push(`    <meta property="og:title" content="${escapeHtmlAttr(meta.ogTitle)}" />`);
+    lines.push(metaTag('property', 'og:title', meta.ogTitle));
   }
   if (meta.ogDescription) {
-    lines.push(
-      `    <meta\n      property="og:description"\n      content="${escapeHtmlAttr(meta.ogDescription)}"\n    />`
-    );
+    lines.push(metaTag('property', 'og:description', meta.ogDescription));
   }
   if (meta.twitterTitle) {
-    lines.push(`    <meta name="twitter:title" content="${escapeHtmlAttr(meta.twitterTitle)}" />`);
+    lines.push(metaTag('name', 'twitter:title', meta.twitterTitle));
   }
   if (meta.twitterDescription) {
-    lines.push(
-      `    <meta\n      name="twitter:description"\n      content="${escapeHtmlAttr(meta.twitterDescription)}"\n    />`
-    );
+    lines.push(metaTag('name', 'twitter:description', meta.twitterDescription));
   }
 
   return lines.join('\n');
