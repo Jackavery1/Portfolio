@@ -91,12 +91,32 @@ function preciserReponseNavigation(request) {
       caches.open(CACHE).then(async (cache) => {
         const cached = await cache.match(request);
         if (cached) return cached;
-        const offline =
-          (await cache.match(OFFLINE_URL)) ||
-          (await cache.match(new URL(OFFLINE_URL, self.location.origin).pathname));
-        return offline || caches.match(OFFLINE_URL);
+        const offline = await chercherOffline(cache);
+        if (!offline) return undefined;
+        const body = await offline.text();
+        return new Response(body, {
+          status: 200,
+          statusText: 'OK',
+          headers: { 'Content-Type': 'text/html; charset=utf-8' },
+        });
       }),
     );
+}
+
+async function chercherOffline(cache) {
+  const direct = await cache.match(OFFLINE_URL);
+  if (direct) return direct;
+
+  const origin = self.location.origin;
+  const candidates = [OFFLINE_URL, \`/\${OFFLINE_URL}\`, \`\${origin}/\${OFFLINE_URL}\`];
+  for (const candidate of candidates) {
+    const match = await cache.match(candidate);
+    if (match) return match;
+  }
+
+  const keys = await cache.keys();
+  const offlineKey = keys.find((req) => req.url.endsWith('/offline.html'));
+  return offlineKey ? cache.match(offlineKey) : undefined;
 }
 
 function preciserReponseRessource(request) {

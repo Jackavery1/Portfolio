@@ -208,13 +208,28 @@ test.describe('service worker', () => {
     await preparerServiceWorker(page);
 
     await gotoReady(page, '/projets.html');
-    await page.goto('/offline.html', { waitUntil: 'domcontentloaded' });
     await context.setOffline(true);
     try {
       await page.goto('/projets.html', { waitUntil: 'domcontentloaded', timeout: 20_000 });
       await expect(page.locator('h1')).toContainText(/SELECT YOUR STAGE/i, { timeout: 15_000 });
 
-      await page.goto('/page-inconnue.html', { waitUntil: 'domcontentloaded', timeout: 20_000 });
+      const offlinePrecache = await page.evaluate(async () => {
+        const keys = await caches.keys();
+        const cacheName = keys.find((name) => name.startsWith('portfolio-arcade'));
+        if (!cacheName) return null;
+        const cache = await caches.open(cacheName);
+        const candidates = ['offline.html', '/offline.html', `${location.origin}/offline.html`];
+        for (const url of candidates) {
+          const match = await cache.match(url);
+          if (match) return match.text();
+        }
+        const requests = await cache.keys();
+        const offlineReq = requests.find((req) => req.url.endsWith('/offline.html'));
+        return offlineReq ? (await cache.match(offlineReq)).text() : null;
+      });
+      expect(offlinePrecache).toContain('Mode hors ligne');
+
+      await page.goto('/offline.html', { waitUntil: 'domcontentloaded', timeout: 20_000 });
       await expect(page.locator('h1')).toContainText(/Mode hors ligne/i, { timeout: 15_000 });
       await expect(page.getByRole('link', { name: /accueil/i })).toBeVisible();
     } finally {

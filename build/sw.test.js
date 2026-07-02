@@ -37,6 +37,7 @@ describe('build service worker', () => {
     const source = generateServiceWorker('1.0.2', rootDir);
     expect(source).toContain('portfolio-arcade-v1-0-2');
     expect(source).toContain('offline.html');
+    expect(source).toContain('chercherOffline');
     expect(source).toContain("request.mode === 'navigate'");
     expect(source).toContain('Promise.allSettled');
   });
