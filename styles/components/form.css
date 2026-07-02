@@ -6,7 +6,7 @@
 .formulaire-titre {
   font-family: var(--police-pixel);
   font-size: clamp(0.38rem, 1.4vw, 0.52rem);
-  color: var(--couleur-accent);
+  color: var(--couleur-accent-vif);
   letter-spacing: 2px;
   margin-bottom: 1rem;
 }

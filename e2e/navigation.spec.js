@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { gotoReady } from './helpers.js';
 
-test.use({ viewport: { width: 768, height: 1024 } });
+test.use({ viewport: { width: 1024, height: 768 } });
 
 test('accueil → projets → modale → Escape', async ({ page }) => {
   await gotoReady(page, '/index.html');

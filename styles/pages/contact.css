@@ -169,7 +169,7 @@
 .profil-recap__titre {
   font-family: var(--police-pixel);
   font-size: clamp(var(--taille-pixel-min), 1.3vw, 0.48rem);
-  color: var(--couleur-accent);
+  color: var(--couleur-accent-vif);
   letter-spacing: 2px;
 }
 
@@ -208,7 +208,7 @@
 }
 
 .profil-label {
-  color: var(--couleur-accent);
+  color: var(--couleur-accent-vif);
   width: 3.5rem;
   flex-shrink: 0;
 }

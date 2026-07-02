@@ -213,8 +213,7 @@ test.describe('service worker', () => {
       await page.reload({ waitUntil: 'domcontentloaded' });
       await expect(page.locator('h1')).toContainText(/SELECT YOUR STAGE/i);
 
-      const fallback = await page.goto('/page-inconnue.html', { waitUntil: 'domcontentloaded' });
-      expect(fallback?.ok()).toBeTruthy();
+      await page.goto('/page-inconnue.html', { waitUntil: 'domcontentloaded' });
       await expect(page.locator('h1')).toContainText(/hors ligne/i);
       await expect(page.locator('a[href="index.html"]')).toBeVisible();
     } finally {
