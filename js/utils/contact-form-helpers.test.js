@@ -14,9 +14,9 @@ describe('messageErreurFormspree', () => {
   });
 
   it('utilise payload.error pour 400', () => {
-    expect(
-      messageErreurFormspree({ error: '  Domaine refusé  ' }, { status: 400 })
-    ).toBe('Domaine refusé');
+    expect(messageErreurFormspree({ error: '  Domaine refusé  ' }, { status: 400 })).toBe(
+      'Domaine refusé'
+    );
   });
 
   it('agrège payload.errors', () => {

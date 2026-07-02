@@ -7,12 +7,10 @@ const PAGE_META = {
   'index.html': {
     ogTitle: `${name} · Développeur Web`,
     twitterTitle: `${name} · Développeur Web`,
-    description:
-      `Portfolio de ${name}, développeur web junior — reconversion, projets LSF et Floppy Bird, stage client. La Jarne · La Rochelle · premier poste.`,
+    description: `Portfolio de ${name}, développeur web junior — reconversion, projets LSF et Floppy Bird, stage client. La Jarne · La Rochelle · premier poste.`,
     ogDescription:
       'Développeur web junior — projets concrets, parcours de reconversion, disponible pour un premier poste.',
-    twitterDescription:
-      `Portfolio arcade de ${name} — développeur web junior, La Rochelle.`,
+    twitterDescription: `Portfolio arcade de ${name} — développeur web junior, La Rochelle.`,
   },
   'projets.html': {
     ogTitle: `Projets · ${name}`,
@@ -42,8 +40,7 @@ const PAGE_META = {
   'contact.html': {
     ogTitle: `Contact · ${name}`,
     twitterTitle: `Contact · ${name}`,
-    description:
-      `Contact et CV — ${name}, développeur web junior, La Jarne (17220), disponible pour opportunités.`,
+    description: `Contact et CV — ${name}, développeur web junior, La Jarne (17220), disponible pour opportunités.`,
     ogDescription: 'CONTACT — formulaire, téléchargement du CV, premier poste recherché.',
     twitterDescription: `Contacter ${name} — développeur web.`,
   },
@@ -58,8 +55,7 @@ const PAGE_META = {
   'mentions-legales.html': {
     ogTitle: `Mentions légales · ${name}`,
     twitterTitle: `Mentions légales · ${name}`,
-    description:
-      `Mentions légales du portfolio ${name} — éditeur, hébergement, données personnelles.`,
+    description: `Mentions légales du portfolio ${name} — éditeur, hébergement, données personnelles.`,
     ogDescription: 'Éditeur, hébergement, propriété intellectuelle, RGPD et cookies.',
     twitterDescription: `Mentions légales & confidentialité — portfolio ${name}.`,
   },

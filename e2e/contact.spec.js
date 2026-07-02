@@ -29,7 +29,7 @@ test('formulaire contact — envoi mocké Formspree', async ({ page }) => {
 
   await Promise.all([
     page.waitForResponse(
-      (res) => res.url().includes('formspree.io') && res.request().method() === 'POST',
+      (res) => res.url().includes('formspree.io') && res.request().method() === 'POST'
     ),
     page.locator('#js-btn-envoyer').click(),
   ]);

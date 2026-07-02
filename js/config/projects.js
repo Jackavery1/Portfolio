@@ -1,11 +1,4 @@
-export const PROJETS_ORDER = [
-  'lsf',
-  'floppybird',
-  'derniereligne',
-  'gamehub',
-  'hub',
-  'pixelquest',
-];
+export const PROJETS_ORDER = ['lsf', 'floppybird', 'derniereligne', 'gamehub', 'hub', 'pixelquest'];
 
 export const PROJETS = {
   lsf: {
@@ -40,8 +33,7 @@ export const PROJETS = {
   },
   derniereligne: {
     titre: 'DERNIÈRE LIGNE',
-    descCarte:
-      'Tetris narratif — solo, coop, campagne Histoire, PWA hors-ligne.',
+    descCarte: 'Tetris narratif — solo, coop, campagne Histoire, PWA hors-ligne.',
     desc: 'Tetris narratif en Vanilla JS et Canvas 2D — solo, coop, mode Architecte et campagne Histoire. Guideline moderne (hold, ghost, SRS, T-Spin), 9 biomes arcade, PWA hors-ligne et tests Vitest (90%).',
     num: 'PRJ-03',
     etoiles: 3,
@@ -56,8 +48,7 @@ export const PROJETS = {
   },
   gamehub: {
     titre: 'GAMEHUB RETRO',
-    descCarte:
-      "Hub de jeux rétro — catalogue, gestion utilisateur, interface d'émulation.",
+    descCarte: "Hub de jeux rétro — catalogue, gestion utilisateur, interface d'émulation.",
     desc: "Hub de jeux rétro — catalogue de jeux, gestion de compte utilisateur, interface d'émulation. Les émulateurs sont en cours d'intégration (70%).",
     num: 'PRJ-04',
     etoiles: 3,
@@ -69,8 +60,7 @@ export const PROJETS = {
   },
   hub: {
     titre: 'HUBTRAINING',
-    descCarte:
-      'Site WordPress pour client réel — UX/UI, réservations, SEO, sécurité.',
+    descCarte: 'Site WordPress pour client réel — UX/UI, réservations, SEO, sécurité.',
     desc: 'Site WordPress pour un client réel (HubTraining). Intégration Gutenberg, optimisation SEO, sécurité renforcée, UX/UI, formulaire de réservation. Quasi finalisé (98%).',
     num: 'STG-01',
     etoiles: 2,

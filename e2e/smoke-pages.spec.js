@@ -16,7 +16,7 @@ function erreursConsoleBloquantes(erreurs) {
     (msg) =>
       !/favicon\.ico/i.test(msg) &&
       !/recaptcha/i.test(msg) &&
-      !/Failed to load resource.*404/i.test(msg),
+      !/Failed to load resource.*404/i.test(msg)
   );
 }
 

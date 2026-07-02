@@ -29,21 +29,15 @@ function syncBreakpoints(root = path.join(__dirname, '..')) {
   const bloc = genererVariablesBp();
 
   if (css.includes(DEBUT) && css.includes(FIN)) {
-    css = css.replace(
-      new RegExp(`${echapperRegex(DEBUT)}[\\s\\S]*?${echapperRegex(FIN)}`),
-      bloc,
-    );
+    css = css.replace(new RegExp(`${echapperRegex(DEBUT)}[\\s\\S]*?${echapperRegex(FIN)}`), bloc);
   } else {
     css = css.replace(
       /\/\*\* Seuils principaux[\s\S]*?--bp-accueil-short-h: \d+px;\n/,
-      `${bloc}\n`,
+      `${bloc}\n`
     );
   }
 
-  css = css.replace(
-    /@media \(max-width: \d+px\)/,
-    `@media (max-width: ${BP.MOBILE_MAX}px)`,
-  );
+  css = css.replace(/@media \(max-width: \d+px\)/, `@media (max-width: ${BP.MOBILE_MAX}px)`);
 
   fs.writeFileSync(tokensPath, css, 'utf8');
 }

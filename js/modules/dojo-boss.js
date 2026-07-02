@@ -8,11 +8,11 @@ import { ajouterScore } from './score.js';
 const CITATIONS = {
   domslayer: '⚔️ « Mauvais sélecteur ? Recommence. »',
   crud: '⚔️ « Créer, lire, modifier… supprimer si tu insistes. »',
-  ejs: '⚔️ « Tes données passent par moi avant l\'écran. »',
+  ejs: "⚔️ « Tes données passent par moi avant l'écran. »",
   poo: '⚔️ « Ma classe mère te salue. »',
-  selenium: '⚔️ « J\'ai cliqué avant toi. Test validé. »',
-  rentercar: '⚔️ « Trie par prix — mais pas à l\'envers. »',
-  oracle: '⚔️ « J\'ai déjà joint toutes les tables. »',
+  selenium: "⚔️ « J'ai cliqué avant toi. Test validé. »",
+  rentercar: "⚔️ « Trie par prix — mais pas à l'envers. »",
+  oracle: "⚔️ « J'ai déjà joint toutes les tables. »",
   stack: '⚔️ « Du HTML au serveur : toute la chaîne. »',
   angular: '⚡ « Encore un module… on y est presque. »',
   java: '⚡ « Première compile… on croise les doigts. »',
@@ -79,55 +79,46 @@ function initCitations() {
 }
 
 function initVictoireClavier() {
-  document
-    .querySelectorAll('.boss-carte--vaincu[data-boss]')
-    .forEach((carte) => {
-      carte.setAttribute('tabindex', '0');
-      carte.setAttribute('role', 'button');
-      carte.setAttribute(
-        'aria-label',
-        `${labelBoss(carte)}. Appuyer pour rejouer la victoire.`,
-      );
+  document.querySelectorAll('.boss-carte--vaincu[data-boss]').forEach((carte) => {
+    carte.setAttribute('tabindex', '0');
+    carte.setAttribute('role', 'button');
+    carte.setAttribute('aria-label', `${labelBoss(carte)}. Appuyer pour rejouer la victoire.`);
 
-      const celebrer = () => {
-        if (carte.classList.contains('boss-flash')) return;
-        carte.classList.add('boss-flash');
-        jouerFanfareVictoire();
-        setTimeout(() => carte.classList.remove('boss-flash'), 600);
-      };
+    const celebrer = () => {
+      if (carte.classList.contains('boss-flash')) return;
+      carte.classList.add('boss-flash');
+      jouerFanfareVictoire();
+      setTimeout(() => carte.classList.remove('boss-flash'), 600);
+    };
 
-      carte.addEventListener('click', celebrer);
-      carte.addEventListener('keydown', (evt) => {
-        if (evt.key === 'Enter' || evt.key === ' ') {
-          evt.preventDefault();
-          celebrer();
-        }
-      });
+    carte.addEventListener('click', celebrer);
+    carte.addEventListener('keydown', (evt) => {
+      if (evt.key === 'Enter' || evt.key === ' ') {
+        evt.preventDefault();
+        celebrer();
+      }
     });
+  });
 }
 
 function initBarresHp() {
   const intervalIds = [];
 
-  document
-    .querySelectorAll('.boss-carte--en-cours .boss-carte__vie-fill')
-    .forEach((fill) => {
-      const raw = fill.style.getPropertyValue('--cible') || '50%';
-      const base = parseFloat(raw) || 50;
+  document.querySelectorAll('.boss-carte--en-cours .boss-carte__vie-fill').forEach((fill) => {
+    const raw = fill.style.getPropertyValue('--cible') || '50%';
+    const base = parseFloat(raw) || 50;
 
-      const id = setInterval(() => {
-        const jitter = (Math.random() - 0.5) * 3;
-        fill.style.width = `${Math.max(2, base + jitter)}%`;
-      }, 800);
-      intervalIds.push(id);
-    });
+    const id = setInterval(() => {
+      const jitter = (Math.random() - 0.5) * 3;
+      fill.style.width = `${Math.max(2, base + jitter)}%`;
+    }, 800);
+    intervalIds.push(id);
+  });
 
   if (intervalIds.length) {
-    window.addEventListener(
-      'pagehide',
-      () => intervalIds.forEach((id) => clearInterval(id)),
-      { once: true },
-    );
+    window.addEventListener('pagehide', () => intervalIds.forEach((id) => clearInterval(id)), {
+      once: true,
+    });
   }
 }
 

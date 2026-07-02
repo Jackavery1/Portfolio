@@ -6,7 +6,7 @@ test.describe.configure({ mode: 'serial' });
 
 function violationsA11y(violations) {
   return violations.filter(
-    (v) => v.impact === 'critical' || v.impact === 'serious' || v.impact === 'moderate',
+    (v) => v.impact === 'critical' || v.impact === 'serious' || v.impact === 'moderate'
   );
 }
 
@@ -63,9 +63,7 @@ test('a11y contact — pas de violation critique', async ({ page }) => {
   await page.goto('/contact.html');
   await expect(page.locator('h1')).toBeVisible();
 
-  const results = await new AxeBuilder({ page })
-    .exclude('#js-recaptcha-mount')
-    .analyze();
+  const results = await new AxeBuilder({ page }).exclude('#js-recaptcha-mount').analyze();
 
   expect(violationsA11y(results.violations)).toEqual([]);
 });
@@ -99,9 +97,7 @@ test('a11y navigation modale projets — pas de violation critique', async ({ pa
   await carte.click({ force: true });
   await expect(page.locator('#js-modal')).toBeVisible();
 
-  const results = await new AxeBuilder({ page })
-    .include('#js-modal')
-    .analyze();
+  const results = await new AxeBuilder({ page }).include('#js-modal').analyze();
 
   expect(violationsA11y(results.violations)).toEqual([]);
 });
@@ -113,9 +109,7 @@ test('a11y modale Dernière Ligne — pas de violation critique', async ({ page 
   await carte.click({ force: true });
   await expect(page.locator('#js-modal')).toBeVisible();
 
-  const results = await new AxeBuilder({ page })
-    .include('#js-modal')
-    .analyze();
+  const results = await new AxeBuilder({ page }).include('#js-modal').analyze();
 
   expect(violationsA11y(results.violations)).toEqual([]);
 });

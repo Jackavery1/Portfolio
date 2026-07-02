@@ -5,7 +5,7 @@ import { appendRichHtml, escapeHtml, paragrapheRichHtml } from './rich-text.js';
 describe('rich-text', () => {
   it('conserve strong, code et liens sûrs', () => {
     const p = paragrapheRichHtml(
-      'Texte <strong>gras</strong> et <code>LICENSE</code> — <a href="contact.html">contact</a>.',
+      'Texte <strong>gras</strong> et <code>LICENSE</code> — <a href="contact.html">contact</a>.'
     );
 
     expect(p.querySelector('strong')?.textContent).toBe('gras');
@@ -29,8 +29,6 @@ describe('rich-text', () => {
   });
 
   it('échappe le HTML brut', () => {
-    expect(escapeHtml('<img onerror=alert(1)>')).toBe(
-      '&lt;img onerror=alert(1)&gt;',
-    );
+    expect(escapeHtml('<img onerror=alert(1)>')).toBe('&lt;img onerror=alert(1)&gt;');
   });
 });

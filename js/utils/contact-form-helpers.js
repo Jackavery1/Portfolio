@@ -1,16 +1,11 @@
 export function messageErreurFormspree(payload, res) {
   if (res.status === 403) {
-    return (
-      'Envoi refusé (403). Vérifiez reCAPTCHA : PORTFOLIO_RECAPTCHA_SITE_KEY dans .env, même version (2 ou 3) que sur Formspree.'
-    );
+    return 'Envoi refusé (403). Vérifiez reCAPTCHA : PORTFOLIO_RECAPTCHA_SITE_KEY dans .env, même version (2 ou 3) que sur Formspree.';
   }
   if (res.status === 400) {
-    const detail =
-      payload && typeof payload.error === 'string' ? payload.error.trim() : '';
+    const detail = payload && typeof payload.error === 'string' ? payload.error.trim() : '';
     if (detail) return detail;
-    return (
-      'Envoi refusé (400). Souvent : clé secrète reCAPTCHA incorrecte dans Formspree, ou domaine non autorisé (Settings → Restrict to Domain : laisser vide pour tester en local).'
-    );
+    return 'Envoi refusé (400). Souvent : clé secrète reCAPTCHA incorrecte dans Formspree, ou domaine non autorisé (Settings → Restrict to Domain : laisser vide pour tester en local).';
   }
   if (!payload || typeof payload !== 'object') {
     return `Envoi refusé (${res.status})`;
@@ -34,11 +29,7 @@ export function honeypotEstRempli(valeur) {
   return Boolean(String(valeur ?? '').trim());
 }
 
-export function peutSoumettre({
-  dernierEnvoi,
-  rateLimitMs,
-  maintenant = Date.now(),
-}) {
+export function peutSoumettre({ dernierEnvoi, rateLimitMs, maintenant = Date.now() }) {
   if (dernierEnvoi == null || dernierEnvoi === '') return true;
   const elapsed = maintenant - Number.parseInt(String(dernierEnvoi), 10);
   return !Number.isFinite(elapsed) || elapsed >= rateLimitMs;
@@ -50,9 +41,7 @@ export function messageErreurCatch(err) {
     return m.startsWith('reCAPTCHA') || m.startsWith('Jeton') ? m : `reCAPTCHA : ${m}`;
   }
   if (m === 'Failed to fetch' || /network|fetch/i.test(m)) {
-    return (
-      'Connexion bloquée vers Formspree (AdBlock, extension ou hors ligne). Autorisez formspree.io et google.com, ou testez en navigation privée sans extensions.'
-    );
+    return 'Connexion bloquée vers Formspree (AdBlock, extension ou hors ligne). Autorisez formspree.io et google.com, ou testez en navigation privée sans extensions.';
   }
   return m || 'Erreur inattendue lors de l’envoi.';
 }
@@ -63,13 +52,7 @@ export function libellerSujetSelect(texteOption) {
   return sujetLabel;
 }
 
-export function construireFormDataFormspree({
-  nom,
-  email,
-  message,
-  sujetLabel,
-  recaptchaToken,
-}) {
+export function construireFormDataFormspree({ nom, email, message, sujetLabel, recaptchaToken }) {
   const fd = new FormData();
   fd.append('name', nom);
   fd.append('email', email);

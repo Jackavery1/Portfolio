@@ -6,12 +6,7 @@ export default defineConfig({
     include: ['js/**/*.test.js', 'build/**/*.test.js'],
     coverage: {
       provider: 'v8',
-      include: [
-        'js/utils/**/*.js',
-        'js/config/**/*.js',
-        'js/modules/**/*.js',
-        'js/main.js',
-      ],
+      include: ['js/utils/**/*.js', 'js/config/**/*.js', 'js/modules/**/*.js', 'js/main.js'],
       exclude: ['**/*.test.js', 'js/config/defaults.js'],
       thresholds: {
         lines: 65,

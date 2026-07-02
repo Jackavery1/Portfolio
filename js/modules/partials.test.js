@@ -1,6 +1,11 @@
 /* @vitest-environment jsdom */
 import { describe, expect, it, vi, beforeEach } from 'vitest';
-import { FALLBACKS_PARTIELS, appliquerFallbackPartial, chargerPartials, marquerLienActif } from './partials.js';
+import {
+  FALLBACKS_PARTIELS,
+  appliquerFallbackPartial,
+  chargerPartials,
+  marquerLienActif,
+} from './partials.js';
 
 vi.mock('../config/index.js', () => ({
   CONFIG: {
@@ -56,7 +61,7 @@ describe('partials', () => {
         vi.fn().mockResolvedValue({
           ok: true,
           text: () => Promise.resolve('<nav class="nav">OK</nav>'),
-        }),
+        })
       );
 
       await chargerPartials();
@@ -65,10 +70,7 @@ describe('partials', () => {
     });
 
     it('applique le fallback si fetch échoue', async () => {
-      vi.stubGlobal(
-        'fetch',
-        vi.fn().mockRejectedValue(new Error('network')),
-      );
+      vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('network')));
 
       await chargerPartials();
 

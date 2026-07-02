@@ -35,15 +35,13 @@ describe('meta', () => {
   it('remplit canonical et og:url en absolu', () => {
     initMetaPartage();
 
-    expect(document.getElementById('link-canonical').href).toBe(
-      'https://example.com/contact.html',
-    );
+    expect(document.getElementById('link-canonical').href).toBe('https://example.com/contact.html');
     expect(document.getElementById('meta-og-url').getAttribute('content')).toBe(
-      'https://example.com/contact.html',
+      'https://example.com/contact.html'
     );
-    expect(
-      document.querySelector('meta[property="og:image"]').getAttribute('content'),
-    ).toBe('https://example.com/assets/og.png');
+    expect(document.querySelector('meta[property="og:image"]').getAttribute('content')).toBe(
+      'https://example.com/assets/og.png'
+    );
   });
 
   it('initBonusScore crédite la première visite et le lien GitHub', () => {

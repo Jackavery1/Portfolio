@@ -31,7 +31,7 @@ export async function envoyerViaFormspree({
     jouerBip(150, 120, 'sawtooth');
     btnEnvoyer.setAttribute(
       'title',
-      'Renseignez PORTFOLIO_RECAPTCHA_SITE_KEY dans .env puis relancez le build pour envoyer via Formspree.',
+      'Renseignez PORTFOLIO_RECAPTCHA_SITE_KEY dans .env puis relancez le build pour envoyer via Formspree.'
     );
     if (mount) mount.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     return;

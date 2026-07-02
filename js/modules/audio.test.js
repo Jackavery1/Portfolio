@@ -39,7 +39,10 @@ describe('audio', () => {
       resume: vi.fn().mockResolvedValue(undefined),
     };
 
-    vi.stubGlobal('AudioContext', vi.fn(() => ctx));
+    vi.stubGlobal(
+      'AudioContext',
+      vi.fn(() => ctx)
+    );
 
     jouerBip(440, 60, 'square');
     expect(start).toHaveBeenCalled();

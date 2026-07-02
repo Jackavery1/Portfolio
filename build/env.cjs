@@ -13,10 +13,7 @@ function loadEnvFile(root) {
     if (eq === -1) return;
     const key = t.slice(0, eq).trim();
     let val = t.slice(eq + 1).trim();
-    if (
-      (val.startsWith('"') && val.endsWith('"')) ||
-      (val.startsWith("'") && val.endsWith("'"))
-    ) {
+    if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'"))) {
       val = val.slice(1, -1);
     }
     if (key && process.env[key] === undefined) process.env[key] = val;
@@ -30,8 +27,7 @@ function resolveBuildEnv(env = process.env) {
       env.PORTFOLIO_SITE_ORIGIN ||
       CONFIG_DEFAULTS.siteOrigin
     ).replace(/\/$/, ''),
-    formspree:
-      env.PORTFOLIO_FORMSPREE_ENDPOINT || CONFIG_DEFAULTS.formspree,
+    formspree: env.PORTFOLIO_FORMSPREE_ENDPOINT || CONFIG_DEFAULTS.formspree,
     recaptcha: env.PORTFOLIO_RECAPTCHA_SITE_KEY || CONFIG_DEFAULTS.recaptcha,
   };
 }

@@ -1,10 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { createRequire } from 'node:module';
-import {
-  balisesPageMeta,
-  blocPageMeta,
-  remplacerBlocPageMeta,
-} from './page-meta-tags.cjs';
+import { balisesPageMeta, blocPageMeta, remplacerBlocPageMeta } from './page-meta-tags.cjs';
 
 const require = createRequire(import.meta.url);
 const { PAGE_META } = require('./page-meta.cjs');

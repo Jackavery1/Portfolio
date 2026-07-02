@@ -83,7 +83,10 @@
   min-height: 44px;
   touch-action: manipulation;
   cursor: pointer;
-  transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s,
+    transform 0.2s;
   position: relative;
   display: block;
   width: 100%;

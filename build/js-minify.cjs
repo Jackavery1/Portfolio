@@ -32,7 +32,7 @@ function minifyAllJs(root, distDir) {
         mangle: true,
         output: { comments: false },
         module: true,
-      },
+      }
     );
 
     if (result.error) {
@@ -59,7 +59,7 @@ function minifyAllJs(root, distDir) {
   const savings = ((1 - totalOut / totalIn) * 100).toFixed(1);
   log(
     `${files.length} module(s) JS minifié(s): ${totalIn} → ${totalOut} octets (-${savings}%)`,
-    'success',
+    'success'
   );
 }
 

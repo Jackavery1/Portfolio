@@ -12,8 +12,6 @@ test('page dojo charge sans erreur console critique', async ({ page }) => {
   await expect(page.locator('h1.titre-section')).toContainText(/DOJO/i);
   await expect(page.locator('.boss-rush .boss-carte').first()).toBeVisible();
 
-  const bloquantes = erreurs.filter(
-    (e) => !/favicon|recaptcha|Failed to load resource/i.test(e)
-  );
+  const bloquantes = erreurs.filter((e) => !/favicon|recaptcha|Failed to load resource/i.test(e));
   expect(bloquantes).toEqual([]);
 });

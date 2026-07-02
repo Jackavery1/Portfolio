@@ -24,7 +24,7 @@ describe('build css', () => {
 
       const baseSize = fs.statSync(path.join(tmp, BASE_STYLE_FILE)).size;
       const contactSize = fs.statSync(
-        path.join(tmp, PAGE_STYLE_BY_HTML['contact.html'].outfile),
+        path.join(tmp, PAGE_STYLE_BY_HTML['contact.html'].outfile)
       ).size;
       const monolithSize = fs.statSync(path.join(tmp, 'style.css')).size;
 

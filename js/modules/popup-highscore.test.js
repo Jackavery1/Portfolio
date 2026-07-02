@@ -56,7 +56,7 @@ describe('popup-highscore', () => {
     initPopupHighScoreFermer();
     afficherPopupHighScore();
     document.dispatchEvent(
-      new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true }),
+      new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true })
     );
     expect(document.getElementById('js-popup-hs').hidden).toBe(true);
   });

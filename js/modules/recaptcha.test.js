@@ -96,9 +96,9 @@ describe('recaptcha', () => {
     script.dataset.recaptchaV3 = '1';
     document.head.appendChild(script);
 
-    await expect(
-      obtenirTokenRecaptcha({ siteKey: 'bad-key', version: 3 }),
-    ).rejects.toThrow(/PORTFOLIO_RECAPTCHA_SITE_KEY/);
+    await expect(obtenirTokenRecaptcha({ siteKey: 'bad-key', version: 3 })).rejects.toThrow(
+      /PORTFOLIO_RECAPTCHA_SITE_KEY/
+    );
   });
 
   it('initRecaptcha v2 retourne false sans conteneur', async () => {

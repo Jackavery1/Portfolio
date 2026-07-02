@@ -50,14 +50,14 @@
   --couleur-pixel-accent-detail: #44aaff;
 
   /* Polices */
-  --police-pixel: "Press Start 2P", monospace;
-  --police-crt: "VT323", monospace;
-  --police-lisible: "Rajdhani", sans-serif;
+  --police-pixel: 'Press Start 2P', monospace;
+  --police-crt: 'VT323', monospace;
+  --police-lisible: 'Rajdhani', sans-serif;
 
   /* Taille minimale lisible pour libellés pixel (≈ 9px desktop, 10px mobile) */
   --taille-pixel-min: 0.5625rem;
 
-/* BREAKPOINTS_SYNC_START */
+  /* BREAKPOINTS_SYNC_START */
 /** Seuils principaux — généré depuis build/breakpoints.cjs (non utilisables dans @media). */
   --bp-tablette-min: 600px;
   --bp-mobile-max: 960px;
@@ -73,12 +73,12 @@
 @media (max-width: 960px) {
   :root {
     --taille-pixel-min: 0.625rem;
-    --couleur-fond-page:   #05091a;
-    --couleur-fond:        #080d20;
-    --couleur-fond-carte:  #0d1230;
-    --couleur-separateur:  #141840;
-    --couleur-bordure:     #243070;
-    --couleur-texte-fort:  #e0eaff;
+    --couleur-fond-page: #05091a;
+    --couleur-fond: #080d20;
+    --couleur-fond-carte: #0d1230;
+    --couleur-separateur: #141840;
+    --couleur-bordure: #243070;
+    --couleur-texte-fort: #e0eaff;
     --couleur-texte-normal: #aabce8;
     --couleur-texte-discret: #8898d8;
   }

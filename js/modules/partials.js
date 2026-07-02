@@ -54,17 +54,14 @@ export async function chargerPartials() {
         const html = await reponse.text();
         conteneur.outerHTML = html;
       } catch (err) {
-        console.error(
-          `[partials] Échec chargement ${fichier} (${id}) :`,
-          err?.message || err,
-        );
+        console.error(`[partials] Échec chargement ${fichier} (${id}) :`, err?.message || err);
         if (estEnvironnementDev()) {
           console.warn('[partials] Vérifiez le serveur statique et les chemins partials/');
         }
         const encoreLa = byId(id);
         if (encoreLa) appliquerFallbackPartial(encoreLa, id);
       }
-    }),
+    })
   );
   marquerLienActif();
 }

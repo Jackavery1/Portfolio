@@ -7,14 +7,7 @@ function listerRasters(srcDir) {
   return fs.readdirSync(srcDir).filter((f) => /\.(png|jpe?g)$/i.test(f));
 }
 
-async function optimiserUneImage({
-  srcPath,
-  dstPath,
-  ext,
-  qualiteJpeg,
-  qualitePng,
-  qualiteWebp,
-}) {
+async function optimiserUneImage({ srcPath, dstPath, ext, qualiteJpeg, qualitePng, qualiteWebp }) {
   const image = sharp(srcPath, { failOn: 'none' });
   const pipeline = image.rotate();
 
@@ -30,13 +23,7 @@ async function optimiserUneImage({
   await image.rotate().webp({ quality: qualiteWebp }).toFile(webpPath);
 }
 
-async function optimizeRasterDir({
-  srcDir,
-  dstDir,
-  label,
-  options,
-  onError,
-}) {
+async function optimizeRasterDir({ srcDir, dstDir, label, options, onError }) {
   if (!fs.existsSync(srcDir)) {
     log(`Pas de ${label} — ignoré`, 'warning');
     return;

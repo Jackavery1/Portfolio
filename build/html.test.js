@@ -20,7 +20,7 @@ describe('build html', () => {
     const out = stripDevHead(src);
     expect(out).not.toContain('HEAD_DEV_MIN');
     expect(out).not.toMatch(
-      /<link rel="stylesheet" href="style\.css" \/>\s*<link rel="stylesheet" href="style\.css" \/>/,
+      /<link rel="stylesheet" href="style\.css" \/>\s*<link rel="stylesheet" href="style\.css" \/>/
     );
   });
 
@@ -34,7 +34,7 @@ describe('build html', () => {
       expect(built).not.toMatch(/rel="stylesheet" href="style\.css"/);
       expect(built).not.toContain('<!-- FONTS_ASYNC -->');
       expect(built).not.toMatch(
-        /<link[^>]+href="https:\/\/fonts\.googleapis\.com\/css2[^"]*"[^>]*rel="stylesheet"/,
+        /<link[^>]+href="https:\/\/fonts\.googleapis\.com\/css2[^"]*"[^>]*rel="stylesheet"/
       );
       expect(built).toContain('property="og:title" content="Contact · Joris Martinez"');
       expect(built).toContain('"@type": "Person"');

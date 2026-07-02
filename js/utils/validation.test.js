@@ -1,9 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import {
-  cleDansScriptRecaptchaV3,
-  estEmailValide,
-  nettoyerChamp,
-} from './validation.js';
+import { cleDansScriptRecaptchaV3, estEmailValide, nettoyerChamp } from './validation.js';
 
 describe('nettoyerChamp', () => {
   it('trim et tronque à maxLen', () => {

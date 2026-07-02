@@ -8,12 +8,7 @@ vi.mock('../config/index.js', () => ({
   },
 }));
 
-import {
-  afficherScore,
-  ajouterScore,
-  lireScore,
-  sauvegarderScore,
-} from './score-session.js';
+import { afficherScore, ajouterScore, lireScore, sauvegarderScore } from './score-session.js';
 
 describe('score-session', () => {
   beforeEach(() => {

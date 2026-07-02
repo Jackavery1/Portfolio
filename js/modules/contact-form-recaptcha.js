@@ -1,6 +1,11 @@
 import { initRecaptcha } from './recaptcha.js';
 
-export async function initialiserRecaptchaContact({ endpoint, recaptchaKey, mount, optionsRecaptcha }) {
+export async function initialiserRecaptchaContact({
+  endpoint,
+  recaptchaKey,
+  mount,
+  optionsRecaptcha,
+}) {
   if (endpoint && recaptchaKey) {
     try {
       await initRecaptcha(optionsRecaptcha);

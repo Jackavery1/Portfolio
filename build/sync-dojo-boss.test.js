@@ -12,7 +12,7 @@ describe('dojo-boss sync', () => {
   it('dojo-boss-rush.html assemble tous les fragments', () => {
     const assembled = fs.readFileSync(
       path.join(rootDir, 'partials', 'dojo-boss-rush.html'),
-      'utf8',
+      'utf8'
     );
     FRAGMENTS.forEach((rel) => {
       const fragment = fs.readFileSync(path.join(rootDir, rel), 'utf8').trim();

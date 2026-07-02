@@ -1,25 +1,25 @@
 /* Accueil — mobile (≤960px) */
 
 @media (max-width: 960px) {
-  html:has(body[data-section-id="accueil"]) {
+  html:has(body[data-section-id='accueil']) {
     height: auto;
     overflow-x: hidden;
     overflow-y: auto;
   }
 
-  body[data-section-id="accueil"] {
+  body[data-section-id='accueil'] {
     overflow-x: hidden;
     overflow-y: auto;
     height: auto;
   }
 
-  body[data-section-id="accueil"] .ecran {
+  body[data-section-id='accueil'] .ecran {
     overflow: visible;
     min-height: auto;
     height: auto;
   }
 
-  body[data-section-id="accueil"] .section {
+  body[data-section-id='accueil'] .section {
     flex: none;
     overflow: visible;
     height: auto;
@@ -157,33 +157,33 @@
     font-size: clamp(0.42rem, 2vw, 0.55rem);
   }
 
-  body[data-section-id="accueil"] .section {
+  body[data-section-id='accueil'] .section {
     padding: 1.75rem 1.5rem 0.5rem;
   }
 
-  body[data-section-id="accueil"] .accueil__grille {
+  body[data-section-id='accueil'] .accueil__grille {
     padding-top: 0;
     padding-bottom: 0.25rem;
   }
 
-  body[data-section-id="accueil"] .etiquette-crt {
+  body[data-section-id='accueil'] .etiquette-crt {
     margin-bottom: 0.5rem;
   }
 
-  body[data-section-id="accueil"] .titre-arcade {
+  body[data-section-id='accueil'] .titre-arcade {
     margin-bottom: 0.45rem;
   }
 
-  body[data-section-id="accueil"] .sous-titre-arcade {
+  body[data-section-id='accueil'] .sous-titre-arcade {
     margin-bottom: 0.45rem;
   }
 
-  body[data-section-id="accueil"] .separateur-arcade {
+  body[data-section-id='accueil'] .separateur-arcade {
     margin-top: 0.15rem;
     margin-bottom: 0.55rem;
   }
 
-  body[data-section-id="accueil"] .accueil__actions {
+  body[data-section-id='accueil'] .accueil__actions {
     gap: 0.55rem;
   }
 }

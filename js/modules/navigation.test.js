@@ -58,7 +58,7 @@ describe('navigation', () => {
     const menu = document.getElementById('js-menu');
     burger.click();
     document.dispatchEvent(
-      new KeyboardEvent('keydown', { key: 'Escape', code: 'Escape', bubbles: true }),
+      new KeyboardEvent('keydown', { key: 'Escape', code: 'Escape', bubbles: true })
     );
     expect(burger.getAttribute('aria-expanded')).toBe('false');
     expect(menu.classList.contains('ouvert')).toBe(false);

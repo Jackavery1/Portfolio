@@ -67,7 +67,9 @@
   cursor: default;
   margin-bottom: 0.35rem;
   color: var(--couleur-accent-vif);
-  transition: color 0.15s, text-shadow 0.15s;
+  transition:
+    color 0.15s,
+    text-shadow 0.15s;
   outline: none;
   max-width: 100%;
   overflow-wrap: anywhere;
@@ -87,7 +89,9 @@
   text-align: center;
   letter-spacing: 2px;
   padding: 0.5rem 0.75rem;
-  transition: color 0.15s, text-shadow 0.15s;
+  transition:
+    color 0.15s,
+    text-shadow 0.15s;
 }
 
 .contact-bandeau__action:hover,

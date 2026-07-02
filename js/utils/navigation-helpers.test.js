@@ -1,13 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { indexDansOrdreNavigation } from './navigation-helpers.js';
 
-const ORDRE = [
-  'index.html',
-  'projets.html',
-  'competences.html',
-  'parcours.html',
-  'contact.html',
-];
+const ORDRE = ['index.html', 'projets.html', 'competences.html', 'parcours.html', 'contact.html'];
 
 describe('navigation-helpers', () => {
   it('retourne l’index dans l’ordre du menu', () => {

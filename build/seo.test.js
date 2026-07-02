@@ -23,9 +23,7 @@ describe('build seo', () => {
       expect(sitemap).toContain('<changefreq>monthly</changefreq>');
       expect(robots).toContain('Sitemap: https://example.com/sitemap.xml');
 
-      const manifest = JSON.parse(
-        fs.readFileSync(path.join(tmp, 'manifest.webmanifest'), 'utf8'),
-      );
+      const manifest = JSON.parse(fs.readFileSync(path.join(tmp, 'manifest.webmanifest'), 'utf8'));
       expect(manifest.display).toBe('standalone');
       expect(manifest.start_url).toBe('https://example.com/index.html');
     } finally {

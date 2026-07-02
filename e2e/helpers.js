@@ -12,12 +12,12 @@ export async function waitForServiceWorker(page) {
       const registration = await navigator.serviceWorker.getRegistration();
       return Boolean(
         registration?.active?.scriptURL ??
-          registration?.installing?.scriptURL ??
-          registration?.waiting?.scriptURL,
+        registration?.installing?.scriptURL ??
+        registration?.waiting?.scriptURL
       );
     },
     undefined,
-    { timeout: 20_000 },
+    { timeout: 20_000 }
   );
 }
 

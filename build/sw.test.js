@@ -23,7 +23,7 @@ describe('build service worker', () => {
     expect(urls).toContain('assets/cv-martinez-joris.pdf');
     expect(urls.some((url) => url.startsWith('js/modules/'))).toBe(true);
     expect(urls.some((url) => url.startsWith('assets/fonts/'))).toBe(
-      fs.existsSync(path.join(rootDir, 'assets', 'fonts')),
+      fs.existsSync(path.join(rootDir, 'assets', 'fonts'))
     );
     if (fs.existsSync(path.join(rootDir, 'assets', 'previews'))) {
       expect(urls.some((url) => url.startsWith('assets/previews/'))).toBe(true);

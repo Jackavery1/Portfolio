@@ -66,9 +66,9 @@ describe('contact-form', () => {
     await initContactForm();
 
     document.getElementById('contact-website').value = 'spam';
-    document.getElementById('js-formulaire').dispatchEvent(
-      new Event('submit', { bubbles: true, cancelable: true }),
-    );
+    document
+      .getElementById('js-formulaire')
+      .dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
 
     expect(fetch).not.toHaveBeenCalled();
   });
@@ -77,9 +77,9 @@ describe('contact-form', () => {
     sessionStorage.setItem('portfolio-contact-last', String(Date.now()));
     await initContactForm();
 
-    document.getElementById('js-formulaire').dispatchEvent(
-      new Event('submit', { bubbles: true, cancelable: true }),
-    );
+    document
+      .getElementById('js-formulaire')
+      .dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
 
     const erreur = document.getElementById('js-formulaire-erreur');
     expect(erreur.hidden).toBe(false);
@@ -94,9 +94,9 @@ describe('contact-form', () => {
     });
 
     await initContactForm();
-    document.getElementById('js-formulaire').dispatchEvent(
-      new Event('submit', { bubbles: true, cancelable: true }),
-    );
+    document
+      .getElementById('js-formulaire')
+      .dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
 
     await vi.waitFor(() => {
       expect(fetch).toHaveBeenCalled();

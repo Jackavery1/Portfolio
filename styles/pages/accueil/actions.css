@@ -41,8 +41,7 @@
   border: 1px solid #b83232;
   border-left: 4px solid var(--couleur-erreur);
   background:
-    linear-gradient(90deg, var(--couleur-erreur), transparent 78%) top / 100%
-      2px no-repeat,
+    linear-gradient(90deg, var(--couleur-erreur), transparent 78%) top / 100% 2px no-repeat,
     linear-gradient(
       118deg,
       rgba(255, 68, 68, 0.14) 0%,

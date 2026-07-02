@@ -26,7 +26,7 @@ function listerPreviewsPrecache(distDir) {
 
 function precacheUrls(distDir) {
   const jsFiles = walkJsFiles(path.join(distDir, 'js')).map((abs) =>
-    path.relative(distDir, abs).replace(/\\/g, '/'),
+    path.relative(distDir, abs).replace(/\\/g, '/')
   );
 
   return [
@@ -127,7 +127,7 @@ function writeServiceWorker(targetDir, version) {
   fs.writeFileSync(
     path.join(targetDir, 'sw.js'),
     generateServiceWorker(version, targetDir),
-    'utf8',
+    'utf8'
   );
   log(`sw.js généré (${urls.length} entrées precache)`, 'success');
 }

@@ -1,9 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import {
-  CONFIG_DEFAULTS,
-  applyBuildEnvToJs,
-  resolveBuildEnv,
-} from './env.cjs';
+import { CONFIG_DEFAULTS, applyBuildEnvToJs, resolveBuildEnv } from './env.cjs';
 
 describe('resolveBuildEnv', () => {
   it('utilise les valeurs par défaut', () => {
@@ -29,9 +25,9 @@ describe('resolveBuildEnv', () => {
   });
 
   it('retire le slash final de SITE_URL', () => {
-    expect(
-      resolveBuildEnv({ PORTFOLIO_SITE_URL: 'https://preview.example.com/' }).siteOrigin
-    ).toBe('https://preview.example.com');
+    expect(resolveBuildEnv({ PORTFOLIO_SITE_URL: 'https://preview.example.com/' }).siteOrigin).toBe(
+      'https://preview.example.com'
+    );
   });
 });
 

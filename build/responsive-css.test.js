@@ -31,9 +31,7 @@ function lire(rel) {
 
 describe('responsive CSS', () => {
   it('viewport-fit=cover sur toutes les pages HTML', () => {
-    const pages = fs
-      .readdirSync(rootDir)
-      .filter((name) => name.endsWith('.html'));
+    const pages = fs.readdirSync(rootDir).filter((name) => name.endsWith('.html'));
 
     pages.forEach((file) => {
       const html = lire(file);

@@ -64,10 +64,7 @@ function buildDevManifest() {
     theme_color: '#03040f',
     lang: 'fr-FR',
     orientation: 'any',
-    icons: [
-      icon('./assets/favicon.png', '64x64'),
-      icon('./assets/og.png', '512x512'),
-    ],
+    icons: [icon('./assets/favicon.png', '64x64'), icon('./assets/og.png', '512x512')],
   };
 }
 

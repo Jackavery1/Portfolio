@@ -85,7 +85,9 @@ test('responsive mobile — cibles tactiles ≥ 44px', async ({ page }) => {
 test('safe-area — marquee et nav sticky', async ({ page }) => {
   await gotoReady(page, '/index.html');
 
-  const marqueeHeight = await page.locator('.marquee-bande').evaluate((el) => getComputedStyle(el).height);
+  const marqueeHeight = await page
+    .locator('.marquee-bande')
+    .evaluate((el) => getComputedStyle(el).height);
   const navTop = await page.locator('.nav').evaluate((el) => getComputedStyle(el).top);
 
   expect(marqueeHeight).toBe('32px');
@@ -155,10 +157,13 @@ test('manifest PWA — présent et valide', async ({ page }) => {
 
 test('lien manifest dans le head', async ({ page }) => {
   await gotoReady(page, '/index.html');
-  await expect(page.locator('link[rel="manifest"]')).toHaveAttribute('href', 'manifest.webmanifest');
+  await expect(page.locator('link[rel="manifest"]')).toHaveAttribute(
+    'href',
+    'manifest.webmanifest'
+  );
   await expect(page.locator('link[rel="apple-touch-icon"]')).toHaveAttribute(
     'href',
-    /apple-touch-icon\.png/,
+    /apple-touch-icon\.png/
   );
 });
 
@@ -167,8 +172,14 @@ test('page offline — accessible et meta PWA', async ({ page }) => {
   expect(response?.ok()).toBeTruthy();
   await expect(page.locator('h1')).toContainText(/hors ligne/i);
   await expect(page.locator('a[href="index.html"]')).toBeVisible();
-  await expect(page.locator('link[rel="manifest"]')).toHaveAttribute('href', 'manifest.webmanifest');
-  await expect(page.locator('meta[name="viewport"]')).toHaveAttribute('content', /viewport-fit=cover/);
+  await expect(page.locator('link[rel="manifest"]')).toHaveAttribute(
+    'href',
+    'manifest.webmanifest'
+  );
+  await expect(page.locator('meta[name="viewport"]')).toHaveAttribute(
+    'content',
+    /viewport-fit=cover/
+  );
 });
 
 test.describe('service worker', () => {
@@ -183,7 +194,7 @@ test.describe('service worker', () => {
     expect(precacheContient(urls, 'offline.html')).toBe(true);
     expect(
       precacheContient(urls, 'assets/previews/lsf.webp') ||
-        precacheContient(urls, 'assets/previews/lsf.png'),
+        precacheContient(urls, 'assets/previews/lsf.png')
     ).toBe(true);
   });
 

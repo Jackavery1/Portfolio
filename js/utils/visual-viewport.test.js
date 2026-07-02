@@ -54,9 +54,7 @@ describe('visual-viewport', () => {
     });
 
     desinscrire = initScrollChampClavier(document.getElementById('f'));
-    document.getElementById('msg').dispatchEvent(
-      new FocusEvent('focusin', { bubbles: true }),
-    );
+    document.getElementById('msg').dispatchEvent(new FocusEvent('focusin', { bubbles: true }));
     await new Promise((resolve) => requestAnimationFrame(resolve));
 
     expect(window.scrollBy).toHaveBeenCalledWith({

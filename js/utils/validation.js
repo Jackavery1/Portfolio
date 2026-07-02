@@ -18,11 +18,7 @@ export function nettoyerChamp(texte, maxLen) {
 }
 
 export function estEmailValide(email, maxLen = 254) {
-  return (
-    email.length > 0 &&
-    email.length <= maxLen &&
-    /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i.test(email)
-  );
+  return email.length > 0 && email.length <= maxLen && /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i.test(email);
 }
 
 export function cleDansScriptRecaptchaV3(script) {

@@ -1,12 +1,12 @@
 /* Accueil — viewport court mobile (≤780px hauteur) */
 
 @media (max-width: 960px) and (max-height: 780px) {
-  body[data-section-id="accueil"] .section {
+  body[data-section-id='accueil'] .section {
     padding-top: 1.25rem;
     padding-bottom: 0.35rem;
   }
 
-  body[data-section-id="accueil"] .accueil__grille {
+  body[data-section-id='accueil'] .accueil__grille {
     padding-bottom: 0.15rem;
   }
 }

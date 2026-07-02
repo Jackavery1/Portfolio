@@ -4,6 +4,8 @@ dist/
 /js/config/partials.js
 /style.css
 /partials/parcours-arbre.html
+/partials/dojo-boss/_*.html
+/partials/parcours-arbre/_*.html
 /sw.js
 /manifest.webmanifest
 /assets/apple-touch-icon.png

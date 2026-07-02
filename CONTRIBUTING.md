@@ -37,11 +37,11 @@ La **CSP** et le **service worker** ne sont injectés qu’après `npm run build
 
 Copier `.env.example` → `.env.local` pour surcharger :
 
-| Variable | Rôle |
-|----------|------|
-| `PORTFOLIO_SITE_URL` | URL canonique / Open Graph / manifest |
-| `PORTFOLIO_FORMSPREE_ENDPOINT` | Endpoint Formspree |
-| `PORTFOLIO_RECAPTCHA_SITE_KEY` | Clé site reCAPTCHA v3 |
+| Variable                       | Rôle                                  |
+| ------------------------------ | ------------------------------------- |
+| `PORTFOLIO_SITE_URL`           | URL canonique / Open Graph / manifest |
+| `PORTFOLIO_FORMSPREE_ENDPOINT` | Endpoint Formspree                    |
+| `PORTFOLIO_RECAPTCHA_SITE_KEY` | Clé site reCAPTCHA v3                 |
 
 Valeurs par défaut : `build/config-defaults.cjs` → synchronisées au build dans `js/config/defaults.js`, `manifest.webmanifest` et métadonnées SEO.
 
@@ -65,39 +65,40 @@ Ne jamais committer de secrets (clé secrète reCAPTCHA, tokens privés). Voir [
 
 ### npm / build
 
-| Problème | Solution |
-|----------|----------|
+| Problème                          | Solution                                                                                                        |
+| --------------------------------- | --------------------------------------------------------------------------------------------------------------- |
 | `UNABLE_TO_VERIFY_LEAF_SIGNATURE` | Proxy / certificat entreprise : `npm config set strict-ssl false` (réseau de confiance) ou certificat racine CA |
-| Dépendance manquante au build | `npm ci` puis relancer `npm run build` |
-| `dist/` verrouillé sous Windows | Fermer l’explorateur ou le serveur ; le build utilise `.dist-staging/` en secours |
+| Dépendance manquante au build     | `npm ci` puis relancer `npm run build`                                                                          |
+| `dist/` verrouillé sous Windows   | Fermer l’explorateur ou le serveur ; le build utilise `.dist-staging/` en secours                               |
 
 ### Playwright (e2e)
 
-| Problème | Solution |
-|----------|----------|
-| Navigateur absent (`Executable doesn't exist`) | `npm run test:e2e:install` ou `npx playwright install --with-deps chromium webkit` |
-| Téléchargement bloqué (certificat SSL) | Même correctif que npm ci-dessus, puis relancer l’install ; sous PowerShell : `$env:NODE_TLS_REJECT_UNAUTHORIZED='0'; npx playwright install chromium webkit` (temporaire, réseau de confiance uniquement) |
-| E2e lent / timeout CI | La CI exécute Chromium (desktop + mobile) **et** WebKit (`responsive-webkit`, iPhone 13) — timeout job e2e : 35 min |
+| Problème                                       | Solution                                                                                                                                                                                                   |
+| ---------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Navigateur absent (`Executable doesn't exist`) | `npm run test:e2e:install` ou `npx playwright install --with-deps chromium webkit`                                                                                                                         |
+| Téléchargement bloqué (certificat SSL)         | Même correctif que npm ci-dessus, puis relancer l’install ; sous PowerShell : `$env:NODE_TLS_REJECT_UNAUTHORIZED='0'; npx playwright install chromium webkit` (temporaire, réseau de confiance uniquement) |
+| E2e lent / timeout CI                          | La CI exécute Chromium (desktop + mobile) **et** WebKit (`responsive-webkit`, iPhone 13) — timeout job e2e : 35 min                                                                                        |
 
 ### Site / UX
 
-| Problème | Solution |
-|----------|----------|
-| Nav / footer vides | Serveur HTTP (`npx serve`), pas `file://` |
-| Formulaire 403 | Domaines reCAPTCHA + Formspree autorisés pour votre URL |
-| Favicon absente | Hard refresh ; vérifier `assets/favicon.png` après build |
-| Page blanche hors ligne | Visiter une fois en ligne pour remplir le cache ; sinon `offline.html` s’affiche |
-| **Prod sans styles** (HTML brut, blob SVG noir) | GitHub Pages sert probablement la branche `main` au lieu du build. *Settings → Pages → Source* = **GitHub Actions**. Vérifier que le job `deploy` de la CI a réussi après le push. Tester localement : `npm run build` puis `npx serve .dist-staging` |
+| Problème                                        | Solution                                                                                                                                                                                                                                              |
+| ----------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Nav / footer vides                              | Serveur HTTP (`npx serve`), pas `file://`                                                                                                                                                                                                             |
+| Formulaire 403                                  | Domaines reCAPTCHA + Formspree autorisés pour votre URL                                                                                                                                                                                               |
+| Favicon absente                                 | Hard refresh ; vérifier `assets/favicon.png` après build                                                                                                                                                                                              |
+| Page blanche hors ligne                         | Visiter une fois en ligne pour remplir le cache ; sinon `offline.html` s’affiche                                                                                                                                                                      |
+| **Prod sans styles** (HTML brut, blob SVG noir) | GitHub Pages sert probablement la branche `main` au lieu du build. _Settings → Pages → Source_ = **GitHub Actions**. Vérifier que le job `deploy` de la CI a réussi après le push. Tester localement : `npm run build` puis `npx serve .dist-staging` |
+| **404** sur `jackavery1.github.io/Portfolio/` | Le job `deploy` n’a jamais tourné : la CI échoue en amont (`validate`, souvent `format:check`). _Actions → CI_ : si le run dure ~30 s et est rouge, corriger puis repousser. Un déploiement réussi dure plusieurs minutes (e2e + lighthouse + deploy). |
 
 ## Breakpoints CSS
 
-| Seuil | Usage |
-|-------|--------|
+| Seuil              | Usage                                                   |
+| ------------------ | ------------------------------------------------------- |
 | `max-width: 960px` | Mobile / tablette (nav, layout, footer, pages, contact) |
-| `min-width: 961px` | Desktop (grilles 2 cols parcours, compétences) |
-| `min-width: 700px` | Grille projets 2 colonnes (tablette large) |
-| `600px – 960px` | Accueil tablette, stats latérales compétences |
-| `max-width: 480px` | Footer une colonne, nav compacte (score masqué) |
+| `min-width: 961px` | Desktop (grilles 2 cols parcours, compétences)          |
+| `min-width: 700px` | Grille projets 2 colonnes (tablette large)              |
+| `600px – 960px`    | Accueil tablette, stats latérales compétences           |
+| `max-width: 480px` | Footer une colonne, nav compacte (score masqué)         |
 | `max-width: 320px` | Contact / dojo très petits écrans (bandeau, boss cards) |
 
 Référence technique : `build/breakpoints.cjs`, `styles/tokens.css`. Listes CSS synchronisées via `build/page-styles.cjs` → `style.css`.

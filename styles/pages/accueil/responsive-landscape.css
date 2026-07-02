@@ -1,25 +1,25 @@
 /* Accueil — paysage compact (≤552px hauteur) */
 
 @media (max-height: 552px) and (orientation: landscape) {
-  html:has(body[data-section-id="accueil"]) {
+  html:has(body[data-section-id='accueil']) {
     height: auto;
     overflow-x: hidden;
     overflow-y: auto;
   }
 
-  body[data-section-id="accueil"] {
+  body[data-section-id='accueil'] {
     overflow-x: hidden;
     overflow-y: auto;
     height: auto;
   }
 
-  body[data-section-id="accueil"] .ecran {
+  body[data-section-id='accueil'] .ecran {
     overflow: visible;
     min-height: auto;
     height: auto;
   }
 
-  body[data-section-id="accueil"] .section {
+  body[data-section-id='accueil'] .section {
     flex: none;
     overflow: visible;
     height: auto;

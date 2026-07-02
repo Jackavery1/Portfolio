@@ -45,7 +45,7 @@ describe('focus', () => {
           prevented = true;
         },
       },
-      modal,
+      modal
     );
     expect(prevented).toBe(true);
     expect(document.activeElement).toBe(b1);

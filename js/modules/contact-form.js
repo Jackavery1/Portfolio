@@ -72,13 +72,15 @@ export async function initContactForm() {
       honeypotRempli(
         formulaire,
         byId(CONFIG.SELECTORS.CONTACT_HONEYPOT),
-        CONFIG.CONTACT.HONEYPOT_NAME,
+        CONFIG.CONTACT.HONEYPOT_NAME
       )
     ) {
       return;
     }
 
-    if (!peutSoumettreAvecSession(CONFIG.STORAGE.CONTACT_LAST_SUBMIT, CONFIG.CONTACT.RATE_LIMIT_MS)) {
+    if (
+      !peutSoumettreAvecSession(CONFIG.STORAGE.CONTACT_LAST_SUBMIT, CONFIG.CONTACT.RATE_LIMIT_MS)
+    ) {
       jouerBip(150, 120, 'sawtooth');
       afficherErreur('Veuillez patienter avant un nouvel envoi.');
       return;

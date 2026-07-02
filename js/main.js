@@ -42,9 +42,7 @@ async function init() {
   assurerFaviconLocale();
   await chargerPartials();
 
-  const { initContactCoordonnees } = await import(
-    './modules/contact-coordonnees.js'
-  );
+  const { initContactCoordonnees } = await import('./modules/contact-coordonnees.js');
   initContactCoordonnees();
 
   const popupHs = byId(CONFIG.SELECTORS.POPUP_HS);
@@ -60,9 +58,7 @@ async function init() {
 
   if (sid === 'projets') {
     const { initProjetsGrille } = await import('./modules/projets-grille.js');
-    const { initModalClavier, initModalClicks } = await import(
-      './modules/modal.js'
-    );
+    const { initModalClavier, initModalClicks } = await import('./modules/modal.js');
     initProjetsGrille();
     initModalClavier();
     initModalClicks();

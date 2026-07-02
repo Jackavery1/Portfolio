@@ -25,7 +25,7 @@ function chargerScriptV3(siteKey) {
       (g) =>
         new Promise((resolve) => {
           g.ready(() => resolve(g));
-        }),
+        })
     );
   }
 

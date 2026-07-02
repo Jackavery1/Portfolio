@@ -9,7 +9,7 @@ describe('animations', () => {
       vi.fn((cb) => {
         cb();
         return 1;
-      }),
+      })
     );
     document.body.innerHTML = `
       <section id="sec">

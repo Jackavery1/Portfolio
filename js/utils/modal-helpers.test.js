@@ -9,9 +9,7 @@ import {
 
 describe('modal-helpers', () => {
   it('résout l’aperçu projet', () => {
-    expect(resolveApercuSrc({ apercu: 'assets/previews/lsf.png' })).toBe(
-      'assets/previews/lsf.png',
-    );
+    expect(resolveApercuSrc({ apercu: 'assets/previews/lsf.png' })).toBe('assets/previews/lsf.png');
     expect(resolveApercuSrc({})).toBeNull();
   });
 
@@ -21,9 +19,7 @@ describe('modal-helpers', () => {
   });
 
   it('dérive le chemin WebP depuis un raster', () => {
-    expect(cheminWebpDepuisRaster('assets/previews/lsf.png')).toBe(
-      'assets/previews/lsf.webp',
-    );
+    expect(cheminWebpDepuisRaster('assets/previews/lsf.png')).toBe('assets/previews/lsf.webp');
     expect(cheminWebpDepuisRaster('foo.svg')).toBeNull();
   });
 

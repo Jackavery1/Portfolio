@@ -57,7 +57,7 @@ describe('modal', () => {
     expect(modal.hidden).toBe(false);
     expect(document.getElementById('js-modal-titre').textContent).toBe('Projet test');
     expect(document.getElementById('js-modal-lien').querySelector('a')?.href).toContain(
-      'github.com',
+      'github.com'
     );
 
     fermerModal();

@@ -86,7 +86,7 @@ describe('contact-form-submit', () => {
     obtenirTokenRecaptcha.mockResolvedValue('token');
     vi.stubGlobal(
       'fetch',
-      vi.fn().mockResolvedValue({ ok: true, json: () => Promise.resolve({}) }),
+      vi.fn().mockResolvedValue({ ok: true, json: () => Promise.resolve({}) })
     );
 
     const btn = document.getElementById('btn');

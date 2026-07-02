@@ -80,7 +80,9 @@
   letter-spacing: 2px;
   text-decoration: none;
   cursor: pointer;
-  transition: box-shadow 0.2s, transform 0.15s;
+  transition:
+    box-shadow 0.2s,
+    transform 0.15s;
 }
 
 @media (hover: hover) and (pointer: fine) {

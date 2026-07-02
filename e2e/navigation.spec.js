@@ -14,10 +14,13 @@ test('accueil → projets → modale → Escape', async ({ page }) => {
   await expect(carte).toBeVisible();
   const modal = page.locator('#js-modal');
   await expect
-    .poll(async () => {
-      await carte.click({ force: true });
-      return modal.isVisible();
-    }, { timeout: 15_000 })
+    .poll(
+      async () => {
+        await carte.click({ force: true });
+        return modal.isVisible();
+      },
+      { timeout: 15_000 }
+    )
     .toBe(true);
   await expect(page.locator('#js-modal-titre')).not.toHaveText('NOM DU PROJET');
   const apercu = page.locator('#js-modal-img');

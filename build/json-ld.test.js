@@ -12,10 +12,15 @@ describe('build json-ld', () => {
   };
 
   it('index — graph Person + WebSite + WebPage', () => {
-    const payload = buildJsonLd('index.html', siteBase, {
-      ogTitle: 'Joris Martinez · Développeur Web',
-      description: 'Portfolio développeur web.',
-    }, `${siteBase}/`);
+    const payload = buildJsonLd(
+      'index.html',
+      siteBase,
+      {
+        ogTitle: 'Joris Martinez · Développeur Web',
+        description: 'Portfolio développeur web.',
+      },
+      `${siteBase}/`
+    );
 
     expect(payload['@graph']).toHaveLength(3);
     const person = payload['@graph'][0];

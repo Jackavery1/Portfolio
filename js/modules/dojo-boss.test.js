@@ -48,7 +48,7 @@ describe('dojo-boss', () => {
 
     carte.dispatchEvent(new MouseEvent('mouseenter'));
     expect(carte.querySelector('.boss-citation').classList.contains('boss-citation--visible')).toBe(
-      true,
+      true
     );
 
     window.dispatchEvent(new Event('pagehide'));

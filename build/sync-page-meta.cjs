@@ -47,7 +47,7 @@ if (require.main === module) {
     const derives = verifierPageMeta(root);
     if (derives.length) {
       console.error(
-        `PAGE_META désynchronisé dans : ${derives.join(', ')} — exécutez npm run sync:page-meta`,
+        `PAGE_META désynchronisé dans : ${derives.join(', ')} — exécutez npm run sync:page-meta`
       );
       process.exit(1);
     }
