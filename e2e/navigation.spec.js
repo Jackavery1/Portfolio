@@ -1,6 +1,8 @@
 import { test, expect } from '@playwright/test';
 import { gotoReady } from './helpers.js';
 
+test.use({ viewport: { width: 768, height: 1024 } });
+
 test('accueil → projets → modale → Escape', async ({ page }) => {
   await gotoReady(page, '/index.html');
   await expect(page.locator('#js-score')).toBeVisible();

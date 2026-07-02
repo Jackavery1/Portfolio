@@ -175,7 +175,7 @@
 .boss-carte__techno {
   font-family: var(--police-crt);
   font-size: clamp(0.95rem, 2.2vw, 1.1rem);
-  color: var(--couleur-accent);
+  color: var(--couleur-accent-vif);
   letter-spacing: 1px;
   line-height: 1.25;
   margin: 0;
