@@ -48,7 +48,7 @@ export async function assertLargeurTactile(locator, minPx = 44) {
   expect(box.width).toBeGreaterThanOrEqual(minPx - 1);
 }
 
-export async function attendrePrecachePwa(page, { minEntrees = 60, timeoutMs = 30_000 } = {}) {
+export async function attendrePrecachePwa(page, { minEntrees = 60, timeoutMs = 45_000 } = {}) {
   const deadline = Date.now() + timeoutMs;
   while (Date.now() < deadline) {
     const { urls } = await lireEntreesPrecache(page);

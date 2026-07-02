@@ -88,7 +88,14 @@ function preciserReponseNavigation(request) {
       return response;
     })
     .catch(() =>
-      caches.match(request).then((cached) => cached || caches.match(OFFLINE_URL)),
+      caches.open(CACHE).then(async (cache) => {
+        const cached = await cache.match(request);
+        if (cached) return cached;
+        const offline =
+          (await cache.match(OFFLINE_URL)) ||
+          (await cache.match(new URL(OFFLINE_URL, self.location.origin).pathname));
+        return offline || caches.match(OFFLINE_URL);
+      }),
     );
 }
 

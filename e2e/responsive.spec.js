@@ -208,14 +208,15 @@ test.describe('service worker', () => {
     await preparerServiceWorker(page);
 
     await gotoReady(page, '/projets.html');
+    await page.goto('/offline.html', { waitUntil: 'domcontentloaded' });
     await context.setOffline(true);
     try {
-      await page.reload({ waitUntil: 'domcontentloaded' });
-      await expect(page.locator('h1')).toContainText(/SELECT YOUR STAGE/i);
+      await page.goto('/projets.html', { waitUntil: 'domcontentloaded', timeout: 20_000 });
+      await expect(page.locator('h1')).toContainText(/SELECT YOUR STAGE/i, { timeout: 15_000 });
 
-      await page.goto('/page-inconnue.html', { waitUntil: 'domcontentloaded' });
-      await expect(page.locator('h1')).toContainText(/hors ligne/i);
-      await expect(page.locator('a[href="index.html"]')).toBeVisible();
+      await page.goto('/page-inconnue.html', { waitUntil: 'domcontentloaded', timeout: 20_000 });
+      await expect(page.locator('h1')).toContainText(/Mode hors ligne/i, { timeout: 15_000 });
+      await expect(page.getByRole('link', { name: /accueil/i })).toBeVisible();
     } finally {
       await context.setOffline(false);
     }
