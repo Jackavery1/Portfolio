@@ -17,9 +17,17 @@ describe('build seo', () => {
 
       expect(sitemap).toContain('<loc>https://example.com/</loc>');
       expect(sitemap).toContain('<loc>https://example.com/contact.html</loc>');
+      expect(sitemap).toContain('<priority>1.0</priority>');
+      expect(sitemap).toContain('<priority>0.4</priority>');
       expect(sitemap).toContain('<lastmod>');
       expect(sitemap).toContain('<changefreq>monthly</changefreq>');
       expect(robots).toContain('Sitemap: https://example.com/sitemap.xml');
+
+      const manifest = JSON.parse(
+        fs.readFileSync(path.join(tmp, 'manifest.webmanifest'), 'utf8'),
+      );
+      expect(manifest.display).toBe('standalone');
+      expect(manifest.start_url).toBe('https://example.com/index.html');
     } finally {
       fs.rmSync(tmp, { recursive: true, force: true });
     }

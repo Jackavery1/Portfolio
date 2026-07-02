@@ -53,7 +53,7 @@
 
 .mentions-bloc h2 {
   font-family: var(--police-pixel);
-  font-size: clamp(0.36rem, 1.35vw, 0.52rem);
+  font-size: clamp(var(--taille-pixel-min), 1.35vw, 0.52rem);
   color: var(--couleur-accent-vif);
   letter-spacing: 1px;
   margin-bottom: 0.65rem;

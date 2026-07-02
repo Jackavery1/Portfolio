@@ -1,15 +1,13 @@
 const fs = require('fs');
 const path = require('path');
 
-['clean-css', 'uglify-js'].forEach((dep) => {
+['clean-css', 'uglify-js', 'sharp'].forEach((dep) => {
   try {
     require.resolve(dep);
   } catch {
+    console.error(`\n❌ Dépendance manquante: "${dep}"\n   → Exécutez: npm install\n`);
     console.error(
-      `\n❌ Dépendance manquante: "${dep}"\n   → Exécutez: npm install\n`,
-    );
-    console.error(
-      '   Si npm échoue avec UNABLE_TO_VERIFY_LEAF_SIGNATURE : voir CONTRIBUTING.md (Dépannage npm).\n',
+      '   Si npm échoue avec UNABLE_TO_VERIFY_LEAF_SIGNATURE : voir CONTRIBUTING.md (Dépannage npm).\n'
     );
     process.exit(1);
   }
@@ -21,7 +19,7 @@ const STAGING_DIR = path.join(ROOT, '.dist-staging');
 const WATCH_MODE = process.argv.includes('--watch');
 
 const { loadEnvFile, resolveBuildEnv } = require('./build/env.cjs');
-const { syncDefaults } = require('./build/sync-defaults.cjs');
+const { syncSource } = require('./build/sync-source.cjs');
 const { log, createDist, finalizeDist } = require('./build/fs-utils.cjs');
 const { copyHTML, HTML_FILES } = require('./build/html.cjs');
 const { writeSeoFiles } = require('./build/seo.cjs');
@@ -33,10 +31,12 @@ const {
   optimizeImages,
   optimizePreviewImages,
   copyAssets,
+  generatePwaIcons,
 } = require('./build/images.cjs');
+const { writeServiceWorker } = require('./build/sw.cjs');
+const pkg = require('./package.json');
 
 loadEnvFile(ROOT);
-syncDefaults();
 
 const BUILD_ENV = resolveBuildEnv();
 const SITE_BASE = BUILD_ENV.siteOrigin;
@@ -83,22 +83,29 @@ async function runBuild() {
   console.log(`${'='.repeat(50)}\n`);
 
   try {
+    syncSource();
     createDist(STAGING_DIR);
     copyHTML(ROOT, STAGING_DIR, SITE_BASE);
     writeSeoFiles(STAGING_DIR, SITE_BASE);
     copyFonts(ROOT, STAGING_DIR);
     minifyCSS(ROOT, STAGING_DIR);
     minifyAllJs(ROOT, STAGING_DIR);
+    await generatePwaIcons(ROOT, STAGING_DIR);
     await optimizeImages(ROOT, STAGING_DIR);
     await optimizePreviewImages(ROOT, STAGING_DIR);
     patchOgImageWebp(STAGING_DIR, SITE_BASE);
     copyAssets(ROOT, STAGING_DIR);
+    writeServiceWorker(STAGING_DIR, pkg.version);
+    for (const artefact of ['sw.js', 'manifest.webmanifest']) {
+      const legacy = path.join(ROOT, artefact);
+      if (fs.existsSync(legacy)) fs.unlinkSync(legacy);
+    }
     try {
       finalizeDist(STAGING_DIR, DIST_DIR);
     } catch (err) {
       log(
         `dist/ partiellement verrouillé (${err.message}) — staging complet dans .dist-staging/`,
-        'warning',
+        'warning'
       );
     }
 

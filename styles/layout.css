@@ -6,7 +6,8 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 32px;
+  height: calc(32px + env(safe-area-inset-top, 0));
+  padding-top: env(safe-area-inset-top, 0);
   background-color: var(--couleur-accent-dim);
   border-bottom: 1px solid var(--couleur-accent);
   overflow: hidden;
@@ -39,8 +40,9 @@
   flex: 1;
   width: 100%;
   max-width: 960px;
-  margin: 32px auto 0;
-  min-height: calc(100vh - 24px);
+  margin: calc(32px + env(safe-area-inset-top, 0)) auto 0;
+  min-height: calc(100vh - 24px - env(safe-area-inset-top, 0));
+  min-height: calc(100dvh - 24px - env(safe-area-inset-top, 0));
   display: flex;
   flex-direction: column;
   box-shadow: 0 0 40px rgba(var(--couleur-accent-rgb), 0.15), 0 0 80px rgba(var(--couleur-accent-rgb), 0.05);
@@ -99,15 +101,20 @@
 }
 
 #js-contenu-principal {
-  scroll-margin-top: 2.75rem;
+  scroll-margin-top: calc(2.75rem + env(safe-area-inset-top, 0));
 }
 
 .lien-evitement {
   position: fixed;
-  top: 0;
+  top: env(safe-area-inset-top, 0);
   left: 50%;
   z-index: 10000;
+  min-height: 44px;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
   padding: 0.6rem 1rem;
+  touch-action: manipulation;
   font-family: var(--police-pixel);
   font-size: clamp(0.35rem, 1.2vw, 0.48rem);
   color: var(--couleur-fond);
@@ -208,10 +215,22 @@ a.bouton-retour-work {
   .section {
     padding: 1.25rem 1rem 2rem;
   }
+
+  .ecran {
+    min-height: auto;
+  }
+}
+
+body.nav-scroll-lock {
+  overflow: hidden;
 }
 
 /* Réduction des animations (accessibilité) */
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
   .crt-scanlines,
   .crt-lueur,
   .crt-coins {
@@ -230,12 +249,32 @@ a.bouton-retour-work {
   .barre-completion__fill,
   .boss-carte__sprite--pulse,
   .boss-carte__statut--en-cours,
-  .boss-flash {
-    animation: none;
+  .boss-flash,
+  .modal-overlay,
+  .popup-highscore,
+  .popup-highscore__titre {
+    animation: none !important;
   }
 
-  .section {
-    animation: none;
+  .section,
+  .carte-projet,
+  .modal-overlay,
+  .popup-highscore,
+  .popup-highscore__btn,
+  .boss-carte,
+  .nav__burger-trait,
+  .nav__bouton,
+  .modal-fermer,
+  .modal-lien a,
+  .lien-evitement {
+    transition: none !important;
+  }
+
+  .carte-projet:hover,
+  .carte-projet:focus-visible,
+  .popup-highscore__btn:hover,
+  .boss-carte:hover {
+    transform: none !important;
   }
 
   .barre-completion__fill,

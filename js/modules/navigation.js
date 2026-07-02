@@ -4,6 +4,7 @@
 
 import { CONFIG } from '../config/index.js';
 import { byId } from '../utils/dom.js';
+import { trapTabModal } from '../utils/focus.js';
 import { indexDansOrdreNavigation } from '../utils/navigation-helpers.js';
 import { jouerBip } from './audio.js';
 
@@ -14,9 +15,19 @@ export function fermerMenuBurger() {
   burger.setAttribute('aria-expanded', 'false');
   burger.setAttribute('aria-label', 'Ouvrir le menu');
   if (menuNav) menuNav.classList.remove('ouvert');
+  document.body.classList.remove('nav-scroll-lock');
 }
 
-export function indexNavigationClavier() {
+function setMenuOuvert(ouvert) {
+  document.body.classList.toggle('nav-scroll-lock', ouvert);
+}
+
+function focusPremierLienMenu(menuNav) {
+  const lien = menuNav?.querySelector('.nav__bouton');
+  lien?.focus();
+}
+
+function indexNavigationClavier() {
   return indexDansOrdreNavigation(window.location.pathname, CONFIG.NAVIGATION.ORDER);
 }
 
@@ -31,6 +42,8 @@ export function initNavigationArcade() {
     burger.setAttribute('aria-expanded', String(ouvre));
     burger.setAttribute('aria-label', ouvre ? 'Fermer le menu' : 'Ouvrir le menu');
     menuNav.classList.toggle('ouvert', ouvre);
+    setMenuOuvert(ouvre);
+    if (ouvre) focusPremierLienMenu(menuNav);
     jouerBip(estOuvert ? 220 : 330, 40);
   });
 
@@ -41,10 +54,14 @@ export function initNavigationArcade() {
   });
 
   document.addEventListener('keydown', (evt) => {
-    if (evt.key === 'Escape' && menuNav.classList.contains('ouvert')) {
+    if (!menuNav.classList.contains('ouvert')) return;
+    if (evt.key === 'Escape') {
       fermerMenuBurger();
       burger.focus();
+      return;
     }
+    const nav = menuNav.closest('.nav');
+    if (nav) trapTabModal(evt, nav);
   });
 }
 

@@ -1,4 +1,14 @@
 dist/
+.dist-staging/
+/js/config/defaults.js
+/js/config/partials.js
+/style.css
+/partials/parcours-arbre.html
+/sw.js
+/manifest.webmanifest
+/assets/apple-touch-icon.png
+/assets/icon-192.png
+/assets/icon-512.png
 node_modules/
 package-lock.json
 *.min.js

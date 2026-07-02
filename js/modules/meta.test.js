@@ -20,7 +20,8 @@ vi.mock('./score.js', () => ({
   ajouterScore: vi.fn(),
 }));
 
-import { initMetaPartage } from './meta.js';
+import { ajouterScore } from './score.js';
+import { initBonusScore, initMetaPartage } from './meta.js';
 
 describe('meta', () => {
   beforeEach(() => {
@@ -43,5 +44,27 @@ describe('meta', () => {
     expect(
       document.querySelector('meta[property="og:image"]').getAttribute('content'),
     ).toBe('https://example.com/assets/og.png');
+  });
+
+  it('initBonusScore crédite la première visite et le lien GitHub', () => {
+    sessionStorage.clear();
+    document.body.innerHTML = '<a class="lien-github" href="#">GitHub</a>';
+
+    initBonusScore();
+
+    expect(ajouterScore).toHaveBeenCalledWith(200);
+    document.querySelector('.lien-github').click();
+    expect(ajouterScore).toHaveBeenCalledWith(500);
+  });
+
+  it('initBonusScore n’attache pas de bonus aux cartes boss', () => {
+    sessionStorage.clear();
+    document.body.innerHTML = '<article class="boss-carte"></article>';
+
+    initBonusScore();
+    vi.mocked(ajouterScore).mockClear();
+    document.querySelector('.boss-carte').click();
+
+    expect(ajouterScore).not.toHaveBeenCalled();
   });
 });

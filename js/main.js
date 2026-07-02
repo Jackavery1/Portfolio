@@ -10,6 +10,7 @@ import {
 } from './modules/score.js';
 import { initMetaPartage, initBonusScore } from './modules/meta.js';
 import { initKonamiCode } from './modules/konami.js';
+import { enregistrerServiceWorker } from './modules/service-worker-register.js';
 import { animerBarresSection } from './modules/animations.js';
 import { hrefFaviconPng } from './config/favicon.js';
 
@@ -98,6 +99,9 @@ async function init() {
   } catch {
     /* sessionStorage indisponible */
   }
+
+  document.body.dataset.appReady = 'true';
+  enregistrerServiceWorker();
 }
 
 document.addEventListener('DOMContentLoaded', init);

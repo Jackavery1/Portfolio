@@ -15,5 +15,15 @@ describe('config defaults sync', () => {
     expect(defaultsJs).toContain(CONFIG_DEFAULTS.siteOrigin);
     expect(defaultsJs).toContain(CONFIG_DEFAULTS.formspree);
     expect(defaultsJs).toContain(CONFIG_DEFAULTS.recaptcha);
+    expect(defaultsJs).toContain(CONFIG_DEFAULTS.social.github);
+    expect(defaultsJs).toContain(CONFIG_DEFAULTS.person.name);
+    expect(defaultsJs).toContain('PERSON_NAME');
+    expect(defaultsJs).toContain('SOCIAL');
+  });
+
+  it('person est défini pour JSON-LD', () => {
+    expect(CONFIG_DEFAULTS.person.name).toBeTruthy();
+    expect(CONFIG_DEFAULTS.person.jobTitle).toBeTruthy();
+    expect(CONFIG_DEFAULTS.person.siteName).toBeTruthy();
   });
 });

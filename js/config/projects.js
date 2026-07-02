@@ -95,3 +95,5 @@ export const PROJETS = {
     ariaLabel: 'Ouvrir le projet Pixel Quest',
   },
 };
+
+export { PROJECT_ICONS } from './project-icons.js';

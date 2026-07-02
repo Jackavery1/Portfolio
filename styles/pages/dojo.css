@@ -31,6 +31,7 @@
   display: flex;
   align-items: flex-start;
   gap: 0.75rem;
+  min-height: 44px;
   background-color: var(--couleur-fond-carte);
   border: 1px solid var(--couleur-bordure);
   border-radius: 4px;
@@ -38,8 +39,24 @@
   transition: border-color 0.2s, transform 0.2s;
 }
 
-.boss-carte:hover {
-  transform: translateX(4px);
+@media (hover: hover) and (pointer: fine) {
+  .boss-carte:hover {
+    transform: translateX(4px);
+  }
+
+  .boss-carte--vaincu:hover {
+    cursor: pointer;
+  }
+
+  .boss-carte--en-cours:hover {
+    border-left-color: var(--couleur-actif);
+    box-shadow: 0 0 12px rgba(255, 204, 68, 0.15);
+  }
+
+  .bouton-retour-work:hover {
+    background-color: var(--couleur-accent-alpha);
+    box-shadow: 0 0 14px rgba(var(--couleur-accent-rgb), 0.25);
+  }
 }
 
 .boss-carte:focus-visible {
@@ -246,11 +263,6 @@
   transition: background 0.2s, box-shadow 0.2s;
 }
 
-.bouton-retour-work:hover {
-  background-color: var(--couleur-accent-alpha);
-  box-shadow: 0 0 14px rgba(var(--couleur-accent-rgb), 0.25);
-}
-
 @media (max-width: 960px) {
   .boss-carte {
     flex-direction: column;
@@ -304,12 +316,22 @@
   animation: boss-victoire 0.6s ease-out forwards;
 }
 
-/* Hover général boss */
-.boss-carte--vaincu:hover {
-  cursor: pointer;
+.boss-carte--focus-citation {
+  border-color: var(--couleur-accent);
+  box-shadow: 0 0 10px rgba(var(--couleur-accent-rgb), 0.18);
 }
 
-.boss-carte--en-cours:hover {
-  border-left-color: var(--couleur-actif);
-  box-shadow: 0 0 12px rgba(255, 204, 68, 0.15);
+@media (max-height: 480px) and (orientation: landscape) {
+  .dojo-intro {
+    margin-bottom: 0.5rem;
+  }
+
+  .boss-rush {
+    gap: 0.45rem;
+    margin-bottom: 1rem;
+  }
+
+  .boss-carte {
+    padding: 0.45rem 0.65rem;
+  }
 }

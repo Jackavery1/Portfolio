@@ -5,6 +5,15 @@ yarn.lock
 # Build output
 dist/
 .dist-staging/
+/sw.js
+/manifest.webmanifest
+/js/config/defaults.js
+/js/config/partials.js
+/style.css
+/partials/parcours-arbre.html
+/assets/apple-touch-icon.png
+/assets/icon-192.png
+/assets/icon-512.png
 
 # Tests E2E / Lighthouse
 playwright-report/
@@ -23,6 +32,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # IDE
+.cursor/
 .vscode/
 .idea/
 *.swp

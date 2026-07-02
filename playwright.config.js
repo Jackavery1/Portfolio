@@ -11,11 +11,34 @@ export default defineConfig({
   workers: process.env.CI ? 2 : undefined,
   reporter: process.env.CI ? 'github' : 'list',
   use: {
-    ...devices['Desktop Chrome'],
     baseURL,
     trace: 'on-first-retry',
-    ...(process.env.CI ? {} : { channel: 'chrome' }),
   },
+  projects: [
+    {
+      name: 'responsive',
+      testMatch: /responsive\.spec\.js/,
+      use: {
+        ...devices['Desktop Chrome'],
+        ...(process.env.CI ? {} : { channel: 'chrome' }),
+      },
+    },
+    {
+      name: 'desktop-chrome',
+      testIgnore: /responsive\.spec\.js/,
+      use: {
+        ...devices['Desktop Chrome'],
+        ...(process.env.CI ? {} : { channel: 'chrome' }),
+      },
+    },
+    {
+      name: 'mobile-chrome',
+      testIgnore: /responsive\.spec\.js/,
+      use: {
+        ...devices['Pixel 5'],
+      },
+    },
+  ],
   webServer: {
     command: `npm run build && npx serve .dist-staging -l ${PORT}`,
     url: baseURL,

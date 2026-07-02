@@ -33,9 +33,25 @@ function sourcesVersImports(sources) {
   return sources.map((s) => `@import url("${s}");`).join('\n');
 }
 
+function allMonolithSources() {
+  const pageSources = Object.values(PAGE_STYLE_BY_HTML).flatMap(({ sources }) => sources);
+  return [...BASE_STYLE_SOURCES, ...pageSources];
+}
+
+function genererStyleCss() {
+  const header = [
+    '/* Généré par build/sync-style-css.cjs — ne pas éditer à la main. */',
+    '/* Breakpoints : CONTRIBUTING.md */',
+    '',
+  ].join('\n');
+  return `${header}${sourcesVersImports(allMonolithSources())}\n`;
+}
+
 module.exports = {
   BASE_STYLE_FILE,
   BASE_STYLE_SOURCES,
   PAGE_STYLE_BY_HTML,
+  allMonolithSources,
+  genererStyleCss,
   sourcesVersImports,
 };

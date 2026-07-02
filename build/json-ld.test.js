@@ -18,8 +18,11 @@ describe('build json-ld', () => {
     }, `${siteBase}/`);
 
     expect(payload['@graph']).toHaveLength(3);
-    expect(payload['@graph'][0]['@type']).toBe('Person');
-    expect(payload['@graph'][0]['@id']).toBe(`${siteBase}/#person`);
+    const person = payload['@graph'][0];
+    expect(person['@type']).toBe('Person');
+    expect(person['@id']).toBe(`${siteBase}/#person`);
+    expect(person.name).toBeTruthy();
+    expect(person.jobTitle).toBeTruthy();
     expect(payload['@graph'][1]['@type']).toBe('WebSite');
     expect(payload['@graph'][2]['@type']).toBe('WebPage');
     expect(payload['@graph'][2].url).toBe(`${siteBase}/`);

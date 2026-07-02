@@ -12,12 +12,17 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "prebuild": "node build/sync-fonts.cjs",
+    "pretest": "node build/sync-source.cjs",
+    "prebuild": "node build/sync-fonts.cjs && node build/sync-source.cjs",
+    "prevalidate:html": "node build/sync-source.cjs",
+    "sync:page-meta": "node build/sync-page-meta.cjs",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
     "test:e2e": "playwright test",
+    "test:e2e:install": "playwright install --with-deps chromium",
     "test:lhci": "lhci autorun",
-    "validate:html": "html-validate *.html partials/*.html"
+    "validate:html": "html-validate *.html partials/*.html",
+    "validate:html:dist": "html-validate .dist-staging/*.html"
   },
   "keywords": [
     "portfolio",

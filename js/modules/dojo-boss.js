@@ -3,6 +3,7 @@
    ============================================ */
 
 import { jouerFanfareVictoire } from './audio.js';
+import { ajouterScore } from './score.js';
 
 const CITATIONS = {
   domslayer: '⚔️ « Mauvais sélecteur ? Recommence. »',
@@ -41,11 +42,39 @@ function initCitations() {
 
     const afficher = () => bulle.classList.add('boss-citation--visible');
     const masquer = () => bulle.classList.remove('boss-citation--visible');
+    const pointerGrossier = window.matchMedia('(hover: none), (pointer: coarse)').matches;
 
     carte.addEventListener('mouseenter', afficher);
     carte.addEventListener('mouseleave', masquer);
-    carte.addEventListener('focusin', afficher);
-    carte.addEventListener('focusout', masquer);
+    carte.addEventListener('focusin', () => {
+      afficher();
+      carte.classList.add('boss-carte--focus-citation');
+    });
+    carte.addEventListener('focusout', () => {
+      masquer();
+      carte.classList.remove('boss-carte--focus-citation');
+    });
+
+    if (pointerGrossier) {
+      carte.addEventListener('click', (evt) => {
+        if (carte.classList.contains('boss-carte--vaincu')) return;
+
+        const dejaVisible = bulle.classList.contains('boss-citation--visible');
+        document.querySelectorAll('.boss-citation--visible').forEach((node) => {
+          node.classList.remove('boss-citation--visible');
+        });
+        document.querySelectorAll('.boss-carte--focus-citation').forEach((node) => {
+          node.classList.remove('boss-carte--focus-citation');
+        });
+
+        if (!dejaVisible) {
+          bulle.classList.add('boss-citation--visible');
+          carte.classList.add('boss-carte--focus-citation');
+        }
+
+        evt.stopPropagation();
+      });
+    }
   });
 }
 
@@ -102,9 +131,16 @@ function initBarresHp() {
   }
 }
 
+function initScoreBoss() {
+  document.querySelectorAll('.boss-carte').forEach((carte) => {
+    carte.addEventListener('click', () => ajouterScore(150));
+  });
+}
+
 export function initDojoBoss() {
   if (!document.getElementById('dojo')) return;
   initCitations();
   initVictoireClavier();
   initBarresHp();
+  initScoreBoss();
 }

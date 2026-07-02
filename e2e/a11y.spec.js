@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
+import { gotoReady } from './helpers.js';
 
 test.describe.configure({ mode: 'serial' });
 
@@ -47,7 +48,7 @@ test('a11y parcours — pas de violation critique', async ({ page }) => {
 
 test('a11y menu burger mobile — pas de violation critique', async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 667 });
-  await page.goto('/index.html');
+  await gotoReady(page, '/index.html');
   const burger = page.locator('.nav__burger');
   await expect(burger).toBeVisible();
   await burger.click();
@@ -70,7 +71,7 @@ test('a11y contact — pas de violation critique', async ({ page }) => {
 });
 
 test('a11y mentions légales — email hydraté, pas de violation critique', async ({ page }) => {
-  await page.goto('/mentions-legales.html');
+  await gotoReady(page, '/mentions-legales.html');
   await expect(page.locator('h1')).toBeVisible();
 
   const email = page.locator('#js-mentions-email');
@@ -92,7 +93,7 @@ test('a11y projets page entière — pas de violation critique', async ({ page }
 });
 
 test('a11y navigation modale projets — pas de violation critique', async ({ page }) => {
-  await page.goto('/projets.html');
+  await gotoReady(page, '/projets.html');
   const carte = page.locator('.carte-projet[data-projet="lsf"]').first();
   await expect(carte).toBeVisible();
   await carte.click({ force: true });
@@ -106,7 +107,7 @@ test('a11y navigation modale projets — pas de violation critique', async ({ pa
 });
 
 test('a11y modale Dernière Ligne — pas de violation critique', async ({ page }) => {
-  await page.goto('/projets.html');
+  await gotoReady(page, '/projets.html');
   const carte = page.locator('.carte-projet[data-projet="derniereligne"]').first();
   await expect(carte).toBeVisible();
   await carte.click({ force: true });

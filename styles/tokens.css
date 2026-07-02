@@ -54,17 +54,22 @@
   --police-crt: "VT323", monospace;
   --police-lisible: "Rajdhani", sans-serif;
 
-  /* Taille minimale lisible pour libellés pixel (≈ 8px) */
-  --taille-pixel-min: 0.5rem;
+  /* Taille minimale lisible pour libellés pixel (≈ 9px desktop, 10px mobile) */
+  --taille-pixel-min: 0.5625rem;
 
-  /* Breakpoints (réf. CONTRIBUTING.md — non utilisables dans @media) */
+/** Seuils principaux — synchroniser avec build/breakpoints.cjs (non utilisables dans @media). */
   --bp-tablette-min: 600px;
   --bp-mobile-max: 960px;
   --bp-desktop: 961px;
+  --bp-mobile-compact: 480px;
+  --bp-projets-2col: 700px;
+  --bp-accueil-landscape-h: 552px;
+  --bp-accueil-short-h: 780px;
 }
 
 @media (max-width: 960px) {
   :root {
+    --taille-pixel-min: 0.625rem;
     --couleur-fond-page:   #05091a;
     --couleur-fond:        #080d20;
     --couleur-fond-carte:  #0d1230;

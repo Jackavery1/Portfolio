@@ -109,8 +109,24 @@ function copyAssets(root, distDir) {
       dst: path.join(distDir, 'assets', 'favicon.png'),
     },
     {
+      src: path.join(root, 'assets', 'apple-touch-icon.png'),
+      dst: path.join(distDir, 'assets', 'apple-touch-icon.png'),
+    },
+    {
+      src: path.join(root, 'assets', 'icon-192.png'),
+      dst: path.join(distDir, 'assets', 'icon-192.png'),
+    },
+    {
+      src: path.join(root, 'assets', 'icon-512.png'),
+      dst: path.join(distDir, 'assets', 'icon-512.png'),
+    },
+    {
       src: path.join(root, 'assets', 'cv-martinez-joris.pdf'),
       dst: path.join(distDir, 'assets', 'cv-martinez-joris.pdf'),
+    },
+    {
+      src: path.join(root, 'offline.html'),
+      dst: path.join(distDir, 'offline.html'),
     },
   ];
 
@@ -129,8 +145,38 @@ function copyAssets(root, distDir) {
   log('Assets (previews, favicon) copiés', 'success');
 }
 
+async function generatePwaIcons(root, distDir) {
+  const src = path.join(root, 'assets', 'favicon.png');
+  if (!fs.existsSync(src)) {
+    log('favicon.png absent — icônes PWA ignorées', 'warning');
+    return;
+  }
+
+  const sizes = [
+    { name: 'apple-touch-icon.png', size: 180 },
+    { name: 'icon-192.png', size: 192 },
+    { name: 'icon-512.png', size: 512 },
+  ];
+
+  for (const { name, size } of sizes) {
+    const pngBuffer = await sharp(src)
+      .resize(size, size, { fit: 'contain', background: '#03040f' })
+      .png()
+      .toBuffer();
+
+    for (const base of [root, distDir]) {
+      const dst = path.join(base, 'assets', name);
+      ensureDir(path.dirname(dst));
+      fs.writeFileSync(dst, pngBuffer);
+    }
+  }
+
+  log('icônes PWA générées (180 / 192 / 512)', 'success');
+}
+
 module.exports = {
   optimizeImages,
   optimizePreviewImages,
   copyAssets,
+  generatePwaIcons,
 };

@@ -1,18 +1,13 @@
-import { LEGAL } from '../config/legal.js';
+import { LEGAL, LEGAL_ANCHOR_LABELS } from '../config/legal.js';
 import { decodeBase64Utf8 } from '../utils/pii.js';
 import { CONFIG } from '../config/index.js';
-
-function paragrapheHtml(texte) {
-  const p = document.createElement('p');
-  p.innerHTML = texte;
-  return p;
-}
+import { appendRichHtml, paragrapheRichHtml } from '../utils/rich-text.js';
 
 function listeHtml(items) {
   const ul = document.createElement('ul');
   items.forEach((item) => {
     const li = document.createElement('li');
-    li.innerHTML = item;
+    appendRichHtml(li, item);
     ul.appendChild(li);
   });
   return ul;
@@ -20,8 +15,12 @@ function listeHtml(items) {
 
 function blocEditeur() {
   const p = document.createElement('p');
-  p.innerHTML =
-    '<strong>Joris Martinez</strong> — site personnel (portfolio).<br />Contact : ';
+  const strong = document.createElement('strong');
+  strong.textContent = CONFIG.PERSON_NAME;
+  p.appendChild(strong);
+  p.appendChild(document.createTextNode(' — site personnel (portfolio).'));
+  p.appendChild(document.createElement('br'));
+  p.appendChild(document.createTextNode('Contact : '));
 
   const lien = document.createElement('a');
   lien.id = CONFIG.SELECTORS.MENTIONS_EMAIL_LINK;
@@ -63,11 +62,11 @@ function remplirSection(sectionCfg, conteneur) {
   article.appendChild(h2);
 
   if (sectionCfg.intro) {
-    article.appendChild(paragrapheHtml(sectionCfg.intro));
+    article.appendChild(paragrapheRichHtml(sectionCfg.intro));
   }
 
   sectionCfg.paragraphs?.forEach((texte) => {
-    article.appendChild(paragrapheHtml(texte));
+    article.appendChild(paragrapheRichHtml(texte));
   });
 
   sectionCfg.blocks?.forEach((block) => {
@@ -87,7 +86,7 @@ function remplirSection(sectionCfg, conteneur) {
     div.appendChild(h3);
 
     sub.paragraphs?.forEach((texte) => {
-      div.appendChild(paragrapheHtml(texte));
+      div.appendChild(paragrapheRichHtml(texte));
     });
 
     if (sub.list?.length) {
@@ -108,11 +107,11 @@ function remplirSommaire(conteneur) {
   const liste = document.createElement('ul');
   liste.className = 'mentions-sommaire__liste';
 
-  LEGAL.sections.forEach(({ id, title }) => {
+  LEGAL_ANCHOR_LABELS.forEach(({ id, label }) => {
     const li = document.createElement('li');
     const a = document.createElement('a');
     a.href = `#${id}`;
-    a.textContent = title;
+    a.textContent = label;
     li.appendChild(a);
     liste.appendChild(li);
   });

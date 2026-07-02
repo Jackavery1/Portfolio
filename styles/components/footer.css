@@ -72,6 +72,14 @@
   transition: color 0.2s, text-shadow 0.2s;
 }
 
+a.pied-page__certif-texte {
+  min-height: 44px;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.5rem;
+}
+
 a.pied-page__certif-texte:hover {
   color: var(--couleur-accent-vif);
   text-shadow: 0 0 8px rgba(var(--couleur-accent-rgb), 0.3);

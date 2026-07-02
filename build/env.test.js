@@ -7,7 +7,11 @@ import {
 
 describe('resolveBuildEnv', () => {
   it('utilise les valeurs par défaut', () => {
-    expect(resolveBuildEnv({})).toEqual(CONFIG_DEFAULTS);
+    expect(resolveBuildEnv({})).toEqual({
+      siteOrigin: CONFIG_DEFAULTS.siteOrigin,
+      formspree: CONFIG_DEFAULTS.formspree,
+      recaptcha: CONFIG_DEFAULTS.recaptcha,
+    });
   });
 
   it('surcharge via variables PORTFOLIO_*', () => {

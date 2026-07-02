@@ -17,8 +17,10 @@ import { fermerMenuBurger, initNavigationArcade } from './navigation.js';
 describe('navigation', () => {
   beforeEach(() => {
     document.body.innerHTML = `
-      <button id="js-burger" type="button" aria-expanded="false" aria-label="Ouvrir le menu"></button>
-      <nav id="js-menu"></nav>
+      <header class="nav">
+        <button id="js-burger" type="button" aria-expanded="false" aria-label="Ouvrir le menu"></button>
+        <nav id="js-menu"><a class="nav__bouton" href="index.html">HOME</a></nav>
+      </header>
     `;
   });
 
@@ -32,9 +34,12 @@ describe('navigation', () => {
     expect(burger.getAttribute('aria-expanded')).toBe('true');
     expect(burger.getAttribute('aria-label')).toBe('Fermer le menu');
     expect(menu.classList.contains('ouvert')).toBe(true);
+    expect(document.body.classList.contains('nav-scroll-lock')).toBe(true);
+    expect(document.activeElement).toBe(menu.querySelector('.nav__bouton'));
 
     fermerMenuBurger();
     expect(burger.getAttribute('aria-expanded')).toBe('false');
     expect(menu.classList.contains('ouvert')).toBe(false);
+    expect(document.body.classList.contains('nav-scroll-lock')).toBe(false);
   });
 });

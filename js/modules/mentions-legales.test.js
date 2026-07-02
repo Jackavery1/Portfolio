@@ -3,6 +3,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 vi.mock('../config/index.js', () => ({
   CONFIG: {
+    PERSON_NAME: 'Joris Martinez',
     CONTACT: {
       EMAIL_B64: btoa('test@example.com'),
     },

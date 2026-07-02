@@ -5,11 +5,25 @@ vi.mock('./audio.js', () => ({
   jouerFanfareVictoire: vi.fn(),
 }));
 
+vi.mock('./score.js', () => ({
+  ajouterScore: vi.fn(),
+}));
+
+import { ajouterScore } from './score.js';
 import { initDojoBoss } from './dojo-boss.js';
 
 describe('dojo-boss', () => {
   beforeEach(() => {
     vi.useFakeTimers();
+    window.matchMedia = vi.fn().mockImplementation((query) => ({
+      matches: false,
+      media: query,
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+      addListener: vi.fn(),
+      removeListener: vi.fn(),
+      dispatchEvent: vi.fn(),
+    }));
     document.body.innerHTML = `
       <main id="dojo">
         <article class="boss-carte" data-boss="domslayer">
@@ -40,5 +54,11 @@ describe('dojo-boss', () => {
     window.dispatchEvent(new Event('pagehide'));
     vi.runOnlyPendingTimers();
     vi.useRealTimers();
+  });
+
+  it('ajoute un bonus score au clic sur une carte boss', () => {
+    initDojoBoss();
+    document.querySelector('.boss-carte').click();
+    expect(ajouterScore).toHaveBeenCalledWith(150);
   });
 });

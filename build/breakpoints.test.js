@@ -30,5 +30,9 @@ describe('breakpoints', () => {
     expect(css).toContain(`${BP.MOBILE_MAX}px`);
     expect(css).toContain(`${BP.DESKTOP}px`);
     expect(css).toContain(`${BP.TABLETTE_MIN}px`);
+    expect(css).toContain(`${BP.MOBILE_COMPACT_MAX}px`);
+    expect(css).toContain(`${BP.PROJETS_2COL_MIN}px`);
+    expect(css).toContain(`${BP.ACCUEIL_LANDSCAPE_MAX_HEIGHT}px`);
+    expect(css).toContain(`${BP.ACCUEIL_SHORT_MAX_HEIGHT}px`);
   });
 });

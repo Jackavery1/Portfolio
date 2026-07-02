@@ -1,11 +1,13 @@
 import { test, expect } from '@playwright/test';
+import { gotoReady } from './helpers.js';
 
 test('accueil → projets → modale → Escape', async ({ page }) => {
-  await page.goto('/index.html');
+  await gotoReady(page, '/index.html');
   await expect(page.locator('#js-score')).toBeVisible();
 
   await page.getByRole('navigation', { name: 'Pages' }).getByRole('link', { name: 'WORK' }).click();
   await expect(page).toHaveURL(/\/projets(\.html)?$/);
+  await page.waitForSelector('body[data-app-ready="true"]');
   await expect(page.locator('h1.titre-section')).toContainText(/SELECT YOUR STAGE/i);
 
   const carte = page.locator('.carte-projet[data-projet="lsf"]').first();

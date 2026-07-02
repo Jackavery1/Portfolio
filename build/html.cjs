@@ -2,25 +2,17 @@ const fs = require('fs');
 const path = require('path');
 const { ensureDir, log } = require('./fs-utils.cjs');
 const { PAGE_META } = require('./page-meta.cjs');
-const {
-  BASE_STYLE_FILE,
-  PAGE_STYLE_BY_HTML,
-} = require('./page-styles.cjs');
+const { remplacerBlocPageMeta } = require('./page-meta-tags.cjs');
+const { urlPageProd } = require('./url-page.cjs');
+const { BASE_STYLE_FILE, PAGE_STYLE_BY_HTML } = require('./page-styles.cjs');
 const { buildJsonLd, jsonLdScriptTag } = require('./json-ld.cjs');
-
-const PARTIAL_PLACEHOLDERS = [
-  { id: 'partial-crt', fichier: 'partials/crt.html' },
-  { id: 'partial-marquee', fichier: 'partials/marquee.html' },
-  { id: 'partial-nav', fichier: 'partials/nav.html' },
-  { id: 'partial-footer', fichier: 'partials/footer.html' },
-  { id: 'partial-popup-hs', fichier: 'partials/popup-highscore.html' },
-];
+const { PARTIALS: PARTIAL_PLACEHOLDERS } = require('./partials-list.cjs');
 
 const HEAD_COMMON_MARKER = '<!-- HEAD_COMMON -->';
 
 const CSP_META = `<meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self' https://www.google.com https://www.gstatic.com; style-src 'self'; style-src-attr 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: https://www.gstatic.com; frame-src https://www.google.com https://recaptcha.google.com; connect-src 'self' https://formspree.io https://www.google.com https://www.gstatic.com https://recaptcha.google.com; form-action 'self' https://formspree.io; base-uri 'self'; object-src 'none';"
+      content="default-src 'self'; script-src 'self' https://www.google.com https://www.gstatic.com; style-src 'self'; style-src-attr 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: https://www.gstatic.com; frame-src https://www.google.com https://recaptcha.google.com; connect-src 'self' https://formspree.io https://www.google.com https://www.gstatic.com https://recaptcha.google.com; form-action 'self' https://formspree.io; worker-src 'self'; base-uri 'self'; object-src 'none';"
     />`;
 
 const HTML_FILES = [
@@ -33,13 +25,7 @@ const HTML_FILES = [
   'mentions-legales.html',
 ];
 
-const HEAD_DEV_MIN_RE =
-  /<!-- HEAD_DEV_MIN[^>]*-->[\s\S]*?<!-- \/HEAD_DEV_MIN -->\s*/i;
-
-function urlPageProd(htmlFile, siteBase) {
-  if (htmlFile === 'index.html') return `${siteBase}/`;
-  return `${siteBase}/${htmlFile}`;
-}
+const HEAD_DEV_MIN_RE = /<!-- HEAD_DEV_MIN[^>]*-->[\s\S]*?<!-- \/HEAD_DEV_MIN -->\s*/i;
 
 function injectSeoMeta(html, htmlFile, siteBase) {
   const pageUrl = urlPageProd(htmlFile, siteBase);
@@ -49,19 +35,16 @@ function injectSeoMeta(html, htmlFile, siteBase) {
 
   out = out.replace(
     '<link rel="canonical" href="" id="link-canonical" />',
-    `<link rel="canonical" href="${pageUrl}" id="link-canonical" />`,
+    `<link rel="canonical" href="${pageUrl}" id="link-canonical" />`
   );
 
   const ogUrlTag = `<meta property="og:url" content="${pageUrl}" id="meta-og-url" />`;
   if (out.includes('id="meta-og-url"')) {
-    out = out.replace(
-      /<meta property="og:url" content="[^"]*" id="meta-og-url" \/>/,
-      ogUrlTag,
-    );
+    out = out.replace(/<meta property="og:url" content="[^"]*" id="meta-og-url" \/>/, ogUrlTag);
   } else {
     out = out.replace(
       '<meta property="og:locale" content="fr_FR" />',
-      `<meta property="og:locale" content="fr_FR" />\n    ${ogUrlTag}`,
+      `<meta property="og:locale" content="fr_FR" />\n    ${ogUrlTag}`
     );
   }
 
@@ -71,39 +54,7 @@ function injectSeoMeta(html, htmlFile, siteBase) {
 function injectPageMeta(html, htmlFile) {
   const meta = PAGE_META[htmlFile];
   if (!meta) return html;
-
-  let out = html;
-  if (meta.description) {
-    out = out.replace(
-      /<meta\s+name="description"\s+content="[^"]*"\s*\/>/,
-      `<meta name="description" content="${meta.description}" />`,
-    );
-  }
-  if (meta.ogDescription) {
-    out = out.replace(
-      /<meta\s+property="og:description"\s+content="[^"]*"\s*\/>/,
-      `<meta property="og:description" content="${meta.ogDescription}" />`,
-    );
-  }
-  if (meta.ogTitle) {
-    out = out.replace(
-      /<meta\s+property="og:title"\s+content="[^"]*"\s*\/>/,
-      `<meta property="og:title" content="${meta.ogTitle}" />`,
-    );
-  }
-  if (meta.twitterTitle) {
-    out = out.replace(
-      /<meta\s+name="twitter:title"\s+content="[^"]*"\s*\/>/,
-      `<meta name="twitter:title" content="${meta.twitterTitle}" />`,
-    );
-  }
-  if (meta.twitterDescription) {
-    out = out.replace(
-      /<meta\s+name="twitter:description"\s+content="[^"]*"\s*\/>/,
-      `<meta name="twitter:description" content="${meta.twitterDescription}" />`,
-    );
-  }
-  return out;
+  return remplacerBlocPageMeta(html, meta);
 }
 
 function inlinePartials(html, root) {
@@ -168,10 +119,7 @@ function injectJsonLd(html, htmlFile, siteBase) {
   const payload = buildJsonLd(htmlFile, siteBase, meta, pageUrl);
   if (!payload) return html;
 
-  let out = html.replace(
-    /<script type="application\/ld\+json">[\s\S]*?<\/script>\s*/i,
-    '',
-  );
+  let out = html.replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>\s*/i, '');
 
   const bloc = jsonLdScriptTag(payload);
   return out.replace('</head>', `    ${bloc}\n  </head>`);
@@ -197,8 +145,8 @@ function injectPerfHead(html, htmlFile, root) {
 // Chaîne appliquée à chaque page : SEO absolu → meta page → head prod → perf → partials → CSP
 function copyHTML(root, distDir, siteBase) {
   let n = 0;
-  const viewportNeedle =
-    '<meta name="viewport" content="width=device-width, initial-scale=1.0" />';
+  const viewportRe =
+    /<meta name="viewport" content="width=device-width, initial-scale=1\.0(?:, viewport-fit=cover)?" \/>/;
 
   HTML_FILES.forEach((file) => {
     const src = path.join(root, file);
@@ -212,8 +160,8 @@ function copyHTML(root, distDir, siteBase) {
     html = injectJsonLd(html, file, siteBase);
     html = injectPerfHead(html, file, root);
     html = inlinePartials(html, root);
-    if (html.includes(viewportNeedle) && !html.includes('Content-Security-Policy')) {
-      html = html.replace(viewportNeedle, `${viewportNeedle}\n    ${CSP_META}`);
+    if (viewportRe.test(html) && !html.includes('Content-Security-Policy')) {
+      html = html.replace(viewportRe, (match) => `${match}\n    ${CSP_META}`);
     }
     ensureDir(path.dirname(dst));
     fs.writeFileSync(dst, html);

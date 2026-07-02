@@ -113,7 +113,11 @@
 }
 
 .contact-bandeau__lien-cv {
-  display: block;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  box-sizing: border-box;
+  padding: 0.35rem 0;
   color: inherit;
   text-decoration: none;
 }
@@ -246,6 +250,12 @@
     grid-template-columns: 1fr;
   }
 
+  html:has(body[data-section-id='contact']) {
+    height: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
   body[data-section-id='contact'] {
     overflow-x: hidden;
     overflow-y: auto;
@@ -255,6 +265,12 @@
   body[data-section-id='contact'] .ecran {
     min-height: auto;
     height: auto;
+    overflow: visible;
+  }
+
+  body[data-section-id='contact'] .ecran > main {
+    flex: none;
+    min-height: auto;
     overflow: visible;
   }
 

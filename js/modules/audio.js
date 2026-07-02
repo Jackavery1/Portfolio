@@ -10,7 +10,14 @@ function obtenirContexteAudio() {
       ctxAudio = new (window.AudioContext || window.webkitAudioContext)();
     }
     if (ctxAudio.state === 'suspended') {
-      ctxAudio.resume().catch(() => {});
+      ctxAudio.resume().catch((err) => {
+        if (
+          typeof location !== 'undefined' &&
+          (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+        ) {
+          console.debug('[audio] reprise AudioContext refusée', err);
+        }
+      });
     }
     return ctxAudio;
   } catch {
@@ -43,7 +50,7 @@ export function jouerBip(frequence = 440, duree = 60, type = 'square') {
 }
 
 /** Suite de bips espacés (ex. fanfare Konami) */
-export function jouerSequenceBeeps(frequences, opts = {}) {
+function jouerSequenceBeeps(frequences, opts = {}) {
   const delai = opts.delai ?? 130;
   const duree = opts.duree ?? 120;
   const type = opts.type ?? 'square';

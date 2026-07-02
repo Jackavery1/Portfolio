@@ -157,7 +157,7 @@ export async function obtenirTokenRecaptcha({ siteKey, version, action = 'submit
       if (/invalid site key|not loaded in api/i.test(detail)) {
         retirerScriptsRecaptcha();
         throw new Error(
-          `${detail} — Rechargez la page (Ctrl+F5) après avoir changé RECAPTCHA_SITE_KEY, et vérifiez 127.0.0.1 + localhost dans Google reCAPTCHA.`
+          `${detail} — Rechargez la page (Ctrl+F5) après avoir changé PORTFOLIO_RECAPTCHA_SITE_KEY dans .env.local, et vérifiez 127.0.0.1 + localhost dans Google reCAPTCHA.`
         );
       }
       throw new Error(

@@ -1,29 +1,25 @@
 /** JSON-LD Person / WebSite / WebPage injecté au build. */
-const PERSON = {
-  name: 'Joris Martinez',
-  jobTitle: 'Développeur web junior',
-  github: 'https://github.com/Jackavery1',
-  locality: 'La Jarne',
-  postalCode: '17220',
-  country: 'FR',
-  siteName: 'Joris Martinez · Portfolio',
-};
+const { person, social } = require('./config-defaults.cjs');
+
+function sameAsProfiles() {
+  return [social.github, social.linkedin].filter(Boolean);
+}
 
 function personNode(siteBase) {
   return {
     '@type': 'Person',
     '@id': `${siteBase}/#person`,
-    name: PERSON.name,
-    jobTitle: PERSON.jobTitle,
+    name: person.name,
+    jobTitle: person.jobTitle,
     url: `${siteBase}/`,
     image: `${siteBase}/assets/og.png`,
     address: {
       '@type': 'PostalAddress',
-      addressLocality: PERSON.locality,
-      postalCode: PERSON.postalCode,
-      addressCountry: PERSON.country,
+      addressLocality: person.locality,
+      postalCode: person.postalCode,
+      addressCountry: person.country,
     },
-    sameAs: [PERSON.github],
+    sameAs: sameAsProfiles(),
   };
 }
 
@@ -31,7 +27,7 @@ function webSiteNode(siteBase) {
   return {
     '@type': 'WebSite',
     '@id': `${siteBase}/#website`,
-    name: PERSON.siteName,
+    name: person.siteName,
     url: `${siteBase}/`,
     inLanguage: 'fr-FR',
     author: { '@id': `${siteBase}/#person` },
@@ -75,4 +71,4 @@ function jsonLdScriptTag(payload) {
   return `<script type="application/ld+json">\n${JSON.stringify(payload, null, 2)}\n    </script>`;
 }
 
-module.exports = { buildJsonLd, jsonLdScriptTag, personNode, webSiteNode, webPageNode };
+module.exports = { buildJsonLd, jsonLdScriptTag };

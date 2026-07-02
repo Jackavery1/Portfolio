@@ -1,6 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { PROJETS, PROJETS_ORDER } from './projects.js';
-import { PROJECT_ICONS } from './project-icons.js';
+import { PROJETS, PROJETS_ORDER, PROJECT_ICONS } from './projects.js';
 
 describe('PROJETS', () => {
   it('expose un ordre cohérent avec les clés', () => {

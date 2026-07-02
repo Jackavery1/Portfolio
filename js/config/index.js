@@ -1,4 +1,4 @@
-import { SITE_ORIGIN, SOCIAL } from './site.js';
+import { SITE_ORIGIN, PERSON_NAME, SOCIAL } from './defaults.js';
 import { STORAGE } from './storage.js';
 import { CONTACT } from './contact.js';
 import { SELECTORS } from './selectors.js';
@@ -9,6 +9,7 @@ import { PROJETS } from './projects.js';
 
 export const CONFIG = {
   SITE_ORIGIN,
+  PERSON_NAME,
   SOCIAL,
   STORAGE,
   CONTACT,

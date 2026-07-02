@@ -86,4 +86,22 @@ describe('contact-form', () => {
     expect(erreur.textContent).toContain('patienter');
     expect(fetch).not.toHaveBeenCalled();
   });
+
+  it('envoie le formulaire quand la validation et reCAPTCHA passent', async () => {
+    fetch.mockResolvedValue({
+      ok: true,
+      json: () => Promise.resolve({ ok: true }),
+    });
+
+    await initContactForm();
+    document.getElementById('js-formulaire').dispatchEvent(
+      new Event('submit', { bubbles: true, cancelable: true }),
+    );
+
+    await vi.waitFor(() => {
+      expect(fetch).toHaveBeenCalled();
+    });
+
+    expect(document.getElementById('js-confirmation').hidden).toBe(false);
+  });
 });

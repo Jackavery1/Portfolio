@@ -61,10 +61,6 @@ export function initBonusScore() {
     /* sessionStorage indisponible */
   }
 
-  document.querySelectorAll('.boss-carte').forEach((carte) => {
-    carte.addEventListener('click', () => ajouterScore(150));
-  });
-
   const lienGithub = document.querySelector('.lien-github');
   if (lienGithub) {
     lienGithub.addEventListener('click', () => ajouterScore(500));

@@ -7,7 +7,6 @@ module.exports = [
       'dist/**',
       '.dist-staging/**',
       'node_modules/**',
-      'e2e/**',
       'playwright-report/**',
       'test-results/**',
     ],
@@ -40,9 +39,30 @@ module.exports = [
     },
   },
   {
+    files: ['e2e/**/*.js'],
+    languageOptions: {
+      ecmaVersion: 2022,
+      sourceType: 'module',
+      globals: {
+        ...globals.node,
+        ...globals.browser,
+      },
+    },
+  },
+  {
     files: ['js/config/defaults.js'],
     rules: {
       quotes: 'off',
+    },
+  },
+  {
+    files: ['sw.js'],
+    languageOptions: {
+      ecmaVersion: 2022,
+      sourceType: 'script',
+      globals: {
+        ...globals.serviceworker,
+      },
     },
   },
   {

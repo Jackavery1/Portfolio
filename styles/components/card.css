@@ -12,7 +12,7 @@
 .etiquettes-tech li {
   font-family: var(--police-crt);
   font-size: clamp(0.85rem, 2vw, 1.05rem);
-  color: var(--couleur-accent);
+  color: var(--couleur-accent-vif);
   border: 1px solid var(--couleur-bordure);
   padding: 0.12rem 0.45rem;
   letter-spacing: 1px;
@@ -72,6 +72,8 @@
   border: 1px solid var(--couleur-bordure);
   border-radius: 4px;
   padding: 1.1rem;
+  min-height: 44px;
+  touch-action: manipulation;
   cursor: pointer;
   transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
   position: relative;
@@ -87,7 +89,12 @@
 .carte-projet:hover {
   border-color: var(--couleur-accent);
   box-shadow: 0 0 20px rgba(var(--couleur-accent-rgb), 0.22);
-  transform: translateY(-2px);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .carte-projet:hover {
+    transform: translateY(-2px);
+  }
 }
 
 .carte-projet:focus {

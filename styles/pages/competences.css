@@ -92,7 +92,7 @@
 
 .stats-bloc__titre {
   font-family: var(--police-pixel);
-  font-size: 0.38rem;
+  font-size: clamp(var(--taille-pixel-min), 1.2vw, 0.42rem);
   color: var(--couleur-accent);
   letter-spacing: 2px;
   margin-bottom: 0.75rem;
@@ -192,7 +192,7 @@
   -webkit-overflow-scrolling: touch;
 }
 
-@media (max-width: 599px) {
+@media (max-width: 960px) {
   .score-rang {
     width: auto;
     min-width: 2.5rem;
@@ -205,6 +205,28 @@
 
   .score-barre-fond {
     min-width: 4.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .scores-tableau th,
+  .score-rang,
+  .score-techno,
+  .score-last {
+    padding-left: 0.45rem;
+    padding-right: 0.45rem;
+  }
+
+  .score-techno {
+    min-width: 4.75rem;
+  }
+
+  .score-barre-fond {
+    min-width: 3.5rem;
+  }
+
+  .score-last {
+    font-size: clamp(0.45rem, 2.8vw, var(--taille-pixel-min));
   }
 }
 
@@ -224,5 +246,19 @@
 
   .stats-lateral .stats-bloc:first-child {
     grid-column: 1 / -1;
+  }
+}
+
+@media (max-height: 480px) and (orientation: landscape) {
+  .stats-grille {
+    gap: 1rem;
+  }
+
+  .scores-tableau th,
+  .score-rang,
+  .score-techno,
+  .score-last {
+    padding-top: 0.35rem;
+    padding-bottom: 0.35rem;
   }
 }

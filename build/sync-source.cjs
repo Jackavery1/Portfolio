@@ -1,0 +1,22 @@
+const path = require('path');
+const { syncDefaults } = require('./sync-defaults.cjs');
+const { syncStyleCss } = require('./sync-style-css.cjs');
+const { syncPartials } = require('./sync-partials.cjs');
+const { syncParcoursArbre } = require('./sync-parcours-arbre.cjs');
+const { syncPageMeta } = require('./sync-page-meta.cjs');
+
+const ROOT = path.join(__dirname, '..');
+
+function syncSource({ pageMeta = false } = {}) {
+  syncDefaults();
+  syncStyleCss();
+  syncPartials();
+  syncParcoursArbre();
+  if (pageMeta) syncPageMeta(ROOT);
+}
+
+module.exports = { syncSource };
+
+if (require.main === module) {
+  syncSource({ pageMeta: process.argv.includes('--page-meta') });
+}

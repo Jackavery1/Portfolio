@@ -495,8 +495,17 @@
   }
 
   .accueil__grille {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
     gap: 1.5rem;
     padding: 0.5rem 0 1rem;
+    align-items: center;
+    text-align: left;
+  }
+
+  .accueil__texte {
+    display: block;
+    min-width: 0;
   }
 
   .svg-bonhomme {
