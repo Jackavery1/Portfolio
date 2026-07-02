@@ -18,7 +18,7 @@ npx serve .dist-staging
 
 Sources brutes (partials en `fetch`, dont contact et dojo) : `npx serve .` — lancer `node build/sync-source.cjs` si les partials assemblés manquent. La CSP et le service worker ne sont actifs qu’après build.
 
-Node **18+** (`.nvmrc`).
+Node **20+** (`.nvmrc`, requis par Vite 7 / Vitest 3).
 
 ---
 
