@@ -5,7 +5,7 @@
 
 .formulaire-titre {
   font-family: var(--police-pixel);
-  font-size: clamp(0.38rem, 1.4vw, 0.52rem);
+  font-size: clamp(var(--taille-pixel-min), 1.4vw, 0.52rem);
   color: var(--couleur-accent-vif);
   letter-spacing: 2px;
   margin-bottom: 1rem;
@@ -25,7 +25,7 @@
 
 .champ-label {
   font-family: var(--police-pixel);
-  font-size: clamp(var(--taille-pixel-min), 1.2vw, 0.42rem);
+  font-size: clamp(var(--taille-pixel-min), 1.2vw, 0.55rem);
   color: var(--couleur-texte-normal);
   letter-spacing: 2px;
   padding-bottom: 0.1rem;
@@ -102,7 +102,7 @@
 
 .bouton-envoyer {
   font-family: var(--police-pixel);
-  font-size: clamp(0.35rem, 1.3vw, 0.5rem);
+  font-size: clamp(var(--taille-pixel-min), 1.3vw, 0.5rem);
   color: var(--couleur-accent-vif);
   border: 1px solid var(--couleur-accent);
   padding: 0.85rem 1.25rem;
@@ -116,7 +116,7 @@
     box-shadow 0.2s;
 }
 
-.bouton-envoyer:hover {
+.bouton-envoyer:hover:not(:disabled) {
   background-color: var(--couleur-accent-alpha);
   box-shadow: 0 0 16px rgba(var(--couleur-accent-rgb), 0.25);
 }
@@ -126,9 +126,18 @@
   outline-offset: 3px;
 }
 
+.bouton-envoyer:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  color: var(--couleur-texte-discret);
+  border-color: var(--couleur-bordure);
+  background-color: var(--couleur-fond-survol);
+  box-shadow: none;
+}
+
 .envoi-confirmation {
   font-family: var(--police-pixel);
-  font-size: 0.42rem;
+  font-size: var(--taille-pixel-min);
   color: var(--couleur-valide);
   text-shadow: 0 0 8px var(--couleur-valide);
   letter-spacing: 2px;
@@ -162,6 +171,11 @@
 .carte-contact__lien:hover {
   color: var(--couleur-accent-vif);
   text-decoration: underline;
+}
+
+.carte-contact__lien:focus-visible {
+  outline: 2px solid var(--couleur-accent-vif);
+  outline-offset: 2px;
 }
 
 .recaptcha-zone {

@@ -1,0 +1,7 @@
+/* Compétences — desktop (grille 2 colonnes) */
+
+@media (min-width: 961px) {
+  .stats-grille {
+    grid-template-columns: 1fr 280px;
+  }
+}

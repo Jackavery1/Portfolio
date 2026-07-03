@@ -1,0 +1,71 @@
+/* Navigation — responsive tablette et mobile */
+
+@media (max-width: 960px) {
+  .nav__burger {
+    display: flex;
+  }
+
+  .nav__liens {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: var(--couleur-fond);
+    border-bottom: 1px solid var(--couleur-bordure);
+    flex-direction: column;
+    padding: 0.5rem 0;
+    z-index: 90;
+    box-shadow: 0 8px 20px rgba(0, 0, 20, 0.5);
+  }
+
+  .nav__liens.ouvert {
+    display: flex;
+  }
+
+  .nav__bouton {
+    font-size: clamp(var(--taille-pixel-min), 2.5vw, 0.65rem);
+    padding: 0.8rem 1.5rem;
+    min-height: 44px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    border-bottom: none;
+    border-left: 2px solid transparent;
+    text-align: left;
+    width: 100%;
+  }
+
+  .nav__bouton.actif {
+    border-left-color: var(--couleur-accent-vif);
+    border-bottom: none;
+    background-color: var(--couleur-accent-alpha);
+  }
+
+  .nav__logo {
+    font-size: clamp(var(--taille-pixel-min), 3vw, 0.75rem);
+  }
+
+  .arcade-valeur {
+    font-size: clamp(var(--taille-pixel-min), 3.5vw, 0.9rem);
+  }
+
+  .arcade-label {
+    font-size: clamp(var(--taille-pixel-min), 2vw, 0.55rem);
+  }
+}
+
+@media (max-width: 480px) {
+  .nav {
+    padding-left: 0.85rem;
+    padding-right: 0.85rem;
+  }
+
+  .nav__arcade-info {
+    display: none;
+  }
+
+  .nav__logo {
+    font-size: clamp(var(--taille-pixel-min), 4vw, 0.65rem);
+  }
+}

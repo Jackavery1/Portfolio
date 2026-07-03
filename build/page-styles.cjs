@@ -5,6 +5,13 @@ const LAYOUT_STYLE_SOURCES = [
   'styles/layout/responsive.css',
 ];
 
+const NAV_STYLE_SOURCES = [
+  'styles/components/nav/base.css',
+  'styles/components/nav/burger.css',
+  'styles/components/nav/fallback.css',
+  'styles/components/nav/responsive.css',
+];
+
 const MODAL_STYLE_SOURCES = [
   'styles/components/modal/overlay.css',
   'styles/components/modal/highscore.css',
@@ -17,7 +24,7 @@ const BASE_STYLE_SOURCES = [
   'styles/reset.css',
   ...LAYOUT_STYLE_SOURCES,
   'styles/components/crt.css',
-  'styles/components/nav.css',
+  ...NAV_STYLE_SOURCES,
   ...MODAL_STYLE_SOURCES,
   'styles/components/card.css',
   'styles/components/form.css',
@@ -36,16 +43,43 @@ const ACCUEIL_STYLE_SOURCES = [
   'styles/pages/accueil/responsive-tablette-portrait.css',
 ];
 
+const CONTACT_STYLE_SOURCES = [
+  'styles/pages/contact/grille.css',
+  'styles/pages/contact/bandeau.css',
+  'styles/pages/contact/profil.css',
+  'styles/pages/contact/responsive-desktop.css',
+  'styles/pages/contact/responsive-mobile.css',
+];
+
+const DOJO_STYLE_SOURCES = [
+  'styles/pages/dojo/intro.css',
+  'styles/pages/dojo/boss-cartes.css',
+  'styles/pages/dojo/retour.css',
+  'styles/pages/dojo/citations.css',
+  'styles/pages/dojo/responsive-mobile.css',
+  'styles/pages/dojo/responsive-landscape.css',
+];
+
+const COMPETENCES_STYLE_SOURCES = [
+  'styles/pages/competences/layout.css',
+  'styles/pages/competences/scores-tableau.css',
+  'styles/pages/competences/stats-lateral.css',
+  'styles/pages/competences/responsive-desktop.css',
+  'styles/pages/competences/responsive-tablette.css',
+  'styles/pages/competences/responsive-mobile.css',
+  'styles/pages/competences/responsive-landscape.css',
+];
+
 const PAGE_STYLE_BY_HTML = {
   'index.html': { outfile: 'style-page-accueil.css', sources: ACCUEIL_STYLE_SOURCES },
   'projets.html': { outfile: 'style-page-projets.css', sources: ['styles/pages/projets.css'] },
   'competences.html': {
     outfile: 'style-page-competences.css',
-    sources: ['styles/pages/competences.css'],
+    sources: COMPETENCES_STYLE_SOURCES,
   },
   'parcours.html': { outfile: 'style-page-parcours.css', sources: ['styles/pages/parcours.css'] },
-  'contact.html': { outfile: 'style-page-contact.css', sources: ['styles/pages/contact.css'] },
-  'dojo.html': { outfile: 'style-page-dojo.css', sources: ['styles/pages/dojo.css'] },
+  'contact.html': { outfile: 'style-page-contact.css', sources: CONTACT_STYLE_SOURCES },
+  'dojo.html': { outfile: 'style-page-dojo.css', sources: DOJO_STYLE_SOURCES },
   'mentions-legales.html': {
     outfile: 'style-page-mentions-legales.css',
     sources: ['styles/pages/mentions-legales.css'],
@@ -77,7 +111,11 @@ module.exports = {
   BASE_STYLE_SOURCES,
   LAYOUT_STYLE_SOURCES,
   MODAL_STYLE_SOURCES,
+  NAV_STYLE_SOURCES,
   ACCUEIL_STYLE_SOURCES,
+  CONTACT_STYLE_SOURCES,
+  DOJO_STYLE_SOURCES,
+  COMPETENCES_STYLE_SOURCES,
   PAGE_STYLE_BY_HTML,
   allMonolithSources,
   genererStyleCss,

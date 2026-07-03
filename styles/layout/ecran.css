@@ -4,9 +4,9 @@
   flex: 1;
   width: 100%;
   max-width: 960px;
-  margin: calc(32px + env(safe-area-inset-top, 0)) auto 0;
-  min-height: calc(100vh - 24px - env(safe-area-inset-top, 0));
-  min-height: calc(100dvh - 24px - env(safe-area-inset-top, 0));
+  margin: calc(32px + var(--safe-area-inset-top, env(safe-area-inset-top, 0))) auto 0;
+  min-height: calc(100vh - 24px - var(--safe-area-inset-top, env(safe-area-inset-top, 0)));
+  min-height: calc(100dvh - 24px - var(--safe-area-inset-top, env(safe-area-inset-top, 0)));
   display: flex;
   flex-direction: column;
   box-shadow:
@@ -28,7 +28,7 @@
   min-height: 0;
   display: flex;
   flex-direction: column;
-  padding: 1.75rem 1.5rem 1rem;
+  padding: var(--section-padding-y) var(--section-padding-x) var(--espacement-md);
   animation: apparition 0.25s ease;
 }
 

@@ -36,7 +36,7 @@
   padding: 0.6rem 1rem;
   touch-action: manipulation;
   font-family: var(--police-pixel);
-  font-size: clamp(0.35rem, 1.2vw, 0.48rem);
+  font-size: clamp(var(--taille-pixel-min), 1.2vw, 0.48rem);
   color: var(--couleur-fond);
   background-color: var(--couleur-accent-vif);
   border: 1px solid var(--couleur-accent);
@@ -70,7 +70,7 @@
 
 .titre-section {
   font-family: var(--police-pixel);
-  font-size: clamp(0.48rem, 1.8vw, 0.7rem);
+  font-size: clamp(var(--taille-pixel-min), 1.8vw, 0.7rem);
   color: var(--couleur-accent-vif);
   text-shadow: 0 0 12px var(--couleur-accent);
   letter-spacing: 2px;

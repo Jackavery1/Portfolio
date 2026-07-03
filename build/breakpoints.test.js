@@ -19,28 +19,16 @@ describe('breakpoints', () => {
     expect(tokens).toContain(`--bp-accueil-landscape-h: ${BP.ACCUEIL_LANDSCAPE_MAX_HEIGHT}px`);
     expect(tokens).toContain(`--bp-accueil-short-h: ${BP.ACCUEIL_SHORT_MAX_HEIGHT}px`);
     expect(tokens).toContain('BREAKPOINTS_SYNC_START');
+    expect(tokens).toContain('--espacement-md: 1rem');
+    expect(tokens).toContain('--section-padding-y: 1.75rem');
+    expect(tokens).toContain('--couleur-accent-texte:');
+    expect(tokens).toContain('--taille-pixel-petit-max:');
     expect(tokens).toContain(`@media (max-width: ${BP.MOBILE_MAX}px)`);
   });
 
-  it('styles utilisent les seuils principaux', () => {
-    const stylesRoot = path.join(root, 'styles');
-    const fichiers = [];
-    const parcourir = (dir) => {
-      for (const entree of fs.readdirSync(dir, { withFileTypes: true })) {
-        const abs = path.join(dir, entree.name);
-        if (entree.isDirectory()) parcourir(abs);
-        else if (entree.name.endsWith('.css')) fichiers.push(abs);
-      }
-    };
-    parcourir(stylesRoot);
-    const css = fichiers.map((f) => fs.readFileSync(f, 'utf8')).join('\n');
-    expect(css).toContain(`${BP.MOBILE_MAX}px`);
-    expect(css).toContain(`${BP.DESKTOP}px`);
-    expect(css).toContain(`${BP.TABLETTE_MIN}px`);
-    expect(css).toContain(`${BP.MOBILE_COMPACT_MAX}px`);
-    expect(css).toContain(`${BP.MOBILE_ETROIT_MAX}px`);
-    expect(css).toContain(`${BP.PROJETS_2COL_MIN}px`);
-    expect(css).toContain(`${BP.ACCUEIL_LANDSCAPE_MAX_HEIGHT}px`);
-    expect(css).toContain(`${BP.ACCUEIL_SHORT_MAX_HEIGHT}px`);
+  it('styles @media alignés sur breakpoints.cjs', () => {
+    const { verifierSeuilsMedia } = require('./sync-breakpoints.cjs');
+    const invalides = verifierSeuilsMedia(root);
+    expect(invalides).toEqual([]);
   });
 });

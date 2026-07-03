@@ -33,11 +33,13 @@
 
 .popup-highscore__titre {
   font-family: var(--police-pixel);
-  font-size: clamp(0.55rem, 2vw, 0.8rem);
+  font-size: clamp(var(--taille-pixel-min), 2vw, 0.8rem);
   color: var(--couleur-actif);
   text-shadow: 0 0 20px var(--couleur-actif);
   letter-spacing: 3px;
   animation: pulsation 1s ease-in-out infinite;
+  margin: 0;
+  font-weight: normal;
 }
 
 .popup-highscore__score {
@@ -92,6 +94,11 @@
   }
 }
 
+.popup-highscore__btn:focus-visible {
+  outline: 3px solid var(--couleur-fond);
+  outline-offset: 3px;
+}
+
 .popup-highscore__fermer {
   font-family: var(--police-pixel);
   font-size: clamp(var(--taille-pixel-min), 1.4vw, 0.42rem);
@@ -108,4 +115,9 @@
 
 .popup-highscore__fermer:hover {
   color: var(--couleur-texte-normal);
+}
+
+.popup-highscore__fermer:focus-visible {
+  outline: 2px solid var(--couleur-accent-vif);
+  outline-offset: 2px;
 }

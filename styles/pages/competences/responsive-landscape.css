@@ -1,0 +1,15 @@
+/* Compétences — paysage mobile compact */
+
+@media (max-height: 480px) and (orientation: landscape) {
+  .stats-grille {
+    gap: 1rem;
+  }
+
+  .scores-tableau th,
+  .score-rang,
+  .score-techno,
+  .score-last {
+    padding-top: 0.35rem;
+    padding-bottom: 0.35rem;
+  }
+}

@@ -10,7 +10,7 @@ const FICHIERS_SAFE_AREA = [
   'styles/layout/marquee.css',
   'styles/layout/ecran.css',
   'styles/layout/utilities.css',
-  'styles/components/nav.css',
+  'styles/components/nav/base.css',
   'styles/components/modal/overlay.css',
   'styles/components/modal/highscore.css',
   'styles/components/crt.css',
@@ -21,7 +21,7 @@ const FICHIERS_SCROLL_TACTILE = [
   'styles/components/modal/overlay.css',
   'styles/components/modal/responsive.css',
   'styles/components/form.css',
-  'styles/pages/competences.css',
+  'styles/pages/competences/layout.css',
   'styles/pages/parcours.css',
 ];
 
@@ -43,6 +43,19 @@ describe('responsive CSS', () => {
     FICHIERS_SAFE_AREA.forEach((file) => {
       const contenu = lire(file);
       expect(contenu, file).toContain('safe-area-inset');
+    });
+  });
+
+  it('marquee, nav, écran et contact — safe-area testable via custom property', () => {
+    const fichiers = [
+      'styles/layout/marquee.css',
+      'styles/components/nav/base.css',
+      'styles/layout/ecran.css',
+      'styles/pages/contact/responsive-mobile.css',
+    ];
+    fichiers.forEach((fichier) => {
+      const contenu = lire(fichier);
+      expect(contenu, fichier).toContain('var(--safe-area-inset');
     });
   });
 

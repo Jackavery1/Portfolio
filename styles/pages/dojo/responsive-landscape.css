@@ -1,0 +1,17 @@
+/* Dojo — paysage mobile compact */
+
+@media (max-height: 480px) and (orientation: landscape) {
+  .dojo-intro {
+    margin-bottom: 0.5rem;
+  }
+
+  .boss-rush {
+    gap: 0.45rem;
+    margin-bottom: 1rem;
+  }
+
+  .boss-carte {
+    padding: 0.45rem 0.65rem;
+    min-height: 44px;
+  }
+}

@@ -1,0 +1,29 @@
+/* Compétences — grille page et zone tableau défilante */
+
+.stats-grille {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+.scores-tableau-zone {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.stats-lateral {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.stats-bloc__titre {
+  font-family: var(--police-pixel);
+  font-size: clamp(var(--taille-pixel-min), 1.2vw, 0.42rem);
+  color: var(--couleur-accent);
+  letter-spacing: 2px;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid var(--couleur-bordure);
+  font-weight: normal;
+}

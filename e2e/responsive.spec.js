@@ -6,6 +6,8 @@ import {
   preparerServiceWorker,
   assertHauteurTactile,
   assertLargeurTactile,
+  simulerInsetHaut,
+  simulerInsets,
 } from './helpers.js';
 
 const PAGES = [
@@ -22,6 +24,8 @@ const VIEWPORTS = [
   { width: 320, height: 568, label: 'mobile' },
   { width: 768, height: 1024, label: 'tablette' },
   { width: 961, height: 800, label: 'desktop' },
+  { width: 1280, height: 800, label: 'desktop-large' },
+  { width: 1920, height: 1080, label: 'desktop-ultrawide' },
 ];
 
 async function assertPasOverflowHorizontal(page) {
@@ -72,6 +76,30 @@ test('responsive mobile — cibles tactiles ≥ 44px', async ({ page }) => {
   await assertLargeurTactile(page.locator('.nav__burger'));
   await assertHauteurTactile(page.locator('.bouton-arcade').first());
 
+  await page.locator('.nav__burger').click({ force: true });
+  const liensNav = page.locator('.nav__bouton');
+  const nbLiensNav = await liensNav.count();
+  for (let i = 0; i < nbLiensNav; i += 1) {
+    await assertHauteurTactile(liensNav.nth(i));
+  }
+
+  await assertHauteurTactile(page.locator('.pied-page__lien').first());
+  await assertHauteurTactile(page.locator('a.pied-page__certif-texte'));
+
+  await gotoReady(page, '/projets.html');
+  const liensSommaire = page.locator('.projets-sommaire__liste a');
+  const nbSommaire = await liensSommaire.count();
+  for (let i = 0; i < nbSommaire; i += 1) {
+    await assertHauteurTactile(liensSommaire.nth(i));
+    await assertLargeurTactile(liensSommaire.nth(i));
+  }
+
+  await gotoReady(page, '/contact.html');
+  await expect(page.locator('#js-formulaire')).toHaveAttribute('data-ready', '1', {
+    timeout: 15_000,
+  });
+  await assertHauteurTactile(page.locator('.bouton-envoyer'));
+
   await gotoReady(page, '/dojo.html');
   await assertHauteurTactile(page.locator('.boss-carte').first());
 
@@ -82,7 +110,7 @@ test('responsive mobile — cibles tactiles ≥ 44px', async ({ page }) => {
   await assertLargeurTactile(page.locator('.modal-fermer'));
 });
 
-test('safe-area — marquee et nav sticky', async ({ page }) => {
+test('safe-area — marquee et nav sans encoche', async ({ page }) => {
   await gotoReady(page, '/index.html');
 
   const marqueeHeight = await page
@@ -92,6 +120,86 @@ test('safe-area — marquee et nav sticky', async ({ page }) => {
 
   expect(marqueeHeight).toBe('32px');
   expect(navTop).toBe('32px');
+});
+
+test('safe-area — insets simulés (encoche haut)', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await gotoReady(page, '/index.html');
+  await simulerInsetHaut(page, 20);
+
+  const marqueeHeight = await page
+    .locator('.marquee-bande')
+    .evaluate((el) => getComputedStyle(el).height);
+  const navTop = await page.locator('.nav').evaluate((el) => getComputedStyle(el).top);
+
+  expect(marqueeHeight).toBe('52px');
+  expect(navTop).toBe('52px');
+});
+
+test('safe-area — inset bas simulé sur contact mobile', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 667 });
+  await gotoReady(page, '/contact.html');
+  await simulerInsets(page, { bas: 24 });
+
+  const paddingBas = await page
+    .locator('body[data-section-id="contact"] .section')
+    .evaluate((el) => getComputedStyle(el).paddingBottom);
+
+  expect(paddingBas).toBe('24px');
+});
+
+test('desktop — navigation clavier sur tout le menu principal', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 800 });
+
+  const etapes = [
+    { path: '/index.html', h1: /MARTINEZ/i },
+    { path: '/projets.html', h1: /SELECT YOUR STAGE/i },
+    { path: '/competences.html', h1: /HIGH SCORES/i },
+    { path: '/parcours.html', h1: /STORY MODE/i },
+    { path: '/contact.html', h1: /CONTINUE/i },
+  ];
+
+  await gotoReady(page, etapes[0].path);
+
+  for (let i = 1; i < etapes.length; i += 1) {
+    await page.keyboard.press('ArrowRight');
+    await page.waitForSelector('body[data-app-ready="true"]');
+    await expect(page).toHaveURL(new RegExp(etapes[i].path.replace('.html', '(\\.html)?')));
+    await expect(page.locator('h1')).toContainText(etapes[i].h1);
+  }
+
+  for (let i = etapes.length - 2; i >= 0; i -= 1) {
+    await page.keyboard.press('ArrowLeft');
+    await page.waitForSelector('body[data-app-ready="true"]');
+    await expect(page).toHaveURL(new RegExp(etapes[i].path.replace('.html', '(\\.html)?')));
+    await expect(page.locator('h1')).toContainText(etapes[i].h1);
+  }
+});
+
+test('desktop-large — liens nav horizontaux ≥ 44px', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await gotoReady(page, '/index.html');
+
+  const liens = page.locator('.nav__liens .nav__bouton');
+  const nb = await liens.count();
+  for (let i = 0; i < nb; i += 1) {
+    await assertHauteurTactile(liens.nth(i));
+  }
+});
+
+test('prefers-reduced-motion — animations désactivées', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await gotoReady(page, '/index.html');
+
+  const marqueeAnim = await page
+    .locator('.marquee-contenu')
+    .evaluate((el) => getComputedStyle(el).animationName);
+  const sectionAnim = await page
+    .locator('#accueil.section')
+    .evaluate((el) => getComputedStyle(el).animationName);
+
+  expect(marqueeAnim).toBe('none');
+  expect(sectionAnim).toBe('none');
 });
 
 test('responsive mobile — sommaire projets et 6 cartes', async ({ page }) => {

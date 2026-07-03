@@ -1,24 +1,4 @@
-/* ============================================
-   Page : dojo (boss rush, retour Work)
-   ============================================ */
-
-.dojo-intro {
-  font-family: var(--police-lisible);
-  font-size: clamp(1rem, 2.5vw, 1.15rem);
-  color: var(--couleur-texte-normal);
-  line-height: 1.7;
-  margin-bottom: 1rem;
-}
-
-.boss-rush__titre {
-  font-family: var(--police-pixel);
-  font-size: clamp(0.38rem, 1.4vw, 0.52rem);
-  color: var(--couleur-accent);
-  letter-spacing: 2px;
-  text-align: center;
-  margin-bottom: 1.25rem;
-  line-height: 1.8;
-}
+/* Dojo — cartes boss rush */
 
 .boss-rush {
   display: flex;
@@ -54,11 +34,6 @@
   .boss-carte--en-cours:hover {
     border-left-color: var(--couleur-actif);
     box-shadow: 0 0 12px rgba(255, 204, 68, 0.15);
-  }
-
-  .bouton-retour-work:hover {
-    background-color: var(--couleur-accent-alpha);
-    box-shadow: 0 0 14px rgba(var(--couleur-accent-rgb), 0.25);
   }
 }
 
@@ -110,7 +85,7 @@
 
 .boss-carte__rang {
   font-family: var(--police-pixel);
-  font-size: clamp(var(--taille-pixel-min), 1.1vw, 0.38rem);
+  font-size: clamp(var(--taille-pixel-min), 1.1vw, 0.55rem);
   color: var(--couleur-texte-discret);
   letter-spacing: 1px;
   text-align: center;
@@ -138,7 +113,7 @@
 
 .boss-carte__nom {
   font-family: var(--police-pixel);
-  font-size: clamp(0.38rem, 1.4vw, 0.55rem);
+  font-size: clamp(var(--taille-pixel-min), 1.4vw, 0.55rem);
   color: var(--couleur-texte-fort);
   letter-spacing: 1px;
   line-height: 1.45;
@@ -198,14 +173,14 @@
 
 .boss-carte__xp-label {
   font-family: var(--police-pixel);
-  font-size: clamp(var(--taille-pixel-min), 1vw, 0.38rem);
+  font-size: clamp(var(--taille-pixel-min), 1vw, 0.55rem);
   color: var(--couleur-texte-discret);
   letter-spacing: 1px;
 }
 
 .boss-carte__xp-val {
   font-family: var(--police-pixel);
-  font-size: clamp(var(--taille-pixel-min), 1.1vw, 0.42rem);
+  font-size: clamp(var(--taille-pixel-min), 1.1vw, 0.55rem);
   color: var(--couleur-valide);
   text-shadow: 0 0 6px var(--couleur-valide);
 }
@@ -219,7 +194,7 @@
 
 .boss-carte__vie-label {
   font-family: var(--police-pixel);
-  font-size: clamp(var(--taille-pixel-min), 1vw, 0.36rem);
+  font-size: clamp(var(--taille-pixel-min), 1vw, 0.55rem);
   color: var(--couleur-actif);
   letter-spacing: 1px;
 }
@@ -243,141 +218,8 @@
 
 .boss-carte__vie-pct {
   font-family: var(--police-pixel);
-  font-size: clamp(var(--taille-pixel-min), 1vw, 0.38rem);
+  font-size: clamp(var(--taille-pixel-min), 1vw, 0.55rem);
   color: var(--couleur-actif);
   width: 2.5rem;
   text-align: right;
-}
-
-.bouton-retour-work {
-  font-family: var(--police-pixel);
-  font-size: clamp(var(--taille-pixel-min), 1.2vw, 0.48rem);
-  color: var(--couleur-accent-vif);
-  border: 1px solid var(--couleur-bordure-active);
-  min-height: 44px;
-  box-sizing: border-box;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.6rem 1.1rem;
-  letter-spacing: 2px;
-  background: none;
-  cursor: pointer;
-  transition:
-    background 0.2s,
-    box-shadow 0.2s;
-}
-
-@media (max-width: 960px) {
-  .boss-carte {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .boss-carte__gauche {
-    flex-direction: row;
-    width: auto;
-    justify-content: flex-start;
-  }
-}
-
-/* Citations hover boss */
-.boss-citation {
-  position: absolute;
-  top: -2.2rem;
-  left: 50%;
-  transform: translateX(-50%) translateY(4px);
-  background: var(--couleur-fond-carte);
-  border: 1px solid var(--couleur-accent);
-  color: var(--couleur-accent-vif);
-  font-family: var(--police-crt);
-  font-size: clamp(0.85rem, 2vw, 1rem);
-  padding: 0.25rem 0.6rem;
-  white-space: normal;
-  text-align: center;
-  max-width: min(92vw, 20rem);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  pointer-events: none;
-  opacity: 0;
-  transition:
-    opacity 0.2s,
-    transform 0.2s;
-  z-index: 10;
-  letter-spacing: 1px;
-}
-
-.boss-citation--visible {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
-}
-
-/* Flash victoire au clic */
-@keyframes boss-victoire {
-  0% {
-    box-shadow: 0 0 0 0 rgba(68, 204, 136, 0);
-  }
-  30% {
-    box-shadow: 0 0 0 6px rgba(68, 204, 136, 0.5);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(68, 204, 136, 0);
-  }
-}
-
-.boss-flash {
-  animation: boss-victoire 0.6s ease-out forwards;
-}
-
-.boss-carte--focus-citation {
-  border-color: var(--couleur-accent);
-  box-shadow: 0 0 10px rgba(var(--couleur-accent-rgb), 0.18);
-}
-
-@media (max-height: 480px) and (orientation: landscape) {
-  .dojo-intro {
-    margin-bottom: 0.5rem;
-  }
-
-  .boss-rush {
-    gap: 0.45rem;
-    margin-bottom: 1rem;
-  }
-
-  .boss-carte {
-    padding: 0.45rem 0.65rem;
-    min-height: 44px;
-  }
-}
-
-@media (max-width: 320px) {
-  body[data-section-id='dojo'] .section {
-    padding-left: 0.75rem;
-    padding-right: 0.75rem;
-  }
-
-  .boss-rush__titre {
-    letter-spacing: 0;
-    font-size: 0.38rem;
-  }
-
-  .boss-carte__gauche {
-    width: auto;
-    gap: 0.35rem;
-  }
-
-  .boss-carte__sprite svg {
-    width: 40px;
-    height: 40px;
-  }
-
-  .boss-carte__haut {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .boss-citation {
-    max-width: min(96vw, 18rem);
-    font-size: 0.8rem;
-  }
 }

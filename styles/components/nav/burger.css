@@ -1,0 +1,52 @@
+/* Navigation — menu burger mobile */
+
+.nav__burger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  box-sizing: border-box;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
+  border: 1px solid var(--couleur-bordure);
+  border-radius: 3px;
+  padding: 10px;
+  margin-left: auto;
+  flex-shrink: 0;
+  transition: border-color 0.2s;
+}
+
+.nav__burger:hover {
+  border-color: var(--couleur-accent);
+}
+
+.nav__burger:focus-visible {
+  outline: 2px solid var(--couleur-accent-vif);
+  outline-offset: 2px;
+}
+
+.nav__burger-trait {
+  display: block;
+  width: 18px;
+  height: 2px;
+  background-color: var(--couleur-accent-vif);
+  border-radius: 1px;
+  transition:
+    transform 0.25s,
+    opacity 0.25s;
+}
+
+.nav__burger[aria-expanded='true'] .nav__burger-trait:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+
+.nav__burger[aria-expanded='true'] .nav__burger-trait:nth-child(2) {
+  opacity: 0;
+}
+
+.nav__burger[aria-expanded='true'] .nav__burger-trait:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}

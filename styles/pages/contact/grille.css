@@ -1,0 +1,50 @@
+/* Contact — grilles et cartes coordonnées */
+
+.contact-grille {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+.grille-contact {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.65rem;
+  margin-bottom: 1.25rem;
+}
+
+.carte-contact {
+  background-color: var(--couleur-fond-carte);
+  border: 1px solid var(--couleur-bordure);
+  border-radius: 4px;
+  padding: 0.9rem;
+  transition: border-color 0.2s;
+}
+
+.carte-contact:hover {
+  border-color: var(--couleur-accent);
+}
+
+.carte-contact__label {
+  font-family: var(--police-pixel);
+  font-size: var(--taille-pixel-min);
+  color: var(--couleur-texte-discret);
+  letter-spacing: 1px;
+  margin-bottom: 0.4rem;
+}
+
+.carte-contact__valeur {
+  font-family: var(--police-crt);
+  font-size: clamp(0.95rem, 2.3vw, 1.15rem);
+  color: var(--couleur-accent-vif);
+  letter-spacing: 1px;
+  line-height: 1.4;
+  word-break: break-all;
+}
+
+.carte-contact__indispo {
+  font-size: clamp(0.8rem, 2vw, 0.95rem);
+  color: var(--couleur-texte-discret);
+  line-height: 1.45;
+  word-break: normal;
+}

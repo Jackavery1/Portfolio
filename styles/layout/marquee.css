@@ -5,8 +5,8 @@
   top: 0;
   left: 0;
   right: 0;
-  height: calc(32px + env(safe-area-inset-top, 0));
-  padding-top: env(safe-area-inset-top, 0);
+  height: calc(32px + var(--safe-area-inset-top, env(safe-area-inset-top, 0)));
+  padding-top: var(--safe-area-inset-top, env(safe-area-inset-top, 0));
   background-color: var(--couleur-accent-dim);
   border-bottom: 1px solid var(--couleur-accent);
   overflow: hidden;
@@ -19,7 +19,7 @@
   display: inline-block;
   white-space: nowrap;
   font-family: var(--police-pixel);
-  font-size: 0.65rem;
+  font-size: clamp(var(--taille-pixel-min), 1.1vw, 0.65rem);
   color: var(--couleur-accent-vif);
   letter-spacing: 2px;
   animation: marquee-anim 30s linear infinite;

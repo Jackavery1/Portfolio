@@ -57,7 +57,7 @@
   justify-self: center;
   text-align: center;
   font-family: var(--police-pixel);
-  font-size: clamp(0.34rem, 1.2vw, 0.46rem);
+  font-size: clamp(var(--taille-pixel-min), 1.2vw, 0.46rem);
   letter-spacing: 1px;
   color: var(--couleur-texte-discret);
 }
@@ -100,7 +100,7 @@ a.pied-page__certif-texte:hover {
 .pied-page__tagline-ia {
   margin: 0;
   font-family: var(--police-pixel);
-  font-size: clamp(0.42rem, 1.05vw, 0.55rem);
+  font-size: clamp(var(--taille-pixel-min), 1.05vw, 0.55rem);
   letter-spacing: 1px;
   line-height: 1.45;
 }
@@ -151,12 +151,12 @@ a.pied-page__certif-texte:hover {
   }
 
   .pied-page__tagline-ia {
-    font-size: clamp(0.42rem, 1.2vw, 0.45rem);
+    font-size: clamp(var(--taille-pixel-min), 1.2vw, 0.55rem);
     text-align: right;
   }
 
   .pied-page__certif-texte {
-    font-size: clamp(0.42rem, 1.4vw, 0.48rem);
+    font-size: clamp(var(--taille-pixel-min), 1.4vw, 0.55rem);
   }
 }
 

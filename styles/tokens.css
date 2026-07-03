@@ -56,6 +56,22 @@
 
   /* Taille minimale lisible pour libellés pixel (≈ 9px desktop, 10px mobile) */
   --taille-pixel-min: 0.5625rem;
+  /* Maximum courant pour petits libellés pixel (≥ min) */
+  --taille-pixel-petit-max: 0.65rem;
+
+  /* Espacements (rythme vertical et grilles) */
+  --espacement-xs: 0.25rem;
+  --espacement-sm: 0.5rem;
+  --espacement-md: 1rem;
+  --espacement-lg: 1.5rem;
+  --espacement-xl: 2rem;
+  --espacement-2xl: 3rem;
+  --section-padding-y: 1.75rem;
+  --section-padding-x: 1.5rem;
+  --gap-grille-accueil: 3rem;
+
+  /* Texte secondaire accentué (tags modale, etc.) */
+  --couleur-accent-texte: #a9c2ff;
 
   /* BREAKPOINTS_SYNC_START */
   /** Seuils principaux — généré depuis build/breakpoints.cjs (non utilisables dans @media). */

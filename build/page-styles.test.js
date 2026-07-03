@@ -40,4 +40,26 @@ describe('page-styles', () => {
     expect(MODAL_STYLE_SOURCES).toHaveLength(3);
     expect(MODAL_STYLE_SOURCES.every((s) => s.startsWith('styles/components/modal/'))).toBe(true);
   });
+
+  it('contact et dojo sont découpés en modules dédiés', () => {
+    const { CONTACT_STYLE_SOURCES, DOJO_STYLE_SOURCES } = require('./page-styles.cjs');
+    expect(CONTACT_STYLE_SOURCES).toHaveLength(5);
+    expect(CONTACT_STYLE_SOURCES.every((s) => s.startsWith('styles/pages/contact/'))).toBe(true);
+    expect(DOJO_STYLE_SOURCES).toHaveLength(6);
+    expect(DOJO_STYLE_SOURCES.every((s) => s.startsWith('styles/pages/dojo/'))).toBe(true);
+  });
+
+  it('compétences est découpé en modules dédiés', () => {
+    const { COMPETENCES_STYLE_SOURCES } = require('./page-styles.cjs');
+    expect(COMPETENCES_STYLE_SOURCES).toHaveLength(7);
+    expect(COMPETENCES_STYLE_SOURCES.every((s) => s.startsWith('styles/pages/competences/'))).toBe(
+      true
+    );
+  });
+
+  it('nav est découpé en modules dédiés', () => {
+    const { NAV_STYLE_SOURCES } = require('./page-styles.cjs');
+    expect(NAV_STYLE_SOURCES).toHaveLength(4);
+    expect(NAV_STYLE_SOURCES.every((s) => s.startsWith('styles/components/nav/'))).toBe(true);
+  });
 });

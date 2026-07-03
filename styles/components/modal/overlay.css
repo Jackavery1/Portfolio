@@ -37,14 +37,16 @@
 
 .modal-titre {
   font-family: var(--police-pixel);
-  font-size: clamp(0.4rem, 1.5vw, 0.55rem);
+  font-size: clamp(var(--taille-pixel-min), 1.5vw, 0.55rem);
   color: var(--couleur-accent-vif);
   letter-spacing: 2px;
+  margin: 0;
+  font-weight: normal;
 }
 
 .modal-fermer {
   font-family: var(--police-pixel);
-  font-size: 0.55rem;
+  font-size: clamp(var(--taille-pixel-min), 1.2vw, 0.55rem);
   color: var(--couleur-texte-discret);
   padding: 0.5rem 0.75rem;
   min-height: 44px;
@@ -55,6 +57,11 @@
 
 .modal-fermer:hover {
   color: var(--couleur-accent-vif);
+}
+
+.modal-fermer:focus-visible {
+  outline: 2px solid var(--couleur-accent-vif);
+  outline-offset: 2px;
 }
 
 .modal-contenu {
@@ -117,6 +124,11 @@
   color: var(--couleur-actif);
 }
 
+.modal-lien a:focus-visible {
+  outline: 2px solid var(--couleur-accent-vif);
+  outline-offset: 2px;
+}
+
 .modal-tech {
   display: flex;
   flex-wrap: wrap;
@@ -126,7 +138,7 @@
 .modal-tech-tag {
   font-family: var(--police-crt);
   font-size: 1rem;
-  color: #a9c2ff;
+  color: var(--couleur-accent-texte);
   border: 1px solid var(--couleur-bordure);
   padding: 0.1rem 0.45rem;
   letter-spacing: 1px;

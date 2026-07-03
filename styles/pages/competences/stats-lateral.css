@@ -1,0 +1,83 @@
+/* Compétences — langues, bonus et soft skills */
+
+.langue-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.langue-item__drapeau {
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.langue-item__nom {
+  font-family: var(--police-crt);
+  font-size: clamp(0.95rem, 2.3vw, 1.1rem);
+  color: var(--couleur-texte-normal);
+  width: 80px;
+  flex-shrink: 0;
+  letter-spacing: 1px;
+}
+
+.langue-item__barre-fond {
+  flex: 1;
+  height: 7px;
+  background-color: var(--couleur-separateur);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.langue-item__barre {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--couleur-accent-dim), var(--couleur-accent));
+  border-radius: 2px;
+  transition: width 1s ease-out;
+}
+
+.langue-item__val {
+  font-family: var(--police-pixel);
+  font-size: clamp(var(--taille-pixel-min), 1.2vw, 0.42rem);
+  color: var(--couleur-accent-vif);
+  width: 2.5rem;
+  text-align: right;
+}
+
+.bonus-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.4rem;
+}
+
+.bonus-item__icone {
+  font-size: 1rem;
+}
+
+.bonus-item__nom {
+  font-family: var(--police-crt);
+  font-size: clamp(0.95rem, 2.3vw, 1.1rem);
+  color: var(--couleur-texte-normal);
+  flex: 1;
+  letter-spacing: 1px;
+}
+
+.bonus-item__etoiles {
+  font-family: var(--police-crt);
+  font-size: 0.9rem;
+  color: var(--couleur-actif);
+  letter-spacing: 1px;
+}
+
+.soft-item {
+  font-family: var(--police-crt);
+  font-size: clamp(0.95rem, 2.3vw, 1.1rem);
+  color: var(--couleur-texte-normal);
+  margin-bottom: 0.35rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  letter-spacing: 1px;
+}

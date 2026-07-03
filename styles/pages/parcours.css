@@ -26,7 +26,7 @@
 
 .entree-parcours__marqueur {
   font-family: var(--police-pixel);
-  font-size: 0.48rem;
+  font-size: var(--taille-pixel-min);
   color: var(--couleur-accent);
   text-shadow: 0 0 6px var(--couleur-accent);
   width: 2.2rem;
@@ -51,14 +51,14 @@
 
 .entree-parcours__date {
   font-family: var(--police-pixel);
-  font-size: clamp(var(--taille-pixel-min), 1.1vw, 0.4rem);
+  font-size: clamp(var(--taille-pixel-min), 1.1vw, 0.55rem);
   color: var(--couleur-texte-discret);
   letter-spacing: 1px;
 }
 
 .entree-parcours__titre {
   font-family: var(--police-pixel);
-  font-size: clamp(0.38rem, 1.4vw, 0.52rem);
+  font-size: clamp(var(--taille-pixel-min), 1.4vw, 0.55rem);
   color: var(--couleur-texte-fort);
   letter-spacing: 1px;
   margin-bottom: 0.25rem;

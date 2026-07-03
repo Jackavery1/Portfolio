@@ -1,0 +1,105 @@
+/* Contact — bandeau CV et aide */
+
+.texte-continue {
+  font-family: var(--police-crt);
+  font-size: clamp(0.85rem, 2.2vw, 1.05rem);
+  color: var(--couleur-accent-vif);
+  text-align: center;
+  line-height: 1.8;
+  margin-bottom: 1.25rem;
+  letter-spacing: 2px;
+  animation: pulsation 2s ease-in-out infinite;
+  overflow-wrap: anywhere;
+}
+
+.contact-bandeau {
+  cursor: default;
+  margin-bottom: 0.35rem;
+  color: var(--couleur-accent-vif);
+  transition:
+    color 0.15s,
+    text-shadow 0.15s;
+  outline: none;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+.contact-bandeau__action {
+  display: block;
+  width: 100%;
+  min-height: 44px;
+  box-sizing: border-box;
+  border: none;
+  background: none;
+  font-family: var(--police-crt);
+  font-size: clamp(0.85rem, 2.2vw, 1.05rem);
+  color: var(--couleur-texte-fort);
+  cursor: pointer;
+  text-align: center;
+  letter-spacing: 2px;
+  padding: 0.5rem 0.75rem;
+  transition:
+    color 0.15s,
+    text-shadow 0.15s;
+}
+
+.contact-bandeau__action:hover,
+.contact-bandeau__action:focus-visible {
+  color: var(--couleur-texte-fort);
+  text-shadow: 0 0 12px var(--couleur-accent);
+}
+
+.contact-bandeau__cv-bloc {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.contact-bandeau__cv-bloc .contact-bandeau-aide {
+  margin: 0;
+}
+
+.contact-bandeau__ligne {
+  overflow-wrap: anywhere;
+  margin: 0;
+}
+
+.contact-bandeau__lien-cv {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  box-sizing: border-box;
+  padding: 0.35rem 0;
+  color: inherit;
+  text-decoration: none;
+}
+
+.contact-bandeau__lien-cv:hover,
+.contact-bandeau__lien-cv:focus-visible {
+  color: var(--couleur-valide);
+}
+
+.contact-bandeau-aide {
+  font-family: var(--police-pixel);
+  font-size: clamp(var(--taille-pixel-min), 1.2vw, 0.42rem);
+  color: var(--couleur-texte-discret);
+  text-align: center;
+  letter-spacing: 1px;
+  margin: 0 0 1.25rem;
+  min-height: 44px;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 0.75rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+
+.contact-bandeau-aide:hover,
+.contact-bandeau-aide:focus-visible {
+  color: var(--couleur-accent-vif);
+}

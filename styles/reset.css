@@ -33,7 +33,18 @@ body {
 
 @media (hover: hover) and (pointer: fine) {
   body {
-    cursor: crosshair;
+    cursor: default;
+  }
+
+  a,
+  button,
+  .nav__burger,
+  .carte-projet,
+  label[for],
+  select,
+  input[type='checkbox'],
+  input[type='radio'] {
+    cursor: pointer;
   }
 }
 

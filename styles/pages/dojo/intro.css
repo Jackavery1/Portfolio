@@ -1,0 +1,19 @@
+/* Dojo — intro et titre boss rush */
+
+.dojo-intro {
+  font-family: var(--police-lisible);
+  font-size: clamp(1rem, 2.5vw, 1.15rem);
+  color: var(--couleur-texte-normal);
+  line-height: 1.7;
+  margin-bottom: 1rem;
+}
+
+.boss-rush__titre {
+  font-family: var(--police-pixel);
+  font-size: clamp(var(--taille-pixel-min), 1.4vw, 0.55rem);
+  color: var(--couleur-accent);
+  letter-spacing: 2px;
+  text-align: center;
+  margin-bottom: 1.25rem;
+  line-height: 1.8;
+}

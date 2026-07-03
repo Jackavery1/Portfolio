@@ -1,0 +1,71 @@
+/* Contact — mobile scroll et très petits écrans */
+
+@media (max-width: 960px) {
+  .contact-droite {
+    order: -1;
+  }
+
+  .grille-contact {
+    grid-template-columns: 1fr;
+  }
+
+  html:has(body[data-section-id='contact']) {
+    height: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  body[data-section-id='contact'] {
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: auto;
+  }
+
+  body[data-section-id='contact'] .ecran {
+    min-height: auto;
+    height: auto;
+    overflow: visible;
+  }
+
+  body[data-section-id='contact'] .ecran > main {
+    flex: none;
+    min-height: auto;
+    overflow: visible;
+  }
+
+  body[data-section-id='contact'] .section {
+    flex: none;
+    min-height: auto;
+    overflow: visible;
+    height: auto;
+    padding-bottom: max(1rem, var(--safe-area-inset-bottom, env(safe-area-inset-bottom, 0)));
+  }
+
+  html:has(body[data-section-id='contact']) {
+    scroll-padding-bottom: max(1rem, var(--safe-area-inset-bottom, env(safe-area-inset-bottom, 0)));
+  }
+}
+
+@media (max-width: 320px) {
+  body[data-section-id='contact'] .section {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+
+  .texte-continue,
+  .contact-bandeau__action,
+  .contact-bandeau__ligne {
+    letter-spacing: 0;
+    font-size: 0.72rem;
+  }
+
+  .contact-bandeau__action,
+  .contact-bandeau-aide {
+    padding-left: 0.35rem;
+    padding-right: 0.35rem;
+  }
+
+  .profil-recap {
+    padding: 0.85rem;
+  }
+}

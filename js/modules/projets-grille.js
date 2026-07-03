@@ -70,4 +70,5 @@ export function initProjetsGrille() {
   }
 
   grille.removeAttribute('aria-busy');
+  grille.removeAttribute('aria-label');
 }

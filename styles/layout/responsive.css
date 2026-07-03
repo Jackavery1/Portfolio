@@ -2,7 +2,7 @@
 
 @media (max-width: 960px) {
   .section {
-    padding: 1.25rem 1rem 2rem;
+    padding: 1.25rem var(--espacement-md) var(--espacement-xl);
   }
 
   .ecran {
@@ -36,7 +36,9 @@
   .boss-flash,
   .modal-overlay,
   .popup-highscore,
-  .popup-highscore__titre {
+  .popup-highscore__titre,
+  .section,
+  .grille-projets[aria-busy='true']::before {
     animation: none !important;
   }
 

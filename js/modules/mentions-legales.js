@@ -26,7 +26,6 @@ function blocEditeur() {
   lien.id = CONFIG.SELECTORS.MENTIONS_EMAIL_LINK;
   lien.href = '#';
   lien.hidden = true;
-  lien.textContent = 'Chargement…';
   p.appendChild(lien);
 
   const noscript = document.createElement('noscript');

@@ -9,6 +9,22 @@ import { jouerBip } from './audio.js';
 import { ajouterScore } from './score.js';
 import { obtenirTokenRecaptcha, resetRecaptcha } from './recaptcha.js';
 
+export const LABEL_ENVOI_EN_COURS = 'ENVOI…';
+
+function marquerEnvoiEnCours(btnEnvoyer) {
+  btnEnvoyer.disabled = true;
+  btnEnvoyer.setAttribute('aria-busy', 'true');
+  btnEnvoyer.textContent = LABEL_ENVOI_EN_COURS;
+  btnEnvoyer.form?.setAttribute('aria-busy', 'true');
+}
+
+function restaurerBoutonEnvoi(btnEnvoyer, labelEnvoyer) {
+  btnEnvoyer.disabled = false;
+  btnEnvoyer.removeAttribute('aria-busy');
+  btnEnvoyer.textContent = labelEnvoyer;
+  btnEnvoyer.form?.removeAttribute('aria-busy');
+}
+
 export function lireSujetUtile(sujetSelect) {
   return libellerSujetSelect(sujetSelect?.options[sujetSelect.selectedIndex]?.text);
 }
@@ -37,15 +53,15 @@ export async function envoyerViaFormspree({
     return;
   }
 
-  btnEnvoyer.disabled = true;
   btnEnvoyer.removeAttribute('title');
+  marquerEnvoiEnCours(btnEnvoyer);
   let recaptchaToken = null;
 
   try {
     recaptchaToken = await obtenirTokenRecaptcha(optionsRecaptcha);
   } catch (err) {
     jouerBip(150, 120, 'sawtooth');
-    btnEnvoyer.disabled = false;
+    restaurerBoutonEnvoi(btnEnvoyer, labelEnvoyer);
     const msg = messageErreurCatch(err);
     btnEnvoyer.setAttribute('title', msg);
     afficherErreur(msg);
@@ -54,7 +70,7 @@ export async function envoyerViaFormspree({
 
   if (!recaptchaToken) {
     jouerBip(150, 120, 'sawtooth');
-    btnEnvoyer.disabled = false;
+    restaurerBoutonEnvoi(btnEnvoyer, labelEnvoyer);
     const msg =
       config.CONTACT.RECAPTCHA_VERSION === 3
         ? 'Vérification anti-spam en cours… réessayez.'
@@ -90,16 +106,14 @@ export async function envoyerViaFormspree({
     }
 
     jouerBip(150, 120, 'sawtooth');
-    btnEnvoyer.disabled = false;
-    btnEnvoyer.textContent = labelEnvoyer;
+    restaurerBoutonEnvoi(btnEnvoyer, labelEnvoyer);
     resetRecaptcha();
     const msg = messageErreurFormspree(payload, res);
     btnEnvoyer.setAttribute('title', msg);
     afficherErreur(msg);
   } catch (err) {
     jouerBip(150, 120, 'sawtooth');
-    btnEnvoyer.disabled = false;
-    btnEnvoyer.textContent = labelEnvoyer;
+    restaurerBoutonEnvoi(btnEnvoyer, labelEnvoyer);
     resetRecaptcha();
     const msg = messageErreurCatch(err);
     btnEnvoyer.setAttribute('title', msg);
@@ -123,6 +137,8 @@ function confirmerEnvoiReussi({ btnEnvoyer, confirmation }) {
   if (confirmation) confirmation.hidden = false;
   jouerBip(660, 80, 'sine');
   ajouterScore(500);
+  btnEnvoyer.removeAttribute('aria-busy');
+  btnEnvoyer.form?.removeAttribute('aria-busy');
   btnEnvoyer.textContent = '✓ ENVOYÉ';
 }
 

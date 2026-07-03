@@ -113,3 +113,18 @@ test('a11y modale Dernière Ligne — pas de violation critique', async ({ page 
 
   expect(violationsA11y(results.violations)).toEqual([]);
 });
+
+test('a11y popup high score — pas de violation critique', async ({ page }) => {
+  await page.goto('/index.html');
+  await page.evaluate(() => {
+    sessionStorage.setItem('jm_portfolio_score', '9999');
+    sessionStorage.removeItem('hs_popup_vu');
+  });
+  await page.reload();
+  await page.waitForSelector('body[data-app-ready="true"]');
+  await expect(page.locator('#js-popup-hs')).toBeVisible({ timeout: 5000 });
+
+  const results = await new AxeBuilder({ page }).include('#js-popup-hs').analyze();
+
+  expect(violationsA11y(results.violations)).toEqual([]);
+});

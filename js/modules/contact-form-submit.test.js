@@ -112,6 +112,48 @@ describe('contact-form-submit', () => {
     expect(afficherErreur).not.toHaveBeenCalled();
   });
 
+  it('envoyerViaFormspree affiche ENVOI… pendant l’envoi', async () => {
+    obtenirTokenRecaptcha.mockResolvedValue('token');
+    let resolveFetch;
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(
+        () =>
+          new Promise((resolve) => {
+            resolveFetch = resolve;
+          })
+      )
+    );
+
+    const btn = document.getElementById('btn');
+    btn.textContent = '► ENVOYER LE MESSAGE';
+    const afficherErreur = vi.fn();
+
+    const envoi = envoyerViaFormspree({
+      config: {
+        CONTACT: {
+          RECAPTCHA_SITE_KEY: 'key',
+          FORMSPREE_ENDPOINT: 'https://formspree.io/f/test',
+          RECAPTCHA_VERSION: 3,
+        },
+      },
+      champs: { nom: 'Joris', email: 'a@b.c', message: 'Hi' },
+      sujetUtile: 'Projet',
+      btnEnvoyer: btn,
+      mount: null,
+      optionsRecaptcha: {},
+      afficherErreur,
+    });
+
+    await Promise.resolve();
+    expect(btn.textContent).toBe('ENVOI…');
+    expect(btn.getAttribute('aria-busy')).toBe('true');
+    expect(btn.disabled).toBe(true);
+
+    resolveFetch({ ok: true, json: () => Promise.resolve({}) });
+    await envoi;
+  });
+
   it('envoyerViaFormspree affiche une erreur si reCAPTCHA échoue', async () => {
     obtenirTokenRecaptcha.mockRejectedValue(new Error('captcha'));
 

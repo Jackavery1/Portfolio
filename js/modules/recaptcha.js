@@ -1,114 +1,19 @@
-/* ============================================
-   reCAPTCHA (Formspree : champ g-recaptcha-response)
-   ============================================ */
+/**
+ * reCAPTCHA Formspree — initialisation widget et obtention du jeton.
+ */
 
 import { byId } from '../utils/dom.js';
-import { cleDansScriptRecaptchaV3 } from '../utils/validation.js';
+import {
+  chargerScriptV2,
+  chargerScriptV3,
+  retirerScriptsRecaptcha,
+} from './recaptcha-chargement.js';
 
-let scriptPromise = null;
 let widgetId = null;
-let cleSiteChargee = null;
 
-function retirerScriptsRecaptcha() {
-  document
-    .querySelectorAll('script[data-recaptcha-v3], script[data-recaptcha-v2]')
-    .forEach((el) => el.remove());
-  scriptPromise = null;
-  cleSiteChargee = null;
+function reinitialiserRecaptcha() {
+  retirerScriptsRecaptcha();
   widgetId = null;
-}
-
-function chargerScriptV3(siteKey) {
-  if (typeof window !== 'undefined' && window.__E2E_RECAPTCHA_TOKEN && window.grecaptcha) {
-    cleSiteChargee = siteKey?.trim();
-    return Promise.resolve(window.grecaptcha).then(
-      (g) =>
-        new Promise((resolve) => {
-          g.ready(() => resolve(g));
-        })
-    );
-  }
-
-  const key = siteKey?.trim();
-  const existant = document.querySelector('script[data-recaptcha-v3]');
-  const renderActuel = cleDansScriptRecaptchaV3(existant);
-
-  if (existant && renderActuel && renderActuel !== key) {
-    retirerScriptsRecaptcha();
-  }
-
-  if (scriptPromise && cleSiteChargee === key) {
-    return scriptPromise;
-  }
-
-  if (existant && renderActuel === key && window.grecaptcha) {
-    cleSiteChargee = key;
-    return Promise.resolve(window.grecaptcha).then(
-      (g) =>
-        new Promise((resolve) => {
-          g.ready(() => resolve(g));
-        })
-    );
-  }
-
-  retirerScriptsRecaptcha();
-  cleSiteChargee = key;
-
-  scriptPromise = new Promise((resolve, reject) => {
-    const s = document.createElement('script');
-    s.src = `https://www.google.com/recaptcha/api.js?render=${encodeURIComponent(key)}`;
-    s.async = true;
-    s.dataset.recaptchaV3 = '1';
-    s.onload = () => {
-      if (!window.grecaptcha) {
-        scriptPromise = null;
-        cleSiteChargee = null;
-        reject(new Error('reCAPTCHA indisponible après chargement'));
-        return;
-      }
-      window.grecaptcha.ready(() => resolve(window.grecaptcha));
-    };
-    s.onerror = () => {
-      scriptPromise = null;
-      cleSiteChargee = null;
-      reject(new Error('Script reCAPTCHA bloqué (réseau, AdBlock ou CSP)'));
-    };
-    document.head.appendChild(s);
-  });
-  return scriptPromise;
-}
-
-function chargerScriptV2(siteKey) {
-  const key = siteKey?.trim();
-  if (scriptPromise && cleSiteChargee === `v2:${key}`) {
-    return scriptPromise;
-  }
-  retirerScriptsRecaptcha();
-  cleSiteChargee = `v2:${key}`;
-
-  scriptPromise = new Promise((resolve, reject) => {
-    const s = document.createElement('script');
-    s.src = 'https://www.google.com/recaptcha/api.js';
-    s.async = true;
-    s.defer = true;
-    s.dataset.recaptchaV2 = '1';
-    s.onload = () => {
-      if (!window.grecaptcha) {
-        scriptPromise = null;
-        cleSiteChargee = null;
-        reject(new Error('reCAPTCHA indisponible'));
-        return;
-      }
-      window.grecaptcha.ready(() => resolve(window.grecaptcha));
-    };
-    s.onerror = () => {
-      scriptPromise = null;
-      cleSiteChargee = null;
-      reject(new Error('Chargement reCAPTCHA impossible'));
-    };
-    document.head.appendChild(s);
-  });
-  return scriptPromise;
 }
 
 export async function initRecaptcha({ siteKey, version, mountId }) {
@@ -155,7 +60,7 @@ export async function obtenirTokenRecaptcha({ siteKey, version, action = 'submit
     } catch (err) {
       const detail = err?.message || '';
       if (/invalid site key|not loaded in api/i.test(detail)) {
-        retirerScriptsRecaptcha();
+        reinitialiserRecaptcha();
         throw new Error(
           `${detail} — Rechargez la page (Ctrl+F5) après avoir changé PORTFOLIO_RECAPTCHA_SITE_KEY dans .env.local, et vérifiez 127.0.0.1 + localhost dans Google reCAPTCHA.`
         );

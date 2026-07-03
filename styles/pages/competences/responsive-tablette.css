@@ -1,0 +1,14 @@
+/* Compétences — tablette (stats latérales en 2 colonnes) */
+
+@media (min-width: 600px) and (max-width: 960px) {
+  .stats-lateral {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    align-items: start;
+  }
+
+  .stats-lateral .stats-bloc:first-child {
+    grid-column: 1 / -1;
+  }
+}

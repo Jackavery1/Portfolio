@@ -1,0 +1,12 @@
+/* Contact — desktop (grille formulaire + profil) */
+
+@media (min-width: 961px) {
+  .contact-grille {
+    grid-template-columns: 1fr 260px;
+    gap: 2.25rem;
+  }
+
+  .profil-recap__bonhomme svg {
+    max-width: 11.25rem;
+  }
+}

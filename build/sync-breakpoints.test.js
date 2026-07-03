@@ -3,7 +3,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { createRequire } from 'node:module';
-import { genererVariablesBp, syncBreakpoints } from './sync-breakpoints.cjs';
+import { genererVariablesBp, syncBreakpoints, verifierSeuilsMedia } from './sync-breakpoints.cjs';
 
 const require = createRequire(import.meta.url);
 const rootDir = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -20,5 +20,11 @@ describe('sync-breakpoints', () => {
     syncBreakpoints(rootDir);
     const tokens = fs.readFileSync(path.join(rootDir, 'styles', 'tokens.css'), 'utf8');
     expect(tokens).toContain('--bp-mobile-etroit: 320px');
+  });
+
+  it('tous les @media utilisent des seuils déclarés dans breakpoints.cjs', () => {
+    syncBreakpoints(rootDir);
+    const invalides = verifierSeuilsMedia(rootDir);
+    expect(invalides).toEqual([]);
   });
 });

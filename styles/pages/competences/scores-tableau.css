@@ -1,0 +1,73 @@
+/* Compétences — tableau des scores techniques */
+
+.scores-tableau {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.scores-tableau thead tr {
+  background-color: var(--couleur-accent-dim);
+}
+
+.scores-tableau th {
+  font-family: var(--police-pixel);
+  font-size: clamp(var(--taille-pixel-min), 1.2vw, 0.42rem);
+  color: var(--couleur-accent-vif);
+  padding: 0.55rem 0.75rem;
+  text-align: left;
+  letter-spacing: 1px;
+}
+
+.score-ligne {
+  border-bottom: 1px solid var(--couleur-separateur);
+  transition: background 0.15s;
+}
+
+.score-ligne:hover {
+  background-color: var(--couleur-fond-survol);
+}
+
+.score-rang {
+  font-family: var(--police-pixel);
+  font-size: clamp(var(--taille-pixel-min), 1.1vw, 0.55rem);
+  color: var(--couleur-texte-discret);
+  padding: 0.5rem 0.75rem;
+  width: 3rem;
+}
+
+.score-techno {
+  font-family: var(--police-crt);
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
+  color: var(--couleur-texte-fort);
+  padding: 0.5rem 0.75rem;
+  letter-spacing: 1px;
+  width: 9rem;
+}
+
+.score-barre-cell {
+  padding: 0.5rem 0.75rem;
+}
+
+.score-barre-fond {
+  height: 8px;
+  background-color: var(--couleur-separateur);
+  border-radius: 2px;
+  overflow: hidden;
+  min-width: 100px;
+}
+
+.score-barre {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--couleur-accent-dim), var(--couleur-accent-vif));
+  border-radius: 2px;
+  transition: width 1s ease-out;
+}
+
+.score-last {
+  font-family: var(--police-pixel);
+  font-size: var(--taille-pixel-min);
+  color: var(--couleur-texte-discret);
+  padding: 0.5rem 0.75rem;
+  letter-spacing: 1px;
+}

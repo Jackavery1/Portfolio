@@ -48,6 +48,25 @@ export async function assertLargeurTactile(locator, minPx = 44) {
   expect(box.width).toBeGreaterThanOrEqual(minPx - 1);
 }
 
+/** Simule les encoches (safe-area) via custom properties testables en E2E. */
+export async function simulerInsets(page, { haut = 0, bas = 0, gauche = 0, droite = 0 } = {}) {
+  await page.evaluate(
+    ({ haut: top, bas: bottom, gauche: left, droite: right }) => {
+      if (top) document.documentElement.style.setProperty('--safe-area-inset-top', `${top}px`);
+      if (bottom) {
+        document.documentElement.style.setProperty('--safe-area-inset-bottom', `${bottom}px`);
+      }
+      if (left) document.documentElement.style.setProperty('--safe-area-inset-left', `${left}px`);
+      if (right) document.documentElement.style.setProperty('--safe-area-inset-right', `${right}px`);
+    },
+    { haut, bas, gauche, droite }
+  );
+}
+
+export async function simulerInsetHaut(page, px = 20) {
+  await simulerInsets(page, { haut: px });
+}
+
 export async function attendrePrecachePwa(page, { minEntrees = 60, timeoutMs = 45_000 } = {}) {
   const deadline = Date.now() + timeoutMs;
   while (Date.now() < deadline) {

@@ -1,0 +1,39 @@
+/* Compétences — mobile et compact */
+
+@media (max-width: 960px) {
+  .score-rang {
+    width: auto;
+    min-width: 2.5rem;
+  }
+
+  .score-techno {
+    width: auto;
+    min-width: 5.5rem;
+  }
+
+  .score-barre-fond {
+    min-width: 4.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .scores-tableau th,
+  .score-rang,
+  .score-techno,
+  .score-last {
+    padding-left: 0.45rem;
+    padding-right: 0.45rem;
+  }
+
+  .score-techno {
+    min-width: 4.75rem;
+  }
+
+  .score-barre-fond {
+    min-width: 3.5rem;
+  }
+
+  .score-last {
+    font-size: clamp(var(--taille-pixel-min), 2.8vw, 0.65rem);
+  }
+}

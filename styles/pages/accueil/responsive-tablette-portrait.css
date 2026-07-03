@@ -69,7 +69,7 @@
   }
 
   .bouton-arcade {
-    font-size: clamp(0.42rem, 1.5vw, 0.54rem);
+    font-size: clamp(var(--taille-pixel-min), 1.5vw, 0.55rem);
     padding: 0.85rem 1.2rem;
   }
 }
