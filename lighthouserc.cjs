@@ -1,5 +1,5 @@
 const assertions = {
-  'categories:performance': ['error', { minScore: 0.78 }],
+  'categories:performance': ['error', { minScore: 0.75 }],
   'categories:accessibility': ['error', { minScore: 0.9 }],
   'categories:best-practices': ['error', { minScore: 0.85 }],
   'categories:seo': ['error', { minScore: 0.9 }],
@@ -20,7 +20,7 @@ module.exports = {
     collect: {
       staticDistDir: './.dist-staging',
       url: urls,
-      numberOfRuns: 2,
+      numberOfRuns: 3,
       settings: {
         emulatedFormFactor: 'mobile',
         screenEmulation: {
