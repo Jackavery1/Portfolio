@@ -5,6 +5,7 @@ yarn.lock
 # Build output
 dist/
 .dist-staging/
+deploy-output/
 /sw.js
 /manifest.webmanifest
 /js/config/defaults.js

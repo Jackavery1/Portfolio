@@ -66,11 +66,15 @@ jobs:
       - name: Validate HTML (dist)
         run: npm run validate:html:dist
 
+      - name: Préparer artefact (hors .gitignore)
+        run: cp -r .dist-staging deploy-output
+
       - name: Upload dist artifact
         uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b # v4.5.0
         with:
           name: dist
-          path: .dist-staging/
+          path: deploy-output/
+          if-no-files-found: error
           retention-days: 1
 
   e2e:
@@ -140,7 +144,7 @@ jobs:
         uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # v4.1.8
         with:
           name: dist
-          path: .dist-staging
+          path: deploy-output
 
       - name: Setup Pages
         uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5.0.0
@@ -148,7 +152,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4.0.0
         with:
-          path: .dist-staging
+          path: deploy-output
 
       - name: Deploy to GitHub Pages
         id: deployment
