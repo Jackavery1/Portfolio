@@ -1,0 +1,55 @@
+/* Mentions légales — mobile, safe-area et très petits écrans */
+
+@media (max-width: 960px) {
+  html:has(body[data-section-id='mentions']) {
+    height: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scroll-padding-bottom: max(1rem, var(--safe-area-inset-bottom, env(safe-area-inset-bottom, 0)));
+  }
+
+  body[data-section-id='mentions'] {
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: auto;
+  }
+
+  body[data-section-id='mentions'] .ecran {
+    min-height: auto;
+    height: auto;
+    overflow: visible;
+  }
+
+  body[data-section-id='mentions'] .ecran > main {
+    flex: none;
+    min-height: auto;
+    overflow: visible;
+  }
+
+  body[data-section-id='mentions'] .section {
+    flex: none;
+    min-height: auto;
+    overflow: visible;
+    height: auto;
+    padding-bottom: max(1rem, var(--safe-area-inset-bottom, env(safe-area-inset-bottom, 0)));
+  }
+
+  .mentions-bloc {
+    scroll-margin-top: calc(3.5rem + var(--safe-area-inset-top, env(safe-area-inset-top, 0)));
+  }
+}
+
+@media (max-width: 320px) {
+  body[data-section-id='mentions'] .section {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+
+  .mentions-sommaire__liste {
+    gap: 0.35rem 0.5rem;
+  }
+
+  .mentions-sous-bloc {
+    padding-left: 0.65rem;
+  }
+}

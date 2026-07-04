@@ -4,6 +4,7 @@ import { nettoyerChamp, estEmailValide } from '../utils/validation.js';
 import {
   afficherErreurZone,
   enregistrerSoumissionSession,
+  effacerEtatsInvalides,
   honeypotRempli,
   marquerChampsInvalides,
   peutSoumettreAvecSession,
@@ -41,6 +42,25 @@ function lireChampsFormulaire() {
   };
 }
 
+function construireErreursValidation({ nom, email, message, champsDom }) {
+  const [nomEl, emailEl, messageEl] = champsDom;
+  const erreurs = [];
+
+  if (!nom) {
+    erreurs.push({ el: nomEl, message: 'Veuillez renseigner votre nom.' });
+  }
+  if (!email) {
+    erreurs.push({ el: emailEl, message: 'Veuillez saisir votre adresse e-mail.' });
+  } else if (!estEmailValide(email, CONFIG.CONTACT.LIMITS.email)) {
+    erreurs.push({ el: emailEl, message: 'Adresse e-mail invalide.' });
+  }
+  if (!message) {
+    erreurs.push({ el: messageEl, message: 'Veuillez rédiger votre message.' });
+  }
+
+  return erreurs;
+}
+
 function champsValides({ nom, email, message }) {
   return nom && email && message && estEmailValide(email, CONFIG.CONTACT.LIMITS.email);
 }
@@ -64,9 +84,18 @@ export async function initContactForm() {
 
   initScrollChampClavier(formulaire);
 
+  formulaire.addEventListener('input', (evt) => {
+    if (evt.target.matches('.champ-input')) {
+      effacerEtatsInvalides([evt.target]);
+    }
+  });
+
   formulaire.addEventListener('submit', async (evt) => {
     evt.preventDefault();
     afficherErreur('');
+
+    const { champsDom } = lireChampsFormulaire();
+    effacerEtatsInvalides(champsDom);
 
     if (
       honeypotRempli(
@@ -86,9 +115,9 @@ export async function initContactForm() {
       return;
     }
 
-    const { nom, email, message, champsDom } = lireChampsFormulaire();
+    const { nom, email, message, champsDom: champsDomLus } = lireChampsFormulaire();
     if (!champsValides({ nom, email, message })) {
-      marquerChampsInvalides(champsDom, jouerBip);
+      marquerChampsInvalides(construireErreursValidation({ nom, email, message, champsDom: champsDomLus }), jouerBip);
       formulaire.reportValidity();
       return;
     }

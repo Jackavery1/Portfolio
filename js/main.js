@@ -1,7 +1,7 @@
 import { CONFIG } from './config/index.js';
 import { byId } from './utils/dom.js';
 import { chargerPartials } from './modules/partials.js';
-import { initNavigationArcade, initNavigationClavier } from './modules/navigation.js';
+import { initNavigationArcade, initNavigationClavier, annoncerNavigationClavier } from './modules/navigation.js';
 import {
   afficherPopupHighScore,
   afficherScore,
@@ -41,6 +41,7 @@ async function init() {
 
   assurerFaviconLocale();
   await chargerPartials();
+  annoncerNavigationClavier();
 
   const { initContactCoordonnees } = await import('./modules/contact-coordonnees.js');
   initContactCoordonnees();

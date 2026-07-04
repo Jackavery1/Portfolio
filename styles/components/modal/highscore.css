@@ -102,7 +102,7 @@
 .popup-highscore__fermer {
   font-family: var(--police-pixel);
   font-size: clamp(var(--taille-pixel-min), 1.4vw, 0.42rem);
-  color: var(--couleur-texte-discret);
+  color: var(--couleur-texte-normal);
   letter-spacing: 2px;
   background: none;
   border: none;

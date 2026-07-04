@@ -7,13 +7,14 @@ import {
 import { decodeBase64Utf8 } from '../utils/pii.js';
 import { jouerBip } from './audio.js';
 import { ajouterScore } from './score.js';
-import { obtenirTokenRecaptcha, resetRecaptcha } from './recaptcha.js';
+import { obtenirTokenRecaptcha, reinitialiserWidgetRecaptcha } from './recaptcha.js';
 
 export const LABEL_ENVOI_EN_COURS = 'ENVOI…';
 
 function marquerEnvoiEnCours(btnEnvoyer) {
   btnEnvoyer.disabled = true;
   btnEnvoyer.setAttribute('aria-busy', 'true');
+  btnEnvoyer.classList.add('bouton-envoyer--chargement');
   btnEnvoyer.textContent = LABEL_ENVOI_EN_COURS;
   btnEnvoyer.form?.setAttribute('aria-busy', 'true');
 }
@@ -21,6 +22,7 @@ function marquerEnvoiEnCours(btnEnvoyer) {
 function restaurerBoutonEnvoi(btnEnvoyer, labelEnvoyer) {
   btnEnvoyer.disabled = false;
   btnEnvoyer.removeAttribute('aria-busy');
+  btnEnvoyer.classList.remove('bouton-envoyer--chargement');
   btnEnvoyer.textContent = labelEnvoyer;
   btnEnvoyer.form?.removeAttribute('aria-busy');
   delete btnEnvoyer.form?.dataset.envoiEnCours;
@@ -29,7 +31,7 @@ function restaurerBoutonEnvoi(btnEnvoyer, labelEnvoyer) {
 function signalerEchecEnvoi({ btnEnvoyer, labelEnvoyer, msg, afficherErreur, reinitialiserRecaptcha = false }) {
   jouerBip(150, 120, 'sawtooth');
   restaurerBoutonEnvoi(btnEnvoyer, labelEnvoyer);
-  if (reinitialiserRecaptcha) resetRecaptcha();
+  if (reinitialiserRecaptcha) reinitialiserWidgetRecaptcha();
   btnEnvoyer.setAttribute('title', msg);
   afficherErreur(msg);
 }
@@ -113,7 +115,7 @@ export async function envoyerViaFormspree({
     }
 
     if (res.ok) {
-      return { ok: true, labelEnvoyer };
+      return { ok: true };
     }
 
     signalerEchecEnvoi({
@@ -146,7 +148,7 @@ export function envoyerViaMailto({ config, champs, sujetUtile }) {
 }
 
 function confirmerEnvoiReussi({ btnEnvoyer, confirmation }) {
-  resetRecaptcha();
+  reinitialiserWidgetRecaptcha();
   if (confirmation) confirmation.hidden = false;
   jouerBip(660, 80, 'sine');
   ajouterScore(500);

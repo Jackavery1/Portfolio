@@ -3,6 +3,8 @@ import { defineConfig, devices } from '@playwright/test';
 const PORT = 8765;
 const baseURL = `http://127.0.0.1:${PORT}`;
 
+const RESPONSIVE_SPECS = /responsive-.*\.spec\.js/;
+
 export default defineConfig({
   testDir: 'e2e',
   fullyParallel: true,
@@ -17,21 +19,21 @@ export default defineConfig({
   projects: [
     {
       name: 'responsive',
-      testMatch: /responsive\.spec\.js/,
+      testMatch: RESPONSIVE_SPECS,
       use: {
         ...devices['Pixel 5'],
       },
     },
     {
       name: 'responsive-webkit',
-      testMatch: /responsive\.spec\.js/,
+      testMatch: RESPONSIVE_SPECS,
       use: {
         ...devices['iPhone 13'],
       },
     },
     {
       name: 'desktop-chrome',
-      testIgnore: /responsive\.spec\.js/,
+      testIgnore: RESPONSIVE_SPECS,
       use: {
         ...devices['Desktop Chrome'],
         ...(process.env.CI ? {} : { channel: 'chrome' }),
@@ -39,7 +41,7 @@ export default defineConfig({
     },
     {
       name: 'mobile-chrome',
-      testIgnore: /responsive\.spec\.js/,
+      testIgnore: RESPONSIVE_SPECS,
       use: {
         ...devices['Pixel 5'],
       },

@@ -38,7 +38,10 @@
   .popup-highscore,
   .popup-highscore__titre,
   .section,
-  .grille-projets[aria-busy='true']::before {
+  .grille-projets[aria-busy='true']::before,
+  .carte-projet-squelette__ligne,
+  .carte-projet-squelette__bloc,
+  .bouton-envoyer--chargement::before {
     animation: none !important;
   }
 

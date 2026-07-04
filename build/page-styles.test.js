@@ -63,6 +63,18 @@ describe('page-styles', () => {
     expect(NAV_STYLE_SOURCES.every((s) => s.startsWith('styles/components/nav/'))).toBe(true);
   });
 
+  it('mentions légales est découpé en modules dédiés', () => {
+    const { MENTIONS_LEGALES_STYLE_SOURCES } = require('./page-styles.cjs');
+    expect(MENTIONS_LEGALES_STYLE_SOURCES).toHaveLength(2);
+    expect(
+      MENTIONS_LEGALES_STYLE_SOURCES.every((s) => s.startsWith('styles/pages/mentions-legales/'))
+    ).toBe(true);
+  });
+
+  it('bouton pixel est un composant partagé du bundle base', () => {
+    expect(BASE_STYLE_SOURCES).toContain('styles/components/bouton-pixel.css');
+  });
+
   it('aucun fichier CSS source orphelin sous styles/', () => {
     const { allMonolithSources } = require('./page-styles.cjs');
     const references = new Set(allMonolithSources());

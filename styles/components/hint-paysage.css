@@ -1,0 +1,32 @@
+/* Hint informatif — paysage mobile sur pages denses */
+
+.hint-paysage {
+  display: none;
+  align-items: center;
+  gap: var(--espacement-sm);
+  margin: 0 0 var(--espacement-md);
+  padding: var(--espacement-sm) var(--espacement-md);
+  font-family: var(--police-crt);
+  font-size: var(--taille-corps-crt);
+  color: var(--couleur-texte-normal);
+  background: var(--couleur-accent-alpha);
+  border: 1px solid var(--couleur-bordure-active);
+}
+
+.hint-paysage__icone {
+  flex-shrink: 0;
+  font-size: 1.1rem;
+  color: var(--couleur-actif);
+}
+
+@media (max-height: 480px) and (orientation: landscape) and (max-width: 960px) {
+  .hint-paysage {
+    display: flex;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hint-paysage {
+    transition: none;
+  }
+}

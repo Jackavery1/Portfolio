@@ -15,6 +15,7 @@ describe('projets-grille', () => {
 
     const cartes = document.querySelectorAll('.carte-projet');
     expect(cartes.length).toBe(6);
+    expect(document.querySelectorAll('.carte-projet-squelette')).toHaveLength(0);
     expect(document.querySelector('[data-projet="derniereligne"]')).not.toBeNull();
     expect(document.querySelectorAll('.projets-sommaire__liste a')).toHaveLength(6);
     expect(document.getElementById('js-grille-projets')?.getAttribute('aria-busy')).toBeNull();

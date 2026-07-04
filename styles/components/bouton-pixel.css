@@ -1,0 +1,113 @@
+/* Composant : boutons pixel arcade (CTA, envoi, navigation) */
+
+.bouton-arcade,
+.bouton-dojo,
+.bouton-retour-work,
+.bouton-envoyer {
+  font-family: var(--police-pixel);
+  font-size: var(--taille-bouton-pixel);
+  min-height: 44px;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: 2px;
+  background: none;
+  cursor: pointer;
+  transition:
+    background var(--transition-ui),
+    box-shadow var(--transition-ui),
+    color var(--transition-ui);
+}
+
+.bouton-arcade,
+.bouton-retour-work,
+.bouton-envoyer {
+  color: var(--couleur-accent-vif);
+  border: 1px solid var(--couleur-accent);
+}
+
+.bouton-arcade {
+  padding: 0.7rem 1.1rem;
+}
+
+.bouton-retour-work {
+  font-size: var(--taille-petit-pixel);
+  border-color: var(--couleur-bordure-active);
+  padding: 0.6rem 1.1rem;
+}
+
+.bouton-envoyer {
+  padding: 0.85rem 1.25rem;
+  align-self: flex-start;
+}
+
+.bouton-dojo {
+  color: var(--couleur-actif);
+  border: 1px solid var(--couleur-actif-dim);
+  padding: 0.65rem 1.2rem;
+}
+
+.bouton-arcade:hover,
+.bouton-envoyer:hover:not(:disabled) {
+  background-color: var(--couleur-accent-alpha);
+  box-shadow: var(--ombre-accent-ui);
+  color: #fff;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .bouton-retour-work:hover {
+    background-color: var(--couleur-accent-alpha);
+    box-shadow: var(--ombre-accent-ui);
+  }
+}
+
+.bouton-dojo:hover {
+  background-color: rgba(255, 204, 68, 0.08);
+  box-shadow: var(--ombre-actif-ui);
+}
+
+.bouton-arcade:focus-visible,
+.bouton-retour-work:focus-visible {
+  outline: 2px solid var(--couleur-accent-vif);
+  outline-offset: 3px;
+}
+
+.bouton-dojo:focus-visible {
+  outline: 2px solid var(--couleur-actif);
+  outline-offset: 3px;
+}
+
+.bouton-envoyer:focus-visible {
+  outline: 3px solid var(--couleur-actif);
+  outline-offset: 3px;
+}
+
+.bouton-envoyer--chargement {
+  cursor: wait;
+  gap: 0.5rem;
+}
+
+.bouton-envoyer--chargement::before {
+  content: '';
+  width: 0.75rem;
+  height: 0.75rem;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: bouton-envoi-spin 0.7s linear infinite;
+}
+
+@keyframes bouton-envoi-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bouton-envoyer--chargement::before {
+    animation: none;
+    border-top-color: currentColor;
+    opacity: 0.65;
+  }
+}

@@ -9,14 +9,14 @@ import {
   retirerScriptsRecaptcha,
 } from './recaptcha-chargement.js';
 
-let widgetId = null;
+let idWidget = null;
 
-function reinitialiserRecaptcha() {
+function viderEtatRecaptcha() {
   retirerScriptsRecaptcha();
-  widgetId = null;
+  idWidget = null;
 }
 
-export async function initRecaptcha({ siteKey, version, mountId }) {
+export async function initialiserRecaptcha({ siteKey, version, mountId }) {
   if (typeof window !== 'undefined' && window.__E2E_RECAPTCHA_TOKEN) {
     return true;
   }
@@ -40,11 +40,12 @@ export async function initRecaptcha({ siteKey, version, mountId }) {
   if (!mount) return false;
   mount.hidden = false;
   const g = await chargerScriptV2(key);
-  if (widgetId != null) {
-    g.reset(widgetId);
+  if (idWidget != null && mount.children.length > 0) {
+    g.reset(idWidget);
     return true;
   }
-  widgetId = g.render(mount, { sitekey: key });
+  idWidget = null;
+  idWidget = g.render(mount, { sitekey: key });
   return true;
 }
 
@@ -60,7 +61,7 @@ export async function obtenirTokenRecaptcha({ siteKey, version, action = 'submit
     } catch (err) {
       const detail = err?.message || '';
       if (/invalid site key|not loaded in api/i.test(detail)) {
-        reinitialiserRecaptcha();
+        viderEtatRecaptcha();
         throw new Error(
           `${detail} — Rechargez la page (Ctrl+F5) après avoir changé PORTFOLIO_RECAPTCHA_SITE_KEY dans .env.local, et vérifiez 127.0.0.1 + localhost dans Google reCAPTCHA.`
         );
@@ -72,12 +73,17 @@ export async function obtenirTokenRecaptcha({ siteKey, version, action = 'submit
   }
 
   const g = await chargerScriptV2(key);
-  if (widgetId == null) return null;
-  return g.getResponse(widgetId) || null;
+  if (idWidget == null) return null;
+  return g.getResponse(idWidget) || null;
 }
 
-export function resetRecaptcha() {
-  if (widgetId != null && window.grecaptcha) {
-    window.grecaptcha.reset(widgetId);
+export function reinitialiserWidgetRecaptcha() {
+  if (idWidget != null && window.grecaptcha) {
+    window.grecaptcha.reset(idWidget);
   }
+}
+
+/** Réinitialise l'état module (tests). */
+export function reinitialiserEtatModuleRecaptcha() {
+  viderEtatRecaptcha();
 }

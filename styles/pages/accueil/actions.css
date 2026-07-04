@@ -13,8 +13,8 @@
   display: inline-flex;
   align-items: center;
   transition:
-    color 0.2s,
-    border-color 0.2s;
+    color var(--transition-ui),
+    border-color var(--transition-ui);
 }
 
 .lien-github:hover {
@@ -39,7 +39,7 @@
   max-width: 100%;
   box-sizing: border-box;
   font-family: var(--police-crt);
-  font-size: clamp(0.85rem, 1.85vw, 1.02rem);
+  font-size: var(--taille-corps-crt);
   color: var(--couleur-erreur);
   letter-spacing: 0.35px;
   line-height: 1.55;
@@ -118,33 +118,4 @@
   }
 }
 
-.bouton-arcade {
-  font-family: var(--police-pixel);
-  font-size: clamp(var(--taille-pixel-min), 1.3vw, 0.5rem);
-  color: var(--couleur-accent-vif);
-  border: 1px solid var(--couleur-accent);
-  padding: 0.7rem 1.1rem;
-  min-height: 44px;
-  box-sizing: border-box;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  letter-spacing: 2px;
-  background: none;
-  cursor: pointer;
-  transition:
-    background 0.2s,
-    box-shadow 0.2s,
-    color 0.2s;
-}
-
-.bouton-arcade:hover {
-  background-color: var(--couleur-accent-alpha);
-  box-shadow: 0 0 20px rgba(var(--couleur-accent-rgb), 0.3);
-  color: #fff;
-}
-
-.bouton-arcade:focus-visible {
-  outline: 2px solid var(--couleur-accent-vif);
-  outline-offset: 3px;
-}
+/* Voir styles/components/bouton-pixel.css — .bouton-arcade */

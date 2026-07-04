@@ -5,6 +5,7 @@ vi.mock('../config/index.js', () => ({
   CONFIG: {
     SELECTORS: { BURGER: 'js-burger', MENU: 'js-menu', MODAL: 'js-modal' },
     NAVIGATION: { ORDER: ['index.html', 'projets.html'] },
+    STORAGE: { NAV_CLAVIER_ANNONCE: 'jm_nav_clavier_annonce' },
   },
 }));
 
@@ -12,11 +13,12 @@ vi.mock('./audio.js', () => ({
   jouerBip: vi.fn(),
 }));
 
-import { fermerMenuBurger, initNavigationArcade, initNavigationClavier } from './navigation.js';
+import { fermerMenuBurger, initNavigationArcade, initNavigationClavier, annoncerNavigationClavier } from './navigation.js';
 import { jouerBip } from './audio.js';
 
 describe('navigation', () => {
   beforeEach(() => {
+    sessionStorage.clear();
     document.body.innerHTML = `
       <header class="nav">
         <button id="js-burger" type="button" aria-expanded="false" aria-label="Ouvrir le menu"></button>
@@ -72,7 +74,20 @@ describe('navigation', () => {
     initNavigationClavier();
     document.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
     expect(window.location.href).toBe('projets.html');
+    expect(sessionStorage.getItem('jm_nav_clavier_annonce')).toBe('Projets');
     expect(jouerBip).toHaveBeenCalled();
+  });
+
+  it('annonce la page après navigation clavier', () => {
+    document.body.innerHTML += `
+      <p id="js-annonce-navigation" aria-live="polite"></p>
+    `;
+    sessionStorage.setItem('jm_nav_clavier_annonce', 'Compétences');
+
+    annoncerNavigationClavier();
+
+    expect(document.getElementById('js-annonce-navigation').textContent).toBe('Page Compétences');
+    expect(sessionStorage.getItem('jm_nav_clavier_annonce')).toBeNull();
   });
 
   it('navigue vers la page précédente avec flèche gauche', () => {

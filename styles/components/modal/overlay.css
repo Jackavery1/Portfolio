@@ -47,7 +47,7 @@
 .modal-fermer {
   font-family: var(--police-pixel);
   font-size: clamp(var(--taille-pixel-min), 1.2vw, 0.55rem);
-  color: var(--couleur-texte-discret);
+  color: var(--couleur-texte-normal);
   padding: 0.5rem 0.75rem;
   min-height: 44px;
   min-width: 44px;

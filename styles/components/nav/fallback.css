@@ -26,3 +26,22 @@
   color: var(--couleur-erreur);
   letter-spacing: 0.5px;
 }
+
+.nav--squelette .nav__liens--squelette {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.nav--squelette .nav__liens--squelette .nav__bouton {
+  min-height: 44px;
+  padding: 0.5rem 0.65rem;
+}
+
+.pied-page--squelette .pied-page__certif {
+  margin: 0;
+  font-family: var(--police-crt);
+  font-size: var(--taille-corps-crt);
+  color: var(--couleur-texte-discret);
+}

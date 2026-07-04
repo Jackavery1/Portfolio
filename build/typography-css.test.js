@@ -36,4 +36,18 @@ describe('typography CSS', () => {
 
     expect(true).toBe(true);
   });
+
+  it('tokens.css expose une échelle typo centralisée', () => {
+    const tokens = fs.readFileSync(path.join(rootDir, 'styles/tokens.css'), 'utf8');
+    const attendus = [
+      '--taille-petit-pixel',
+      '--taille-bouton-pixel',
+      '--taille-titre-pixel',
+      '--taille-corps-lisible',
+      '--taille-corps-crt',
+    ];
+    attendus.forEach((token) => {
+      expect(tokens, token).toContain(token);
+    });
+  });
 });

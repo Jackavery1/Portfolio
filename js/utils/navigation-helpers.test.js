@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { indexDansOrdreNavigation } from './navigation-helpers.js';
+import { indexDansOrdreNavigation, libellerPageNavigation } from './navigation-helpers.js';
 
 const ORDRE = ['index.html', 'projets.html', 'competences.html', 'parcours.html', 'contact.html'];
 
@@ -11,5 +11,10 @@ describe('navigation-helpers', () => {
 
   it('retourne -1 hors menu principal', () => {
     expect(indexDansOrdreNavigation('/Portfolio/dojo.html', ORDRE)).toBe(-1);
+  });
+
+  it('libelle les pages du menu en français', () => {
+    expect(libellerPageNavigation('projets.html')).toBe('Projets');
+    expect(libellerPageNavigation('contact.html')).toBe('Contact');
   });
 });

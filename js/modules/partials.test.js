@@ -76,6 +76,16 @@ describe('partials', () => {
 
       expect(document.querySelector('.nav--fallback')).not.toBeNull();
     });
+
+    it('applique le fallback sans fetch en protocole file:', async () => {
+      vi.stubGlobal('fetch', vi.fn());
+      vi.stubGlobal('location', { ...window.location, protocol: 'file:' });
+
+      await chargerPartials();
+
+      expect(fetch).not.toHaveBeenCalled();
+      expect(document.querySelector('.nav--fallback')).not.toBeNull();
+    });
   });
 
   it('marque le lien actif selon la page courante', () => {

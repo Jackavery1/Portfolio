@@ -5,7 +5,7 @@
 import { CONFIG } from '../config/index.js';
 import { byId } from '../utils/dom.js';
 import { trapTabModal } from '../utils/focus.js';
-import { indexDansOrdreNavigation } from '../utils/navigation-helpers.js';
+import { indexDansOrdreNavigation, libellerPageNavigation } from '../utils/navigation-helpers.js';
 import { jouerBip } from './audio.js';
 
 export function fermerMenuBurger() {
@@ -65,6 +65,29 @@ export function initNavigationArcade() {
   });
 }
 
+function enregistrerAnnonceNavigation(fichier) {
+  try {
+    sessionStorage.setItem(
+      CONFIG.STORAGE.NAV_CLAVIER_ANNONCE,
+      libellerPageNavigation(fichier)
+    );
+  } catch {
+    /* sessionStorage indisponible */
+  }
+}
+
+export function annoncerNavigationClavier() {
+  try {
+    const libelle = sessionStorage.getItem(CONFIG.STORAGE.NAV_CLAVIER_ANNONCE);
+    if (!libelle) return;
+    sessionStorage.removeItem(CONFIG.STORAGE.NAV_CLAVIER_ANNONCE);
+    const zone = byId('js-annonce-navigation');
+    if (zone) zone.textContent = `Page ${libelle}`;
+  } catch {
+    /* sessionStorage indisponible */
+  }
+}
+
 export function initNavigationClavier() {
   document.addEventListener('keydown', (evt) => {
     const modalOverlay = byId(CONFIG.SELECTORS.MODAL);
@@ -77,10 +100,12 @@ export function initNavigationClavier() {
     const ordre = CONFIG.NAVIGATION.ORDER;
     if (evt.key === 'ArrowRight' && idx < ordre.length - 1) {
       jouerBip(440, 40);
+      enregistrerAnnonceNavigation(ordre[idx + 1]);
       window.location.href = ordre[idx + 1];
     }
     if (evt.key === 'ArrowLeft' && idx > 0) {
       jouerBip(330, 40);
+      enregistrerAnnonceNavigation(ordre[idx - 1]);
       window.location.href = ordre[idx - 1];
     }
   });

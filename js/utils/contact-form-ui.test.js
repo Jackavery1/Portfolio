@@ -2,6 +2,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import {
   afficherErreurZone,
+  effacerEtatInvalideChamp,
   enregistrerSoumissionSession,
   honeypotRempli,
   marquerChampsInvalides,
@@ -15,10 +16,10 @@ describe('contact-form-ui', () => {
       <form id="f">
         <input name="website" value="" />
       </form>
-      <input id="champ-a" />
+      <input id="champ-a" aria-errormessage="champ-a-erreur" />
+      <p id="champ-a-erreur" hidden></p>
     `;
     sessionStorage.clear();
-    vi.useFakeTimers();
   });
 
   it('affiche et masque la zone erreur', () => {
@@ -32,14 +33,32 @@ describe('contact-form-ui', () => {
     expect(zone.textContent).toBe('');
   });
 
-  it('marque les champs invalides temporairement', () => {
+  it('marque les champs invalides avec aria-invalid et message', () => {
     const champ = document.getElementById('champ-a');
+    const erreur = document.getElementById('champ-a-erreur');
     const jouerBip = vi.fn();
-    marquerChampsInvalides([champ], jouerBip);
+
+    marquerChampsInvalides([{ el: champ, message: 'Champ requis.' }], jouerBip);
+
     expect(jouerBip).toHaveBeenCalledWith(150, 120, 'sawtooth');
+    expect(champ.getAttribute('aria-invalid')).toBe('true');
     expect(champ.style.borderColor).toBe('var(--couleur-erreur)');
-    vi.advanceTimersByTime(1500);
-    expect(champ.style.borderColor).toBe('');
+    expect(erreur.hidden).toBe(false);
+    expect(erreur.textContent).toBe('Champ requis.');
+  });
+
+  it('efface aria-invalid et le message de champ', () => {
+    const champ = document.getElementById('champ-a');
+    const erreur = document.getElementById('champ-a-erreur');
+    champ.setAttribute('aria-invalid', 'true');
+    erreur.hidden = false;
+    erreur.textContent = 'Erreur';
+
+    effacerEtatInvalideChamp(champ);
+
+    expect(champ.hasAttribute('aria-invalid')).toBe(false);
+    expect(erreur.hidden).toBe(true);
+    expect(erreur.textContent).toBe('');
   });
 
   it('vérifie le rate limit via sessionStorage', () => {

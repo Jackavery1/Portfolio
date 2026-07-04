@@ -50,7 +50,7 @@ module.exports = [
     },
   },
   {
-    files: ['js/config/defaults.js'],
+    files: ['js/config/defaults.js', 'js/config/legal-data.js'],
     rules: {
       quotes: 'off',
     },

@@ -36,9 +36,9 @@ vi.mock('./score.js', () => ({
 }));
 
 vi.mock('./recaptcha.js', () => ({
-  initRecaptcha: vi.fn().mockResolvedValue(true),
+  initialiserRecaptcha: vi.fn().mockResolvedValue(true),
   obtenirTokenRecaptcha: vi.fn().mockResolvedValue('token'),
-  resetRecaptcha: vi.fn(),
+  reinitialiserWidgetRecaptcha: vi.fn(),
 }));
 
 import { initContactForm } from './contact-form.js';

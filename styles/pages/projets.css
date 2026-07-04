@@ -13,6 +13,56 @@
   align-content: start;
 }
 
+.carte-projet-squelette {
+  background-color: var(--couleur-fond-carte);
+  border: 1px solid var(--couleur-bordure);
+  border-radius: 4px;
+  padding: 1.1rem;
+  min-height: 9rem;
+  display: grid;
+  gap: 0.65rem;
+  pointer-events: none;
+}
+
+.carte-projet-squelette__ligne {
+  display: block;
+  height: 0.65rem;
+  border-radius: 2px;
+  background: linear-gradient(
+    90deg,
+    var(--couleur-separateur) 0%,
+    var(--couleur-fond-survol) 45%,
+    var(--couleur-separateur) 100%
+  );
+  background-size: 200% 100%;
+  animation: grille-projets-pulse 1.4s ease-in-out infinite;
+}
+
+.carte-projet-squelette__ligne--large {
+  width: 55%;
+}
+
+.carte-projet-squelette__ligne--pleine {
+  width: 100%;
+}
+
+.carte-projet-squelette__bloc {
+  height: 2.75rem;
+  border-radius: 2px;
+  background: linear-gradient(
+    90deg,
+    var(--couleur-separateur) 0%,
+    var(--couleur-fond-survol) 45%,
+    var(--couleur-separateur) 100%
+  );
+  background-size: 200% 100%;
+  animation: grille-projets-pulse 1.4s ease-in-out infinite;
+}
+
+.grille-projets[aria-busy='true']:has(.carte-projet-squelette)::before {
+  display: none;
+}
+
 .grille-projets[aria-busy='true']::before {
   content: 'CHARGEMENT DES PROJETS…';
   grid-column: 1 / -1;
@@ -83,37 +133,12 @@
   border-top: 1px solid var(--couleur-separateur);
 }
 
-.bouton-dojo {
-  font-family: var(--police-pixel);
-  font-size: clamp(var(--taille-pixel-min), 1.3vw, 0.5rem);
-  color: var(--couleur-actif);
-  border: 1px solid var(--couleur-actif-dim);
-  padding: 0.65rem 1.2rem;
-  min-height: 44px;
-  box-sizing: border-box;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  letter-spacing: 2px;
-  background: none;
-  cursor: pointer;
-  transition:
-    background 0.2s,
-    box-shadow 0.2s;
-}
-
-.bouton-dojo:hover {
-  background-color: rgba(255, 204, 68, 0.08);
-  box-shadow: 0 0 16px rgba(255, 204, 68, 0.2);
-}
-
-.bouton-dojo:focus-visible {
-  outline: 2px solid var(--couleur-actif);
-  outline-offset: 3px;
-}
+/* Voir styles/components/bouton-pixel.css — .bouton-dojo */
 
 @media (prefers-reduced-motion: reduce) {
-  .grille-projets[aria-busy='true']::before {
+  .grille-projets[aria-busy='true']::before,
+  .carte-projet-squelette__ligne,
+  .carte-projet-squelette__bloc {
     animation: none;
     opacity: 0.85;
   }

@@ -46,11 +46,11 @@ function buildManifest(siteBase) {
 }
 
 function buildDevManifest() {
-  const icon = (src, sizes) => ({
+  const icon = (src, sizes, purpose = 'any') => ({
     src,
     sizes,
     type: 'image/png',
-    purpose: 'any',
+    purpose,
   });
 
   return {
@@ -64,7 +64,12 @@ function buildDevManifest() {
     theme_color: '#03040f',
     lang: 'fr-FR',
     orientation: 'any',
-    icons: [icon('./assets/favicon.png', '64x64'), icon('./assets/og.png', '512x512')],
+    icons: [
+      icon('./assets/icon-192.png', '192x192'),
+      icon('./assets/icon-512.png', '512x512'),
+      icon('./assets/apple-touch-icon.png', '180x180'),
+      icon('./assets/icon-512.png', '512x512', 'maskable'),
+    ],
   };
 }
 

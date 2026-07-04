@@ -52,6 +52,7 @@ describe('responsive CSS', () => {
       'styles/components/nav/base.css',
       'styles/layout/ecran.css',
       'styles/pages/contact/responsive-mobile.css',
+      'styles/pages/mentions-legales/responsive-mobile.css',
     ];
     fichiers.forEach((fichier) => {
       const contenu = lire(fichier);

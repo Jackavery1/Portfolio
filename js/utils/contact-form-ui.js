@@ -11,14 +11,36 @@ export function afficherErreurZone(zone, texte) {
   }
 }
 
-export function marquerChampsInvalides(elements, jouerBip) {
+export function effacerEtatInvalideChamp(el) {
+  if (!el) return;
+  el.removeAttribute('aria-invalid');
+  el.style.borderColor = '';
+  const erreurId = el.getAttribute('aria-errormessage');
+  if (!erreurId) return;
+  const zone = document.getElementById(erreurId);
+  if (zone) {
+    zone.hidden = true;
+    zone.textContent = '';
+  }
+}
+
+export function effacerEtatsInvalides(elements) {
+  elements.forEach(effacerEtatInvalideChamp);
+}
+
+export function marquerChampsInvalides(erreurs, jouerBip) {
   jouerBip(150, 120, 'sawtooth');
-  elements.forEach((el) => {
-    if (el) {
-      el.style.borderColor = 'var(--couleur-erreur)';
-      setTimeout(() => {
-        el.style.borderColor = '';
-      }, 1500);
+  erreurs.forEach(({ el, message }) => {
+    if (!el) return;
+    el.setAttribute('aria-invalid', 'true');
+    el.style.borderColor = 'var(--couleur-erreur)';
+    const erreurId = el.getAttribute('aria-errormessage');
+    if (erreurId) {
+      const zone = document.getElementById(erreurId);
+      if (zone) {
+        zone.textContent = message;
+        zone.hidden = false;
+      }
     }
   });
 }

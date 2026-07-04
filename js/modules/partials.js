@@ -21,6 +21,10 @@ function estEnvironnementDev() {
   );
 }
 
+function estProtocoleFichier() {
+  return location.protocol === 'file:';
+}
+
 function appliquerFallbackPartial(conteneur, id) {
   const html = FALLBACKS_PARTIELS[id];
   if (html) {
@@ -38,6 +42,15 @@ export { FALLBACKS_PARTIELS, appliquerFallbackPartial };
 export async function chargerPartials() {
   const aCharger = CONFIG.PARTIALS.filter(({ id }) => byId(id));
   if (aCharger.length === 0) {
+    marquerLienActif();
+    return;
+  }
+
+  if (estProtocoleFichier()) {
+    aCharger.forEach(({ id }) => {
+      const conteneur = byId(id);
+      if (conteneur) appliquerFallbackPartial(conteneur, id);
+    });
     marquerLienActif();
     return;
   }

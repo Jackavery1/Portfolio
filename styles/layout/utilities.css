@@ -70,7 +70,7 @@
 
 .titre-section {
   font-family: var(--police-pixel);
-  font-size: clamp(var(--taille-pixel-min), 1.8vw, 0.7rem);
+  font-size: var(--taille-titre-pixel);
   color: var(--couleur-accent-vif);
   text-shadow: 0 0 12px var(--couleur-accent);
   letter-spacing: 2px;
@@ -124,7 +124,8 @@ a.nav__bouton {
 
 a.bouton-arcade,
 a.bouton-dojo,
-a.bouton-retour-work {
+a.bouton-retour-work,
+a.bouton-envoyer {
   text-decoration: none;
   display: inline-block;
 }

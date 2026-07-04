@@ -24,8 +24,8 @@
   /* Texte */
   --couleur-texte-fort: #d0ddff;
   --couleur-texte-normal: #8899cc;
-  /* Lisible sur fond #03040f (≈ AA texte normal) tout en restant secondaire vs --couleur-texte-normal */
-  --couleur-texte-discret: #6b7fc9;
+  /* Lisible sur fond #03040f (≥ AA texte normal 4,5:1) tout en restant secondaire vs --couleur-texte-normal */
+  --couleur-texte-discret: #8a9ee8;
   --couleur-texte-fantome: #1e2850;
 
   /* États succès / actif (jaune arcade) */
@@ -54,10 +54,17 @@
   --police-crt: 'VT323', monospace;
   --police-lisible: 'Rajdhani', sans-serif;
 
-  /* Taille minimale lisible pour libellés pixel (≈ 9px desktop, 10px mobile) */
-  --taille-pixel-min: 0.5625rem;
+  /* Taille minimale lisible pour libellés pixel (10px) */
+  --taille-pixel-min: 0.625rem;
   /* Maximum courant pour petits libellés pixel (≥ min) */
   --taille-pixel-petit-max: 0.65rem;
+
+  /* Échelle typo (pixel, lisible, CRT) */
+  --taille-petit-pixel: clamp(var(--taille-pixel-min), 1.2vw, var(--taille-pixel-petit-max));
+  --taille-bouton-pixel: clamp(var(--taille-pixel-min), 1.3vw, 0.5rem);
+  --taille-titre-pixel: clamp(var(--taille-pixel-min), 1.8vw, 0.7rem);
+  --taille-corps-lisible: clamp(0.95rem, 2.1vw, 1.1rem);
+  --taille-corps-crt: clamp(0.85rem, 1.85vw, 1.02rem);
 
   /* Espacements (rythme vertical et grilles) */
   --espacement-xs: 0.25rem;
@@ -72,6 +79,11 @@
 
   /* Texte secondaire accentué (tags modale, etc.) */
   --couleur-accent-texte: #a9c2ff;
+
+  /* Transitions et ombres UI */
+  --transition-ui: 0.2s ease;
+  --ombre-accent-ui: 0 0 16px rgba(var(--couleur-accent-rgb), 0.25);
+  --ombre-actif-ui: 0 0 16px rgba(255, 204, 68, 0.2);
 
   /* BREAKPOINTS_SYNC_START */
   /** Seuils principaux — généré depuis build/breakpoints.cjs (non utilisables dans @media). */
@@ -88,7 +100,6 @@
 
 @media (max-width: 960px) {
   :root {
-    --taille-pixel-min: 0.625rem;
     --couleur-fond-page: #05091a;
     --couleur-fond: #080d20;
     --couleur-fond-carte: #0d1230;
@@ -96,6 +107,6 @@
     --couleur-bordure: #243070;
     --couleur-texte-fort: #e0eaff;
     --couleur-texte-normal: #aabce8;
-    --couleur-texte-discret: #8898d8;
+    --couleur-texte-discret: #9aade8;
   }
 }

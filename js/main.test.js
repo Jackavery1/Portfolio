@@ -15,6 +15,7 @@ const mocks = vi.hoisted(() => ({
   chargerPartials: vi.fn().mockResolvedValue(undefined),
   initNavigationArcade: vi.fn(),
   initNavigationClavier: vi.fn(),
+  annoncerNavigationClavier: vi.fn(),
   afficherScore: vi.fn(),
   initPopupHighScoreFermer: vi.fn(),
   lireScore: vi.fn(() => 0),
@@ -32,6 +33,7 @@ vi.mock('./modules/partials.js', () => ({
 vi.mock('./modules/navigation.js', () => ({
   initNavigationArcade: mocks.initNavigationArcade,
   initNavigationClavier: mocks.initNavigationClavier,
+  annoncerNavigationClavier: mocks.annoncerNavigationClavier,
 }));
 
 vi.mock('./modules/score.js', () => ({
@@ -112,6 +114,7 @@ describe('main', () => {
     vi.runAllTimers();
 
     expect(mocks.chargerPartials).toHaveBeenCalled();
+    expect(mocks.annoncerNavigationClavier).toHaveBeenCalled();
     expect(mocks.initContactCoordonnees).toHaveBeenCalled();
     expect(mocks.initNavigationArcade).toHaveBeenCalled();
     expect(mocks.initNavigationClavier).toHaveBeenCalled();

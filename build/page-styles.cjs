@@ -27,6 +27,8 @@ const BASE_STYLE_SOURCES = [
   ...NAV_STYLE_SOURCES,
   ...MODAL_STYLE_SOURCES,
   'styles/components/card.css',
+  'styles/components/bouton-pixel.css',
+  'styles/components/hint-paysage.css',
   'styles/components/form.css',
   'styles/components/footer.css',
 ];
@@ -70,6 +72,11 @@ const COMPETENCES_STYLE_SOURCES = [
   'styles/pages/competences/responsive-landscape.css',
 ];
 
+const MENTIONS_LEGALES_STYLE_SOURCES = [
+  'styles/pages/mentions-legales/layout.css',
+  'styles/pages/mentions-legales/responsive-mobile.css',
+];
+
 const PAGE_STYLE_BY_HTML = {
   'index.html': { outfile: 'style-page-accueil.css', sources: ACCUEIL_STYLE_SOURCES },
   'projets.html': { outfile: 'style-page-projets.css', sources: ['styles/pages/projets.css'] },
@@ -82,7 +89,7 @@ const PAGE_STYLE_BY_HTML = {
   'dojo.html': { outfile: 'style-page-dojo.css', sources: DOJO_STYLE_SOURCES },
   'mentions-legales.html': {
     outfile: 'style-page-mentions-legales.css',
-    sources: ['styles/pages/mentions-legales.css'],
+    sources: MENTIONS_LEGALES_STYLE_SOURCES,
   },
 };
 
@@ -116,6 +123,7 @@ module.exports = {
   CONTACT_STYLE_SOURCES,
   DOJO_STYLE_SOURCES,
   COMPETENCES_STYLE_SOURCES,
+  MENTIONS_LEGALES_STYLE_SOURCES,
   PAGE_STYLE_BY_HTML,
   allMonolithSources,
   genererStyleCss,

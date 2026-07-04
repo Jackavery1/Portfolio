@@ -94,8 +94,9 @@ Ne jamais committer de secrets (clé secrète reCAPTCHA, tokens privés). Voir [
 
 | Seuil              | Usage                                                   |
 | ------------------ | ------------------------------------------------------- |
-| `max-width: 960px` | Mobile / tablette (nav, layout, footer, pages, contact) |
-| `min-width: 961px` | Desktop (grilles 2 cols parcours, compétences)          |
+| `max-width: 960px` | Mobile / tablette (nav burger, layout, footer, pages)   |
+| `min-width: 961px` | Desktop (nav horizontale, grilles 2 cols parcours)      |
+| **960 / 961 px**   | Seuil nav : burger ≤960 px, liens horizontaux ≥961 px   |
 | `min-width: 700px` | Grille projets 2 colonnes (tablette large)              |
 | `600px – 960px`    | Accueil tablette, stats latérales compétences           |
 | `max-width: 480px` | Footer une colonne, nav compacte (score masqué)         |

@@ -22,12 +22,12 @@ vi.mock('./score.js', () => ({
 
 vi.mock('./recaptcha.js', () => ({
   obtenirTokenRecaptcha: vi.fn(),
-  resetRecaptcha: vi.fn(),
+  reinitialiserWidgetRecaptcha: vi.fn(),
 }));
 
 import { jouerBip } from './audio.js';
 import { ajouterScore } from './score.js';
-import { obtenirTokenRecaptcha, resetRecaptcha } from './recaptcha.js';
+import { obtenirTokenRecaptcha, reinitialiserWidgetRecaptcha } from './recaptcha.js';
 import {
   envoyerViaFormspree,
   envoyerViaMailto,
@@ -79,7 +79,7 @@ describe('contact-form-submit', () => {
     expect(btn.textContent).toBe('✓ ENVOYÉ');
     expect(btn.disabled).toBe(true);
     expect(ajouterScore).toHaveBeenCalledWith(500);
-    expect(resetRecaptcha).toHaveBeenCalled();
+    expect(reinitialiserWidgetRecaptcha).toHaveBeenCalled();
   });
 
   it('envoyerViaFormspree retourne ok si Formspree répond 200', async () => {
@@ -108,7 +108,7 @@ describe('contact-form-submit', () => {
       afficherErreur,
     });
 
-    expect(result).toEqual({ ok: true, labelEnvoyer: 'Envoyer' });
+    expect(result).toEqual({ ok: true });
     expect(afficherErreur).not.toHaveBeenCalled();
   });
 
@@ -148,6 +148,7 @@ describe('contact-form-submit', () => {
     await Promise.resolve();
     expect(btn.textContent).toBe('ENVOI…');
     expect(btn.getAttribute('aria-busy')).toBe('true');
+    expect(btn.classList.contains('bouton-envoyer--chargement')).toBe(true);
     expect(btn.disabled).toBe(true);
 
     resolveFetch({ ok: true, json: () => Promise.resolve({}) });

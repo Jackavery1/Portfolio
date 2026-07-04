@@ -22,12 +22,16 @@ describe('build manifest', () => {
     expect(manifest.theme_color).toBe('#03040f');
   });
 
-  it('expose un manifest dev avec URLs relatives', () => {
+  it('expose un manifest dev aligné sur la prod (icônes PWA)', () => {
     const { buildDevManifest } = require('./manifest.cjs');
     const manifest = buildDevManifest();
 
     expect(manifest.start_url).toBe('./index.html');
     expect(manifest.scope).toBe('./');
-    expect(manifest.icons[0].src).toBe('./assets/favicon.png');
+    expect(manifest.display).toBe('standalone');
+    expect(manifest.icons.length).toBeGreaterThanOrEqual(3);
+    expect(manifest.icons.some((icon) => icon.sizes === '192x192')).toBe(true);
+    expect(manifest.icons.some((icon) => icon.sizes === '512x512')).toBe(true);
+    expect(manifest.icons[0].src).toMatch(/^\.\/assets\//);
   });
 });

@@ -7,6 +7,7 @@ const { syncDojoBoss } = require('./sync-dojo-boss.cjs');
 const { syncBreakpoints } = require('./sync-breakpoints.cjs');
 const { syncPageMeta } = require('./sync-page-meta.cjs');
 const { syncManifestDev } = require('./sync-manifest-dev.cjs');
+const { syncLegal } = require('./sync-legal.cjs');
 
 const ROOT = path.join(__dirname, '..');
 
@@ -17,6 +18,7 @@ function syncSource({ pageMeta = false } = {}) {
   syncParcoursArbre();
   syncDojoBoss();
   syncBreakpoints();
+  syncLegal();
   syncManifestDev(ROOT);
   if (pageMeta) syncPageMeta(ROOT);
 }

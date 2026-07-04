@@ -2,7 +2,7 @@
 
 .mentions-intro {
   font-family: var(--police-lisible);
-  font-size: clamp(0.95rem, 2.1vw, 1.1rem);
+  font-size: var(--taille-corps-lisible);
   color: var(--couleur-texte-normal);
   line-height: 1.65;
   margin-bottom: 1.25rem;

@@ -37,6 +37,9 @@ describe('build html', () => {
         /<link[^>]+href="https:\/\/fonts\.googleapis\.com\/css2[^"]*"[^>]*rel="stylesheet"/
       );
       expect(built).toContain('property="og:title" content="Contact · Joris Martinez"');
+      expect(built).toContain('property="og:site_name" content="Joris Martinez · Portfolio"');
+      expect(built).toContain('property="og:image:width" content="1536"');
+      expect(built).toContain('property="og:image:height" content="1024"');
       expect(built).toContain('"@type": "Person"');
       expect(built).toContain('"@type": "WebSite"');
       expect(built).toContain('"@type": "WebPage"');

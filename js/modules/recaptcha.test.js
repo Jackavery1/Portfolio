@@ -1,6 +1,11 @@
 /* @vitest-environment jsdom */
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { initRecaptcha, obtenirTokenRecaptcha, resetRecaptcha } from './recaptcha.js';
+import {
+  initialiserRecaptcha,
+  obtenirTokenRecaptcha,
+  reinitialiserWidgetRecaptcha,
+  reinitialiserEtatModuleRecaptcha,
+} from './recaptcha.js';
 
 describe('recaptcha', () => {
   beforeEach(() => {
@@ -8,6 +13,7 @@ describe('recaptcha', () => {
     document.head.innerHTML = '';
     delete window.grecaptcha;
     delete window.__E2E_RECAPTCHA_TOKEN;
+    reinitialiserEtatModuleRecaptcha();
   });
 
   it('affiche le bandeau v3 quand le script est déjà chargé', async () => {
@@ -21,7 +27,7 @@ describe('recaptcha', () => {
       execute: vi.fn().mockResolvedValue('jeton-v3'),
     };
 
-    const ok = await initRecaptcha({
+    const ok = await initialiserRecaptcha({
       siteKey: 'test-key',
       version: 3,
       mountId: 'js-recaptcha-mount',
@@ -45,18 +51,18 @@ describe('recaptcha', () => {
     expect(token).toBe('e2e-token');
   });
 
-  it('resetRecaptcha ne plante pas sans widget', () => {
-    expect(() => resetRecaptcha()).not.toThrow();
+  it('reinitialiserWidgetRecaptcha ne plante pas sans widget', () => {
+    expect(() => reinitialiserWidgetRecaptcha()).not.toThrow();
   });
 
-  it('initRecaptcha retourne false sans clé site', async () => {
-    const ok = await initRecaptcha({ siteKey: '', version: 3, mountId: 'js-recaptcha-mount' });
+  it('initialiserRecaptcha retourne false sans clé site', async () => {
+    const ok = await initialiserRecaptcha({ siteKey: '', version: 3, mountId: 'js-recaptcha-mount' });
     expect(ok).toBe(false);
   });
 
-  it('initRecaptcha court-circuite en mode e2e', async () => {
+  it('initialiserRecaptcha court-circuite en mode e2e', async () => {
     window.__E2E_RECAPTCHA_TOKEN = 'e2e';
-    const ok = await initRecaptcha({
+    const ok = await initialiserRecaptcha({
       siteKey: 'test-key',
       version: 3,
       mountId: 'js-recaptcha-mount',
@@ -64,7 +70,7 @@ describe('recaptcha', () => {
     expect(ok).toBe(true);
   });
 
-  it('resetRecaptcha appelle grecaptcha.reset avec widgetId', async () => {
+  it('reinitialiserWidgetRecaptcha appelle grecaptcha.reset avec idWidget', async () => {
     const reset = vi.fn();
     window.grecaptcha = {
       ready: (cb) => cb(),
@@ -72,7 +78,7 @@ describe('recaptcha', () => {
       reset,
     };
 
-    const initPromise = initRecaptcha({
+    const initPromise = initialiserRecaptcha({
       siteKey: 'v2-key',
       version: 2,
       mountId: 'js-recaptcha-mount',
@@ -82,7 +88,7 @@ describe('recaptcha', () => {
     script?.onload?.();
     await initPromise;
 
-    resetRecaptcha();
+    reinitialiserWidgetRecaptcha();
     expect(reset).toHaveBeenCalledWith(42);
   });
 
@@ -101,8 +107,8 @@ describe('recaptcha', () => {
     );
   });
 
-  it('initRecaptcha v2 retourne false sans conteneur', async () => {
-    const ok = await initRecaptcha({ siteKey: 'v2-key', version: 2, mountId: 'absent' });
+  it('initialiserRecaptcha v2 retourne false sans conteneur', async () => {
+    const ok = await initialiserRecaptcha({ siteKey: 'v2-key', version: 2, mountId: 'absent' });
     expect(ok).toBe(false);
   });
 
@@ -114,7 +120,7 @@ describe('recaptcha', () => {
       getResponse,
     };
 
-    const initPromise = initRecaptcha({
+    const initPromise = initialiserRecaptcha({
       siteKey: 'v2-key',
       version: 2,
       mountId: 'js-recaptcha-mount',
@@ -126,6 +132,39 @@ describe('recaptcha', () => {
     const token = await obtenirTokenRecaptcha({ siteKey: 'v2-key', version: 2 });
     expect(token).toBe('token-v2');
     expect(getResponse).toHaveBeenCalledWith(7);
+  });
+
+  it('initialiserRecaptcha v2 re-render si le mount a été vidé', async () => {
+    const render = vi.fn().mockReturnValueOnce(3).mockReturnValueOnce(9);
+    window.grecaptcha = {
+      ready: (cb) => cb(),
+      render,
+      reset: vi.fn(),
+    };
+
+    const initPromise = initialiserRecaptcha({
+      siteKey: 'v2-key',
+      version: 2,
+      mountId: 'js-recaptcha-mount',
+    });
+    await Promise.resolve();
+    document.querySelector('script[data-recaptcha-v2]')?.onload?.();
+    await initPromise;
+
+    document.getElementById('js-recaptcha-mount').innerHTML = '';
+
+    const reinitPromise = initialiserRecaptcha({
+      siteKey: 'v2-key',
+      version: 2,
+      mountId: 'js-recaptcha-mount',
+    });
+    await Promise.resolve();
+    await reinitPromise;
+
+    expect(render).toHaveBeenCalledTimes(2);
+    expect(render).toHaveBeenLastCalledWith(document.getElementById('js-recaptcha-mount'), {
+      sitekey: 'v2-key',
+    });
   });
 
   it('obtenirTokenRecaptcha v3 exécute grecaptcha avec la clé', async () => {
@@ -150,7 +189,7 @@ describe('recaptcha', () => {
   });
 
   it('chargerScriptV3 rejette si le script est bloqué', async () => {
-    const promesse = initRecaptcha({
+    const promesse = initialiserRecaptcha({
       siteKey: 'blocked-key',
       version: 3,
       mountId: 'js-recaptcha-mount',
@@ -173,9 +212,9 @@ describe('recaptcha', () => {
     scriptA.dataset.recaptchaV3 = '1';
     document.head.appendChild(scriptA);
 
-    await initRecaptcha({ siteKey: 'key-a', version: 3, mountId: 'js-recaptcha-mount' });
+    await initialiserRecaptcha({ siteKey: 'key-a', version: 3, mountId: 'js-recaptcha-mount' });
 
-    const promesseB = initRecaptcha({
+    const promesseB = initialiserRecaptcha({
       siteKey: 'key-b',
       version: 3,
       mountId: 'js-recaptcha-mount',

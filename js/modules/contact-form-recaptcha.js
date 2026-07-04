@@ -1,4 +1,4 @@
-import { initRecaptcha } from './recaptcha.js';
+import { initialiserRecaptcha } from './recaptcha.js';
 
 export async function initialiserRecaptchaContact({
   endpoint,
@@ -8,7 +8,7 @@ export async function initialiserRecaptchaContact({
 }) {
   if (endpoint && recaptchaKey) {
     try {
-      await initRecaptcha(optionsRecaptcha);
+      await initialiserRecaptcha(optionsRecaptcha);
     } catch {
       if (mount) {
         mount.hidden = false;

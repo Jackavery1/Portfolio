@@ -17,10 +17,12 @@
         placeholder="Votre nom..."
         autocomplete="name"
         maxlength="120"
-        aria-describedby="contact-nom-aide"
+        aria-describedby="contact-nom-aide contact-nom-erreur"
+        aria-errormessage="contact-nom-erreur"
         required
       />
       <p class="champ-aide" id="contact-nom-aide">120 caractères maximum.</p>
+      <p class="champ-erreur" id="contact-nom-erreur" role="alert" hidden></p>
     </div>
 
     <div class="champ-groupe">
@@ -33,10 +35,12 @@
         placeholder="votre@email.com"
         autocomplete="email"
         maxlength="254"
-        aria-describedby="contact-email-aide"
+        aria-describedby="contact-email-aide contact-email-erreur"
+        aria-errormessage="contact-email-erreur"
         required
       />
       <p class="champ-aide" id="contact-email-aide">Format attendu&nbsp;: nom@domaine.fr</p>
+      <p class="champ-erreur" id="contact-email-erreur" role="alert" hidden></p>
     </div>
 
     <div class="champ-groupe">
@@ -60,10 +64,12 @@
         rows="4"
         placeholder="Votre message..."
         maxlength="5000"
-        aria-describedby="contact-message-aide"
+        aria-describedby="contact-message-aide contact-message-erreur"
+        aria-errormessage="contact-message-erreur"
         required
       ></textarea>
       <p class="champ-aide" id="contact-message-aide">5&nbsp;000 caractères maximum.</p>
+      <p class="champ-erreur" id="contact-message-erreur" role="alert" hidden></p>
     </div>
 
     <p class="formulaire-confidentialite">

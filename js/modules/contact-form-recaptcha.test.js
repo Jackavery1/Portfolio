@@ -2,10 +2,10 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 vi.mock('./recaptcha.js', () => ({
-  initRecaptcha: vi.fn(),
+  initialiserRecaptcha: vi.fn(),
 }));
 
-import { initRecaptcha } from './recaptcha.js';
+import { initialiserRecaptcha } from './recaptcha.js';
 import { initialiserRecaptchaContact } from './contact-form-recaptcha.js';
 
 describe('contact-form-recaptcha', () => {
@@ -15,7 +15,7 @@ describe('contact-form-recaptcha', () => {
   });
 
   it('initialise reCAPTCHA quand endpoint et clé sont présents', async () => {
-    initRecaptcha.mockResolvedValue(true);
+    initialiserRecaptcha.mockResolvedValue(true);
 
     await initialiserRecaptchaContact({
       endpoint: 'https://formspree.io/f/test',
@@ -24,11 +24,11 @@ describe('contact-form-recaptcha', () => {
       optionsRecaptcha: {},
     });
 
-    expect(initRecaptcha).toHaveBeenCalled();
+    expect(initialiserRecaptcha).toHaveBeenCalled();
   });
 
-  it('affiche une alerte si initRecaptcha échoue', async () => {
-    initRecaptcha.mockRejectedValue(new Error('network'));
+  it('affiche une alerte si initialiserRecaptcha échoue', async () => {
+    initialiserRecaptcha.mockRejectedValue(new Error('network'));
     const mount = document.getElementById('mount');
 
     await initialiserRecaptchaContact({
@@ -52,7 +52,7 @@ describe('contact-form-recaptcha', () => {
       optionsRecaptcha: {},
     });
 
-    expect(initRecaptcha).not.toHaveBeenCalled();
+    expect(initialiserRecaptcha).not.toHaveBeenCalled();
     expect(mount.className).toContain('recaptcha-zone--config');
     expect(mount.getAttribute('role')).toBe('alert');
   });

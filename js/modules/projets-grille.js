@@ -25,7 +25,7 @@ function creerCarte(id, data) {
     <div class="carte-projet__entete">
       <span class="carte-projet__num">${escapeHtml(data.num)}</span>
       <div class="carte-projet__icone" aria-hidden="true">${icone}</div>
-      <span class="carte-projet__diff" aria-label="${escapeHtml(data.etoiles)} étoiles">${libelleEtoiles(data.etoiles)}</span>
+      <span class="carte-projet__diff" aria-hidden="true">${libelleEtoiles(data.etoiles)}</span>
     </div>
     <span class="carte-projet__nom">${escapeHtml(data.titre)}</span>
     <p class="carte-projet__desc">${escapeHtml(data.descCarte)}</p>
