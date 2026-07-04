@@ -23,6 +23,15 @@ function restaurerBoutonEnvoi(btnEnvoyer, labelEnvoyer) {
   btnEnvoyer.removeAttribute('aria-busy');
   btnEnvoyer.textContent = labelEnvoyer;
   btnEnvoyer.form?.removeAttribute('aria-busy');
+  delete btnEnvoyer.form?.dataset.envoiEnCours;
+}
+
+function signalerEchecEnvoi({ btnEnvoyer, labelEnvoyer, msg, afficherErreur, reinitialiserRecaptcha = false }) {
+  jouerBip(150, 120, 'sawtooth');
+  restaurerBoutonEnvoi(btnEnvoyer, labelEnvoyer);
+  if (reinitialiserRecaptcha) resetRecaptcha();
+  btnEnvoyer.setAttribute('title', msg);
+  afficherErreur(msg);
 }
 
 export function lireSujetUtile(sujetSelect) {
@@ -60,23 +69,25 @@ export async function envoyerViaFormspree({
   try {
     recaptchaToken = await obtenirTokenRecaptcha(optionsRecaptcha);
   } catch (err) {
-    jouerBip(150, 120, 'sawtooth');
-    restaurerBoutonEnvoi(btnEnvoyer, labelEnvoyer);
-    const msg = messageErreurCatch(err);
-    btnEnvoyer.setAttribute('title', msg);
-    afficherErreur(msg);
+    signalerEchecEnvoi({
+      btnEnvoyer,
+      labelEnvoyer,
+      msg: messageErreurCatch(err),
+      afficherErreur,
+    });
     return;
   }
 
   if (!recaptchaToken) {
-    jouerBip(150, 120, 'sawtooth');
-    restaurerBoutonEnvoi(btnEnvoyer, labelEnvoyer);
-    const msg =
-      config.CONTACT.RECAPTCHA_VERSION === 3
-        ? 'Vérification anti-spam en cours… réessayez.'
-        : 'Cochez la case « Je ne suis pas un robot ».';
-    btnEnvoyer.setAttribute('title', msg);
-    afficherErreur(msg);
+    signalerEchecEnvoi({
+      btnEnvoyer,
+      labelEnvoyer,
+      msg:
+        config.CONTACT.RECAPTCHA_VERSION === 3
+          ? 'Vérification anti-spam en cours… réessayez.'
+          : 'Cochez la case « Je ne suis pas un robot ».',
+      afficherErreur,
+    });
     return;
   }
 
@@ -105,19 +116,21 @@ export async function envoyerViaFormspree({
       return { ok: true, labelEnvoyer };
     }
 
-    jouerBip(150, 120, 'sawtooth');
-    restaurerBoutonEnvoi(btnEnvoyer, labelEnvoyer);
-    resetRecaptcha();
-    const msg = messageErreurFormspree(payload, res);
-    btnEnvoyer.setAttribute('title', msg);
-    afficherErreur(msg);
+    signalerEchecEnvoi({
+      btnEnvoyer,
+      labelEnvoyer,
+      msg: messageErreurFormspree(payload, res),
+      afficherErreur,
+      reinitialiserRecaptcha: true,
+    });
   } catch (err) {
-    jouerBip(150, 120, 'sawtooth');
-    restaurerBoutonEnvoi(btnEnvoyer, labelEnvoyer);
-    resetRecaptcha();
-    const msg = messageErreurCatch(err);
-    btnEnvoyer.setAttribute('title', msg);
-    afficherErreur(msg);
+    signalerEchecEnvoi({
+      btnEnvoyer,
+      labelEnvoyer,
+      msg: messageErreurCatch(err),
+      afficherErreur,
+      reinitialiserRecaptcha: true,
+    });
   }
 }
 

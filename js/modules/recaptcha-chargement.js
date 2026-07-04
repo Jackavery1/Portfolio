@@ -7,7 +7,7 @@ import { cleDansScriptRecaptchaV3 } from '../utils/validation.js';
 let scriptPromise = null;
 let cleSiteChargee = null;
 
-export function reinitialiserEtatChargement() {
+function reinitialiserEtatChargement() {
   scriptPromise = null;
   cleSiteChargee = null;
 }

@@ -62,4 +62,21 @@ describe('page-styles', () => {
     expect(NAV_STYLE_SOURCES).toHaveLength(4);
     expect(NAV_STYLE_SOURCES.every((s) => s.startsWith('styles/components/nav/'))).toBe(true);
   });
+
+  it('aucun fichier CSS source orphelin sous styles/', () => {
+    const { allMonolithSources } = require('./page-styles.cjs');
+    const references = new Set(allMonolithSources());
+
+    function listerCss(dir, acc = []) {
+      for (const entree of fs.readdirSync(dir, { withFileTypes: true })) {
+        const absolu = path.join(dir, entree.name);
+        if (entree.isDirectory()) listerCss(absolu, acc);
+        else if (entree.name.endsWith('.css')) acc.push(path.relative(rootDir, absolu).replace(/\\/g, '/'));
+      }
+      return acc;
+    }
+
+    const orphelins = listerCss(path.join(rootDir, 'styles')).filter((rel) => !references.has(rel));
+    expect(orphelins, orphelins.join(', ')).toEqual([]);
+  });
 });

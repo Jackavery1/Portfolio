@@ -16,8 +16,10 @@ deploy-output/
 /assets/apple-touch-icon.png
 /assets/icon-192.png
 /assets/icon-512.png
+/assets/fonts/
 
 # Tests E2E / Lighthouse
+node_modules/.vite/
 playwright-report/
 test-results/
 .lighthouseci/

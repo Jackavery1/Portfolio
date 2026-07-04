@@ -97,6 +97,9 @@ export async function initContactForm() {
     const confirmation = byId(CONFIG.SELECTORS.CONFIRMATION);
     if (!btnEnvoyer) return;
 
+    if (formulaire.dataset.envoiEnCours === '1') return;
+    formulaire.dataset.envoiEnCours = '1';
+
     const sujetUtile = lireSujetUtile(byId(CONFIG.SELECTORS.CONTACT_SUJET));
     const champs = { nom, email, message };
 
@@ -116,6 +119,8 @@ export async function initContactForm() {
           btnEnvoyer,
           confirmation,
         });
+      } else {
+        delete formulaire.dataset.envoiEnCours;
       }
       return;
     }
@@ -129,6 +134,8 @@ export async function initContactForm() {
     ) {
       enregistrerSoumissionSession(CONFIG.STORAGE.CONTACT_LAST_SUBMIT);
       finaliserEnvoiReussi({ btnEnvoyer, confirmation });
+    } else {
+      delete formulaire.dataset.envoiEnCours;
     }
   });
 
