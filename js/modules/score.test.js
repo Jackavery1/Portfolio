@@ -19,7 +19,7 @@ vi.mock('./audio.js', () => ({
   jouerFanfareVictoire: vi.fn(),
 }));
 
-import { afficherPopupHighScore, initPopupHighScoreFermer } from './score.js';
+import { afficherPopupMeilleurScore, initialiserFermeturePopupMeilleurScore } from './score.js';
 
 describe('score popup high score', () => {
   beforeEach(() => {
@@ -42,8 +42,8 @@ describe('score popup high score', () => {
   });
 
   it('active inert sur le fond et piège le focus à l’ouverture', () => {
-    initPopupHighScoreFermer();
-    afficherPopupHighScore();
+    initialiserFermeturePopupMeilleurScore();
+    afficherPopupMeilleurScore();
 
     const popup = document.getElementById('js-popup-hs');
     const ecran = document.getElementById('ecran');
@@ -55,8 +55,8 @@ describe('score popup high score', () => {
 
   it('conserve le score à la fermeture du popup', () => {
     sessionStorage.setItem('portfolio-score', '9999');
-    initPopupHighScoreFermer();
-    afficherPopupHighScore();
+    initialiserFermeturePopupMeilleurScore();
+    afficherPopupMeilleurScore();
     document.getElementById('js-popup-hs-fermer')?.click();
 
     expect(sessionStorage.getItem('portfolio-score')).toBe('9999');

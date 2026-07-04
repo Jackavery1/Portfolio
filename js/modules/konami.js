@@ -3,15 +3,15 @@
    ============================================ */
 
 import { CONFIG } from '../config/index.js';
-import { byId } from '../utils/dom.js';
+import { parId } from '../utils/dom.js';
 import { jouerFanfareVictoire } from './audio.js';
-import { afficherPopupHighScore, afficherScore, lireScore, sauvegarderScore } from './score.js';
+import { afficherPopupMeilleurScore, afficherScore, lireScore, sauvegarderScore } from './score.js';
 
 let saisieKonami = [];
 
-export function initKonamiCode() {
+export function initialiserCodeKonami() {
   document.addEventListener('keydown', (evt) => {
-    const modalOverlay = byId(CONFIG.SELECTORS.MODAL);
+    const modalOverlay = parId(CONFIG.SELECTORS.MODAL);
     if (modalOverlay && !modalOverlay.hidden) return;
     const ae = document.activeElement;
     const tag = ae?.tagName;
@@ -28,7 +28,7 @@ export function initKonamiCode() {
       if (k < 9999) {
         sauvegarderScore(9999);
         afficherScore(9999);
-        setTimeout(afficherPopupHighScore, 600);
+        setTimeout(afficherPopupMeilleurScore, 600);
       }
     }
   });

@@ -3,8 +3,8 @@
    ============================================ */
 
 import { CONFIG } from '../config/index.js';
-import { byId } from '../utils/dom.js';
-import { getCurrentPageFile } from '../utils/page.js';
+import { parId } from '../utils/dom.js';
+import { obtenirFichierPageCourante } from '../utils/page.js';
 
 const FALLBACKS_PARTIELS = {
   'partial-nav':
@@ -38,7 +38,7 @@ function appliquerFallbackPartial(conteneur, id) {
 }
 
 function marquerLienActif() {
-  const page = getCurrentPageFile();
+  const page = obtenirFichierPageCourante();
   document.querySelectorAll('.nav__bouton').forEach((lien) => {
     if (lien.getAttribute('href') === page) {
       lien.classList.add('actif');
@@ -47,8 +47,8 @@ function marquerLienActif() {
   });
 }
 
-export async function chargerPartials() {
-  const aCharger = CONFIG.PARTIALS.filter(({ id }) => byId(id));
+export async function chargerPartiels() {
+  const aCharger = CONFIG.PARTIALS.filter(({ id }) => parId(id));
   if (aCharger.length === 0) {
     marquerLienActif();
     return;
@@ -56,7 +56,7 @@ export async function chargerPartials() {
 
   if (estProtocoleFichier()) {
     aCharger.forEach(({ id }) => {
-      const conteneur = byId(id);
+      const conteneur = parId(id);
       if (conteneur) appliquerFallbackPartial(conteneur, id);
     });
     marquerLienActif();
@@ -65,7 +65,7 @@ export async function chargerPartials() {
 
   await Promise.all(
     aCharger.map(async ({ id, fichier }) => {
-      const conteneur = byId(id);
+      const conteneur = parId(id);
       if (!conteneur) return;
       try {
         const reponse = await fetch(fichier);
@@ -79,7 +79,7 @@ export async function chargerPartials() {
         if (estEnvironnementDev()) {
           console.warn('[partials] Vérifiez le serveur statique et les chemins partials/');
         }
-        const encoreLa = byId(id);
+        const encoreLa = parId(id);
         if (encoreLa) appliquerFallbackPartial(encoreLa, id);
       }
     })

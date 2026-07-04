@@ -15,6 +15,27 @@ test('responsive mobile — sommaire projets et 6 cartes', async ({ page }) => {
   await expect(page.locator('.carte-projet[data-projet="derniereligne"]')).toBeVisible();
 });
 
+test('responsive mobile — accueil charge le partial hero', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 667 });
+  await gotoReady(page, '/index.html');
+
+  await expect(page.locator('h1.titre-arcade')).toContainText('JORIS');
+  await expect(page.locator('.bouton-arcade')).toContainText(/PRESS START/i);
+  await expect(page.locator('.svg-bonhomme')).toBeVisible();
+  await assertPasOverflowHorizontal(page);
+});
+
+test('responsive mobile — compétences charge le partial stats', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 667 });
+  await gotoReady(page, '/competences.html');
+
+  await expect(page.locator('.scores-tableau tbody tr')).toHaveCount(12);
+  await expect(page.locator('.stats-lateral')).toBeVisible();
+  await expect(page.locator('.langue-item')).toHaveCount(3);
+  await expect(page.locator('.scores-tableau')).toContainText('HTML / CSS');
+  await assertPasOverflowHorizontal(page);
+});
+
 test('responsive mobile — scroll contact', async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 667 });
   await gotoReady(page, '/contact.html');

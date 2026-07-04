@@ -1,4 +1,4 @@
-export function getCurrentPageFile(
+export function obtenirFichierPageCourante(
   pathname = typeof window !== 'undefined' ? window.location.pathname : ''
 ) {
   const segment = pathname.split('/').pop() || 'index.html';
@@ -13,6 +13,6 @@ function normaliserFichierPage(file) {
   return base || 'index.html';
 }
 
-export function pageFileFromPathname(pathname) {
-  return normaliserFichierPage(getCurrentPageFile(pathname));
+export function fichierPageDepuisPathname(pathname) {
+  return normaliserFichierPage(obtenirFichierPageCourante(pathname));
 }

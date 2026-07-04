@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
 import {
-  construireFormDataFormspree,
-  honeypotEstRempli,
+  construireDonneesFormspree,
+  potDeMielEstRempli,
   libellerSujetSelect,
-  messageErreurCatch,
+  messageErreurCapture,
   messageErreurFormspree,
   peutSoumettre,
 } from './contact-form-helpers.js';
@@ -33,11 +33,11 @@ describe('messageErreurFormspree', () => {
   });
 });
 
-describe('honeypotEstRempli', () => {
+describe('potDeMielEstRempli', () => {
   it('détecte une valeur non vide', () => {
-    expect(honeypotEstRempli(' bot ')).toBe(true);
-    expect(honeypotEstRempli('')).toBe(false);
-    expect(honeypotEstRempli(undefined)).toBe(false);
+    expect(potDeMielEstRempli(' bot ')).toBe(true);
+    expect(potDeMielEstRempli('')).toBe(false);
+    expect(potDeMielEstRempli(undefined)).toBe(false);
   });
 });
 
@@ -71,13 +71,13 @@ describe('peutSoumettre', () => {
   });
 });
 
-describe('messageErreurCatch', () => {
+describe('messageErreurCapture', () => {
   it('formate les erreurs reCAPTCHA', () => {
-    expect(messageErreurCatch(new Error('grecaptcha indisponible'))).toMatch(/reCAPTCHA/i);
+    expect(messageErreurCapture(new Error('grecaptcha indisponible'))).toMatch(/reCAPTCHA/i);
   });
 
   it('formate Failed to fetch', () => {
-    expect(messageErreurCatch(new Error('Failed to fetch'))).toMatch(/Formspree/i);
+    expect(messageErreurCapture(new Error('Failed to fetch'))).toMatch(/Formspree/i);
   });
 });
 
@@ -88,9 +88,9 @@ describe('libellerSujetSelect', () => {
   });
 });
 
-describe('construireFormDataFormspree', () => {
+describe('construireDonneesFormspree', () => {
   it('remplit les champs attendus', () => {
-    const fd = construireFormDataFormspree({
+    const fd = construireDonneesFormspree({
       nom: 'Ada',
       email: 'ada@test.com',
       message: 'Bonjour',

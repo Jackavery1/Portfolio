@@ -14,14 +14,14 @@ vi.mock('../config/index.js', () => ({
   },
 }));
 
-import { initContactCoordonnees } from './contact-coordonnees.js';
+import { initialiserCoordonneesContact } from './contact-coordonnees.js';
 
 describe('contact-coordonnees', () => {
   it('hydrate email et téléphone sur la page contact', () => {
     document.body.innerHTML =
       '<span id="js-contact-email"></span><span id="js-contact-phone"></span>';
 
-    initContactCoordonnees();
+    initialiserCoordonneesContact();
 
     const emailLien = document.querySelector('#js-contact-email a');
     expect(emailLien?.getAttribute('href')).toBe('mailto:test@example.com');

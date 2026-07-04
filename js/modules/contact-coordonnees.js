@@ -1,14 +1,14 @@
 /* Affichage email / téléphone sur la page contact (hors HTML statique) */
 
 import { CONFIG } from '../config/index.js';
-import { byId } from '../utils/dom.js';
-import { decodeBase64Utf8, formatTelephoneFr } from '../utils/pii.js';
+import { parId } from '../utils/dom.js';
+import { decoderBase64Utf8, formaterTelephoneFr } from '../utils/pii.js';
 
-export function initContactCoordonnees() {
-  const email = decodeBase64Utf8(CONFIG.CONTACT.EMAIL_B64);
+export function initialiserCoordonneesContact() {
+  const email = decoderBase64Utf8(CONFIG.CONTACT.EMAIL_B64);
   if (!email) return;
 
-  const emailEl = byId(CONFIG.SELECTORS.CONTACT_EMAIL_DISPLAY);
+  const emailEl = parId(CONFIG.SELECTORS.CONTACT_EMAIL_DISPLAY);
   if (emailEl) {
     const lien = document.createElement('a');
     lien.href = `mailto:${email}`;
@@ -24,9 +24,9 @@ export function initContactCoordonnees() {
     emailEl.replaceChildren(lien);
   }
 
-  const phoneEl = byId(CONFIG.SELECTORS.CONTACT_PHONE_DISPLAY);
+  const phoneEl = parId(CONFIG.SELECTORS.CONTACT_PHONE_DISPLAY);
   if (phoneEl && CONFIG.CONTACT.PHONE_PARTS) {
-    const { affichage, tel } = formatTelephoneFr(CONFIG.CONTACT.PHONE_PARTS);
+    const { affichage, tel } = formaterTelephoneFr(CONFIG.CONTACT.PHONE_PARTS);
     if (affichage) {
       const lien = document.createElement('a');
       lien.href = `tel:${tel}`;

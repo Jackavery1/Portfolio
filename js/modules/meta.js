@@ -1,11 +1,10 @@
 /* ============================================
-   Meta partage (OG, canonical) + bonus score pages
+   Métadonnées partage (OG, canonical) et bonus score par page
    ============================================ */
 
 import { CONFIG } from '../config/index.js';
-import { byId } from '../utils/dom.js';
-import { getCurrentPageFile } from '../utils/page.js';
-import { SCORE_BONUS } from '../config/score-bonus.js';
+import { parId } from '../utils/dom.js';
+import { obtenirFichierPageCourante } from '../utils/page.js';
 import { ajouterScore } from './score.js';
 
 function baseOrigine() {
@@ -26,19 +25,19 @@ function urlAbsolue(cheminRelatif) {
 }
 
 function urlPageCourante() {
-  const file = getCurrentPageFile();
+  const file = obtenirFichierPageCourante();
   if (file === 'index.html' || file === '') {
     return `${baseOrigine()}/`;
   }
   return `${baseOrigine()}/${file}`;
 }
 
-export function initMetaPartage() {
+export function initialiserMetaPartage() {
   const pageUrl = urlPageCourante();
-  const canon = byId(CONFIG.SELECTORS.CANONICAL);
+  const canon = parId(CONFIG.SELECTORS.CANONICAL);
   if (canon) canon.href = pageUrl;
 
-  const ogUrl = byId(CONFIG.SELECTORS.OG_URL);
+  const ogUrl = parId(CONFIG.SELECTORS.OG_URL);
   if (ogUrl) ogUrl.setAttribute('content', pageUrl);
 
   document
@@ -51,12 +50,12 @@ export function initMetaPartage() {
     });
 }
 
-export function initBonusScore() {
+export function initialiserBonusScore() {
   const PAGE_KEY = CONFIG.STORAGE.PAGE_PREFIX + window.location.pathname;
   try {
     if (!sessionStorage.getItem(PAGE_KEY)) {
       sessionStorage.setItem(PAGE_KEY, '1');
-      ajouterScore(SCORE_BONUS.PAGE);
+      ajouterScore(CONFIG.SCORE_BONUS.PAGE);
     }
   } catch {
     /* sessionStorage indisponible */
@@ -64,6 +63,6 @@ export function initBonusScore() {
 
   const lienGithub = document.querySelector('.lien-github');
   if (lienGithub) {
-    lienGithub.addEventListener('click', () => ajouterScore(SCORE_BONUS.GITHUB));
+    lienGithub.addEventListener('click', () => ajouterScore(CONFIG.SCORE_BONUS.GITHUB));
   }
 }

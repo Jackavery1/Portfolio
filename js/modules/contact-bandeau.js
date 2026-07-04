@@ -3,14 +3,14 @@
    ============================================ */
 
 import { CONFIG } from '../config/index.js';
-import { byId } from '../utils/dom.js';
+import { parId } from '../utils/dom.js';
 import { jouerBip } from './audio.js';
 
-export function initContactBandeau() {
-  const dispo = byId(CONFIG.SELECTORS.CONTACT_BANDEAU_DISPO);
-  const cvBloc = byId('js-bandeau-cv-bloc');
-  const cv = byId(CONFIG.SELECTORS.CONTACT_BANDEAU_CV);
-  const retour = byId('js-bandeau-retour');
+export function initialiserBandeauContact() {
+  const dispo = parId(CONFIG.SELECTORS.CONTACT_BANDEAU_DISPO);
+  const cvBloc = parId('js-bandeau-cv-bloc');
+  const cv = parId(CONFIG.SELECTORS.CONTACT_BANDEAU_CV);
+  const retour = parId('js-bandeau-retour');
   if (!dispo || !cvBloc || !cv || !retour) return;
 
   cv.href = CONFIG.CONTACT.CV_HREF;

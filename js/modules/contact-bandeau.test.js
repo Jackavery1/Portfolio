@@ -18,7 +18,7 @@ vi.mock('./audio.js', () => ({
   jouerBip: vi.fn(),
 }));
 
-import { initContactBandeau } from './contact-bandeau.js';
+import { initialiserBandeauContact } from './contact-bandeau.js';
 
 describe('contact-bandeau', () => {
   beforeEach(() => {
@@ -32,7 +32,7 @@ describe('contact-bandeau', () => {
   });
 
   it('bascule entre statut et téléchargement du CV', () => {
-    initContactBandeau();
+    initialiserBandeauContact();
 
     const dispo = document.getElementById('js-bandeau-dispo');
     const cvBloc = document.getElementById('js-bandeau-cv-bloc');

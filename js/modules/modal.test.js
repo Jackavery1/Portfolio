@@ -21,6 +21,7 @@ vi.mock('../config/index.js', () => ({
         lien: 'https://github.com/example',
       },
     },
+    SCORE_BONUS: { PROJET: 600 },
   },
 }));
 

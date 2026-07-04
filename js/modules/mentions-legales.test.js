@@ -13,7 +13,7 @@ vi.mock('../config/index.js', () => ({
   },
 }));
 
-import { initMentionsLegales } from './mentions-legales.js';
+import { initialiserMentionsLegales } from './mentions-legales.js';
 
 describe('mentions-legales', () => {
   beforeEach(() => {
@@ -25,7 +25,7 @@ describe('mentions-legales', () => {
   });
 
   it('génère sommaire, sections et email éditeur', () => {
-    initMentionsLegales();
+    initialiserMentionsLegales();
 
     expect(document.getElementById('js-mentions-intro')?.textContent).toBeTruthy();
     expect(document.querySelectorAll('.mentions-sommaire__liste a')).toHaveLength(5);

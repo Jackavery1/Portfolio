@@ -18,5 +18,8 @@ describe('sync-source', () => {
     expect(fs.existsSync(path.join(rootDir, 'js/config/partials.js'))).toBe(true);
     expect(fs.existsSync(path.join(rootDir, 'style.css'))).toBe(true);
     expect(fs.existsSync(path.join(rootDir, 'manifest.webmanifest'))).toBe(true);
+    expect(fs.existsSync(path.join(rootDir, 'partials/accueil-hero.html'))).toBe(true);
+    expect(fs.existsSync(path.join(rootDir, 'partials/competences-stats.html'))).toBe(true);
+    expect(fs.existsSync(path.join(rootDir, 'partials/dojo-boss-rush.html'))).toBe(true);
   });
 });

@@ -95,11 +95,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Install Playwright Chromium
-        run: npx playwright install --with-deps chromium
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium webkit
 
       - name: E2E tests
-        run: npx playwright test --project=responsive --project=desktop-chrome
+        run: npx playwright test --project=responsive --project=responsive-webkit --project=desktop-chrome
 
   lighthouse:
     needs: validate

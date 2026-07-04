@@ -22,7 +22,7 @@ vi.mock('./score-session.js', () => ({
   lireScore: vi.fn(() => 9999),
 }));
 
-import { afficherPopupHighScore, initPopupHighScoreFermer } from './popup-highscore.js';
+import { afficherPopupMeilleurScore, initialiserFermeturePopupMeilleurScore } from './popup-highscore.js';
 
 describe('popup-highscore', () => {
   beforeEach(() => {
@@ -45,16 +45,16 @@ describe('popup-highscore', () => {
   });
 
   it('ferme au clic sur l’overlay', () => {
-    initPopupHighScoreFermer();
-    afficherPopupHighScore();
+    initialiserFermeturePopupMeilleurScore();
+    afficherPopupMeilleurScore();
     document.getElementById('js-popup-hs').click();
     expect(document.getElementById('js-popup-hs').hidden).toBe(true);
     expect(document.getElementById('ecran').hasAttribute('inert')).toBe(false);
   });
 
   it('ferme avec Escape', () => {
-    initPopupHighScoreFermer();
-    afficherPopupHighScore();
+    initialiserFermeturePopupMeilleurScore();
+    afficherPopupMeilleurScore();
     document.dispatchEvent(
       new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true })
     );
@@ -62,7 +62,7 @@ describe('popup-highscore', () => {
   });
 
   it('marque le popup comme vu en sessionStorage', () => {
-    afficherPopupHighScore();
+    afficherPopupMeilleurScore();
     expect(sessionStorage.getItem('portfolio-hs-popup-vu')).toBe('1');
   });
 });

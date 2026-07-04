@@ -3,7 +3,6 @@
    ============================================ */
 
 import { CONFIG } from '../config/index.js';
-import { SCORE_BONUS } from '../config/score-bonus.js';
 import { jouerFanfareVictoire } from './audio.js';
 import { ajouterScore } from './score.js';
 
@@ -21,13 +20,13 @@ const CITATIONS = {
   react: '🔒 « Pas encore. Ce boss dort encore. »',
 };
 
-function labelBoss(carte) {
+function libelleBoss(carte) {
   const nom = carte.querySelector('.boss-carte__nom')?.textContent?.trim();
   const statut = carte.querySelector('.boss-carte__statut')?.textContent?.trim();
   return [nom, statut].filter(Boolean).join(' — ');
 }
 
-function initCitations() {
+function initialiserCitations() {
   document.querySelectorAll('.boss-carte[data-boss]').forEach((carte) => {
     const key = carte.dataset.boss;
     const texte = CITATIONS[key];
@@ -82,11 +81,11 @@ function initCitations() {
   });
 }
 
-function initVictoireClavier() {
+function initialiserVictoireClavier() {
   document.querySelectorAll('.boss-carte--vaincu[data-boss]').forEach((carte) => {
     carte.setAttribute('tabindex', '0');
     carte.setAttribute('role', 'button');
-    carte.setAttribute('aria-label', `${labelBoss(carte)}. Appuyer pour rejouer la victoire.`);
+    carte.setAttribute('aria-label', `${libelleBoss(carte)}. Appuyer pour rejouer la victoire.`);
 
     const celebrer = () => {
       if (carte.classList.contains('boss-flash')) return;
@@ -105,7 +104,7 @@ function initVictoireClavier() {
   });
 }
 
-function initBarresHp() {
+function initialiserBarresPv() {
   const intervalIds = [];
 
   document.querySelectorAll('.boss-carte--en-cours .boss-carte__vie-fill').forEach((fill) => {
@@ -126,7 +125,7 @@ function initBarresHp() {
   }
 }
 
-function initScoreBoss() {
+function initialiserScoreBoss() {
   const { DOJO_BOSS_PREFIX } = CONFIG.STORAGE;
 
   document.querySelectorAll('.boss-carte[data-boss]').forEach((carte) => {
@@ -140,17 +139,17 @@ function initScoreBoss() {
       }
 
       const pts = carte.classList.contains('boss-carte--vaincu')
-        ? SCORE_BONUS.DOJO_BOSS_VAINCU
-        : SCORE_BONUS.DOJO_BOSS;
+        ? CONFIG.SCORE_BONUS.DOJO_BOSS_VAINCU
+        : CONFIG.SCORE_BONUS.DOJO_BOSS;
       ajouterScore(pts);
     });
   });
 }
 
-export function initDojoBoss() {
+export function initialiserDojoBoss() {
   if (!document.getElementById('dojo')) return;
-  initCitations();
-  initVictoireClavier();
-  initBarresHp();
-  initScoreBoss();
+  initialiserCitations();
+  initialiserVictoireClavier();
+  initialiserBarresPv();
+  initialiserScoreBoss();
 }

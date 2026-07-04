@@ -2,7 +2,7 @@
    Focus : modale (éléments focusables + piège Tab)
    ============================================ */
 
-export function focusablesModal(container) {
+export function elementsFocusablesModale(container) {
   return Array.from(
     container.querySelectorAll(
       'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
@@ -11,9 +11,9 @@ export function focusablesModal(container) {
 }
 
 /* Tab : boucle premier ↔ dernier focusable */
-export function trapTabModal(evt, modalEl) {
+export function piegerTabulationModale(evt, modalEl) {
   if (evt.key !== 'Tab') return false;
-  const list = focusablesModal(modalEl);
+  const list = elementsFocusablesModale(modalEl);
   if (list.length === 0) return true;
   if (list.length === 1) {
     evt.preventDefault();

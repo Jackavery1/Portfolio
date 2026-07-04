@@ -47,6 +47,13 @@
   text-shadow: 0 0 8px rgba(var(--couleur-accent-rgb), 0.35);
 }
 
+.pied-page__lien:focus-visible {
+  outline: 3px solid var(--couleur-accent-vif);
+  outline-offset: 3px;
+  border-bottom-color: var(--couleur-accent);
+  color: var(--couleur-texte-fort);
+}
+
 .pied-page__certif {
   display: flex;
   flex-wrap: wrap;
@@ -81,6 +88,12 @@ a.pied-page__certif-texte {
 a.pied-page__certif-texte:hover {
   color: var(--couleur-accent-vif);
   text-shadow: 0 0 8px rgba(var(--couleur-accent-rgb), 0.3);
+}
+
+a.pied-page__certif-texte:focus-visible {
+  outline: 3px solid var(--couleur-accent-vif);
+  outline-offset: 3px;
+  color: var(--couleur-accent-vif);
 }
 
 .pied-page__certif-deco {

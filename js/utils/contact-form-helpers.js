@@ -25,7 +25,7 @@ export function messageErreurFormspree(payload, res) {
   return `Envoi refusé (${res.status})`;
 }
 
-export function honeypotEstRempli(valeur) {
+export function potDeMielEstRempli(valeur) {
   return Boolean(String(valeur ?? '').trim());
 }
 
@@ -35,7 +35,7 @@ export function peutSoumettre({ dernierEnvoi, rateLimitMs, maintenant = Date.now
   return !Number.isFinite(elapsed) || elapsed >= rateLimitMs;
 }
 
-export function messageErreurCatch(err) {
+export function messageErreurCapture(err) {
   const m = String(err?.message || err || '').trim();
   if (/recaptcha|grecaptcha|jeton/i.test(m)) {
     return m.startsWith('reCAPTCHA') || m.startsWith('Jeton') ? m : `reCAPTCHA : ${m}`;
@@ -52,7 +52,7 @@ export function libellerSujetSelect(texteOption) {
   return sujetLabel;
 }
 
-export function construireFormDataFormspree({ nom, email, message, sujetLabel, recaptchaToken }) {
+export function construireDonneesFormspree({ nom, email, message, sujetLabel, recaptchaToken }) {
   const fd = new FormData();
   fd.append('name', nom);
   fd.append('email', email);

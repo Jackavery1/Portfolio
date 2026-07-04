@@ -50,7 +50,12 @@ module.exports = [
     },
   },
   {
-    files: ['js/config/defaults.js', 'js/config/legal-data.js'],
+    files: [
+      'js/config/defaults.js',
+      'js/config/legal-data.js',
+      'js/config/projects-data.js',
+      'js/config/partials.js',
+    ],
     rules: {
       quotes: 'off',
     },

@@ -58,6 +58,8 @@ const PAIRES_AA = [
   { fg: '--couleur-erreur', bg: '--couleur-fond', min: 3 },
   { fg: '--couleur-actif', bg: '--couleur-fond', min: 3 },
   { fg: '--couleur-texte-normal', bg: '--couleur-fond-champ', min: 4.5 },
+  { fg: '--couleur-texte-placeholder', bg: '--couleur-fond-champ', min: 3 },
+  { fg: '--couleur-texte-disabled', bg: '--couleur-fond-survol', min: 4.5 },
 ];
 
 describe('contrast tokens', () => {

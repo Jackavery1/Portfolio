@@ -18,6 +18,8 @@ npm run start:prod
 
 Sources brutes (partials en `fetch`, dont contact et dojo) : `npm start` — synchronise les fichiers générés puis sert la racine. La CSP et le service worker ne sont actifs qu’après build.
 
+Avant une release ou pour tester la PWA hors ligne : `npm run build && npm run start:prod`.
+
 Node **20+** (`.nvmrc`, requis par Vitest 3).
 
 ---

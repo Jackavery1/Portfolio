@@ -1,11 +1,11 @@
 import { CONFIG } from '../config/index.js';
-import { byId } from '../utils/dom.js';
+import { parId } from '../utils/dom.js';
 import { nettoyerChamp, estEmailValide } from '../utils/validation.js';
 import {
   afficherErreurZone,
   enregistrerSoumissionSession,
   effacerEtatsInvalides,
-  honeypotRempli,
+  potDeMielRempli,
   marquerChampsInvalides,
   peutSoumettreAvecSession,
 } from '../utils/contact-form-ui.js';
@@ -17,7 +17,7 @@ import {
   finaliserEnvoiReussi,
   lireSujetUtile,
 } from './contact-form-submit.js';
-import { initScrollChampClavier } from '../utils/visual-viewport.js';
+import { initialiserScrollChampClavier } from '../utils/visual-viewport.js';
 
 function optionsRecaptcha() {
   return {
@@ -31,13 +31,13 @@ function optionsRecaptcha() {
 function lireChampsFormulaire() {
   const { LIMITS } = CONFIG.CONTACT;
   return {
-    nom: nettoyerChamp(byId(CONFIG.SELECTORS.CONTACT_NOM)?.value, LIMITS.nom),
-    email: nettoyerChamp(byId(CONFIG.SELECTORS.CONTACT_EMAIL)?.value, LIMITS.email),
-    message: nettoyerChamp(byId(CONFIG.SELECTORS.CONTACT_MESSAGE)?.value, LIMITS.message),
+    nom: nettoyerChamp(parId(CONFIG.SELECTORS.CONTACT_NOM)?.value, LIMITS.nom),
+    email: nettoyerChamp(parId(CONFIG.SELECTORS.CONTACT_EMAIL)?.value, LIMITS.email),
+    message: nettoyerChamp(parId(CONFIG.SELECTORS.CONTACT_MESSAGE)?.value, LIMITS.message),
     champsDom: [
-      byId(CONFIG.SELECTORS.CONTACT_NOM),
-      byId(CONFIG.SELECTORS.CONTACT_EMAIL),
-      byId(CONFIG.SELECTORS.CONTACT_MESSAGE),
+      parId(CONFIG.SELECTORS.CONTACT_NOM),
+      parId(CONFIG.SELECTORS.CONTACT_EMAIL),
+      parId(CONFIG.SELECTORS.CONTACT_MESSAGE),
     ],
   };
 }
@@ -65,14 +65,14 @@ function champsValides({ nom, email, message }) {
   return nom && email && message && estEmailValide(email, CONFIG.CONTACT.LIMITS.email);
 }
 
-export async function initContactForm() {
-  const formulaire = byId(CONFIG.SELECTORS.FORMULAIRE);
+export async function initialiserFormulaireContact() {
+  const formulaire = parId(CONFIG.SELECTORS.FORMULAIRE);
   if (!formulaire) return;
 
   const endpoint = CONFIG.CONTACT.FORMSPREE_ENDPOINT?.trim();
   const recaptchaKey = CONFIG.CONTACT.RECAPTCHA_SITE_KEY?.trim();
-  const mount = byId(CONFIG.SELECTORS.RECAPTCHA_MOUNT);
-  const zoneErreur = byId(CONFIG.SELECTORS.CONTACT_ERREUR);
+  const mount = parId(CONFIG.SELECTORS.RECAPTCHA_MOUNT);
+  const zoneErreur = parId(CONFIG.SELECTORS.CONTACT_ERREUR);
   const afficherErreur = (texte) => afficherErreurZone(zoneErreur, texte);
 
   await initialiserRecaptchaContact({
@@ -82,7 +82,7 @@ export async function initContactForm() {
     optionsRecaptcha: optionsRecaptcha(),
   });
 
-  initScrollChampClavier(formulaire);
+  initialiserScrollChampClavier(formulaire);
 
   formulaire.addEventListener('input', (evt) => {
     if (evt.target.matches('.champ-input')) {
@@ -98,9 +98,9 @@ export async function initContactForm() {
     effacerEtatsInvalides(champsDom);
 
     if (
-      honeypotRempli(
+      potDeMielRempli(
         formulaire,
-        byId(CONFIG.SELECTORS.CONTACT_HONEYPOT),
+        parId(CONFIG.SELECTORS.CONTACT_HONEYPOT),
         CONFIG.CONTACT.HONEYPOT_NAME
       )
     ) {
@@ -122,14 +122,14 @@ export async function initContactForm() {
       return;
     }
 
-    const btnEnvoyer = byId(CONFIG.SELECTORS.BTN_ENVOYER);
-    const confirmation = byId(CONFIG.SELECTORS.CONFIRMATION);
+    const btnEnvoyer = parId(CONFIG.SELECTORS.BTN_ENVOYER);
+    const confirmation = parId(CONFIG.SELECTORS.CONFIRMATION);
     if (!btnEnvoyer) return;
 
     if (formulaire.dataset.envoiEnCours === '1') return;
     formulaire.dataset.envoiEnCours = '1';
 
-    const sujetUtile = lireSujetUtile(byId(CONFIG.SELECTORS.CONTACT_SUJET));
+    const sujetUtile = lireSujetUtile(parId(CONFIG.SELECTORS.CONTACT_SUJET));
     const champs = { nom, email, message };
 
     if (endpoint) {

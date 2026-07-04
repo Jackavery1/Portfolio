@@ -1,4 +1,4 @@
-import { pageFileFromPathname } from './page.js';
+import { fichierPageDepuisPathname } from './page.js';
 
 const LIBELLES_PAGES_NAV = {
   'index.html': 'Accueil',
@@ -13,6 +13,6 @@ export function libellerPageNavigation(fichier) {
 }
 
 export function indexDansOrdreNavigation(pathname, ordre) {
-  const file = pageFileFromPathname(pathname);
+  const file = fichierPageDepuisPathname(pathname);
   return ordre.indexOf(file);
 }

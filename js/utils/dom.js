@@ -2,10 +2,10 @@
    Helpers DOM simples
    ============================================ */
 
-export function byId(id) {
+export function parId(id) {
   return document.getElementById(id);
 }
 
-export function byQsAll(sel, parent = document) {
+export function tousParSelecteur(sel, parent = document) {
   return Array.from(parent.querySelectorAll(sel));
 }

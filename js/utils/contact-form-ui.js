@@ -1,4 +1,4 @@
-import { honeypotEstRempli, peutSoumettre } from './contact-form-helpers.js';
+import { potDeMielEstRempli, peutSoumettre } from './contact-form-helpers.js';
 
 export function afficherErreurZone(zone, texte) {
   if (!zone) return;
@@ -62,7 +62,7 @@ export function enregistrerSoumissionSession(storageKey) {
   }
 }
 
-export function honeypotRempli(formulaire, honeypotEl, honeypotName) {
+export function potDeMielRempli(formulaire, honeypotEl, honeypotName) {
   const hp = honeypotEl || formulaire.querySelector(`[name="${honeypotName}"]`);
-  return honeypotEstRempli(hp?.value);
+  return potDeMielEstRempli(hp?.value);
 }

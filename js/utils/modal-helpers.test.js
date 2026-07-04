@@ -4,13 +4,13 @@ import {
   estImageRaster,
   estLienHttpAutorise,
   liensProjetValides,
-  resolveApercuSrc,
+  resoudreSrcApercu,
 } from './modal-helpers.js';
 
 describe('modal-helpers', () => {
   it('résout l’aperçu projet', () => {
-    expect(resolveApercuSrc({ apercu: 'assets/previews/lsf.png' })).toBe('assets/previews/lsf.png');
-    expect(resolveApercuSrc({})).toBeNull();
+    expect(resoudreSrcApercu({ apercu: 'assets/previews/lsf.png' })).toBe('assets/previews/lsf.png');
+    expect(resoudreSrcApercu({})).toBeNull();
   });
 
   it('détecte les images raster', () => {

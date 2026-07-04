@@ -1,6 +1,6 @@
 /* @vitest-environment jsdom */
 import { describe, expect, it, vi, beforeEach } from 'vitest';
-import { chargerPartials } from './partials.js';
+import { chargerPartiels } from './partials.js';
 
 vi.mock('../config/index.js', () => ({
   CONFIG: {
@@ -9,15 +9,15 @@ vi.mock('../config/index.js', () => ({
 }));
 
 vi.mock('../utils/dom.js', () => ({
-  byId: (id) => document.getElementById(id),
+  parId: (id) => document.getElementById(id),
 }));
 
 vi.mock('../utils/page.js', () => ({
-  getCurrentPageFile: () => 'projets.html',
+  obtenirFichierPageCourante: () => 'projets.html',
 }));
 
 describe('partials', () => {
-  describe('chargerPartials', () => {
+  describe('chargerPartiels', () => {
     beforeEach(() => {
       document.body.innerHTML = '<div id="partial-nav"></div>';
     });
@@ -34,7 +34,7 @@ describe('partials', () => {
         })
       );
 
-      await chargerPartials();
+      await chargerPartiels();
 
       expect(document.querySelector('.nav')?.textContent).toContain('WORK');
       const actif = document.querySelector('.nav__bouton.actif');
@@ -45,7 +45,7 @@ describe('partials', () => {
     it('applique le fallback nav si fetch échoue', async () => {
       vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('network')));
 
-      await chargerPartials();
+      await chargerPartiels();
 
       expect(document.querySelector('.nav--fallback')).not.toBeNull();
       expect(document.querySelector('.nav__fallback[role="alert"]')).not.toBeNull();
@@ -57,7 +57,7 @@ describe('partials', () => {
       const reload = vi.fn();
       vi.stubGlobal('location', { ...window.location, reload });
 
-      await chargerPartials();
+      await chargerPartiels();
 
       document.querySelector('.nav__fallback-retry')?.click();
       expect(reload).toHaveBeenCalled();
@@ -67,7 +67,7 @@ describe('partials', () => {
       vi.stubGlobal('fetch', vi.fn());
       vi.stubGlobal('location', { ...window.location, protocol: 'file:' });
 
-      await chargerPartials();
+      await chargerPartiels();
 
       expect(fetch).not.toHaveBeenCalled();
       expect(document.querySelector('.nav--fallback')).not.toBeNull();

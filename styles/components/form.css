@@ -80,7 +80,8 @@
 }
 
 .champ-input::placeholder {
-  color: var(--couleur-texte-normal);
+  color: var(--couleur-texte-placeholder);
+  opacity: 1;
 }
 
 .champ-select {

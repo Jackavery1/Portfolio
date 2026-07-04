@@ -1,6 +1,6 @@
 /* @vitest-environment jsdom */
 import { describe, expect, it, beforeEach } from 'vitest';
-import { byId, byQsAll } from './dom.js';
+import { parId, tousParSelecteur } from './dom.js';
 
 describe('dom', () => {
   beforeEach(() => {
@@ -11,13 +11,13 @@ describe('dom', () => {
     `;
   });
 
-  it('byId retourne l’élément ou null', () => {
-    expect(byId('a')?.id).toBe('a');
-    expect(byId('absent')).toBeNull();
+  it('parId retourne l’élément ou null', () => {
+    expect(parId('a')?.id).toBe('a');
+    expect(parId('absent')).toBeNull();
   });
 
-  it('byQsAll retourne un tableau d’éléments', () => {
-    expect(byQsAll('.x')).toHaveLength(2);
-    expect(byQsAll('.y')).toHaveLength(0);
+  it('tousParSelecteur retourne un tableau d’éléments', () => {
+    expect(tousParSelecteur('.x')).toHaveLength(2);
+    expect(tousParSelecteur('.y')).toHaveLength(0);
   });
 });

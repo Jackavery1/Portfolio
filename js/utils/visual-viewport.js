@@ -2,7 +2,7 @@
 
 const SELECTEUR_CHAMPS = 'input, textarea, select';
 
-export function initScrollChampClavier(conteneur) {
+export function initialiserScrollChampClavier(conteneur) {
   if (!conteneur || typeof window === 'undefined' || !window.visualViewport) {
     return () => {};
   }

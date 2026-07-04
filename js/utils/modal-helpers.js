@@ -1,4 +1,4 @@
-export function resolveApercuSrc(data) {
+export function resoudreSrcApercu(data) {
   return data?.apercu || null;
 }
 

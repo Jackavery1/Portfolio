@@ -1,6 +1,6 @@
 /* @vitest-environment jsdom */
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { initScrollChampClavier } from './visual-viewport.js';
+import { initialiserScrollChampClavier } from './visual-viewport.js';
 
 describe('visual-viewport', () => {
   let desinscrire;
@@ -23,7 +23,7 @@ describe('visual-viewport', () => {
 
   it('ne fait rien sans visualViewport', () => {
     const form = document.getElementById('f');
-    expect(initScrollChampClavier(form)).toBeTypeOf('function');
+    expect(initialiserScrollChampClavier(form)).toBeTypeOf('function');
     form.querySelector('#nom').focus();
     expect(window.scrollBy).not.toHaveBeenCalled();
   });
@@ -53,7 +53,7 @@ describe('visual-viewport', () => {
       height: 80,
     });
 
-    desinscrire = initScrollChampClavier(document.getElementById('f'));
+    desinscrire = initialiserScrollChampClavier(document.getElementById('f'));
     document.getElementById('msg').dispatchEvent(new FocusEvent('focusin', { bubbles: true }));
     await new Promise((resolve) => requestAnimationFrame(resolve));
 

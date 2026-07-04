@@ -1,13 +1,13 @@
 import { LEGAL, LEGAL_ANCHOR_LABELS } from '../config/legal.js';
-import { decodeBase64Utf8 } from '../utils/pii.js';
+import { decoderBase64Utf8 } from '../utils/pii.js';
 import { CONFIG } from '../config/index.js';
-import { appendRichHtml, paragrapheRichHtml } from '../utils/rich-text.js';
+import { ajouterHtmlEnrichi, paragrapheHtmlEnrichi } from '../utils/rich-text.js';
 
 function listeHtml(items) {
   const ul = document.createElement('ul');
   items.forEach((item) => {
     const li = document.createElement('li');
-    appendRichHtml(li, item);
+    ajouterHtmlEnrichi(li, item);
     ul.appendChild(li);
   });
   return ul;
@@ -30,7 +30,7 @@ function blocEditeur() {
 
   const noscript = document.createElement('noscript');
   const fallback = document.createElement('a');
-  const email = decodeBase64Utf8(CONFIG.CONTACT.EMAIL_B64);
+  const email = decoderBase64Utf8(CONFIG.CONTACT.EMAIL_B64);
   fallback.href = email ? `mailto:${email}` : '#';
   fallback.textContent = email || 'contact@example.com';
   noscript.appendChild(fallback);
@@ -40,7 +40,7 @@ function blocEditeur() {
 }
 
 function remplirBlocEditeur(conteneur) {
-  const email = decodeBase64Utf8(CONFIG.CONTACT.EMAIL_B64);
+  const email = decoderBase64Utf8(CONFIG.CONTACT.EMAIL_B64);
   if (!email) return;
 
   const lien = conteneur.querySelector(`#${CONFIG.SELECTORS.MENTIONS_EMAIL_LINK}`);
@@ -61,11 +61,11 @@ function remplirSection(sectionCfg, conteneur) {
   article.appendChild(h2);
 
   if (sectionCfg.intro) {
-    article.appendChild(paragrapheRichHtml(sectionCfg.intro));
+    article.appendChild(paragrapheHtmlEnrichi(sectionCfg.intro));
   }
 
   sectionCfg.paragraphs?.forEach((texte) => {
-    article.appendChild(paragrapheRichHtml(texte));
+    article.appendChild(paragrapheHtmlEnrichi(texte));
   });
 
   sectionCfg.blocks?.forEach((block) => {
@@ -85,7 +85,7 @@ function remplirSection(sectionCfg, conteneur) {
     div.appendChild(h3);
 
     sub.paragraphs?.forEach((texte) => {
-      div.appendChild(paragrapheRichHtml(texte));
+      div.appendChild(paragrapheHtmlEnrichi(texte));
     });
 
     if (sub.list?.length) {
@@ -119,7 +119,7 @@ function remplirSommaire(conteneur) {
   conteneur.appendChild(nav);
 }
 
-export function initMentionsLegales() {
+export function initialiserMentionsLegales() {
   const intro = document.getElementById('js-mentions-intro');
   if (intro) intro.textContent = LEGAL.intro;
 

@@ -24,6 +24,7 @@ vi.mock('../config/index.js', () => ({
       LIMITS: { nom: 80, email: 120, message: 5000 },
     },
     STORAGE: { CONTACT_LAST_SUBMIT: 'portfolio-contact-last' },
+    SCORE_BONUS: { CONTACT: 500 },
   },
 }));
 
@@ -41,7 +42,7 @@ vi.mock('./recaptcha.js', () => ({
   reinitialiserWidgetRecaptcha: vi.fn(),
 }));
 
-import { initContactForm } from './contact-form.js';
+import { initialiserFormulaireContact } from './contact-form.js';
 
 describe('contact-form', () => {
   beforeEach(() => {
@@ -63,7 +64,7 @@ describe('contact-form', () => {
   });
 
   it('ignore la soumission si le honeypot est rempli', async () => {
-    await initContactForm();
+    await initialiserFormulaireContact();
 
     document.getElementById('contact-website').value = 'spam';
     document
@@ -75,7 +76,7 @@ describe('contact-form', () => {
 
   it('affiche le rate limit si envoi trop rapide', async () => {
     sessionStorage.setItem('portfolio-contact-last', String(Date.now()));
-    await initContactForm();
+    await initialiserFormulaireContact();
 
     document
       .getElementById('js-formulaire')
@@ -93,7 +94,7 @@ describe('contact-form', () => {
       json: () => Promise.resolve({ ok: true }),
     });
 
-    await initContactForm();
+    await initialiserFormulaireContact();
     document
       .getElementById('js-formulaire')
       .dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));

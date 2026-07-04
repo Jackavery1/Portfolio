@@ -2,33 +2,41 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 vi.mock('./contact-bandeau.js', () => ({
-  initContactBandeau: vi.fn(),
+  initialiserBandeauContact: vi.fn(),
+}));
+
+vi.mock('./contact-coordonnees.js', () => ({
+  initialiserCoordonneesContact: vi.fn(),
 }));
 
 vi.mock('./contact-form.js', () => ({
-  initContactForm: vi.fn().mockResolvedValue(undefined),
+  initialiserFormulaireContact: vi.fn().mockResolvedValue(undefined),
 }));
 
-import { initContactBandeau } from './contact-bandeau.js';
-import { initContactForm } from './contact-form.js';
-import { initContactPage } from './contact.js';
+import { initialiserBandeauContact } from './contact-bandeau.js';
+import { initialiserCoordonneesContact } from './contact-coordonnees.js';
+import { initialiserFormulaireContact } from './contact-form.js';
+import { initialiserPageContact } from './contact.js';
 
 describe('contact', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
-  it('initialise bandeau puis formulaire', async () => {
+  it('initialise bandeau, coordonnées puis formulaire', async () => {
     const ordre = [];
-    vi.mocked(initContactBandeau).mockImplementation(() => {
+    vi.mocked(initialiserBandeauContact).mockImplementation(() => {
       ordre.push('bandeau');
     });
-    vi.mocked(initContactForm).mockImplementation(async () => {
+    vi.mocked(initialiserCoordonneesContact).mockImplementation(() => {
+      ordre.push('coordonnees');
+    });
+    vi.mocked(initialiserFormulaireContact).mockImplementation(async () => {
       ordre.push('formulaire');
     });
 
-    await initContactPage();
+    await initialiserPageContact();
 
-    expect(ordre).toEqual(['bandeau', 'formulaire']);
+    expect(ordre).toEqual(['bandeau', 'coordonnees', 'formulaire']);
   });
 });

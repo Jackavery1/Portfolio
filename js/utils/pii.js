@@ -2,7 +2,7 @@
    Décodage coordonnées (réduction scraping HTML statique)
    ============================================ */
 
-export function decodeBase64Utf8(b64) {
+export function decoderBase64Utf8(b64) {
   try {
     return atob(b64);
   } catch {
@@ -10,7 +10,7 @@ export function decodeBase64Utf8(b64) {
   }
 }
 
-export function formatTelephoneFr(parts) {
+export function formaterTelephoneFr(parts) {
   if (!Array.isArray(parts) || parts.length < 2) return { affichage: '', tel: '' };
   const [p0, ...rest] = parts.map((n) => String(n).replace(/\D/g, ''));
   const national = `${p0}${rest.join('')}`;

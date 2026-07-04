@@ -1,6 +1,6 @@
 /* @vitest-environment jsdom */
 import { describe, expect, it } from 'vitest';
-import { focusablesModal, trapTabModal } from './focus.js';
+import { elementsFocusablesModale, piegerTabulationModale } from './focus.js';
 
 function rendreFocusable(el) {
   Object.defineProperty(el, 'offsetParent', {
@@ -20,7 +20,7 @@ describe('focus', () => {
     `;
     const modal = document.getElementById('modal');
     modal.querySelectorAll('button:not([disabled]), a[href]').forEach(rendreFocusable);
-    const list = focusablesModal(modal);
+    const list = elementsFocusablesModale(modal);
     expect(list).toHaveLength(2);
   });
 
@@ -37,7 +37,7 @@ describe('focus', () => {
     const b2 = document.getElementById('b2');
     b2.focus();
     let prevented = false;
-    trapTabModal(
+    piegerTabulationModale(
       {
         key: 'Tab',
         shiftKey: false,
@@ -52,7 +52,7 @@ describe('focus', () => {
   });
 
   it('ignore les touches autres que Tab', () => {
-    const result = trapTabModal({ key: 'Escape' }, document.body);
+    const result = piegerTabulationModale({ key: 'Escape' }, document.body);
     expect(result).toBe(false);
   });
 });

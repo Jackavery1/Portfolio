@@ -2,61 +2,56 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 const mocks = vi.hoisted(() => ({
-  initAccueilSocial: vi.fn(),
-  initProjetsGrille: vi.fn(),
-  initModalClavier: vi.fn(),
-  initModalClicks: vi.fn(),
-  initDojoBoss: vi.fn(),
-  initContactPage: vi.fn().mockResolvedValue(undefined),
-  initMentionsLegales: vi.fn(),
+  initialiserAccueilSocial: vi.fn(),
+  initialiserGrilleProjets: vi.fn(),
+  initialiserClavierModale: vi.fn(),
+  initialiserClicsModale: vi.fn(),
+  initialiserDojoBoss: vi.fn(),
+  initialiserPageContact: vi.fn().mockResolvedValue(undefined),
+  initialiserMentionsLegales: vi.fn(),
   enregistrerServiceWorker: vi.fn(),
-  afficherPopupHighScore: vi.fn(),
-  chargerPartials: vi.fn().mockResolvedValue(undefined),
-  initNavigationArcade: vi.fn(),
-  initNavigationClavier: vi.fn(),
+  afficherPopupMeilleurScore: vi.fn(),
+  chargerPartiels: vi.fn().mockResolvedValue(undefined),
+  initialiserNavigationArcade: vi.fn(),
+  initialiserNavigationClavier: vi.fn(),
   annoncerNavigationClavier: vi.fn(),
   afficherScore: vi.fn(),
-  initPopupHighScoreFermer: vi.fn(),
+  initialiserFermeturePopupMeilleurScore: vi.fn(),
   lireScore: vi.fn(() => 0),
-  initMetaPartage: vi.fn(),
-  initBonusScore: vi.fn(),
-  initKonamiCode: vi.fn(),
+  initialiserMetaPartage: vi.fn(),
+  initialiserBonusScore: vi.fn(),
+  initialiserCodeKonami: vi.fn(),
   animerBarresSection: vi.fn(),
-  initContactCoordonnees: vi.fn(),
 }));
 
 vi.mock('./modules/partials.js', () => ({
-  chargerPartials: mocks.chargerPartials,
+  chargerPartiels: mocks.chargerPartiels,
 }));
 
 vi.mock('./modules/navigation.js', () => ({
-  initNavigationArcade: mocks.initNavigationArcade,
-  initNavigationClavier: mocks.initNavigationClavier,
+  initialiserNavigationArcade: mocks.initialiserNavigationArcade,
+  initialiserNavigationClavier: mocks.initialiserNavigationClavier,
   annoncerNavigationClavier: mocks.annoncerNavigationClavier,
 }));
 
 vi.mock('./modules/score.js', () => ({
-  afficherPopupHighScore: mocks.afficherPopupHighScore,
+  afficherPopupMeilleurScore: mocks.afficherPopupMeilleurScore,
   afficherScore: mocks.afficherScore,
-  initPopupHighScoreFermer: mocks.initPopupHighScoreFermer,
+  initialiserFermeturePopupMeilleurScore: mocks.initialiserFermeturePopupMeilleurScore,
   lireScore: mocks.lireScore,
 }));
 
 vi.mock('./modules/meta.js', () => ({
-  initMetaPartage: mocks.initMetaPartage,
-  initBonusScore: mocks.initBonusScore,
+  initialiserMetaPartage: mocks.initialiserMetaPartage,
+  initialiserBonusScore: mocks.initialiserBonusScore,
 }));
 
 vi.mock('./modules/konami.js', () => ({
-  initKonamiCode: mocks.initKonamiCode,
+  initialiserCodeKonami: mocks.initialiserCodeKonami,
 }));
 
 vi.mock('./modules/animations.js', () => ({
   animerBarresSection: mocks.animerBarresSection,
-}));
-
-vi.mock('./modules/contact-coordonnees.js', () => ({
-  initContactCoordonnees: mocks.initContactCoordonnees,
 }));
 
 vi.mock('./modules/service-worker-register.js', () => ({
@@ -64,31 +59,31 @@ vi.mock('./modules/service-worker-register.js', () => ({
 }));
 
 vi.mock('./modules/accueil-social.js', () => ({
-  initAccueilSocial: mocks.initAccueilSocial,
+  initialiserAccueilSocial: mocks.initialiserAccueilSocial,
 }));
 
 vi.mock('./modules/projets-grille.js', () => ({
-  initProjetsGrille: mocks.initProjetsGrille,
+  initialiserGrilleProjets: mocks.initialiserGrilleProjets,
 }));
 
 vi.mock('./modules/modal.js', () => ({
-  initModalClavier: mocks.initModalClavier,
-  initModalClicks: mocks.initModalClicks,
+  initialiserClavierModale: mocks.initialiserClavierModale,
+  initialiserClicsModale: mocks.initialiserClicsModale,
 }));
 
 vi.mock('./modules/dojo-boss.js', () => ({
-  initDojoBoss: mocks.initDojoBoss,
+  initialiserDojoBoss: mocks.initialiserDojoBoss,
 }));
 
 vi.mock('./modules/contact.js', () => ({
-  initContactPage: mocks.initContactPage,
+  initialiserPageContact: mocks.initialiserPageContact,
 }));
 
 vi.mock('./modules/mentions-legales.js', () => ({
-  initMentionsLegales: mocks.initMentionsLegales,
+  initialiserMentionsLegales: mocks.initialiserMentionsLegales,
 }));
 
-import { init } from './main.js';
+import { initialiser } from './main.js';
 
 describe('main', () => {
   beforeEach(() => {
@@ -101,24 +96,23 @@ describe('main', () => {
     vi.useFakeTimers();
     sessionStorage.clear();
     mocks.lireScore.mockReturnValue(0);
-    mocks.initContactPage.mockResolvedValue(undefined);
+    mocks.initialiserPageContact.mockResolvedValue(undefined);
   });
 
   it('charge les partials et initialise le socle commun', async () => {
-    await init();
+    await initialiser();
     vi.runAllTimers();
 
-    expect(mocks.chargerPartials).toHaveBeenCalled();
+    expect(mocks.chargerPartiels).toHaveBeenCalled();
     expect(mocks.annoncerNavigationClavier).toHaveBeenCalled();
-    expect(mocks.initContactCoordonnees).toHaveBeenCalled();
-    expect(mocks.initNavigationArcade).toHaveBeenCalled();
-    expect(mocks.initNavigationClavier).toHaveBeenCalled();
+    expect(mocks.initialiserNavigationArcade).toHaveBeenCalled();
+    expect(mocks.initialiserNavigationClavier).toHaveBeenCalled();
     expect(mocks.enregistrerServiceWorker).toHaveBeenCalled();
     expect(document.body.dataset.appReady).toBe('true');
   });
 
   it('ajoute la favicon en dev si absente du head', async () => {
-    await init();
+    await initialiser();
 
     expect(document.querySelector('link[rel="icon"][type="image/png"]')).not.toBeNull();
   });
@@ -130,7 +124,7 @@ describe('main', () => {
     existante.href = 'assets/favicon.png';
     document.head.appendChild(existante);
 
-    await init();
+    await initialiser();
 
     expect(document.querySelectorAll('link[rel="icon"][type="image/png"]')).toHaveLength(1);
   });
@@ -138,7 +132,7 @@ describe('main', () => {
   it('masque le popup high score au démarrage', async () => {
     document.body.innerHTML = '<div id="js-popup-hs"></div>';
 
-    await init();
+    await initialiser();
 
     expect(document.getElementById('js-popup-hs').hidden).toBe(true);
   });
@@ -146,18 +140,18 @@ describe('main', () => {
   it('utilise accueil comme section par défaut', async () => {
     delete document.body.dataset.sectionId;
 
-    await init();
+    await initialiser();
 
-    expect(mocks.initAccueilSocial).toHaveBeenCalled();
+    expect(mocks.initialiserAccueilSocial).toHaveBeenCalled();
   });
 
   it('n’initialise que le socle commun sur la section parcours', async () => {
     document.body.dataset.sectionId = 'parcours';
-    await init();
+    await initialiser();
     vi.advanceTimersByTime(300);
 
-    expect(mocks.initAccueilSocial).not.toHaveBeenCalled();
-    expect(mocks.initProjetsGrille).not.toHaveBeenCalled();
+    expect(mocks.initialiserAccueilSocial).not.toHaveBeenCalled();
+    expect(mocks.initialiserGrilleProjets).not.toHaveBeenCalled();
     expect(mocks.animerBarresSection).toHaveBeenCalledWith('parcours');
   });
 
@@ -167,7 +161,7 @@ describe('main', () => {
       throw new Error('quota');
     });
 
-    await expect(init()).resolves.toBeUndefined();
+    await expect(initialiser()).resolves.toBeUndefined();
     vi.runAllTimers();
 
     expect(document.body.dataset.appReady).toBe('true');
@@ -175,62 +169,62 @@ describe('main', () => {
 
   it('initialise accueil-social sur la section accueil', async () => {
     document.body.dataset.sectionId = 'accueil';
-    await init();
+    await initialiser();
 
-    expect(mocks.initAccueilSocial).toHaveBeenCalled();
-    expect(mocks.initProjetsGrille).not.toHaveBeenCalled();
+    expect(mocks.initialiserAccueilSocial).toHaveBeenCalled();
+    expect(mocks.initialiserGrilleProjets).not.toHaveBeenCalled();
   });
 
   it('initialise projets et modale sur la section projets', async () => {
     document.body.dataset.sectionId = 'projets';
-    await init();
+    await initialiser();
 
-    expect(mocks.initProjetsGrille).toHaveBeenCalled();
-    expect(mocks.initModalClavier).toHaveBeenCalled();
-    expect(mocks.initModalClicks).toHaveBeenCalled();
+    expect(mocks.initialiserGrilleProjets).toHaveBeenCalled();
+    expect(mocks.initialiserClavierModale).toHaveBeenCalled();
+    expect(mocks.initialiserClicsModale).toHaveBeenCalled();
   });
 
   it('initialise dojo-boss sur la section dojo', async () => {
     document.body.dataset.sectionId = 'dojo';
-    await init();
+    await initialiser();
 
-    expect(mocks.initDojoBoss).toHaveBeenCalled();
+    expect(mocks.initialiserDojoBoss).toHaveBeenCalled();
   });
 
   it('initialise la page contact via la facade', async () => {
     document.body.dataset.sectionId = 'contact';
-    await init();
+    await initialiser();
 
-    expect(mocks.initContactPage).toHaveBeenCalled();
+    expect(mocks.initialiserPageContact).toHaveBeenCalled();
   });
 
   it('initialise mentions-legales sur la section mentions', async () => {
     document.body.dataset.sectionId = 'mentions';
-    await init();
+    await initialiser();
 
-    expect(mocks.initMentionsLegales).toHaveBeenCalled();
+    expect(mocks.initialiserMentionsLegales).toHaveBeenCalled();
   });
 
   it('affiche le popup high score si le score était déjà au max', async () => {
     mocks.lireScore.mockReturnValue(9999);
-    await init();
+    await initialiser();
     vi.runAllTimers();
 
-    expect(mocks.afficherPopupHighScore).toHaveBeenCalled();
+    expect(mocks.afficherPopupMeilleurScore).toHaveBeenCalled();
   });
 
   it('n’affiche pas le popup high score si déjà vu en session', async () => {
     mocks.lireScore.mockReturnValue(9999);
     sessionStorage.setItem('hs_popup_vu', '1');
-    await init();
+    await initialiser();
     vi.runAllTimers();
 
-    expect(mocks.afficherPopupHighScore).not.toHaveBeenCalled();
+    expect(mocks.afficherPopupMeilleurScore).not.toHaveBeenCalled();
   });
 
   it('anime les barres de section après un délai', async () => {
     document.body.dataset.sectionId = 'competences';
-    await init();
+    await initialiser();
     vi.advanceTimersByTime(300);
 
     expect(mocks.animerBarresSection).toHaveBeenCalledWith('competences');

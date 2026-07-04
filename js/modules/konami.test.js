@@ -3,7 +3,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 const scoreMocks = vi.hoisted(() => ({
   ajouterScore: vi.fn(),
-  afficherPopupHighScore: vi.fn(),
+  afficherPopupMeilleurScore: vi.fn(),
   afficherScore: vi.fn(),
   lireScore: vi.fn(() => 0),
   sauvegarderScore: vi.fn(),
@@ -35,7 +35,7 @@ vi.mock('./audio.js', () => ({
 
 vi.mock('./score.js', () => scoreMocks);
 
-import { initKonamiCode } from './konami.js';
+import { initialiserCodeKonami } from './konami.js';
 
 describe('konami', () => {
   beforeEach(() => {
@@ -43,7 +43,7 @@ describe('konami', () => {
     document.body.classList.remove('konami-actif');
     vi.clearAllMocks();
     scoreMocks.lireScore.mockReturnValue(0);
-    initKonamiCode();
+    initialiserCodeKonami();
   });
 
   it('active le mode Konami à la séquence complète', () => {

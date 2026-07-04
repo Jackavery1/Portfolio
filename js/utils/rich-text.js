@@ -41,7 +41,7 @@ function clonerNoeudAutorise(noeud) {
   return el;
 }
 
-export function escapeHtml(text) {
+export function echapperHtml(text) {
   return String(text)
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
@@ -49,7 +49,7 @@ export function escapeHtml(text) {
     .replace(/"/g, '&quot;');
 }
 
-export function appendRichHtml(conteneur, html) {
+export function ajouterHtmlEnrichi(conteneur, html) {
   const doc = new DOMParser().parseFromString(html, 'text/html');
   doc.body.childNodes.forEach((noeud) => {
     const clone = clonerNoeudAutorise(noeud);
@@ -57,8 +57,8 @@ export function appendRichHtml(conteneur, html) {
   });
 }
 
-export function paragrapheRichHtml(html) {
+export function paragrapheHtmlEnrichi(html) {
   const p = document.createElement('p');
-  appendRichHtml(p, html);
+  ajouterHtmlEnrichi(p, html);
   return p;
 }

@@ -9,11 +9,12 @@ vi.mock('../config/index.js', () => ({
       OG_URL: 'meta-og-url',
     },
     STORAGE: { PAGE_PREFIX: 'portfolio-page-' },
+    SCORE_BONUS: { PAGE: 200, GITHUB: 500 },
   },
 }));
 
 vi.mock('../utils/page.js', () => ({
-  getCurrentPageFile: () => 'contact.html',
+  obtenirFichierPageCourante: () => 'contact.html',
 }));
 
 vi.mock('./score.js', () => ({
@@ -21,7 +22,7 @@ vi.mock('./score.js', () => ({
 }));
 
 import { ajouterScore } from './score.js';
-import { initBonusScore, initMetaPartage } from './meta.js';
+import { initialiserBonusScore, initialiserMetaPartage } from './meta.js';
 
 describe('meta', () => {
   beforeEach(() => {
@@ -33,7 +34,7 @@ describe('meta', () => {
   });
 
   it('remplit canonical et og:url en absolu', () => {
-    initMetaPartage();
+    initialiserMetaPartage();
 
     expect(document.getElementById('link-canonical').href).toBe('https://example.com/contact.html');
     expect(document.getElementById('meta-og-url').getAttribute('content')).toBe(
@@ -44,22 +45,22 @@ describe('meta', () => {
     );
   });
 
-  it('initBonusScore crédite la première visite et le lien GitHub', () => {
+  it('initialiserBonusScore crédite la première visite et le lien GitHub', () => {
     sessionStorage.clear();
     document.body.innerHTML = '<a class="lien-github" href="#">GitHub</a>';
 
-    initBonusScore();
+    initialiserBonusScore();
 
     expect(ajouterScore).toHaveBeenCalledWith(200);
     document.querySelector('.lien-github').click();
     expect(ajouterScore).toHaveBeenCalledWith(500);
   });
 
-  it('initBonusScore n’attache pas de bonus aux cartes boss', () => {
+  it('initialiserBonusScore n’attache pas de bonus aux cartes boss', () => {
     sessionStorage.clear();
     document.body.innerHTML = '<article class="boss-carte"></article>';
 
-    initBonusScore();
+    initialiserBonusScore();
     vi.mocked(ajouterScore).mockClear();
     document.querySelector('.boss-carte').click();
 

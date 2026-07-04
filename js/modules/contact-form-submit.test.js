@@ -2,14 +2,14 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 vi.mock('../utils/contact-form-helpers.js', () => ({
-  construireFormDataFormspree: vi.fn(() => new FormData()),
+  construireDonneesFormspree: vi.fn(() => new FormData()),
   libellerSujetSelect: vi.fn((text) => text?.trim() || ''),
-  messageErreurCatch: vi.fn((err) => err?.message || 'Erreur'),
+  messageErreurCapture: vi.fn((err) => err?.message || 'Erreur'),
   messageErreurFormspree: vi.fn(() => 'Erreur serveur'),
 }));
 
 vi.mock('../utils/pii.js', () => ({
-  decodeBase64Utf8: vi.fn((b64) => (b64 === 'dGVzdEBleGFtcGxlLmNvbQ==' ? 'test@example.com' : '')),
+  decoderBase64Utf8: vi.fn((b64) => (b64 === 'dGVzdEBleGFtcGxlLmNvbQ==' ? 'test@example.com' : '')),
 }));
 
 vi.mock('./audio.js', () => ({

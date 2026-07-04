@@ -1,22 +1,22 @@
 import { CONFIG } from './config/index.js';
-import { byId } from './utils/dom.js';
-import { chargerPartials } from './modules/partials.js';
-import { initNavigationArcade, initNavigationClavier, annoncerNavigationClavier } from './modules/navigation.js';
+import { parId } from './utils/dom.js';
+import { chargerPartiels } from './modules/partials.js';
+import { initialiserNavigationArcade, initialiserNavigationClavier, annoncerNavigationClavier } from './modules/navigation.js';
 import {
-  afficherPopupHighScore,
+  afficherPopupMeilleurScore,
   afficherScore,
-  initPopupHighScoreFermer,
+  initialiserFermeturePopupMeilleurScore,
   lireScore,
 } from './modules/score.js';
-import { initMetaPartage, initBonusScore } from './modules/meta.js';
-import { initKonamiCode } from './modules/konami.js';
+import { initialiserMetaPartage, initialiserBonusScore } from './modules/meta.js';
+import { initialiserCodeKonami } from './modules/konami.js';
 import { enregistrerServiceWorker } from './modules/service-worker-register.js';
 import { animerBarresSection } from './modules/animations.js';
-import { hrefFaviconPng } from './config/favicon.js';
+import { urlFaviconPng } from './config/favicon.js';
 
 // En dev on sert les HTML sources : le head de prod n'est pas injecté, on ajoute la favicon à la volée.
 function assurerFaviconLocale() {
-  const href = hrefFaviconPng();
+  const href = urlFaviconPng();
   const existante = document.querySelector('link[rel="icon"][type="image/png"]');
   if (existante) return;
 
@@ -35,61 +35,58 @@ function assurerFaviconLocale() {
   });
 }
 
-async function init() {
+async function initialiser() {
   const sid = document.body.dataset.sectionId || 'accueil';
   const etaitDejaAuMax = lireScore() >= 9999;
 
   assurerFaviconLocale();
-  await chargerPartials();
+  await chargerPartiels();
   annoncerNavigationClavier();
 
-  const { initContactCoordonnees } = await import('./modules/contact-coordonnees.js');
-  initContactCoordonnees();
-
-  const popupHs = byId(CONFIG.SELECTORS.POPUP_HS);
+  const popupHs = parId(CONFIG.SELECTORS.POPUP_HS);
   if (popupHs) popupHs.hidden = true;
 
-  initPopupHighScoreFermer();
-  initMetaPartage();
-  initNavigationArcade();
-  initNavigationClavier();
-  initBonusScore();
+  initialiserFermeturePopupMeilleurScore();
+  initialiserMetaPartage();
+  initialiserNavigationArcade();
+  initialiserNavigationClavier();
+  initialiserBonusScore();
   afficherScore(lireScore());
-  initKonamiCode();
+  initialiserCodeKonami();
 
   if (sid === 'projets') {
-    const { initProjetsGrille } = await import('./modules/projets-grille.js');
-    const { initModalClavier, initModalClicks } = await import('./modules/modal.js');
-    initProjetsGrille();
-    initModalClavier();
-    initModalClicks();
+    const { initialiserGrilleProjets } = await import('./modules/projets-grille.js');
+    const { initialiserClavierModale, initialiserClicsModale } = await import('./modules/modal.js');
+    initialiserGrilleProjets();
+    initialiserClavierModale();
+    initialiserClicsModale();
   }
 
   if (sid === 'accueil') {
-    const { initAccueilSocial } = await import('./modules/accueil-social.js');
-    initAccueilSocial();
+    const { initialiserAccueilSocial } = await import('./modules/accueil-social.js');
+    initialiserAccueilSocial();
   }
 
   if (sid === 'dojo') {
-    const { initDojoBoss } = await import('./modules/dojo-boss.js');
-    initDojoBoss();
+    const { initialiserDojoBoss } = await import('./modules/dojo-boss.js');
+    initialiserDojoBoss();
   }
 
   if (sid === 'contact') {
-    const { initContactPage } = await import('./modules/contact.js');
-    await initContactPage();
+    const { initialiserPageContact } = await import('./modules/contact.js');
+    await initialiserPageContact();
   }
 
   if (sid === 'mentions') {
-    const { initMentionsLegales } = await import('./modules/mentions-legales.js');
-    initMentionsLegales();
+    const { initialiserMentionsLegales } = await import('./modules/mentions-legales.js');
+    initialiserMentionsLegales();
   }
 
   setTimeout(() => animerBarresSection(sid), 300);
 
   try {
     if (etaitDejaAuMax && !sessionStorage.getItem(CONFIG.STORAGE.HS_POPUP_VU)) {
-      setTimeout(afficherPopupHighScore, 1000);
+      setTimeout(afficherPopupMeilleurScore, 1000);
     }
   } catch {
     /* sessionStorage indisponible */
@@ -99,6 +96,6 @@ async function init() {
   enregistrerServiceWorker();
 }
 
-document.addEventListener('DOMContentLoaded', init);
+document.addEventListener('DOMContentLoaded', initialiser);
 
-export { init };
+export { initialiser };

@@ -8,6 +8,7 @@ vi.mock('./audio.js', () => ({
 vi.mock('../config/index.js', () => ({
   CONFIG: {
     STORAGE: { DOJO_BOSS_PREFIX: 'jm_dojo_boss_' },
+    SCORE_BONUS: { DOJO_BOSS: 300, DOJO_BOSS_VAINCU: 450 },
   },
 }));
 
@@ -16,7 +17,7 @@ vi.mock('./score.js', () => ({
 }));
 
 import { ajouterScore } from './score.js';
-import { initDojoBoss } from './dojo-boss.js';
+import { initialiserDojoBoss } from './dojo-boss.js';
 
 describe('dojo-boss', () => {
   beforeEach(() => {
@@ -47,7 +48,7 @@ describe('dojo-boss', () => {
   });
 
   it('ajoute une citation et nettoie les intervalles au pagehide', () => {
-    initDojoBoss();
+    initialiserDojoBoss();
 
     const carte = document.querySelector('[data-boss="domslayer"]');
     expect(carte.querySelector('.boss-citation')).not.toBeNull();
@@ -64,7 +65,7 @@ describe('dojo-boss', () => {
   });
 
   it('ajoute un bonus score au premier clic sur une carte boss', () => {
-    initDojoBoss();
+    initialiserDojoBoss();
     const carte = document.querySelector('[data-boss="domslayer"]');
     carte.click();
     expect(ajouterScore).toHaveBeenCalledWith(300);
@@ -74,7 +75,7 @@ describe('dojo-boss', () => {
   });
 
   it('accorde plus de points pour un boss vaincu', () => {
-    initDojoBoss();
+    initialiserDojoBoss();
     document.querySelector('[data-boss="crud"]').click();
     expect(ajouterScore).toHaveBeenCalledWith(450);
   });

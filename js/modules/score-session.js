@@ -1,5 +1,5 @@
 import { CONFIG } from '../config/index.js';
-import { byId } from '../utils/dom.js';
+import { parId } from '../utils/dom.js';
 import { formaterScoreAffichage, plafonnerScore } from '../utils/score-helpers.js';
 
 export function lireScore() {
@@ -31,7 +31,7 @@ export function sauvegarderScore(valeur) {
 }
 
 export function afficherScore(valeur) {
-  const el = byId(CONFIG.SELECTORS.SCORE);
+  const el = parId(CONFIG.SELECTORS.SCORE);
   if (el) el.textContent = formaterScoreAffichage(valeur);
 }
 
@@ -43,7 +43,7 @@ export function ajouterScore(pts) {
   afficherScore(apres);
   if (apres >= 9999) {
     setTimeout(() => {
-      import('./popup-highscore.js').then(({ afficherPopupHighScore }) => afficherPopupHighScore());
+      import('./popup-highscore.js').then(({ afficherPopupMeilleurScore }) => afficherPopupMeilleurScore());
     }, 600);
   }
 }

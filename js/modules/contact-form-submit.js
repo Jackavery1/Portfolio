@@ -1,12 +1,12 @@
 import {
-  construireFormDataFormspree,
+  construireDonneesFormspree,
   libellerSujetSelect,
-  messageErreurCatch,
+  messageErreurCapture,
   messageErreurFormspree,
 } from '../utils/contact-form-helpers.js';
-import { decodeBase64Utf8 } from '../utils/pii.js';
+import { CONFIG } from '../config/index.js';
+import { decoderBase64Utf8 } from '../utils/pii.js';
 import { jouerBip } from './audio.js';
-import { SCORE_BONUS } from '../config/score-bonus.js';
 import { ajouterScore } from './score.js';
 import { obtenirTokenRecaptcha, reinitialiserWidgetRecaptcha } from './recaptcha.js';
 
@@ -75,7 +75,7 @@ export async function envoyerViaFormspree({
     signalerEchecEnvoi({
       btnEnvoyer,
       labelEnvoyer,
-      msg: messageErreurCatch(err),
+      msg: messageErreurCapture(err),
       afficherErreur,
     });
     return;
@@ -94,7 +94,7 @@ export async function envoyerViaFormspree({
     return;
   }
 
-  const fd = construireFormDataFormspree({
+  const fd = construireDonneesFormspree({
     nom,
     email,
     message,
@@ -130,7 +130,7 @@ export async function envoyerViaFormspree({
     signalerEchecEnvoi({
       btnEnvoyer,
       labelEnvoyer,
-      msg: messageErreurCatch(err),
+      msg: messageErreurCapture(err),
       afficherErreur,
       reinitialiserRecaptcha: true,
     });
@@ -139,7 +139,7 @@ export async function envoyerViaFormspree({
 
 export function envoyerViaMailto({ config, champs, sujetUtile }) {
   const { nom, email, message } = champs;
-  const emailDest = decodeBase64Utf8(config.CONTACT.EMAIL_B64);
+  const emailDest = decoderBase64Utf8(config.CONTACT.EMAIL_B64);
   if (!emailDest) return false;
 
   const subject = `[Portfolio] ${sujetUtile ? `${sujetUtile} — ` : ''}${nom}`;
@@ -152,7 +152,7 @@ function confirmerEnvoiReussi({ btnEnvoyer, confirmation }) {
   reinitialiserWidgetRecaptcha();
   if (confirmation) confirmation.hidden = false;
   jouerBip(660, 80, 'sine');
-  ajouterScore(SCORE_BONUS.CONTACT);
+  ajouterScore(CONFIG.SCORE_BONUS.CONTACT);
   btnEnvoyer.removeAttribute('aria-busy');
   btnEnvoyer.form?.removeAttribute('aria-busy');
   btnEnvoyer.textContent = '✓ ENVOYÉ';

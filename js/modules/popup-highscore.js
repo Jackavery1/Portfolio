@@ -1,6 +1,6 @@
 import { CONFIG } from '../config/index.js';
-import { byId } from '../utils/dom.js';
-import { trapTabModal } from '../utils/focus.js';
+import { parId } from '../utils/dom.js';
+import { piegerTabulationModale } from '../utils/focus.js';
 import { basculerInertFond } from '../utils/inert.js';
 import { formaterScoreAffichage } from '../utils/score-helpers.js';
 import { jouerFanfareVictoire } from './audio.js';
@@ -8,8 +8,8 @@ import { lireScore } from './score-session.js';
 
 let elementFocusAvantPopup = null;
 
-export function afficherPopupHighScore() {
-  const popup = byId(CONFIG.SELECTORS.POPUP_HS);
+export function afficherPopupMeilleurScore() {
+  const popup = parId(CONFIG.SELECTORS.POPUP_HS);
   if (!popup) return;
   const sc = popup.querySelector('.popup-highscore__score');
   if (sc) sc.textContent = formaterScoreAffichage(lireScore());
@@ -22,12 +22,12 @@ export function afficherPopupHighScore() {
     /* sessionStorage indisponible */
   }
   jouerFanfareVictoire({ delais: [0, 160, 320, 480], duree: 150 });
-  const btnFermer = byId(CONFIG.SELECTORS.POPUP_HS_FERMER);
+  const btnFermer = parId(CONFIG.SELECTORS.POPUP_HS_FERMER);
   if (btnFermer) btnFermer.focus();
 }
 
-function fermerPopupHighScore() {
-  const pu = byId(CONFIG.SELECTORS.POPUP_HS);
+function fermerPopupMeilleurScore() {
+  const pu = parId(CONFIG.SELECTORS.POPUP_HS);
   if (!pu || pu.hidden) return;
   pu.hidden = true;
   basculerInertFond(false);
@@ -38,13 +38,13 @@ function fermerPopupHighScore() {
   }
 }
 
-export function initPopupHighScoreFermer() {
-  const popup = byId(CONFIG.SELECTORS.POPUP_HS);
-  const btnFermerHS = byId(CONFIG.SELECTORS.POPUP_HS_FERMER);
+export function initialiserFermeturePopupMeilleurScore() {
+  const popup = parId(CONFIG.SELECTORS.POPUP_HS);
+  const btnFermerHS = parId(CONFIG.SELECTORS.POPUP_HS_FERMER);
   if (popup && !popup.dataset.hsEcouteurs) {
     popup.dataset.hsEcouteurs = '1';
     popup.addEventListener('click', (evt) => {
-      if (evt.target === popup) fermerPopupHighScore();
+      if (evt.target === popup) fermerPopupMeilleurScore();
     });
   }
   if (!document.documentElement.dataset.hsPopupEscape) {
@@ -52,20 +52,20 @@ export function initPopupHighScoreFermer() {
     document.addEventListener(
       'keydown',
       (evt) => {
-        const pu = byId(CONFIG.SELECTORS.POPUP_HS);
+        const pu = parId(CONFIG.SELECTORS.POPUP_HS);
         if (!pu || pu.hidden) return;
         if (evt.key === 'Escape') {
           evt.preventDefault();
-          fermerPopupHighScore();
+          fermerPopupMeilleurScore();
           return;
         }
-        trapTabModal(evt, pu);
+        piegerTabulationModale(evt, pu);
       },
       true
     );
   }
   if (btnFermerHS && !btnFermerHS.dataset.ecouteurHs) {
     btnFermerHS.dataset.ecouteurHs = '1';
-    btnFermerHS.addEventListener('click', fermerPopupHighScore);
+    btnFermerHS.addEventListener('click', fermerPopupMeilleurScore);
   }
 }

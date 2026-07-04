@@ -4,7 +4,7 @@ import {
   afficherErreurZone,
   effacerEtatsInvalides,
   enregistrerSoumissionSession,
-  honeypotRempli,
+  potDeMielRempli,
   marquerChampsInvalides,
   peutSoumettreAvecSession,
 } from './contact-form-ui.js';
@@ -76,8 +76,8 @@ describe('contact-form-ui', () => {
   it('détecte le honeypot rempli', () => {
     const form = document.getElementById('f');
     const hp = form.querySelector('[name="website"]');
-    expect(honeypotRempli(form, hp, 'website')).toBe(false);
+    expect(potDeMielRempli(form, hp, 'website')).toBe(false);
     hp.value = 'spam';
-    expect(honeypotRempli(form, hp, 'website')).toBe(true);
+    expect(potDeMielRempli(form, hp, 'website')).toBe(true);
   });
 });

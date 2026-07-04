@@ -1,8 +1,10 @@
-/** Point d'entrée page contact — orchestration bandeau et formulaire. */
-import { initContactBandeau } from './contact-bandeau.js';
-import { initContactForm } from './contact-form.js';
+/** Point d'entrée page contact — bandeau, coordonnées et formulaire. */
+import { initialiserBandeauContact } from './contact-bandeau.js';
+import { initialiserCoordonneesContact } from './contact-coordonnees.js';
+import { initialiserFormulaireContact } from './contact-form.js';
 
-export async function initContactPage() {
-  initContactBandeau();
-  await initContactForm();
+export async function initialiserPageContact() {
+  initialiserBandeauContact();
+  initialiserCoordonneesContact();
+  await initialiserFormulaireContact();
 }

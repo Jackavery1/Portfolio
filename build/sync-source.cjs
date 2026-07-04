@@ -4,6 +4,8 @@ const { syncStyleCss } = require('./sync-style-css.cjs');
 const { syncPartials } = require('./sync-partials.cjs');
 const { syncParcoursArbre } = require('./sync-parcours-arbre.cjs');
 const { syncDojoBoss } = require('./sync-dojo-boss.cjs');
+const { syncCompetencesStats } = require('./sync-competences-stats.cjs');
+const { syncAccueilHero } = require('./sync-accueil-hero.cjs');
 const { syncBreakpoints } = require('./sync-breakpoints.cjs');
 const { syncPageMeta } = require('./sync-page-meta.cjs');
 const { syncManifestDev } = require('./sync-manifest-dev.cjs');
@@ -20,6 +22,8 @@ function syncSource({ pageMeta = false } = {}) {
   syncNavSquelette(ROOT);
   syncParcoursArbre();
   syncDojoBoss();
+  syncCompetencesStats();
+  syncAccueilHero();
   syncBreakpoints();
   syncLegal();
   syncProjects();

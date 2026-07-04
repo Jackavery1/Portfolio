@@ -2,7 +2,7 @@
  * reCAPTCHA Formspree — initialisation widget et obtention du jeton.
  */
 
-import { byId } from '../utils/dom.js';
+import { parId } from '../utils/dom.js';
 import {
   chargerScriptV2,
   chargerScriptV3,
@@ -24,7 +24,7 @@ export async function initialiserRecaptcha({ siteKey, version, mountId }) {
   const key = siteKey?.trim();
   if (!key) return false;
 
-  const mount = mountId ? byId(mountId) : null;
+  const mount = mountId ? parId(mountId) : null;
   if (version === 3) {
     if (mount) {
       mount.hidden = false;

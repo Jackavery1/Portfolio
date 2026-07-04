@@ -7,7 +7,7 @@ vi.mock('../config/index.js', () => ({
   },
 }));
 
-import { initAccueilSocial } from './accueil-social.js';
+import { initialiserAccueilSocial } from './accueil-social.js';
 
 describe('accueil-social', () => {
   beforeEach(() => {
@@ -15,7 +15,7 @@ describe('accueil-social', () => {
   });
 
   it('hydrate le lien LinkedIn quand configuré', () => {
-    initAccueilSocial();
+    initialiserAccueilSocial();
 
     const lien = document.getElementById('js-lien-linkedin');
     expect(lien.getAttribute('href')).toBe('https://linkedin.com/in/test');

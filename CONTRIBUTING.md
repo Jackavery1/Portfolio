@@ -45,7 +45,7 @@ Deux sources complémentaires — ne pas les confondre :
 
 ## Contact (modules)
 
-Point d’entrée unique : `js/modules/contact.js` (`initContactPage`). Sous-modules spécialisés : bandeau, coordonnées, formulaire, reCAPTCHA, soumission Formspree — à modifier via la facade, pas depuis `main.js`.
+Point d’entrée unique : `js/modules/contact.js` (`initialiserPageContact`). Sous-modules spécialisés : bandeau, coordonnées, formulaire, reCAPTCHA, soumission Formspree — à modifier via la facade, pas depuis `main.js`.
 
 ## Design & thème
 
@@ -63,7 +63,7 @@ Copier `.env.example` → `.env.local` pour surcharger :
 
 Valeurs par défaut : `build/config-defaults.cjs` → synchronisées au build dans `js/config/defaults.js`, `manifest.webmanifest` et métadonnées SEO.
 
-Fichiers générés (non versionnés, recréés par `npm test` / `npm run build`) : `js/config/defaults.js`, `js/config/legal-data.js`, `js/config/projects-data.js`, `js/config/partials.js`, `style.css`, `partials/parcours-arbre.html`, `partials/dojo-boss-rush.html`, `sw.js` — et `manifest.webmanifest` **à la racine** (dev local, URLs relatives via `sync-source`) **ou dans `.dist-staging/`** (build prod). Contenu mentions légales : `js/config/legal.json` (source éditable) → `build/sync-legal.cjs` → `js/config/legal-data.js`. Métadonnées projets : `js/config/projects.json` (source éditable, champs validés au sync) → `build/sync-projects.cjs` → `js/config/projects-data.js` ; icônes SVG : `js/config/project-icons.js`. Source unique partials : `build/partials-list.cjs`. Fragments assemblés : `partials/parcours-arbre/` → `parcours-arbre.html`, `partials/dojo-boss/` → `dojo-boss-rush.html`. Partials contact : `partials/contact/*.html` (chargés uniquement sur `contact.html`). Seuils CSS : `build/breakpoints.cjs` → `styles/tokens.css` via `build/sync-breakpoints.cjs`.
+Fichiers générés (non versionnés, recréés par `npm test` / `npm run build`) : `js/config/defaults.js`, `js/config/legal-data.js`, `js/config/projects-data.js`, `js/config/partials.js`, `style.css`, `partials/parcours-arbre.html`, `partials/dojo-boss-rush.html`, `partials/competences-stats.html`, `partials/accueil-hero.html`, `sw.js` — et `manifest.webmanifest` **à la racine** (dev local, URLs relatives via `sync-source`) **ou dans `.dist-staging/`** (build prod). Contenu mentions légales : `js/config/legal.json` (source éditable) → `build/sync-legal.cjs` → `js/config/legal-data.js`. Métadonnées projets : `js/config/projects.json` (source éditable, **à versionner**) → `build/sync-projects.cjs` → `js/config/projects-data.js` ; icônes SVG : `js/config/project-icons.js`. Source unique partials : `build/partials-list.cjs`. Fragments assemblés : `partials/parcours-arbre/` → `parcours-arbre.html`, `partials/dojo-boss/` → `dojo-boss-rush.html`, `partials/competences/` → `competences-stats.html`, `partials/accueil/` → `accueil-hero.html`. Partials contact : `partials/contact/*.html` (chargés uniquement sur `contact.html`). Seuils CSS : `build/breakpoints.cjs` → `styles/tokens.css` via `build/sync-breakpoints.cjs`.
 
 Métadonnées SEO par page : `build/page-meta.cjs` → injectées au build dans le dist (`build/html.cjs`). Pour mettre à jour les blocs `PAGE_META` dans les HTML sources : `npm run sync:page-meta` (évite de modifier les sources à chaque build). `npm run check:page-meta` vérifie l’alignement (exécuté avant les tests).
 
@@ -129,11 +129,19 @@ Pages hors navigation clavier (`dojo.html`, `mentions-legales.html`) : accessibl
 - **Unitaires** : `npm test` (Vitest) — utils, config, modules, build
 - **Couverture** : `npm run test:coverage` (seuils 65 % lignes / 58 % branches sur `js/`)
 - **HTML** : `npm run validate:html` (sources) et `npm run validate:html:dist` (après build)
-- **E2E** : `npm run test:e2e` — projets `responsive` (Pixel 5), `responsive-webkit` (iPhone 13, optionnel : `npm run test:e2e:webkit`), `desktop-chrome` ; **CI** n’exécute que `responsive` + `desktop-chrome` (Chromium). Matrice viewports allégée (coquille accueil × 4 viewports, autres pages en mobile-compact).
+- **E2E** : `npm run test:e2e` — projets `responsive` (Pixel 5), `responsive-webkit` (iPhone 13, WebKit), `desktop-chrome` ; **CI** exécute les trois. Matrice viewports allégée (coquille accueil × 4 viewports, autres pages en mobile-compact).
 - **Lighthouse** : `npm run test:lhci` (profil mobile, seuils perf/a11y/SEO en CI)
+
+### Avant release (PWA / prod)
+
+1. `npm test` et `npm run test:e2e`
+2. `npm run build && npm run start:prod` — vérifier offline, formulaire, partials inlinés
+3. Push sur `main` uniquement si la CI est verte (deploy Pages automatique)
 
 ## Style de code
 
 - ESLint + Prettier (config racine)
-- CSS : tokens dans `styles/tokens.css`, composants vs pages ; accueil en modules `styles/pages/accueil/` ; boutons pixel (`bouton-pixel.css`) — états `:disabled` centralisés
-- JS : modules ES, config centralisée dans `js/config/`
+- **Libellés visibles** : shell arcade en anglais (nav, titres) ; contenu métier en français
+- **Accessibilité** : `aria-label`, `aria-describedby` et annonces AT en français (`lang="fr"`) ; le texte visible peut rester en anglais arcade
+- CSS : tokens dans `styles/tokens.css`, composants vs pages ; accueil en modules `styles/pages/accueil/` ; boutons pixel (`bouton-pixel.css`) — états `:disabled` via `--couleur-texte-disabled`
+- JS : modules ES, config centralisée dans `js/config/` ; bonus score via `CONFIG.SCORE_BONUS` ; identifiants exportés en **français** (`parId`, `initialiser*`, `echapperHtml`…)

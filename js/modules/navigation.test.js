@@ -13,7 +13,7 @@ vi.mock('./audio.js', () => ({
   jouerBip: vi.fn(),
 }));
 
-import { fermerMenuBurger, initNavigationArcade, initNavigationClavier, annoncerNavigationClavier } from './navigation.js';
+import { fermerMenuBurger, initialiserNavigationArcade, initialiserNavigationClavier, annoncerNavigationClavier } from './navigation.js';
 import { jouerBip } from './audio.js';
 
 describe('navigation', () => {
@@ -29,7 +29,7 @@ describe('navigation', () => {
   });
 
   it('ouvre et ferme le menu burger', () => {
-    initNavigationArcade();
+    initialiserNavigationArcade();
 
     const burger = document.getElementById('js-burger');
     const menu = document.getElementById('js-menu');
@@ -48,14 +48,14 @@ describe('navigation', () => {
   });
 
   it('ferme le menu au clic extérieur', () => {
-    initNavigationArcade();
+    initialiserNavigationArcade();
     document.getElementById('js-burger').click();
     document.body.click();
     expect(document.getElementById('js-burger').getAttribute('aria-expanded')).toBe('false');
   });
 
   it('ferme le menu avec Escape', () => {
-    initNavigationArcade();
+    initialiserNavigationArcade();
     const burger = document.getElementById('js-burger');
     const menu = document.getElementById('js-menu');
     burger.click();
@@ -71,7 +71,7 @@ describe('navigation', () => {
       value: { pathname: '/index.html', href: 'index.html' },
       writable: true,
     });
-    initNavigationClavier();
+    initialiserNavigationClavier();
     document.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
     expect(window.location.href).toBe('projets.html');
     expect(sessionStorage.getItem('jm_nav_clavier_annonce')).toBe('Projets');
@@ -95,7 +95,7 @@ describe('navigation', () => {
       value: { pathname: '/projets.html', href: 'projets.html' },
       writable: true,
     });
-    initNavigationClavier();
+    initialiserNavigationClavier();
     document.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowLeft', bubbles: true }));
     expect(window.location.href).toBe('index.html');
     expect(jouerBip).toHaveBeenCalled();

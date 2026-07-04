@@ -8,6 +8,8 @@ const PARTIALS = [
   { id: 'partial-parcours-timeline', fichier: 'partials/parcours-timeline.html' },
   { id: 'partial-parcours-arbre', fichier: 'partials/parcours-arbre.html' },
   { id: 'partial-dojo-boss-rush', fichier: 'partials/dojo-boss-rush.html' },
+  { id: 'partial-accueil-hero', fichier: 'partials/accueil-hero.html' },
+  { id: 'partial-competences-stats', fichier: 'partials/competences-stats.html' },
   { id: 'partial-contact-bandeau', fichier: 'partials/contact/bandeau.html' },
   { id: 'partial-contact-coordonnees', fichier: 'partials/contact/coordonnees.html' },
   { id: 'partial-contact-formulaire', fichier: 'partials/contact/formulaire.html' },
