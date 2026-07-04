@@ -13,10 +13,10 @@ Stack : HTML / CSS / JavaScript vanilla, build Node, déploiement GitHub Pages.
 ```bash
 npm ci
 npm run build
-npx serve .dist-staging
+npm run start:prod
 ```
 
-Sources brutes (partials en `fetch`, dont contact et dojo) : `npx serve .` — lancer `node build/sync-source.cjs` si les partials assemblés manquent. La CSP et le service worker ne sont actifs qu’après build.
+Sources brutes (partials en `fetch`, dont contact et dojo) : `npm start` — synchronise les fichiers générés puis sert la racine. La CSP et le service worker ne sont actifs qu’après build.
 
 Node **20+** (`.nvmrc`, requis par Vitest 3).
 
@@ -26,6 +26,8 @@ Node **20+** (`.nvmrc`, requis par Vitest 3).
 
 | Commande           | Description                   |
 | ------------------ | ----------------------------- |
+| `npm start`        | Dev local (sources + sync)    |
+| `npm run start:prod` | Preview build prod          |
 | `npm run build`    | Production → `.dist-staging/` |
 | `npm run watch`    | Rebuild automatique           |
 | `npm test`         | Tests unitaires (Vitest)      |
@@ -48,7 +50,7 @@ e2e/                   Smoke, a11y, responsive, navigation
 
 Push sur `main` → CI (`validate` : lint, tests, build) → déploiement GitHub Pages ; e2e et Lighthouse tournent en parallèle sans bloquer le deploy.
 
-**GitHub Pages (une fois)** : _Settings → Pages → Build and deployment → Source_ = **GitHub Actions** (pas la branche `main`). Si la source pointe sur `main`, le site sert les HTML sources sans CSS (`style.css` est généré au build, pas versionné).
+**GitHub Pages (une fois)** : source = **GitHub Actions** (pas la branche `main`) — voir [CONTRIBUTING.md § Dépannage](CONTRIBUTING.md#dépannage) si la prod s’affiche sans styles.
 
 ---
 

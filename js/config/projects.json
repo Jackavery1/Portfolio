@@ -1,0 +1,86 @@
+{
+  "order": ["lsf", "floppybird", "derniereligne", "gamehub", "hub", "pixelquest"],
+  "projets": {
+    "lsf": {
+      "titre": "PROJET LSF",
+      "descCarte": "App web d'apprentissage de la LSF — projet fil rouge TP, le plus abouti côté full-stack.",
+      "desc": "Application web d'apprentissage de la Langue des Signes Française. Dictionnaire visuel, quiz, ressources. Projet fil rouge TP Dev Web — l'un des plus aboutis côté stack full-stack (Express, MongoDB, auth). De nombreuses fonctionnalités encore à venir (60%).",
+      "num": "PRJ-01",
+      "etoiles": 3,
+      "completion": 60,
+      "tech": ["Express", "Mongoose", "Tailwind", "bcrypt"],
+      "apercu": "assets/previews/lsf.png",
+      "lien": "https://github.com/Jackavery1/ProjetLSF",
+      "lienDemo": "https://projetlsf.onrender.com/",
+      "lienDemoLabel": "▶ Voir le site en ligne",
+      "ariaLabel": "Ouvrir le projet LSF"
+    },
+    "floppybird": {
+      "titre": "FLOPPY BIRD",
+      "descCarte": "Clone Flappy Bird — Phaser 3, PWA installable, tests Vitest.",
+      "desc": "Clone arcade type Flappy Bird — Phaser 3, scores locaux, trois difficultés, audio Web Audio. PWA installable, tests Vitest, déployé sur GitHub Pages. Projet personnel mené à terme (100%).",
+      "num": "PRJ-02",
+      "etoiles": 3,
+      "completion": 100,
+      "tech": ["Phaser 3", "JavaScript", "PWA", "Vitest"],
+      "apercu": "assets/previews/floppybird.png",
+      "lien": "https://github.com/Jackavery1/Floppy-Bird",
+      "lienLabel": "▶ Voir le dépôt GitHub",
+      "lienDemo": "https://jackavery1.github.io/Floppy-Bird/",
+      "lienDemoLabel": "▶ Jouer en ligne (PWA)",
+      "ariaLabel": "Ouvrir le projet Floppy Bird"
+    },
+    "derniereligne": {
+      "titre": "DERNIÈRE LIGNE",
+      "descCarte": "Tetris narratif — solo, coop, campagne Histoire, PWA hors-ligne.",
+      "desc": "Tetris narratif en Vanilla JS et Canvas 2D — solo, coop, mode Architecte et campagne Histoire. Guideline moderne (hold, ghost, SRS, T-Spin), 9 biomes arcade, PWA hors-ligne et tests Vitest (90%).",
+      "num": "PRJ-03",
+      "etoiles": 3,
+      "completion": 90,
+      "tech": ["JavaScript", "Canvas 2D", "PWA", "Vitest"],
+      "apercu": "assets/previews/derniere-ligne.png",
+      "lien": "https://github.com/Jackavery1/Derni-re-ligne",
+      "lienLabel": "▶ Voir le dépôt GitHub",
+      "lienDemo": "https://jackavery1.github.io/Derni-re-ligne/",
+      "lienDemoLabel": "▶ Jouer en ligne (PWA)",
+      "ariaLabel": "Ouvrir le projet Dernière Ligne"
+    },
+    "gamehub": {
+      "titre": "GAMEHUB RETRO",
+      "descCarte": "Hub de jeux rétro — catalogue, gestion utilisateur, interface d'émulation.",
+      "desc": "Hub de jeux rétro — catalogue de jeux, gestion de compte utilisateur, interface d'émulation. Les émulateurs sont en cours d'intégration (70%).",
+      "num": "PRJ-04",
+      "etoiles": 3,
+      "completion": 70,
+      "tech": ["Node.js", "MongoDB", "EJS", "Tailwind"],
+      "apercu": "assets/previews/gamehub.png",
+      "lien": "https://github.com/Jackavery1/GameHub.-retro",
+      "ariaLabel": "Ouvrir le projet GameHub Retro"
+    },
+    "hub": {
+      "titre": "HUBTRAINING",
+      "descCarte": "Site WordPress pour client réel — UX/UI, réservations, SEO, sécurité.",
+      "desc": "Site WordPress pour un client réel (HubTraining). Intégration Gutenberg, optimisation SEO, sécurité renforcée, UX/UI, formulaire de réservation. Quasi finalisé (98%).",
+      "num": "STG-01",
+      "etoiles": 2,
+      "completion": 98,
+      "tech": ["WordPress", "Gutenberg", "SEO"],
+      "apercu": "assets/previews/hub.png",
+      "lien": "https://h-training.fr/",
+      "lienLabel": "▶ Voir le site client",
+      "ariaLabel": "Ouvrir le projet HubTraining"
+    },
+    "pixelquest": {
+      "titre": "PIXEL QUEST",
+      "descCarte": "Plateforme 2D navigateur — moteur ECS, Canvas 2D, niveaux et boss. Démo Mario-like originale.",
+      "desc": "Plateforme 2D dans le navigateur — moteur ECS léger, physique AABB, rendu Canvas 2D et audio Web Audio. Niveaux, arène boss, progression sauvegardée. Démo originale inspirée des jeux 8 bits, sans dépendance npm.",
+      "num": "PRJ-05",
+      "etoiles": 3,
+      "completion": 30,
+      "tech": ["JavaScript", "Canvas 2D", "ECS", "Web Audio"],
+      "apercu": "assets/previews/pixelquest.png",
+      "lien": "https://github.com/Jackavery1/Pixel-quest",
+      "ariaLabel": "Ouvrir le projet Pixel Quest"
+    }
+  }
+}

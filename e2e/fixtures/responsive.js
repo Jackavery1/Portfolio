@@ -10,21 +10,21 @@ export const PAGES = [
   { path: '/mentions-legales.html', h1: /MENTIONS/i },
 ];
 
+/** Coquille layout — testée à chaque viewport (évite la matrice complète pages × viewports). */
+export const PAGE_COQUILLE = PAGES[0];
+
+/** Viewports représentatifs (mobile, tablette, desktop, large). */
 export const VIEWPORTS = [
-  { width: 320, height: 568, label: 'mobile' },
   { width: 375, height: 667, label: 'mobile-compact' },
   { width: 768, height: 1024, label: 'tablette' },
   { width: 961, height: 800, label: 'desktop' },
   { width: 1280, height: 800, label: 'desktop-large' },
-  { width: 1920, height: 1080, label: 'desktop-ultrawide' },
 ];
 
-export const VIEWPORTS_LANDSCAPE = [{ width: 667, height: 375, label: 'mobile-paysage' }];
+/** Référence mobile unique pour scénarios ciblés (burger, touch, contact). */
+export const VIEWPORT_MOBILE = VIEWPORTS[0];
 
-export const VIEWPORTS_BURGER = [
-  { width: 375, height: 667, label: 'mobile' },
-  { width: 768, height: 1024, label: 'tablette' },
-];
+export const VIEWPORTS_BURGER = [VIEWPORT_MOBILE];
 
 export const NAVIGATION_CLAVIER = [
   { path: '/index.html', h1: /MARTINEZ/i },

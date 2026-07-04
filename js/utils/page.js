@@ -5,7 +5,7 @@ export function getCurrentPageFile(
   return segment.split('?')[0].split('#')[0];
 }
 
-export function normalizePageFile(file) {
+function normaliserFichierPage(file) {
   const base = String(file ?? 'index.html')
     .split('?')[0]
     .split('#')[0]
@@ -14,5 +14,5 @@ export function normalizePageFile(file) {
 }
 
 export function pageFileFromPathname(pathname) {
-  return normalizePageFile(getCurrentPageFile(pathname));
+  return normaliserFichierPage(getCurrentPageFile(pathname));
 }

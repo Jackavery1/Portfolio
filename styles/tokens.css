@@ -3,6 +3,7 @@
    ============================================ */
 
 :root {
+  /* Thème sombre arcade — pas de variante claire (choix intentionnel, voir CONTRIBUTING § Design) */
   /* Fonds et surfaces */
   --couleur-fond-page: #000008;
   --couleur-fond: #03040f;
@@ -59,10 +60,10 @@
   --police-crt: 'VT323', monospace;
   --police-lisible: 'Rajdhani', sans-serif;
 
-  /* Taille minimale lisible pour libellés pixel (10px) */
-  --taille-pixel-min: 0.625rem;
+  /* Taille minimale lisible pour libellés pixel (12px) */
+  --taille-pixel-min: 0.75rem;
   /* Maximum courant pour petits libellés pixel (≥ min) */
-  --taille-pixel-petit-max: 0.65rem;
+  --taille-pixel-petit-max: 0.8rem;
 
   /* Échelle typo (pixel, lisible, CRT) */
   --taille-petit-pixel: clamp(var(--taille-pixel-min), 1.2vw, var(--taille-pixel-petit-max));
@@ -105,6 +106,7 @@
 
 @media (max-width: 960px) {
   :root {
+    /* Palette mobile : surfaces plus lisibles, identité sombre conservée */
     --couleur-fond-page: #05091a;
     --couleur-fond: #080d20;
     --couleur-fond-carte: #0d1230;

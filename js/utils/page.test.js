@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { getCurrentPageFile, normalizePageFile, pageFileFromPathname } from './page.js';
+import { getCurrentPageFile, pageFileFromPathname } from './page.js';
 
 describe('page utils', () => {
   it('extrait le fichier depuis un pathname', () => {
@@ -8,7 +8,7 @@ describe('page utils', () => {
   });
 
   it('normalise en minuscules sans query', () => {
-    expect(normalizePageFile('Contact.HTML?foo=1')).toBe('contact.html');
+    expect(pageFileFromPathname('/Contact.HTML?foo=1')).toBe('contact.html');
   });
 
   it('gère index par défaut', () => {

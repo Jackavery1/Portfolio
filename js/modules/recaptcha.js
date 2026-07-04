@@ -82,8 +82,3 @@ export function reinitialiserWidgetRecaptcha() {
     window.grecaptcha.reset(idWidget);
   }
 }
-
-/** Réinitialise l'état module (tests). */
-export function reinitialiserEtatModuleRecaptcha() {
-  viderEtatRecaptcha();
-}

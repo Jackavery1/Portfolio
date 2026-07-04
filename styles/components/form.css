@@ -113,13 +113,10 @@
   padding-bottom: 0.75rem;
 }
 
-.bouton-envoyer:disabled {
+.bouton-envoyer--chargement:disabled {
   opacity: 0.85;
-  cursor: not-allowed;
-  color: var(--couleur-texte-normal);
-  border-color: var(--couleur-bordure);
-  background-color: var(--couleur-fond-survol);
-  box-shadow: none;
+  cursor: wait;
+  pointer-events: none;
 }
 
 .envoi-confirmation {

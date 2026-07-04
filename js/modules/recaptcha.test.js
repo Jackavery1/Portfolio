@@ -1,19 +1,25 @@
 /* @vitest-environment jsdom */
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import {
-  initialiserRecaptcha,
-  obtenirTokenRecaptcha,
-  reinitialiserWidgetRecaptcha,
-  reinitialiserEtatModuleRecaptcha,
-} from './recaptcha.js';
+import { retirerScriptsRecaptcha } from './recaptcha-chargement.js';
+
+async function chargerModuleRecaptcha() {
+  return import('./recaptcha.js');
+}
 
 describe('recaptcha', () => {
-  beforeEach(() => {
+  let initialiserRecaptcha;
+  let obtenirTokenRecaptcha;
+  let reinitialiserWidgetRecaptcha;
+
+  beforeEach(async () => {
+    vi.resetModules();
     document.body.innerHTML = '<div id="js-recaptcha-mount" hidden></div>';
     document.head.innerHTML = '';
     delete window.grecaptcha;
     delete window.__E2E_RECAPTCHA_TOKEN;
-    reinitialiserEtatModuleRecaptcha();
+    retirerScriptsRecaptcha();
+    ({ initialiserRecaptcha, obtenirTokenRecaptcha, reinitialiserWidgetRecaptcha } =
+      await chargerModuleRecaptcha());
   });
 
   it('affiche le bandeau v3 quand le script est déjà chargé', async () => {

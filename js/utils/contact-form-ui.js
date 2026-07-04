@@ -11,7 +11,7 @@ export function afficherErreurZone(zone, texte) {
   }
 }
 
-export function effacerEtatInvalideChamp(el) {
+function effacerEtatInvalideChamp(el) {
   if (!el) return;
   el.removeAttribute('aria-invalid');
   el.style.borderColor = '';

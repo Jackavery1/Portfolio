@@ -61,12 +61,8 @@ test.describe('service worker', () => {
     ).toBe(true);
   });
 
-  test('navigation hors ligne — precache et fallback offline.html', async ({
-    page,
-    context,
-    browserName,
-  }) => {
-    test.setTimeout(browserName === 'webkit' ? 90_000 : 60_000);
+  test('navigation hors ligne — precache et fallback offline.html', async ({ page, context }) => {
+    test.setTimeout(60_000);
     await preparerServiceWorker(page);
 
     await gotoReady(page, '/projets.html');

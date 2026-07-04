@@ -2,7 +2,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import {
   afficherErreurZone,
-  effacerEtatInvalideChamp,
+  effacerEtatsInvalides,
   enregistrerSoumissionSession,
   honeypotRempli,
   marquerChampsInvalides,
@@ -54,7 +54,7 @@ describe('contact-form-ui', () => {
     erreur.hidden = false;
     erreur.textContent = 'Erreur';
 
-    effacerEtatInvalideChamp(champ);
+    effacerEtatsInvalides([champ]);
 
     expect(champ.hasAttribute('aria-invalid')).toBe(false);
     expect(erreur.hidden).toBe(true);

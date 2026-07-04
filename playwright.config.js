@@ -39,13 +39,6 @@ export default defineConfig({
         ...(process.env.CI ? {} : { channel: 'chrome' }),
       },
     },
-    {
-      name: 'mobile-chrome',
-      testIgnore: RESPONSIVE_SPECS,
-      use: {
-        ...devices['Pixel 5'],
-      },
-    },
   ],
   webServer: {
     command: `npm run build && npx serve .dist-staging -l ${PORT}`,

@@ -10,6 +10,7 @@ deploy-output/
 /manifest.webmanifest
 /js/config/defaults.js
 /js/config/legal-data.js
+/js/config/projects-data.js
 /js/config/partials.js
 /style.css
 /partials/parcours-arbre.html

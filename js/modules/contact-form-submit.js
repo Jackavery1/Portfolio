@@ -10,7 +10,7 @@ import { SCORE_BONUS } from '../config/score-bonus.js';
 import { ajouterScore } from './score.js';
 import { obtenirTokenRecaptcha, reinitialiserWidgetRecaptcha } from './recaptcha.js';
 
-export const LABEL_ENVOI_EN_COURS = 'ENVOI…';
+const LABEL_ENVOI_EN_COURS = 'ENVOI…';
 
 function marquerEnvoiEnCours(btnEnvoyer) {
   btnEnvoyer.disabled = true;

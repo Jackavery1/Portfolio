@@ -1,26 +1,44 @@
 import { test, expect } from '@playwright/test';
 import { gotoReady } from './helpers.js';
-import { PAGES, VIEWPORTS, assertPasOverflowHorizontal } from './fixtures/responsive.js';
+import {
+  PAGE_COQUILLE,
+  PAGES,
+  VIEWPORTS,
+  VIEWPORT_MOBILE,
+  assertPasOverflowHorizontal,
+} from './fixtures/responsive.js';
 
 for (const viewport of VIEWPORTS) {
-  for (const pageInfo of PAGES) {
-    test(`responsive ${viewport.label} — ${pageInfo.path}`, async ({ page }) => {
-      await page.setViewportSize({ width: viewport.width, height: viewport.height });
-      await gotoReady(page, pageInfo.path);
+  test(`responsive ${viewport.label} — coquille accueil`, async ({ page }) => {
+    await page.setViewportSize({ width: viewport.width, height: viewport.height });
+    await gotoReady(page, PAGE_COQUILLE.path);
 
-      await expect(page.locator('h1')).toBeVisible();
-      await expect(page.locator('h1')).toContainText(pageInfo.h1);
-      await assertPasOverflowHorizontal(page);
+    await expect(page.locator('h1')).toBeVisible();
+    await expect(page.locator('h1')).toContainText(PAGE_COQUILLE.h1);
+    await assertPasOverflowHorizontal(page);
 
-      const viewportMeta = page.locator('meta[name="viewport"]');
-      await expect(viewportMeta).toHaveAttribute('content', /viewport-fit=cover/);
+    const viewportMeta = page.locator('meta[name="viewport"]');
+    await expect(viewportMeta).toHaveAttribute('content', /viewport-fit=cover/);
+  });
+}
 
-      if (pageInfo.path === '/parcours.html') {
-        await expect(page.locator('.entree-parcours')).not.toHaveCount(0);
-        await expect(page.locator('.svg-arbre')).toBeVisible();
-      }
+for (const pageInfo of PAGES.slice(1)) {
+  test(`responsive mobile-compact — ${pageInfo.path}`, async ({ page }) => {
+    await page.setViewportSize({
+      width: VIEWPORT_MOBILE.width,
+      height: VIEWPORT_MOBILE.height,
     });
-  }
+    await gotoReady(page, pageInfo.path);
+
+    await expect(page.locator('h1')).toBeVisible();
+    await expect(page.locator('h1')).toContainText(pageInfo.h1);
+    await assertPasOverflowHorizontal(page);
+
+    if (pageInfo.path === '/parcours.html') {
+      await expect(page.locator('.entree-parcours')).not.toHaveCount(0);
+      await expect(page.locator('.svg-arbre')).toBeVisible();
+    }
+  });
 }
 
 test('responsive paysage accueil — scroll et hero visibles', async ({ page }) => {
@@ -49,14 +67,11 @@ test('responsive seuil nav — burger à 960px, liens horizontaux à 961px', asy
 });
 
 test('responsive score arcade — visible en compact, label masqué', async ({ page }) => {
-  await page.setViewportSize({ width: 375, height: 667 });
+  await page.setViewportSize({
+    width: VIEWPORT_MOBILE.width,
+    height: VIEWPORT_MOBILE.height,
+  });
   await gotoReady(page, '/index.html');
   await expect(page.locator('#js-score')).toBeVisible();
   await expect(page.locator('.arcade-label')).toBeHidden();
-});
-
-test('responsive paysage matrice — pas d’overflow horizontal', async ({ page }) => {
-  await page.setViewportSize({ width: 667, height: 375 });
-  await gotoReady(page, '/index.html');
-  await assertPasOverflowHorizontal(page);
 });

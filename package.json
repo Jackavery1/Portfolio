@@ -9,6 +9,9 @@
   "scripts": {
     "build": "node build.js",
     "watch": "node build.js --watch",
+    "prestart": "node build/sync-source.cjs",
+    "start": "serve .",
+    "start:prod": "serve .dist-staging",
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
@@ -21,7 +24,8 @@
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
     "test:e2e": "playwright test",
-    "test:e2e:install": "playwright install --with-deps chromium webkit",
+    "test:e2e:install": "playwright install --with-deps chromium",
+    "test:e2e:webkit": "playwright install --with-deps webkit && playwright test --project=responsive-webkit",
     "test:lhci": "lhci autorun",
     "validate:html": "html-validate *.html offline.html partials/*.html partials/contact/*.html",
     "validate:html:dist": "html-validate .dist-staging/*.html .dist-staging/offline.html"

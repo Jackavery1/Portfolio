@@ -23,15 +23,33 @@ Les mises à jour de dépendances sont proposées via [Dependabot](.github/depen
 ## Développement local
 
 ```bash
-node build/sync-source.cjs   # ou npm run pretest — génère style.css, defaults.js, partials…
-npx serve .                  # sources (partials en fetch)
-npm run watch             # rebuild auto
-npx serve .dist-staging   # après build, comme en prod
+npm start                    # sync + serve sources (partials en fetch)
+npm run watch                # rebuild auto
+npm run build && npm run start:prod   # comme en prod
 ```
 
-Ne pas ouvrir les HTML en `file://` : les partials et modules ES ne fonctionneront pas.
+Ne pas ouvrir les HTML en `file://` ni via Live Server : les partials et modules ES requièrent un serveur HTTP (`npm start` ou `npx serve .` après sync).
 
-La **CSP** et le **service worker** ne sont injectés qu’après `npm run build` — tester Formspree, reCAPTCHA et PWA sur `.dist-staging/`.
+La **CSP** et le **service worker** ne sont injectés qu’après `npm run build` — tester Formspree, reCAPTCHA et PWA sur `.dist-staging/` (`npm run start:prod`).
+
+## Navigation (squelette vs partial runtime)
+
+Deux sources complémentaires — ne pas les confondre :
+
+| Fichier | Rôle | Quand |
+| ------- | ---- | ----- |
+| `partials/nav-squelette.html` | Nav minimale (first paint, landmarks, liens) | Inlinée dans les HTML sources via `build/sync-nav-squelette.cjs` |
+| `partials/nav.html` | Nav complète (score, burger, annonce AT) | Fetch runtime (`js/modules/partials.js`) ; inlinée au build prod (`build/html.cjs`) |
+
+**Workflow** : modifier le squelette → `node build/sync-nav-squelette.cjs` (ou `npm run pretest`). Modifier la nav interactive → `partials/nav.html` uniquement. Les deux doivent rester alignés sur les liens et le seuil burger (960/961 px).
+
+## Contact (modules)
+
+Point d’entrée unique : `js/modules/contact.js` (`initContactPage`). Sous-modules spécialisés : bandeau, coordonnées, formulaire, reCAPTCHA, soumission Formspree — à modifier via la facade, pas depuis `main.js`.
+
+## Design & thème
+
+Thème **sombre arcade CRT** volontaire — pas de variante claire (`prefers-color-scheme` non utilisé). Le bloc `@media (max-width: 960px)` dans `styles/tokens.css` assombrit/éclaircit légèrement les surfaces pour la lisibilité mobile, sans changer l’intention visuelle.
 
 ## Configuration
 
@@ -45,7 +63,7 @@ Copier `.env.example` → `.env.local` pour surcharger :
 
 Valeurs par défaut : `build/config-defaults.cjs` → synchronisées au build dans `js/config/defaults.js`, `manifest.webmanifest` et métadonnées SEO.
 
-Fichiers générés (non versionnés, recréés par `npm test` / `npm run build`) : `js/config/defaults.js`, `js/config/legal-data.js`, `js/config/partials.js`, `style.css`, `partials/parcours-arbre.html`, `partials/dojo-boss-rush.html`, `sw.js` — et `manifest.webmanifest` **à la racine** (dev local, URLs relatives via `sync-source`) **ou dans `.dist-staging/`** (build prod). Contenu mentions légales : `js/config/legal.json` (source éditable) → `build/sync-legal.cjs` → `js/config/legal-data.js`. Source unique partials : `build/partials-list.cjs`. Fragments assemblés : `partials/parcours-arbre/` → `parcours-arbre.html`, `partials/dojo-boss/` → `dojo-boss-rush.html`. Partials contact : `partials/contact/*.html` (chargés uniquement sur `contact.html`). Seuils CSS : `build/breakpoints.cjs` → `styles/tokens.css` via `build/sync-breakpoints.cjs`.
+Fichiers générés (non versionnés, recréés par `npm test` / `npm run build`) : `js/config/defaults.js`, `js/config/legal-data.js`, `js/config/projects-data.js`, `js/config/partials.js`, `style.css`, `partials/parcours-arbre.html`, `partials/dojo-boss-rush.html`, `sw.js` — et `manifest.webmanifest` **à la racine** (dev local, URLs relatives via `sync-source`) **ou dans `.dist-staging/`** (build prod). Contenu mentions légales : `js/config/legal.json` (source éditable) → `build/sync-legal.cjs` → `js/config/legal-data.js`. Métadonnées projets : `js/config/projects.json` (source éditable, champs validés au sync) → `build/sync-projects.cjs` → `js/config/projects-data.js` ; icônes SVG : `js/config/project-icons.js`. Source unique partials : `build/partials-list.cjs`. Fragments assemblés : `partials/parcours-arbre/` → `parcours-arbre.html`, `partials/dojo-boss/` → `dojo-boss-rush.html`. Partials contact : `partials/contact/*.html` (chargés uniquement sur `contact.html`). Seuils CSS : `build/breakpoints.cjs` → `styles/tokens.css` via `build/sync-breakpoints.cjs`.
 
 Métadonnées SEO par page : `build/page-meta.cjs` → injectées au build dans le dist (`build/html.cjs`). Pour mettre à jour les blocs `PAGE_META` dans les HTML sources : `npm run sync:page-meta` (évite de modifier les sources à chaque build). `npm run check:page-meta` vérifie l’alignement (exécuté avant les tests).
 
@@ -77,13 +95,13 @@ Ne jamais committer de secrets (clé secrète reCAPTCHA, tokens privés). Voir [
 | ---------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Navigateur absent (`Executable doesn't exist`) | `npm run test:e2e:install` ou `npx playwright install --with-deps chromium webkit`                                                                                                                         |
 | Téléchargement bloqué (certificat SSL)         | Même correctif que npm ci-dessus, puis relancer l’install ; sous PowerShell : `$env:NODE_TLS_REJECT_UNAUTHORIZED='0'; npx playwright install chromium webkit` (temporaire, réseau de confiance uniquement) |
-| E2e lent / timeout CI                          | La CI exécute Chromium (desktop + mobile) **et** WebKit (`responsive-webkit`, iPhone 13) — timeout job e2e : 35 min                                                                                        |
+| E2e lent / timeout CI                          | CI : Chromium seul (`responsive` + `desktop-chrome`). Safari local : `npm run test:e2e:webkit`. Timeout job e2e : 20 min |
 
 ### Site / UX
 
 | Problème                                        | Solution                                                                                                                                                                                                                                              |
 | ----------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Nav / footer vides                              | Serveur HTTP (`npx serve`), pas `file://`                                                                                                                                                                                                             |
+| Nav / footer vides                              | Serveur HTTP (`npm start`), pas `file://` ni Live Server |
 | Formulaire 403                                  | Domaines reCAPTCHA + Formspree autorisés pour votre URL                                                                                                                                                                                               |
 | Favicon absente                                 | Hard refresh ; vérifier `assets/favicon.png` après build                                                                                                                                                                                              |
 | Page blanche hors ligne                         | Visiter une fois en ligne pour remplir le cache ; sinon `offline.html` s’affiche                                                                                                                                                                      |
@@ -111,11 +129,11 @@ Pages hors navigation clavier (`dojo.html`, `mentions-legales.html`) : accessibl
 - **Unitaires** : `npm test` (Vitest) — utils, config, modules, build
 - **Couverture** : `npm run test:coverage` (seuils 65 % lignes / 58 % branches sur `js/`)
 - **HTML** : `npm run validate:html` (sources) et `npm run validate:html:dist` (après build)
-- **E2E** : `npm run test:e2e` — projets Playwright `responsive` (Pixel 5), `responsive-webkit` (iPhone 13), `desktop-chrome`, `mobile-chrome` (build `.dist-staging` servi automatiquement)
+- **E2E** : `npm run test:e2e` — projets `responsive` (Pixel 5), `responsive-webkit` (iPhone 13, optionnel : `npm run test:e2e:webkit`), `desktop-chrome` ; **CI** n’exécute que `responsive` + `desktop-chrome` (Chromium). Matrice viewports allégée (coquille accueil × 4 viewports, autres pages en mobile-compact).
 - **Lighthouse** : `npm run test:lhci` (profil mobile, seuils perf/a11y/SEO en CI)
 
 ## Style de code
 
 - ESLint + Prettier (config racine)
-- CSS : tokens dans `styles/tokens.css`, composants vs pages ; accueil en modules `styles/pages/accueil/`
+- CSS : tokens dans `styles/tokens.css`, composants vs pages ; accueil en modules `styles/pages/accueil/` ; boutons pixel (`bouton-pixel.css`) — états `:disabled` centralisés
 - JS : modules ES, config centralisée dans `js/config/`

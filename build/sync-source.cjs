@@ -8,6 +8,7 @@ const { syncBreakpoints } = require('./sync-breakpoints.cjs');
 const { syncPageMeta } = require('./sync-page-meta.cjs');
 const { syncManifestDev } = require('./sync-manifest-dev.cjs');
 const { syncLegal } = require('./sync-legal.cjs');
+const { syncProjects } = require('./sync-projects.cjs');
 const { syncNavSquelette } = require('./sync-nav-squelette.cjs');
 
 const ROOT = path.join(__dirname, '..');
@@ -21,6 +22,7 @@ function syncSource({ pageMeta = false } = {}) {
   syncDojoBoss();
   syncBreakpoints();
   syncLegal();
+  syncProjects();
   syncManifestDev(ROOT);
   if (pageMeta) syncPageMeta(ROOT);
 }

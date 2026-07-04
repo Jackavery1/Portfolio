@@ -48,7 +48,7 @@
   padding: 0.65rem 1.2rem;
 }
 
-.bouton-arcade:hover,
+.bouton-arcade:hover:not(:disabled),
 .bouton-envoyer:hover:not(:disabled) {
   background-color: var(--couleur-accent-alpha);
   box-shadow: var(--ombre-accent-ui);
@@ -56,15 +56,28 @@
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .bouton-retour-work:hover {
+  .bouton-retour-work:hover:not(:disabled) {
     background-color: var(--couleur-accent-alpha);
     box-shadow: var(--ombre-accent-ui);
   }
 }
 
-.bouton-dojo:hover {
+.bouton-dojo:hover:not(:disabled) {
   background-color: rgba(255, 204, 68, 0.08);
   box-shadow: var(--ombre-actif-ui);
+}
+
+.bouton-arcade:disabled,
+.bouton-dojo:disabled,
+.bouton-retour-work:disabled,
+.bouton-envoyer:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  color: var(--couleur-texte-normal);
+  border-color: var(--couleur-bordure);
+  background-color: var(--couleur-fond-survol);
+  box-shadow: none;
+  pointer-events: none;
 }
 
 .bouton-arcade:focus-visible,
@@ -86,6 +99,7 @@
 .bouton-envoyer--chargement {
   cursor: wait;
   gap: 0.5rem;
+  pointer-events: auto;
 }
 
 .bouton-envoyer--chargement::before {

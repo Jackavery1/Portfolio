@@ -37,7 +37,15 @@ function appliquerFallbackPartial(conteneur, id) {
   conteneur.innerHTML = `<p role="alert">Contenu indisponible (${id}).</p>`;
 }
 
-export { FALLBACKS_PARTIELS, appliquerFallbackPartial };
+function marquerLienActif() {
+  const page = getCurrentPageFile();
+  document.querySelectorAll('.nav__bouton').forEach((lien) => {
+    if (lien.getAttribute('href') === page) {
+      lien.classList.add('actif');
+      lien.setAttribute('aria-current', 'page');
+    }
+  });
+}
 
 export async function chargerPartials() {
   const aCharger = CONFIG.PARTIALS.filter(({ id }) => byId(id));
@@ -77,14 +85,4 @@ export async function chargerPartials() {
     })
   );
   marquerLienActif();
-}
-
-export function marquerLienActif() {
-  const page = getCurrentPageFile();
-  document.querySelectorAll('.nav__bouton').forEach((lien) => {
-    if (lien.getAttribute('href') === page) {
-      lien.classList.add('actif');
-      lien.setAttribute('aria-current', 'page');
-    }
-  });
 }

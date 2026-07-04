@@ -12,6 +12,11 @@ describe('CONFIG', () => {
     expect(CONFIG.PROJETS.lsf?.titre).toBe('PROJET LSF');
     expect(CONFIG.PROJETS.derniereligne?.num).toBe('PRJ-03');
     expect(CONFIG.SELECTORS.MODAL).toBe('js-modal');
+    expect(CONFIG.SCORE_BONUS.PAGE).toBe(200);
     expect(CONFIG.SCORE_BONUS.PROJET).toBe(600);
+    expect(CONFIG.SCORE_BONUS.DOJO_BOSS).toBe(300);
+    expect(CONFIG.SCORE_BONUS.DOJO_BOSS_VAINCU).toBe(450);
+    expect(CONFIG.SCORE_BONUS.CONTACT).toBe(500);
+    expect(CONFIG.SCORE_BONUS.GITHUB).toBe(500);
   });
 });
