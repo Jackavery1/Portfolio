@@ -2,6 +2,15 @@ import { test, expect } from '@playwright/test';
 import { gotoReady } from './helpers.js';
 import { NAVIGATION_CLAVIER } from './fixtures/responsive.js';
 
+test('landmarks accessibles avant data-app-ready', async ({ page }) => {
+  await page.goto('/index.html', { waitUntil: 'domcontentloaded' });
+
+  await expect(page.locator('header[role="banner"]')).toBeVisible();
+  await expect(page.locator('footer[role="contentinfo"]')).toBeVisible();
+  await expect(page.locator('main#js-contenu-principal')).toBeVisible();
+  await expect(page.locator('header .nav__liens--squelette a')).toHaveCount(5);
+});
+
 test('desktop — annonce AT après navigation clavier', async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 800 });
   await gotoReady(page, '/index.html');

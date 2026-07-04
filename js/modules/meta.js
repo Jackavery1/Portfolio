@@ -5,6 +5,7 @@
 import { CONFIG } from '../config/index.js';
 import { byId } from '../utils/dom.js';
 import { getCurrentPageFile } from '../utils/page.js';
+import { SCORE_BONUS } from '../config/score-bonus.js';
 import { ajouterScore } from './score.js';
 
 function baseOrigine() {
@@ -55,7 +56,7 @@ export function initBonusScore() {
   try {
     if (!sessionStorage.getItem(PAGE_KEY)) {
       sessionStorage.setItem(PAGE_KEY, '1');
-      ajouterScore(200);
+      ajouterScore(SCORE_BONUS.PAGE);
     }
   } catch {
     /* sessionStorage indisponible */
@@ -63,6 +64,6 @@ export function initBonusScore() {
 
   const lienGithub = document.querySelector('.lien-github');
   if (lienGithub) {
-    lienGithub.addEventListener('click', () => ajouterScore(500));
+    lienGithub.addEventListener('click', () => ajouterScore(SCORE_BONUS.GITHUB));
   }
 }

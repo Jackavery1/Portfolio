@@ -76,10 +76,8 @@ async function init() {
   }
 
   if (sid === 'contact') {
-    const { initContactForm } = await import('./modules/contact-form.js');
-    const { initContactBandeau } = await import('./modules/contact-bandeau.js');
-    initContactBandeau();
-    await initContactForm();
+    const { initContactPage } = await import('./modules/contact.js');
+    await initContactPage();
   }
 
   if (sid === 'mentions') {

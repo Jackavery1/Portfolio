@@ -19,6 +19,8 @@ describe('projets-grille', () => {
     expect(document.querySelector('[data-projet="derniereligne"]')).not.toBeNull();
     expect(document.querySelectorAll('.projets-sommaire__liste a')).toHaveLength(6);
     expect(document.getElementById('js-grille-projets')?.getAttribute('aria-busy')).toBeNull();
-    expect(document.getElementById('js-grille-projets')?.getAttribute('aria-label')).toBeNull();
+    expect(document.getElementById('js-grille-projets')?.getAttribute('aria-label')).toBe(
+      '6 projets disponibles'
+    );
   });
 });

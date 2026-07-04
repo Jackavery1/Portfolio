@@ -1,0 +1,39 @@
+/* Konami code — feedback visuel arcade */
+
+body.konami-actif .arcade-valeur {
+  color: var(--couleur-actif);
+  text-shadow:
+    0 0 10px var(--couleur-actif),
+    0 0 20px var(--couleur-accent-vif);
+}
+
+body.konami-actif .crt-scanlines {
+  opacity: 0.55;
+}
+
+body.konami-actif .nav__logo {
+  text-shadow:
+    0 0 8px var(--couleur-accent-vif),
+    0 0 16px var(--couleur-actif);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  body.konami-actif .arcade-valeur {
+    animation: konami-score-pulse 0.9s ease-in-out infinite alternate;
+  }
+}
+
+@keyframes konami-score-pulse {
+  from {
+    filter: brightness(1);
+  }
+  to {
+    filter: brightness(1.35);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.konami-actif .arcade-valeur {
+    animation: none;
+  }
+}

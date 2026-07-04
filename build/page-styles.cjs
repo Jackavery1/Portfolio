@@ -10,6 +10,7 @@ const NAV_STYLE_SOURCES = [
   'styles/components/nav/burger.css',
   'styles/components/nav/fallback.css',
   'styles/components/nav/responsive.css',
+  'styles/components/konami.css',
 ];
 
 const MODAL_STYLE_SOURCES = [

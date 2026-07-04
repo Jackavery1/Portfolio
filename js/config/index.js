@@ -6,6 +6,7 @@ import { NAVIGATION } from './navigation.js';
 import { KONAMI } from './konami.js';
 import { PARTIALS } from './partials.js';
 import { PROJETS } from './projects.js';
+import { SCORE_BONUS } from './score-bonus.js';
 
 export const CONFIG = {
   SITE_ORIGIN,
@@ -18,4 +19,5 @@ export const CONFIG = {
   KONAMI,
   PARTIALS,
   PROJETS,
+  SCORE_BONUS,
 };

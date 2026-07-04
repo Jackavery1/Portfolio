@@ -8,6 +8,10 @@ test('responsive mobile — sommaire projets et 6 cartes', async ({ page }) => {
 
   await expect(page.locator('.projets-sommaire__liste a')).toHaveCount(6);
   await expect(page.locator('.carte-projet')).toHaveCount(6);
+  await expect(page.locator('#js-grille-projets')).toHaveAttribute(
+    'aria-label',
+    '6 projets disponibles'
+  );
   await expect(page.locator('.carte-projet[data-projet="derniereligne"]')).toBeVisible();
 });
 
@@ -111,4 +115,14 @@ test('responsive paysage mobile — dojo sans overflow', async ({ page }) => {
   await expect(page.locator('h1')).toContainText(/DOJO/i);
   await expect(page.locator('.boss-carte').first()).toBeVisible();
   await assertPasOverflowHorizontal(page);
+});
+
+test('responsive paysage mobile — hint informatif sur pages denses', async ({ page }) => {
+  await page.setViewportSize({ width: 667, height: 375 });
+
+  for (const path of ['/competences.html', '/dojo.html', '/parcours.html']) {
+    await gotoReady(page, path);
+    await expect(page.locator('.hint-paysage')).toBeVisible();
+    await expect(page.locator('.hint-paysage')).toContainText(/portrait/i);
+  }
 });

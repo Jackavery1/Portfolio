@@ -57,6 +57,7 @@ const PAIRES_AA = [
   { fg: '--couleur-valide', bg: '--couleur-fond', min: 3 },
   { fg: '--couleur-erreur', bg: '--couleur-fond', min: 3 },
   { fg: '--couleur-actif', bg: '--couleur-fond', min: 3 },
+  { fg: '--couleur-texte-normal', bg: '--couleur-fond-champ', min: 4.5 },
 ];
 
 describe('contrast tokens', () => {

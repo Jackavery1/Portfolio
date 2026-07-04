@@ -3,8 +3,10 @@
    ============================================ */
 
 import { CONFIG } from '../config/index.js';
+import { SCORE_BONUS } from '../config/score-bonus.js';
 import { byId, byQsAll } from '../utils/dom.js';
 import { trapTabModal } from '../utils/focus.js';
+import { basculerInertFond } from '../utils/inert.js';
 import {
   cheminWebpDepuisRaster,
   estImageRaster,
@@ -123,8 +125,9 @@ export function ouvrirModal(projetKey) {
   });
 
   modalOverlay.hidden = false;
+  basculerInertFond(true, modalOverlay);
   jouerBip(440, 60, 'sine');
-  ajouterScore(350);
+  ajouterScore(SCORE_BONUS.PROJET);
   btnFermer.focus();
 }
 
@@ -132,6 +135,7 @@ export function fermerModal() {
   const modalOverlay = byId(CONFIG.SELECTORS.MODAL);
   if (!modalOverlay) return;
   modalOverlay.hidden = true;
+  basculerInertFond(false);
   jouerBip(220, 40);
   const prev = elementFocusAvantModal;
   elementFocusAvantModal = null;

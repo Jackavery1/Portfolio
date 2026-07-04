@@ -50,4 +50,11 @@ describe('typography CSS', () => {
       expect(tokens, token).toContain(token);
     });
   });
+
+  it('corps secondaires des cartes — lisible ou CRT, pas pixel', () => {
+    const card = fs.readFileSync(path.join(rootDir, 'styles/components/card.css'), 'utf8');
+    expect(card).toMatch(/\.carte-projet__desc[\s\S]*?font-family:\s*var\(--police-lisible\)/);
+    expect(card).toMatch(/\.carte-projet__clic-hint[\s\S]*?font-family:\s*var\(--police-crt\)/);
+    expect(card).toMatch(/\.barre-completion__val[\s\S]*?font-family:\s*var\(--police-crt\)/);
+  });
 });

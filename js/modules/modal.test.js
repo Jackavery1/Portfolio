@@ -37,8 +37,9 @@ import { fermerModal, ouvrirModal } from './modal.js';
 describe('modal', () => {
   beforeEach(() => {
     document.body.innerHTML = `
+      <div class="ecran"></div>
       <button type="button" id="focus-avant">Avant</button>
-      <div id="js-modal" hidden>
+      <div id="js-modal" hidden role="dialog">
         <h2 id="js-modal-titre"></h2>
         <img id="js-modal-img" alt="" />
         <p id="js-modal-desc"></p>
@@ -55,6 +56,8 @@ describe('modal', () => {
 
     const modal = document.getElementById('js-modal');
     expect(modal.hidden).toBe(false);
+    expect(document.querySelector('.ecran').hasAttribute('inert')).toBe(true);
+    expect(modal.hasAttribute('inert')).toBe(false);
     expect(document.getElementById('js-modal-titre').textContent).toBe('Projet test');
     expect(document.getElementById('js-modal-lien').querySelector('a')?.href).toContain(
       'github.com'
@@ -62,5 +65,6 @@ describe('modal', () => {
 
     fermerModal();
     expect(modal.hidden).toBe(true);
+    expect(document.querySelector('.ecran').hasAttribute('inert')).toBe(false);
   });
 });

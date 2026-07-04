@@ -57,14 +57,27 @@ function injectPageMeta(html, htmlFile) {
   return remplacerBlocPageMeta(html, meta);
 }
 
+function placeholderRegex(id) {
+  return [
+    new RegExp(`<div id="${id}"[^>]*>\\s*</div>`, 'i'),
+    new RegExp(
+      `<(?:header|footer|nav|div)\\b[^>]*\\bid=["']${id}["'][^>]*>[\\s\\S]*?<\\/(?:header|footer|nav|div)>`,
+      'i'
+    ),
+  ];
+}
+
 function inlinePartials(html, root) {
   let out = html;
   PARTIAL_PLACEHOLDERS.forEach(({ id, fichier }) => {
     const src = path.join(root, fichier);
     if (!fs.existsSync(src)) return;
     const contenu = fs.readFileSync(src, 'utf8').trim();
-    const re = new RegExp(`<div id="${id}"[^>]*>\\s*</div>`, 'i');
-    out = out.replace(re, contenu);
+    for (const re of placeholderRegex(id)) {
+      if (!re.test(out)) continue;
+      out = out.replace(re, contenu);
+      break;
+    }
   });
   return out;
 }
@@ -173,4 +186,6 @@ function copyHTML(root, distDir, siteBase) {
 module.exports = {
   HTML_FILES,
   copyHTML,
+  inlinePartials,
+  placeholderRegex,
 };

@@ -69,6 +69,7 @@ export function initProjetsGrille() {
     sommaire.replaceChildren(liste);
   }
 
+  const nombre = grille.querySelectorAll('.carte-projet').length;
   grille.removeAttribute('aria-busy');
-  grille.removeAttribute('aria-label');
+  grille.setAttribute('aria-label', `${nombre} projets disponibles`);
 }

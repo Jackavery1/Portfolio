@@ -59,8 +59,9 @@ describe('page-styles', () => {
 
   it('nav est découpé en modules dédiés', () => {
     const { NAV_STYLE_SOURCES } = require('./page-styles.cjs');
-    expect(NAV_STYLE_SOURCES).toHaveLength(4);
-    expect(NAV_STYLE_SOURCES.every((s) => s.startsWith('styles/components/nav/'))).toBe(true);
+    expect(NAV_STYLE_SOURCES).toHaveLength(5);
+    expect(NAV_STYLE_SOURCES.filter((s) => s.startsWith('styles/components/nav/'))).toHaveLength(4);
+    expect(NAV_STYLE_SOURCES).toContain('styles/components/konami.css');
   });
 
   it('mentions légales est découpé en modules dédiés', () => {

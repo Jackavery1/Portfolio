@@ -1,22 +1,12 @@
 import { CONFIG } from '../config/index.js';
 import { byId } from '../utils/dom.js';
 import { trapTabModal } from '../utils/focus.js';
+import { basculerInertFond } from '../utils/inert.js';
 import { formaterScoreAffichage } from '../utils/score-helpers.js';
 import { jouerFanfareVictoire } from './audio.js';
 import { lireScore } from './score-session.js';
 
 let elementFocusAvantPopup = null;
-
-function basculerInertFondPopup(actif) {
-  const popup = byId(CONFIG.SELECTORS.POPUP_HS);
-  if (!popup) return;
-
-  document.querySelectorAll('body > *').forEach((el) => {
-    if (el === popup) return;
-    if (actif) el.setAttribute('inert', '');
-    else el.removeAttribute('inert');
-  });
-}
 
 export function afficherPopupHighScore() {
   const popup = byId(CONFIG.SELECTORS.POPUP_HS);
@@ -25,7 +15,7 @@ export function afficherPopupHighScore() {
   if (sc) sc.textContent = formaterScoreAffichage(lireScore());
   elementFocusAvantPopup = document.activeElement;
   popup.hidden = false;
-  basculerInertFondPopup(true);
+  basculerInertFond(true, popup);
   try {
     sessionStorage.setItem(CONFIG.STORAGE.HS_POPUP_VU, '1');
   } catch {
@@ -40,7 +30,7 @@ function fermerPopupHighScore() {
   const pu = byId(CONFIG.SELECTORS.POPUP_HS);
   if (!pu || pu.hidden) return;
   pu.hidden = true;
-  basculerInertFondPopup(false);
+  basculerInertFond(false);
   const prev = elementFocusAvantPopup;
   elementFocusAvantPopup = null;
   if (prev && typeof prev.focus === 'function') {

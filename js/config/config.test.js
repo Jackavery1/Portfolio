@@ -12,5 +12,6 @@ describe('CONFIG', () => {
     expect(CONFIG.PROJETS.lsf?.titre).toBe('PROJET LSF');
     expect(CONFIG.PROJETS.derniereligne?.num).toBe('PRJ-03');
     expect(CONFIG.SELECTORS.MODAL).toBe('js-modal');
+    expect(CONFIG.SCORE_BONUS.PROJET).toBe(600);
   });
 });

@@ -7,8 +7,7 @@ const mocks = vi.hoisted(() => ({
   initModalClavier: vi.fn(),
   initModalClicks: vi.fn(),
   initDojoBoss: vi.fn(),
-  initContactForm: vi.fn().mockResolvedValue(undefined),
-  initContactBandeau: vi.fn(),
+  initContactPage: vi.fn().mockResolvedValue(undefined),
   initMentionsLegales: vi.fn(),
   enregistrerServiceWorker: vi.fn(),
   afficherPopupHighScore: vi.fn(),
@@ -81,12 +80,8 @@ vi.mock('./modules/dojo-boss.js', () => ({
   initDojoBoss: mocks.initDojoBoss,
 }));
 
-vi.mock('./modules/contact-form.js', () => ({
-  initContactForm: mocks.initContactForm,
-}));
-
-vi.mock('./modules/contact-bandeau.js', () => ({
-  initContactBandeau: mocks.initContactBandeau,
+vi.mock('./modules/contact.js', () => ({
+  initContactPage: mocks.initContactPage,
 }));
 
 vi.mock('./modules/mentions-legales.js', () => ({
@@ -106,7 +101,7 @@ describe('main', () => {
     vi.useFakeTimers();
     sessionStorage.clear();
     mocks.lireScore.mockReturnValue(0);
-    mocks.initContactForm.mockResolvedValue(undefined);
+    mocks.initContactPage.mockResolvedValue(undefined);
   });
 
   it('charge les partials et initialise le socle commun', async () => {
@@ -202,12 +197,11 @@ describe('main', () => {
     expect(mocks.initDojoBoss).toHaveBeenCalled();
   });
 
-  it('initialise formulaire et bandeau sur la section contact', async () => {
+  it('initialise la page contact via la facade', async () => {
     document.body.dataset.sectionId = 'contact';
     await init();
 
-    expect(mocks.initContactBandeau).toHaveBeenCalled();
-    expect(mocks.initContactForm).toHaveBeenCalled();
+    expect(mocks.initContactPage).toHaveBeenCalled();
   });
 
   it('initialise mentions-legales sur la section mentions', async () => {

@@ -6,6 +6,7 @@ import {
 } from '../utils/contact-form-helpers.js';
 import { decodeBase64Utf8 } from '../utils/pii.js';
 import { jouerBip } from './audio.js';
+import { SCORE_BONUS } from '../config/score-bonus.js';
 import { ajouterScore } from './score.js';
 import { obtenirTokenRecaptcha, reinitialiserWidgetRecaptcha } from './recaptcha.js';
 
@@ -151,7 +152,7 @@ function confirmerEnvoiReussi({ btnEnvoyer, confirmation }) {
   reinitialiserWidgetRecaptcha();
   if (confirmation) confirmation.hidden = false;
   jouerBip(660, 80, 'sine');
-  ajouterScore(500);
+  ajouterScore(SCORE_BONUS.CONTACT);
   btnEnvoyer.removeAttribute('aria-busy');
   btnEnvoyer.form?.removeAttribute('aria-busy');
   btnEnvoyer.textContent = '✓ ENVOYÉ';

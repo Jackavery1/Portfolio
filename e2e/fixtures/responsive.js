@@ -12,11 +12,14 @@ export const PAGES = [
 
 export const VIEWPORTS = [
   { width: 320, height: 568, label: 'mobile' },
+  { width: 375, height: 667, label: 'mobile-compact' },
   { width: 768, height: 1024, label: 'tablette' },
   { width: 961, height: 800, label: 'desktop' },
   { width: 1280, height: 800, label: 'desktop-large' },
   { width: 1920, height: 1080, label: 'desktop-ultrawide' },
 ];
+
+export const VIEWPORTS_LANDSCAPE = [{ width: 667, height: 375, label: 'mobile-paysage' }];
 
 export const VIEWPORTS_BURGER = [
   { width: 375, height: 667, label: 'mobile' },

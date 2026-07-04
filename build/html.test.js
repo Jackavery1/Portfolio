@@ -53,6 +53,8 @@ describe('build html', () => {
       expect(built).not.toContain('fonts.googleapis.com');
       expect(built).toContain("style-src-attr 'unsafe-inline'");
       expect(built).not.toContain("style-src 'self' 'unsafe-inline'");
+      expect(built).toContain('id="js-score"');
+      expect(built).not.toContain('nav--squelette');
     } finally {
       fs.rmSync(tmp, { recursive: true, force: true });
     }

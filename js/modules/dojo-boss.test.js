@@ -5,6 +5,12 @@ vi.mock('./audio.js', () => ({
   jouerFanfareVictoire: vi.fn(),
 }));
 
+vi.mock('../config/index.js', () => ({
+  CONFIG: {
+    STORAGE: { DOJO_BOSS_PREFIX: 'jm_dojo_boss_' },
+  },
+}));
+
 vi.mock('./score.js', () => ({
   ajouterScore: vi.fn(),
 }));
@@ -45,6 +51,7 @@ describe('dojo-boss', () => {
 
     const carte = document.querySelector('[data-boss="domslayer"]');
     expect(carte.querySelector('.boss-citation')).not.toBeNull();
+    expect(carte.getAttribute('aria-describedby')).toBe('boss-citation-domslayer');
 
     carte.dispatchEvent(new MouseEvent('mouseenter'));
     expect(carte.querySelector('.boss-citation').classList.contains('boss-citation--visible')).toBe(
@@ -56,9 +63,19 @@ describe('dojo-boss', () => {
     vi.useRealTimers();
   });
 
-  it('ajoute un bonus score au clic sur une carte boss', () => {
+  it('ajoute un bonus score au premier clic sur une carte boss', () => {
     initDojoBoss();
-    document.querySelector('.boss-carte').click();
-    expect(ajouterScore).toHaveBeenCalledWith(150);
+    const carte = document.querySelector('[data-boss="domslayer"]');
+    carte.click();
+    expect(ajouterScore).toHaveBeenCalledWith(300);
+    vi.mocked(ajouterScore).mockClear();
+    carte.click();
+    expect(ajouterScore).not.toHaveBeenCalled();
+  });
+
+  it('accorde plus de points pour un boss vaincu', () => {
+    initDojoBoss();
+    document.querySelector('[data-boss="crud"]').click();
+    expect(ajouterScore).toHaveBeenCalledWith(450);
   });
 });

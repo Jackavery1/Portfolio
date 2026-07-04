@@ -2,6 +2,8 @@
    Dojo — boss rush (citations, victoire, barres HP)
    ============================================ */
 
+import { CONFIG } from '../config/index.js';
+import { SCORE_BONUS } from '../config/score-bonus.js';
 import { jouerFanfareVictoire } from './audio.js';
 import { ajouterScore } from './score.js';
 
@@ -34,10 +36,12 @@ function initCitations() {
     carte.style.position = 'relative';
     if (!carte.hasAttribute('tabindex')) carte.setAttribute('tabindex', '0');
 
+    const bulleId = `boss-citation-${key}`;
     const bulle = document.createElement('div');
+    bulle.id = bulleId;
     bulle.className = 'boss-citation';
     bulle.textContent = texte;
-    bulle.setAttribute('aria-hidden', 'true');
+    carte.setAttribute('aria-describedby', bulleId);
     carte.appendChild(bulle);
 
     const afficher = () => bulle.classList.add('boss-citation--visible');
@@ -123,8 +127,23 @@ function initBarresHp() {
 }
 
 function initScoreBoss() {
-  document.querySelectorAll('.boss-carte').forEach((carte) => {
-    carte.addEventListener('click', () => ajouterScore(150));
+  const { DOJO_BOSS_PREFIX } = CONFIG.STORAGE;
+
+  document.querySelectorAll('.boss-carte[data-boss]').forEach((carte) => {
+    carte.addEventListener('click', () => {
+      const storageKey = DOJO_BOSS_PREFIX + carte.dataset.boss;
+      try {
+        if (sessionStorage.getItem(storageKey)) return;
+        sessionStorage.setItem(storageKey, '1');
+      } catch {
+        /* sessionStorage indisponible */
+      }
+
+      const pts = carte.classList.contains('boss-carte--vaincu')
+        ? SCORE_BONUS.DOJO_BOSS_VAINCU
+        : SCORE_BONUS.DOJO_BOSS;
+      ajouterScore(pts);
+    });
   });
 }
 

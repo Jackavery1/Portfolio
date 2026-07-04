@@ -8,6 +8,7 @@ const { syncBreakpoints } = require('./sync-breakpoints.cjs');
 const { syncPageMeta } = require('./sync-page-meta.cjs');
 const { syncManifestDev } = require('./sync-manifest-dev.cjs');
 const { syncLegal } = require('./sync-legal.cjs');
+const { syncNavSquelette } = require('./sync-nav-squelette.cjs');
 
 const ROOT = path.join(__dirname, '..');
 
@@ -15,6 +16,7 @@ function syncSource({ pageMeta = false } = {}) {
   syncDefaults();
   syncStyleCss();
   syncPartials();
+  syncNavSquelette(ROOT);
   syncParcoursArbre();
   syncDojoBoss();
   syncBreakpoints();

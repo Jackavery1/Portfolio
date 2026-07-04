@@ -1,0 +1,8 @@
+export const SCORE_BONUS = {
+  PAGE: 200,
+  PROJET: 600,
+  DOJO_BOSS: 300,
+  DOJO_BOSS_VAINCU: 450,
+  CONTACT: 500,
+  GITHUB: 500,
+};

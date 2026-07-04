@@ -37,6 +37,16 @@
         <a href="index.html" class="nav__logo" aria-label="Joris Martinez portfolio">
           <span class="pixel-accent" aria-hidden="true">▶</span> J.MARTINEZ
         </a>
+        <div
+          class="nav__arcade-info"
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
+          aria-label="Score du portfolio"
+        >
+          <span class="arcade-label" aria-hidden="true">SCORE</span>
+          <span class="arcade-valeur" id="js-score">000000</span>
+        </div>
         <nav class="nav__liens nav__liens--squelette" aria-label="Pages">
           <a class="nav__bouton" href="index.html">HOME</a>
           <a class="nav__bouton" href="projets.html">WORK</a>
@@ -49,6 +59,11 @@
       <main id="js-contenu-principal" tabindex="-1">
         <section id="parcours" class="section" aria-label="Parcours">
           <h1 class="titre-section"><span class="pixel-accent">▶</span> STORY MODE</h1>
+
+          <p class="hint-paysage" role="status">
+            <span class="hint-paysage__icone" aria-hidden="true">↻</span>
+            Mode paysage : faites défiler ou pivotez en portrait pour plus de confort.
+          </p>
 
           <div class="story-grille">
             <!-- Timeline à gauche -->

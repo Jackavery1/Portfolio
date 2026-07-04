@@ -47,3 +47,16 @@ test('responsive seuil nav — burger à 960px, liens horizontaux à 961px', asy
   await expect(page.locator('.nav__burger')).not.toBeVisible();
   await expect(page.locator('.nav__liens')).toBeVisible();
 });
+
+test('responsive score arcade — visible en compact, label masqué', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 667 });
+  await gotoReady(page, '/index.html');
+  await expect(page.locator('#js-score')).toBeVisible();
+  await expect(page.locator('.arcade-label')).toBeHidden();
+});
+
+test('responsive paysage matrice — pas d’overflow horizontal', async ({ page }) => {
+  await page.setViewportSize({ width: 667, height: 375 });
+  await gotoReady(page, '/index.html');
+  await assertPasOverflowHorizontal(page);
+});
