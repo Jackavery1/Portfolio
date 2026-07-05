@@ -1,6 +1,6 @@
-import { LEGAL, LEGAL_ANCHOR_LABELS } from '../config/legal.js';
+import { MENTIONS_LEGALES, LIBELLES_ANCRES_MENTIONS } from '../config/legal.js';
 import { decoderBase64Utf8 } from '../utils/pii.js';
-import { CONFIG } from '../config/index.js';
+import { CONFIGURATION } from '../config/index.js';
 import { ajouterHtmlEnrichi, paragrapheHtmlEnrichi } from '../utils/rich-text.js';
 
 function listeHtml(items) {
@@ -16,21 +16,21 @@ function listeHtml(items) {
 function blocEditeur() {
   const p = document.createElement('p');
   const strong = document.createElement('strong');
-  strong.textContent = CONFIG.PERSON_NAME;
+  strong.textContent = CONFIGURATION.PERSON_NAME;
   p.appendChild(strong);
   p.appendChild(document.createTextNode(' — site personnel (portfolio).'));
   p.appendChild(document.createElement('br'));
   p.appendChild(document.createTextNode('Contact : '));
 
   const lien = document.createElement('a');
-  lien.id = CONFIG.SELECTORS.MENTIONS_EMAIL_LINK;
+  lien.id = CONFIGURATION.SELECTEURS.MENTIONS_EMAIL_LINK;
   lien.href = '#';
   lien.hidden = true;
   p.appendChild(lien);
 
   const noscript = document.createElement('noscript');
   const fallback = document.createElement('a');
-  const email = decoderBase64Utf8(CONFIG.CONTACT.EMAIL_B64);
+  const email = decoderBase64Utf8(CONFIGURATION.CONTACT.EMAIL_B64);
   fallback.href = email ? `mailto:${email}` : '#';
   fallback.textContent = email || 'contact@example.com';
   noscript.appendChild(fallback);
@@ -40,10 +40,10 @@ function blocEditeur() {
 }
 
 function remplirBlocEditeur(conteneur) {
-  const email = decoderBase64Utf8(CONFIG.CONTACT.EMAIL_B64);
+  const email = decoderBase64Utf8(CONFIGURATION.CONTACT.EMAIL_B64);
   if (!email) return;
 
-  const lien = conteneur.querySelector(`#${CONFIG.SELECTORS.MENTIONS_EMAIL_LINK}`);
+  const lien = conteneur.querySelector(`#${CONFIGURATION.SELECTEURS.MENTIONS_EMAIL_LINK}`);
   if (lien) {
     lien.href = `mailto:${email}`;
     lien.textContent = email;
@@ -106,7 +106,7 @@ function remplirSommaire(conteneur) {
   const liste = document.createElement('ul');
   liste.className = 'mentions-sommaire__liste';
 
-  LEGAL_ANCHOR_LABELS.forEach(({ id, label }) => {
+  LIBELLES_ANCRES_MENTIONS.forEach(({ id, label }) => {
     const li = document.createElement('li');
     const a = document.createElement('a');
     a.href = `#${id}`;
@@ -121,7 +121,7 @@ function remplirSommaire(conteneur) {
 
 export function initialiserMentionsLegales() {
   const intro = document.getElementById('js-mentions-intro');
-  if (intro) intro.textContent = LEGAL.intro;
+  if (intro) intro.textContent = MENTIONS_LEGALES.intro;
 
   const sommaire = document.getElementById('js-mentions-sommaire');
   if (sommaire) {
@@ -133,5 +133,5 @@ export function initialiserMentionsLegales() {
   if (!sections) return;
 
   sections.replaceChildren();
-  LEGAL.sections.forEach((cfg) => remplirSection(cfg, sections));
+  MENTIONS_LEGALES.sections.forEach((cfg) => remplirSection(cfg, sections));
 }

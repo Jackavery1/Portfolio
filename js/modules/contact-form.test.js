@@ -2,8 +2,8 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 vi.mock('../config/index.js', () => ({
-  CONFIG: {
-    SELECTORS: {
+  CONFIGURATION: {
+    SELECTEURS: {
       FORMULAIRE: 'js-formulaire',
       CONTACT_NOM: 'contact-nom',
       CONTACT_EMAIL: 'contact-email',
@@ -13,18 +13,18 @@ vi.mock('../config/index.js', () => ({
       BTN_ENVOYER: 'js-btn-envoyer',
       CONFIRMATION: 'js-confirmation',
       CONTACT_ERREUR: 'js-formulaire-erreur',
-      RECAPTCHA_MOUNT: 'js-recaptcha-mount',
+      MONTE_RECAPTCHA: 'js-recaptcha-mount',
     },
     CONTACT: {
       FORMSPREE_ENDPOINT: 'https://formspree.io/f/test',
       RECAPTCHA_SITE_KEY: 'test-key',
       RECAPTCHA_VERSION: 3,
-      HONEYPOT_NAME: 'website',
-      RATE_LIMIT_MS: 60_000,
-      LIMITS: { nom: 80, email: 120, message: 5000 },
+      NOM_POT_MIEL: 'website',
+      DELAI_LIMITATION_MS: 60_000,
+      LIMITES: { nom: 80, email: 120, message: 5000 },
     },
-    STORAGE: { CONTACT_LAST_SUBMIT: 'portfolio-contact-last' },
-    SCORE_BONUS: { CONTACT: 500 },
+    STOCKAGE: { DERNIERE_SOUMISSION_CONTACT: 'portfolio-contact-last' },
+    BONUS_SCORE: { CONTACT: 500 },
   },
 }));
 
@@ -42,6 +42,7 @@ vi.mock('./recaptcha.js', () => ({
   reinitialiserWidgetRecaptcha: vi.fn(),
 }));
 
+import { initialiserRecaptcha } from './recaptcha.js';
 import { initialiserFormulaireContact } from './contact-form.js';
 
 describe('contact-form', () => {
@@ -104,5 +105,20 @@ describe('contact-form', () => {
     });
 
     expect(document.getElementById('js-confirmation').hidden).toBe(false);
+  });
+
+  it('initialise reCAPTCHA quand endpoint et clé sont présents', async () => {
+    await initialiserFormulaireContact();
+    expect(initialiserRecaptcha).toHaveBeenCalled();
+  });
+
+  it('affiche une alerte si initialiserRecaptcha échoue', async () => {
+    initialiserRecaptcha.mockRejectedValueOnce(new Error('network'));
+    const mount = document.getElementById('js-recaptcha-mount');
+
+    await initialiserFormulaireContact();
+
+    expect(mount.className).toContain('recaptcha-zone--erreur');
+    expect(mount.textContent).toMatch(/indisponible/i);
   });
 });

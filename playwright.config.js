@@ -2,6 +2,7 @@ import { defineConfig, devices } from '@playwright/test';
 
 const PORT = 8765;
 const baseURL = `http://127.0.0.1:${PORT}`;
+const skipBuild = process.env.PLAYWRIGHT_SKIP_BUILD === '1';
 
 const RESPONSIVE_SPECS = /responsive-.*\.spec\.js/;
 
@@ -41,7 +42,9 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: `npm run build && npx serve .dist-staging -l ${PORT}`,
+    command: skipBuild
+      ? `npx serve .dist-staging -l ${PORT}`
+      : `npm run build && npx serve .dist-staging -l ${PORT}`,
     url: baseURL,
     reuseExistingServer: !process.env.CI,
     timeout: 180_000,

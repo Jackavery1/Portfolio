@@ -2,10 +2,10 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 vi.mock('../config/index.js', () => ({
-  CONFIG: {
-    SELECTORS: { BURGER: 'js-burger', MENU: 'js-menu', MODAL: 'js-modal' },
-    NAVIGATION: { ORDER: ['index.html', 'projets.html'] },
-    STORAGE: { NAV_CLAVIER_ANNONCE: 'jm_nav_clavier_annonce' },
+  CONFIGURATION: {
+    SELECTEURS: { BURGER: 'js-burger', MENU: 'js-menu', MODALE: 'js-modal' },
+    NAVIGATION: { ORDRE: ['index.html', 'projets.html'] },
+    STOCKAGE: { ANNONCE_NAV_CLAVIER: 'jm_nav_clavier_annonce' },
   },
 }));
 

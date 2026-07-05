@@ -16,7 +16,7 @@ describe('sync-legal', () => {
     expect(fs.existsSync(target)).toBe(true);
 
     const contenu = fs.readFileSync(target, 'utf8');
-    expect(contenu).toContain('export const LEGAL');
+    expect(contenu).toContain('export const MENTIONS_LEGALES');
     expect(contenu).toContain('donnees-personnelles');
   });
 });

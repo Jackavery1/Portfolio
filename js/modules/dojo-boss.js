@@ -2,7 +2,7 @@
    Dojo — boss rush (citations, victoire, barres HP)
    ============================================ */
 
-import { CONFIG } from '../config/index.js';
+import { CONFIGURATION } from '../config/index.js';
 import { jouerFanfareVictoire } from './audio.js';
 import { ajouterScore } from './score.js';
 
@@ -126,11 +126,11 @@ function initialiserBarresPv() {
 }
 
 function initialiserScoreBoss() {
-  const { DOJO_BOSS_PREFIX } = CONFIG.STORAGE;
+  const { PREFIXE_DOJO_BOSS } = CONFIGURATION.STOCKAGE;
 
   document.querySelectorAll('.boss-carte[data-boss]').forEach((carte) => {
     carte.addEventListener('click', () => {
-      const storageKey = DOJO_BOSS_PREFIX + carte.dataset.boss;
+      const storageKey = PREFIXE_DOJO_BOSS + carte.dataset.boss;
       try {
         if (sessionStorage.getItem(storageKey)) return;
         sessionStorage.setItem(storageKey, '1');
@@ -139,8 +139,8 @@ function initialiserScoreBoss() {
       }
 
       const pts = carte.classList.contains('boss-carte--vaincu')
-        ? CONFIG.SCORE_BONUS.DOJO_BOSS_VAINCU
-        : CONFIG.SCORE_BONUS.DOJO_BOSS;
+        ? CONFIGURATION.BONUS_SCORE.BOSS_DOJO_VAINCU
+        : CONFIGURATION.BONUS_SCORE.BOSS_DOJO;
       ajouterScore(pts);
     });
   });

@@ -6,7 +6,7 @@ const { remplacerBlocPageMeta } = require('./page-meta-tags.cjs');
 const { urlPageProd } = require('./url-page.cjs');
 const { BASE_STYLE_FILE, PAGE_STYLE_BY_HTML } = require('./page-styles.cjs');
 const { buildJsonLd, jsonLdScriptTag } = require('./json-ld.cjs');
-const { PARTIALS: PARTIAL_PLACEHOLDERS } = require('./partials-list.cjs');
+const { PARTIELS: PARTIAL_PLACEHOLDERS } = require('./partials-list.cjs');
 
 const HEAD_COMMON_MARKER = '<!-- HEAD_COMMON -->';
 
@@ -60,8 +60,10 @@ function injectPageMeta(html, htmlFile) {
 function placeholderRegex(id) {
   return [
     new RegExp(`<div id="${id}"[^>]*>\\s*</div>`, 'i'),
+    new RegExp(`<header\\b[^>]*\\bid=["']${id}["'][^>]*>[\\s\\S]*?<\\/header>`, 'i'),
+    new RegExp(`<footer\\b[^>]*\\bid=["']${id}["'][^>]*>[\\s\\S]*?<\\/footer>`, 'i'),
     new RegExp(
-      `<(?:header|footer|nav|div)\\b[^>]*\\bid=["']${id}["'][^>]*>[\\s\\S]*?<\\/(?:header|footer|nav|div)>`,
+      `<(?:nav|div)\\b[^>]*\\bid=["']${id}["'][^>]*>[\\s\\S]*?<\\/(?:nav|div)>`,
       'i'
     ),
   ];

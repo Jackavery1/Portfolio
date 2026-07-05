@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
-import { gotoReady } from './helpers.js';
+import { gotoReady, mockRecaptcha } from './helpers.js';
 
 test.describe.configure({ mode: 'serial' });
 
@@ -60,10 +60,11 @@ test('a11y menu burger mobile — pas de violation critique', async ({ page }) =
 });
 
 test('a11y contact — pas de violation critique', async ({ page }) => {
-  await page.goto('/contact.html');
+  await mockRecaptcha(page);
+  await gotoReady(page, '/contact.html');
   await expect(page.locator('h1')).toBeVisible();
 
-  const results = await new AxeBuilder({ page }).exclude('#js-recaptcha-mount').analyze();
+  const results = await new AxeBuilder({ page }).analyze();
 
   expect(violationsA11y(results.violations)).toEqual([]);
 });

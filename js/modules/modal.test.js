@@ -2,15 +2,15 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 vi.mock('../config/index.js', () => ({
-  CONFIG: {
-    SELECTORS: {
-      MODAL: 'js-modal',
-      MODAL_TITRE: 'js-modal-titre',
-      MODAL_IMG: 'js-modal-img',
-      MODAL_DESC: 'js-modal-desc',
-      MODAL_TECH: 'js-modal-tech',
-      MODAL_FERMER: 'js-modal-fermer',
-      MODAL_LIEN: 'js-modal-lien',
+  CONFIGURATION: {
+    SELECTEURS: {
+      MODALE: 'js-modal',
+      MODALE_TITRE: 'js-modal-titre',
+      MODALE_IMG: 'js-modal-img',
+      MODALE_DESC: 'js-modal-desc',
+      MODALE_TECH: 'js-modal-tech',
+      MODALE_FERMER: 'js-modal-fermer',
+      MODALE_LIEN: 'js-modal-lien',
     },
     PROJETS: {
       test: {
@@ -21,7 +21,7 @@ vi.mock('../config/index.js', () => ({
         lien: 'https://github.com/example',
       },
     },
-    SCORE_BONUS: { PROJET: 600 },
+    BONUS_SCORE: { PROJET: 600 },
   },
 }));
 

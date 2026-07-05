@@ -1,12 +1,12 @@
 import { describe, expect, it } from 'vitest';
-import { PROJETS, PROJETS_ORDER, PROJECT_ICONS } from './projects.js';
+import { PROJETS, PROJETS_ORDER, ICONES_PROJETS } from './projects.js';
 
 describe('PROJETS', () => {
   it('expose un ordre cohérent avec les clés', () => {
     expect(PROJETS_ORDER.length).toBeGreaterThan(0);
     PROJETS_ORDER.forEach((id) => {
       expect(PROJETS[id]).toBeDefined();
-      expect(PROJECT_ICONS[id]).toBeTruthy();
+      expect(ICONES_PROJETS[id]).toBeTruthy();
     });
     expect(Object.keys(PROJETS).sort()).toEqual([...PROJETS_ORDER].sort());
   });

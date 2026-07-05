@@ -6,7 +6,7 @@ function syncLegal() {
   const target = path.join(__dirname, '..', 'js', 'config', 'legal-data.js');
   const data = JSON.parse(fs.readFileSync(source, 'utf8'));
   const content = `/* Généré par build/sync-legal.cjs — ne pas éditer à la main. */
-export const LEGAL = ${JSON.stringify(data, null, 2)};
+export const MENTIONS_LEGALES = ${JSON.stringify(data, null, 2)};
 `;
   fs.writeFileSync(target, content, 'utf8');
 }

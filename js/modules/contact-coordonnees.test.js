@@ -2,12 +2,12 @@
 import { describe, expect, it, vi } from 'vitest';
 
 vi.mock('../config/index.js', () => ({
-  CONFIG: {
+  CONFIGURATION: {
     CONTACT: {
       EMAIL_B64: btoa('test@example.com'),
       PHONE_PARTS: [6, 74, 52, 24, 96],
     },
-    SELECTORS: {
+    SELECTEURS: {
       CONTACT_EMAIL_DISPLAY: 'js-contact-email',
       CONTACT_PHONE_DISPLAY: 'js-contact-phone',
     },

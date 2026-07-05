@@ -14,5 +14,8 @@ function normaliserFichierPage(file) {
 }
 
 export function fichierPageDepuisPathname(pathname) {
-  return normaliserFichierPage(obtenirFichierPageCourante(pathname));
+  const brut = normaliserFichierPage(obtenirFichierPageCourante(pathname));
+  if (!brut || brut === 'index') return 'index.html';
+  if (!brut.includes('.')) return `${brut}.html`;
+  return brut;
 }

@@ -45,7 +45,7 @@ describe('page-styles', () => {
     const { CONTACT_STYLE_SOURCES, DOJO_STYLE_SOURCES } = require('./page-styles.cjs');
     expect(CONTACT_STYLE_SOURCES).toHaveLength(5);
     expect(CONTACT_STYLE_SOURCES.every((s) => s.startsWith('styles/pages/contact/'))).toBe(true);
-    expect(DOJO_STYLE_SOURCES).toHaveLength(6);
+    expect(DOJO_STYLE_SOURCES).toHaveLength(5);
     expect(DOJO_STYLE_SOURCES.every((s) => s.startsWith('styles/pages/dojo/'))).toBe(true);
   });
 
@@ -77,8 +77,8 @@ describe('page-styles', () => {
   });
 
   it('aucun fichier CSS source orphelin sous styles/', () => {
-    const { allMonolithSources } = require('./page-styles.cjs');
-    const references = new Set(allMonolithSources());
+    const { allMonolithSources, OFFLINE_STYLE_SOURCES } = require('./page-styles.cjs');
+    const references = new Set([...allMonolithSources(), ...OFFLINE_STYLE_SOURCES]);
 
     function listerCss(dir, acc = []) {
       for (const entree of fs.readdirSync(dir, { withFileTypes: true })) {

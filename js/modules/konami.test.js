@@ -10,8 +10,8 @@ const scoreMocks = vi.hoisted(() => ({
 }));
 
 vi.mock('../config/index.js', () => ({
-  CONFIG: {
-    SELECTORS: { MODAL: 'js-modal' },
+  CONFIGURATION: {
+    SELECTEURS: { MODALE: 'js-modal' },
     KONAMI: {
       SEQUENCE: [
         'ArrowUp',

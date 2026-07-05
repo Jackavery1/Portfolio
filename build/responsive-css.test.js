@@ -14,7 +14,7 @@ const FICHIERS_SAFE_AREA = [
   'styles/components/modal/overlay.css',
   'styles/components/modal/highscore.css',
   'styles/components/crt.css',
-  'offline.html',
+  'styles/pages/offline.css',
 ];
 
 const FICHIERS_SCROLL_TACTILE = [

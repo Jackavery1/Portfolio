@@ -14,6 +14,8 @@ describe('build service worker', () => {
     const urls = precacheUrls(rootDir);
 
     expect(urls).toContain('offline.html');
+    expect(urls).toContain('styles/tokens.css');
+    expect(urls).toContain('styles/pages/offline.css');
     expect(urls).toContain('style-base.css');
     expect(urls).toContain('js/main.js');
     expect(urls).toContain('manifest.webmanifest');

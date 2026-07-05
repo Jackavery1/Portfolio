@@ -2,10 +2,10 @@
    Accueil — liens sociaux (LinkedIn optionnel)
    ============================================ */
 
-import { CONFIG } from '../config/index.js';
+import { CONFIGURATION } from '../config/index.js';
 
 export function initialiserAccueilSocial() {
-  const url = CONFIG.SOCIAL?.LINKEDIN?.trim();
+  const url = CONFIGURATION.SOCIAL?.LINKEDIN?.trim();
   const lien = document.getElementById('js-lien-linkedin');
   if (!lien || !url) return;
 

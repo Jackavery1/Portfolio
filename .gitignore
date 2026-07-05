@@ -1,6 +1,5 @@
 # Dépendances
 node_modules/
-yarn.lock
 
 # Build output
 dist/
@@ -21,6 +20,9 @@ deploy-output/
 /assets/icon-192.png
 /assets/icon-512.png
 /assets/fonts/
+/assets/**/*.webp
+/style-base.css
+/style-page-*.css
 
 # Tests E2E / Lighthouse
 node_modules/.vite/

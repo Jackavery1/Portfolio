@@ -2,14 +2,14 @@
    Métadonnées partage (OG, canonical) et bonus score par page
    ============================================ */
 
-import { CONFIG } from '../config/index.js';
+import { CONFIGURATION } from '../config/index.js';
 import { parId } from '../utils/dom.js';
 import { obtenirFichierPageCourante } from '../utils/page.js';
 import { ajouterScore } from './score.js';
 
 function baseOrigine() {
-  if (CONFIG.SITE_ORIGIN) {
-    return CONFIG.SITE_ORIGIN.replace(/\/$/, '');
+  if (CONFIGURATION.SITE_ORIGIN) {
+    return CONFIGURATION.SITE_ORIGIN.replace(/\/$/, '');
   }
   const path = window.location.pathname.replace(/\/[^/]*$/, '') || '';
   return `${window.location.origin}${path}`.replace(/\/$/, '');
@@ -34,10 +34,10 @@ function urlPageCourante() {
 
 export function initialiserMetaPartage() {
   const pageUrl = urlPageCourante();
-  const canon = parId(CONFIG.SELECTORS.CANONICAL);
+  const canon = parId(CONFIGURATION.SELECTEURS.CANONICAL);
   if (canon) canon.href = pageUrl;
 
-  const ogUrl = parId(CONFIG.SELECTORS.OG_URL);
+  const ogUrl = parId(CONFIGURATION.SELECTEURS.OG_URL);
   if (ogUrl) ogUrl.setAttribute('content', pageUrl);
 
   document
@@ -51,11 +51,11 @@ export function initialiserMetaPartage() {
 }
 
 export function initialiserBonusScore() {
-  const PAGE_KEY = CONFIG.STORAGE.PAGE_PREFIX + window.location.pathname;
+  const PAGE_KEY = CONFIGURATION.STOCKAGE.PREFIXE_PAGE + window.location.pathname;
   try {
     if (!sessionStorage.getItem(PAGE_KEY)) {
       sessionStorage.setItem(PAGE_KEY, '1');
-      ajouterScore(CONFIG.SCORE_BONUS.PAGE);
+      ajouterScore(CONFIGURATION.BONUS_SCORE.PAGE);
     }
   } catch {
     /* sessionStorage indisponible */
@@ -63,6 +63,6 @@ export function initialiserBonusScore() {
 
   const lienGithub = document.querySelector('.lien-github');
   if (lienGithub) {
-    lienGithub.addEventListener('click', () => ajouterScore(CONFIG.SCORE_BONUS.GITHUB));
+    lienGithub.addEventListener('click', () => ajouterScore(CONFIGURATION.BONUS_SCORE.GITHUB));
   }
 }

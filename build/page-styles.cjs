@@ -57,7 +57,6 @@ const CONTACT_STYLE_SOURCES = [
 const DOJO_STYLE_SOURCES = [
   'styles/pages/dojo/intro.css',
   'styles/pages/dojo/boss-cartes.css',
-  'styles/pages/dojo/retour.css',
   'styles/pages/dojo/citations.css',
   'styles/pages/dojo/responsive-mobile.css',
   'styles/pages/dojo/responsive-landscape.css',
@@ -77,6 +76,8 @@ const MENTIONS_LEGALES_STYLE_SOURCES = [
   'styles/pages/mentions-legales/layout.css',
   'styles/pages/mentions-legales/responsive-mobile.css',
 ];
+
+const OFFLINE_STYLE_SOURCES = ['styles/pages/offline.css'];
 
 const PAGE_STYLE_BY_HTML = {
   'index.html': { outfile: 'style-page-accueil.css', sources: ACCUEIL_STYLE_SOURCES },
@@ -125,6 +126,7 @@ module.exports = {
   DOJO_STYLE_SOURCES,
   COMPETENCES_STYLE_SOURCES,
   MENTIONS_LEGALES_STYLE_SOURCES,
+  OFFLINE_STYLE_SOURCES,
   PAGE_STYLE_BY_HTML,
   allMonolithSources,
   genererStyleCss,

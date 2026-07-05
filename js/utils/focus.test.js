@@ -55,4 +55,54 @@ describe('focus', () => {
     const result = piegerTabulationModale({ key: 'Escape' }, document.body);
     expect(result).toBe(false);
   });
+
+  it('piège Shift+Tab du premier au dernier élément', () => {
+    document.body.innerHTML = `
+      <div id="modal">
+        <button type="button" id="b1">Un</button>
+        <button type="button" id="b2">Deux</button>
+      </div>
+    `;
+    const modal = document.getElementById('modal');
+    modal.querySelectorAll('button').forEach(rendreFocusable);
+    const b1 = document.getElementById('b1');
+    const b2 = document.getElementById('b2');
+    b1.focus();
+    let prevented = false;
+    piegerTabulationModale(
+      {
+        key: 'Tab',
+        shiftKey: true,
+        preventDefault: () => {
+          prevented = true;
+        },
+      },
+      modal
+    );
+    expect(prevented).toBe(true);
+    expect(document.activeElement).toBe(b2);
+  });
+
+  it('concentre le focus sur l’unique élément focusable', () => {
+    document.body.innerHTML = `
+      <div id="modal">
+        <button type="button" id="b1">Un</button>
+      </div>
+    `;
+    const modal = document.getElementById('modal');
+    rendreFocusable(document.getElementById('b1'));
+    let prevented = false;
+    piegerTabulationModale(
+      {
+        key: 'Tab',
+        shiftKey: false,
+        preventDefault: () => {
+          prevented = true;
+        },
+      },
+      modal
+    );
+    expect(prevented).toBe(true);
+    expect(document.activeElement).toBe(document.getElementById('b1'));
+  });
 });

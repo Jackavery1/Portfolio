@@ -37,6 +37,17 @@ describe('typography CSS', () => {
     expect(true).toBe(true);
   });
 
+  it('tokens clamp pixel — le maximum est cohérent avec --taille-pixel-min', () => {
+    const tokens = fs.readFileSync(path.join(rootDir, 'styles/tokens.css'), 'utf8');
+    const clampPixel = /--taille-(?:petit-pixel|bouton-pixel|titre-pixel):\s*clamp\([^)]+\)/g;
+    const matches = tokens.match(clampPixel) ?? [];
+    expect(matches.length).toBeGreaterThanOrEqual(3);
+    matches.forEach((decl) => {
+      expect(decl).toContain('var(--taille-pixel-min)');
+      expect(decl).not.toMatch(/,\s*0\.(?:[3-6]\d)rem\s*\)/);
+    });
+  });
+
   it('tokens.css expose une échelle typo centralisée', () => {
     const tokens = fs.readFileSync(path.join(rootDir, 'styles/tokens.css'), 'utf8');
     const attendus = [

@@ -17,6 +17,7 @@ describe('copy assets', () => {
       copyAssets(rootDir, tmp);
       expect(fs.existsSync(path.join(tmp, 'offline.html'))).toBe(true);
       expect(fs.readFileSync(path.join(tmp, 'offline.html'), 'utf8')).toContain('Mode hors ligne');
+      expect(fs.readFileSync(path.join(tmp, 'offline.html'), 'utf8')).toContain('js-contenu-offline');
     } finally {
       fs.rmSync(tmp, { recursive: true, force: true });
     }

@@ -6,7 +6,7 @@ import { createRequire } from 'node:module';
 import { ensureSyncSource } from './ensure-sync.cjs';
 
 const require = createRequire(import.meta.url);
-const { PARTIALS } = require('./partials-list.cjs');
+const { PARTIELS } = require('./partials-list.cjs');
 const rootDir = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 
 describe('partials sync', () => {
@@ -16,7 +16,7 @@ describe('partials sync', () => {
 
   it('partials.js reflète build/partials-list.cjs', () => {
     const partialsJs = fs.readFileSync(path.join(rootDir, 'js', 'config', 'partials.js'), 'utf8');
-    PARTIALS.forEach(({ id, fichier }) => {
+    PARTIELS.forEach(({ id, fichier }) => {
       expect(partialsJs).toContain(`id: '${id}'`);
       expect(partialsJs).toContain(`fichier: '${fichier}'`);
     });

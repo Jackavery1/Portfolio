@@ -2,19 +2,19 @@
    Bandeau contact : disponibilité ↔ téléchargement CV
    ============================================ */
 
-import { CONFIG } from '../config/index.js';
+import { CONFIGURATION } from '../config/index.js';
 import { parId } from '../utils/dom.js';
 import { jouerBip } from './audio.js';
 
 export function initialiserBandeauContact() {
-  const dispo = parId(CONFIG.SELECTORS.CONTACT_BANDEAU_DISPO);
+  const dispo = parId(CONFIGURATION.SELECTEURS.CONTACT_BANDEAU_DISPO);
   const cvBloc = parId('js-bandeau-cv-bloc');
-  const cv = parId(CONFIG.SELECTORS.CONTACT_BANDEAU_CV);
+  const cv = parId(CONFIGURATION.SELECTEURS.CONTACT_BANDEAU_CV);
   const retour = parId('js-bandeau-retour');
   if (!dispo || !cvBloc || !cv || !retour) return;
 
-  cv.href = CONFIG.CONTACT.CV_HREF;
-  cv.download = CONFIG.CONTACT.CV_DOWNLOAD;
+  cv.href = CONFIGURATION.CONTACT.CV_HREF;
+  cv.download = CONFIGURATION.CONTACT.CV_DOWNLOAD;
 
   const afficherCv = () => {
     dispo.hidden = true;

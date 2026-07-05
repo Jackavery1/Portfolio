@@ -2,7 +2,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 vi.mock('../config/index.js', () => ({
-  CONFIG: {
+  CONFIGURATION: {
     SOCIAL: { LINKEDIN: 'https://linkedin.com/in/test' },
   },
 }));

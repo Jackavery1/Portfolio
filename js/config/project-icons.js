@@ -1,5 +1,5 @@
 /** Icônes SVG des cartes projets — voir js/config/projects.json pour les métadonnées. */
-export const PROJECT_ICONS = {
+export const ICONES_PROJETS = {
   lsf: `<svg viewBox="0 0 24 30" width="30" height="37" shape-rendering="crispEdges">
     <rect x="9" y="1" width="6" height="10" rx="3" fill="var(--couleur-accent)" />
     <rect x="4" y="4" width="5" height="9" rx="2" fill="var(--couleur-accent)" />

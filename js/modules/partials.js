@@ -2,7 +2,7 @@
    Partials HTML (nav, footer, marquee, CRT, popup)
    ============================================ */
 
-import { CONFIG } from '../config/index.js';
+import { CONFIGURATION } from '../config/index.js';
 import { parId } from '../utils/dom.js';
 import { obtenirFichierPageCourante } from '../utils/page.js';
 
@@ -48,7 +48,7 @@ function marquerLienActif() {
 }
 
 export async function chargerPartiels() {
-  const aCharger = CONFIG.PARTIALS.filter(({ id }) => parId(id));
+  const aCharger = CONFIGURATION.PARTIELS.filter(({ id }) => parId(id));
   if (aCharger.length === 0) {
     marquerLienActif();
     return;

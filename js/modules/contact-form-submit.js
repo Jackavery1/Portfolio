@@ -4,7 +4,7 @@ import {
   messageErreurCapture,
   messageErreurFormspree,
 } from '../utils/contact-form-helpers.js';
-import { CONFIG } from '../config/index.js';
+import { CONFIGURATION } from '../config/index.js';
 import { decoderBase64Utf8 } from '../utils/pii.js';
 import { jouerBip } from './audio.js';
 import { ajouterScore } from './score.js';
@@ -42,7 +42,7 @@ export function lireSujetUtile(sujetSelect) {
 }
 
 export async function envoyerViaFormspree({
-  config,
+  configuration,
   champs,
   sujetUtile,
   btnEnvoyer,
@@ -51,8 +51,8 @@ export async function envoyerViaFormspree({
   afficherErreur,
 }) {
   const { nom, email, message } = champs;
-  const recaptchaKey = config.CONTACT.RECAPTCHA_SITE_KEY?.trim();
-  const endpoint = config.CONTACT.FORMSPREE_ENDPOINT?.trim();
+  const recaptchaKey = configuration.CONTACT.RECAPTCHA_SITE_KEY?.trim();
+  const endpoint = configuration.CONTACT.FORMSPREE_ENDPOINT?.trim();
   const labelEnvoyer = btnEnvoyer.textContent;
 
   if (!recaptchaKey) {
@@ -86,7 +86,7 @@ export async function envoyerViaFormspree({
       btnEnvoyer,
       labelEnvoyer,
       msg:
-        config.CONTACT.RECAPTCHA_VERSION === 3
+        configuration.CONTACT.RECAPTCHA_VERSION === 3
           ? 'Vérification anti-spam en cours… réessayez.'
           : 'Cochez la case « Je ne suis pas un robot ».',
       afficherErreur,
@@ -137,9 +137,9 @@ export async function envoyerViaFormspree({
   }
 }
 
-export function envoyerViaMailto({ config, champs, sujetUtile }) {
+export function envoyerViaMailto({ configuration, champs, sujetUtile }) {
   const { nom, email, message } = champs;
-  const emailDest = decoderBase64Utf8(config.CONTACT.EMAIL_B64);
+  const emailDest = decoderBase64Utf8(configuration.CONTACT.EMAIL_B64);
   if (!emailDest) return false;
 
   const subject = `[Portfolio] ${sujetUtile ? `${sujetUtile} — ` : ''}${nom}`;
@@ -152,7 +152,7 @@ function confirmerEnvoiReussi({ btnEnvoyer, confirmation }) {
   reinitialiserWidgetRecaptcha();
   if (confirmation) confirmation.hidden = false;
   jouerBip(660, 80, 'sine');
-  ajouterScore(CONFIG.SCORE_BONUS.CONTACT);
+  ajouterScore(CONFIGURATION.BONUS_SCORE.CONTACT);
   btnEnvoyer.removeAttribute('aria-busy');
   btnEnvoyer.form?.removeAttribute('aria-busy');
   btnEnvoyer.textContent = '✓ ENVOYÉ';

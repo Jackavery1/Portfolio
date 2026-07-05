@@ -2,12 +2,12 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 vi.mock('../config/index.js', () => ({
-  CONFIG: {
+  CONFIGURATION: {
     CONTACT: {
       CV_HREF: 'assets/cv-test.pdf',
       CV_DOWNLOAD: 'CV-test.pdf',
     },
-    SELECTORS: {
+    SELECTEURS: {
       CONTACT_BANDEAU_DISPO: 'js-bandeau-dispo',
       CONTACT_BANDEAU_CV: 'js-bandeau-cv',
     },

@@ -6,9 +6,9 @@ vi.mock('./audio.js', () => ({
 }));
 
 vi.mock('../config/index.js', () => ({
-  CONFIG: {
-    STORAGE: { DOJO_BOSS_PREFIX: 'jm_dojo_boss_' },
-    SCORE_BONUS: { DOJO_BOSS: 300, DOJO_BOSS_VAINCU: 450 },
+  CONFIGURATION: {
+    STOCKAGE: { PREFIXE_DOJO_BOSS: 'jm_dojo_boss_' },
+    BONUS_SCORE: { BOSS_DOJO: 300, BOSS_DOJO_VAINCU: 450 },
   },
 }));
 

@@ -33,6 +33,8 @@ test('lien manifest dans le head', async ({ page }) => {
 test('page offline — accessible et meta PWA', async ({ page }) => {
   const response = await page.goto('/offline.html');
   expect(response?.ok()).toBeTruthy();
+  await expect(page.locator('.lien-evitement')).toHaveAttribute('href', '#js-contenu-offline');
+  await expect(page.locator('main#js-contenu-offline')).toBeVisible();
   await expect(page.locator('h1')).toContainText(/hors ligne/i);
   await expect(page.locator('a[href="index.html"]')).toBeVisible();
   await expect(page.locator('link[rel="manifest"]')).toHaveAttribute(

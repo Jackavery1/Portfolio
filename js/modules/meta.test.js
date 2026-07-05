@@ -2,14 +2,14 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 vi.mock('../config/index.js', () => ({
-  CONFIG: {
+  CONFIGURATION: {
     SITE_ORIGIN: 'https://example.com',
-    SELECTORS: {
+    SELECTEURS: {
       CANONICAL: 'link-canonical',
       OG_URL: 'meta-og-url',
     },
-    STORAGE: { PAGE_PREFIX: 'portfolio-page-' },
-    SCORE_BONUS: { PAGE: 200, GITHUB: 500 },
+    STOCKAGE: { PREFIXE_PAGE: 'portfolio-page-' },
+    BONUS_SCORE: { PAGE: 200, GITHUB: 500 },
   },
 }));
 

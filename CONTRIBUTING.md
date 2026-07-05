@@ -129,7 +129,7 @@ Pages hors navigation clavier (`dojo.html`, `mentions-legales.html`) : accessibl
 - **Unitaires** : `npm test` (Vitest) — utils, config, modules, build
 - **Couverture** : `npm run test:coverage` (seuils 65 % lignes / 58 % branches sur `js/`)
 - **HTML** : `npm run validate:html` (sources) et `npm run validate:html:dist` (après build)
-- **E2E** : `npm run test:e2e` — projets `responsive` (Pixel 5), `responsive-webkit` (iPhone 13, WebKit), `desktop-chrome` ; **CI** exécute les trois. Matrice viewports allégée (coquille accueil × 4 viewports, autres pages en mobile-compact).
+- **E2E** : `npm run test:e2e` — projets `responsive` (Pixel 5), `responsive-webkit` (iPhone 13, WebKit), `desktop-chrome` ; **CI** exécute Chromium seul (`responsive` + `desktop-chrome`). WebKit en local : `npm run test:e2e:webkit`. Matrice viewports allégée (coquille accueil × 4 viewports, autres pages en mobile-compact).
 - **Lighthouse** : `npm run test:lhci` (profil mobile, seuils perf/a11y/SEO en CI)
 
 ### Avant release (PWA / prod)
@@ -144,4 +144,4 @@ Pages hors navigation clavier (`dojo.html`, `mentions-legales.html`) : accessibl
 - **Libellés visibles** : shell arcade en anglais (nav, titres) ; contenu métier en français
 - **Accessibilité** : `aria-label`, `aria-describedby` et annonces AT en français (`lang="fr"`) ; le texte visible peut rester en anglais arcade
 - CSS : tokens dans `styles/tokens.css`, composants vs pages ; accueil en modules `styles/pages/accueil/` ; boutons pixel (`bouton-pixel.css`) — états `:disabled` via `--couleur-texte-disabled`
-- JS : modules ES, config centralisée dans `js/config/` ; bonus score via `CONFIG.SCORE_BONUS` ; identifiants exportés en **français** (`parId`, `initialiser*`, `echapperHtml`…)
+- JS : modules ES, config centralisée dans `js/config/` ; bonus score via `CONFIGURATION.BONUS_SCORE` ; identifiants exportés en **français** (`parId`, `initialiser*`, `echapperHtml`…)

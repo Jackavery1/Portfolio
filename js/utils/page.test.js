@@ -15,4 +15,9 @@ describe('page utils', () => {
     expect(fichierPageDepuisPathname('/')).toBe('index.html');
     expect(fichierPageDepuisPathname('/Portfolio/index.html')).toBe('index.html');
   });
+
+  it('normalise les URLs sans extension (.html)', () => {
+    expect(fichierPageDepuisPathname('/projets')).toBe('projets.html');
+    expect(fichierPageDepuisPathname('/competences')).toBe('competences.html');
+  });
 });

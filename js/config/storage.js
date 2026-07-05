@@ -1,8 +1,8 @@
-export const STORAGE = {
-  SCORE_KEY: 'jm_portfolio_score',
-  PAGE_PREFIX: 'jm_page_',
-  DOJO_BOSS_PREFIX: 'jm_dojo_boss_',
-  HS_POPUP_VU: 'hs_popup_vu',
-  CONTACT_LAST_SUBMIT: 'jm_contact_last_submit',
-  NAV_CLAVIER_ANNONCE: 'jm_nav_clavier_annonce',
+export const STOCKAGE = {
+  CLE_SCORE: 'jm_portfolio_score',
+  PREFIXE_PAGE: 'jm_page_',
+  PREFIXE_DOJO_BOSS: 'jm_dojo_boss_',
+  POPUP_HS_VU: 'hs_popup_vu',
+  DERNIERE_SOUMISSION_CONTACT: 'jm_contact_last_submit',
+  ANNONCE_NAV_CLAVIER: 'jm_nav_clavier_annonce',
 };

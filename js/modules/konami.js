@@ -2,16 +2,17 @@
    Konami code (toggle + fanfare + score max)
    ============================================ */
 
-import { CONFIG } from '../config/index.js';
+import { CONFIGURATION } from '../config/index.js';
 import { parId } from '../utils/dom.js';
 import { jouerFanfareVictoire } from './audio.js';
 import { afficherPopupMeilleurScore, afficherScore, lireScore, sauvegarderScore } from './score.js';
+import { SCORE_PLAFOND } from '../utils/score-helpers.js';
 
 let saisieKonami = [];
 
 export function initialiserCodeKonami() {
   document.addEventListener('keydown', (evt) => {
-    const modalOverlay = parId(CONFIG.SELECTORS.MODAL);
+    const modalOverlay = parId(CONFIGURATION.SELECTEURS.MODALE);
     if (modalOverlay && !modalOverlay.hidden) return;
     const ae = document.activeElement;
     const tag = ae?.tagName;
@@ -19,15 +20,15 @@ export function initialiserCodeKonami() {
     if (ae?.isContentEditable) return;
 
     saisieKonami.push(evt.key);
-    const seq = CONFIG.KONAMI.SEQUENCE;
+    const seq = CONFIGURATION.KONAMI.SEQUENCE;
     if (saisieKonami.length > seq.length) saisieKonami.shift();
     if (saisieKonami.join(',') === seq.join(',')) {
       document.body.classList.toggle('konami-actif');
       jouerFanfareVictoire();
       const k = lireScore();
-      if (k < 9999) {
-        sauvegarderScore(9999);
-        afficherScore(9999);
+      if (k < SCORE_PLAFOND) {
+        sauvegarderScore(SCORE_PLAFOND);
+        afficherScore(SCORE_PLAFOND);
         setTimeout(afficherPopupMeilleurScore, 600);
       }
     }

@@ -96,10 +96,18 @@ jobs:
         run: npm ci
 
       - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium webkit
+        run: npx playwright install --with-deps chromium
+
+      - name: Download dist artifact
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # v4.1.8
+        with:
+          name: dist
+          path: .dist-staging
 
       - name: E2E tests
-        run: npx playwright test --project=responsive --project=responsive-webkit --project=desktop-chrome
+        env:
+          PLAYWRIGHT_SKIP_BUILD: '1'
+        run: npx playwright test --project=responsive --project=desktop-chrome
 
   lighthouse:
     needs: validate

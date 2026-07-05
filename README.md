@@ -16,9 +16,9 @@ npm run build
 npm run start:prod
 ```
 
-Sources brutes (partials en `fetch`, dont contact et dojo) : `npm start` — synchronise les fichiers générés puis sert la racine. La CSP et le service worker ne sont actifs qu’après build.
+Sources brutes (partials en `fetch`, dont contact et dojo) : `npm start` — synchronise les fichiers générés puis sert la racine. La CSP, le service worker et le mode hors ligne ne sont actifs qu’après build (`npm run start:prod`).
 
-Avant une release ou pour tester la PWA hors ligne : `npm run build && npm run start:prod`.
+Pour tester le comportement mobile/PWA réel (safe-area, offline, precache) : build prod obligatoire — le dev `npm start` ne reflète pas la PWA.
 
 Node **20+** (`.nvmrc`, requis par Vitest 3).
 
@@ -50,7 +50,7 @@ build/                 HTML, CSS, JS minify, PWA (manifest + SW)
 e2e/                   Smoke, a11y, responsive, navigation
 ```
 
-Push sur `main` → CI (`validate` : lint, tests, build) → déploiement GitHub Pages ; e2e et Lighthouse tournent en parallèle sans bloquer le deploy.
+Push sur `main` → CI (`validate`, e2e, Lighthouse) → déploiement GitHub Pages si tous les jobs passent.
 
 **GitHub Pages (une fois)** : source = **GitHub Actions** (pas la branche `main`) — voir [CONTRIBUTING.md § Dépannage](CONTRIBUTING.md#dépannage) si la prod s’affiche sans styles.
 

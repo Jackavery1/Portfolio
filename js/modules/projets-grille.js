@@ -1,5 +1,5 @@
-import { CONFIG } from '../config/index.js';
-import { PROJETS_ORDER, PROJECT_ICONS } from '../config/projects.js';
+import { CONFIGURATION } from '../config/index.js';
+import { PROJETS_ORDER, ICONES_PROJETS } from '../config/projects.js';
 import { echapperHtml } from '../utils/rich-text.js';
 
 function libelleEtoiles(n) {
@@ -19,7 +19,7 @@ function creerCarte(id, data) {
   btn.dataset.projet = id;
   btn.setAttribute('aria-label', data.ariaLabel || `Ouvrir le projet ${data.titre}`);
 
-  const icone = PROJECT_ICONS[id] || '';
+  const icone = ICONES_PROJETS[id] || '';
 
   btn.innerHTML = `
     <div class="carte-projet__entete">
@@ -52,7 +52,7 @@ export function initialiserGrilleProjets() {
   liste.className = 'projets-sommaire__liste';
 
   PROJETS_ORDER.forEach((id) => {
-    const data = CONFIG.PROJETS[id];
+    const data = CONFIGURATION.PROJETS[id];
     if (!data) return;
 
     grille.appendChild(creerCarte(id, data));

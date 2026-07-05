@@ -36,7 +36,7 @@
   padding: 0.6rem 1rem;
   touch-action: manipulation;
   font-family: var(--police-pixel);
-  font-size: clamp(var(--taille-pixel-min), 1.2vw, 0.48rem);
+  font-size: clamp(var(--taille-pixel-min), 1.2vw, var(--taille-pixel-petit-max));
   color: var(--couleur-fond);
   background-color: var(--couleur-accent-vif);
   border: 1px solid var(--couleur-accent);

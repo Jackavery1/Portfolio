@@ -3,7 +3,9 @@ import { gotoReady } from './helpers.js';
 import {
   PAGE_COQUILLE,
   PAGES,
+  PAGES_COQUILLE_ETENDUES,
   VIEWPORTS,
+  VIEWPORTS_ETENDUS,
   VIEWPORT_MOBILE,
   assertPasOverflowHorizontal,
 } from './fixtures/responsive.js';
@@ -20,6 +22,19 @@ for (const viewport of VIEWPORTS) {
     const viewportMeta = page.locator('meta[name="viewport"]');
     await expect(viewportMeta).toHaveAttribute('content', /viewport-fit=cover/);
   });
+}
+
+for (const viewport of VIEWPORTS_ETENDUS) {
+  for (const pageInfo of PAGES_COQUILLE_ETENDUES) {
+    test(`responsive ${viewport.label} — coquille ${pageInfo.path}`, async ({ page }) => {
+      await page.setViewportSize({ width: viewport.width, height: viewport.height });
+      await gotoReady(page, pageInfo.path);
+
+      await expect(page.locator('h1')).toBeVisible();
+      await expect(page.locator('h1')).toContainText(pageInfo.h1);
+      await assertPasOverflowHorizontal(page);
+    });
+  }
 }
 
 for (const pageInfo of PAGES.slice(1)) {

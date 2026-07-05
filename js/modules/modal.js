@@ -2,7 +2,7 @@
    Modale aperçu projet (WORK)
    ============================================ */
 
-import { CONFIG } from '../config/index.js';
+import { CONFIGURATION } from '../config/index.js';
 import { parId, tousParSelecteur } from '../utils/dom.js';
 import { piegerTabulationModale } from '../utils/focus.js';
 import { basculerInertFond } from '../utils/inert.js';
@@ -81,13 +81,13 @@ function remplirLiensModale(modalLien, data) {
 }
 
 export function ouvrirModal(projetKey) {
-  const data = CONFIG.PROJETS[projetKey];
-  const modalOverlay = parId(CONFIG.SELECTORS.MODAL);
-  const modalTitre = parId(CONFIG.SELECTORS.MODAL_TITRE);
-  const modalDesc = parId(CONFIG.SELECTORS.MODAL_DESC);
-  const modalTech = parId(CONFIG.SELECTORS.MODAL_TECH);
-  const modalImg = parId(CONFIG.SELECTORS.MODAL_IMG);
-  const btnFermer = parId(CONFIG.SELECTORS.MODAL_FERMER);
+  const data = CONFIGURATION.PROJETS[projetKey];
+  const modalOverlay = parId(CONFIGURATION.SELECTEURS.MODALE);
+  const modalTitre = parId(CONFIGURATION.SELECTEURS.MODALE_TITRE);
+  const modalDesc = parId(CONFIGURATION.SELECTEURS.MODALE_DESC);
+  const modalTech = parId(CONFIGURATION.SELECTEURS.MODALE_TECH);
+  const modalImg = parId(CONFIGURATION.SELECTEURS.MODALE_IMG);
+  const btnFermer = parId(CONFIGURATION.SELECTEURS.MODALE_FERMER);
   if (!data || !modalOverlay || !modalTitre || !modalDesc || !modalTech || !modalImg || !btnFermer)
     return;
 
@@ -96,10 +96,10 @@ export function ouvrirModal(projetKey) {
   modalTitre.textContent = data.titre;
   modalDesc.textContent = data.desc;
 
-  let modalLien = parId(CONFIG.SELECTORS.MODAL_LIEN);
+  let modalLien = parId(CONFIGURATION.SELECTEURS.MODALE_LIEN);
   if (!modalLien) {
     modalLien = document.createElement('p');
-    modalLien.id = CONFIG.SELECTORS.MODAL_LIEN;
+    modalLien.id = CONFIGURATION.SELECTEURS.MODALE_LIEN;
     modalLien.className = 'modal-lien';
     modalDesc.insertAdjacentElement('afterend', modalLien);
   }
@@ -126,12 +126,12 @@ export function ouvrirModal(projetKey) {
   modalOverlay.hidden = false;
   basculerInertFond(true, modalOverlay);
   jouerBip(440, 60, 'sine');
-  ajouterScore(CONFIG.SCORE_BONUS.PROJET);
+  ajouterScore(CONFIGURATION.BONUS_SCORE.PROJET);
   btnFermer.focus();
 }
 
 export function fermerModal() {
-  const modalOverlay = parId(CONFIG.SELECTORS.MODAL);
+  const modalOverlay = parId(CONFIGURATION.SELECTEURS.MODALE);
   if (!modalOverlay) return;
   modalOverlay.hidden = true;
   basculerInertFond(false);
@@ -145,7 +145,7 @@ export function fermerModal() {
 
 export function initialiserClavierModale() {
   document.addEventListener('keydown', (evt) => {
-    const modalOverlay = parId(CONFIG.SELECTORS.MODAL);
+    const modalOverlay = parId(CONFIGURATION.SELECTEURS.MODALE);
     if (!modalOverlay || modalOverlay.hidden) return;
     if (evt.key === 'Escape') {
       evt.preventDefault();
@@ -157,8 +157,8 @@ export function initialiserClavierModale() {
 }
 
 export function initialiserClicsModale() {
-  const modalOverlay = parId(CONFIG.SELECTORS.MODAL);
-  const btnFermer = parId(CONFIG.SELECTORS.MODAL_FERMER);
+  const modalOverlay = parId(CONFIGURATION.SELECTEURS.MODALE);
+  const btnFermer = parId(CONFIGURATION.SELECTEURS.MODALE_FERMER);
 
   tousParSelecteur('.carte-projet[data-projet]').forEach((carte) => {
     carte.addEventListener('click', () => ouvrirModal(carte.dataset.projet));

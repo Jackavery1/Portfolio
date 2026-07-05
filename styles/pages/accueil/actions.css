@@ -43,7 +43,7 @@
   color: var(--couleur-erreur);
   letter-spacing: 0.35px;
   line-height: 1.55;
-  border: 1px solid #b83232;
+  border: 1px solid var(--couleur-erreur-bordure);
   border-left: 4px solid var(--couleur-erreur);
   background:
     linear-gradient(90deg, var(--couleur-erreur), transparent 78%) top / 100% 2px no-repeat,
@@ -92,10 +92,10 @@
   font-family: var(--police-pixel);
   font-size: clamp(var(--taille-pixel-min), 3.2vw, 0.65rem);
   letter-spacing: 2px;
-  color: #ff9a9a;
+  color: var(--couleur-erreur-clair);
   padding: 0.08rem 0.3rem;
   background: var(--couleur-fond);
-  border: 1px solid #b83232;
+  border: 1px solid var(--couleur-erreur-bordure);
   line-height: 1.2;
   text-shadow: 0 0 6px rgba(255, 68, 68, 0.5);
   white-space: normal;

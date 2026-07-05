@@ -27,16 +27,16 @@
   --couleur-texte-normal: #8899cc;
   /* Placeholder : plus discret que le texte saisi, lisible sur --couleur-fond-champ */
   --couleur-texte-placeholder: #6474a3;
-  /* Texte désactivé (boutons, champs) — ≥ AA sur --couleur-fond-survol */
-  --couleur-texte-disabled: #8a9ee8;
+  /* Texte désactivé (boutons, champs) — plus atténué que --couleur-texte-discret, ≥ AA sur --couleur-fond-survol */
+  --couleur-texte-disabled: #7284b8;
   /* Lisible sur fond #03040f (≥ AA texte normal 4,5:1) tout en restant secondaire vs --couleur-texte-normal */
   --couleur-texte-discret: #8a9ee8;
 
-  /* Safe area — surchargés par env() dans les composants si besoin */
-  --safe-area-inset-top: 0px;
-  --safe-area-inset-right: 0px;
-  --safe-area-inset-bottom: 0px;
-  --safe-area-inset-left: 0px;
+  /* Safe area — env() natif ; surchargeable en tests via :root (--safe-area-inset-*) */
+  --safe-area-inset-top: env(safe-area-inset-top, 0px);
+  --safe-area-inset-right: env(safe-area-inset-right, 0px);
+  --safe-area-inset-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-area-inset-left: env(safe-area-inset-left, 0px);
 
   /* États succès / actif (jaune arcade) */
   --couleur-valide: #44cc88;
@@ -46,6 +46,8 @@
 
   /* Erreurs (validation champs, etc.) */
   --couleur-erreur: #ff4444;
+  --couleur-erreur-bordure: #b83232;
+  --couleur-erreur-clair: #ff9a9a;
 
   /* Effet CRT */
   --couleur-scanline: rgba(0, 0, 20, 0.28);
@@ -71,8 +73,8 @@
 
   /* Échelle typo (pixel, lisible, CRT) */
   --taille-petit-pixel: clamp(var(--taille-pixel-min), 1.2vw, var(--taille-pixel-petit-max));
-  --taille-bouton-pixel: clamp(var(--taille-pixel-min), 1.3vw, 0.5rem);
-  --taille-titre-pixel: clamp(var(--taille-pixel-min), 1.8vw, 0.7rem);
+  --taille-bouton-pixel: clamp(var(--taille-pixel-min), 1.3vw, var(--taille-pixel-petit-max));
+  --taille-titre-pixel: clamp(var(--taille-pixel-min), 1.8vw, var(--taille-pixel-petit-max));
   --taille-corps-lisible: clamp(0.95rem, 2.1vw, 1.1rem);
   --taille-corps-crt: clamp(0.85rem, 1.85vw, 1.02rem);
 

@@ -1,0 +1,98 @@
+/* Page hors ligne — charte arcade (standalone, precache PWA) */
+
+body {
+  min-height: 100dvh;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: max(var(--espacement-md), var(--safe-area-inset-top))
+    max(var(--espacement-md), var(--safe-area-inset-right))
+    max(var(--espacement-md), var(--safe-area-inset-bottom))
+    max(var(--espacement-md), var(--safe-area-inset-left));
+  background: var(--couleur-fond-page);
+  color: var(--couleur-texte-fort);
+  font-family: var(--police-crt);
+  font-size: var(--taille-corps-crt);
+  text-align: center;
+}
+
+.offline-ecran {
+  max-width: 28rem;
+  border: 1px solid var(--couleur-bordure-active);
+  padding: var(--espacement-xl) var(--espacement-lg);
+  box-shadow: 0 0 40px rgba(var(--couleur-accent-rgb), 0.2);
+  scroll-margin-top: max(var(--espacement-md), var(--safe-area-inset-top));
+}
+
+.lien-evitement {
+  position: fixed;
+  top: var(--safe-area-inset-top, 0);
+  left: 50%;
+  z-index: 10000;
+  min-height: 44px;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.6rem 1rem;
+  font-family: var(--police-pixel);
+  font-size: var(--taille-petit-pixel);
+  color: var(--couleur-fond);
+  background: var(--couleur-actif);
+  border: 2px solid var(--couleur-actif);
+  text-decoration: none;
+  transform: translate(-50%, -200%);
+  transition: transform var(--transition-ui);
+}
+
+.lien-evitement:focus-visible {
+  transform: translate(-50%, 0.5rem);
+  outline: 2px solid var(--couleur-actif);
+  outline-offset: 2px;
+}
+
+.offline-ecran h1 {
+  font-family: var(--police-pixel);
+  font-size: var(--taille-petit-pixel);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--couleur-accent-vif);
+  margin-bottom: var(--espacement-md);
+  line-height: 1.5;
+}
+
+.offline-ecran p {
+  line-height: 1.6;
+  margin-bottom: var(--espacement-lg);
+  color: var(--couleur-texte-normal);
+}
+
+.offline-ecran a {
+  font-family: var(--police-pixel);
+  font-size: var(--taille-petit-pixel);
+  min-height: 44px;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.7rem 1.1rem;
+  letter-spacing: 2px;
+  color: var(--couleur-accent-vif);
+  border: 1px solid var(--couleur-accent);
+  background: none;
+  text-decoration: none;
+  touch-action: manipulation;
+  transition:
+    background var(--transition-ui),
+    box-shadow var(--transition-ui);
+}
+
+.offline-ecran a:hover {
+  background-color: var(--couleur-accent-alpha);
+  box-shadow: var(--ombre-accent-ui);
+}
+
+.offline-ecran a:focus-visible {
+  outline: 2px solid var(--couleur-accent-vif);
+  outline-offset: 2px;
+}

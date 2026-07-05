@@ -31,6 +31,9 @@ function precacheUrls(distDir) {
 
   return [
     'offline.html',
+    'styles/tokens.css',
+    'styles/fonts-local.css',
+    'styles/pages/offline.css',
     'manifest.webmanifest',
     'assets/favicon.png',
     'assets/apple-touch-icon.png',

@@ -2,12 +2,12 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 vi.mock('../config/index.js', () => ({
-  CONFIG: {
+  CONFIGURATION: {
     PERSON_NAME: 'Joris Martinez',
     CONTACT: {
       EMAIL_B64: btoa('test@example.com'),
     },
-    SELECTORS: {
+    SELECTEURS: {
       MENTIONS_EMAIL_LINK: 'js-mentions-email',
     },
   },

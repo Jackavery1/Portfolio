@@ -2,9 +2,9 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 vi.mock('../config/index.js', () => ({
-  CONFIG: {
-    SELECTORS: { SCORE: 'js-score' },
-    STORAGE: { SCORE_KEY: 'portfolio-score' },
+  CONFIGURATION: {
+    SELECTEURS: { SCORE: 'js-score' },
+    STOCKAGE: { CLE_SCORE: 'portfolio-score' },
   },
 }));
 

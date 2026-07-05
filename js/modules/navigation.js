@@ -2,15 +2,15 @@
    Navigation : burger + flèches entre pages
    ============================================ */
 
-import { CONFIG } from '../config/index.js';
+import { CONFIGURATION } from '../config/index.js';
 import { parId } from '../utils/dom.js';
 import { piegerTabulationModale } from '../utils/focus.js';
 import { indexDansOrdreNavigation, libellerPageNavigation } from '../utils/navigation-helpers.js';
 import { jouerBip } from './audio.js';
 
 export function fermerMenuBurger() {
-  const burger = parId(CONFIG.SELECTORS.BURGER);
-  const menuNav = parId(CONFIG.SELECTORS.MENU);
+  const burger = parId(CONFIGURATION.SELECTEURS.BURGER);
+  const menuNav = parId(CONFIGURATION.SELECTEURS.MENU);
   if (!burger) return;
   burger.setAttribute('aria-expanded', 'false');
   burger.setAttribute('aria-label', 'Ouvrir le menu');
@@ -28,12 +28,12 @@ function focusPremierLienMenu(menuNav) {
 }
 
 function indexNavigationClavier() {
-  return indexDansOrdreNavigation(window.location.pathname, CONFIG.NAVIGATION.ORDER);
+  return indexDansOrdreNavigation(window.location.pathname, CONFIGURATION.NAVIGATION.ORDRE);
 }
 
 export function initialiserNavigationArcade() {
-  const burger = parId(CONFIG.SELECTORS.BURGER);
-  const menuNav = parId(CONFIG.SELECTORS.MENU);
+  const burger = parId(CONFIGURATION.SELECTEURS.BURGER);
+  const menuNav = parId(CONFIGURATION.SELECTEURS.MENU);
   if (!burger || !menuNav) return;
 
   burger.addEventListener('click', () => {
@@ -68,7 +68,7 @@ export function initialiserNavigationArcade() {
 function enregistrerAnnonceNavigation(fichier) {
   try {
     sessionStorage.setItem(
-      CONFIG.STORAGE.NAV_CLAVIER_ANNONCE,
+      CONFIGURATION.STOCKAGE.ANNONCE_NAV_CLAVIER,
       libellerPageNavigation(fichier)
     );
   } catch {
@@ -78,9 +78,9 @@ function enregistrerAnnonceNavigation(fichier) {
 
 export function annoncerNavigationClavier() {
   try {
-    const libelle = sessionStorage.getItem(CONFIG.STORAGE.NAV_CLAVIER_ANNONCE);
+    const libelle = sessionStorage.getItem(CONFIGURATION.STOCKAGE.ANNONCE_NAV_CLAVIER);
     if (!libelle) return;
-    sessionStorage.removeItem(CONFIG.STORAGE.NAV_CLAVIER_ANNONCE);
+    sessionStorage.removeItem(CONFIGURATION.STOCKAGE.ANNONCE_NAV_CLAVIER);
     const zone = parId('js-annonce-navigation');
     if (zone) zone.textContent = `Page ${libelle}`;
   } catch {
@@ -90,14 +90,14 @@ export function annoncerNavigationClavier() {
 
 export function initialiserNavigationClavier() {
   document.addEventListener('keydown', (evt) => {
-    const modalOverlay = parId(CONFIG.SELECTORS.MODAL);
+    const modalOverlay = parId(CONFIGURATION.SELECTEURS.MODALE);
     if (modalOverlay && !modalOverlay.hidden) return;
     if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return;
-    const menuNav = parId(CONFIG.SELECTORS.MENU);
+    const menuNav = parId(CONFIGURATION.SELECTEURS.MENU);
     if (menuNav?.classList.contains('ouvert')) return;
     const idx = indexNavigationClavier();
     if (idx < 0) return;
-    const ordre = CONFIG.NAVIGATION.ORDER;
+    const ordre = CONFIGURATION.NAVIGATION.ORDRE;
     if (evt.key === 'ArrowRight' && idx < ordre.length - 1) {
       jouerBip(440, 40);
       enregistrerAnnonceNavigation(ordre[idx + 1]);

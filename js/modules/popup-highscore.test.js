@@ -2,14 +2,14 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 vi.mock('../config/index.js', () => ({
-  CONFIG: {
-    SELECTORS: {
+  CONFIGURATION: {
+    SELECTEURS: {
       POPUP_HS: 'js-popup-hs',
       POPUP_HS_FERMER: 'js-popup-hs-fermer',
     },
-    STORAGE: {
-      SCORE_KEY: 'portfolio-score',
-      HS_POPUP_VU: 'portfolio-hs-popup-vu',
+    STOCKAGE: {
+      CLE_SCORE: 'portfolio-score',
+      POPUP_HS_VU: 'portfolio-hs-popup-vu',
     },
   },
 }));

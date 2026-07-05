@@ -1,8 +1,8 @@
-import { LEGAL } from './legal-data.js';
+import { MENTIONS_LEGALES } from './legal-data.js';
 
-export { LEGAL };
+export { MENTIONS_LEGALES };
 
-export const LEGAL_ANCHOR_LABELS = LEGAL.sections.map(({ id, title }) => ({
+export const LIBELLES_ANCRES_MENTIONS = MENTIONS_LEGALES.sections.map(({ id, title }) => ({
   id,
   label: title,
 }));

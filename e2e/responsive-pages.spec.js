@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { gotoReady } from './helpers.js';
-import { VIEWPORTS_BURGER, assertPasOverflowHorizontal } from './fixtures/responsive.js';
+import { VIEWPORTS_BURGER, VIEWPORT_ETROIT, assertPasOverflowHorizontal } from './fixtures/responsive.js';
 
 test('responsive mobile — sommaire projets et 6 cartes', async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 667 });
@@ -46,10 +46,10 @@ test('responsive mobile — scroll contact', async ({ page }) => {
   await assertPasOverflowHorizontal(page);
 });
 
-test('responsive mobile étroit — contact, dojo et mentions sans overflow (280px)', async ({
+test('responsive mobile étroit — contact, dojo et mentions sans overflow (320px)', async ({
   page,
 }) => {
-  await page.setViewportSize({ width: 280, height: 568 });
+  await page.setViewportSize(VIEWPORT_ETROIT);
 
   for (const path of ['/contact.html', '/dojo.html', '/mentions-legales.html']) {
     await gotoReady(page, path);

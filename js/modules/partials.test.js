@@ -3,8 +3,8 @@ import { describe, expect, it, vi, beforeEach } from 'vitest';
 import { chargerPartiels } from './partials.js';
 
 vi.mock('../config/index.js', () => ({
-  CONFIG: {
-    PARTIALS: [{ id: 'partial-nav', fichier: 'partials/nav.html' }],
+  CONFIGURATION: {
+    PARTIELS: [{ id: 'partial-nav', fichier: 'partials/nav.html' }],
   },
 }));
 

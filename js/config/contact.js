@@ -6,9 +6,9 @@ export const CONTACT = {
   FORMSPREE_ENDPOINT,
   RECAPTCHA_SITE_KEY,
   RECAPTCHA_VERSION: 3,
-  HONEYPOT_NAME: '_gotcha',
-  RATE_LIMIT_MS: 60_000,
-  LIMITS: { nom: 120, email: 254, message: 5000 },
+  NOM_POT_MIEL: '_gotcha',
+  DELAI_LIMITATION_MS: 60_000,
+  LIMITES: { nom: 120, email: 254, message: 5000 },
   CV_HREF: 'assets/cv-martinez-joris.pdf',
   CV_DOWNLOAD: 'CV-Martinez-Joris.pdf',
 };

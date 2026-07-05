@@ -1,23 +1,23 @@
 import { SITE_ORIGIN, PERSON_NAME, SOCIAL } from './defaults.js';
-import { STORAGE } from './storage.js';
+import { STOCKAGE } from './storage.js';
 import { CONTACT } from './contact.js';
-import { SELECTORS } from './selectors.js';
+import { SELECTEURS } from './selectors.js';
 import { NAVIGATION } from './navigation.js';
 import { KONAMI } from './konami.js';
-import { PARTIALS } from './partials.js';
+import { PARTIELS } from './partials.js';
 import { PROJETS } from './projects.js';
-import { SCORE_BONUS } from './score-bonus.js';
+import { BONUS_SCORE } from './score-bonus.js';
 
-export const CONFIG = {
+export const CONFIGURATION = {
   SITE_ORIGIN,
   PERSON_NAME,
   SOCIAL,
-  STORAGE,
+  STOCKAGE,
   CONTACT,
-  SELECTORS,
+  SELECTEURS,
   NAVIGATION,
   KONAMI,
-  PARTIALS,
+  PARTIELS,
   PROJETS,
-  SCORE_BONUS,
+  BONUS_SCORE,
 };

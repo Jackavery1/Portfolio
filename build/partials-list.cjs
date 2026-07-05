@@ -1,5 +1,5 @@
 /** Liste des partials HTML — source unique pour le build et le runtime. */
-const PARTIALS = [
+const PARTIELS = [
   { id: 'partial-nav', fichier: 'partials/nav.html' },
   { id: 'partial-footer', fichier: 'partials/footer.html' },
   { id: 'partial-marquee', fichier: 'partials/marquee.html' },
@@ -16,4 +16,4 @@ const PARTIALS = [
   { id: 'partial-contact-profil', fichier: 'partials/contact/profil.html' },
 ];
 
-module.exports = { PARTIALS };
+module.exports = { PARTIELS };

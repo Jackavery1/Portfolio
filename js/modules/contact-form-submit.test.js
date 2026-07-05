@@ -58,7 +58,7 @@ describe('contact-form-submit', () => {
     window.location = { href: '' };
 
     const ok = envoyerViaMailto({
-      config: { CONTACT: { EMAIL_B64: 'dGVzdEBleGFtcGxlLmNvbQ==' } },
+      configuration: { CONTACT: { EMAIL_B64: 'dGVzdEBleGFtcGxlLmNvbQ==' } },
       champs: { nom: 'Joris', email: 'joris@example.com', message: 'Salut' },
       sujetUtile: 'Projet',
     });
@@ -93,7 +93,7 @@ describe('contact-form-submit', () => {
     const afficherErreur = vi.fn();
 
     const result = await envoyerViaFormspree({
-      config: {
+      configuration: {
         CONTACT: {
           RECAPTCHA_SITE_KEY: 'key',
           FORMSPREE_ENDPOINT: 'https://formspree.io/f/test',
@@ -130,7 +130,7 @@ describe('contact-form-submit', () => {
     const afficherErreur = vi.fn();
 
     const envoi = envoyerViaFormspree({
-      config: {
+      configuration: {
         CONTACT: {
           RECAPTCHA_SITE_KEY: 'key',
           FORMSPREE_ENDPOINT: 'https://formspree.io/f/test',
@@ -162,7 +162,7 @@ describe('contact-form-submit', () => {
     const afficherErreur = vi.fn();
 
     await envoyerViaFormspree({
-      config: {
+      configuration: {
         CONTACT: {
           RECAPTCHA_SITE_KEY: 'key',
           FORMSPREE_ENDPOINT: 'https://formspree.io/f/test',

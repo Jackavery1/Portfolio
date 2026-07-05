@@ -9,10 +9,6 @@ dist/
 /partials/dojo-boss-rush.html
 /partials/competences-stats.html
 /partials/accueil-hero.html
-/partials/dojo-boss/_*.html
-/partials/competences/_*.html
-/partials/accueil/_*.html
-/partials/parcours-arbre/_*.html
 /sw.js
 /manifest.webmanifest
 /assets/apple-touch-icon.png
