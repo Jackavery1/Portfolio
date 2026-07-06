@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { injectAxe, checkA11y } from '@axe-core/playwright';
 import { gotoReady } from './helpers.js';
 import {
   PAGE_COQUILLE,
@@ -108,4 +109,25 @@ test('accessibility zoom 200% — pas overflow horizontal', async ({ page }) => 
   });
 
   expect(hasHorizontalScroll).toBe(false);
+});
+
+test('accessibility WCAG violations — accueil (axe-core)', async ({ page }) => {
+  await gotoReady(page, '/index.html');
+  await injectAxe(page);
+
+  await checkA11y(page, null, {
+    detailedReport: true,
+    detailedReportOptions: {
+      html: true,
+    },
+  });
+});
+
+test('accessibility WCAG violations — contact (axe-core)', async ({ page }) => {
+  await gotoReady(page, '/contact.html');
+  await injectAxe(page);
+
+  await checkA11y(page, null, {
+    detailedReport: true,
+  });
 });
