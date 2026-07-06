@@ -5,6 +5,8 @@ dist/
 /js/config/projects-data.js
 /js/config/partials.js
 /style.css
+/*.html
+/partials/**/_*.html
 /partials/parcours-arbre.html
 /partials/dojo-boss-rush.html
 /partials/competences-stats.html
