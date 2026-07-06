@@ -19,12 +19,7 @@ import {
 } from './contact-form-submit.js';
 import { initialiserScrollChampClavier } from '../utils/visual-viewport.js';
 
-async function initialiserRecaptchaContact({
-  endpoint,
-  recaptchaKey,
-  mount,
-  optionsRecaptcha,
-}) {
+async function initialiserRecaptchaContact({ endpoint, recaptchaKey, mount, optionsRecaptcha }) {
   if (endpoint && recaptchaKey) {
     try {
       await initialiserRecaptcha(optionsRecaptcha);
@@ -137,7 +132,10 @@ export async function initialiserFormulaireContact() {
     }
 
     if (
-      !peutSoumettreAvecSession(CONFIGURATION.STOCKAGE.DERNIERE_SOUMISSION_CONTACT, CONFIGURATION.CONTACT.DELAI_LIMITATION_MS)
+      !peutSoumettreAvecSession(
+        CONFIGURATION.STOCKAGE.DERNIERE_SOUMISSION_CONTACT,
+        CONFIGURATION.CONTACT.DELAI_LIMITATION_MS
+      )
     ) {
       jouerBip(150, 120, 'sawtooth');
       afficherErreur('Veuillez patienter avant un nouvel envoi.');
@@ -146,7 +144,10 @@ export async function initialiserFormulaireContact() {
 
     const { nom, email, message, champsDom: champsDomLus } = lireChampsFormulaire();
     if (!champsValides({ nom, email, message })) {
-      marquerChampsInvalides(construireErreursValidation({ nom, email, message, champsDom: champsDomLus }), jouerBip);
+      marquerChampsInvalides(
+        construireErreursValidation({ nom, email, message, champsDom: champsDomLus }),
+        jouerBip
+      );
       formulaire.reportValidity();
       return;
     }

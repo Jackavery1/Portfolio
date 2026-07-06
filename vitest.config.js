@@ -19,7 +19,13 @@ export default defineConfig({
         'build/page-styles.cjs',
         'build/sync-source.cjs',
       ],
-      exclude: ['**/*.test.js', 'js/config/defaults.js', 'js/config/legal-data.js', 'js/config/projects-data.js', 'js/config/legal.json'],
+      exclude: [
+        '**/*.test.js',
+        'js/config/defaults.js',
+        'js/config/legal-data.js',
+        'js/config/projects-data.js',
+        'js/config/legal.json',
+      ],
       thresholds: {
         lines: 40,
         functions: 40,

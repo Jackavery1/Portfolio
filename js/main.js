@@ -1,7 +1,11 @@
 import { CONFIGURATION } from './config/index.js';
 import { parId } from './utils/dom.js';
 import { chargerPartiels } from './modules/partials.js';
-import { initialiserNavigationArcade, initialiserNavigationClavier, annoncerNavigationClavier } from './modules/navigation.js';
+import {
+  initialiserNavigationArcade,
+  initialiserNavigationClavier,
+  annoncerNavigationClavier,
+} from './modules/navigation.js';
 import {
   afficherPopupMeilleurScore,
   afficherScore,

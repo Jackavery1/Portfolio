@@ -22,7 +22,10 @@ vi.mock('./score-session.js', () => ({
   lireScore: vi.fn(() => 9999),
 }));
 
-import { afficherPopupMeilleurScore, initialiserFermeturePopupMeilleurScore } from './popup-highscore.js';
+import {
+  afficherPopupMeilleurScore,
+  initialiserFermeturePopupMeilleurScore,
+} from './popup-highscore.js';
 
 describe('popup-highscore', () => {
   beforeEach(() => {

@@ -84,7 +84,8 @@ describe('page-styles', () => {
       for (const entree of fs.readdirSync(dir, { withFileTypes: true })) {
         const absolu = path.join(dir, entree.name);
         if (entree.isDirectory()) listerCss(absolu, acc);
-        else if (entree.name.endsWith('.css')) acc.push(path.relative(rootDir, absolu).replace(/\\/g, '/'));
+        else if (entree.name.endsWith('.css'))
+          acc.push(path.relative(rootDir, absolu).replace(/\\/g, '/'));
       }
       return acc;
     }

@@ -62,10 +62,7 @@ function placeholderRegex(id) {
     new RegExp(`<div id="${id}"[^>]*>\\s*</div>`, 'i'),
     new RegExp(`<header\\b[^>]*\\bid=["']${id}["'][^>]*>[\\s\\S]*?<\\/header>`, 'i'),
     new RegExp(`<footer\\b[^>]*\\bid=["']${id}["'][^>]*>[\\s\\S]*?<\\/footer>`, 'i'),
-    new RegExp(
-      `<(?:nav|div)\\b[^>]*\\bid=["']${id}["'][^>]*>[\\s\\S]*?<\\/(?:nav|div)>`,
-      'i'
-    ),
+    new RegExp(`<(?:nav|div)\\b[^>]*\\bid=["']${id}["'][^>]*>[\\s\\S]*?<\\/(?:nav|div)>`, 'i'),
   ];
 }
 

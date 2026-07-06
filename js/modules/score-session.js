@@ -43,7 +43,9 @@ export function ajouterScore(pts) {
   afficherScore(apres);
   if (apres >= SCORE_PLAFOND) {
     setTimeout(() => {
-      import('./popup-highscore.js').then(({ afficherPopupMeilleurScore }) => afficherPopupMeilleurScore());
+      import('./popup-highscore.js').then(({ afficherPopupMeilleurScore }) =>
+        afficherPopupMeilleurScore()
+      );
     }, 600);
   }
 }

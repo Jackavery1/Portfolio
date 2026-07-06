@@ -1,9 +1,5 @@
 import { test, expect } from '@playwright/test';
-import {
-  gotoReady,
-  assertHauteurTactile,
-  assertLargeurTactile,
-} from './helpers.js';
+import { gotoReady, assertHauteurTactile, assertLargeurTactile } from './helpers.js';
 
 test('responsive mobile — cibles tactiles ≥ 44px', async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 667 });

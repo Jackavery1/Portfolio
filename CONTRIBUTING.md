@@ -36,10 +36,10 @@ La **CSP** et le **service worker** ne sont injectés qu’après `npm run build
 
 Deux sources complémentaires — ne pas les confondre :
 
-| Fichier | Rôle | Quand |
-| ------- | ---- | ----- |
-| `partials/nav-squelette.html` | Nav minimale (first paint, landmarks, liens) | Inlinée dans les HTML sources via `build/sync-nav-squelette.cjs` |
-| `partials/nav.html` | Nav complète (score, burger, annonce AT) | Fetch runtime (`js/modules/partials.js`) ; inlinée au build prod (`build/html.cjs`) |
+| Fichier                       | Rôle                                         | Quand                                                                               |
+| ----------------------------- | -------------------------------------------- | ----------------------------------------------------------------------------------- |
+| `partials/nav-squelette.html` | Nav minimale (first paint, landmarks, liens) | Inlinée dans les HTML sources via `build/sync-nav-squelette.cjs`                    |
+| `partials/nav.html`           | Nav complète (score, burger, annonce AT)     | Fetch runtime (`js/modules/partials.js`) ; inlinée au build prod (`build/html.cjs`) |
 
 **Workflow** : modifier le squelette → `node build/sync-nav-squelette.cjs` (ou `npm run pretest`). Modifier la nav interactive → `partials/nav.html` uniquement. Les deux doivent rester alignés sur les liens et le seuil burger (960/961 px).
 
@@ -54,12 +54,14 @@ Point d’entrée unique : `js/modules/contact.js` (`initialiserPageContact`). S
 Thème **sombre arcade CRT** — choix intentionnel, pas de variante claire (light mode). `prefers-color-scheme` n’est **pas utilisé** ; le design ignore la préférence utilisateur et assume dark-only.
 
 **Pourquoi light-only :**
+
 - Identité neon arcade assume (cyberpunk, pixel art, rétro 80s)
 - Palette 3-couleurs optimisée pour dark (#000008 fond, #4a6fff bleu, #ffcc44 jaune)
 - Contrastes AA+ mesurés sur fond dark uniquement
 - Expérience utilisateur unifiée = pas de friction choix thème
 
 **Limitation et acceptation :**
+
 - Utilisateurs en mode light préfèrent dark : expérience potentiellement inconfortable
 - Cette décision doit être communiquée dans l’UX (clarifier que dark-only est volontaire, pas un bug)
 
@@ -111,13 +113,13 @@ Ne jamais committer de secrets (clé secrète reCAPTCHA, tokens privés). Voir [
 | ---------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Navigateur absent (`Executable doesn't exist`) | `npm run test:e2e:install` ou `npx playwright install --with-deps chromium webkit`                                                                                                                         |
 | Téléchargement bloqué (certificat SSL)         | Même correctif que npm ci-dessus, puis relancer l’install ; sous PowerShell : `$env:NODE_TLS_REJECT_UNAUTHORIZED='0'; npx playwright install chromium webkit` (temporaire, réseau de confiance uniquement) |
-| E2e lent / timeout CI                          | CI : Chromium seul (`responsive` + `desktop-chrome`). Safari local : `npm run test:e2e:webkit`. Timeout job e2e : 20 min |
+| E2e lent / timeout CI                          | CI : Chromium seul (`responsive` + `desktop-chrome`). Safari local : `npm run test:e2e:webkit`. Timeout job e2e : 20 min                                                                                   |
 
 ### Site / UX
 
 | Problème                                        | Solution                                                                                                                                                                                                                                              |
 | ----------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Nav / footer vides                              | Serveur HTTP (`npm start`), pas `file://` ni Live Server |
+| Nav / footer vides                              | Serveur HTTP (`npm start`), pas `file://` ni Live Server                                                                                                                                                                                              |
 | Formulaire 403                                  | Domaines reCAPTCHA + Formspree autorisés pour votre URL                                                                                                                                                                                               |
 | Favicon absente                                 | Hard refresh ; vérifier `assets/favicon.png` après build                                                                                                                                                                                              |
 | Page blanche hors ligne                         | Visiter une fois en ligne pour remplir le cache ; sinon `offline.html` s’affiche                                                                                                                                                                      |

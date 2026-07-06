@@ -62,7 +62,11 @@ describe('recaptcha', () => {
   });
 
   it('initialiserRecaptcha retourne false sans clé site', async () => {
-    const ok = await initialiserRecaptcha({ siteKey: '', version: 3, mountId: 'js-recaptcha-mount' });
+    const ok = await initialiserRecaptcha({
+      siteKey: '',
+      version: 3,
+      mountId: 'js-recaptcha-mount',
+    });
     expect(ok).toBe(false);
   });
 

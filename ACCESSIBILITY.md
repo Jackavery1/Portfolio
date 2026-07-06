@@ -15,27 +15,27 @@ Documentation d'accessibilité (a11y) pour les testeurs, développeurs et mainte
 
 ### Tests validés
 
-| Type | Outil | Fréquence |
-|------|-------|-----------|
-| Contrastes | Lighthouse + manual check | À chaque change token.css |
-| WCAG violations | axe-core (e2e) | CI (responsivité tests) |
-| Keyboard nav | Playwright + manual | E2E focus.test.js |
-| Zoom 200% | Playwright | E2E responsive-viewports.spec.js |
-| Réduction mouvement | CSS @media + manual | À chaque animation ajoutée |
+| Type                | Outil                     | Fréquence                        |
+| ------------------- | ------------------------- | -------------------------------- |
+| Contrastes          | Lighthouse + manual check | À chaque change token.css        |
+| WCAG violations     | axe-core (e2e)            | CI (responsivité tests)          |
+| Keyboard nav        | Playwright + manual       | E2E focus.test.js                |
+| Zoom 200%           | Playwright                | E2E responsive-viewports.spec.js |
+| Réduction mouvement | CSS @media + manual       | À chaque animation ajoutée       |
 
 ## Contrastes mesurés
 
 ### Couleurs core
 
-| Combinaison | Ratio | Niveau |
-|-------------|-------|--------|
-| Accent bleu (#4a6fff) sur fond dark (#03040f) | 4.87:1 | ✅ AA |
-| Texte fort (#d0ddff) sur fond | 15.05:1 | ✅ AAA |
-| Texte normal (#8899cc) sur fond | 7.27:1 | ✅ AA |
-| Texte discret (#8a9ee8) sur fond | 7.91:1 | ✅ AA |
-| Placeholder (#6474a3) sur champ (#0a0e25) | 4.14:1 | ⚠️ AA |
-| Erreur rouge (#ff4444) sur fond | 5.99:1 | ✅ AA |
-| Succès vert (#44cc88) sur fond | 5.18:1 | ✅ AA |
+| Combinaison                                   | Ratio   | Niveau |
+| --------------------------------------------- | ------- | ------ |
+| Accent bleu (#4a6fff) sur fond dark (#03040f) | 4.87:1  | ✅ AA  |
+| Texte fort (#d0ddff) sur fond                 | 15.05:1 | ✅ AAA |
+| Texte normal (#8899cc) sur fond               | 7.27:1  | ✅ AA  |
+| Texte discret (#8a9ee8) sur fond              | 7.91:1  | ✅ AA  |
+| Placeholder (#6474a3) sur champ (#0a0e25)     | 4.14:1  | ⚠️ AA  |
+| Erreur rouge (#ff4444) sur fond               | 5.99:1  | ✅ AA  |
+| Succès vert (#44cc88) sur fond                | 5.18:1  | ✅ AA  |
 
 **Note** : Placeholder est limite AA mais acceptable (texte secondaire, non critique).
 
@@ -63,9 +63,12 @@ Appliqué sur tous les boutons, inputs, liens modaux. **Ne pas supprimer outline
 ### Ordre logique (Tab order)
 
 ```html
-<nav>...</nav>     <!-- Tab d'abord -->
-<main>...</main>   <!-- Puis contenu -->
-<footer>...</footer> <!-- Puis pied -->
+<nav>...</nav>
+<!-- Tab d'abord -->
+<main>...</main>
+<!-- Puis contenu -->
+<footer>...</footer>
+<!-- Puis pied -->
 ```
 
 Ordre DOM = ordre Tab. Pas de `tabindex` positif (sauf si vraiment nécessaire).
@@ -118,11 +121,11 @@ Utilisés par NVDA/JAWS pour navigation rapide.
 
 ### Animations critiques
 
-| Animation | Contexte | Réduit |
-|-----------|----------|--------|
-| Transition bouton (300ms) | UI feedback | ✓ Réduit à 0ms |
-| Fade modal (200ms) | Overlay entrée | ✓ Réduit à 0ms |
-| Scroll smooth | Navigation | ✓ Scroll instant |
+| Animation                 | Contexte       | Réduit           |
+| ------------------------- | -------------- | ---------------- |
+| Transition bouton (300ms) | UI feedback    | ✓ Réduit à 0ms   |
+| Fade modal (200ms)        | Overlay entrée | ✓ Réduit à 0ms   |
+| Scroll smooth             | Navigation     | ✓ Scroll instant |
 
 ## Testabilité
 
@@ -133,6 +136,7 @@ npm run test:e2e -- responsive-viewports.spec.js
 ```
 
 Inclus :
+
 - ✅ axe-core WCAG violations (accueil, contact)
 - ✅ Zoom 200% sans overflow
 - ✅ Focus visible (focus.test.js)
@@ -196,13 +200,13 @@ npm run lint           # ESLint a11y rules
 
 ### Outils recommandés
 
-| Outil | Utilité | Fréquence |
-|-------|---------|-----------|
-| [axe DevTools](https://www.deque.com/axe/devtools/) | Scanner violations | Ad-hoc |
-| [WAVE](https://wave.webaim.org/) | Audit contrast / structure | Ad-hoc |
-| [Lighthouse](https://developers.google.com/web/tools/lighthouse) | Core Web Vitals + a11y | CI auto |
-| [NVDA](https://www.nvaccess.org/) | Screen reader (Windows) | Manual testing |
-| [Colour Contrast Analyser](https://www.tpgi.com/color-contrast-checker/) | Contraste précis | Avant commit |
+| Outil                                                                    | Utilité                    | Fréquence      |
+| ------------------------------------------------------------------------ | -------------------------- | -------------- |
+| [axe DevTools](https://www.deque.com/axe/devtools/)                      | Scanner violations         | Ad-hoc         |
+| [WAVE](https://wave.webaim.org/)                                         | Audit contrast / structure | Ad-hoc         |
+| [Lighthouse](https://developers.google.com/web/tools/lighthouse)         | Core Web Vitals + a11y     | CI auto        |
+| [NVDA](https://www.nvaccess.org/)                                        | Screen reader (Windows)    | Manual testing |
+| [Colour Contrast Analyser](https://www.tpgi.com/color-contrast-checker/) | Contraste précis           | Avant commit   |
 
 ## Ressources
 

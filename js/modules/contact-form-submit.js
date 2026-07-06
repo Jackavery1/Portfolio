@@ -29,7 +29,13 @@ function restaurerBoutonEnvoi(btnEnvoyer, labelEnvoyer) {
   delete btnEnvoyer.form?.dataset.envoiEnCours;
 }
 
-function signalerEchecEnvoi({ btnEnvoyer, labelEnvoyer, msg, afficherErreur, reinitialiserRecaptcha = false }) {
+function signalerEchecEnvoi({
+  btnEnvoyer,
+  labelEnvoyer,
+  msg,
+  afficherErreur,
+  reinitialiserRecaptcha = false,
+}) {
   jouerBip(150, 120, 'sawtooth');
   restaurerBoutonEnvoi(btnEnvoyer, labelEnvoyer);
   if (reinitialiserRecaptcha) reinitialiserWidgetRecaptcha();

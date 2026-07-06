@@ -13,7 +13,12 @@ vi.mock('./audio.js', () => ({
   jouerBip: vi.fn(),
 }));
 
-import { fermerMenuBurger, initialiserNavigationArcade, initialiserNavigationClavier, annoncerNavigationClavier } from './navigation.js';
+import {
+  fermerMenuBurger,
+  initialiserNavigationArcade,
+  initialiserNavigationClavier,
+  annoncerNavigationClavier,
+} from './navigation.js';
 import { jouerBip } from './audio.js';
 
 describe('navigation', () => {

@@ -59,15 +59,15 @@ Approche **test-per-module** : 229 tests (100%), 0 mocking frameworks (JSDOM onl
 
 ## Structure fichiers
 
-| Chemin | Rôle | Exemple |
-|--------|------|---------|
-| `js/config/` | Données centralisées (read-only) | `projects.json` → `projects-data.js` (généré) |
-| `js/utils/` | Fonctions pures | `dom.js` (querySelector), `validation.js` (email) |
-| `js/modules/` | Logique métier + UI | `contact.js` (API orchestration) |
-| `styles/` | Design tokens + components | `tokens.css` (couleurs, typo), `components/` (réutilisables) |
-| `partials/` | Fragments HTML générés | `parcours-arbre.html` (assemblé depuis `partials/parcours-arbre/`) |
-| `build/` | Pipeline : sync, minify, optimize | `build/sync-source.cjs`, `build/html.cjs`, `build/sw.cjs` |
-| `e2e/` | Tests end-to-end Playwright | `responsive-*.spec.js`, `fixtures/` |
+| Chemin        | Rôle                              | Exemple                                                            |
+| ------------- | --------------------------------- | ------------------------------------------------------------------ |
+| `js/config/`  | Données centralisées (read-only)  | `projects.json` → `projects-data.js` (généré)                      |
+| `js/utils/`   | Fonctions pures                   | `dom.js` (querySelector), `validation.js` (email)                  |
+| `js/modules/` | Logique métier + UI               | `contact.js` (API orchestration)                                   |
+| `styles/`     | Design tokens + components        | `tokens.css` (couleurs, typo), `components/` (réutilisables)       |
+| `partials/`   | Fragments HTML générés            | `parcours-arbre.html` (assemblé depuis `partials/parcours-arbre/`) |
+| `build/`      | Pipeline : sync, minify, optimize | `build/sync-source.cjs`, `build/html.cjs`, `build/sw.cjs`          |
+| `e2e/`        | Tests end-to-end Playwright       | `responsive-*.spec.js`, `fixtures/`                                |
 
 ## Décisions architecturales clés
 
@@ -132,8 +132,8 @@ Séparation orchestration (contact.js) vs exécution (contact-form-submit.js).
 
 ```javascript
 // js/modules/modal.js
-initialiserClavierModale()   // Tab, Escape
-initialiserClicsModale()      // click handlers
+initialiserClavierModale(); // Tab, Escape
+initialiserClicsModale(); // click handlers
 ```
 
 Deux stratégies importer séparément selon context.

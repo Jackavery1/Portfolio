@@ -57,7 +57,8 @@ export async function simulerInsets(page, { haut = 0, bas = 0, gauche = 0, droit
         document.documentElement.style.setProperty('--safe-area-inset-bottom', `${bottom}px`);
       }
       if (left) document.documentElement.style.setProperty('--safe-area-inset-left', `${left}px`);
-      if (right) document.documentElement.style.setProperty('--safe-area-inset-right', `${right}px`);
+      if (right)
+        document.documentElement.style.setProperty('--safe-area-inset-right', `${right}px`);
     },
     { haut, bas, gauche, droite }
   );

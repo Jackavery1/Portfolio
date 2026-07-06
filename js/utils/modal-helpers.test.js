@@ -9,7 +9,9 @@ import {
 
 describe('modal-helpers', () => {
   it('résout l’aperçu projet', () => {
-    expect(resoudreSrcApercu({ apercu: 'assets/previews/lsf.png' })).toBe('assets/previews/lsf.png');
+    expect(resoudreSrcApercu({ apercu: 'assets/previews/lsf.png' })).toBe(
+      'assets/previews/lsf.png'
+    );
     expect(resoudreSrcApercu({})).toBeNull();
   });
 

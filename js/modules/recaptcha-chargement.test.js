@@ -22,9 +22,9 @@ describe('recaptcha-chargement', () => {
 
     retirerScriptsRecaptcha();
 
-    expect(document.querySelectorAll('script[data-recaptcha-v3], script[data-recaptcha-v2]')).toHaveLength(
-      0
-    );
+    expect(
+      document.querySelectorAll('script[data-recaptcha-v3], script[data-recaptcha-v2]')
+    ).toHaveLength(0);
   });
 
   it('rejette si grecaptcha absent après onload v3', async () => {

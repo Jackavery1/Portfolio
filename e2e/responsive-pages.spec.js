@@ -1,6 +1,10 @@
 import { test, expect } from '@playwright/test';
 import { gotoReady } from './helpers.js';
-import { VIEWPORTS_BURGER, VIEWPORT_ETROIT, assertPasOverflowHorizontal } from './fixtures/responsive.js';
+import {
+  VIEWPORTS_BURGER,
+  VIEWPORT_ETROIT,
+  assertPasOverflowHorizontal,
+} from './fixtures/responsive.js';
 
 test('responsive mobile — sommaire projets et 6 cartes', async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 667 });

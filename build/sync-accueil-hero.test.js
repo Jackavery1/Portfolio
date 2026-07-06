@@ -10,10 +10,7 @@ const rootDir = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 
 describe('accueil-hero sync', () => {
   it('accueil-hero.html assemble tous les fragments', () => {
-    const assembled = fs.readFileSync(
-      path.join(rootDir, 'partials', 'accueil-hero.html'),
-      'utf8'
-    );
+    const assembled = fs.readFileSync(path.join(rootDir, 'partials', 'accueil-hero.html'), 'utf8');
     FRAGMENTS.forEach((rel) => {
       const fragment = fs.readFileSync(path.join(rootDir, rel), 'utf8').trim();
       expect(assembled).toContain(fragment.slice(0, 40));

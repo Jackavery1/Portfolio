@@ -33,7 +33,8 @@ function ratioContraste(fgHex, bgHex) {
 function lireTokensCss() {
   const contenu = fs.readFileSync(tokensPath, 'utf8');
   const blocRoot = contenu.match(/:root\s*\{([^}]+)\}/s)?.[1] ?? '';
-  const blocMobile = contenu.match(/@media \(max-width: 960px\)\s*\{\s*:root\s*\{([^}]+)\}/s)?.[1] ?? '';
+  const blocMobile =
+    contenu.match(/@media \(max-width: 960px\)\s*\{\s*:root\s*\{([^}]+)\}/s)?.[1] ?? '';
 
   const lirePaires = (bloc) => {
     const tokens = {};

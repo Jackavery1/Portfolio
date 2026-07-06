@@ -11,8 +11,7 @@ const HTML_FILES = [
   'mentions-legales.html',
 ];
 
-const HEADER_INNER_RE =
-  /(<header\b[^>]*\bid=["']partial-nav["'][^>]*>)([\s\S]*?)(<\/header>)/i;
+const HEADER_INNER_RE = /(<header\b[^>]*\bid=["']partial-nav["'][^>]*>)([\s\S]*?)(<\/header>)/i;
 
 function syncNavSquelette(root = path.join(__dirname, '..')) {
   const partialPath = path.join(root, 'partials', 'nav-squelette.html');
