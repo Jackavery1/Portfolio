@@ -90,3 +90,22 @@ test('responsive score arcade — visible en compact, label masqué', async ({ p
   await expect(page.locator('#js-score')).toBeVisible();
   await expect(page.locator('.arcade-label')).toBeHidden();
 });
+
+test('accessibility zoom 200% — pas overflow horizontal', async ({ page }) => {
+  await gotoReady(page, '/index.html');
+
+  await page.evaluate(() => {
+    document.documentElement.style.zoom = '200%';
+  });
+
+  const bodyWidth = await page.evaluate(() => document.body.offsetWidth);
+  const windowWidth = await page.evaluate(() => window.innerWidth);
+
+  expect(bodyWidth).toBeLessThanOrEqual(windowWidth + 1);
+
+  const hasHorizontalScroll = await page.evaluate(() => {
+    return document.documentElement.scrollWidth > window.innerWidth;
+  });
+
+  expect(hasHorizontalScroll).toBe(false);
+});

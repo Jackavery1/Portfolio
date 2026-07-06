@@ -19,10 +19,27 @@ export default defineConfig({
   },
   projects: [
     {
-      name: 'responsive',
+      name: 'responsive-mobile-portrait',
       testMatch: RESPONSIVE_SPECS,
       use: {
         ...devices['Pixel 5'],
+        viewport: { width: 375, height: 667 },
+      },
+    },
+    {
+      name: 'responsive-mobile-landscape',
+      testMatch: RESPONSIVE_SPECS,
+      use: {
+        ...devices['Pixel 5'],
+        viewport: { width: 667, height: 375 },
+      },
+    },
+    {
+      name: 'responsive-tablet',
+      testMatch: RESPONSIVE_SPECS,
+      use: {
+        ...devices['iPad Pro'],
+        viewport: { width: 768, height: 1024 },
       },
     },
     {

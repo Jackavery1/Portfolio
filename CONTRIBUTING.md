@@ -49,7 +49,23 @@ Point d’entrée unique : `js/modules/contact.js` (`initialiserPageContact`). S
 
 ## Design & thème
 
-Thème **sombre arcade CRT** volontaire — pas de variante claire (`prefers-color-scheme` non utilisé). Le bloc `@media (max-width: 960px)` dans `styles/tokens.css` assombrit/éclaircit légèrement les surfaces pour la lisibilité mobile, sans changer l’intention visuelle.
+### Identité visuelle
+
+Thème **sombre arcade CRT** — choix intentionnel, pas de variante claire (light mode). `prefers-color-scheme` n’est **pas utilisé** ; le design ignore la préférence utilisateur et assume dark-only.
+
+**Pourquoi light-only :**
+- Identité neon arcade assume (cyberpunk, pixel art, rétro 80s)
+- Palette 3-couleurs optimisée pour dark (#000008 fond, #4a6fff bleu, #ffcc44 jaune)
+- Contrastes AA+ mesurés sur fond dark uniquement
+- Expérience utilisateur unifiée = pas de friction choix thème
+
+**Limitation et acceptation :**
+- Utilisateurs en mode light préfèrent dark : expérience potentiellement inconfortable
+- Cette décision doit être communiquée dans l’UX (clarifier que dark-only est volontaire, pas un bug)
+
+### Responsive design (surfaces mobiles)
+
+Le bloc `@media (max-width: 960px)` dans `styles/tokens.css` **assombrit/éclaircit légèrement les surfaces** pour la lisibilité mobile, sans changer l’intention visuelle arcade. Les couleurs restent dark ; seul le contraste des surfaces (--couleur-fond, --couleur-separateur) s’ajuste.
 
 ## Configuration
 

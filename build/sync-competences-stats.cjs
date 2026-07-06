@@ -10,6 +10,8 @@ const FRAGMENTS = [
 
 function syncCompetencesStats(root = path.join(__dirname, '..')) {
   const target = path.join(root, 'partials', 'competences-stats.html');
+  const targetDir = path.dirname(target);
+
   const parts = FRAGMENTS.map((rel) => {
     const filePath = path.join(root, rel);
     if (!fs.existsSync(filePath)) {
@@ -17,6 +19,8 @@ function syncCompetencesStats(root = path.join(__dirname, '..')) {
     }
     return fs.readFileSync(filePath, 'utf8').trimEnd();
   });
+
+  fs.mkdirSync(targetDir, { recursive: true });
   fs.writeFileSync(target, `${parts.join('\n')}\n`, 'utf8');
 }
 
