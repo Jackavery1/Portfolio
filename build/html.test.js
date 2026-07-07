@@ -65,4 +65,16 @@ describe('build html', () => {
     expect(HTML_FILES).toContain('contact.html');
     expect(HTML_FILES).toHaveLength(7);
   });
+
+  it('précharge le module mentions légales sur la page dédiée', () => {
+    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'portfolio-build-'));
+    try {
+      copyHTML(rootDir, tmp, 'https://example.com');
+      const built = fs.readFileSync(path.join(tmp, 'mentions-legales.html'), 'utf8');
+      expect(built).toContain('rel="modulepreload" href="js/modules/mentions-legales.js"');
+      expect(built).toContain('class="mentions-intro"');
+    } finally {
+      fs.rmSync(tmp, { recursive: true, force: true });
+    }
+  });
 });

@@ -122,7 +122,11 @@ function balisesStylesProd(htmlFile) {
   const stylesheets = fichiers
     .map((href) => `    <link rel="stylesheet" href="${href}" />`)
     .join('\n');
-  return `    <link rel="modulepreload" href="js/main.js" />\n${preloads}\n${stylesheets}`;
+  const modulesSupplementaires =
+    htmlFile === 'mentions-legales.html'
+      ? '\n    <link rel="modulepreload" href="js/modules/mentions-legales.js" />'
+      : '';
+  return `    <link rel="modulepreload" href="js/main.js" />${modulesSupplementaires}\n${preloads}\n${stylesheets}`;
 }
 
 function injectJsonLd(html, htmlFile, siteBase) {

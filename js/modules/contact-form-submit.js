@@ -114,9 +114,9 @@ export async function envoyerViaFormspree({
       body: fd,
       headers: { Accept: 'application/json' },
     });
-    let payload = null;
+    let corpsReponse = null;
     try {
-      payload = await res.json();
+      corpsReponse = await res.json();
     } catch {
       /* corps non JSON */
     }
@@ -128,7 +128,7 @@ export async function envoyerViaFormspree({
     signalerEchecEnvoi({
       btnEnvoyer,
       labelEnvoyer,
-      msg: messageErreurFormspree(payload, res),
+      msg: messageErreurFormspree(corpsReponse, res),
       afficherErreur,
       reinitialiserRecaptcha: true,
     });

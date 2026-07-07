@@ -14,7 +14,6 @@ vi.mock('./audio.js', () => ({
 }));
 
 import {
-  fermerMenuBurger,
   initialiserNavigationArcade,
   initialiserNavigationClavier,
   annoncerNavigationClavier,
@@ -46,7 +45,7 @@ describe('navigation', () => {
     expect(document.body.classList.contains('nav-scroll-lock')).toBe(true);
     expect(document.activeElement).toBe(menu.querySelector('.nav__bouton'));
 
-    fermerMenuBurger();
+    burger.click();
     expect(burger.getAttribute('aria-expanded')).toBe('false');
     expect(menu.classList.contains('ouvert')).toBe(false);
     expect(document.body.classList.contains('nav-scroll-lock')).toBe(false);

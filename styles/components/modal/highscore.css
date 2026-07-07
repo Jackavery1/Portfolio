@@ -37,7 +37,6 @@
   color: var(--couleur-actif);
   text-shadow: 0 0 20px var(--couleur-actif);
   letter-spacing: 3px;
-  animation: pulsation 1s ease-in-out infinite;
   margin: 0;
   font-weight: normal;
 }

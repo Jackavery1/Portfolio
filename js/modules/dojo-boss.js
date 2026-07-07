@@ -3,6 +3,7 @@
    ============================================ */
 
 import { CONFIGURATION } from '../config/index.js';
+import { parId } from '../utils/dom.js';
 import { jouerFanfareVictoire } from './audio.js';
 import { ajouterScore } from './score.js';
 
@@ -22,14 +23,14 @@ const CITATIONS = {
 
 function initialiserCitations() {
   document.querySelectorAll('.boss-carte[data-boss]').forEach((carte) => {
-    const key = carte.dataset.boss;
-    const texte = CITATIONS[key];
+    const identifiantBoss = carte.dataset.boss;
+    const texte = CITATIONS[identifiantBoss];
     if (!texte) return;
 
     carte.style.position = 'relative';
     if (!carte.hasAttribute('tabindex')) carte.setAttribute('tabindex', '0');
 
-    const bulleId = `boss-citation-${key}`;
+    const bulleId = `boss-citation-${identifiantBoss}`;
     const bulle = document.createElement('div');
     bulle.id = bulleId;
     bulle.className = 'boss-citation';
@@ -105,8 +106,8 @@ function initialiserBarresPv() {
     const base = parseFloat(raw) || 50;
 
     const id = setInterval(() => {
-      const jitter = (Math.random() - 0.5) * 3;
-      fill.style.width = `${Math.max(2, base + jitter)}%`;
+      const ecart = (Math.random() - 0.5) * 3;
+      fill.style.width = `${Math.max(2, base + ecart)}%`;
     }, 800);
     intervalIds.push(id);
   });
@@ -140,7 +141,7 @@ function initialiserScoreBoss() {
 }
 
 export function initialiserDojoBoss() {
-  if (!document.getElementById('dojo')) return;
+  if (!parId('dojo')) return;
   initialiserCitations();
   initialiserVictoireClavier();
   initialiserBarresPv();

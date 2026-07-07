@@ -1,17 +1,7 @@
 import { test, expect } from '@playwright/test';
-
-const PAGES = [
-  { path: '/index.html', titre: /JORIS|MARTINEZ/i },
-  { path: '/projets.html', titre: /SELECT|STAGE/i },
-  { path: '/competences.html', titre: /HIGH SCORES|ハイスコア/i },
-  { path: '/parcours.html', titre: /STORY MODE/i },
-  { path: '/contact.html', titre: /CONTINUE|INSERT COIN/i },
-  { path: '/dojo.html', titre: /DOJO/i },
-  { path: '/mentions-legales.html', titre: /MENTIONS LÉGALES/i },
-];
+import { PAGES } from './fixtures/pages.js';
 
 function erreursConsoleBloquantes(erreurs) {
-  // Favicon manquant, reCAPTCHA tiers et 404 assets optionnels : bruit attendu en local/CI.
   return erreurs.filter(
     (msg) =>
       !/favicon\.ico/i.test(msg) &&
@@ -20,7 +10,7 @@ function erreursConsoleBloquantes(erreurs) {
   );
 }
 
-for (const { path: pagePath, titre } of PAGES) {
+for (const { path: pagePath, titreSmoke } of PAGES) {
   test(`smoke ${pagePath} — h1 et console`, async ({ page }) => {
     const erreurs = [];
     page.on('console', (msg) => {
@@ -31,7 +21,7 @@ for (const { path: pagePath, titre } of PAGES) {
     expect(response?.ok()).toBeTruthy();
 
     await expect(page.locator('h1').first()).toBeVisible();
-    await expect(page.locator('h1').first()).toContainText(titre);
+    await expect(page.locator('h1').first()).toContainText(titreSmoke);
 
     expect(erreursConsoleBloquantes(erreurs)).toEqual([]);
   });

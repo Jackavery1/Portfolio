@@ -72,12 +72,18 @@ export async function attendrePrecachePwa(page, { minEntrees = 60, timeoutMs = 4
   const deadline = Date.now() + timeoutMs;
   while (Date.now() < deadline) {
     const { urls } = await lireEntreesPrecache(page);
-    if (urls.length >= minEntrees && precacheContient(urls, 'offline.html')) {
+    const precachePret =
+      urls.length >= minEntrees &&
+      precacheContient(urls, 'offline.html') &&
+      precacheContient(urls, 'projets.html') &&
+      (precacheContient(urls, 'assets/previews/lsf.webp') ||
+        precacheContient(urls, 'assets/previews/lsf.png'));
+    if (precachePret) {
       return urls;
     }
     await page.waitForTimeout(200);
   }
-  throw new Error('Precache PWA incomplet (offline.html ou volume)');
+  throw new Error('Precache PWA incomplet (offline.html, projets.html ou previews)');
 }
 
 export async function preparerServiceWorker(page) {

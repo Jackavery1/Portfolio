@@ -7,7 +7,10 @@ test('accueil → projets → modale → Escape', async ({ page }) => {
   await gotoReady(page, '/index.html');
   await expect(page.locator('#js-score')).toBeVisible();
 
-  await page.getByRole('navigation', { name: 'Pages' }).getByRole('link', { name: 'WORK' }).click();
+  await page
+    .getByRole('navigation', { name: 'Navigation principale' })
+    .getByRole('link', { name: 'WORK' })
+    .click();
   await expect(page).toHaveURL(/\/projets(\.html)?$/);
   await page.waitForSelector('body[data-app-ready="true"]');
   await expect(page.locator('h1.titre-section')).toContainText(/SELECT YOUR STAGE/i);

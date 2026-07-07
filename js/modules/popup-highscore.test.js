@@ -34,6 +34,7 @@ describe('popup-highscore', () => {
       <div class="popup-highscore" id="js-popup-hs" hidden role="dialog" aria-modal="true">
         <div class="popup-highscore__boite">
           <span class="popup-highscore__score"></span>
+          <a class="popup-highscore__btn" href="contact.html">Contact</a>
           <button id="js-popup-hs-fermer" type="button">Fermer</button>
         </div>
       </div>
@@ -67,5 +68,26 @@ describe('popup-highscore', () => {
   it('marque le popup comme vu en sessionStorage', () => {
     afficherPopupMeilleurScore();
     expect(sessionStorage.getItem('portfolio-hs-popup-vu')).toBe('1');
+  });
+
+  it('active inert sur le fond et piège le focus à l’ouverture', () => {
+    initialiserFermeturePopupMeilleurScore();
+    afficherPopupMeilleurScore();
+
+    const popup = document.getElementById('js-popup-hs');
+    const ecran = document.getElementById('ecran');
+
+    expect(popup.hidden).toBe(false);
+    expect(ecran.hasAttribute('inert')).toBe(true);
+    expect(document.activeElement).toBe(document.getElementById('js-popup-hs-fermer'));
+  });
+
+  it('conserve le score à la fermeture du popup', () => {
+    sessionStorage.setItem('portfolio-score', '9999');
+    initialiserFermeturePopupMeilleurScore();
+    afficherPopupMeilleurScore();
+    document.getElementById('js-popup-hs-fermer')?.click();
+
+    expect(sessionStorage.getItem('portfolio-score')).toBe('9999');
   });
 });

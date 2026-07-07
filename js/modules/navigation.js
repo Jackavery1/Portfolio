@@ -8,7 +8,7 @@ import { piegerTabulationModale } from '../utils/focus.js';
 import { indexDansOrdreNavigation, libellerPageNavigation } from '../utils/navigation-helpers.js';
 import { jouerBip } from './audio.js';
 
-export function fermerMenuBurger() {
+function fermerMenuBurger() {
   const burger = parId(CONFIGURATION.SELECTEURS.BURGER);
   const menuNav = parId(CONFIGURATION.SELECTEURS.MENU);
   if (!burger) return;

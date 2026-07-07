@@ -80,7 +80,7 @@ jobs:
   e2e:
     needs: validate
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
 
     steps:
       - name: Checkout code
@@ -96,7 +96,7 @@ jobs:
         run: npm ci
 
       - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium
+        run: npx playwright install --with-deps chromium webkit
 
       - name: Download dist artifact
         uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # v4.1.8
@@ -107,7 +107,7 @@ jobs:
       - name: E2E tests
         env:
           PLAYWRIGHT_SKIP_BUILD: '1'
-        run: npx playwright test --project=responsive-mobile-portrait --project=responsive-mobile-landscape --project=responsive-tablet --project=desktop-chrome
+        run: npx playwright test --project=responsive-mobile-portrait --project=responsive-mobile-landscape --project=responsive-tablet --project=responsive-webkit --project=desktop-chrome
 
   lighthouse:
     needs: validate

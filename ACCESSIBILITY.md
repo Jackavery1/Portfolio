@@ -15,13 +15,13 @@ Documentation d'accessibilité (a11y) pour les testeurs, développeurs et mainte
 
 ### Tests validés
 
-| Type                | Outil                     | Fréquence                        |
-| ------------------- | ------------------------- | -------------------------------- |
-| Contrastes          | Lighthouse + manual check | À chaque change token.css        |
-| WCAG violations     | axe-core (e2e)            | CI (responsivité tests)          |
-| Keyboard nav        | Playwright + manual       | E2E focus.test.js                |
-| Zoom 200%           | Playwright                | E2E responsive-viewports.spec.js |
-| Réduction mouvement | CSS @media + manual       | À chaque animation ajoutée       |
+| Type                | Outil                     | Fréquence                                        |
+| ------------------- | ------------------------- | ------------------------------------------------ |
+| Contrastes          | Lighthouse + manual check | À chaque change token.css                        |
+| WCAG violations     | axe-core (e2e)            | CI (`e2e/a11y.spec.js`, projet `desktop-chrome`) |
+| Keyboard nav        | Playwright + manual       | E2E focus.test.js                                |
+| Zoom 200%           | Playwright                | E2E responsive-viewports.spec.js                 |
+| Réduction mouvement | CSS @media + manual       | À chaque animation ajoutée                       |
 
 ## Contrastes mesurés
 
@@ -132,15 +132,15 @@ Utilisés par NVDA/JAWS pour navigation rapide.
 ### Tests e2e a11y
 
 ```bash
-npm run test:e2e -- responsive-viewports.spec.js
+npm run test:e2e -- a11y.spec.js --project=desktop-chrome
 ```
 
-Inclus :
+Inclus dans `e2e/a11y.spec.js` :
 
-- ✅ axe-core WCAG violations (accueil, contact)
-- ✅ Zoom 200% sans overflow
-- ✅ Focus visible (focus.test.js)
-- ✅ Keyboard Tab/Escape (modal.test.js)
+- ✅ axe-core WCAG violations (toutes les pages + modales + popup high score)
+- ✅ Zoom 200 % sans overflow (`e2e/responsive-viewports.spec.js`)
+- ✅ Focus visible (`js/utils/focus.test.js`)
+- ✅ Keyboard Tab/Escape (`js/modules/modal.test.js`)
 
 ### Tests manuels
 

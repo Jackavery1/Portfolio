@@ -142,10 +142,9 @@ Deux stratégies importer séparément selon context.
 
 ### Couverture
 
-- **229 tests passants** (100%)
-- **Lines > 95%** sur utils et modules core
-- **Branches > 80%** sur logique métier
-- **Seuils realistes** : 40% global (build scripts partly untested)
+- **230 tests passants** (100 %)
+- **~90 % lignes / ~73 % branches** mesurés sur `js/` et scripts build (seuils CI : 40 % / 20 % dans `vitest.config.js`)
+- **Seuils réalistes** : 40 % global (scripts build partiellement couverts)
 
 ### Mocking strategy
 
@@ -203,27 +202,6 @@ npm run test:coverage  # Vitest coverage : rapports HTML/JSON
 ```
 
 Aucun TODO/FIXME. Si un fichier est marqué "unused" → supprimer directement.
-
-## Évolution future
-
-### Si intégration framework (React)
-
-- `js/modules/` → composants React
-- `js/config/` → état global (Context ou Zustand)
-- `e2e/` → Playwright inchangé
-- `build/` → vite.config.js adapté
-
-### Si ajout BDD (Cucumber)
-
-- Features narratif → `e2e/features/`
-- Steps → intégrés Playwright
-- Gherkin → documentation tests
-
-### Si scale (100+ components)
-
-- Design System Figma (tokens mappés Code Connect)
-- Storybook (component showcase)
-- Chromatic (visual regression)
 
 ## Ressources
 

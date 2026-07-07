@@ -1,15 +1,7 @@
 import { expect } from '@playwright/test';
-import { pagesNavigationClavier } from './navigation-menu.js';
+import { PAGES, pagesNavigationClavier } from './pages.js';
 
-export const PAGES = [
-  { path: '/index.html', h1: /MARTINEZ/i },
-  { path: '/projets.html', h1: /SELECT YOUR STAGE/i },
-  { path: '/competences.html', h1: /HIGH SCORES/i },
-  { path: '/parcours.html', h1: /STORY MODE/i },
-  { path: '/contact.html', h1: /CONTINUE/i },
-  { path: '/dojo.html', h1: /DOJO/i },
-  { path: '/mentions-legales.html', h1: /MENTIONS/i },
-];
+export { PAGES };
 
 /** Coquille layout — testée à chaque viewport (évite la matrice complète pages × viewports). */
 export const PAGE_COQUILLE = PAGES[0];
