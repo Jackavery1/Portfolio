@@ -20,12 +20,6 @@ const CITATIONS = {
   react: '🔒 « Pas encore. Ce boss dort encore. »',
 };
 
-function libelleBoss(carte) {
-  const nom = carte.querySelector('.boss-carte__nom')?.textContent?.trim();
-  const statut = carte.querySelector('.boss-carte__statut')?.textContent?.trim();
-  return [nom, statut].filter(Boolean).join(' — ');
-}
-
 function initialiserCitations() {
   document.querySelectorAll('.boss-carte[data-boss]').forEach((carte) => {
     const key = carte.dataset.boss;
@@ -85,7 +79,6 @@ function initialiserVictoireClavier() {
   document.querySelectorAll('.boss-carte--vaincu[data-boss]').forEach((carte) => {
     carte.setAttribute('tabindex', '0');
     carte.setAttribute('role', 'button');
-    carte.setAttribute('aria-label', `${libelleBoss(carte)}. Appuyer pour rejouer la victoire.`);
 
     const celebrer = () => {
       if (carte.classList.contains('boss-flash')) return;

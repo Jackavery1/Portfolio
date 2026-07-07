@@ -26,7 +26,7 @@
     "test:e2e": "playwright test",
     "test:e2e:install": "playwright install --with-deps chromium",
     "test:e2e:webkit": "playwright install --with-deps webkit && playwright test --project=responsive-webkit",
-    "test:lhci": "lhci autorun",
+    "test:lhci": "lhci autorun --config=./lighthouserc.cjs",
     "validate:html": "html-validate *.html offline.html partials/*.html partials/contact/*.html",
     "validate:html:dist": "html-validate .dist-staging/*.html .dist-staging/offline.html"
   },

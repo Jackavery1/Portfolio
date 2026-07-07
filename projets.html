@@ -37,7 +37,7 @@
 
     <div class="ecran">
       <header id="partial-nav" class="nav nav--squelette" role="banner">
-<a href="index.html" class="nav__logo" aria-label="Portfolio de Joris Martinez — accueil">
+<a href="index.html" class="nav__logo">
   <span class="pixel-accent" aria-hidden="true">▶</span> J.MARTINEZ
 </a>
 <div
@@ -45,12 +45,11 @@
   role="status"
   aria-live="polite"
   aria-atomic="true"
-  aria-label="Score du portfolio"
 >
-  <span class="arcade-label" aria-hidden="true">SCORE</span>
+  <span class="arcade-label">SCORE</span>
   <span class="arcade-valeur" id="js-score">000000</span>
 </div>
-<nav class="nav__liens nav__liens--squelette" aria-label="Pages">
+<nav class="nav__liens nav__liens--squelette" aria-label="Navigation principale">
   <a class="nav__bouton" href="index.html">HOME</a>
   <a class="nav__bouton" href="projets.html">WORK</a>
   <a class="nav__bouton" href="competences.html">STATS</a>
@@ -60,21 +59,16 @@
       </header>
 
       <main id="js-contenu-principal" tabindex="-1">
-        <section id="projets" class="section" aria-label="Projets">
+        <section id="projets" class="section">
           <h1 class="titre-section"><span class="pixel-accent">▶</span> SELECT YOUR STAGE</h1>
 
-          <nav
-            class="projets-sommaire"
-            id="js-projets-sommaire"
-            aria-label="Navigation rapide projets"
-          ></nav>
+          <nav class="projets-sommaire" id="js-projets-sommaire"></nav>
 
           <div
             class="grille-projets"
             id="js-grille-projets"
             aria-busy="true"
             aria-live="polite"
-            aria-label="Chargement des projets"
           >
             <div class="carte-projet-squelette" aria-hidden="true">
               <span
@@ -160,9 +154,7 @@
       <div class="modal-boite">
         <div class="modal-entete">
           <h2 class="modal-titre" id="js-modal-titre">NOM DU PROJET</h2>
-          <button type="button" class="modal-fermer" id="js-modal-fermer" aria-label="Fermer">
-            ✕
-          </button>
+          <button type="button" class="modal-fermer" id="js-modal-fermer">✕ Fermer</button>
         </div>
         <div class="modal-contenu">
           <figure class="modal-apercu">
