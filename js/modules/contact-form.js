@@ -43,6 +43,25 @@ async function initialiserRecaptchaContact({ endpoint, recaptchaKey, mount, opti
   }
 }
 
+function planifierRecaptchaAuFocus(formulaire, params) {
+  const { endpoint, recaptchaKey } = params;
+  if (!endpoint?.trim() || !recaptchaKey?.trim()) {
+    if (endpoint?.trim() && !recaptchaKey?.trim()) {
+      void initialiserRecaptchaContact(params);
+    }
+    return () => Promise.resolve();
+  }
+
+  let promesse = null;
+  const lancer = () => {
+    if (!promesse) promesse = initialiserRecaptchaContact(params);
+    return promesse;
+  };
+
+  formulaire.addEventListener('focusin', () => void lancer(), { once: true });
+  return lancer;
+}
+
 function optionsRecaptcha() {
   return {
     siteKey: CONFIGURATION.CONTACT.RECAPTCHA_SITE_KEY,
@@ -98,13 +117,13 @@ export async function initialiserFormulaireContact() {
   const mount = parId(CONFIGURATION.SELECTEURS.MONTE_RECAPTCHA);
   const zoneErreur = parId(CONFIGURATION.SELECTEURS.CONTACT_ERREUR);
   const afficherErreur = (texte) => afficherErreurZone(zoneErreur, texte);
-
-  await initialiserRecaptchaContact({
+  const paramsRecaptcha = {
     endpoint,
     recaptchaKey,
     mount,
     optionsRecaptcha: optionsRecaptcha(),
-  });
+  };
+  const assurerRecaptcha = planifierRecaptchaAuFocus(formulaire, paramsRecaptcha);
 
   initialiserScrollChampClavier(formulaire);
 
@@ -163,6 +182,7 @@ export async function initialiserFormulaireContact() {
     const champs = { nom, email, message };
 
     if (endpoint) {
+      await assurerRecaptcha();
       const result = await envoyerViaFormspree({
         configuration: CONFIGURATION,
         champs,

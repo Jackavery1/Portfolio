@@ -70,6 +70,7 @@ function monterFormulaire() {
 
 describe('contact-form', () => {
   beforeEach(() => {
+    vi.clearAllMocks();
     sessionStorage.clear();
     configMock.CONFIGURATION.CONTACT.FORMSPREE_ENDPOINT = 'https://formspree.io/f/test';
     configMock.CONFIGURATION.CONTACT.RECAPTCHA_SITE_KEY = 'test-key';
@@ -126,9 +127,13 @@ describe('contact-form', () => {
     expect(document.getElementById('js-confirmation').hidden).toBe(false);
   });
 
-  it('initialise reCAPTCHA quand endpoint et clé sont présents', async () => {
+  it('initialise reCAPTCHA au premier focus quand endpoint et clé sont présents', async () => {
     await initialiserFormulaireContact();
-    expect(initialiserRecaptcha).toHaveBeenCalled();
+    expect(initialiserRecaptcha).not.toHaveBeenCalled();
+    document.getElementById('contact-nom').dispatchEvent(new Event('focusin', { bubbles: true }));
+    await vi.waitFor(() => {
+      expect(initialiserRecaptcha).toHaveBeenCalled();
+    });
   });
 
   it('affiche une alerte si initialiserRecaptcha échoue', async () => {
@@ -136,8 +141,10 @@ describe('contact-form', () => {
     const mount = document.getElementById('js-recaptcha-mount');
 
     await initialiserFormulaireContact();
-
-    expect(mount.className).toContain('recaptcha-zone--erreur');
+    document.getElementById('contact-nom').dispatchEvent(new Event('focusin', { bubbles: true }));
+    await vi.waitFor(() => {
+      expect(mount.className).toContain('recaptcha-zone--erreur');
+    });
     expect(mount.textContent).toMatch(/indisponible/i);
   });
 

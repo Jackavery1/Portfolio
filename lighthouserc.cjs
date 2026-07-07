@@ -20,8 +20,9 @@ module.exports = {
     collect: {
       staticDistDir: './dist',
       url: urls,
-      numberOfRuns: 2,
+      numberOfRuns: 3,
       settings: {
+        chromeFlags: '--no-sandbox --disable-dev-shm-usage',
         emulatedFormFactor: 'mobile',
         screenEmulation: {
           mobile: true,
@@ -32,6 +33,9 @@ module.exports = {
         },
       },
     },
-    assert: { assertions },
+    assert: {
+      assertions,
+      includePassedAssertions: false,
+    },
   },
 };
