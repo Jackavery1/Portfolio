@@ -85,7 +85,7 @@
 
 .boss-carte__rang {
   font-family: var(--police-pixel);
-  font-size: clamp(var(--taille-pixel-min), 1.1vw, 0.55rem);
+  font-size: var(--taille-petit-pixel);
   color: var(--couleur-texte-discret);
   letter-spacing: 1px;
   text-align: center;
@@ -113,7 +113,7 @@
 
 .boss-carte__nom {
   font-family: var(--police-pixel);
-  font-size: clamp(var(--taille-pixel-min), 1.4vw, 0.55rem);
+  font-size: var(--taille-petit-pixel);
   color: var(--couleur-texte-fort);
   letter-spacing: 1px;
   line-height: 1.45;
@@ -173,14 +173,14 @@
 
 .boss-carte__xp-label {
   font-family: var(--police-pixel);
-  font-size: clamp(var(--taille-pixel-min), 1vw, 0.55rem);
+  font-size: var(--taille-petit-pixel);
   color: var(--couleur-texte-discret);
   letter-spacing: 1px;
 }
 
 .boss-carte__xp-val {
   font-family: var(--police-pixel);
-  font-size: clamp(var(--taille-pixel-min), 1.1vw, 0.55rem);
+  font-size: var(--taille-petit-pixel);
   color: var(--couleur-valide);
   text-shadow: 0 0 6px var(--couleur-valide);
 }
@@ -194,7 +194,7 @@
 
 .boss-carte__vie-label {
   font-family: var(--police-pixel);
-  font-size: clamp(var(--taille-pixel-min), 1vw, 0.55rem);
+  font-size: var(--taille-petit-pixel);
   color: var(--couleur-actif);
   letter-spacing: 1px;
 }
@@ -218,7 +218,7 @@
 
 .boss-carte__vie-pct {
   font-family: var(--police-pixel);
-  font-size: clamp(var(--taille-pixel-min), 1vw, 0.55rem);
+  font-size: var(--taille-petit-pixel);
   color: var(--couleur-actif);
   width: 2.5rem;
   text-align: right;

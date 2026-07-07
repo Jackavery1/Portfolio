@@ -115,6 +115,26 @@ test('a11y modale Dernière Ligne — pas de violation critique', async ({ page 
   expect(violationsA11y(results.violations)).toEqual([]);
 });
 
+test('a11y offline — pas de violation critique', async ({ page }) => {
+  await page.goto('/offline.html');
+  await expect(page.locator('h1')).toBeVisible();
+
+  const results = await new AxeBuilder({ page }).analyze();
+
+  expect(violationsA11y(results.violations)).toEqual([]);
+});
+
+test('a11y lien évitement — visible au focus clavier uniquement', async ({ page }) => {
+  await page.goto('/index.html');
+  const lien = page.locator('.lien-evitement');
+
+  await expect(lien).not.toBeInViewport();
+
+  await page.keyboard.press('Tab');
+  await expect(lien).toBeFocused();
+  await expect(lien).toBeInViewport();
+});
+
 test('a11y popup high score — pas de violation critique', async ({ page }) => {
   await page.goto('/index.html');
   await page.evaluate(() => {

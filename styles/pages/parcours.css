@@ -51,14 +51,14 @@
 
 .entree-parcours__date {
   font-family: var(--police-pixel);
-  font-size: clamp(var(--taille-pixel-min), 1.1vw, 0.55rem);
+  font-size: var(--taille-petit-pixel);
   color: var(--couleur-texte-discret);
   letter-spacing: 1px;
 }
 
 .entree-parcours__titre {
   font-family: var(--police-pixel);
-  font-size: clamp(var(--taille-pixel-min), 1.4vw, 0.55rem);
+  font-size: var(--taille-petit-pixel);
   color: var(--couleur-texte-fort);
   letter-spacing: 1px;
   margin-bottom: 0.25rem;

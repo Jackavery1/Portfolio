@@ -124,7 +124,7 @@
   }
 
   .accueil__wip-badge {
-    font-size: clamp(var(--taille-pixel-min), 3.5vw, 0.65rem);
+    font-size: var(--taille-petit-pixel);
   }
 
   .titre-arcade__prenom,
@@ -137,7 +137,7 @@
   }
 
   .etiquette-crt {
-    font-size: clamp(var(--taille-pixel-min), 2vw, 0.6rem);
+    font-size: var(--taille-pixel-decoratif);
   }
 
   .texte-intro {
@@ -149,12 +149,12 @@
   }
 
   .bouton-arcade {
-    font-size: clamp(var(--taille-pixel-min), 2vw, 0.6rem);
+    font-size: var(--taille-bouton-pixel);
     padding: 0.9rem 1.2rem;
   }
 
   .lien-github {
-    font-size: clamp(var(--taille-pixel-min), 2vw, 0.55rem);
+    font-size: var(--taille-petit-pixel);
   }
 
   body[data-section-id='accueil'] .section {

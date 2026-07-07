@@ -37,6 +37,25 @@ vi.mock('./score.js', () => scoreMocks);
 
 import { initialiserCodeKonami } from './konami.js';
 
+const SEQ = [
+  'ArrowUp',
+  'ArrowUp',
+  'ArrowDown',
+  'ArrowDown',
+  'ArrowLeft',
+  'ArrowRight',
+  'ArrowLeft',
+  'ArrowRight',
+  'b',
+  'a',
+];
+
+function saisirSequence() {
+  SEQ.forEach((key) => {
+    document.dispatchEvent(new KeyboardEvent('keydown', { key }));
+  });
+}
+
 describe('konami', () => {
   beforeEach(() => {
     document.body.innerHTML = '<div id="js-modal" hidden></div>';
@@ -47,24 +66,35 @@ describe('konami', () => {
   });
 
   it('active le mode Konami à la séquence complète', () => {
-    const seq = [
-      'ArrowUp',
-      'ArrowUp',
-      'ArrowDown',
-      'ArrowDown',
-      'ArrowLeft',
-      'ArrowRight',
-      'ArrowLeft',
-      'ArrowRight',
-      'b',
-      'a',
-    ];
-
-    seq.forEach((key) => {
-      document.dispatchEvent(new KeyboardEvent('keydown', { key }));
-    });
+    saisirSequence();
 
     expect(document.body.classList.contains('konami-actif')).toBe(true);
     expect(scoreMocks.sauvegarderScore).toHaveBeenCalledWith(9999);
+  });
+
+  it('désactive le mode Konami à la seconde séquence', () => {
+    saisirSequence();
+    saisirSequence();
+    expect(document.body.classList.contains('konami-actif')).toBe(false);
+  });
+
+  it('ignore la séquence si la modale est ouverte', () => {
+    document.getElementById('js-modal').hidden = false;
+    saisirSequence();
+    expect(document.body.classList.contains('konami-actif')).toBe(false);
+  });
+
+  it('ignore la séquence dans un champ de saisie', () => {
+    document.body.innerHTML =
+      '<div id="js-modal" hidden></div><input id="champ" /><div id="js-modal" hidden></div>';
+    document.getElementById('champ').focus();
+    saisirSequence();
+    expect(document.body.classList.contains('konami-actif')).toBe(false);
+  });
+
+  it('n’écrit pas le score si le plafond est déjà atteint', () => {
+    scoreMocks.lireScore.mockReturnValue(9999);
+    saisirSequence();
+    expect(scoreMocks.sauvegarderScore).not.toHaveBeenCalled();
   });
 });

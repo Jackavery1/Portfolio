@@ -33,7 +33,7 @@
 
 .popup-highscore__titre {
   font-family: var(--police-pixel);
-  font-size: clamp(var(--taille-pixel-min), 2vw, 0.8rem);
+  font-size: var(--taille-titre-pixel);
   color: var(--couleur-actif);
   text-shadow: 0 0 20px var(--couleur-actif);
   letter-spacing: 3px;
@@ -67,7 +67,7 @@
 
 .popup-highscore__btn {
   font-family: var(--police-pixel);
-  font-size: clamp(var(--taille-pixel-min), 1.5vw, 0.55rem);
+  font-size: var(--taille-bouton-pixel);
   color: var(--couleur-fond);
   background-color: var(--couleur-actif);
   border: none;
@@ -100,7 +100,7 @@
 
 .popup-highscore__fermer {
   font-family: var(--police-pixel);
-  font-size: clamp(var(--taille-pixel-min), 1.4vw, 0.42rem);
+  font-size: var(--taille-petit-pixel);
   color: var(--couleur-texte-normal);
   letter-spacing: 2px;
   background: none;

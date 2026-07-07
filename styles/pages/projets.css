@@ -67,7 +67,7 @@
   content: 'CHARGEMENT DES PROJETS…';
   grid-column: 1 / -1;
   font-family: var(--police-pixel);
-  font-size: clamp(var(--taille-pixel-min), 1.2vw, 0.48rem);
+  font-size: var(--taille-petit-pixel);
   color: var(--couleur-texte-discret);
   letter-spacing: 2px;
   padding: 1.5rem 0;
@@ -99,7 +99,7 @@
 
 .projets-sommaire__liste a {
   font-family: var(--police-pixel);
-  font-size: clamp(var(--taille-pixel-min), 1.2vw, 0.55rem);
+  font-size: var(--taille-petit-pixel);
   color: var(--couleur-accent-vif);
   text-decoration: none;
   padding: 0.35rem 0.5rem;

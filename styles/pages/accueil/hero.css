@@ -2,7 +2,7 @@
 
 .etiquette-crt {
   font-family: var(--police-pixel);
-  font-size: clamp(var(--taille-pixel-min), 1.2vw, 0.48rem);
+  font-size: var(--taille-pixel-decoratif);
   color: var(--couleur-texte-discret);
   letter-spacing: 3px;
   margin-bottom: 0.9rem;

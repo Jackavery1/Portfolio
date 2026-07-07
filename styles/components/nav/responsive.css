@@ -24,7 +24,7 @@
   }
 
   .nav__bouton {
-    font-size: clamp(var(--taille-pixel-min), 2.5vw, 0.65rem);
+    font-size: var(--taille-petit-pixel);
     padding: 0.8rem 1.5rem;
     min-height: 44px;
     box-sizing: border-box;
@@ -51,7 +51,7 @@
   }
 
   .arcade-label {
-    font-size: clamp(var(--taille-pixel-min), 2vw, 0.55rem);
+    font-size: var(--taille-petit-pixel);
   }
 }
 
@@ -77,12 +77,12 @@
   }
 
   .arcade-valeur {
-    font-size: clamp(var(--taille-pixel-min), 2.8vw, 0.6rem);
+    font-size: var(--taille-petit-pixel);
     letter-spacing: 1px;
   }
 
   .nav__logo {
-    font-size: clamp(var(--taille-pixel-min), 3.2vw, 0.58rem);
+    font-size: var(--taille-petit-pixel);
     letter-spacing: 1px;
     min-height: 44px;
     max-width: 42vw;

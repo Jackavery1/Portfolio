@@ -4,7 +4,7 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   gap: var(--gap-grille-accueil);
-  align-items: center;
+  align-items: flex-start;
   flex: 1;
   min-height: 0;
   padding: var(--espacement-lg) 0;

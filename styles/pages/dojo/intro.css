@@ -10,7 +10,7 @@
 
 .boss-rush__titre {
   font-family: var(--police-pixel);
-  font-size: clamp(var(--taille-pixel-min), 1.4vw, 0.55rem);
+  font-size: var(--taille-petit-pixel);
   color: var(--couleur-accent);
   letter-spacing: 2px;
   text-align: center;

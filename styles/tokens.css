@@ -68,6 +68,9 @@
 
   /* Taille minimale lisible pour libellés pixel (12px) */
   --taille-pixel-min: 0.75rem;
+  /* Libellés pixel décoratifs non interactifs (≥ 9px) */
+  --taille-pixel-decoratif-min: 0.5625rem;
+  --taille-pixel-decoratif: clamp(var(--taille-pixel-decoratif-min), 1.1vw, 0.65rem);
   /* Maximum courant pour petits libellés pixel (≥ min) */
   --taille-pixel-petit-max: 0.8rem;
 

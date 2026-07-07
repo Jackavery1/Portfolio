@@ -53,7 +53,7 @@ Point d’entrée unique : `js/modules/contact.js` (`initialiserPageContact`). S
 
 Thème **sombre arcade CRT** — choix intentionnel, pas de variante claire (light mode). `prefers-color-scheme` n’est **pas utilisé** ; le design ignore la préférence utilisateur et assume dark-only.
 
-**Pourquoi light-only :**
+**Pourquoi dark-only :**
 
 - Identité neon arcade assume (cyberpunk, pixel art, rétro 80s)
 - Palette 3-couleurs optimisée pour dark (#000008 fond, #4a6fff bleu, #ffcc44 jaune)
@@ -109,11 +109,11 @@ Ne jamais committer de secrets (clé secrète reCAPTCHA, tokens privés). Voir [
 
 ### Playwright (e2e)
 
-| Problème                                       | Solution                                                                                                                                                                                                             |
-| ---------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Navigateur absent (`Executable doesn't exist`) | `npm run test:e2e:install` ou `npx playwright install --with-deps chromium webkit`                                                                                                                                   |
-| Téléchargement bloqué (certificat SSL)         | Même correctif que npm ci-dessus, puis relancer l’install ; sous PowerShell : `$env:NODE_TLS_REJECT_UNAUTHORIZED='0'; npx playwright install chromium webkit` (temporaire, réseau de confiance uniquement)           |
-| E2e lent / timeout CI                          | CI : Chromium + WebKit (`responsive-mobile-portrait`, `responsive-mobile-landscape`, `responsive-tablet`, `responsive-webkit`, `desktop-chrome`). Safari local : `npm run test:e2e:webkit`. Timeout job e2e : 25 min |
+| Problème                                       | Solution                                                                                                                                                                                                                                             |
+| ---------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Navigateur absent (`Executable doesn't exist`) | `npm run test:e2e:install` ou `npx playwright install --with-deps chromium webkit`                                                                                                                                                                   |
+| Téléchargement bloqué (certificat SSL)         | Même correctif que npm ci-dessus, puis relancer l’install ; sous PowerShell : `$env:NODE_TLS_REJECT_UNAUTHORIZED='0'; npx playwright install chromium webkit` (temporaire, réseau de confiance uniquement)                                           |
+| E2e lent / timeout CI                          | CI : Chromium + WebKit + Firefox (`responsive-mobile-portrait`, `responsive-mobile-landscape`, `responsive-tablet`, `responsive-webkit`, `responsive-firefox`, `desktop-chrome`). Safari local : `npm run test:e2e:webkit`. Timeout job e2e : 25 min |
 
 ### Site / UX
 
@@ -145,9 +145,9 @@ Pages hors navigation clavier (`dojo.html`, `mentions-legales.html`) : accessibl
 ## Tests
 
 - **Unitaires** : `npm test` (Vitest) — utils, config, modules, build
-- **Couverture** : `npm run test:coverage` (seuils Vitest : 40 % lignes / 20 % branches globaux ; ~90 % lignes / ~73 % branches en pratique sur `js/`)
+- **Couverture** : `npm run test:coverage` (seuils Vitest : 85 % lignes / 80 % branches globaux sur `js/`)
 - **HTML** : `npm run validate:html` (sources) et `npm run validate:html:dist` (après build)
-- **E2E** : `npm run test:e2e` — projets `responsive-mobile-portrait`, `responsive-mobile-landscape`, `responsive-tablet`, `responsive-webkit` (iPhone 13, WebKit), `desktop-chrome` ; **CI** exécute Chromium + WebKit (4 projets responsive + `desktop-chrome`). PWA : `e2e/pwa.spec.js` (desktop uniquement). WebKit en local : `npm run test:e2e:webkit`. Matrice viewports allégée (coquille accueil × 4 viewports, autres pages en mobile-compact). Fixtures pages : `e2e/fixtures/pages.js`.
+- **E2E** : `npm run test:e2e` — projets `responsive-mobile-portrait`, `responsive-mobile-landscape`, `responsive-tablet`, `responsive-webkit`, `responsive-firefox`, `desktop-chrome` ; **CI** exécute Chromium + WebKit + Firefox. PWA : `e2e/pwa.spec.js` (desktop uniquement). WebKit en local : `npm run test:e2e:webkit`. Fixtures pages : `e2e/fixtures/pages.js`.
 - **Lighthouse** : `npm run test:lhci` (profil mobile, seuils perf/a11y/SEO en CI)
 
 ### Avant release (PWA / prod)

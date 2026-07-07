@@ -1,5 +1,5 @@
 /* ============================================
-   Modale aperçu projet (WORK)
+   Modale aperçu projet
    ============================================ */
 
 import { CONFIGURATION } from '../config/index.js';

@@ -5,7 +5,7 @@
 
 .formulaire-titre {
   font-family: var(--police-pixel);
-  font-size: clamp(var(--taille-pixel-min), 1.4vw, 0.52rem);
+  font-size: var(--taille-petit-pixel);
   color: var(--couleur-accent-vif);
   letter-spacing: 2px;
   margin-bottom: 1rem;
@@ -25,7 +25,7 @@
 
 .champ-label {
   font-family: var(--police-pixel);
-  font-size: clamp(var(--taille-pixel-min), 1.2vw, 0.55rem);
+  font-size: var(--taille-petit-pixel);
   color: var(--couleur-texte-normal);
   letter-spacing: 2px;
   padding-bottom: 0.1rem;

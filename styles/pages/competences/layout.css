@@ -19,7 +19,7 @@
 
 .stats-bloc__titre {
   font-family: var(--police-pixel);
-  font-size: clamp(var(--taille-pixel-min), 1.2vw, 0.42rem);
+  font-size: var(--taille-pixel-decoratif);
   color: var(--couleur-accent);
   letter-spacing: 2px;
   margin-bottom: 0.75rem;

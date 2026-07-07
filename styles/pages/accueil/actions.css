@@ -2,7 +2,7 @@
 
 .lien-github {
   font-family: var(--police-pixel);
-  font-size: clamp(var(--taille-pixel-min), 1.2vw, 0.46rem);
+  font-size: var(--taille-petit-pixel);
   color: var(--couleur-texte-discret);
   letter-spacing: 2px;
   text-decoration: none;
@@ -90,7 +90,7 @@
   grid-column: 2;
   grid-row: 1;
   font-family: var(--police-pixel);
-  font-size: clamp(var(--taille-pixel-min), 3.2vw, 0.65rem);
+  font-size: var(--taille-petit-pixel);
   letter-spacing: 2px;
   color: var(--couleur-erreur-clair);
   padding: 0.08rem 0.3rem;

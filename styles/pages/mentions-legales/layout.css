@@ -29,7 +29,7 @@
   min-height: 44px;
   padding: 0.35rem 0.65rem;
   font-family: var(--police-pixel);
-  font-size: clamp(var(--taille-pixel-min), 1.1vw, 0.46rem);
+  font-size: var(--taille-pixel-decoratif);
   color: var(--couleur-accent-vif);
   letter-spacing: 1px;
   text-decoration: none;
@@ -53,7 +53,7 @@
 
 .mentions-bloc h2 {
   font-family: var(--police-pixel);
-  font-size: clamp(var(--taille-pixel-min), 1.35vw, 0.52rem);
+  font-size: var(--taille-pixel-decoratif);
   color: var(--couleur-accent-vif);
   letter-spacing: 1px;
   margin-bottom: 0.65rem;
@@ -117,7 +117,7 @@
   min-height: 44px;
   box-sizing: border-box;
   font-family: var(--police-pixel);
-  font-size: clamp(var(--taille-pixel-min), 1.2vw, 0.48rem);
+  font-size: var(--taille-petit-pixel);
   color: var(--couleur-accent-vif);
   letter-spacing: 1px;
   text-decoration: none;

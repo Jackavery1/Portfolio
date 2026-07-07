@@ -23,4 +23,11 @@ describe('projets-grille', () => {
       '6 projets disponibles'
     );
   });
+
+  it('fonctionne sans sommaire latéral', () => {
+    document.body.innerHTML = '<div id="js-grille-projets" aria-busy="true"></div>';
+    initialiserGrilleProjets();
+    expect(document.querySelectorAll('.carte-projet').length).toBe(6);
+    expect(document.querySelector('.projets-sommaire__liste')).toBeNull();
+  });
 });

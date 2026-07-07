@@ -82,7 +82,7 @@
 
 .contact-bandeau-aide {
   font-family: var(--police-pixel);
-  font-size: clamp(var(--taille-pixel-min), 1.2vw, 0.42rem);
+  font-size: var(--taille-pixel-decoratif);
   color: var(--couleur-texte-discret);
   text-align: center;
   letter-spacing: 1px;

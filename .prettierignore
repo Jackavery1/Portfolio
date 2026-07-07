@@ -6,6 +6,7 @@ dist/
 /js/config/partials.js
 /style.css
 /*.html
+# Fragments _head/_foot : balises ouvrantes seules — ne pas reformater (évite grille vide)
 /partials/**/_*.html
 /partials/parcours-arbre.html
 /partials/dojo-boss-rush.html

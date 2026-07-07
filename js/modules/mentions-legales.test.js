@@ -37,4 +37,19 @@ describe('mentions-legales', () => {
     expect(email?.textContent).toBe('test@example.com');
     expect(email?.hasAttribute('hidden')).toBe(false);
   });
+
+  it('ne régénère pas le contenu déjà injecté au build', () => {
+    document.body.innerHTML = `
+      <div id="js-mentions-sections">
+        <article class="mentions-bloc" id="editeur">
+          <p>Contact : <a id="js-mentions-email" href="#" hidden></a></p>
+        </article>
+      </div>
+    `;
+    initialiserMentionsLegales();
+    expect(document.querySelectorAll('.mentions-bloc')).toHaveLength(1);
+    const email = document.getElementById('js-mentions-email');
+    expect(email?.getAttribute('href')).toBe('mailto:test@example.com');
+    expect(email?.hasAttribute('hidden')).toBe(false);
+  });
 });

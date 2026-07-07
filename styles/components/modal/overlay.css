@@ -37,7 +37,7 @@
 
 .modal-titre {
   font-family: var(--police-pixel);
-  font-size: clamp(var(--taille-pixel-min), 1.5vw, 0.55rem);
+  font-size: var(--taille-titre-pixel);
   color: var(--couleur-accent-vif);
   letter-spacing: 2px;
   margin: 0;
@@ -46,7 +46,7 @@
 
 .modal-fermer {
   font-family: var(--police-pixel);
-  font-size: clamp(var(--taille-pixel-min), 1.2vw, 0.55rem);
+  font-size: var(--taille-petit-pixel);
   color: var(--couleur-texte-normal);
   padding: 0.5rem 0.75rem;
   min-height: 44px;
@@ -108,7 +108,7 @@
 
 .modal-lien a {
   font-family: var(--police-pixel);
-  font-size: clamp(var(--taille-pixel-min), 1.2vw, 0.48rem);
+  font-size: var(--taille-petit-pixel);
   color: var(--couleur-accent-vif);
   letter-spacing: 2px;
   text-decoration: none;

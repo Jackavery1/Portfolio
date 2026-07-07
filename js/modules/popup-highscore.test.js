@@ -18,10 +18,15 @@ vi.mock('./audio.js', () => ({
   jouerFanfareVictoire: vi.fn(),
 }));
 
+vi.mock('../utils/focus.js', () => ({
+  piegerTabulationModale: vi.fn(),
+}));
+
 vi.mock('./score-session.js', () => ({
   lireScore: vi.fn(() => 9999),
 }));
 
+import { piegerTabulationModale } from '../utils/focus.js';
 import {
   afficherPopupMeilleurScore,
   initialiserFermeturePopupMeilleurScore,
@@ -89,5 +94,17 @@ describe('popup-highscore', () => {
     document.getElementById('js-popup-hs-fermer')?.click();
 
     expect(sessionStorage.getItem('portfolio-score')).toBe('9999');
+  });
+
+  it('ignore l’affichage si le popup est absent du DOM', () => {
+    document.getElementById('js-popup-hs').remove();
+    expect(() => afficherPopupMeilleurScore()).not.toThrow();
+  });
+
+  it('piège Tab dans le popup ouvert', () => {
+    initialiserFermeturePopupMeilleurScore();
+    afficherPopupMeilleurScore();
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Tab', bubbles: true }));
+    expect(piegerTabulationModale).toHaveBeenCalled();
   });
 });

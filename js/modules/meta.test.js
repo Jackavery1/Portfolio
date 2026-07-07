@@ -66,4 +66,30 @@ describe('meta', () => {
 
     expect(ajouterScore).not.toHaveBeenCalled();
   });
+
+  it('utilise window.location quand SITE_ORIGIN est vide', () => {
+    vi.resetModules();
+    vi.doMock('../config/index.js', () => ({
+      CONFIGURATION: {
+        SITE_ORIGIN: '',
+        SELECTEURS: {
+          CANONICAL: 'link-canonical',
+          OG_URL: 'meta-og-url',
+        },
+      },
+    }));
+    vi.doMock('../utils/page.js', () => ({
+      obtenirFichierPageCourante: () => 'index.html',
+    }));
+
+    document.head.innerHTML = `
+      <link rel="canonical" href="" id="link-canonical" />
+      <meta id="meta-og-url" property="og:url" content="" />
+    `;
+
+    return import('./meta.js').then(({ initialiserMetaPartage }) => {
+      initialiserMetaPartage();
+      expect(document.getElementById('link-canonical').href).toMatch(/\/$/);
+    });
+  });
 });

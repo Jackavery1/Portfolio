@@ -11,7 +11,7 @@
 
 .scores-tableau th {
   font-family: var(--police-pixel);
-  font-size: clamp(var(--taille-pixel-min), 1.2vw, 0.42rem);
+  font-size: var(--taille-pixel-decoratif);
   color: var(--couleur-accent-vif);
   padding: 0.55rem 0.75rem;
   text-align: left;
@@ -29,7 +29,7 @@
 
 .score-rang {
   font-family: var(--police-pixel);
-  font-size: clamp(var(--taille-pixel-min), 1.1vw, 0.55rem);
+  font-size: var(--taille-petit-pixel);
   color: var(--couleur-texte-discret);
   padding: 0.5rem 0.75rem;
   width: 3rem;

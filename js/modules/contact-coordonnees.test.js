@@ -1,7 +1,7 @@
 /* @vitest-environment jsdom */
 import { describe, expect, it, vi } from 'vitest';
 
-vi.mock('../config/index.js', () => ({
+const configMock = vi.hoisted(() => ({
   CONFIGURATION: {
     CONTACT: {
       EMAIL_B64: btoa('test@example.com'),
@@ -13,6 +13,8 @@ vi.mock('../config/index.js', () => ({
     },
   },
 }));
+
+vi.mock('../config/index.js', () => configMock);
 
 import { initialiserCoordonneesContact } from './contact-coordonnees.js';
 
@@ -28,5 +30,17 @@ describe('contact-coordonnees', () => {
 
     const phoneLien = document.querySelector('#js-contact-phone a');
     expect(phoneLien?.getAttribute('href')).toMatch(/^tel:\+33/);
+  });
+
+  it('ignore un email vide ou sans domaine', () => {
+    configMock.CONFIGURATION.CONTACT.EMAIL_B64 = '';
+    configMock.CONFIGURATION.CONTACT.PHONE_PARTS = null;
+    document.body.innerHTML =
+      '<span id="js-contact-email">placeholder</span><span id="js-contact-phone"></span>';
+
+    initialiserCoordonneesContact();
+
+    expect(document.querySelector('#js-contact-email a')).toBeNull();
+    expect(document.querySelector('#js-contact-phone a')).toBeNull();
   });
 });

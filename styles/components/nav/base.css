@@ -17,7 +17,7 @@
 
 .nav__logo {
   font-family: var(--police-pixel);
-  font-size: clamp(var(--taille-pixel-min), 2vw, 0.7rem);
+  font-size: var(--taille-petit-pixel);
   color: var(--couleur-accent-vif);
   letter-spacing: 2px;
   text-shadow: 0 0 10px var(--couleur-accent);
@@ -41,7 +41,7 @@
 
 .arcade-label {
   font-family: var(--police-pixel);
-  font-size: clamp(var(--taille-pixel-min), 1vw, 0.55rem);
+  font-size: var(--taille-petit-pixel);
   color: var(--couleur-texte-discret);
   letter-spacing: 2px;
 }
@@ -68,7 +68,7 @@
 
 .nav__bouton {
   font-family: var(--police-pixel);
-  font-size: clamp(var(--taille-pixel-min), 1.5vw, 0.55rem);
+  font-size: var(--taille-petit-pixel);
   color: var(--couleur-texte-discret);
   letter-spacing: 1px;
   min-height: 44px;

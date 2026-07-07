@@ -7,6 +7,7 @@ const { urlPageProd } = require('./url-page.cjs');
 const { BASE_STYLE_FILE, PAGE_STYLE_BY_HTML } = require('./page-styles.cjs');
 const { buildJsonLd, jsonLdScriptTag } = require('./json-ld.cjs');
 const { PARTIELS: PARTIAL_PLACEHOLDERS } = require('./partials-list.cjs');
+const { injectMentionsHtml } = require('./inject-mentions-html.cjs');
 
 const HEAD_COMMON_MARKER = '<!-- HEAD_COMMON -->';
 
@@ -122,11 +123,7 @@ function balisesStylesProd(htmlFile) {
   const stylesheets = fichiers
     .map((href) => `    <link rel="stylesheet" href="${href}" />`)
     .join('\n');
-  const modulesSupplementaires =
-    htmlFile === 'mentions-legales.html'
-      ? '\n    <link rel="modulepreload" href="js/modules/mentions-legales.js" />'
-      : '';
-  return `    <link rel="modulepreload" href="js/main.js" />${modulesSupplementaires}\n${preloads}\n${stylesheets}`;
+  return `    <link rel="modulepreload" href="js/main.js" />\n${preloads}\n${stylesheets}`;
 }
 
 function injectJsonLd(html, htmlFile, siteBase) {
@@ -176,6 +173,9 @@ function copyHTML(root, distDir, siteBase) {
     html = injectJsonLd(html, file, siteBase);
     html = injectPerfHead(html, file, root);
     html = inlinePartials(html, root);
+    if (file === 'mentions-legales.html') {
+      html = injectMentionsHtml(html, root);
+    }
     if (viewportRe.test(html) && !html.includes('Content-Security-Policy')) {
       html = html.replace(viewportRe, (match) => `${match}\n    ${CSP_META}`);
     }

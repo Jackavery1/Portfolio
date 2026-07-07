@@ -120,6 +120,13 @@ function remplirSommaire(conteneur) {
 }
 
 export function initialiserMentionsLegales() {
+  const sections = document.getElementById('js-mentions-sections');
+  if (sections?.querySelector('.mentions-bloc')) {
+    const editeur = sections.querySelector('.mentions-bloc');
+    if (editeur) remplirBlocEditeur(editeur);
+    return;
+  }
+
   const intro = document.getElementById('js-mentions-intro');
   if (intro) intro.textContent = MENTIONS_LEGALES.intro;
 
@@ -129,7 +136,6 @@ export function initialiserMentionsLegales() {
     remplirSommaire(sommaire);
   }
 
-  const sections = document.getElementById('js-mentions-sections');
   if (!sections) return;
 
   sections.replaceChildren();

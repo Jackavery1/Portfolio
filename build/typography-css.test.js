@@ -54,11 +54,29 @@ describe('typography CSS', () => {
       '--taille-petit-pixel',
       '--taille-bouton-pixel',
       '--taille-titre-pixel',
+      '--taille-pixel-decoratif',
       '--taille-corps-lisible',
       '--taille-corps-crt',
     ];
     attendus.forEach((token) => {
       expect(tokens, token).toContain(token);
+    });
+  });
+
+  it('clamp pixel — le maximum est ≥ --taille-pixel-min quand utilisé', () => {
+    const stylesDir = path.join(rootDir, 'styles');
+    const fichiers = listerCss(stylesDir);
+    const clampMin =
+      /font-size:\s*clamp\(\s*var\(--taille-pixel-min\)\s*,\s*[^,]+,\s*(0\.\d+rem)\s*\)/g;
+
+    fichiers.forEach((absolu) => {
+      const rel = path.relative(rootDir, absolu).replace(/\\/g, '/');
+      const contenu = fs.readFileSync(absolu, 'utf8');
+      let match;
+      while ((match = clampMin.exec(contenu)) !== null) {
+        const maxRem = parseFloat(match[1]);
+        expect(maxRem, `${rel} — max ${match[1]} < min 0.75rem`).toBeGreaterThanOrEqual(0.75);
+      }
     });
   });
 

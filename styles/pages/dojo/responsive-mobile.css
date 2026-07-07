@@ -21,7 +21,7 @@
 
   .boss-rush__titre {
     letter-spacing: 0;
-    font-size: clamp(var(--taille-pixel-min), 2.5vw, 0.55rem);
+    font-size: var(--taille-petit-pixel);
   }
 
   .boss-carte__gauche {

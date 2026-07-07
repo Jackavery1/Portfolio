@@ -104,4 +104,36 @@ describe('navigation', () => {
     expect(window.location.href).toBe('index.html');
     expect(jouerBip).toHaveBeenCalled();
   });
+
+  it('n’avance pas au-delà de la dernière page', () => {
+    Object.defineProperty(window, 'location', {
+      value: { pathname: '/projets.html', href: 'projets.html' },
+      writable: true,
+    });
+    initialiserNavigationClavier();
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
+    expect(window.location.href).toBe('projets.html');
+  });
+
+  it('ignore les flèches quand la modale est ouverte', () => {
+    document.body.innerHTML += '<div id="js-modal"></div>';
+    const modal = document.getElementById('js-modal');
+    modal.hidden = false;
+    Object.defineProperty(window, 'location', {
+      value: { pathname: '/index.html', href: 'index.html' },
+      writable: true,
+    });
+    initialiserNavigationClavier();
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
+    expect(window.location.href).toBe('index.html');
+  });
+
+  it('ferme le menu avec Escape et rend le focus au burger', () => {
+    initialiserNavigationArcade();
+    const burger = document.getElementById('js-burger');
+    burger.click();
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+    expect(burger.getAttribute('aria-expanded')).toBe('false');
+    expect(document.getElementById('js-menu').classList.contains('ouvert')).toBe(false);
+  });
 });

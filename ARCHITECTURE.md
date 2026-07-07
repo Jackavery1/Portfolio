@@ -55,7 +55,7 @@ js/modules/contact-form.js
 js/modules/contact-form.test.js  ← même dossier
 ```
 
-Approche **test-per-module** : 229 tests (100%), 0 mocking frameworks (JSDOM only).
+Approche **test-per-module** : ~240 tests Vitest, environnement `node` avec `/* @vitest-environment jsdom */` sur les modules DOM ; `vi.mock` pour config et I/O externes.
 
 ## Structure fichiers
 
@@ -77,11 +77,11 @@ Approche **test-per-module** : 229 tests (100%), 0 mocking frameworks (JSDOM onl
 - Contrôle total des perfs (36% JS minification vs React overhead)
 - CSP stricte, service worker custom : framework ajouterait friction
 
-### ✅ Pourquoi JSDOM pour tests, pas Vitest DOM ?
+### ✅ Pourquoi JSDOM pour les tests DOM ?
 
-- Simplicité : 1 environment pour 72 files de test
-- Performance : rapide même sur 229 tests
-- Isolation : pas de test qui casse d'autres (state reset par test file)
+- Environnement Vitest `node` par défaut ; jsdom activé fichier par fichier
+- Performance : suite complète en quelques dizaines de secondes
+- Isolation : reset DOM par test via `beforeEach`
 
 ### ✅ Pourquoi partials générés (HTML assemblage) ?
 
@@ -99,18 +99,18 @@ Approche **test-per-module** : 229 tests (100%), 0 mocking frameworks (JSDOM onl
 
 - Granularité : contrôle exact du quoi charger quand
 - No router library : `data-section-id` sur body suffit
-- Taille : `dojo-boss.js` (155L) chargé seulement sur `/dojo.html`
+- Taille : `dojo-boss.js` (~130 L) chargé seulement sur `/dojo.html`
 
 ## Patterns utilisés
 
 ### Observer pattern (score, highscore)
 
 ```javascript
-// js/modules/score.js
+// js/modules/score-session.js + popup-highscore.js (barrel score.js)
 afficherScore(score) → MAJ DOM
 lireScore() → getter localStorage
 
-// js/modules/popup-highscore.js (dépend de score)
+// js/modules/popup-highscore.js
 if (score >= PLAFOND) afficherPopupMeilleurScore()
 ```
 
@@ -142,16 +142,16 @@ Deux stratégies importer séparément selon context.
 
 ### Couverture
 
-- **230 tests passants** (100 %)
-- **~90 % lignes / ~73 % branches** mesurés sur `js/` et scripts build (seuils CI : 40 % / 20 % dans `vitest.config.js`)
-- **Seuils réalistes** : 40 % global (scripts build partiellement couverts)
+- **~240 tests passants** (Vitest + Playwright)
+- **≥ 85 % lignes / ≥ 80 % branches** sur `js/` (seuils CI dans `vitest.config.js`)
+- Scripts `build/*.cjs` : seuils dédiés plus bas (I/O fichier, pipeline)
 
 ### Mocking strategy
 
-- **Pas de jest.mock()** : JSDOM + fixtures suffisent
-- **localStorage mock** : `sessionStorage unavailable` testé par try/catch
-- **API mocking** : Formspree/reCAPTCHA testées via vitest `vi.mock` quand nécessaire
-- **E2E real** : Playwright teste le vrai site au build
+- **`vi.mock`** pour config, reCAPTCHA, score, audio
+- **localStorage / sessionStorage** : edge cases testés (indisponible, rate limit)
+- **API mocking** : Formspree via `fetch` mocké dans les tests contact
+- **E2E** : Playwright (Chromium, WebKit, Firefox) sur le build staging
 
 ### Edge cases couverts
 

@@ -47,8 +47,14 @@
   transition: transform 0.15s ease;
 }
 
-.lien-evitement:focus {
+.lien-evitement:focus:not(:focus-visible) {
+  transform: translate(-50%, -120%);
+}
+
+.lien-evitement:focus-visible {
   transform: translate(-50%, 0);
+  outline: 2px solid var(--couleur-actif);
+  outline-offset: 2px;
 }
 
 .sr-only {
@@ -61,11 +67,6 @@
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
-}
-
-.lien-evitement:focus-visible {
-  outline: 2px solid var(--couleur-actif);
-  outline-offset: 2px;
 }
 
 .titre-section {

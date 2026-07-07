@@ -50,6 +50,15 @@ export default defineConfig({
       },
     },
     {
+      name: 'responsive-firefox',
+      testMatch: RESPONSIVE_SPECS,
+      use: {
+        browserName: 'firefox',
+        viewport: { width: 375, height: 667 },
+        hasTouch: true,
+      },
+    },
+    {
       name: 'desktop-chrome',
       testIgnore: RESPONSIVE_SPECS,
       use: {
