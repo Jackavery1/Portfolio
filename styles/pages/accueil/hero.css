@@ -64,5 +64,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.45rem;
-  margin-bottom: 1.3rem;
+  margin: 0 0 1.3rem;
+  padding: 0;
+  list-style: none;
 }
