@@ -15,7 +15,6 @@
 
   body[data-section-id='accueil'] .ecran {
     overflow: visible;
-    min-height: auto;
     height: auto;
   }
 

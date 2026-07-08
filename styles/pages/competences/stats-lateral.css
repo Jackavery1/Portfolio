@@ -22,7 +22,8 @@
 }
 
 .langue-item__barre-fond {
-  flex: 1;
+  flex: 1 1 2.5rem;
+  min-width: 2rem;
   height: 7px;
   background-color: var(--couleur-separateur);
   border-radius: 2px;
@@ -41,8 +42,10 @@
   font-family: var(--police-pixel);
   font-size: var(--taille-pixel-decoratif);
   color: var(--couleur-accent-vif);
-  width: 2.5rem;
+  flex-shrink: 0;
   text-align: right;
+  line-height: 1.25;
+  letter-spacing: 0;
 }
 
 .bonus-item {

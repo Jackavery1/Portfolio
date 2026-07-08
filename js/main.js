@@ -14,6 +14,7 @@ import {
 } from './modules/score.js';
 import { initialiserMetaPartage, initialiserBonusScore } from './modules/meta.js';
 import { initialiserCodeKonami } from './modules/konami.js';
+import { initialiserMusique } from './modules/musique.js';
 import { enregistrerServiceWorker } from './modules/service-worker-register.js';
 import { animerBarresSection } from './modules/animations.js';
 import { urlFaviconPng } from './config/favicon.js';
@@ -58,6 +59,7 @@ async function initialiser() {
   initialiserBonusScore();
   afficherScore(lireScore());
   initialiserCodeKonami();
+  initialiserMusique();
 
   if (sid === 'projets') {
     const { initialiserGrilleProjets } = await import('./modules/projets-grille.js');

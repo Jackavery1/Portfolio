@@ -57,9 +57,10 @@ vi.mock('./audio.js', () => ({
 }));
 
 vi.mock('./score.js', () => ({
-  ajouterScore: vi.fn(),
+  accorderBonusProjet: vi.fn(),
 }));
 
+import { accorderBonusProjet } from './score.js';
 import {
   fermerModal,
   initialiserClicsModale,
@@ -148,6 +149,12 @@ describe('modal', () => {
     ouvrirModal('test');
     document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
     expect(document.getElementById('js-modal').hidden).toBe(true);
+  });
+
+  it('initialiserClicsModale accorde le bonus projet au clic', () => {
+    initialiserClicsModale();
+    document.querySelector('.carte-projet').click();
+    expect(accorderBonusProjet).toHaveBeenCalledWith('test');
   });
 
   it('initialiserClicsModale ouvre et ferme via carte, bouton et overlay', () => {

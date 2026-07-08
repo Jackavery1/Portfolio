@@ -15,7 +15,6 @@
   }
 
   body[data-section-id='mentions'] .ecran {
-    min-height: auto;
     height: auto;
     overflow: visible;
   }

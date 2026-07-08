@@ -13,7 +13,7 @@ import {
   resoudreSrcApercu,
 } from '../utils/modal-helpers.js';
 import { jouerBip } from './audio.js';
-import { ajouterScore } from './score.js';
+import { accorderBonusProjet } from './score.js';
 
 let elementFocusAvantModal = null;
 
@@ -59,8 +59,8 @@ function preparerImageModale(modalImg, src, titre) {
   modalImg.src = src;
 }
 
-function remplirLiensModale(modalLien, data) {
-  const liensValides = liensProjetValides(data);
+function remplirLiensModale(modalLien, projet) {
+  const liensValides = liensProjetValides(projet);
 
   if (!liensValides.length) {
     modalLien.hidden = true;
@@ -81,20 +81,20 @@ function remplirLiensModale(modalLien, data) {
 }
 
 export function ouvrirModal(projetKey) {
-  const data = CONFIGURATION.PROJETS[projetKey];
+  const projet = CONFIGURATION.PROJETS[projetKey];
   const modalOverlay = parId(CONFIGURATION.SELECTEURS.MODALE);
   const modalTitre = parId(CONFIGURATION.SELECTEURS.MODALE_TITRE);
   const modalDesc = parId(CONFIGURATION.SELECTEURS.MODALE_DESC);
   const modalTech = parId(CONFIGURATION.SELECTEURS.MODALE_TECH);
   const modalImg = parId(CONFIGURATION.SELECTEURS.MODALE_IMG);
   const btnFermer = parId(CONFIGURATION.SELECTEURS.MODALE_FERMER);
-  if (!data || !modalOverlay || !modalTitre || !modalDesc || !modalTech || !modalImg || !btnFermer)
+  if (!projet || !modalOverlay || !modalTitre || !modalDesc || !modalTech || !modalImg || !btnFermer)
     return;
 
   elementFocusAvantModal = document.activeElement;
 
-  modalTitre.textContent = data.titre;
-  modalDesc.textContent = data.desc;
+  modalTitre.textContent = projet.titre;
+  modalDesc.textContent = projet.desc;
 
   let modalLien = parId(CONFIGURATION.SELECTEURS.MODALE_LIEN);
   if (!modalLien) {
@@ -103,20 +103,20 @@ export function ouvrirModal(projetKey) {
     modalLien.className = 'modal-lien';
     modalDesc.insertAdjacentElement('afterend', modalLien);
   }
-  remplirLiensModale(modalLien, data);
+  remplirLiensModale(modalLien, projet);
 
-  const srcApercu = resoudreSrcApercu(data);
+  const srcApercu = resoudreSrcApercu(projet);
   if (srcApercu) {
-    preparerImageModale(modalImg, srcApercu, data.titre);
+    preparerImageModale(modalImg, srcApercu, projet.titre);
     modalImg.hidden = false;
   } else {
-    preparerImageModale(modalImg, '', data.titre);
+    preparerImageModale(modalImg, '', projet.titre);
     modalImg.removeAttribute('src');
     modalImg.hidden = true;
   }
 
   modalTech.innerHTML = '';
-  data.tech.forEach((t) => {
+  projet.tech.forEach((t) => {
     const li = document.createElement('span');
     li.className = 'modal-tech-tag';
     li.textContent = t;
@@ -126,7 +126,6 @@ export function ouvrirModal(projetKey) {
   modalOverlay.hidden = false;
   basculerInertFond(true, modalOverlay);
   jouerBip(440, 60, 'sine');
-  ajouterScore(CONFIGURATION.BONUS_SCORE.PROJET);
   btnFermer.focus();
 }
 
@@ -161,7 +160,11 @@ export function initialiserClicsModale() {
   const btnFermer = parId(CONFIGURATION.SELECTEURS.MODALE_FERMER);
 
   tousParSelecteur('.carte-projet[data-projet]').forEach((carte) => {
-    carte.addEventListener('click', () => ouvrirModal(carte.dataset.projet));
+    carte.addEventListener('click', () => {
+      const id = carte.dataset.projet;
+      accorderBonusProjet(id);
+      ouvrirModal(id);
+    });
   });
 
   if (btnFermer) btnFermer.addEventListener('click', fermerModal);

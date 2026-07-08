@@ -17,7 +17,7 @@
     "format:check": "prettier --check .",
     "prelint": "node build/sync-source.cjs",
     "pretest": "node build/sync-source.cjs && node build/sync-page-meta.cjs --check",
-    "prebuild": "node build/sync-fonts.cjs && node build/sync-source.cjs",
+    "prebuild": "node build/sync-fonts.cjs && node build/sync-source.cjs && node build/sync-pwa-icons.cjs",
     "prevalidate:html": "node build/sync-source.cjs && node build/sync-page-meta.cjs --check",
     "sync:page-meta": "node build/sync-page-meta.cjs",
     "check:page-meta": "node build/sync-page-meta.cjs --check",

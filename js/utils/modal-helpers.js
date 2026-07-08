@@ -1,5 +1,5 @@
-export function resoudreSrcApercu(data) {
-  return data?.apercu || null;
+export function resoudreSrcApercu(projet) {
+  return projet?.apercu || null;
 }
 
 export function estImageRaster(src) {
@@ -23,18 +23,18 @@ export function estLienHttpAutorise(href) {
 }
 
 /** Liens démo + repo filtrés (http/https uniquement) pour la modale projet. */
-export function liensProjetValides(data) {
+export function liensProjetValides(projet) {
   const liens = [];
-  if (data?.lienDemo) {
+  if (projet?.lienDemo) {
     liens.push({
-      href: data.lienDemo,
-      label: data.lienDemoLabel || '▶ Voir la démo',
+      href: projet.lienDemo,
+      label: projet.lienDemoLabel || '▶ Voir la démo',
     });
   }
-  if (data?.lien) {
+  if (projet?.lien) {
     liens.push({
-      href: data.lien,
-      label: data.lienLabel || '▶ Voir le dépôt GitHub',
+      href: projet.lien,
+      label: projet.lienLabel || '▶ Voir le dépôt GitHub',
     });
   }
   return liens.filter(({ href }) => estLienHttpAutorise(href));

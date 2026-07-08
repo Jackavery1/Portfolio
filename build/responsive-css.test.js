@@ -13,7 +13,6 @@ const FICHIERS_SAFE_AREA = [
   'styles/components/nav/base.css',
   'styles/components/modal/overlay.css',
   'styles/components/modal/highscore.css',
-  'styles/components/crt.css',
   'styles/pages/offline.css',
 ];
 

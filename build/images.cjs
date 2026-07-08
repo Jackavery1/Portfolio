@@ -3,6 +3,10 @@ const path = require('path');
 const sharp = require('sharp');
 const { ensureDir, copyDirRecursive, log, copyFile } = require('./fs-utils.cjs');
 
+/** Part du canvas occupée par le visuel — marge pour masques iOS / Android */
+const ZONE_UTILE_PWA = 0.5;
+const FOND_PWA = { r: 3, g: 4, b: 15, alpha: 1 };
+
 function listerRasters(srcDir) {
   return fs.readdirSync(srcDir).filter((f) => /\.(png|jpe?g)$/i.test(f));
 }
@@ -132,6 +136,25 @@ function copyAssets(root, distDir) {
   log('Assets (previews, favicon) copiés', 'success');
 }
 
+async function genererIconeCarreePwa(src, size) {
+  const zone = Math.round(size * ZONE_UTILE_PWA);
+  const redimensionnee = await sharp(src)
+    .resize(zone, zone, { fit: 'inside', background: FOND_PWA })
+    .png()
+    .toBuffer();
+
+  const { width, height } = await sharp(redimensionnee).metadata();
+  const left = Math.floor((size - width) / 2);
+  const top = Math.floor((size - height) / 2);
+
+  return sharp({
+    create: { width: size, height: size, channels: 4, background: FOND_PWA },
+  })
+    .composite([{ input: redimensionnee, left, top }])
+    .png()
+    .toBuffer();
+}
+
 async function generatePwaIcons(root, distDir) {
   const src = path.join(root, 'assets', 'favicon.png');
   if (!fs.existsSync(src)) {
@@ -146,10 +169,7 @@ async function generatePwaIcons(root, distDir) {
   ];
 
   for (const { name, size } of sizes) {
-    const pngBuffer = await sharp(src)
-      .resize(size, size, { fit: 'contain', background: '#03040f' })
-      .png()
-      .toBuffer();
+    const pngBuffer = await genererIconeCarreePwa(src, size);
 
     for (const base of [root, distDir]) {
       const dst = path.join(base, 'assets', name);
@@ -166,4 +186,6 @@ module.exports = {
   optimizePreviewImages,
   copyAssets,
   generatePwaIcons,
+  genererIconeCarreePwa,
+  ZONE_UTILE_PWA,
 };

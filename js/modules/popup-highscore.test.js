@@ -107,4 +107,16 @@ describe('popup-highscore', () => {
     document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Tab', bubbles: true }));
     expect(piegerTabulationModale).toHaveBeenCalled();
   });
+
+  it('ferme le popup avant la navigation vers contact', () => {
+    initialiserFermeturePopupMeilleurScore();
+    afficherPopupMeilleurScore();
+
+    const lien = document.querySelector('.popup-highscore__btn');
+    lien.click();
+
+    expect(document.getElementById('js-popup-hs').hidden).toBe(true);
+    expect(document.getElementById('ecran').hasAttribute('inert')).toBe(false);
+    expect(lien.getAttribute('href')).toBe('contact.html');
+  });
 });

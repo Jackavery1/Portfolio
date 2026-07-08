@@ -22,4 +22,16 @@ describe('inert', () => {
     expect(document.getElementById('fond-a').hasAttribute('inert')).toBe(false);
     expect(modal.hasAttribute('inert')).toBe(false);
   });
+
+  it('retire inert de l’élément exception même s’il était déjà inert', () => {
+    const popup = document.createElement('div');
+    popup.id = 'popup';
+    document.body.appendChild(popup);
+    popup.setAttribute('inert', '');
+
+    basculerInertFond(true, popup);
+
+    expect(popup.hasAttribute('inert')).toBe(false);
+    expect(document.getElementById('modal').hasAttribute('inert')).toBe(true);
+  });
 });

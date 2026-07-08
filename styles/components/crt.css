@@ -4,10 +4,10 @@
 
 .crt-scanlines {
   position: fixed;
-  top: env(safe-area-inset-top, 0);
-  right: env(safe-area-inset-right, 0);
-  bottom: env(safe-area-inset-bottom, 0);
-  left: env(safe-area-inset-left, 0);
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   background: repeating-linear-gradient(
     0deg,
     var(--couleur-scanline) 0px,
@@ -22,10 +22,10 @@
 
 .crt-lueur {
   position: fixed;
-  top: env(safe-area-inset-top, 0);
-  right: env(safe-area-inset-right, 0);
-  bottom: env(safe-area-inset-bottom, 0);
-  left: env(safe-area-inset-left, 0);
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   background: radial-gradient(
     ellipse 80% 60% at 50% 50%,
     transparent 40%,
@@ -37,10 +37,10 @@
 
 .crt-coins {
   position: fixed;
-  top: env(safe-area-inset-top, 0);
-  right: env(safe-area-inset-right, 0);
-  bottom: env(safe-area-inset-bottom, 0);
-  left: env(safe-area-inset-left, 0);
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   border-radius: 20px;
   box-shadow:
     inset 0 0 80px 30px rgba(0, 0, 30, 0.75),

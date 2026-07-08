@@ -4,10 +4,11 @@ import os from 'node:os';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { createRequire } from 'node:module';
+import sharp from 'sharp';
 
 const require = createRequire(import.meta.url);
 const rootDir = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
-const { copyAssets } = require('./images.cjs');
+const { copyAssets, genererIconeCarreePwa, ZONE_UTILE_PWA } = require('./images.cjs');
 const { writeServiceWorker } = require('./sw.cjs');
 
 describe('copy assets', () => {
@@ -35,5 +36,14 @@ describe('copy assets', () => {
     } finally {
       fs.rmSync(tmp, { recursive: true, force: true });
     }
+  });
+
+  it('génère une icône PWA carrée avec zone utile réduite', async () => {
+    const src = path.join(rootDir, 'assets', 'favicon.png');
+    const buffer = await genererIconeCarreePwa(src, 192);
+    const meta = await sharp(buffer).metadata();
+    expect(meta.width).toBe(192);
+    expect(meta.height).toBe(192);
+    expect(ZONE_UTILE_PWA).toBeLessThan(0.6);
   });
 });

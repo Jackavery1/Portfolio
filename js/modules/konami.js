@@ -5,6 +5,7 @@
 import { CONFIGURATION } from '../config/index.js';
 import { parId } from '../utils/dom.js';
 import { jouerFanfareVictoire } from './audio.js';
+import { jouerJingleSecret } from './musique.js';
 import { afficherPopupMeilleurScore, afficherScore, lireScore, sauvegarderScore } from './score.js';
 import { SCORE_PLAFOND } from '../utils/score-helpers.js';
 
@@ -25,6 +26,7 @@ export function initialiserCodeKonami() {
     if (saisieKonami.join(',') === seq.join(',')) {
       document.body.classList.toggle('konami-actif');
       jouerFanfareVictoire();
+      jouerJingleSecret();
       const k = lireScore();
       if (k < SCORE_PLAFOND) {
         sauvegarderScore(SCORE_PLAFOND);

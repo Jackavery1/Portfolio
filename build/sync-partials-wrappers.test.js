@@ -102,12 +102,19 @@ describe('sync partials — wrappers _head / _foot', () => {
     });
   });
 
-  it('parcours-arbre.html — fragment _head intact (structure SVG fermée)', () => {
+  it('parcours-arbre.html — le contenu SVG est à l’intérieur de .svg-arbre', () => {
     const assembled = lire('partials/parcours-arbre.html');
     const head = lire('partials/parcours-arbre/_head.html').trim();
 
     expect(assembled.startsWith(head)).toBe(true);
+    expect(head).not.toContain('</svg>');
     expect(assembled).toContain('SCIENCES VÉGÉTALES');
     expect(assembled).toContain('class="svg-arbre"');
+
+    const debutSvg = assembled.indexOf('<svg');
+    const finSvg = assembled.indexOf('</svg>');
+    const contenuSvg = assembled.slice(debutSvg, finSvg);
+    expect(contenuSvg).toContain('<line');
+    expect(contenuSvg).toContain('EN COURS');
   });
 });

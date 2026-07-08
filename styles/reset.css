@@ -14,11 +14,11 @@ html {
   font-size: 16px;
   scroll-behavior: smooth;
   overflow-x: hidden;
-  background-color: var(--couleur-fond-page);
+  background-color: var(--couleur-fond);
 }
 
 body {
-  background-color: var(--couleur-fond-page);
+  background-color: var(--couleur-fond);
   color: var(--couleur-texte-normal);
   font-family: var(--police-crt);
   min-height: 100vh;
@@ -28,7 +28,6 @@ body {
   overflow-x: hidden;
   padding-left: env(safe-area-inset-left, 0);
   padding-right: env(safe-area-inset-right, 0);
-  padding-bottom: env(safe-area-inset-bottom, 0);
 }
 
 @media (hover: hover) and (pointer: fine) {

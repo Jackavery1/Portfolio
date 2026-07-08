@@ -36,4 +36,10 @@
   .score-last {
     font-size: var(--taille-petit-pixel);
   }
+
+  .langue-item__nom {
+    width: auto;
+    min-width: 4.25rem;
+    max-width: 5.25rem;
+  }
 }

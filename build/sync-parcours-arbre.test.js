@@ -21,5 +21,9 @@ describe('parcours-arbre sync', () => {
     expect(assembled).toContain('class="svg-arbre"');
     expect(assembled).toContain('EN COURS');
     expect(assembled).toContain('SCIENCES VÉGÉTALES');
+
+    const finSvg = assembled.indexOf('</svg>');
+    expect(finSvg).toBeGreaterThan(0);
+    expect(assembled.indexOf('<line')).toBeLessThan(finSvg);
   });
 });

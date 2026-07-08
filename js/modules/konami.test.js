@@ -33,6 +33,10 @@ vi.mock('./audio.js', () => ({
   jouerFanfareVictoire: vi.fn(),
 }));
 
+vi.mock('./musique.js', () => ({
+  jouerJingleSecret: vi.fn(),
+}));
+
 vi.mock('./score.js', () => scoreMocks);
 
 import { initialiserCodeKonami } from './konami.js';

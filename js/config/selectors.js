@@ -7,6 +7,7 @@ export const SELECTEURS = {
   MODALE_TECH: 'js-modal-tech',
   MODALE_FERMER: 'js-modal-fermer',
   BURGER: 'js-burger',
+  BOUTON_MUSIQUE: 'js-bouton-musique',
   MENU: 'js-menu',
   FORMULAIRE: 'js-formulaire',
   BTN_ENVOYER: 'js-btn-envoyer',

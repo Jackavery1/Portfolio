@@ -3,7 +3,7 @@
 .popup-highscore {
   position: fixed;
   inset: 0;
-  z-index: 600;
+  z-index: 1100;
   background: rgba(0, 0, 20, 0.92);
   display: flex;
   justify-content: center;

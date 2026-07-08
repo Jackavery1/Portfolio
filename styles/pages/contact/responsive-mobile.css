@@ -22,7 +22,6 @@
   }
 
   body[data-section-id='contact'] .ecran {
-    min-height: auto;
     height: auto;
     overflow: visible;
   }

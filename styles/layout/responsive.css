@@ -4,10 +4,6 @@
   .section {
     padding: 1.25rem var(--espacement-md) var(--espacement-xl);
   }
-
-  .ecran {
-    min-height: auto;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {

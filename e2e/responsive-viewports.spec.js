@@ -81,14 +81,15 @@ test('responsive seuil nav — burger à 960px, liens horizontaux à 961px', asy
   await expect(page.locator('.nav__liens')).toBeVisible();
 });
 
-test('responsive score arcade — visible en compact, label masqué', async ({ page }) => {
+test('responsive score arcade — label et valeur visibles en portrait compact', async ({ page }) => {
   await page.setViewportSize({
     width: VIEWPORT_MOBILE.width,
     height: VIEWPORT_MOBILE.height,
   });
   await gotoReady(page, '/index.html');
   await expect(page.locator('#js-score')).toBeVisible();
-  await expect(page.locator('.arcade-label')).toBeHidden();
+  await expect(page.locator('.arcade-label')).toBeVisible();
+  await expect(page.locator('.arcade-label')).toHaveText('SCORE');
 });
 
 test('accessibility zoom 200% — pas overflow horizontal', async ({ page }) => {

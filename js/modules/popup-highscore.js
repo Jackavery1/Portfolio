@@ -68,4 +68,12 @@ export function initialiserFermeturePopupMeilleurScore() {
     btnFermerHS.dataset.ecouteurHs = '1';
     btnFermerHS.addEventListener('click', fermerPopupMeilleurScore);
   }
+
+  const lienContact = popup?.querySelector('.popup-highscore__btn');
+  if (lienContact && !lienContact.dataset.ecouteurHs) {
+    lienContact.dataset.ecouteurHs = '1';
+    lienContact.addEventListener('click', () => {
+      fermerPopupMeilleurScore();
+    });
+  }
 }

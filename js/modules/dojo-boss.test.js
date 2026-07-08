@@ -13,10 +13,10 @@ vi.mock('../config/index.js', () => ({
 }));
 
 vi.mock('./score.js', () => ({
-  ajouterScore: vi.fn(),
+  accorderBonusDojoBoss: vi.fn(),
 }));
 
-import { ajouterScore } from './score.js';
+import { accorderBonusDojoBoss } from './score.js';
 import { initialiserDojoBoss } from './dojo-boss.js';
 
 describe('dojo-boss', () => {
@@ -68,15 +68,15 @@ describe('dojo-boss', () => {
     initialiserDojoBoss();
     const carte = document.querySelector('[data-boss="domslayer"]');
     carte.click();
-    expect(ajouterScore).toHaveBeenCalledWith(300);
-    vi.mocked(ajouterScore).mockClear();
+    expect(accorderBonusDojoBoss).toHaveBeenCalledWith('domslayer', false);
+    vi.mocked(accorderBonusDojoBoss).mockClear();
     carte.click();
-    expect(ajouterScore).not.toHaveBeenCalled();
+    expect(accorderBonusDojoBoss).toHaveBeenCalledWith('domslayer', false);
   });
 
   it('accorde plus de points pour un boss vaincu', () => {
     initialiserDojoBoss();
     document.querySelector('[data-boss="crud"]').click();
-    expect(ajouterScore).toHaveBeenCalledWith(450);
+    expect(accorderBonusDojoBoss).toHaveBeenCalledWith('crud', true);
   });
 });

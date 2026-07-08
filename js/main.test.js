@@ -21,6 +21,7 @@ const mocks = vi.hoisted(() => ({
   initialiserMetaPartage: vi.fn(),
   initialiserBonusScore: vi.fn(),
   initialiserCodeKonami: vi.fn(),
+  initialiserMusique: vi.fn(),
   animerBarresSection: vi.fn(),
 }));
 
@@ -48,6 +49,10 @@ vi.mock('./modules/meta.js', () => ({
 
 vi.mock('./modules/konami.js', () => ({
   initialiserCodeKonami: mocks.initialiserCodeKonami,
+}));
+
+vi.mock('./modules/musique.js', () => ({
+  initialiserMusique: mocks.initialiserMusique,
 }));
 
 vi.mock('./modules/animations.js', () => ({
@@ -107,6 +112,7 @@ describe('main', () => {
     expect(mocks.annoncerNavigationClavier).toHaveBeenCalled();
     expect(mocks.initialiserNavigationArcade).toHaveBeenCalled();
     expect(mocks.initialiserNavigationClavier).toHaveBeenCalled();
+    expect(mocks.initialiserMusique).toHaveBeenCalled();
     expect(mocks.enregistrerServiceWorker).toHaveBeenCalled();
     expect(document.body.dataset.appReady).toBe('true');
   });
