@@ -72,10 +72,26 @@
 
           <div class="story-grille">
             <!-- Timeline à gauche -->
-            <div id="partial-parcours-timeline"></div>
+            <div
+              id="partial-parcours-timeline"
+              class="partial-squelette"
+              aria-busy="true"
+              aria-live="polite"
+            >
+              <span class="partial-squelette__ligne partial-squelette__ligne--large" aria-hidden="true"></span>
+              <span class="partial-squelette__ligne partial-squelette__ligne--pleine" aria-hidden="true"></span>
+              <span class="partial-squelette__ligne partial-squelette__ligne--pleine" aria-hidden="true"></span>
+            </div>
 
             <!-- Arbre SVG à droite -->
-            <div id="partial-parcours-arbre"></div>
+            <div
+              id="partial-parcours-arbre"
+              class="partial-squelette partial-squelette--arbre"
+              aria-busy="true"
+              aria-live="polite"
+            >
+              <span class="partial-squelette__bloc" aria-hidden="true"></span>
+            </div>
           </div>
         </section>
       </main>

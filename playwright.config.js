@@ -5,6 +5,7 @@ const baseURL = `http://127.0.0.1:${PORT}`;
 const skipBuild = process.env.PLAYWRIGHT_SKIP_BUILD === '1';
 
 const RESPONSIVE_SPECS = /responsive-.*\.spec\.js/;
+const PWA_SPECS = /pwa\.spec\.js/;
 
 export default defineConfig({
   testDir: 'e2e',
@@ -20,7 +21,7 @@ export default defineConfig({
   projects: [
     {
       name: 'responsive-mobile-portrait',
-      testMatch: RESPONSIVE_SPECS,
+      testMatch: [RESPONSIVE_SPECS, PWA_SPECS, /sw-toast\.spec\.js/],
       use: {
         ...devices['Pixel 5'],
         viewport: { width: 375, height: 667 },
@@ -28,7 +29,7 @@ export default defineConfig({
     },
     {
       name: 'responsive-mobile-landscape',
-      testMatch: RESPONSIVE_SPECS,
+      testMatch: [RESPONSIVE_SPECS, PWA_SPECS, /sw-toast\.spec\.js/],
       use: {
         ...devices['Pixel 5'],
         viewport: { width: 667, height: 375 },
@@ -36,7 +37,7 @@ export default defineConfig({
     },
     {
       name: 'responsive-tablet',
-      testMatch: RESPONSIVE_SPECS,
+      testMatch: [RESPONSIVE_SPECS, PWA_SPECS, /sw-toast\.spec\.js/],
       use: {
         ...devices['iPad Pro'],
         viewport: { width: 768, height: 1024 },
@@ -44,14 +45,14 @@ export default defineConfig({
     },
     {
       name: 'responsive-webkit',
-      testMatch: RESPONSIVE_SPECS,
+      testMatch: [RESPONSIVE_SPECS, PWA_SPECS, /sw-toast\.spec\.js/],
       use: {
         ...devices['iPhone 13'],
       },
     },
     {
       name: 'responsive-firefox',
-      testMatch: RESPONSIVE_SPECS,
+      testMatch: [RESPONSIVE_SPECS, PWA_SPECS, /sw-toast\.spec\.js/],
       use: {
         browserName: 'firefox',
         viewport: { width: 375, height: 667 },
@@ -61,6 +62,7 @@ export default defineConfig({
     {
       name: 'desktop-chrome',
       testIgnore: RESPONSIVE_SPECS,
+      testMatch: [PWA_SPECS, /sw-toast\.spec\.js/, /^(?!.*responsive-).*\.spec\.js$/],
       use: {
         ...devices['Desktop Chrome'],
         ...(process.env.CI ? {} : { channel: 'chrome' }),

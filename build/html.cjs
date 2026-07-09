@@ -191,4 +191,11 @@ module.exports = {
   copyHTML,
   inlinePartials,
   placeholderRegex,
+  injectSeoMeta,
+  injectPageMeta,
+  injectHeadCommon,
+  injectFontsAsync,
+  injectPerfHead,
+  injectJsonLd,
+  liensStylesProd,
 };

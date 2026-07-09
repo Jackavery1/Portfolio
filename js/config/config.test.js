@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { CONFIGURATION } from './index.js';
+import { PROJETS } from './projects.js';
 
 describe('CONFIGURATION', () => {
   it('expose les sections attendues', () => {
@@ -9,8 +10,8 @@ describe('CONFIGURATION', () => {
     expect(CONFIGURATION.CONTACT.RECAPTCHA_SITE_KEY.length).toBeGreaterThan(10);
     expect(CONFIGURATION.NAVIGATION.ORDRE).toContain('index.html');
     expect(CONFIGURATION.PARTIELS.length).toBeGreaterThan(0);
-    expect(CONFIGURATION.PROJETS.lsf?.titre).toBe('PROJET LSF');
-    expect(CONFIGURATION.PROJETS.derniereligne?.num).toBe('PRJ-03');
+    expect(PROJETS.lsf?.titre).toBe('PROJET LSF');
+    expect(PROJETS.derniereligne?.num).toBe('PRJ-03');
     expect(CONFIGURATION.SELECTEURS.MODALE).toBe('js-modal');
     expect(CONFIGURATION.BONUS_SCORE.PAGE).toBe(200);
     expect(CONFIGURATION.BONUS_SCORE.PROJET).toBe(600);

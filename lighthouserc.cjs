@@ -1,7 +1,7 @@
 const assertions = {
   'categories:performance': ['error', { minScore: 0.9 }],
   'categories:accessibility': ['error', { minScore: 0.9 }],
-  'categories:best-practices': ['error', { minScore: 0.85 }],
+  'categories:best-practices': ['error', { minScore: 0.9 }],
   'categories:seo': ['error', { minScore: 0.9 }],
 };
 
@@ -13,12 +13,13 @@ const urls = [
   'contact.html',
   'dojo.html',
   'mentions-legales.html',
+  'offline.html',
 ];
 
 module.exports = {
   ci: {
     collect: {
-      staticDistDir: './dist',
+      staticDistDir: './.dist-staging',
       url: urls,
       numberOfRuns: 3,
       settings: {

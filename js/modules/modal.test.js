@@ -50,7 +50,18 @@ const configMock = vi.hoisted(() => ({
   },
 }));
 
-vi.mock('../config/index.js', () => configMock);
+vi.mock('../config/index.js', () => ({
+  CONFIGURATION: {
+    SELECTEURS: configMock.CONFIGURATION.SELECTEURS,
+    BONUS_SCORE: configMock.CONFIGURATION.BONUS_SCORE,
+  },
+}));
+
+vi.mock('../config/projects.js', () => ({
+  PROJETS: configMock.CONFIGURATION.PROJETS,
+  PROJETS_ORDER: Object.keys(configMock.CONFIGURATION.PROJETS),
+  ICONES_PROJETS: {},
+}));
 
 vi.mock('./audio.js', () => ({
   jouerBip: vi.fn(),

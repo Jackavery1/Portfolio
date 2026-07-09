@@ -33,7 +33,7 @@ vi.mock('./audio.js', () => ({
   jouerFanfareVictoire: vi.fn(),
 }));
 
-vi.mock('./musique.js', () => ({
+vi.mock('./musique-loader.js', () => ({
   jouerJingleSecret: vi.fn(),
 }));
 

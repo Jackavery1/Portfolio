@@ -2,6 +2,31 @@
 
 Format basé sur [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
+## [1.0.5] — 2026-07-09
+
+### Ajouté
+
+- Découpage musique : `musique-audio.js`, `musique-sequencuer.js`, `musique-loader.js`, `musique-bouton.js` ; données dans `musique-donnees.json` versionné.
+- Découpage contact : `contact-form-recaptcha.js`, `contact-form-validation.js`.
+- `score-stockage.js` — cycle score-session ↔ popup-highscore rompu.
+- Toast mise à jour PWA (`service-worker-register.js`, `sw-toast.css`) avec `aria-live`.
+- Skeletons `partial-squelette` (compétences, parcours) avec `aria-busy`.
+- Tests : musique, partials, dojo-boss, projets-grille, service-worker-register, `contact-form-validation`, `contact-form-recaptcha`, `score-stockage`, barrel `score.js`.
+- E2E : PWA (WebKit, Firefox, mobile paysage, tablette), `sw-toast`, `responsive-a11y`, `responsive-keyboard` ; extension touch/safe-area/motion.
+- Mention « Thème sombre arcade » dans le footer ; CRT masqué sous `prefers-reduced-motion`.
+- OG meta sur `offline.html` ; focus `:focus-visible` sur `.nav__logo`.
+- Lighthouse CI sur `.dist-staging` + `offline.html` ; seuil best-practices 0,9.
+
+### Corrigé
+
+- Couverture branches globale ≥ 84 % (seuil CI) ; contrastes tokens étendus.
+- Duplication état bouton musique entre `musique-loader.js` et `musique.js`.
+- Placeholder formulaire AA (`#7a8fc4`) ; bandeau WIP sémantique (jaune actif).
+- Typo pixel décorative ≥ 12 px (`--taille-pixel-decoratif-min`).
+- Precache SW : tous les `style-page-*.css` ; stratégie offline documentée dans `CONTRIBUTING.md`.
+- `ACCESSIBILITY.md` fusionné dans `CONTRIBUTING.md` § Accessibilité.
+- Hero squelette first-paint ; `color-scheme: dark` dans le head commun.
+
 ## [1.0.2] — 2026-06-01
 
 ### Ajouté

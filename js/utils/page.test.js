@@ -20,4 +20,32 @@ describe('page utils', () => {
     expect(fichierPageDepuisPathname('/projets')).toBe('projets.html');
     expect(fichierPageDepuisPathname('/competences')).toBe('competences.html');
   });
+
+  it('ignore hash et query dans le pathname', () => {
+    expect(obtenirFichierPageCourante('/dojo.html#boss')).toBe('dojo.html');
+    expect(fichierPageDepuisPathname('/index#accueil')).toBe('index.html');
+    expect(fichierPageDepuisPathname('/index')).toBe('index.html');
+  });
+
+  it('conserve les fichiers avec extension explicite', () => {
+    expect(fichierPageDepuisPathname('/dojo-boss-rush.html')).toBe('dojo-boss-rush.html');
+    expect(obtenirFichierPageCourante('/foo/bar.html?x=1#y')).toBe('bar.html');
+  });
+
+  it('fonctionne sans window (pathname explicite)', () => {
+    expect(obtenirFichierPageCourante('')).toBe('index.html');
+    expect(fichierPageDepuisPathname('')).toBe('index.html');
+    expect(fichierPageDepuisPathname('/INDEX.HTML')).toBe('index.html');
+  });
+
+  it('normalise index et chemins sans extension', () => {
+    expect(fichierPageDepuisPathname('/index')).toBe('index.html');
+    expect(fichierPageDepuisPathname('/INDEX')).toBe('index.html');
+  });
+
+  it('gère les entrées vides', () => {
+    expect(fichierPageDepuisPathname('/?')).toBe('index.html');
+    expect(obtenirFichierPageCourante('')).toBe('index.html');
+    expect(fichierPageDepuisPathname('?x')).toBe('index.html');
+  });
 });

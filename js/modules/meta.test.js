@@ -67,6 +67,63 @@ describe('meta', () => {
     expect(ajouterScore).not.toHaveBeenCalled();
   });
 
+  it('conserve une og:image déjà absolue', () => {
+    document.head.innerHTML = `
+      <meta property="og:image" content="https://cdn.example/og.png" />
+    `;
+
+    initialiserMetaPartage();
+
+    expect(document.querySelector('meta[property="og:image"]').getAttribute('content')).toBe(
+      'https://cdn.example/og.png'
+    );
+  });
+
+  it('résout une og:image avec chemin absolu site', () => {
+    document.head.innerHTML = `
+      <meta property="og:image" content="/assets/og.png" />
+    `;
+
+    initialiserMetaPartage();
+
+    expect(document.querySelector('meta[property="og:image"]').getAttribute('content')).toBe(
+      'https://example.com/assets/og.png'
+    );
+  });
+
+  it('ignore une og:image sans contenu', () => {
+    document.head.innerHTML = `
+      <meta property="og:image" />
+    `;
+
+    initialiserMetaPartage();
+
+    expect(document.querySelector('meta[property="og:image"]').getAttribute('content')).toBeNull();
+  });
+
+  it('initialiserBonusScore ignore sessionStorage indisponible', () => {
+    const getItem = vi.spyOn(Storage.prototype, 'getItem').mockImplementation(() => {
+      throw new Error('sessionStorage bloqué');
+    });
+
+    expect(() => initialiserBonusScore()).not.toThrow();
+    expect(ajouterScore).not.toHaveBeenCalled();
+
+    getItem.mockRestore();
+  });
+
+  it('initialiserBonusScore ne crédite pas une revisite', () => {
+    sessionStorage.clear();
+    vi.mocked(ajouterScore).mockClear();
+
+    initialiserBonusScore();
+    expect(ajouterScore).toHaveBeenCalledTimes(1);
+
+    vi.mocked(ajouterScore).mockClear();
+    initialiserBonusScore();
+    expect(ajouterScore).not.toHaveBeenCalled();
+  });
+
   it('utilise window.location quand SITE_ORIGIN est vide', () => {
     vi.resetModules();
     vi.doMock('../config/index.js', () => ({

@@ -1,5 +1,8 @@
 import { potDeMielEstRempli, peutSoumettre } from './contact-form-helpers.js';
 
+/** Paramètres du bip d’erreur validation formulaire contact */
+export const PARAMETRES_BIP_ERREUR_VALIDATION = [150, 120, 'sawtooth'];
+
 export function afficherErreurZone(zone, texte) {
   if (!zone) return;
   if (texte) {
@@ -29,7 +32,7 @@ export function effacerEtatsInvalides(elements) {
 }
 
 export function marquerChampsInvalides(erreurs, jouerBip) {
-  jouerBip(150, 120, 'sawtooth');
+  jouerBip(...PARAMETRES_BIP_ERREUR_VALIDATION);
   erreurs.forEach(({ el, message }) => {
     if (!el) return;
     el.setAttribute('aria-invalid', 'true');

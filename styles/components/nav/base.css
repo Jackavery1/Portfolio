@@ -30,6 +30,12 @@
   padding: 0.25rem 0;
 }
 
+.nav__logo:focus-visible {
+  outline: 3px solid var(--couleur-accent-vif);
+  outline-offset: 3px;
+  color: var(--couleur-texte-fort);
+}
+
 .nav__arcade-info {
   display: flex;
   flex-direction: column;

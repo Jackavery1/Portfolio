@@ -26,6 +26,7 @@ describe('visual-viewport', () => {
     expect(initialiserScrollChampClavier(form)).toBeTypeOf('function');
     form.querySelector('#nom').focus();
     expect(window.scrollBy).not.toHaveBeenCalled();
+    expect(initialiserScrollChampClavier(null)).toEqual(expect.any(Function));
   });
 
   it('scroll vers le bas si le champ dépasse visualViewport', async () => {
@@ -61,5 +62,45 @@ describe('visual-viewport', () => {
       top: 46,
       behavior: 'smooth',
     });
+  });
+
+  it('scroll vers le haut si le champ est trop haut', async () => {
+    window.visualViewport = {
+      height: 400,
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+    };
+
+    const nom = document.getElementById('nom');
+    nom.getBoundingClientRect = () => ({
+      top: 4,
+      bottom: 30,
+      left: 0,
+      right: 100,
+      width: 100,
+      height: 26,
+    });
+
+    desinscrire = initialiserScrollChampClavier(document.getElementById('f'));
+    nom.dispatchEvent(new FocusEvent('focusin', { bubbles: true }));
+    await new Promise((resolve) => requestAnimationFrame(resolve));
+
+    expect(window.scrollBy).toHaveBeenCalledWith({
+      top: -12,
+      behavior: 'smooth',
+    });
+  });
+
+  it('ignore le focus hors champs éditables', async () => {
+    window.visualViewport = {
+      height: 400,
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+    };
+    document.body.innerHTML += '<button id="btn">ok</button>';
+    desinscrire = initialiserScrollChampClavier(document.getElementById('f'));
+    document.getElementById('btn').dispatchEvent(new FocusEvent('focusin', { bubbles: true }));
+    await new Promise((resolve) => requestAnimationFrame(resolve));
+    expect(window.scrollBy).not.toHaveBeenCalled();
   });
 });

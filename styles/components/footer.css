@@ -109,6 +109,16 @@ a.pied-page__certif-texte:focus-visible {
   text-align: right;
 }
 
+.pied-page__theme-note {
+  margin: 0;
+  font-family: var(--police-crt);
+  font-size: clamp(0.72rem, 1.4vw, 0.82rem);
+  letter-spacing: 0.35px;
+  line-height: 1.35;
+  color: var(--couleur-texte-discret);
+  opacity: 0.88;
+}
+
 .pied-page__tagline,
 .pied-page__tagline-ia {
   margin: 0;

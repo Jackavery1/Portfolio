@@ -3,6 +3,7 @@
    ============================================ */
 
 import { CONFIGURATION } from '../config/index.js';
+import { PROJETS } from '../config/projects.js';
 import { parId, tousParSelecteur } from '../utils/dom.js';
 import { piegerTabulationModale } from '../utils/focus.js';
 import { basculerInertFond } from '../utils/inert.js';
@@ -81,7 +82,7 @@ function remplirLiensModale(modalLien, projet) {
 }
 
 export function ouvrirModal(projetKey) {
-  const projet = CONFIGURATION.PROJETS[projetKey];
+  const projet = PROJETS[projetKey];
   const modalOverlay = parId(CONFIGURATION.SELECTEURS.MODALE);
   const modalTitre = parId(CONFIGURATION.SELECTEURS.MODALE_TITRE);
   const modalDesc = parId(CONFIGURATION.SELECTEURS.MODALE_DESC);

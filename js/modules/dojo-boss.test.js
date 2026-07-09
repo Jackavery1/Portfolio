@@ -17,6 +17,7 @@ vi.mock('./score.js', () => ({
 }));
 
 import { accorderBonusDojoBoss } from './score.js';
+import { jouerFanfareVictoire } from './audio.js';
 import { initialiserDojoBoss } from './dojo-boss.js';
 
 describe('dojo-boss', () => {
@@ -78,5 +79,74 @@ describe('dojo-boss', () => {
     initialiserDojoBoss();
     document.querySelector('[data-boss="crud"]').click();
     expect(accorderBonusDojoBoss).toHaveBeenCalledWith('crud', true);
+  });
+
+  it('affiche les citations au touch sur pointeur grossier', () => {
+    window.matchMedia = vi.fn().mockImplementation((query) => ({
+      matches: query.includes('pointer: coarse'),
+      media: query,
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+      addListener: vi.fn(),
+      removeListener: vi.fn(),
+      dispatchEvent: vi.fn(),
+    }));
+
+    initialiserDojoBoss();
+    const carte = document.querySelector('[data-boss="domslayer"]');
+    const bulle = carte.querySelector('.boss-citation');
+
+    carte.click();
+    expect(bulle.classList.contains('boss-citation--visible')).toBe(true);
+    carte.click();
+    expect(bulle.classList.contains('boss-citation--visible')).toBe(false);
+  });
+
+  it('célèbre un boss vaincu au clavier', () => {
+    initialiserDojoBoss();
+    const carte = document.querySelector('[data-boss="crud"]');
+    carte.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+    expect(jouerFanfareVictoire).toHaveBeenCalled();
+  });
+
+  it('ne fait rien si la section dojo est absente', () => {
+    document.body.innerHTML = '';
+    expect(() => initialiserDojoBoss()).not.toThrow();
+  });
+
+  it('ignore un boss sans citation connue', () => {
+    document.body.innerHTML = `
+      <main id="dojo">
+        <article class="boss-carte" data-boss="inconnu"></article>
+      </main>
+    `;
+    initialiserDojoBoss();
+    expect(document.querySelector('.boss-citation')).toBeNull();
+  });
+
+  it('masque la citation au focusout', () => {
+    initialiserDojoBoss();
+    const carte = document.querySelector('[data-boss="domslayer"]');
+    const bulle = carte.querySelector('.boss-citation');
+    carte.dispatchEvent(new FocusEvent('focusin', { bubbles: true }));
+    expect(bulle.classList.contains('boss-citation--visible')).toBe(true);
+    carte.dispatchEvent(new FocusEvent('focusout', { bubbles: true }));
+    expect(bulle.classList.contains('boss-citation--visible')).toBe(false);
+  });
+
+  it('célèbre un boss vaincu avec la barre espace', () => {
+    initialiserDojoBoss();
+    const carte = document.querySelector('[data-boss="crud"]');
+    carte.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true }));
+    expect(jouerFanfareVictoire).toHaveBeenCalled();
+  });
+
+  it('ignore un second flash de célébration consécutif', () => {
+    initialiserDojoBoss();
+    const carte = document.querySelector('[data-boss="crud"]');
+    carte.click();
+    vi.mocked(jouerFanfareVictoire).mockClear();
+    carte.click();
+    expect(jouerFanfareVictoire).not.toHaveBeenCalled();
   });
 });

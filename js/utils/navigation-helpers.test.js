@@ -17,4 +17,9 @@ describe('navigation-helpers', () => {
     expect(libellerPageNavigation('projets.html')).toBe('Projets');
     expect(libellerPageNavigation('contact.html')).toBe('Contact');
   });
+
+  it('retombe sur le nom de fichier hors menu', () => {
+    expect(libellerPageNavigation('dojo.html')).toBe('dojo');
+    expect(libellerPageNavigation('mentions-legales.html')).toBe('mentions-legales');
+  });
 });

@@ -5,7 +5,6 @@ import { SELECTEURS } from './selectors.js';
 import { NAVIGATION } from './navigation.js';
 import { KONAMI } from './konami.js';
 import { PARTIELS } from './partials.js';
-import { PROJETS } from './projects.js';
 import { BONUS_SCORE } from './score-bonus.js';
 
 export const CONFIGURATION = {
@@ -18,6 +17,5 @@ export const CONFIGURATION = {
   NAVIGATION,
   KONAMI,
   PARTIELS,
-  PROJETS,
   BONUS_SCORE,
 };

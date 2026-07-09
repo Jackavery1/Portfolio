@@ -1,0 +1,10 @@
+{
+  "date": "2026-07-09",
+  "note": "Après session optimisation/nettoyage v1.0.5 — régénérer avec npm run build && npm run measure",
+  "distKo": 2645,
+  "cssKo": 137.5,
+  "jsKo": 68.3,
+  "appJsGzipKo": 32.7,
+  "iconsKo": 36.6,
+  "musiqueJsKo": 1.9
+}

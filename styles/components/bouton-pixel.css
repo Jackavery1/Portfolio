@@ -52,7 +52,7 @@
 .bouton-envoyer:hover:not(:disabled) {
   background-color: var(--couleur-accent-alpha);
   box-shadow: var(--ombre-accent-ui);
-  color: #fff;
+  color: var(--couleur-texte-fort);
 }
 
 @media (hover: hover) and (pointer: fine) {

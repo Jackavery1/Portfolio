@@ -33,6 +33,8 @@ const BASE_STYLE_SOURCES = [
   'styles/components/hint-paysage.css',
   'styles/components/form.css',
   'styles/components/footer.css',
+  'styles/components/partial-squelette.css',
+  'styles/components/sw-toast.css',
 ];
 
 const ACCUEIL_STYLE_SOURCES = [

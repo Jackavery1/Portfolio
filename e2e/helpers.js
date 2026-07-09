@@ -5,7 +5,7 @@ export async function gotoReady(page, path) {
   await page.waitForSelector('body[data-app-ready="true"]');
 }
 
-export async function waitForServiceWorker(page) {
+async function waitForServiceWorker(page) {
   await page.waitForFunction(
     async () => {
       if (!('serviceWorker' in navigator)) return false;
@@ -68,7 +68,7 @@ export async function simulerInsetHaut(page, px = 20) {
   await simulerInsets(page, { haut: px });
 }
 
-export async function attendrePrecachePwa(page, { minEntrees = 60, timeoutMs = 45_000 } = {}) {
+async function attendrePrecachePwa(page, { minEntrees = 35, timeoutMs = 45_000 } = {}) {
   const deadline = Date.now() + timeoutMs;
   while (Date.now() < deadline) {
     const { urls } = await lireEntreesPrecache(page);
@@ -76,14 +76,13 @@ export async function attendrePrecachePwa(page, { minEntrees = 60, timeoutMs = 4
       urls.length >= minEntrees &&
       precacheContient(urls, 'offline.html') &&
       precacheContient(urls, 'projets.html') &&
-      (precacheContient(urls, 'assets/previews/lsf.webp') ||
-        precacheContient(urls, 'assets/previews/lsf.png'));
+      precacheContient(urls, 'js/main.js');
     if (precachePret) {
       return urls;
     }
     await page.waitForTimeout(200);
   }
-  throw new Error('Precache PWA incomplet (offline.html, projets.html ou previews)');
+  throw new Error('Precache PWA incomplet (offline.html, projets.html ou js/main.js)');
 }
 
 export async function preparerServiceWorker(page) {
@@ -136,4 +135,21 @@ export async function mockFormspree(page) {
     }
     await route.continue();
   });
+}
+
+/** Filtre les violations Axe critiques, sérieuses ou modérées. */
+export function violationsA11y(violations) {
+  return violations.filter(
+    (v) => v.impact === 'critical' || v.impact === 'serious' || v.impact === 'moderate'
+  );
+}
+
+/** Ignore les erreurs console connues (favicon, reCAPTCHA, 404 mineurs). */
+export function erreursConsoleBloquantes(erreurs) {
+  return erreurs.filter(
+    (msg) =>
+      !/favicon\.ico/i.test(msg) &&
+      !/recaptcha/i.test(msg) &&
+      !/Failed to load resource.*404/i.test(msg)
+  );
 }

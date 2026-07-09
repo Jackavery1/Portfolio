@@ -43,4 +43,16 @@ describe('contact-coordonnees', () => {
     expect(document.querySelector('#js-contact-email a')).toBeNull();
     expect(document.querySelector('#js-contact-phone a')).toBeNull();
   });
+
+  it('affiche un email sans domaine en texte brut', () => {
+    configMock.CONFIGURATION.CONTACT.EMAIL_B64 = btoa('contact-seul');
+    configMock.CONFIGURATION.CONTACT.PHONE_PARTS = null;
+    document.body.innerHTML = '<span id="js-contact-email"></span>';
+
+    initialiserCoordonneesContact();
+
+    const lien = document.querySelector('#js-contact-email a');
+    expect(lien?.textContent).toBe('contact-seul');
+    expect(lien?.querySelector('wbr')).toBeNull();
+  });
 });

@@ -1,6 +1,7 @@
+/* Contact — orchestration formulaire (validation, reCAPTCHA, envoi) */
+
 import { CONFIGURATION } from '../config/index.js';
 import { parId } from '../utils/dom.js';
-import { nettoyerChamp, estEmailValide } from '../utils/validation.js';
 import {
   afficherErreurZone,
   enregistrerSoumissionSession,
@@ -8,9 +9,18 @@ import {
   potDeMielRempli,
   marquerChampsInvalides,
   peutSoumettreAvecSession,
+  PARAMETRES_BIP_ERREUR_VALIDATION,
 } from '../utils/contact-form-ui.js';
 import { jouerBip } from './audio.js';
-import { initialiserRecaptcha } from './recaptcha.js';
+import {
+  optionsRecaptchaContact,
+  planifierRecaptchaAuFocus,
+} from './contact-form-recaptcha.js';
+import {
+  champsFormulaireValides,
+  construireErreursValidation,
+  lireChampsFormulaire,
+} from './contact-form-validation.js';
 import {
   envoyerViaFormspree,
   envoyerViaMailto,
@@ -18,95 +28,6 @@ import {
   lireSujetUtile,
 } from './contact-form-submit.js';
 import { initialiserScrollChampClavier } from '../utils/visual-viewport.js';
-
-async function initialiserRecaptchaContact({ endpoint, recaptchaKey, mount, optionsRecaptcha }) {
-  if (endpoint && recaptchaKey) {
-    try {
-      await initialiserRecaptcha(optionsRecaptcha);
-    } catch {
-      if (mount) {
-        mount.hidden = false;
-        mount.className = 'recaptcha-zone recaptcha-zone--erreur';
-        mount.textContent =
-          'Vérification anti-spam indisponible. Rechargez la page ou vérifiez localhost dans Google reCAPTCHA.';
-      }
-    }
-    return;
-  }
-
-  if (endpoint && mount) {
-    mount.hidden = false;
-    mount.className = 'recaptcha-zone recaptcha-zone--config';
-    mount.setAttribute('role', 'alert');
-    mount.textContent =
-      'reCAPTCHA non configuré : renseignez PORTFOLIO_RECAPTCHA_SITE_KEY dans .env puis relancez le build.';
-  }
-}
-
-function planifierRecaptchaAuFocus(formulaire, params) {
-  const { endpoint, recaptchaKey } = params;
-  if (!endpoint?.trim() || !recaptchaKey?.trim()) {
-    if (endpoint?.trim() && !recaptchaKey?.trim()) {
-      void initialiserRecaptchaContact(params);
-    }
-    return () => Promise.resolve();
-  }
-
-  let promesse = null;
-  const lancer = () => {
-    if (!promesse) promesse = initialiserRecaptchaContact(params);
-    return promesse;
-  };
-
-  formulaire.addEventListener('focusin', () => void lancer(), { once: true });
-  return lancer;
-}
-
-function optionsRecaptcha() {
-  return {
-    siteKey: CONFIGURATION.CONTACT.RECAPTCHA_SITE_KEY,
-    version: CONFIGURATION.CONTACT.RECAPTCHA_VERSION === 3 ? 3 : 2,
-    mountId: CONFIGURATION.SELECTEURS.MONTE_RECAPTCHA,
-    action: 'submit',
-  };
-}
-
-function lireChampsFormulaire() {
-  const { LIMITES } = CONFIGURATION.CONTACT;
-  return {
-    nom: nettoyerChamp(parId(CONFIGURATION.SELECTEURS.CONTACT_NOM)?.value, LIMITES.nom),
-    email: nettoyerChamp(parId(CONFIGURATION.SELECTEURS.CONTACT_EMAIL)?.value, LIMITES.email),
-    message: nettoyerChamp(parId(CONFIGURATION.SELECTEURS.CONTACT_MESSAGE)?.value, LIMITES.message),
-    champsDom: [
-      parId(CONFIGURATION.SELECTEURS.CONTACT_NOM),
-      parId(CONFIGURATION.SELECTEURS.CONTACT_EMAIL),
-      parId(CONFIGURATION.SELECTEURS.CONTACT_MESSAGE),
-    ],
-  };
-}
-
-function construireErreursValidation({ nom, email, message, champsDom }) {
-  const [nomEl, emailEl, messageEl] = champsDom;
-  const erreurs = [];
-
-  if (!nom) {
-    erreurs.push({ el: nomEl, message: 'Veuillez renseigner votre nom.' });
-  }
-  if (!email) {
-    erreurs.push({ el: emailEl, message: 'Veuillez saisir votre adresse e-mail.' });
-  } else if (!estEmailValide(email, CONFIGURATION.CONTACT.LIMITES.email)) {
-    erreurs.push({ el: emailEl, message: 'Adresse e-mail invalide.' });
-  }
-  if (!message) {
-    erreurs.push({ el: messageEl, message: 'Veuillez rédiger votre message.' });
-  }
-
-  return erreurs;
-}
-
-function champsValides({ nom, email, message }) {
-  return nom && email && message && estEmailValide(email, CONFIGURATION.CONTACT.LIMITES.email);
-}
 
 export async function initialiserFormulaireContact() {
   const formulaire = parId(CONFIGURATION.SELECTEURS.FORMULAIRE);
@@ -121,7 +42,7 @@ export async function initialiserFormulaireContact() {
     endpoint,
     recaptchaKey,
     mount,
-    optionsRecaptcha: optionsRecaptcha(),
+    optionsRecaptcha: optionsRecaptchaContact(),
   };
   const assurerRecaptcha = planifierRecaptchaAuFocus(formulaire, paramsRecaptcha);
 
@@ -156,13 +77,13 @@ export async function initialiserFormulaireContact() {
         CONFIGURATION.CONTACT.DELAI_LIMITATION_MS
       )
     ) {
-      jouerBip(150, 120, 'sawtooth');
+      jouerBip(...PARAMETRES_BIP_ERREUR_VALIDATION);
       afficherErreur('Veuillez patienter avant un nouvel envoi.');
       return;
     }
 
     const { nom, email, message, champsDom: champsDomLus } = lireChampsFormulaire();
-    if (!champsValides({ nom, email, message })) {
+    if (!champsFormulaireValides({ nom, email, message })) {
       marquerChampsInvalides(
         construireErreursValidation({ nom, email, message, champsDom: champsDomLus }),
         jouerBip
@@ -189,7 +110,7 @@ export async function initialiserFormulaireContact() {
         sujetUtile,
         btnEnvoyer,
         mount,
-        optionsRecaptcha: optionsRecaptcha(),
+        optionsRecaptcha: optionsRecaptchaContact(),
         afficherErreur,
       });
       if (result?.ok) {

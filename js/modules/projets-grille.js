@@ -1,5 +1,4 @@
-import { CONFIGURATION } from '../config/index.js';
-import { PROJETS_ORDER, ICONES_PROJETS } from '../config/projects.js';
+import { PROJETS_ORDER, PROJETS, ICONES_PROJETS } from '../config/projects.js';
 import { echapperHtml } from '../utils/rich-text.js';
 import { accorderBonusProjet } from './score.js';
 
@@ -37,7 +36,7 @@ function creerCarte(id, projet) {
       </div>
       <span class="barre-completion__val">${echapperHtml(projet.completion)}%</span>
     </div>
-    <p class="carte-projet__clic-hint" aria-hidden="true">↩ cliquer pour aperçu</p>
+    <p class="carte-projet__clic-hint" aria-hidden="true">↩ ouvrir l'aperçu</p>
   `;
 
   return btn;
@@ -53,7 +52,7 @@ export function initialiserGrilleProjets() {
   liste.className = 'projets-sommaire__liste';
 
   PROJETS_ORDER.forEach((id) => {
-    const projet = CONFIGURATION.PROJETS[id];
+    const projet = PROJETS[id];
     if (!projet) return;
 
     grille.appendChild(creerCarte(id, projet));

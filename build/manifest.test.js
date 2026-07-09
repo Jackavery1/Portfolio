@@ -22,6 +22,12 @@ describe('build manifest', () => {
     expect(manifest.theme_color).toBe('#03040f');
   });
 
+  it('normalise une base URL déjà terminée par /', () => {
+    const manifest = buildManifest('https://example.com/portfolio/');
+    expect(manifest.scope).toBe('https://example.com/portfolio/');
+    expect(manifest.start_url).toBe('https://example.com/portfolio/index.html');
+  });
+
   it('expose un manifest dev aligné sur la prod (icônes PWA)', () => {
     const { buildDevManifest } = require('./manifest.cjs');
     const manifest = buildDevManifest();

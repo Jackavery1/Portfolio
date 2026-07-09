@@ -1,14 +1,6 @@
 import { test, expect } from '@playwright/test';
+import { erreursConsoleBloquantes } from './helpers.js';
 import { PAGES } from './fixtures/pages.js';
-
-function erreursConsoleBloquantes(erreurs) {
-  return erreurs.filter(
-    (msg) =>
-      !/favicon\.ico/i.test(msg) &&
-      !/recaptcha/i.test(msg) &&
-      !/Failed to load resource.*404/i.test(msg)
-  );
-}
 
 for (const { path: pagePath, titreSmoke } of PAGES) {
   test(`smoke ${pagePath} — h1 et console`, async ({ page }) => {

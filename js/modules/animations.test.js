@@ -26,4 +26,18 @@ describe('animations', () => {
     expect(barre.style.width).toBe('80%');
     expect(requestAnimationFrame).toHaveBeenCalled();
   });
+
+  it('ignore une section absente', () => {
+    expect(() => animerBarresSection('absent')).not.toThrow();
+  });
+
+  it('utilise 0% par défaut sans variable --cible', () => {
+    document.body.innerHTML = `
+      <section id="sec2">
+        <div class="barre-completion__fill"></div>
+      </section>
+    `;
+    animerBarresSection('sec2');
+    expect(document.querySelector('.barre-completion__fill').style.width).toBe('0%');
+  });
 });

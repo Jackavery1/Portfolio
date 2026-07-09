@@ -36,7 +36,17 @@ if (sid === 'projets') {
 }
 ```
 
-Sections dynamiques : `projets`, `accueil`, `dojo`, `contact`, `mentions`. Réduit le bundle initial (~36% minification).
+Sections dynamiques : `projets`, `accueil`, `dojo`, `contact`, `mentions`. Musique via `musique-loader.js` → `musique.js` (UI) → `musique-sequencuer.js` (scheduler) → `musique-audio.js` (Web Audio) ; grilles compilées dans `musique-themes.json` (fetch). Réduit le bundle initial (~50% minification).
+
+### Stack musique
+
+| Module | Rôle |
+|--------|------|
+| `musique-loader.js` | Import dynamique, point d'entrée `main.js` |
+| `musique.js` | Bouton, préférences localStorage, jingles |
+| `musique-sequencuer.js` | Planification lookahead, grilles et résolution section → thème |
+| `musique-audio.js` | Oscillateurs, percussions Web Audio |
+| `musique-donnees.json` | Source éditable → `build/sync-musique-donnees.cjs` → `musique-themes.json` |
 
 ### 3. Modules découplés
 
@@ -44,7 +54,7 @@ Chaque module exporte une fonction d'initialisation (`initialiser*`) :
 
 - `js/modules/contact.js` → `initialiserPageContact()`
 - `js/modules/navigation.js` → `initialiserNavigationArcade()`
-- `js/modules/score.js` → `afficherScore()` / `lireScore()`
+- `js/modules/score.js` → barrel `score-session.js` + `popup-highscore.js`
 
 Pas d'état partagé global ; data via localStorage ou paramètres de fonction.
 
@@ -55,7 +65,7 @@ js/modules/contact-form.js
 js/modules/contact-form.test.js  ← même dossier
 ```
 
-Approche **test-per-module** : ~240 tests Vitest, environnement `node` avec `/* @vitest-environment jsdom */` sur les modules DOM ; `vi.mock` pour config et I/O externes.
+Approche **test-per-module** : Vitest + Playwright e2e (voir `npm test` / `npm run test:e2e`), environnement `node` avec `/* @vitest-environment jsdom */` sur les modules DOM ; `vi.mock` pour config et I/O externes.
 
 ## Structure fichiers
 
@@ -120,9 +130,10 @@ Pas de dependency injection ; découplage via événements localStorage.
 
 ```javascript
 // js/modules/contact-form-submit.js
-async soumettreFormulaireContact(data)
-  → valider (js/utils/validation.js)
-  → formspree API
+async envoyerViaFormspree({ formulaire, ... })
+  → valider (contact-form-validation.js)
+  → reCAPTCHA (contact-form-recaptcha.js)
+  → Formspree API
   → feedback UI
 ```
 
@@ -142,9 +153,7 @@ Deux stratégies importer séparément selon context.
 
 ### Couverture
 
-- **~240 tests passants** (Vitest + Playwright)
-- **≥ 85 % lignes / ≥ 80 % branches** sur `js/` (seuils CI dans `vitest.config.js`)
-- Scripts `build/*.cjs` : seuils dédiés plus bas (I/O fichier, pipeline)
+Voir `CONTRIBUTING.md` § Tests (seuils Vitest ≥ 85 % lignes / ≥ 84 % branches, e2e multi-navigateurs).
 
 ### Mocking strategy
 
@@ -170,29 +179,24 @@ if (visualViewport) adjustPaddingSafeArea()
 
 ### Bundle
 
-- **JS** : 90.8KB → 57.7KB minified (-36.4%)
-- **CSS** : 67KB monolithique (fallback) + par-page optim
-- **Assets** : WebP (previews), SVG inline (icons), fonts local
+- **JS** : minifié au build (`build/js.cjs`, ~35–40 % de réduction)
+- **CSS** : `style.css` monolithique en dev + `style-base.css` / `style-page-*.css` en prod
+- **Assets** : WebP (previews), SVG inline (icons), polices locales
 
 ### Runtime
 
 - **LCP < 2.5s** (Lighthouse 90+)
 - **No layout thrashing** : DOM reads batched
 - **Animations 60fps** : `transform` / `will-change` only
-- **Service worker** : Precache 92 entrées (pages + CSS + JS core)
+- **Service worker** : Precache shell (HTML, CSS pages, JS core, polices) ; modules lazy exclus — voir `CONTRIBUTING.md` § PWA pour le détail offline
 
 ## Maintenance
 
 ### Sync générés (ne pas committer)
 
-```
-js/config/defaults.js          ← build/config-defaults.cjs
-js/config/legal-data.js        ← build/sync-legal.cjs (source: js/config/legal.json)
-js/config/projects-data.js     ← build/sync-projects.cjs (source: js/config/projects.json)
-partials/parcours-arbre.html   ← build/sync-parcours-arbre.cjs (source: partials/parcours-arbre/)
-```
+Sources versionnées : `js/config/legal.json`, `js/config/projects.json`, `js/config/musique-donnees.json`.
 
-Workflw : modifiez source → `npm run pretest` → fichiers générés.
+Liste complète des artefacts générés, commandes sync et workflow : **`CONTRIBUTING.md` § Configuration**.
 
 ### Code mort : détection
 

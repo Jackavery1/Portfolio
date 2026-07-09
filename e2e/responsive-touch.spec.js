@@ -7,6 +7,8 @@ test('responsive mobile — cibles tactiles ≥ 44px', async ({ page }) => {
 
   await assertHauteurTactile(page.locator('.nav__burger'));
   await assertLargeurTactile(page.locator('.nav__burger'));
+  await assertHauteurTactile(page.locator('.nav__musique'));
+  await assertLargeurTactile(page.locator('.nav__musique'));
   await assertHauteurTactile(page.locator('.bouton-arcade').first());
 
   await page.locator('.nav__burger').click({ force: true });
@@ -18,6 +20,7 @@ test('responsive mobile — cibles tactiles ≥ 44px', async ({ page }) => {
 
   await assertHauteurTactile(page.locator('.pied-page__lien').first());
   await assertHauteurTactile(page.locator('a.pied-page__certif-texte'));
+  await assertHauteurTactile(page.locator('a.pied-page__lien[href*="mentions-legales"]').first());
 
   await gotoReady(page, '/projets.html');
   const liensSommaire = page.locator('.projets-sommaire__liste a');
@@ -35,6 +38,12 @@ test('responsive mobile — cibles tactiles ≥ 44px', async ({ page }) => {
 
   await gotoReady(page, '/dojo.html');
   await assertHauteurTactile(page.locator('.boss-carte').first());
+
+  await gotoReady(page, '/competences.html');
+  await assertHauteurTactile(page.locator('.score-ligne').first());
+
+  await gotoReady(page, '/parcours.html');
+  await assertHauteurTactile(page.locator('.entree-parcours').first());
 
   await gotoReady(page, '/projets.html');
   await page.locator('.carte-projet[data-projet="lsf"]').first().click({ force: true });

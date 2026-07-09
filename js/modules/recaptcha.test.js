@@ -177,6 +177,39 @@ describe('recaptcha', () => {
     });
   });
 
+  it('initialiserRecaptcha v2 réinitialise le widget si le mount est déjà peuplé', async () => {
+    const reset = vi.fn();
+    const render = vi.fn((mount) => {
+      mount.appendChild(document.createElement('div'));
+      return 42;
+    });
+    window.grecaptcha = {
+      ready: (cb) => cb(),
+      render,
+      reset,
+    };
+
+    const initPromise = initialiserRecaptcha({
+      siteKey: 'v2-key',
+      version: 2,
+      mountId: 'js-recaptcha-mount',
+    });
+    await Promise.resolve();
+    document.querySelector('script[data-recaptcha-v2]')?.onload?.();
+    await initPromise;
+
+    const reinitPromise = initialiserRecaptcha({
+      siteKey: 'v2-key',
+      version: 2,
+      mountId: 'js-recaptcha-mount',
+    });
+    await Promise.resolve();
+    await reinitPromise;
+
+    expect(reset).toHaveBeenCalledWith(42);
+    expect(render).toHaveBeenCalledTimes(1);
+  });
+
   it('obtenirTokenRecaptcha v3 exécute grecaptcha avec la clé', async () => {
     const execute = vi.fn().mockResolvedValue('jeton-execute');
     window.grecaptcha = {
@@ -196,6 +229,36 @@ describe('recaptcha', () => {
 
     expect(token).toBe('jeton-execute');
     expect(execute).toHaveBeenCalledWith('site-v3', { action: 'contact' });
+  });
+
+  it('obtenirTokenRecaptcha v3 propage une erreur générique', async () => {
+    window.grecaptcha = {
+      ready: (cb) => cb(),
+      execute: vi.fn().mockRejectedValue(new Error('timeout réseau')),
+    };
+    const script = document.createElement('script');
+    script.src = 'https://www.google.com/recaptcha/api.js?render=key';
+    script.dataset.recaptchaV3 = '1';
+    document.head.appendChild(script);
+
+    await expect(obtenirTokenRecaptcha({ siteKey: 'key', version: 3 })).rejects.toThrow(
+      'Jeton reCAPTCHA : timeout réseau'
+    );
+  });
+
+  it('obtenirTokenRecaptcha v3 sans détail d’erreur', async () => {
+    window.grecaptcha = {
+      ready: (cb) => cb(),
+      execute: vi.fn().mockRejectedValue(new Error('')),
+    };
+    const script = document.createElement('script');
+    script.src = 'https://www.google.com/recaptcha/api.js?render=key';
+    script.dataset.recaptchaV3 = '1';
+    document.head.appendChild(script);
+
+    await expect(obtenirTokenRecaptcha({ siteKey: 'key', version: 3 })).rejects.toThrow(
+      'Impossible de générer le jeton reCAPTCHA'
+    );
   });
 
   it('chargerScriptV3 rejette si le script est bloqué', async () => {

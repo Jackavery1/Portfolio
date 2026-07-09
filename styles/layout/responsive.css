@@ -37,6 +37,7 @@
   .grille-projets[aria-busy='true']::before,
   .carte-projet-squelette__ligne,
   .carte-projet-squelette__bloc,
+  .partial-squelette__ligne,
   .bouton-envoyer--chargement::before {
     animation: none !important;
   }

@@ -1,6 +1,6 @@
 export function messageErreurFormspree(payload, res) {
   if (res.status === 403) {
-    return 'Envoi refusé (403). Vérifiez reCAPTCHA : PORTFOLIO_RECAPTCHA_SITE_KEY dans .env, même version (2 ou 3) que sur Formspree.';
+    return 'Envoi refusé (403). Vérifiez reCAPTCHA : PORTFOLIO_RECAPTCHA_SITE_KEY dans .env.local, même version (2 ou 3) que sur Formspree.';
   }
   if (res.status === 400) {
     const detail = payload && typeof payload.error === 'string' ? payload.error.trim() : '';

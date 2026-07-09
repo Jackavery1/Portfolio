@@ -11,14 +11,23 @@ function listerRasters(srcDir) {
   return fs.readdirSync(srcDir).filter((f) => /\.(png|jpe?g)$/i.test(f));
 }
 
-async function optimiserUneImage({ srcPath, dstPath, ext, qualiteJpeg, qualitePng, qualiteWebp }) {
+/** Qualité PNG par fichier (assets racine) — og et icônes PWA */
+const PNG_QUALITE_PAR_FICHIER = {
+  'og.png': 68,
+  'favicon.png': 78,
+};
+
+async function optimiserUneImage({ srcPath, dstPath, ext, qualiteJpeg, qualitePng, qualiteWebp, nomFichier }) {
   const image = sharp(srcPath, { failOn: 'none' });
   const pipeline = image.rotate();
+  const qualitePngEffective = PNG_QUALITE_PAR_FICHIER[nomFichier] ?? qualitePng;
 
   if (ext === '.jpg' || ext === '.jpeg') {
     await pipeline.jpeg({ quality: qualiteJpeg, mozjpeg: true }).toFile(dstPath);
   } else if (ext === '.png') {
-    await pipeline.png({ quality: qualitePng, compressionLevel: 9 }).toFile(dstPath);
+    await pipeline
+      .png({ quality: qualitePngEffective, compressionLevel: 9, palette: nomFichier === 'og.png' })
+      .toFile(dstPath);
   } else {
     await copyFile(srcPath, dstPath);
   }
@@ -50,6 +59,7 @@ async function optimizeRasterDir({ srcDir, dstDir, label, options, onError }) {
         srcPath,
         dstPath,
         ext,
+        nomFichier: name,
         qualiteJpeg: options.jpegQuality,
         qualitePng: options.pngQuality,
         qualiteWebp: options.webpQuality,
@@ -151,7 +161,7 @@ async function genererIconeCarreePwa(src, size) {
     create: { width: size, height: size, channels: 4, background: FOND_PWA },
   })
     .composite([{ input: redimensionnee, left, top }])
-    .png()
+    .png({ compressionLevel: 9, quality: size >= 512 ? 65 : 72, palette: size >= 512 })
     .toBuffer();
 }
 

@@ -1,0 +1,80 @@
+#!/usr/bin/env node
+/**
+ * Mesure la taille du build prod (.dist-staging/) — baseline optimisation.
+ * Usage : npm run build && npm run measure
+ */
+
+import fs from 'node:fs';
+import path from 'node:path';
+import zlib from 'node:zlib';
+import { fileURLToPath } from 'node:url';
+
+const rootDir = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
+const distDir = path.join(rootDir, '.dist-staging');
+
+function tailleKo(bytes) {
+  return Math.round((bytes / 1024) * 10) / 10;
+}
+
+function gzipKo(buffer) {
+  return tailleKo(zlib.gzipSync(buffer, { level: 9 }).length);
+}
+
+function parcourirFichiers(dir, fichiers = []) {
+  if (!fs.existsSync(dir)) return fichiers;
+  for (const entree of fs.readdirSync(dir, { withFileTypes: true })) {
+    const abs = path.join(dir, entree.name);
+    if (entree.isDirectory()) parcourirFichiers(abs, fichiers);
+    else fichiers.push(abs);
+  }
+  return fichiers;
+}
+
+function mesurer() {
+  if (!fs.existsSync(distDir)) {
+    console.error('❌ .dist-staging/ absent — exécutez npm run build');
+    process.exit(1);
+  }
+
+  const tous = parcourirFichiers(distDir);
+  const distOctets = tous.reduce((s, f) => s + fs.statSync(f).size, 0);
+
+  const jsAssets = tous
+    .filter((f) => f.includes(`${path.sep}js${path.sep}`) && f.endsWith('.js'))
+    .map((f) => {
+      const buf = fs.readFileSync(f);
+      return {
+        name: path.relative(distDir, f).replace(/\\/g, '/'),
+        ko: tailleKo(buf.length),
+        gzipKo: gzipKo(buf),
+      };
+    })
+    .sort((a, b) => b.ko - a.ko);
+
+  const appJsGzipKo = jsAssets.reduce((s, j) => s + j.gzipKo, 0);
+
+  const iconPatterns = ['icon-192.png', 'icon-512.png', 'apple-touch-icon.png'];
+  const iconsOctets = iconPatterns.reduce((s, nom) => {
+    const p = path.join(distDir, 'assets', nom);
+    return fs.existsSync(p) ? s + fs.statSync(p).size : s;
+  }, 0);
+
+  const cssOctets = tous
+    .filter((f) => f.endsWith('.css'))
+    .reduce((s, f) => s + fs.statSync(f).size, 0);
+
+  const rapport = {
+    date: new Date().toISOString(),
+    distKo: tailleKo(distOctets),
+    cssKo: tailleKo(cssOctets),
+    jsKo: Math.round(jsAssets.reduce((s, j) => s + j.ko, 0) * 10) / 10,
+    appJsGzipKo: Math.round(appJsGzipKo * 10) / 10,
+    iconsKo: tailleKo(iconsOctets),
+    jsAssets,
+  };
+
+  console.log(JSON.stringify(rapport, null, 2));
+  return rapport;
+}
+
+mesurer();

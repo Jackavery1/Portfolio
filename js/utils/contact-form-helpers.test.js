@@ -31,6 +31,20 @@ describe('messageErreurFormspree', () => {
   it('gère un corps non objet', () => {
     expect(messageErreurFormspree(null, { status: 500 })).toBe('Envoi refusé (500)');
   });
+
+  it('retourne le message par défaut pour 400 sans détail', () => {
+    expect(messageErreurFormspree({}, { status: 400 })).toMatch(/400/);
+  });
+
+  it('utilise payload.error hors statut 400', () => {
+    expect(messageErreurFormspree({ error: '  Refusé  ' }, { status: 422 })).toBe('Refusé');
+  });
+
+  it('ignore les entrées errors non textuelles', () => {
+    expect(
+      messageErreurFormspree({ errors: { meta: { code: 1 } } }, { status: 422 })
+    ).toBe('Envoi refusé (422)');
+  });
 });
 
 describe('potDeMielEstRempli', () => {
@@ -69,6 +83,11 @@ describe('peutSoumettre', () => {
       })
     ).toBe(true);
   });
+
+  it('autorise si le timestamp est invalide', () => {
+    expect(peutSoumettre({ dernierEnvoi: 'pas-un-nombre', rateLimitMs })).toBe(true);
+    expect(peutSoumettre({ dernierEnvoi: '', rateLimitMs })).toBe(true);
+  });
 });
 
 describe('messageErreurCapture', () => {
@@ -78,6 +97,14 @@ describe('messageErreurCapture', () => {
 
   it('formate Failed to fetch', () => {
     expect(messageErreurCapture(new Error('Failed to fetch'))).toMatch(/Formspree/i);
+  });
+
+  it('conserve un message reCAPTCHA déjà préfixé', () => {
+    expect(messageErreurCapture(new Error('Jeton expiré'))).toBe('Jeton expiré');
+  });
+
+  it('retourne un message générique si l’erreur est vide', () => {
+    expect(messageErreurCapture(null)).toMatch(/inattendue/i);
   });
 });
 
@@ -100,5 +127,18 @@ describe('construireDonneesFormspree', () => {
     expect(fd.get('name')).toBe('Ada');
     expect(fd.get('g-recaptcha-response')).toBe('token-xyz');
     expect(fd.get('_subject')).toBe('[Portfolio] Stage — Ada');
+  });
+
+  it('omet le sujet et le jeton si absents', () => {
+    const fd = construireDonneesFormspree({
+      nom: 'Ada',
+      email: 'ada@test.com',
+      message: 'Bonjour',
+      sujetLabel: '',
+      recaptchaToken: null,
+    });
+    expect(fd.get('sujet')).toBeNull();
+    expect(fd.get('g-recaptcha-response')).toBeNull();
+    expect(fd.get('_subject')).toBe('[Portfolio] Ada');
   });
 });

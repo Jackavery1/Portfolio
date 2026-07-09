@@ -9,6 +9,7 @@ module.exports = [
       'node_modules/**',
       'playwright-report/**',
       'test-results/**',
+      'js/config/*.json',
     ],
   },
   js.configs.recommended,
@@ -83,6 +84,17 @@ module.exports = [
     languageOptions: {
       ecmaVersion: 2022,
       sourceType: 'commonjs',
+      globals: globals.node,
+    },
+    rules: {
+      'no-console': 'off',
+    },
+  },
+  {
+    files: ['scripts/**/*.mjs'],
+    languageOptions: {
+      ecmaVersion: 2022,
+      sourceType: 'module',
       globals: globals.node,
     },
     rules: {

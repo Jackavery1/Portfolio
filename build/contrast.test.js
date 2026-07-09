@@ -62,6 +62,9 @@ const PAIRES_AA = [
   { fg: '--couleur-texte-normal', bg: '--couleur-fond-champ', min: 4.5 },
   { fg: '--couleur-texte-placeholder', bg: '--couleur-fond-champ', min: 3 },
   { fg: '--couleur-texte-disabled', bg: '--couleur-fond-survol', min: 4.5 },
+  { fg: '--couleur-accent-texte', bg: '--couleur-fond-carte', min: 4.5 },
+  { fg: '--couleur-actif', bg: '--couleur-fond-carte', min: 3 },
+  { fg: '--couleur-texte-normal', bg: '--couleur-fond-page', min: 4.5 },
 ];
 
 describe('contrast tokens', () => {

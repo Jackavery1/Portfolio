@@ -10,3 +10,15 @@ test('favicon PNG est référencée et accessible', async ({ page, request }) =>
   const response = await request.get(`/${urlSansQuery}`);
   expect(response.ok()).toBeTruthy();
 });
+
+test('apple-touch-icon et og image accessibles', async ({ page, request }) => {
+  await page.goto('/index.html');
+
+  const appleHref = await page.locator('link[rel="apple-touch-icon"]').getAttribute('href');
+  expect(appleHref).toMatch(/apple-touch-icon\.png/);
+  const appleResp = await request.get(`/${appleHref?.split('?')[0]}`);
+  expect(appleResp.ok()).toBeTruthy();
+
+  const ogImage = await page.locator('meta[property="og:image"]').getAttribute('content');
+  expect(ogImage).toMatch(/og\.(png|webp)/);
+});

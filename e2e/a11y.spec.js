@@ -1,14 +1,8 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
-import { gotoReady, mockRecaptcha } from './helpers.js';
+import { gotoReady, mockRecaptcha, violationsA11y } from './helpers.js';
 
 test.describe.configure({ mode: 'serial' });
-
-function violationsA11y(violations) {
-  return violations.filter(
-    (v) => v.impact === 'critical' || v.impact === 'serious' || v.impact === 'moderate'
-  );
-}
 
 test('a11y accueil — pas de violation critique', async ({ page }) => {
   await page.goto('/index.html');

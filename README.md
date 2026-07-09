@@ -20,7 +20,7 @@ Sources brutes (partials en `fetch`, dont contact et dojo) : `npm start` — syn
 
 Pour tester le comportement mobile/PWA réel (safe-area, offline, precache) : build prod obligatoire — le dev `npm start` ne reflète pas la PWA.
 
-Node **20+** (`.nvmrc`, requis par Vitest 3).
+Node **≥ 20.19** (`.nvmrc`, requis par Vitest 3).
 
 ---
 
@@ -58,6 +58,7 @@ Push sur `main` → CI (`validate`, e2e, Lighthouse) → déploiement GitHub Pag
 
 ## Documentation
 
-- [CONTRIBUTING.md](CONTRIBUTING.md) — contribuer, config, tests, dépannage
+- [CONTRIBUTING.md](CONTRIBUTING.md) — contribuer, config, tests, accessibilité, dépannage
+- [ARCHITECTURE.md](ARCHITECTURE.md) — structure, patterns, décisions
 - [CHANGELOG.md](CHANGELOG.md) — versions
 - [SECURITY.md](SECURITY.md) — vulnérabilités

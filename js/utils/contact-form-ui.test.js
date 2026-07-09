@@ -80,4 +80,22 @@ describe('contact-form-ui', () => {
     hp.value = 'spam';
     expect(potDeMielRempli(form, hp, 'website')).toBe(true);
   });
+
+  it('ignore afficherErreurZone sans zone', () => {
+    expect(() => afficherErreurZone(null, 'test')).not.toThrow();
+  });
+
+  it('tolère sessionStorage indisponible pour le rate limit', () => {
+    const getItem = vi.spyOn(Storage.prototype, 'getItem').mockImplementation(() => {
+      throw new Error('quota');
+    });
+    expect(peutSoumettreAvecSession('cle', 60_000)).toBe(true);
+    getItem.mockRestore();
+  });
+
+  it('ignore marquerChampsInvalides sans élément', () => {
+    const jouerBip = vi.fn();
+    expect(() => marquerChampsInvalides([{ el: null, message: 'x' }], jouerBip)).not.toThrow();
+    expect(jouerBip).toHaveBeenCalled();
+  });
 });

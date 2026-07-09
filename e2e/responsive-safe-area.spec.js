@@ -38,3 +38,21 @@ test('safe-area — inset bas simulé sur contact mobile', async ({ page }) => {
 
   expect(paddingBas).toBe('24px');
 });
+
+test('safe-area — toast SW avec inset bas simulé', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 667 });
+  await gotoReady(page, '/index.html');
+  await simulerInsets(page, { bas: 20, gauche: 12, droite: 12 });
+
+  await page.evaluate(() => {
+    const toast = document.createElement('div');
+    toast.id = 'js-sw-toast';
+    toast.className = 'sw-toast';
+    toast.innerHTML = '<p class="sw-toast__texte">Test</p>';
+    document.body.appendChild(toast);
+    toast.hidden = false;
+  });
+
+  const bottom = await page.locator('#js-sw-toast').evaluate((el) => getComputedStyle(el).bottom);
+  expect(bottom).not.toBe('0px');
+});

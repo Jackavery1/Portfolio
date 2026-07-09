@@ -12,6 +12,7 @@ const { syncManifestDev } = require('./sync-manifest-dev.cjs');
 const { syncLegal } = require('./sync-legal.cjs');
 const { syncProjects } = require('./sync-projects.cjs');
 const { syncNavSquelette } = require('./sync-nav-squelette.cjs');
+const { syncMusiqueDonnees } = require('./sync-musique-donnees.cjs');
 
 const ROOT = path.join(__dirname, '..');
 
@@ -27,12 +28,18 @@ function syncSource({ pageMeta = false } = {}) {
   syncBreakpoints();
   syncLegal();
   syncProjects();
+  syncMusiqueDonnees(ROOT);
   syncManifestDev(ROOT);
   if (pageMeta) syncPageMeta(ROOT);
 }
 
-module.exports = { syncSource };
+/** Point d’entrée CLI testable (`node build/sync-source.cjs [--page-meta]`). */
+function executerDepuisArgv(argv = process.argv) {
+  syncSource({ pageMeta: argv.includes('--page-meta') });
+}
+
+module.exports = { syncSource, executerDepuisArgv };
 
 if (require.main === module) {
-  syncSource({ pageMeta: process.argv.includes('--page-meta') });
+  executerDepuisArgv();
 }

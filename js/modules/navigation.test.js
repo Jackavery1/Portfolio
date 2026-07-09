@@ -23,6 +23,7 @@ import { jouerBip } from './audio.js';
 describe('navigation', () => {
   beforeEach(() => {
     sessionStorage.clear();
+    delete document.documentElement.dataset.navClavier;
     document.body.innerHTML = `
       <header class="nav">
         <button id="js-burger" type="button" aria-expanded="false" aria-label="Ouvrir le menu"></button>
@@ -30,11 +31,11 @@ describe('navigation', () => {
       </header>
     `;
     vi.mocked(jouerBip).mockClear();
+    initialiserNavigationArcade();
+    initialiserNavigationClavier();
   });
 
   it('ouvre et ferme le menu burger', () => {
-    initialiserNavigationArcade();
-
     const burger = document.getElementById('js-burger');
     const menu = document.getElementById('js-menu');
 
@@ -52,14 +53,12 @@ describe('navigation', () => {
   });
 
   it('ferme le menu au clic extérieur', () => {
-    initialiserNavigationArcade();
     document.getElementById('js-burger').click();
     document.body.click();
     expect(document.getElementById('js-burger').getAttribute('aria-expanded')).toBe('false');
   });
 
   it('ferme le menu avec Escape', () => {
-    initialiserNavigationArcade();
     const burger = document.getElementById('js-burger');
     const menu = document.getElementById('js-menu');
     burger.click();
@@ -75,7 +74,6 @@ describe('navigation', () => {
       value: { pathname: '/index.html', href: 'index.html' },
       writable: true,
     });
-    initialiserNavigationClavier();
     document.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
     expect(window.location.href).toBe('projets.html');
     expect(sessionStorage.getItem('jm_nav_clavier_annonce')).toBe('Projets');
@@ -99,7 +97,6 @@ describe('navigation', () => {
       value: { pathname: '/projets.html', href: 'projets.html' },
       writable: true,
     });
-    initialiserNavigationClavier();
     document.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowLeft', bubbles: true }));
     expect(window.location.href).toBe('index.html');
     expect(jouerBip).toHaveBeenCalled();
@@ -110,7 +107,6 @@ describe('navigation', () => {
       value: { pathname: '/projets.html', href: 'projets.html' },
       writable: true,
     });
-    initialiserNavigationClavier();
     document.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
     expect(window.location.href).toBe('projets.html');
   });
@@ -123,17 +119,75 @@ describe('navigation', () => {
       value: { pathname: '/index.html', href: 'index.html' },
       writable: true,
     });
-    initialiserNavigationClavier();
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
+    expect(window.location.href).toBe('index.html');
+  });
+
+  it('ignore les flèches depuis un champ de formulaire', () => {
+    document.body.innerHTML += '<input id="champ" />';
+    document.getElementById('champ').focus();
+    Object.defineProperty(window, 'location', {
+      value: { pathname: '/index.html', href: 'index.html' },
+      writable: true,
+    });
     document.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
     expect(window.location.href).toBe('index.html');
   });
 
   it('ferme le menu avec Escape et rend le focus au burger', () => {
-    initialiserNavigationArcade();
     const burger = document.getElementById('js-burger');
     burger.click();
     document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
     expect(burger.getAttribute('aria-expanded')).toBe('false');
     expect(document.getElementById('js-menu').classList.contains('ouvert')).toBe(false);
+  });
+
+  it('ignore les flèches quand le menu burger est ouvert', () => {
+    Object.defineProperty(window, 'location', {
+      value: { pathname: '/index.html', href: 'index.html' },
+      writable: true,
+    });
+    const menu = document.getElementById('js-menu');
+    menu.classList.add('ouvert');
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
+    expect(window.location.href).toBe('index.html');
+  });
+
+  it('ignore les flèches sur une page hors ordre de navigation', () => {
+    Object.defineProperty(window, 'location', {
+      value: { pathname: '/inconnue.html', href: 'inconnue.html' },
+      writable: true,
+    });
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
+    expect(window.location.href).toBe('inconnue.html');
+  });
+
+  it('annoncerNavigationClavier ignore l’absence de libellé', () => {
+    expect(() => annoncerNavigationClavier()).not.toThrow();
+  });
+
+  it('annoncerNavigationClavier efface le libellé même sans zone DOM', () => {
+    sessionStorage.setItem('jm_nav_clavier_annonce', 'Projets');
+    annoncerNavigationClavier();
+    expect(sessionStorage.getItem('jm_nav_clavier_annonce')).toBeNull();
+  });
+
+  it('annoncerNavigationClavier tolère sessionStorage indisponible', () => {
+    vi.spyOn(window.sessionStorage, 'getItem').mockImplementation(() => {
+      throw new Error('bloqué');
+    });
+    expect(() => annoncerNavigationClavier()).not.toThrow();
+  });
+
+  it('enregistre l’annonce même si sessionStorage.setItem échoue', () => {
+    Object.defineProperty(window, 'location', {
+      value: { pathname: '/index.html', href: 'index.html' },
+      writable: true,
+    });
+    vi.spyOn(window.sessionStorage, 'setItem').mockImplementation(() => {
+      throw new Error('bloqué');
+    });
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
+    expect(window.location.href).toBe('projets.html');
   });
 });

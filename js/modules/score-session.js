@@ -1,40 +1,9 @@
 import { CONFIGURATION } from '../config/index.js';
-import { parId } from '../utils/dom.js';
-import { SCORE_PLAFOND, formaterScoreAffichage, plafonnerScore } from '../utils/score-helpers.js';
-import { jouerJingleVictoire } from './musique.js';
+import { SCORE_PLAFOND, plafonnerScore } from '../utils/score-helpers.js';
+import { jouerJingleVictoire } from './musique-loader.js';
+import { afficherScore, lireScore, sauvegarderScore } from './score-stockage.js';
 
-export function lireScore() {
-  try {
-    const raw = sessionStorage.getItem(CONFIGURATION.STOCKAGE.CLE_SCORE);
-    if (raw == null || raw === '') return 0;
-    const n = parseInt(String(raw).trim(), 10);
-    if (!Number.isFinite(n) || n < 0) {
-      sauvegarderScore(0);
-      return 0;
-    }
-    const borne = plafonnerScore(n);
-    if (borne !== n) {
-      sauvegarderScore(borne);
-    }
-    return borne;
-  } catch {
-    return 0;
-  }
-}
-
-export function sauvegarderScore(valeur) {
-  try {
-    const n = plafonnerScore(valeur);
-    sessionStorage.setItem(CONFIGURATION.STOCKAGE.CLE_SCORE, String(n));
-  } catch {
-    /* sessionStorage indisponible */
-  }
-}
-
-export function afficherScore(valeur) {
-  const el = parId(CONFIGURATION.SELECTEURS.SCORE);
-  if (el) el.textContent = formaterScoreAffichage(valeur);
-}
+export { afficherScore, lireScore, sauvegarderScore };
 
 export function ajouterScore(pts) {
   const avant = lireScore();
@@ -53,7 +22,7 @@ export function ajouterScore(pts) {
 }
 
 /** Bonus unique par session (clé sessionStorage) */
-export function accorderBonusSession(cle, pts) {
+function accorderBonusSession(cle, pts) {
   try {
     if (sessionStorage.getItem(cle)) return false;
     sessionStorage.setItem(cle, '1');

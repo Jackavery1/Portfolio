@@ -80,6 +80,14 @@ describe('typography CSS', () => {
     });
   });
 
+  it('libellés décoratifs — minimum ≥ 12px (0,75rem)', () => {
+    const tokens = fs.readFileSync(path.join(rootDir, 'styles/tokens.css'), 'utf8');
+    expect(tokens).toMatch(/--taille-pixel-decoratif-min:\s*0\.75rem/);
+    expect(tokens).toMatch(
+      /--taille-pixel-decoratif:\s*clamp\(var\(--taille-pixel-min\)[^)]+\)/
+    );
+  });
+
   it('corps secondaires des cartes — lisible ou CRT, pas pixel', () => {
     const card = fs.readFileSync(path.join(rootDir, 'styles/components/card.css'), 'utf8');
     expect(card).toMatch(/\.carte-projet__desc[\s\S]*?font-family:\s*var\(--police-lisible\)/);

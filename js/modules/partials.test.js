@@ -72,5 +72,80 @@ describe('partials', () => {
       expect(fetch).not.toHaveBeenCalled();
       expect(document.querySelector('.nav--fallback')).not.toBeNull();
     });
+
+    it('journalise en dev et applique le fallback si HTTP non OK', async () => {
+      vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: false, status: 404 }));
+      vi.stubGlobal('location', { hostname: 'localhost', protocol: 'http:', search: '' });
+      const erreur = vi.spyOn(console, 'error').mockImplementation(() => {});
+      const avert = vi.spyOn(console, 'warn').mockImplementation(() => {});
+
+      await chargerPartiels();
+
+      expect(erreur).toHaveBeenCalled();
+      expect(avert).toHaveBeenCalled();
+      expect(document.querySelector('.nav--fallback')).not.toBeNull();
+      erreur.mockRestore();
+      avert.mockRestore();
+    });
+
+    it('ignore un conteneur absent', async () => {
+      document.body.innerHTML = '';
+      vi.stubGlobal(
+        'fetch',
+        vi.fn().mockResolvedValue({ ok: true, text: () => Promise.resolve('<nav></nav>') })
+      );
+
+      await expect(chargerPartiels()).resolves.toBeUndefined();
+      expect(fetch).not.toHaveBeenCalled();
+    });
+
+    it('applique le fallback footer si fetch échoue', async () => {
+      document.body.innerHTML = '<div id="partial-footer"></div>';
+      vi.resetModules();
+      vi.doMock('../config/index.js', () => ({
+        CONFIGURATION: {
+          PARTIELS: [{ id: 'partial-footer', fichier: 'partials/footer.html' }],
+        },
+      }));
+      vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('network')));
+
+      const { chargerPartiels: charger } = await import('./partials.js');
+      await charger();
+
+      expect(document.querySelector('.pied-page--fallback')).not.toBeNull();
+    });
+
+    it('marque le lien actif sans partial à charger', async () => {
+      document.body.innerHTML =
+        '<nav><a class="nav__bouton" href="projets.html">WORK</a></nav>';
+      vi.resetModules();
+      vi.doMock('../config/index.js', () => ({
+        CONFIGURATION: { PARTIELS: [] },
+      }));
+      vi.stubGlobal('fetch', vi.fn());
+
+      const { chargerPartiels: charger } = await import('./partials.js');
+      await charger();
+
+      expect(fetch).not.toHaveBeenCalled();
+      expect(document.querySelector('.nav__bouton.actif')?.getAttribute('href')).toBe('projets.html');
+    });
+
+    it('affiche un message générique pour un id de partial inconnu', async () => {
+      document.body.innerHTML = '<div id="partial-inconnu"></div>';
+      vi.resetModules();
+      vi.doMock('../config/index.js', () => ({
+        CONFIGURATION: {
+          PARTIELS: [{ id: 'partial-inconnu', fichier: 'partials/inconnu.html' }],
+        },
+      }));
+      vi.stubGlobal('location', { hostname: 'example.com', protocol: 'http:', search: '' });
+      vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('network')));
+
+      const { chargerPartiels: charger } = await import('./partials.js');
+      await charger();
+
+      expect(document.body.textContent).toContain('Contenu indisponible (partial-inconnu)');
+    });
   });
 });

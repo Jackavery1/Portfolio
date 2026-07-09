@@ -50,17 +50,17 @@ test('page offline — accessible et meta PWA', async ({ page }) => {
 test.describe('service worker', () => {
   test.describe.configure({ mode: 'serial' });
 
-  test('precache PWA — offline, previews et volume', async ({ page }) => {
+  test('precache PWA — offline, shell et volume', async ({ page }) => {
     test.setTimeout(60_000);
     await preparerServiceWorker(page);
 
     const { urls } = await lireEntreesPrecache(page);
-    expect(urls.length).toBeGreaterThanOrEqual(60);
+    expect(urls.length).toBeGreaterThanOrEqual(35);
     expect(precacheContient(urls, 'offline.html')).toBe(true);
-    expect(
-      precacheContient(urls, 'assets/previews/lsf.webp') ||
-        precacheContient(urls, 'assets/previews/lsf.png')
-    ).toBe(true);
+    expect(precacheContient(urls, 'js/main.js')).toBe(true);
+    expect(precacheContient(urls, 'assets/previews/lsf.webp')).toBe(false);
+    expect(precacheContient(urls, 'assets/cv-martinez-joris.pdf')).toBe(false);
+    expect(precacheContient(urls, 'js/config/musique-themes.json')).toBe(false);
   });
 
   test('navigation hors ligne — precache et fallback offline.html', async ({ page, context }) => {

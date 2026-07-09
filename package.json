@@ -1,6 +1,6 @@
 {
   "name": "portfolio-arcade",
-  "version": "1.0.2",
+  "version": "1.0.5",
   "description": "Portfolio arcade personnel — build + optimize + deploy",
   "private": true,
   "engines": {
@@ -8,6 +8,8 @@
   },
   "scripts": {
     "build": "node build.js",
+    "measure": "node scripts/measure-bundle.mjs",
+    "icons:optimize": "node scripts/icons-optimize.mjs",
     "watch": "node build.js --watch",
     "prestart": "node build/sync-source.cjs",
     "start": "serve .",
@@ -17,7 +19,7 @@
     "format:check": "prettier --check .",
     "prelint": "node build/sync-source.cjs",
     "pretest": "node build/sync-source.cjs && node build/sync-page-meta.cjs --check",
-    "prebuild": "node build/sync-fonts.cjs && node build/sync-source.cjs && node build/sync-pwa-icons.cjs",
+    "prebuild": "node build/sync-fonts.cjs && node build/sync-source.cjs && node build/sync-pwa-icons.cjs && node scripts/icons-optimize.mjs",
     "prevalidate:html": "node build/sync-source.cjs && node build/sync-page-meta.cjs --check",
     "sync:page-meta": "node build/sync-page-meta.cjs",
     "check:page-meta": "node build/sync-page-meta.cjs --check",

@@ -1,6 +1,37 @@
 /* @vitest-environment jsdom */
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
+function creerMockCtxAudio(surcharge = {}) {
+  return {
+    state: 'running',
+    currentTime: 0,
+    sampleRate: 44100,
+    destination: {},
+    createOscillator: vi.fn(() => ({
+      type: 'square',
+      frequency: { setValueAtTime: vi.fn() },
+      connect: vi.fn().mockReturnThis(),
+      start: vi.fn(),
+      stop: vi.fn(),
+    })),
+    createGain: vi.fn(() => ({
+      gain: {
+        value: 0,
+        setValueAtTime: vi.fn(),
+        linearRampToValueAtTime: vi.fn(),
+        exponentialRampToValueAtTime: vi.fn(),
+      },
+      connect: vi.fn().mockReturnThis(),
+    })),
+    createBuffer: vi.fn(() => ({
+      getChannelData: () => new Float32Array(100),
+    })),
+    resume: vi.fn().mockResolvedValue(undefined),
+    suspend: vi.fn().mockResolvedValue(undefined),
+    ...surcharge,
+  };
+}
+
 describe('audio', () => {
   beforeEach(() => {
     vi.resetModules();
@@ -12,8 +43,8 @@ describe('audio', () => {
   });
 
   it('expose la fanfare victoire standard', async () => {
-    const { FANFARE_VICTOIRE } = await import('./audio.js');
-    expect(FANFARE_VICTOIRE).toEqual([523, 659, 784, 1047]);
+    const { jouerFanfareVictoire } = await import('./audio.js');
+    expect(() => jouerFanfareVictoire()).not.toThrow();
   });
 
   it('jouerFanfareVictoire ne lève pas sans AudioContext', async () => {
@@ -35,19 +66,12 @@ describe('audio', () => {
       gain: { setValueAtTime: vi.fn(), exponentialRampToValueAtTime: vi.fn() },
       connect: vi.fn().mockReturnThis(),
     };
-    const ctx = {
-      state: 'running',
-      currentTime: 0,
-      destination: {},
+    const ctx = creerMockCtxAudio({
       createOscillator: vi.fn(() => osc),
       createGain: vi.fn(() => gain),
-      resume: vi.fn().mockResolvedValue(undefined),
-    };
+    });
 
-    vi.stubGlobal(
-      'AudioContext',
-      vi.fn(() => ctx)
-    );
+    vi.stubGlobal('AudioContext', vi.fn(() => ctx));
 
     const { jouerBip } = await import('./audio.js');
     jouerBip(440, 60, 'square');
@@ -55,29 +79,20 @@ describe('audio', () => {
     expect(stop).toHaveBeenCalled();
   });
 
-  it('reprend un contexte suspendu', async () => {
-    const ctx = {
-      state: 'suspended',
-      currentTime: 0,
-      destination: {},
-      createOscillator: vi.fn(() => ({
-        type: 'square',
-        frequency: { setValueAtTime: vi.fn() },
-        connect: vi.fn().mockReturnThis(),
-        start: vi.fn(),
-        stop: vi.fn(),
-      })),
-      createGain: vi.fn(() => ({
-        gain: { setValueAtTime: vi.fn(), exponentialRampToValueAtTime: vi.fn() },
-        connect: vi.fn().mockReturnThis(),
-      })),
-      resume: vi.fn().mockResolvedValue(undefined),
-    };
+  it('partage le même AudioContext que musique-audio.js', async () => {
+    const ctx = creerMockCtxAudio();
+    vi.stubGlobal('AudioContext', vi.fn(() => ctx));
 
-    vi.stubGlobal(
-      'AudioContext',
-      vi.fn(() => ctx)
-    );
+    const { jouerBip } = await import('./audio.js');
+    const { obtenirContexte } = await import('./musique-audio.js');
+    jouerBip(440, 60);
+    expect(obtenirContexte()).toBe(ctx);
+  });
+
+  it('reprend un contexte suspendu', async () => {
+    const ctx = creerMockCtxAudio({ state: 'suspended' });
+
+    vi.stubGlobal('AudioContext', vi.fn(() => ctx));
 
     const { jouerBip } = await import('./audio.js');
     jouerBip(220, 40);
@@ -85,23 +100,7 @@ describe('audio', () => {
   });
 
   it('utilise webkitAudioContext en secours', async () => {
-    const WebkitCtx = vi.fn(() => ({
-      state: 'running',
-      currentTime: 0,
-      destination: {},
-      createOscillator: vi.fn(() => ({
-        type: 'square',
-        frequency: { setValueAtTime: vi.fn() },
-        connect: vi.fn().mockReturnThis(),
-        start: vi.fn(),
-        stop: vi.fn(),
-      })),
-      createGain: vi.fn(() => ({
-        gain: { setValueAtTime: vi.fn(), exponentialRampToValueAtTime: vi.fn() },
-        connect: vi.fn().mockReturnThis(),
-      })),
-      resume: vi.fn().mockResolvedValue(undefined),
-    }));
+    const WebkitCtx = vi.fn(() => creerMockCtxAudio());
 
     vi.stubGlobal('AudioContext', undefined);
     vi.stubGlobal('webkitAudioContext', WebkitCtx);
@@ -112,32 +111,77 @@ describe('audio', () => {
   });
 
   it('jouerBip ignore les erreurs Web Audio', async () => {
-    const ctx = {
-      state: 'running',
-      currentTime: 0,
-      destination: {},
+    const ctx = creerMockCtxAudio({
       createOscillator: vi.fn(() => {
         throw new Error('fail');
       }),
-      createGain: vi.fn(),
-      resume: vi.fn(),
-    };
-    vi.stubGlobal(
-      'AudioContext',
-      vi.fn(() => ctx)
-    );
+    });
+    vi.stubGlobal('AudioContext', vi.fn(() => ctx));
     vi.resetModules();
     const { jouerBip } = await import('./audio.js');
     expect(() => jouerBip(440, 60)).not.toThrow();
   });
 
-  it('jouerFanfareVictoire planifie plusieurs bips', async () => {
+  it('jouerBip sort silencieusement si AudioContext indisponible', async () => {
+    vi.stubGlobal(
+      'AudioContext',
+      vi.fn(() => {
+        throw new Error('AudioContext indisponible');
+      })
+    );
+    vi.stubGlobal('webkitAudioContext', undefined);
+
+    const { jouerBip } = await import('./audio.js');
+    expect(() => jouerBip(440, 60)).not.toThrow();
+  });
+
+  it('log debug si resume AudioContext échoue en localhost', async () => {
+    const debug = vi.spyOn(console, 'debug').mockImplementation(() => {});
+    vi.stubGlobal('location', { hostname: 'localhost' });
+
+    const ctx = creerMockCtxAudio({
+      state: 'suspended',
+      createOscillator: vi.fn(() => ({
+        type: 'square',
+        frequency: { setValueAtTime: vi.fn() },
+        connect: vi.fn().mockReturnThis(),
+        start: vi.fn(),
+        stop: vi.fn(),
+      })),
+      resume: vi.fn().mockRejectedValue(new Error('reprise refusée')),
+    });
+
+    vi.stubGlobal('AudioContext', vi.fn(() => ctx));
+
+    const { jouerBip } = await import('./audio.js');
+    jouerBip(440, 60);
+    await Promise.resolve();
+
+    expect(debug).toHaveBeenCalledWith('[audio] reprise AudioContext refusée', expect.any(Error));
+  });
+
+  it('log debug si Web Audio échoue sur 127.0.0.1', async () => {
+    const debug = vi.spyOn(console, 'debug').mockImplementation(() => {});
+    vi.stubGlobal('location', { hostname: '127.0.0.1' });
+
+    const ctx = creerMockCtxAudio({
+      createOscillator: vi.fn(() => {
+        throw new Error('osc fail');
+      }),
+    });
+
+    vi.stubGlobal('AudioContext', vi.fn(() => ctx));
+
+    const { jouerBip } = await import('./audio.js');
+    jouerBip(440, 60);
+
+    expect(debug).toHaveBeenCalledWith('[audio] Web Audio indisponible', expect.any(Error));
+  });
+
+  it('jouerFanfareVictoire utilise les délais par défaut', async () => {
     vi.useFakeTimers();
     const start = vi.fn();
-    const ctx = {
-      state: 'running',
-      currentTime: 0,
-      destination: {},
+    const ctx = creerMockCtxAudio({
       createOscillator: vi.fn(() => ({
         type: 'square',
         frequency: { setValueAtTime: vi.fn() },
@@ -145,16 +189,31 @@ describe('audio', () => {
         start,
         stop: vi.fn(),
       })),
-      createGain: vi.fn(() => ({
-        gain: { setValueAtTime: vi.fn(), exponentialRampToValueAtTime: vi.fn() },
+    });
+
+    vi.stubGlobal('AudioContext', vi.fn(() => ctx));
+
+    const { jouerFanfareVictoire } = await import('./audio.js');
+    jouerFanfareVictoire();
+    await vi.runAllTimersAsync();
+
+    expect(start.mock.calls.length).toBeGreaterThanOrEqual(4);
+    vi.useRealTimers();
+  });
+
+  it('jouerFanfareVictoire planifie plusieurs bips', async () => {
+    vi.useFakeTimers();
+    const start = vi.fn();
+    const ctx = creerMockCtxAudio({
+      createOscillator: vi.fn(() => ({
+        type: 'square',
+        frequency: { setValueAtTime: vi.fn() },
         connect: vi.fn().mockReturnThis(),
+        start,
+        stop: vi.fn(),
       })),
-      resume: vi.fn().mockResolvedValue(undefined),
-    };
-    vi.stubGlobal(
-      'AudioContext',
-      vi.fn(() => ctx)
-    );
+    });
+    vi.stubGlobal('AudioContext', vi.fn(() => ctx));
     vi.resetModules();
 
     const { jouerFanfareVictoire } = await import('./audio.js');

@@ -4,6 +4,7 @@ import {
   messageErreurCapture,
   messageErreurFormspree,
 } from '../utils/contact-form-helpers.js';
+import { PARAMETRES_BIP_ERREUR_VALIDATION } from '../utils/contact-form-ui.js';
 import { CONFIGURATION } from '../config/index.js';
 import { decoderBase64Utf8 } from '../utils/pii.js';
 import { jouerBip } from './audio.js';
@@ -36,7 +37,7 @@ function signalerEchecEnvoi({
   afficherErreur,
   reinitialiserRecaptcha = false,
 }) {
-  jouerBip(150, 120, 'sawtooth');
+  jouerBip(...PARAMETRES_BIP_ERREUR_VALIDATION);
   restaurerBoutonEnvoi(btnEnvoyer, labelEnvoyer);
   if (reinitialiserRecaptcha) reinitialiserWidgetRecaptcha();
   btnEnvoyer.setAttribute('title', msg);
@@ -62,10 +63,10 @@ export async function envoyerViaFormspree({
   const labelEnvoyer = btnEnvoyer.textContent;
 
   if (!recaptchaKey) {
-    jouerBip(150, 120, 'sawtooth');
+    jouerBip(...PARAMETRES_BIP_ERREUR_VALIDATION);
     btnEnvoyer.setAttribute(
       'title',
-      'Renseignez PORTFOLIO_RECAPTCHA_SITE_KEY dans .env puis relancez le build pour envoyer via Formspree.'
+      'Renseignez PORTFOLIO_RECAPTCHA_SITE_KEY dans .env.local puis relancez npm test pour envoyer via Formspree.'
     );
     if (mount) mount.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     return;

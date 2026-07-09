@@ -2,28 +2,67 @@ const fs = require('fs');
 const path = require('path');
 const { ensureDir, log } = require('./fs-utils.cjs');
 
-const FONT_FILES = [
+const SOUS_ENSEMBLES = ['latin', 'latin-ext'];
+
+const POLICES = [
   {
     package: '@fontsource/press-start-2p',
-    src: 'press-start-2p-latin-400-normal.woff2',
-    dst: 'press-start-2p-latin-400.woff2',
+    base: 'press-start-2p',
+    cssFamily: 'Press Start 2P',
   },
   {
     package: '@fontsource/vt323',
-    src: 'vt323-latin-400-normal.woff2',
-    dst: 'vt323-latin-400.woff2',
+    base: 'vt323',
+    cssFamily: 'VT323',
   },
   {
     package: '@fontsource/rajdhani',
-    src: 'rajdhani-latin-400-normal.woff2',
-    dst: 'rajdhani-latin-400.woff2',
-  },
-  {
-    package: '@fontsource/rajdhani',
-    src: 'rajdhani-latin-600-normal.woff2',
-    dst: 'rajdhani-latin-600.woff2',
+    base: 'rajdhani',
+    cssFamily: 'Rajdhani',
   },
 ];
+
+function entreesPolices() {
+  return POLICES.flatMap(({ package: pkg, base, cssFamily }) =>
+    SOUS_ENSEMBLES.map((subset) => ({
+      package: pkg,
+      src: `${base}-${subset}-400-normal.woff2`,
+      dst: `${base}-${subset}-400.woff2`,
+      subset,
+      cssFamily,
+    }))
+  );
+}
+
+const FONT_FILES = entreesPolices();
+
+function lireUnicodeParSubset(packageName, root) {
+  const jsonPath = path.join(root, 'node_modules', packageName, 'unicode.json');
+  return JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
+}
+
+function genererFontsLocalCss(root) {
+  const lignes = [];
+
+  POLICES.forEach(({ package: pkg }) => {
+    const unicode = lireUnicodeParSubset(pkg, root);
+    FONT_FILES.filter((f) => f.package === pkg).forEach(({ dst, subset, cssFamily: family }) => {
+      const range = unicode[subset];
+      if (!range) return;
+      lignes.push(`@font-face {
+  font-family: '${family}';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  unicode-range: ${range};
+  src: url('../assets/fonts/${dst}') format('woff2');
+}`);
+    });
+  });
+
+  const cssPath = path.join(root, 'styles', 'fonts-local.css');
+  fs.writeFileSync(cssPath, `${lignes.join('\n\n')}\n`);
+}
 
 function syncFontsRoot(root) {
   const dstDir = path.join(root, 'assets', 'fonts');
@@ -39,6 +78,8 @@ function syncFontsRoot(root) {
 
     fs.copyFileSync(from, to);
   });
+
+  genererFontsLocalCss(root);
 }
 
 function copyFonts(root, distDir) {
@@ -51,7 +92,7 @@ function copyFonts(root, distDir) {
     fs.copyFileSync(path.join(srcDir, dst), path.join(dstDir, dst));
   });
 
-  log('Polices locales → assets/fonts/', 'success');
+  log('Polices locales → assets/fonts/ (latin + latin-ext)', 'success');
 }
 
-module.exports = { copyFonts, syncFontsRoot, FONT_FILES };
+module.exports = { copyFonts, syncFontsRoot, genererFontsLocalCss, FONT_FILES, POLICES };

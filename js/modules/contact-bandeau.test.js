@@ -49,4 +49,9 @@ describe('contact-bandeau', () => {
     expect(dispo.hidden).toBe(false);
     expect(cvBloc.hidden).toBe(true);
   });
+
+  it('ignore les éléments manquants', () => {
+    document.body.innerHTML = '';
+    expect(() => initialiserBandeauContact()).not.toThrow();
+  });
 });

@@ -1,0 +1,57 @@
+/* ============================================
+   Squelettes de chargement partials
+   ============================================ */
+
+.partial-squelette {
+  display: grid;
+  gap: 0.75rem;
+  min-height: 8rem;
+}
+
+.partial-squelette__ligne {
+  display: block;
+  height: 0.85rem;
+  border-radius: 2px;
+  background: linear-gradient(
+    90deg,
+    var(--couleur-fond-survol) 0%,
+    var(--couleur-separateur) 50%,
+    var(--couleur-fond-survol) 100%
+  );
+  background-size: 200% 100%;
+  animation: partial-squelette-pulse 1.4s ease-in-out infinite;
+}
+
+.partial-squelette__ligne--large {
+  width: 55%;
+  height: 1.1rem;
+}
+
+.partial-squelette__ligne--pleine {
+  width: 100%;
+}
+
+.partial-squelette__bloc {
+  display: block;
+  width: 100%;
+  min-height: 5rem;
+  border-radius: 4px;
+  border: 1px solid var(--couleur-separateur);
+  background: var(--couleur-fond-carte);
+}
+
+@keyframes partial-squelette-pulse {
+  0%,
+  100% {
+    background-position: 100% 0;
+  }
+  50% {
+    background-position: 0 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .partial-squelette__ligne {
+    animation: none;
+  }
+}

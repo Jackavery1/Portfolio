@@ -5,7 +5,7 @@
 import { CONFIGURATION } from '../config/index.js';
 import { parId } from '../utils/dom.js';
 import { jouerFanfareVictoire } from './audio.js';
-import { jouerJingleSecret } from './musique.js';
+import { jouerJingleSecret } from './musique-loader.js';
 import { afficherPopupMeilleurScore, afficherScore, lireScore, sauvegarderScore } from './score.js';
 import { SCORE_PLAFOND } from '../utils/score-helpers.js';
 

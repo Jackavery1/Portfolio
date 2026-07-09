@@ -73,14 +73,14 @@
 
   .arcade-label {
     display: block;
-    font-size: var(--taille-pixel-decoratif);
+    font-size: var(--taille-pixel-min);
     letter-spacing: 1px;
     white-space: nowrap;
     flex-shrink: 0;
   }
 
   .arcade-valeur {
-    font-size: var(--taille-pixel-decoratif);
+    font-size: var(--taille-pixel-min);
     letter-spacing: 1px;
     white-space: nowrap;
   }

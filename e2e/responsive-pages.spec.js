@@ -151,3 +151,13 @@ test('responsive paysage mobile — hint informatif sur pages denses', async ({ 
     await expect(page.locator('.hint-paysage')).toContainText(/portrait/i);
   }
 });
+
+test('footer — mention thème sombre volontaire', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 667 });
+  await gotoReady(page, '/index.html');
+
+  const note = page.locator('.pied-page__theme-note');
+  await expect(note).toBeVisible();
+  await expect(note).toContainText(/thème sombre/i);
+  await expect(note).toHaveAttribute('title', /choix volontaire/i);
+});

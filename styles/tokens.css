@@ -25,8 +25,8 @@
   /* Texte */
   --couleur-texte-fort: #d0ddff;
   --couleur-texte-normal: #8899cc;
-  /* Placeholder : plus discret que le texte saisi, lisible sur --couleur-fond-champ */
-  --couleur-texte-placeholder: #6474a3;
+  /* Placeholder : discret mais ≥ AA 4,5:1 sur --couleur-fond-champ */
+  --couleur-texte-placeholder: #7a8fc4;
   /* Texte désactivé (boutons, champs) — plus atténué que --couleur-texte-discret, ≥ AA sur --couleur-fond-survol */
   --couleur-texte-disabled: #7284b8;
   /* Lisible sur fond #03040f (≥ AA texte normal 4,5:1) tout en restant secondaire vs --couleur-texte-normal */
@@ -43,6 +43,8 @@
   --couleur-valide-dim: #1a4a33;
   --couleur-actif: #ffcc44;
   --couleur-actif-dim: #4a3a00;
+  --couleur-actif-bordure: #a88400;
+  --couleur-actif-clair: #ffe08a;
 
   /* Erreurs (validation champs, etc.) */
   --couleur-erreur: #ff4444;
@@ -60,6 +62,7 @@
   --couleur-pixel-bouche: #c0654a;
   --couleur-pixel-chaussure: #0a0a1a;
   --couleur-pixel-accent-detail: #44aaff;
+  --couleur-boss-vie: #ff4400;
 
   /* Polices */
   --police-pixel: 'Press Start 2P', monospace;
@@ -68,9 +71,9 @@
 
   /* Taille minimale lisible pour libellés pixel (12px) */
   --taille-pixel-min: 0.75rem;
-  /* Libellés pixel décoratifs non interactifs (≥ 9px) */
-  --taille-pixel-decoratif-min: 0.5625rem;
-  --taille-pixel-decoratif: clamp(var(--taille-pixel-decoratif-min), 1.1vw, 0.65rem);
+  /* Libellés pixel décoratifs non interactifs (≥ 12px, aligné sur --taille-pixel-min) */
+  --taille-pixel-decoratif-min: 0.75rem;
+  --taille-pixel-decoratif: clamp(var(--taille-pixel-min), 1.1vw, var(--taille-pixel-petit-max));
   /* Maximum courant pour petits libellés pixel (≥ min) */
   --taille-pixel-petit-max: 0.8rem;
 

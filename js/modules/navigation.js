@@ -34,7 +34,8 @@ function indexNavigationClavier() {
 export function initialiserNavigationArcade() {
   const burger = parId(CONFIGURATION.SELECTEURS.BURGER);
   const menuNav = parId(CONFIGURATION.SELECTEURS.MENU);
-  if (!burger || !menuNav) return;
+  if (!burger || !menuNav || burger.dataset.navArcade) return;
+  burger.dataset.navArcade = '1';
 
   burger.addEventListener('click', () => {
     const estOuvert = burger.getAttribute('aria-expanded') === 'true';
@@ -89,6 +90,9 @@ export function annoncerNavigationClavier() {
 }
 
 export function initialiserNavigationClavier() {
+  if (document.documentElement.dataset.navClavier) return;
+  document.documentElement.dataset.navClavier = '1';
+
   document.addEventListener('keydown', (evt) => {
     const modalOverlay = parId(CONFIGURATION.SELECTEURS.MODALE);
     if (modalOverlay && !modalOverlay.hidden) return;

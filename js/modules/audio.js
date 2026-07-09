@@ -1,38 +1,25 @@
-/* ============================================
-   Sons Web Audio API (bips arcade)
-   ============================================ */
+/* Bips arcade et fanfares — contexte Web Audio partagé (musique-audio.js) */
 
-let ctxAudio = null;
+import { assurerContexteActif, obtenirGainMaitre } from './musique-audio.js';
 
-function obtenirContexteAudio() {
-  try {
-    if (!ctxAudio) {
-      ctxAudio = new (window.AudioContext || window.webkitAudioContext)();
-    }
-    if (ctxAudio.state === 'suspended') {
-      ctxAudio.resume().catch((err) => {
-        if (
-          typeof location !== 'undefined' &&
-          (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
-        ) {
-          console.debug('[audio] reprise AudioContext refusée', err);
-        }
-      });
-    }
-    return ctxAudio;
-  } catch {
-    return null;
+function journaliserDebugAudio(message, err) {
+  if (
+    typeof location !== 'undefined' &&
+    (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+  ) {
+    console.debug(message, err);
   }
 }
 
 export function jouerBip(frequence = 440, duree = 60, type = 'square') {
-  const ctx = obtenirContexteAudio();
+  const ctx = assurerContexteActif();
   if (!ctx) return;
+  const destination = obtenirGainMaitre() || ctx.destination;
   try {
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
     osc.connect(gain);
-    gain.connect(ctx.destination);
+    gain.connect(destination);
     osc.type = type;
     osc.frequency.setValueAtTime(frequence, ctx.currentTime);
     gain.gain.setValueAtTime(0.07, ctx.currentTime);
@@ -40,35 +27,26 @@ export function jouerBip(frequence = 440, duree = 60, type = 'square') {
     osc.start(ctx.currentTime);
     osc.stop(ctx.currentTime + duree / 1000);
   } catch (err) {
-    if (
-      typeof location !== 'undefined' &&
-      (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
-    ) {
-      console.debug('[audio] Web Audio indisponible', err);
-    }
+    journaliserDebugAudio('[audio] Web Audio indisponible', err);
   }
 }
 
-/** Suite de bips espacés (ex. fanfare Konami) */
-function jouerSequenceBeeps(frequences, opts = {}) {
-  const delai = opts.delai ?? 130;
-  const duree = opts.duree ?? 120;
-  const type = opts.type ?? 'square';
-  const delais = opts.delais;
+function jouerSequenceBeeps(frequences, options = {}) {
+  const delai = options.delai ?? 130;
+  const duree = options.duree ?? 120;
+  const type = options.type ?? 'square';
+  const delais = options.delais;
   frequences.forEach((f, i) => {
     const t = delais != null ? delais[i] : i * delai;
     setTimeout(() => jouerBip(f, duree, type), t);
   });
 }
 
-export const FANFARE_VICTOIRE = [523, 659, 784, 1047];
-
-/** Fanfare arcade standard (high score, Konami, boss vaincu) */
-export function jouerFanfareVictoire(opts = {}) {
-  jouerSequenceBeeps(FANFARE_VICTOIRE, {
-    delai: opts.delai ?? 100,
-    duree: opts.duree ?? 120,
-    type: opts.type ?? 'square',
-    delais: opts.delais,
+export function jouerFanfareVictoire(options = {}) {
+  jouerSequenceBeeps([523, 659, 784, 1047], {
+    delai: options.delai ?? 100,
+    duree: options.duree ?? 120,
+    type: options.type ?? 'square',
+    delais: options.delais,
   });
 }

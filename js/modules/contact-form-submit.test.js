@@ -181,4 +181,135 @@ describe('contact-form-submit', () => {
     expect(jouerBip).toHaveBeenCalled();
     expect(afficherErreur).toHaveBeenCalledWith('captcha');
   });
+
+  it('envoyerViaFormspree refuse l’envoi sans clé reCAPTCHA', async () => {
+    const fetchMock = vi.fn();
+    vi.stubGlobal('fetch', fetchMock);
+    const btn = document.getElementById('btn');
+    const mount = document.createElement('div');
+    mount.scrollIntoView = vi.fn();
+    const afficherErreur = vi.fn();
+
+    await envoyerViaFormspree({
+      configuration: {
+        CONTACT: {
+          RECAPTCHA_SITE_KEY: '',
+          FORMSPREE_ENDPOINT: 'https://formspree.io/f/test',
+          RECAPTCHA_VERSION: 3,
+        },
+      },
+      champs: { nom: 'Joris', email: 'a@b.c', message: 'Hi' },
+      sujetUtile: '',
+      btnEnvoyer: btn,
+      mount,
+      optionsRecaptcha: {},
+      afficherErreur,
+    });
+
+    expect(jouerBip).toHaveBeenCalled();
+    expect(mount.scrollIntoView).toHaveBeenCalled();
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it('envoyerViaFormspree demande la case v2 si le jeton est vide', async () => {
+    obtenirTokenRecaptcha.mockResolvedValue(null);
+    const btn = document.getElementById('btn');
+    const afficherErreur = vi.fn();
+
+    await envoyerViaFormspree({
+      configuration: {
+        CONTACT: {
+          RECAPTCHA_SITE_KEY: 'key',
+          FORMSPREE_ENDPOINT: 'https://formspree.io/f/test',
+          RECAPTCHA_VERSION: 2,
+        },
+      },
+      champs: { nom: 'Joris', email: 'a@b.c', message: 'Hi' },
+      sujetUtile: '',
+      btnEnvoyer: btn,
+      mount: null,
+      optionsRecaptcha: {},
+      afficherErreur,
+    });
+
+    expect(afficherErreur).toHaveBeenCalledWith('Cochez la case « Je ne suis pas un robot ».');
+    expect(reinitialiserWidgetRecaptcha).not.toHaveBeenCalled();
+  });
+
+  it('envoyerViaFormspree affiche une erreur Formspree', async () => {
+    obtenirTokenRecaptcha.mockResolvedValue('token');
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue({
+        ok: false,
+        status: 422,
+        json: () => Promise.resolve({ error: 'Refusé' }),
+      })
+    );
+
+    const btn = document.getElementById('btn');
+    const afficherErreur = vi.fn();
+
+    await envoyerViaFormspree({
+      configuration: {
+        CONTACT: {
+          RECAPTCHA_SITE_KEY: 'key',
+          FORMSPREE_ENDPOINT: 'https://formspree.io/f/test',
+          RECAPTCHA_VERSION: 3,
+        },
+      },
+      champs: { nom: 'Joris', email: 'a@b.c', message: 'Hi' },
+      sujetUtile: '',
+      btnEnvoyer: btn,
+      mount: null,
+      optionsRecaptcha: {},
+      afficherErreur,
+    });
+
+    expect(afficherErreur).toHaveBeenCalledWith('Erreur serveur');
+    expect(reinitialiserWidgetRecaptcha).toHaveBeenCalled();
+  });
+
+  it('envoyerViaFormspree gère une erreur réseau', async () => {
+    obtenirTokenRecaptcha.mockResolvedValue('token');
+    vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('Failed to fetch')));
+
+    const btn = document.getElementById('btn');
+    const afficherErreur = vi.fn();
+
+    await envoyerViaFormspree({
+      configuration: {
+        CONTACT: {
+          RECAPTCHA_SITE_KEY: 'key',
+          FORMSPREE_ENDPOINT: 'https://formspree.io/f/test',
+          RECAPTCHA_VERSION: 3,
+        },
+      },
+      champs: { nom: 'Joris', email: 'a@b.c', message: 'Hi' },
+      sujetUtile: '',
+      btnEnvoyer: btn,
+      mount: null,
+      optionsRecaptcha: {},
+      afficherErreur,
+    });
+
+    expect(afficherErreur).toHaveBeenCalled();
+    expect(reinitialiserWidgetRecaptcha).toHaveBeenCalled();
+  });
+
+  it('envoyerViaMailto retourne false sans email configuré', () => {
+    expect(
+      envoyerViaMailto({
+        configuration: { CONTACT: { EMAIL_B64: '' } },
+        champs: { nom: 'Joris', email: 'a@b.c', message: 'Hi' },
+        sujetUtile: '',
+      })
+    ).toBe(false);
+  });
+
+  it('finaliserEnvoiReussi peut laisser le bouton actif', () => {
+    const btn = document.getElementById('btn');
+    finaliserEnvoiReussi({ btnEnvoyer: btn, confirmation: null, desactiver: false });
+    expect(btn.disabled).toBe(false);
+  });
 });

@@ -4,6 +4,30 @@ const { ensureDir, log, walkJsFiles } = require('./fs-utils.cjs');
 const { HTML_FILES } = require('./html.cjs');
 const { BASE_STYLE_FILE, PAGE_STYLE_BY_HTML } = require('./page-styles.cjs');
 
+/** Modules chargés à la demande (routes lazy, musique, contact) — mis en cache au premier fetch. */
+const JS_PRECACH_EXCLUS = new Set([
+  'js/config/musique-themes.json',
+  'js/modules/musique.js',
+  'js/config/legal-data.js',
+  'js/config/legal.js',
+  'js/config/projects-data.js',
+  'js/config/project-icons.js',
+  'js/config/projects.js',
+  'js/modules/mentions-legales.js',
+  'js/modules/contact.js',
+  'js/modules/contact-form.js',
+  'js/modules/contact-form-submit.js',
+  'js/modules/contact-coordonnees.js',
+  'js/modules/contact-bandeau.js',
+  'js/modules/recaptcha.js',
+  'js/modules/recaptcha-chargement.js',
+  'js/modules/dojo-boss.js',
+  'js/modules/accueil-social.js',
+  'js/modules/projets-grille.js',
+  'js/modules/modal.js',
+  'js/modules/popup-highscore.js',
+]);
+
 function listerPolicesPrecache(distDir) {
   const fontsDir = path.join(distDir, 'assets', 'fonts');
   if (!fs.existsSync(fontsDir)) return [];
@@ -14,20 +38,25 @@ function listerPolicesPrecache(distDir) {
     .map((name) => `assets/fonts/${name}`);
 }
 
-function listerPreviewsPrecache(distDir) {
-  const previewsDir = path.join(distDir, 'assets', 'previews');
-  if (!fs.existsSync(previewsDir)) return [];
+function listerJsPrecache(distDir) {
+  return walkJsFiles(path.join(distDir, 'js'))
+    .map((abs) => path.relative(distDir, abs).replace(/\\/g, '/'))
+    .filter((rel) => !JS_PRECACH_EXCLUS.has(rel));
+}
 
-  return fs
-    .readdirSync(previewsDir)
-    .filter((name) => /\.(webp|png)$/i.test(name))
-    .map((name) => `assets/previews/${name}`);
+function listerCssPagesPrecache() {
+  return [
+    ...new Set(
+      Object.values(PAGE_STYLE_BY_HTML)
+        .map((entry) => entry.outfile)
+        .filter(Boolean)
+    ),
+  ];
 }
 
 function precacheUrls(distDir) {
-  const jsFiles = walkJsFiles(path.join(distDir, 'js')).map((abs) =>
-    path.relative(distDir, abs).replace(/\\/g, '/')
-  );
+  const jsFiles = listerJsPrecache(distDir);
+  const cssPages = listerCssPagesPrecache();
 
   return [
     'offline.html',
@@ -38,14 +67,11 @@ function precacheUrls(distDir) {
     'assets/favicon.png',
     'assets/apple-touch-icon.png',
     'assets/icon-192.png',
-    'assets/icon-512.png',
-    'assets/cv-martinez-joris.pdf',
     BASE_STYLE_FILE,
+    ...cssPages,
     ...jsFiles,
     ...HTML_FILES,
-    ...Object.values(PAGE_STYLE_BY_HTML).map(({ outfile }) => outfile),
     ...listerPolicesPrecache(distDir),
-    ...listerPreviewsPrecache(distDir),
   ];
 }
 
@@ -68,8 +94,18 @@ self.addEventListener('install', (event) => {
           PRECACHE.map((url) => cache.add(new Request(url, { cache: 'reload' }))),
         ),
       )
-      .then(() => self.skipWaiting()),
+      .then(() => {
+        if (!self.registration?.active) {
+          return self.skipWaiting();
+        }
+      }),
   );
+});
+
+self.addEventListener('message', (event) => {
+  if (event.data?.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
 });
 
 self.addEventListener('activate', (event) => {
@@ -162,4 +198,4 @@ function writeServiceWorker(targetDir, version) {
   log(`sw.js généré (${urls.length} entrées precache)`, 'success');
 }
 
-module.exports = { writeServiceWorker, precacheUrls, generateServiceWorker };
+module.exports = { writeServiceWorker, precacheUrls, generateServiceWorker, JS_PRECACH_EXCLUS };

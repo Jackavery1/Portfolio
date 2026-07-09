@@ -4,7 +4,7 @@ import { piegerTabulationModale } from '../utils/focus.js';
 import { basculerInertFond } from '../utils/inert.js';
 import { formaterScoreAffichage } from '../utils/score-helpers.js';
 import { jouerFanfareVictoire } from './audio.js';
-import { lireScore } from './score-session.js';
+import { lireScore } from './score-stockage.js';
 
 let elementFocusAvantPopup = null;
 

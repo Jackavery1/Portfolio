@@ -1,7 +1,6 @@
 export {
   accorderBonusDojoBoss,
   accorderBonusProjet,
-  accorderBonusSession,
   afficherScore,
   ajouterScore,
   lireScore,

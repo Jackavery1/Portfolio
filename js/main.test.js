@@ -51,7 +51,7 @@ vi.mock('./modules/konami.js', () => ({
   initialiserCodeKonami: mocks.initialiserCodeKonami,
 }));
 
-vi.mock('./modules/musique.js', () => ({
+vi.mock('./modules/musique-loader.js', () => ({
   initialiserMusique: mocks.initialiserMusique,
 }));
 

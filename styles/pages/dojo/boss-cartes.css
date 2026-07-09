@@ -211,7 +211,7 @@
 .boss-carte__vie-fill {
   height: 100%;
   width: 0%;
-  background: linear-gradient(90deg, #ff4400, var(--couleur-actif));
+  background: linear-gradient(90deg, var(--couleur-boss-vie), var(--couleur-actif));
   border-radius: 2px;
   transition: width 1s ease-out;
 }
