@@ -71,7 +71,10 @@ describe('audio', () => {
       createGain: vi.fn(() => gain),
     });
 
-    vi.stubGlobal('AudioContext', vi.fn(() => ctx));
+    vi.stubGlobal(
+      'AudioContext',
+      vi.fn(() => ctx)
+    );
 
     const { jouerBip } = await import('./audio.js');
     jouerBip(440, 60, 'square');
@@ -81,7 +84,10 @@ describe('audio', () => {
 
   it('partage le même AudioContext que musique-audio.js', async () => {
     const ctx = creerMockCtxAudio();
-    vi.stubGlobal('AudioContext', vi.fn(() => ctx));
+    vi.stubGlobal(
+      'AudioContext',
+      vi.fn(() => ctx)
+    );
 
     const { jouerBip } = await import('./audio.js');
     const { obtenirContexte } = await import('./musique-audio.js');
@@ -92,7 +98,10 @@ describe('audio', () => {
   it('reprend un contexte suspendu', async () => {
     const ctx = creerMockCtxAudio({ state: 'suspended' });
 
-    vi.stubGlobal('AudioContext', vi.fn(() => ctx));
+    vi.stubGlobal(
+      'AudioContext',
+      vi.fn(() => ctx)
+    );
 
     const { jouerBip } = await import('./audio.js');
     jouerBip(220, 40);
@@ -116,7 +125,10 @@ describe('audio', () => {
         throw new Error('fail');
       }),
     });
-    vi.stubGlobal('AudioContext', vi.fn(() => ctx));
+    vi.stubGlobal(
+      'AudioContext',
+      vi.fn(() => ctx)
+    );
     vi.resetModules();
     const { jouerBip } = await import('./audio.js');
     expect(() => jouerBip(440, 60)).not.toThrow();
@@ -151,7 +163,10 @@ describe('audio', () => {
       resume: vi.fn().mockRejectedValue(new Error('reprise refusée')),
     });
 
-    vi.stubGlobal('AudioContext', vi.fn(() => ctx));
+    vi.stubGlobal(
+      'AudioContext',
+      vi.fn(() => ctx)
+    );
 
     const { jouerBip } = await import('./audio.js');
     jouerBip(440, 60);
@@ -170,7 +185,10 @@ describe('audio', () => {
       }),
     });
 
-    vi.stubGlobal('AudioContext', vi.fn(() => ctx));
+    vi.stubGlobal(
+      'AudioContext',
+      vi.fn(() => ctx)
+    );
 
     const { jouerBip } = await import('./audio.js');
     jouerBip(440, 60);
@@ -191,7 +209,10 @@ describe('audio', () => {
       })),
     });
 
-    vi.stubGlobal('AudioContext', vi.fn(() => ctx));
+    vi.stubGlobal(
+      'AudioContext',
+      vi.fn(() => ctx)
+    );
 
     const { jouerFanfareVictoire } = await import('./audio.js');
     jouerFanfareVictoire();
@@ -213,7 +234,10 @@ describe('audio', () => {
         stop: vi.fn(),
       })),
     });
-    vi.stubGlobal('AudioContext', vi.fn(() => ctx));
+    vi.stubGlobal(
+      'AudioContext',
+      vi.fn(() => ctx)
+    );
     vi.resetModules();
 
     const { jouerFanfareVictoire } = await import('./audio.js');
@@ -292,7 +316,10 @@ describe('audio', () => {
       resume: vi.fn().mockResolvedValue(undefined),
     };
 
-    vi.stubGlobal('AudioContext', vi.fn(() => ctx));
+    vi.stubGlobal(
+      'AudioContext',
+      vi.fn(() => ctx)
+    );
     vi.resetModules();
     vi.doMock('./musique-audio.js', () => ({
       assurerContexteActif: () => ctx,

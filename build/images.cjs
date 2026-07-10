@@ -17,7 +17,15 @@ const PNG_QUALITE_PAR_FICHIER = {
   'favicon.png': 78,
 };
 
-async function optimiserUneImage({ srcPath, dstPath, ext, qualiteJpeg, qualitePng, qualiteWebp, nomFichier }) {
+async function optimiserUneImage({
+  srcPath,
+  dstPath,
+  ext,
+  qualiteJpeg,
+  qualitePng,
+  qualiteWebp,
+  nomFichier,
+}) {
   const image = sharp(srcPath, { failOn: 'none' });
   const pipeline = image.rotate();
   const qualitePngEffective = PNG_QUALITE_PAR_FICHIER[nomFichier] ?? qualitePng;

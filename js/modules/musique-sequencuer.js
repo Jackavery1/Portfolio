@@ -78,7 +78,7 @@ function lireCellule(motif, mesure, pasMesure) {
 function dureePas() {
   const catalogue = THEMES || {};
   const theme = catalogue[themeCourant] || catalogue.HOME;
-  if (!theme) return (60 / BPM_DEFAUT) / 4;
+  if (!theme) return 60 / BPM_DEFAUT / 4;
   const battement = 60 / theme.bpm;
   return (battement / 4) * theme.facteurTempo;
 }

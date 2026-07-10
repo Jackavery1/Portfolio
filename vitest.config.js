@@ -15,7 +15,7 @@ export default defineConfig({
         'js/main.js',
         'build/**/*.cjs',
       ],
-        exclude: [
+      exclude: [
         '**/*.test.js',
         'js/config/defaults.js',
         'js/config/legal-data.js',

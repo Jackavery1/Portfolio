@@ -73,17 +73,17 @@ Le bloc `@media (max-width: 960px)` dans `styles/tokens.css` **assombrit/éclair
 
 Source unique des variables CSS. Ne pas dupliquer de hex dans les composants — réutiliser les tokens.
 
-| Catégorie | Tokens clés | Usage |
-| --------- | ----------- | ----- |
-| Surfaces | `--couleur-fond-page`, `--couleur-fond`, `--couleur-fond-carte`, `--couleur-fond-champ` | Fonds page, colonne `.ecran`, cartes, champs |
-| Accent | `--couleur-accent`, `--couleur-accent-vif`, `--couleur-accent-rgb` | CTA, liens, glow néon |
-| Texte | `--couleur-texte-fort`, `--couleur-texte-normal`, `--couleur-texte-discret`, `--couleur-texte-placeholder` | Hiérarchie typo ; ratios AA documentés dans le fichier |
-| États | `--couleur-valide`, `--couleur-actif`, `--couleur-erreur` | Succès, actif jaune arcade, erreurs formulaire |
-| Typo | `--police-pixel`, `--police-crt`, `--police-lisible`, `--taille-*` | Press Start 2P / VT323 / Rajdhani ; échelles `clamp` |
-| Espacement | `--espacement-xs` → `--espacement-2xl`, `--section-padding-*` | Grilles et sections |
-| Safe area | `--safe-area-inset-*` | Encoches ; surchargeables en E2E |
-| Breakpoints | `--bp-*` (sync `build/breakpoints.cjs`) | Documentation uniquement — **non utilisables dans `@media`** |
-| Ombres | `--ombre-texte-lisible`, `--ombre-glow-accent`, `--ombre-glow-actif`, `--ombre-glow-valide` | Halo sombre + glow néon (titres, nav, cartes) |
+| Catégorie   | Tokens clés                                                                                                | Usage                                                        |
+| ----------- | ---------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| Surfaces    | `--couleur-fond-page`, `--couleur-fond`, `--couleur-fond-carte`, `--couleur-fond-champ`                    | Fonds page, colonne `.ecran`, cartes, champs                 |
+| Accent      | `--couleur-accent`, `--couleur-accent-vif`, `--couleur-accent-rgb`                                         | CTA, liens, glow néon                                        |
+| Texte       | `--couleur-texte-fort`, `--couleur-texte-normal`, `--couleur-texte-discret`, `--couleur-texte-placeholder` | Hiérarchie typo ; ratios AA documentés dans le fichier       |
+| États       | `--couleur-valide`, `--couleur-actif`, `--couleur-erreur`                                                  | Succès, actif jaune arcade, erreurs formulaire               |
+| Typo        | `--police-pixel`, `--police-crt`, `--police-lisible`, `--taille-*`                                         | Press Start 2P / VT323 / Rajdhani ; échelles `clamp`         |
+| Espacement  | `--espacement-xs` → `--espacement-2xl`, `--section-padding-*`                                              | Grilles et sections                                          |
+| Safe area   | `--safe-area-inset-*`                                                                                      | Encoches ; surchargeables en E2E                             |
+| Breakpoints | `--bp-*` (sync `build/breakpoints.cjs`)                                                                    | Documentation uniquement — **non utilisables dans `@media`** |
+| Ombres      | `--ombre-texte-lisible`, `--ombre-glow-accent`, `--ombre-glow-actif`, `--ombre-glow-valide`                | Halo sombre + glow néon (titres, nav, cartes)                |
 
 **Shell arcade EN / contenu FR** : libellés visibles (nav HOME, WORK…) en anglais pour l’immersion ; contenu métier et annonces AT en français. Tooltips `title` sur chaque lien nav (Accueil, Projets…), note footer (`pied-page__shell-note`).
 
@@ -128,16 +128,16 @@ Ne jamais committer de secrets (clé secrète reCAPTCHA, tokens privés). Voir [
 
 ### Stratégie offline (precache vs cache runtime)
 
-| Ressource | Precache install | Cache au 1er visit | Hors ligne sans visite préalable |
-| --------- | ---------------- | ------------------ | -------------------------------- |
-| HTML toutes pages | ✅ | — | ✅ |
-| `style-base.css` + tous les `style-page-*.css` | ✅ | — | ✅ |
-| JS core (`main.js`, `navigation.js`, `partials.js`, `score-*`, `musique-loader.js`, `config/index.js`…) | ✅ | — | ✅ |
-| Polices locales (`assets/fonts/*.woff2`) | ✅ | — | ✅ |
-| Favicon, icônes 192, `offline.html` | ✅ | — | ✅ |
-| **JS lazy par route** (`projets-grille.js`, `modal.js`, `contact-form*.js`, `dojo-boss.js`, `musique.js`…) | ❌ | ✅ fetch SW | ❌ page vide ou partielle |
-| **Données lazy** (`projects-data.js`, `legal-data.js`, `musique-themes.json`) | ❌ | ✅ fetch SW | ❌ |
-| Previews projet, CV PDF, `icon-512.png` | ❌ | optionnel | ❌ |
+| Ressource                                                                                                  | Precache install | Cache au 1er visit | Hors ligne sans visite préalable |
+| ---------------------------------------------------------------------------------------------------------- | ---------------- | ------------------ | -------------------------------- |
+| HTML toutes pages                                                                                          | ✅               | —                  | ✅                               |
+| `style-base.css` + tous les `style-page-*.css`                                                             | ✅               | —                  | ✅                               |
+| JS core (`main.js`, `navigation.js`, `partials.js`, `score-*`, `musique-loader.js`, `config/index.js`…)    | ✅               | —                  | ✅                               |
+| Polices locales (`assets/fonts/*.woff2`)                                                                   | ✅               | —                  | ✅                               |
+| Favicon, icônes 192, `offline.html`                                                                        | ✅               | —                  | ✅                               |
+| **JS lazy par route** (`projets-grille.js`, `modal.js`, `contact-form*.js`, `dojo-boss.js`, `musique.js`…) | ❌               | ✅ fetch SW        | ❌ page vide ou partielle        |
+| **Données lazy** (`projects-data.js`, `legal-data.js`, `musique-themes.json`)                              | ❌               | ✅ fetch SW        | ❌                               |
+| Previews projet, CV PDF, `icon-512.png`                                                                    | ❌               | optionnel          | ❌                               |
 
 **Comportement attendu :**
 
@@ -174,7 +174,7 @@ Liste d’exclusion precache JS : `JS_PRECACH_EXCLUS` dans `build/sw.cjs` (musiq
 | Nav / footer vides                              | Serveur HTTP (`npm start`), pas `file://` ni Live Server                                                                                                                                                                                              |
 | Formulaire contact / reCAPTCHA                  | Voir [§ reCAPTCHA & formulaire contact](#recaptcha--formulaire-contact) ci-dessous                                                                                                                                                                    |
 | Favicon absente                                 | Hard refresh ; vérifier `assets/favicon.png` après build                                                                                                                                                                                              |
-| Page blanche hors ligne                         | Voir [§ PWA & hors ligne](#pwa--hors-ligne) : visiter chaque section une fois en ligne pour le cache runtime ; sinon HTML/CSS seuls |
+| Page blanche hors ligne                         | Voir [§ PWA & hors ligne](#pwa--hors-ligne) : visiter chaque section une fois en ligne pour le cache runtime ; sinon HTML/CSS seuls                                                                                                                   |
 | **Prod sans styles** (HTML brut, blob SVG noir) | GitHub Pages sert probablement la branche `main` au lieu du build. _Settings → Pages → Source_ = **GitHub Actions**. Vérifier que le job `deploy` de la CI a réussi après le push. Tester localement : `npm run build` puis `npx serve .dist-staging` |
 | **404** sur `jackavery1.github.io/Portfolio/`   | Le job `deploy` n’a pas tourné : `validate` a échoué (souvent `format:check`). _Actions → CI_ : corriger `validate`, repousser ; le deploy suit en ~1 min si `validate` est vert.                                                                     |
 
@@ -189,13 +189,13 @@ Liste d’exclusion precache JS : `JS_PRECACH_EXCLUS` dans `build/sw.cjs` (musiq
 
 #### 1. Identifier le message d’erreur
 
-| Message affiché | Cause probable |
-| --- | --- |
-| « reCAPTCHA non configuré… » | Clé absente dans la config build |
-| « Vérification anti-spam indisponible… » | Script Google bloqué ou domaine non autorisé |
-| « Envoi refusé (403) » | Mismatch clé site / clé secrète / version sur Formspree |
-| « Envoi refusé (400) » | Clé secrète incorrecte dans Formspree, ou restriction de domaine |
-| « Connexion bloquée… » | AdBlock, extension privacy, ou hors ligne |
+| Message affiché                          | Cause probable                                                   |
+| ---------------------------------------- | ---------------------------------------------------------------- |
+| « reCAPTCHA non configuré… »             | Clé absente dans la config build                                 |
+| « Vérification anti-spam indisponible… » | Script Google bloqué ou domaine non autorisé                     |
+| « Envoi refusé (403) »                   | Mismatch clé site / clé secrète / version sur Formspree          |
+| « Envoi refusé (400) »                   | Clé secrète incorrecte dans Formspree, ou restriction de domaine |
+| « Connexion bloquée… »                   | AdBlock, extension privacy, ou hors ligne                        |
 
 Ouvrir la console (F12 → Console) au moment de l’envoi pour le détail exact.
 
@@ -301,13 +301,13 @@ Cible **WCAG 2.1 AA** sur thème sombre arcade (dark-only, voir § Design).
 
 ### Contrastes (tokens `styles/tokens.css`)
 
-| Combinaison | Ratio | Niveau |
-| ----------- | ----- | ------ |
-| Texte fort `#d0ddff` / fond `#03040f` | ~15:1 | AAA |
-| Texte normal `#8899cc` / fond | ~7:1 | AA |
-| Texte discret `#8a9ee8` / fond | ~8:1 | AA |
-| Placeholder `#7a8fc4` / champ `#0a0e25` | ~4,5:1 | AA |
-| Accent `#4a6fff` / fond | ~5:1 | AA (UI) |
+| Combinaison                             | Ratio  | Niveau  |
+| --------------------------------------- | ------ | ------- |
+| Texte fort `#d0ddff` / fond `#03040f`   | ~15:1  | AAA     |
+| Texte normal `#8899cc` / fond           | ~7:1   | AA      |
+| Texte discret `#8a9ee8` / fond          | ~8:1   | AA      |
+| Placeholder `#7a8fc4` / champ `#0a0e25` | ~4,5:1 | AA      |
+| Accent `#4a6fff` / fond                 | ~5:1   | AA (UI) |
 
 Vérification automatisée : `build/contrast.test.js` (exécuté avec `npm test`).
 
@@ -320,17 +320,17 @@ Vérification automatisée : `build/contrast.test.js` (exécuté avec `npm test`
 
 ### Tests a11y
 
-| Type | Fichier / outil |
-| ---- | --------------- |
-| Violations WCAG | `e2e/a11y.spec.js` (axe-core, CI desktop-chrome) |
-| Clavier | `e2e/a11y.spec.js`, `e2e/desktop-navigation.spec.js` |
-| Focus utilitaires | `js/utils/focus.test.js` |
-| Modales (Tab, Escape) | `js/modules/modal.test.js` |
-| Zoom 200 % | `e2e/responsive-viewports.spec.js` |
-| Réduction mouvement | `e2e/responsive-motion.spec.js`, `styles/layout/responsive.css` (`prefers-reduced-motion`) |
-| Touch ≥ 44 px | `e2e/responsive-touch.spec.js` |
-| Safe-area / encoches | `e2e/responsive-safe-area.spec.js`, tokens `--safe-area-inset-*` |
-| Skeleton first-paint | `styles/components/partial-squelette.css`, `aria-busy` sur compétences/parcours |
+| Type                  | Fichier / outil                                                                            |
+| --------------------- | ------------------------------------------------------------------------------------------ |
+| Violations WCAG       | `e2e/a11y.spec.js` (axe-core, CI desktop-chrome)                                           |
+| Clavier               | `e2e/a11y.spec.js`, `e2e/desktop-navigation.spec.js`                                       |
+| Focus utilitaires     | `js/utils/focus.test.js`                                                                   |
+| Modales (Tab, Escape) | `js/modules/modal.test.js`                                                                 |
+| Zoom 200 %            | `e2e/responsive-viewports.spec.js`                                                         |
+| Réduction mouvement   | `e2e/responsive-motion.spec.js`, `styles/layout/responsive.css` (`prefers-reduced-motion`) |
+| Touch ≥ 44 px         | `e2e/responsive-touch.spec.js`                                                             |
+| Safe-area / encoches  | `e2e/responsive-safe-area.spec.js`, tokens `--safe-area-inset-*`                           |
+| Skeleton first-paint  | `styles/components/partial-squelette.css`, `aria-busy` sur compétences/parcours            |
 
 ### Avant merge (checklist)
 

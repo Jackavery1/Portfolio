@@ -116,8 +116,7 @@ describe('partials', () => {
     });
 
     it('marque le lien actif sans partial à charger', async () => {
-      document.body.innerHTML =
-        '<nav><a class="nav__bouton" href="projets.html">WORK</a></nav>';
+      document.body.innerHTML = '<nav><a class="nav__bouton" href="projets.html">WORK</a></nav>';
       vi.resetModules();
       vi.doMock('../config/index.js', () => ({
         CONFIGURATION: { PARTIELS: [] },
@@ -128,7 +127,9 @@ describe('partials', () => {
       await charger();
 
       expect(fetch).not.toHaveBeenCalled();
-      expect(document.querySelector('.nav__bouton.actif')?.getAttribute('href')).toBe('projets.html');
+      expect(document.querySelector('.nav__bouton.actif')?.getAttribute('href')).toBe(
+        'projets.html'
+      );
     });
 
     it('affiche un message générique pour un id de partial inconnu', async () => {

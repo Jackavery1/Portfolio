@@ -41,9 +41,9 @@ describe('messageErreurFormspree', () => {
   });
 
   it('ignore les entrées errors non textuelles', () => {
-    expect(
-      messageErreurFormspree({ errors: { meta: { code: 1 } } }, { status: 422 })
-    ).toBe('Envoi refusé (422)');
+    expect(messageErreurFormspree({ errors: { meta: { code: 1 } } }, { status: 422 })).toBe(
+      'Envoi refusé (422)'
+    );
   });
 });
 

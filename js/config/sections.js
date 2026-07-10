@@ -15,10 +15,7 @@ async function executerCharges(charges) {
 }
 
 export const INITIALISEURS_SECTION = Object.fromEntries(
-  SECTIONS_AVEC_INITIALISEUR.map((sid) => [
-    sid,
-    () => executerCharges(CHARGES_SECTION[sid] ?? []),
-  ]),
+  SECTIONS_AVEC_INITIALISEUR.map((sid) => [sid, () => executerCharges(CHARGES_SECTION[sid] ?? [])])
 );
 
 export async function initialiserSection(sid) {

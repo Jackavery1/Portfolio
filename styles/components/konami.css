@@ -2,7 +2,9 @@
 
 body.konami-actif .arcade-valeur {
   color: var(--couleur-actif);
-  text-shadow: var(--ombre-glow-actif), 0 0 20px var(--couleur-accent-vif);
+  text-shadow:
+    var(--ombre-glow-actif),
+    0 0 20px var(--couleur-accent-vif);
 }
 
 body.konami-actif .crt-scanlines {

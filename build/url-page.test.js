@@ -5,7 +5,7 @@ describe('url-page', () => {
   it('génère l’URL canonique prod', () => {
     expect(urlPageProd('index.html', 'https://exemple.dev')).toBe('https://exemple.dev/');
     expect(urlPageProd('projets.html', 'https://exemple.dev')).toBe(
-      'https://exemple.dev/projets.html',
+      'https://exemple.dev/projets.html'
     );
   });
 });

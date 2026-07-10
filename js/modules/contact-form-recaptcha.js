@@ -12,7 +12,12 @@ export function optionsRecaptchaContact() {
   };
 }
 
-export async function initialiserRecaptchaContact({ endpoint, recaptchaKey, mount, optionsRecaptcha }) {
+export async function initialiserRecaptchaContact({
+  endpoint,
+  recaptchaKey,
+  mount,
+  optionsRecaptcha,
+}) {
   if (endpoint && recaptchaKey) {
     try {
       await initialiserRecaptcha(optionsRecaptcha);

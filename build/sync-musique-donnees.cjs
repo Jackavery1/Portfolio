@@ -33,7 +33,10 @@ function resoudreMotif(motif, mesures, gammes) {
 function compilerThemes(donnees) {
   const gammes = { ...donnees.gamme, ...donnees.gammePhrygienne };
   const motifsResolus = Object.fromEntries(
-    Object.entries(donnees.motifs).map(([cle, motif]) => [cle, resoudreMotif(motif, donnees.mesures, gammes)])
+    Object.entries(donnees.motifs).map(([cle, motif]) => [
+      cle,
+      resoudreMotif(motif, donnees.mesures, gammes),
+    ])
   );
 
   const themes = {};

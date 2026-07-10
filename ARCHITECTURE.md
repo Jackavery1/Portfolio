@@ -38,13 +38,13 @@ Sections dynamiques : `projets`, `accueil`, `dojo`, `contact`, `mentions`. Musiq
 
 ### Stack musique
 
-| Module | Rôle |
-|--------|------|
-| `musique-loader.js` | Import dynamique, point d'entrée `main.js` |
-| `musique.js` | Bouton, préférences localStorage, jingles |
-| `musique-sequencuer.js` | Planification lookahead, grilles et résolution section → thème |
-| `musique-audio.js` | Oscillateurs, percussions Web Audio |
-| `musique-donnees.json` | Source éditable → `build/sync-musique-donnees.cjs` → `musique-themes.json` |
+| Module                  | Rôle                                                                       |
+| ----------------------- | -------------------------------------------------------------------------- |
+| `musique-loader.js`     | Import dynamique, point d'entrée `main.js`                                 |
+| `musique.js`            | Bouton, préférences localStorage, jingles                                  |
+| `musique-sequencuer.js` | Planification lookahead, grilles et résolution section → thème             |
+| `musique-audio.js`      | Oscillateurs, percussions Web Audio                                        |
+| `musique-donnees.json`  | Source éditable → `build/sync-musique-donnees.cjs` → `musique-themes.json` |
 
 ### 3. Modules découplés
 

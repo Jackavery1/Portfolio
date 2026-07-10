@@ -4,10 +4,7 @@ import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { INITIALISEURS_SECTION } from './sections.js';
 import { CHARGES_SECTION } from './sections-registry.js';
-import {
-  SECTIONS_AVEC_INITIALISEUR,
-  TOUTES_LES_SECTIONS,
-} from './sections-manifest.js';
+import { SECTIONS_AVEC_INITIALISEUR, TOUTES_LES_SECTIONS } from './sections-manifest.js';
 
 const rootDir = path.join(path.dirname(fileURLToPath(import.meta.url)), '../..');
 
@@ -24,14 +21,12 @@ const PAGES_HTML = [
 describe('sections-manifest', () => {
   it('aligne le manifeste avec les initialiseurs enregistrés', () => {
     expect(Object.keys(INITIALISEURS_SECTION).sort()).toEqual(
-      [...SECTIONS_AVEC_INITIALISEUR].sort(),
+      [...SECTIONS_AVEC_INITIALISEUR].sort()
     );
   });
 
   it('aligne le registre de charges avec le manifeste', () => {
-    expect(Object.keys(CHARGES_SECTION).sort()).toEqual(
-      [...SECTIONS_AVEC_INITIALISEUR].sort(),
-    );
+    expect(Object.keys(CHARGES_SECTION).sort()).toEqual([...SECTIONS_AVEC_INITIALISEUR].sort());
   });
 
   it('couvre tous les data-section-id des pages HTML', () => {

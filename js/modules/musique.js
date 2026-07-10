@@ -3,10 +3,7 @@
 import { CONFIGURATION } from '../config/index.js';
 import { parId } from '../utils/dom.js';
 import { fichierPageDepuisPathname } from '../utils/page.js';
-import {
-  appliquerEtatBoutonMusique,
-  sauvegarderPreferenceMusique,
-} from './musique-bouton.js';
+import { appliquerEtatBoutonMusique, sauvegarderPreferenceMusique } from './musique-bouton.js';
 import {
   jouerBlip,
   jouerKick,

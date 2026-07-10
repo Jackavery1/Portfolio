@@ -2,12 +2,7 @@
  * E2E toast SW — structure DOM/CSS accessible (pas de simulation worker `waiting` en prod).
  */
 import { test, expect } from '@playwright/test';
-import {
-  gotoReady,
-  assertHauteurTactile,
-  assertLargeurTactile,
-  simulerInsets,
-} from './helpers.js';
+import { gotoReady, assertHauteurTactile, assertLargeurTactile, simulerInsets } from './helpers.js';
 
 test('toast SW — structure UI accessible (fixture DOM, hors cycle SW)', async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 667 });

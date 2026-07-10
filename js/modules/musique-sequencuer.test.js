@@ -27,7 +27,9 @@ const themesRiches = {
     bpm: 128,
     facteurTempo: 1,
     basse: motifActif,
-    hat: Array.from({ length: 8 }, () => Array.from({ length: 16 }, (_, pas) => (pas === 0 ? 1 : 0))),
+    hat: Array.from({ length: 8 }, () =>
+      Array.from({ length: 16 }, (_, pas) => (pas === 0 ? 1 : 0))
+    ),
   },
 };
 

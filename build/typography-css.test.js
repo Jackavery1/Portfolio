@@ -83,9 +83,7 @@ describe('typography CSS', () => {
   it('libellés décoratifs — minimum ≥ 12px (0,75rem)', () => {
     const tokens = fs.readFileSync(path.join(rootDir, 'styles/tokens.css'), 'utf8');
     expect(tokens).toMatch(/--taille-pixel-decoratif-min:\s*0\.75rem/);
-    expect(tokens).toMatch(
-      /--taille-pixel-decoratif:\s*clamp\(var\(--taille-pixel-min\)[^)]+\)/
-    );
+    expect(tokens).toMatch(/--taille-pixel-decoratif:\s*clamp\(var\(--taille-pixel-min\)[^)]+\)/);
   });
 
   it('corps secondaires des cartes — lisible ou CRT, pas pixel', () => {

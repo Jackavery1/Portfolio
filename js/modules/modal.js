@@ -89,7 +89,15 @@ export function ouvrirModal(projetKey) {
   const modalTech = parId(CONFIGURATION.SELECTEURS.MODALE_TECH);
   const modalImg = parId(CONFIGURATION.SELECTEURS.MODALE_IMG);
   const btnFermer = parId(CONFIGURATION.SELECTEURS.MODALE_FERMER);
-  if (!projet || !modalOverlay || !modalTitre || !modalDesc || !modalTech || !modalImg || !btnFermer)
+  if (
+    !projet ||
+    !modalOverlay ||
+    !modalTitre ||
+    !modalDesc ||
+    !modalTech ||
+    !modalImg ||
+    !btnFermer
+  )
     return;
 
   elementFocusAvantModal = document.activeElement;

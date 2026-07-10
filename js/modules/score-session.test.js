@@ -59,14 +59,16 @@ describe('score-session', () => {
         BONUS_SCORE: { BOSS_DOJO: 100, BOSS_DOJO_VAINCU: 500 },
       },
     }));
-    return import('./score-session.js').then(({ accorderBonusDojoBoss, lireScore, sauvegarderScore }) => {
-      sauvegarderScore(0);
-      expect(accorderBonusDojoBoss('boss-1', false)).toBe(true);
-      expect(lireScore()).toBe(100);
-      expect(accorderBonusDojoBoss('boss-1', true)).toBe(false);
-      expect(accorderBonusDojoBoss('boss-2', true)).toBe(true);
-      expect(lireScore()).toBe(600);
-    });
+    return import('./score-session.js').then(
+      ({ accorderBonusDojoBoss, lireScore, sauvegarderScore }) => {
+        sauvegarderScore(0);
+        expect(accorderBonusDojoBoss('boss-1', false)).toBe(true);
+        expect(lireScore()).toBe(100);
+        expect(accorderBonusDojoBoss('boss-1', true)).toBe(false);
+        expect(accorderBonusDojoBoss('boss-2', true)).toBe(true);
+        expect(lireScore()).toBe(600);
+      }
+    );
   });
 
   it('refuse un bonus projet sans identifiant', () => {

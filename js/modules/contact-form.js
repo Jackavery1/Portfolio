@@ -12,10 +12,7 @@ import {
   PARAMETRES_BIP_ERREUR_VALIDATION,
 } from '../utils/contact-form-ui.js';
 import { jouerBip } from './audio.js';
-import {
-  optionsRecaptchaContact,
-  planifierRecaptchaAuFocus,
-} from './contact-form-recaptcha.js';
+import { optionsRecaptchaContact, planifierRecaptchaAuFocus } from './contact-form-recaptcha.js';
 import {
   champsFormulaireValides,
   construireErreursValidation,

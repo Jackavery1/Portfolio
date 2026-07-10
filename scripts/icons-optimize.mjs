@@ -25,7 +25,11 @@ async function optimiser(rel) {
 
   const avant = fs.statSync(abs).size;
   const buffer = await sharp(abs)
-    .png({ compressionLevel: 9, quality: rel.includes('512') ? 65 : 72, palette: rel.includes('512') })
+    .png({
+      compressionLevel: 9,
+      quality: rel.includes('512') ? 65 : 72,
+      palette: rel.includes('512'),
+    })
     .toBuffer();
 
   if (buffer.length < avant) {

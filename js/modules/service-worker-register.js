@@ -11,7 +11,7 @@ function signalerModeDevSansSw() {
   hintDevSansSwAffiche = true;
   if (estEnvironnementDevLocal()) {
     console.debug(
-      '[sw] Service worker inactif en dev (npm start). PWA / offline : npm run build && npm run start:prod',
+      '[sw] Service worker inactif en dev (npm start). PWA / offline : npm run build && npm run start:prod'
     );
   }
 }
