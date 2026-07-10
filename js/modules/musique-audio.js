@@ -33,9 +33,9 @@ export { reinitialiserEtatAudio };
 export function reprendreContexteSiSuspendu() {
   const { ctxAudio } = lireEtatAudio();
   if (ctxAudio?.state === 'suspended') {
-    ctxAudio
-      .resume()
-      .catch((err) => journaliserDebugAudio('[audio] reprise AudioContext refusée', err));
+    Promise.resolve(ctxAudio.resume()).catch((err) =>
+      journaliserDebugAudio('[audio] reprise AudioContext refusée', err)
+    );
   }
 }
 
