@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const { execFileSync } = require('child_process');
 const { ensureDir, log } = require('./fs-utils.cjs');
 
 const SOUS_ENSEMBLES = ['latin', 'latin-ext'];
@@ -62,6 +63,14 @@ function genererFontsLocalCss(root) {
 
   const cssPath = path.join(root, 'styles', 'fonts-local.css');
   fs.writeFileSync(cssPath, `${lignes.join('\n\n')}\n`);
+  execFileSync(
+    process.execPath,
+    [require.resolve('prettier/bin/prettier.cjs'), '--write', cssPath],
+    {
+      cwd: root,
+      stdio: 'pipe',
+    }
+  );
 }
 
 function syncFontsRoot(root) {
