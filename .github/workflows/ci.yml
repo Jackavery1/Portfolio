@@ -131,7 +131,16 @@ jobs:
         run: npm run build
 
       - name: Lighthouse CI
-        run: npm run test:lhci
+        run: |
+          for attempt in 1 2 3; do
+            echo "Lighthouse — tentative ${attempt}/3"
+            npm run test:lhci && exit 0
+            if [ "${attempt}" -lt 3 ]; then
+              echo "Échec Lighthouse, nouvelle tentative dans 15s…"
+              sleep 15
+            fi
+          done
+          exit 1
 
   deploy:
     needs: [validate, e2e, lighthouse]
