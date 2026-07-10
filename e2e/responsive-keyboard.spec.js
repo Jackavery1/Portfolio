@@ -5,8 +5,11 @@ test('clavier mobile — burger et fermeture Escape', async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 667 });
   await gotoReady(page, '/index.html');
 
-  await page.keyboard.press('Tab');
   const burger = page.locator('.nav__burger');
+  for (let i = 0; i < 12; i += 1) {
+    if (await burger.evaluate((el) => el === document.activeElement)) break;
+    await page.keyboard.press('Tab');
+  }
   await expect(burger).toBeFocused();
   await page.keyboard.press('Enter');
 

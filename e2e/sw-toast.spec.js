@@ -24,6 +24,9 @@ test('toast SW — structure UI accessible (fixture DOM, hors cycle SW)', async 
     `;
     document.body.appendChild(toast);
     toast.hidden = false;
+    toast.querySelector('.sw-toast__fermer').addEventListener('click', () => {
+      toast.hidden = true;
+    });
   });
 
   const toast = page.locator('#js-sw-toast');

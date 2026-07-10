@@ -6,11 +6,21 @@ import {
   preparerServiceWorker,
 } from './helpers.js';
 
-test('manifest PWA — présent et valide', async ({ page }) => {
-  const response = await page.goto('/manifest.webmanifest');
-  expect(response?.ok()).toBeTruthy();
+async function rechargerHorsLigne(page, path) {
+  try {
+    await page.reload({ waitUntil: 'domcontentloaded', timeout: 30_000 });
+  } catch {
+    await page.goto(path, { waitUntil: 'domcontentloaded', timeout: 30_000 });
+  }
+}
 
-  const manifest = await response.json();
+test('manifest PWA — présent et valide', async ({ page }) => {
+  await page.goto('/index.html');
+  const manifest = await page.evaluate(async () => {
+    const response = await fetch('/manifest.webmanifest');
+    if (!response.ok) throw new Error(`manifest HTTP ${response.status}`);
+    return response.json();
+  });
   expect(manifest.display).toBe('standalone');
   expect(manifest.start_url).toContain('index.html');
   expect(manifest.icons?.length).toBeGreaterThanOrEqual(3);
@@ -70,7 +80,7 @@ test.describe('service worker', () => {
     await gotoReady(page, '/projets.html');
     await context.setOffline(true);
     try {
-      await page.reload({ waitUntil: 'domcontentloaded', timeout: 30_000 });
+      await rechargerHorsLigne(page, '/projets.html');
       await expect(page.locator('h1')).toContainText(/SELECT YOUR STAGE/i, { timeout: 20_000 });
 
       const offlinePrecache = await page.evaluate(async () => {
@@ -89,7 +99,7 @@ test.describe('service worker', () => {
       });
       expect(offlinePrecache).toContain('Mode hors ligne');
 
-      await page.reload({ waitUntil: 'domcontentloaded', timeout: 30_000 });
+      await rechargerHorsLigne(page, '/projets.html');
       await expect(page.locator('h1')).toContainText(/SELECT YOUR STAGE/i, { timeout: 20_000 });
     } finally {
       await context.setOffline(false);
