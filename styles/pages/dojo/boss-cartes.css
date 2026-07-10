@@ -118,6 +118,7 @@
   letter-spacing: 1px;
   line-height: 1.45;
   margin: 0;
+  text-shadow: var(--ombre-texte-lisible);
 }
 
 .boss-carte__statut {
@@ -182,7 +183,7 @@
   font-family: var(--police-pixel);
   font-size: var(--taille-petit-pixel);
   color: var(--couleur-valide);
-  text-shadow: 0 0 6px var(--couleur-valide);
+  text-shadow: var(--ombre-glow-valide);
 }
 
 .boss-carte__barre-vie {

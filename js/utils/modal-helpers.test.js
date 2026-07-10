@@ -41,6 +41,23 @@ describe('modal-helpers', () => {
     expect(liens[0].href).toBe('https://projetlsf.onrender.com/');
   });
 
+  it('rejette les href mal formés', () => {
+    expect(estLienHttpAutorise('pas-une-url')).toBe(false);
+  });
+
+  it('conserve les libellés personnalisés', () => {
+    const liens = liensProjetValides({
+      lienDemo: 'https://demo.example.com/',
+      lienDemoLabel: '▶ Démo live',
+      lien: 'https://github.com/foo/bar',
+      lienLabel: '▶ Code source',
+    });
+    expect(liens).toEqual([
+      { href: 'https://demo.example.com/', label: '▶ Démo live' },
+      { href: 'https://github.com/foo/bar', label: '▶ Code source' },
+    ]);
+  });
+
   it('retourne démo et repo quand les deux sont valides', () => {
     const liens = liensProjetValides({
       lienDemo: 'https://demo.example.com/',

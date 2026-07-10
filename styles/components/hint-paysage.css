@@ -2,31 +2,39 @@
 
 .hint-paysage {
   display: none;
-  align-items: center;
+  align-items: flex-start;
   gap: var(--espacement-sm);
   margin: 0 0 var(--espacement-md);
   padding: var(--espacement-sm) var(--espacement-md);
-  font-family: var(--police-crt);
-  font-size: var(--taille-corps-crt);
-  color: var(--couleur-texte-normal);
-  background: var(--couleur-accent-alpha);
-  border: 1px solid var(--couleur-bordure-active);
+  font-family: var(--police-lisible);
+  font-size: var(--taille-corps-lisible);
+  line-height: 1.5;
+  color: var(--couleur-texte-fort);
+  background: var(--couleur-actif-dim);
+  border: 1px solid var(--couleur-actif-bordure);
+  border-left: 3px solid var(--couleur-actif);
+  box-shadow: var(--ombre-glow-actif);
 }
 
 .hint-paysage__icone {
   flex-shrink: 0;
-  font-size: 1.1rem;
+  font-size: 1.15rem;
+  line-height: 1.4;
   color: var(--couleur-actif);
+  text-shadow: var(--ombre-glow-actif);
 }
 
 @media (max-height: 480px) and (orientation: landscape) and (max-width: 960px) {
   .hint-paysage {
     display: flex;
+    position: sticky;
+    top: calc(32px + var(--safe-area-inset-top, env(safe-area-inset-top, 0)));
+    z-index: 5;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .hint-paysage {
-    transition: none;
+    box-shadow: none;
   }
 }

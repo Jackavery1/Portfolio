@@ -31,7 +31,7 @@ export function jouerBip(frequence = 440, duree = 60, type = 'square') {
   }
 }
 
-function jouerSequenceBeeps(frequences, options = {}) {
+export function jouerSequenceBeeps(frequences, options = {}) {
   const delai = options.delai ?? 130;
   const duree = options.duree ?? 120;
   const type = options.type ?? 'square';

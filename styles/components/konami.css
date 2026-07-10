@@ -2,9 +2,7 @@
 
 body.konami-actif .arcade-valeur {
   color: var(--couleur-actif);
-  text-shadow:
-    0 0 10px var(--couleur-actif),
-    0 0 20px var(--couleur-accent-vif);
+  text-shadow: var(--ombre-glow-actif), 0 0 20px var(--couleur-accent-vif);
 }
 
 body.konami-actif .crt-scanlines {
@@ -12,9 +10,7 @@ body.konami-actif .crt-scanlines {
 }
 
 body.konami-actif .nav__logo {
-  text-shadow:
-    0 0 8px var(--couleur-accent-vif),
-    0 0 16px var(--couleur-actif);
+  text-shadow: var(--ombre-glow-accent), var(--ombre-glow-actif);
 }
 
 @media (prefers-reduced-motion: no-preference) {

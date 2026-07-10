@@ -18,16 +18,14 @@
   display: block;
   font-size: clamp(1.1rem, 4.5vw, 2rem);
   color: var(--couleur-texte-fort);
-  text-shadow: 0 0 20px rgba(var(--couleur-accent-rgb), 0.5);
+  text-shadow: var(--ombre-texte-neon-accent);
 }
 
 .titre-arcade__nom {
   display: block;
   font-size: clamp(1.1rem, 4.5vw, 2rem);
   color: var(--couleur-accent-vif);
-  text-shadow:
-    0 0 20px var(--couleur-accent),
-    0 0 40px rgba(var(--couleur-accent-rgb), 0.3);
+  text-shadow: var(--ombre-texte-neon-accent);
 }
 
 .sous-titre-arcade {

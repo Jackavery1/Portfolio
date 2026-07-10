@@ -1,11 +1,20 @@
 /* Enregistrement service worker et notification de mise à jour */
 
-function estBuildProd() {
-  return Boolean(document.querySelector('meta[http-equiv="Content-Security-Policy"]'));
-}
+import { estBuildProd, estEnvironnementDevLocal } from '../utils/dev-mode.js';
 
 let toastAffiche = false;
 let rechargementPlanifie = false;
+let hintDevSansSwAffiche = false;
+
+function signalerModeDevSansSw() {
+  if (hintDevSansSwAffiche || estBuildProd()) return;
+  hintDevSansSwAffiche = true;
+  if (estEnvironnementDevLocal()) {
+    console.debug(
+      '[sw] Service worker inactif en dev (npm start). PWA / offline : npm run build && npm run start:prod',
+    );
+  }
+}
 
 function injecterToast() {
   if (document.getElementById('js-sw-toast')) return;
@@ -79,7 +88,10 @@ function brancherRechargementApresMiseAJour() {
 }
 
 export function enregistrerServiceWorker() {
-  if (!('serviceWorker' in navigator) || !estBuildProd()) return;
+  if (!('serviceWorker' in navigator) || !estBuildProd()) {
+    signalerModeDevSansSw();
+    return;
+  }
 
   brancherRechargementApresMiseAJour();
 
@@ -92,11 +104,7 @@ export function enregistrerServiceWorker() {
         registration.update().catch(() => {});
       })
       .catch((err) => {
-        const dev =
-          location.hostname === 'localhost' ||
-          location.hostname === '127.0.0.1' ||
-          new URLSearchParams(location.search).has('dev');
-        if (dev) {
+        if (estEnvironnementDevLocal()) {
           console.debug('[sw] enregistrement échoué', err);
         }
       });

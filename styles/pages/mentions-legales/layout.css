@@ -57,7 +57,7 @@
   color: var(--couleur-accent-vif);
   letter-spacing: 1px;
   margin-bottom: 0.65rem;
-  text-shadow: 0 0 8px rgba(var(--couleur-accent-rgb), 0.25);
+  text-shadow: var(--ombre-glow-accent);
 }
 
 .mentions-sous-bloc {

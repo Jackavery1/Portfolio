@@ -13,12 +13,17 @@ vi.mock('./audio.js', () => ({
   jouerBip: vi.fn(),
 }));
 
+vi.mock('../utils/focus.js', () => ({
+  piegerTabulationModale: vi.fn(),
+}));
+
 import {
   initialiserNavigationArcade,
   initialiserNavigationClavier,
   annoncerNavigationClavier,
 } from './navigation.js';
 import { jouerBip } from './audio.js';
+import { piegerTabulationModale } from '../utils/focus.js';
 
 describe('navigation', () => {
   beforeEach(() => {
@@ -189,5 +194,40 @@ describe('navigation', () => {
     });
     document.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
     expect(window.location.href).toBe('projets.html');
+  });
+
+  it('annoncerNavigationClavier tolère removeItem indisponible', () => {
+    sessionStorage.setItem('jm_nav_clavier_annonce', 'Projets');
+    vi.spyOn(window.sessionStorage, 'removeItem').mockImplementation(() => {
+      throw new Error('bloqué');
+    });
+    expect(() => annoncerNavigationClavier()).not.toThrow();
+  });
+
+  it('ne recule pas avant la première page', () => {
+    Object.defineProperty(window, 'location', {
+      value: { pathname: '/index.html', href: 'index.html' },
+      writable: true,
+    });
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowLeft', bubbles: true }));
+    expect(window.location.href).toBe('index.html');
+  });
+
+  it('ignore une seconde initialisation arcade', () => {
+    const burger = document.getElementById('js-burger');
+    expect(burger.dataset.navArcade).toBe('1');
+    expect(() => initialiserNavigationArcade()).not.toThrow();
+    expect(burger.dataset.navArcade).toBe('1');
+  });
+
+  it('ne plante pas sans burger ni menu', () => {
+    document.body.innerHTML = '';
+    expect(() => initialiserNavigationArcade()).not.toThrow();
+  });
+
+  it('piege la tabulation dans le menu ouvert', () => {
+    document.getElementById('js-burger').click();
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Tab', bubbles: true }));
+    expect(piegerTabulationModale).toHaveBeenCalled();
   });
 });

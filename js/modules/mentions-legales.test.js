@@ -52,4 +52,29 @@ describe('mentions-legales', () => {
     expect(email?.getAttribute('href')).toBe('mailto:test@example.com');
     expect(email?.hasAttribute('hidden')).toBe(false);
   });
+
+  it('ignore l’absence de conteneur sections', () => {
+    document.body.innerHTML = `
+      <p id="js-mentions-intro"></p>
+      <div id="js-mentions-sommaire"></div>
+    `;
+    expect(() => initialiserMentionsLegales()).not.toThrow();
+    expect(document.getElementById('js-mentions-intro')?.textContent).toBeTruthy();
+  });
+
+  it('ignore un email absent dans la config', async () => {
+    vi.resetModules();
+    vi.doMock('../config/index.js', () => ({
+      CONFIGURATION: {
+        PERSON_NAME: 'Test',
+        CONTACT: { EMAIL_B64: '' },
+        SELECTEURS: { MENTIONS_EMAIL_LINK: 'js-mentions-email' },
+      },
+    }));
+    const { initialiserMentionsLegales: initSansEmail } = await import('./mentions-legales.js');
+    document.body.innerHTML = `
+      <div id="js-mentions-sections"></div>
+    `;
+    expect(() => initSansEmail()).not.toThrow();
+  });
 });

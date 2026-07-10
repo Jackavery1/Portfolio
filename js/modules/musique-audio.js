@@ -1,12 +1,13 @@
-/* Moteur Web Audio partagé — contexte unique, chiptune et bips UI */
+/* Moteur Web Audio partagé — chiptune et bips UI */
 
-const VOLUME_MAITRE = 0.07;
+import {
+  initialiserContexteAudio,
+  lireEtatAudio,
+  reinitialiserEtatAudio,
+} from './audio-context-store.js';
+
 const ATTAQUE_S = 0.005;
 const RELEASE_S = 0.04;
-
-let ctxAudio = null;
-let gainMaitre = null;
-let bufferBruit = null;
 
 function journaliserDebugAudio(message, err) {
   if (
@@ -27,7 +28,10 @@ function creerBufferBruit(ctx) {
   return buffer;
 }
 
+export { reinitialiserEtatAudio };
+
 export function reprendreContexteSiSuspendu() {
+  const { ctxAudio } = lireEtatAudio();
   if (ctxAudio?.state === 'suspended') {
     ctxAudio.resume().catch((err) => journaliserDebugAudio('[audio] reprise AudioContext refusée', err));
   }
@@ -35,22 +39,15 @@ export function reprendreContexteSiSuspendu() {
 
 export function obtenirContexte() {
   try {
-    if (!ctxAudio) {
-      const Ctx = window.AudioContext || window.webkitAudioContext;
-      if (!Ctx) return null;
-      ctxAudio = new Ctx();
-      gainMaitre = ctxAudio.createGain();
-      gainMaitre.gain.value = VOLUME_MAITRE;
-      gainMaitre.connect(ctxAudio.destination);
-      bufferBruit = creerBufferBruit(ctxAudio);
-    }
-    return ctxAudio;
+    const { ctxAudio } = lireEtatAudio();
+    if (ctxAudio) return ctxAudio;
+    const Ctx = window.AudioContext || window.webkitAudioContext;
+    return initialiserContexteAudio(Ctx, creerBufferBruit);
   } catch {
     return null;
   }
 }
 
-/** Contexte prêt pour la lecture (reprise automatique si suspendu). */
 export function assurerContexteActif() {
   const ctx = obtenirContexte();
   if (ctx) reprendreContexteSiSuspendu();
@@ -59,14 +56,15 @@ export function assurerContexteActif() {
 
 export function obtenirGainMaitre() {
   obtenirContexte();
-  return gainMaitre;
+  return lireEtatAudio().gainMaitre;
 }
 
 export function obtenirEtatContexte() {
-  return ctxAudio?.state;
+  return lireEtatAudio().ctxAudio?.state;
 }
 
 export async function suspendreContexte() {
+  const { ctxAudio } = lireEtatAudio();
   if (ctxAudio?.state === 'running') {
     try {
       await ctxAudio.suspend();
@@ -84,8 +82,16 @@ function appliquerEnveloppe(gain, debut, duree, amplitude) {
   gain.gain.linearRampToValueAtTime(0.0001, debut + duree);
 }
 
+function lireCtx() {
+  return lireEtatAudio().ctxAudio;
+}
+
+function lireBufferBruit() {
+  return lireEtatAudio().bufferBruit;
+}
+
 export function jouerPulse(frequence, debut, duree, destination, options = {}) {
-  const ctx = ctxAudio;
+  const ctx = lireCtx();
   if (!ctx || !frequence) return;
 
   const osc = ctx.createOscillator();
@@ -112,7 +118,7 @@ export function jouerPulse(frequence, debut, duree, destination, options = {}) {
 }
 
 export function jouerTriangle(frequence, debut, duree, destination) {
-  const ctx = ctxAudio;
+  const ctx = lireCtx();
   if (!ctx || !frequence) return;
 
   const osc = ctx.createOscillator();
@@ -127,7 +133,8 @@ export function jouerTriangle(frequence, debut, duree, destination) {
 }
 
 export function jouerKick(debut, destination) {
-  const ctx = ctxAudio;
+  const ctx = lireCtx();
+  const bufferBruit = lireBufferBruit();
   if (!ctx || !bufferBruit) return;
 
   const source = ctx.createBufferSource();
@@ -147,7 +154,8 @@ export function jouerKick(debut, destination) {
 }
 
 export function jouerSnare(debut, destination) {
-  const ctx = ctxAudio;
+  const ctx = lireCtx();
+  const bufferBruit = lireBufferBruit();
   if (!ctx || !bufferBruit) return;
 
   const source = ctx.createBufferSource();
@@ -167,7 +175,8 @@ export function jouerSnare(debut, destination) {
 }
 
 export function jouerHat(debut, destination, amplitude = 0.04) {
-  const ctx = ctxAudio;
+  const ctx = lireCtx();
+  const bufferBruit = lireBufferBruit();
   if (!ctx || !bufferBruit) return;
 
   const source = ctx.createBufferSource();
@@ -190,7 +199,7 @@ export function jouerNappe(frequence, debut, duree, destination) {
 }
 
 export function jouerBlip(debut, destination, frequence = 880, duree = 0.035, amplitude = 0.06) {
-  const ctx = ctxAudio;
+  const ctx = lireCtx();
   if (!ctx) return;
 
   const osc = ctx.createOscillator();

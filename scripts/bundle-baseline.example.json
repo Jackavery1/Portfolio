@@ -1,0 +1,9 @@
+{
+  "date": "2026-01-01",
+  "note": "Exemple — copier vers bundle-baseline.json ou laisser npm run measure le régénérer (fichier gitignoré).",
+  "distKo": 0,
+  "cssKo": 0,
+  "jsKo": 0,
+  "appJsGzipKo": 0,
+  "iconsKo": 0
+}

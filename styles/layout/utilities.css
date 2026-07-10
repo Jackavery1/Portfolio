@@ -2,7 +2,7 @@
 
 .pixel-accent {
   color: var(--couleur-accent-vif);
-  text-shadow: 0 0 8px var(--couleur-accent);
+  text-shadow: var(--ombre-glow-accent);
 }
 
 .curseur-clignotant {
@@ -73,7 +73,7 @@
   font-family: var(--police-pixel);
   font-size: var(--taille-titre-pixel);
   color: var(--couleur-accent-vif);
-  text-shadow: 0 0 12px var(--couleur-accent);
+  text-shadow: var(--ombre-glow-accent-fort);
   letter-spacing: 2px;
   margin-bottom: 1.75rem;
   line-height: 1.8;

@@ -102,6 +102,15 @@
   --transition-ui: 0.2s ease;
   --ombre-accent-ui: 0 0 16px rgba(var(--couleur-accent-rgb), 0.25);
   --ombre-actif-ui: 0 0 16px rgba(255, 204, 68, 0.2);
+  /* Halo sombre sous glow néon — lisibilité AA sur titres hero / boss */
+  --ombre-texte-lisible: 0 1px 0 var(--couleur-fond-page), 0 2px 6px var(--couleur-fond);
+  --ombre-texte-neon-accent: var(--ombre-texte-lisible), 0 0 20px rgba(var(--couleur-accent-rgb), 0.45);
+  --ombre-texte-neon-actif: var(--ombre-texte-lisible), 0 0 24px rgba(255, 204, 68, 0.35);
+  --ombre-glow-accent: var(--ombre-texte-lisible), 0 0 8px rgba(var(--couleur-accent-rgb), 0.35);
+  --ombre-glow-accent-fort: var(--ombre-texte-lisible), 0 0 12px rgba(var(--couleur-accent-rgb), 0.4);
+  --ombre-glow-actif: var(--ombre-texte-lisible), 0 0 10px rgba(255, 204, 68, 0.35);
+  --ombre-glow-actif-fort: var(--ombre-texte-lisible), 0 0 20px rgba(255, 204, 68, 0.4);
+  --ombre-glow-valide: var(--ombre-texte-lisible), 0 0 8px rgba(68, 204, 136, 0.35);
 
   /* BREAKPOINTS_SYNC_START */
   /** Seuils principaux — généré depuis build/breakpoints.cjs (non utilisables dans @media). */
@@ -127,5 +136,21 @@
     --couleur-texte-fort: #e0eaff;
     --couleur-texte-normal: #aabce8;
     --couleur-texte-discret: #9aade8;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    /* Pixel un peu plus généreux sur très petits écrans (≥ 13px) */
+    --taille-pixel-min: 0.8125rem;
+    --taille-pixel-petit-max: 0.875rem;
+  }
+}
+
+@media (max-width: 320px) {
+  :root {
+    --taille-pixel-min: 0.875rem;
+    --taille-pixel-petit-max: 0.9375rem;
+    --taille-bouton-pixel: clamp(var(--taille-pixel-min), 3vw, var(--taille-pixel-petit-max));
   }
 }

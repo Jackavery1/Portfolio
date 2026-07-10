@@ -19,6 +19,8 @@ import { enregistrerServiceWorker } from './modules/service-worker-register.js';
 import { animerBarresSection } from './modules/animations.js';
 import { urlFaviconPng } from './config/favicon.js';
 import { SCORE_PLAFOND } from './utils/score-helpers.js';
+import { initialiserSection } from './config/sections.js';
+import { afficherBandeauDev } from './utils/dev-mode.js';
 
 // En dev on sert les HTML sources : le head de prod n'est pas injecté, on ajoute la favicon à la volée.
 function assurerFaviconLocale() {
@@ -46,6 +48,7 @@ async function initialiser() {
   const etaitDejaAuMax = lireScore() >= SCORE_PLAFOND;
 
   assurerFaviconLocale();
+  afficherBandeauDev();
   await chargerPartiels();
   annoncerNavigationClavier();
 
@@ -61,33 +64,7 @@ async function initialiser() {
   initialiserCodeKonami();
   initialiserMusique();
 
-  if (sid === 'projets') {
-    const { initialiserGrilleProjets } = await import('./modules/projets-grille.js');
-    const { initialiserClavierModale, initialiserClicsModale } = await import('./modules/modal.js');
-    initialiserGrilleProjets();
-    initialiserClavierModale();
-    initialiserClicsModale();
-  }
-
-  if (sid === 'accueil') {
-    const { initialiserAccueilSocial } = await import('./modules/accueil-social.js');
-    initialiserAccueilSocial();
-  }
-
-  if (sid === 'dojo') {
-    const { initialiserDojoBoss } = await import('./modules/dojo-boss.js');
-    initialiserDojoBoss();
-  }
-
-  if (sid === 'contact') {
-    const { initialiserPageContact } = await import('./modules/contact.js');
-    await initialiserPageContact();
-  }
-
-  if (sid === 'mentions') {
-    const { initialiserMentionsLegales } = await import('./modules/mentions-legales.js');
-    initialiserMentionsLegales();
-  }
+  await initialiserSection(sid);
 
   setTimeout(() => animerBarresSection(sid), 300);
 

@@ -124,7 +124,7 @@
   font-family: var(--police-pixel);
   font-size: var(--taille-pixel-min);
   color: var(--couleur-valide);
-  text-shadow: 0 0 8px var(--couleur-valide);
+  text-shadow: var(--ombre-glow-valide);
   letter-spacing: 2px;
   padding: 0.75rem;
   border: 1px solid var(--couleur-valide-dim);

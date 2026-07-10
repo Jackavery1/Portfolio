@@ -42,6 +42,24 @@ describe('sync-source', () => {
     expect(() => executerDepuisArgv(['node', 'build/sync-source.cjs'])).not.toThrow();
   });
 
+  it('executerSiEntreeDirecte ignore si ce n’est pas l’entrée CLI', () => {
+    const { executerSiEntreeDirecte } = require('./sync-source.cjs');
+    expect(() => executerSiEntreeDirecte({}, module.exports, [])).not.toThrow();
+  });
+
+  it('estEntreeDirecte compare require.main et module', () => {
+    const { estEntreeDirecte } = require('./sync-source.cjs');
+    const ref = {};
+    expect(estEntreeDirecte(ref, ref)).toBe(true);
+    expect(estEntreeDirecte({}, ref)).toBe(false);
+  });
+
+  it('executerSiEntreeDirecte lance syncSource si entree directe', () => {
+    const { executerSiEntreeDirecte } = require('./sync-source.cjs');
+    const ref = {};
+    expect(() => executerSiEntreeDirecte(ref, ref, ['node', 'sync-source.cjs'])).not.toThrow();
+  });
+
   it('point d’entrée CLI node build/sync-source.cjs', () => {
     expect(() =>
       execSync('node build/sync-source.cjs', { cwd: rootDir, stdio: 'pipe' })

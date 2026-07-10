@@ -4,28 +4,16 @@ const { ensureDir, log, walkJsFiles } = require('./fs-utils.cjs');
 const { HTML_FILES } = require('./html.cjs');
 const { BASE_STYLE_FILE, PAGE_STYLE_BY_HTML } = require('./page-styles.cjs');
 
-/** Modules chargés à la demande (routes lazy, musique, contact) — mis en cache au premier fetch. */
+/** Optionnels ou réseau-dépendants — routes lazy precachées pour navigation offline. */
 const JS_PRECACH_EXCLUS = new Set([
   'js/config/musique-themes.json',
   'js/modules/musique.js',
-  'js/config/legal-data.js',
-  'js/config/legal.js',
-  'js/config/projects-data.js',
-  'js/config/project-icons.js',
-  'js/config/projects.js',
-  'js/modules/mentions-legales.js',
-  'js/modules/contact.js',
-  'js/modules/contact-form.js',
+  'js/modules/musique-audio.js',
+  'js/modules/musique-sequencuer.js',
+  'js/modules/musique-bouton.js',
   'js/modules/contact-form-submit.js',
-  'js/modules/contact-coordonnees.js',
-  'js/modules/contact-bandeau.js',
   'js/modules/recaptcha.js',
   'js/modules/recaptcha-chargement.js',
-  'js/modules/dojo-boss.js',
-  'js/modules/accueil-social.js',
-  'js/modules/projets-grille.js',
-  'js/modules/modal.js',
-  'js/modules/popup-highscore.js',
 ]);
 
 function listerPolicesPrecache(distDir) {

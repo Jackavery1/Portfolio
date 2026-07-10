@@ -62,6 +62,8 @@ describe('musique-audio', () => {
     mockCtx = creerMockCtx();
     window.AudioContext = vi.fn(() => mockCtx);
     delete window.webkitAudioContext;
+    const store = await import('./audio-context-store.js');
+    store.reinitialiserEtatAudio();
     audioMod = await import('./musique-audio.js');
   });
 
@@ -149,5 +151,45 @@ describe('musique-audio', () => {
   it('expose l’état du contexte audio', () => {
     audioMod.obtenirContexte();
     expect(audioMod.obtenirEtatContexte()).toBe('running');
+  });
+
+  it('journalise si la reprise du contexte suspendu échoue', async () => {
+    vi.stubGlobal('location', { hostname: 'localhost' });
+    const debug = vi.spyOn(console, 'debug').mockImplementation(() => {});
+    audioMod.obtenirContexte();
+    mockCtx.state = 'suspended';
+    mockCtx.resume.mockRejectedValueOnce(new Error('policy'));
+    audioMod.reprendreContexteSiSuspendu();
+    await Promise.resolve();
+    expect(debug).toHaveBeenCalledWith('[audio] reprise AudioContext refusée', expect.any(Error));
+    debug.mockRestore();
+  });
+
+  it('assurerContexteActif retourne null sans AudioContext', async () => {
+    delete window.AudioContext;
+    delete window.webkitAudioContext;
+    vi.resetModules();
+    const mod = await import('./musique-audio.js');
+    expect(mod.assurerContexteActif()).toBeNull();
+  });
+
+  it('ignore les percussions sans contexte initialisé', async () => {
+    delete window.AudioContext;
+    delete window.webkitAudioContext;
+    vi.resetModules();
+    const mod = await import('./musique-audio.js');
+    expect(() => {
+      mod.jouerKick(0, {});
+      mod.jouerSnare(0, {});
+      mod.jouerHat(0, {});
+      mod.jouerPulse(440, 0, 0.1, {});
+    }).not.toThrow();
+  });
+
+  it('joue un blip sans vibrato optionnel', () => {
+    audioMod.obtenirContexte();
+    const destination = audioMod.obtenirGainMaitre();
+    audioMod.jouerBlip(0, destination, 660, 0.02, 0.08);
+    expect(mockCtx.createOscillator).toHaveBeenCalled();
   });
 });

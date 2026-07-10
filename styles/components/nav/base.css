@@ -20,7 +20,7 @@
   font-size: var(--taille-petit-pixel);
   color: var(--couleur-accent-vif);
   letter-spacing: 2px;
-  text-shadow: 0 0 10px var(--couleur-accent);
+  text-shadow: var(--ombre-glow-accent-fort);
   white-space: nowrap;
   flex-shrink: 0;
   min-height: 44px;
@@ -56,7 +56,7 @@
   font-family: var(--police-pixel);
   font-size: clamp(var(--taille-pixel-min), 1.5vw, 0.75rem);
   color: var(--couleur-actif);
-  text-shadow: 0 0 8px var(--couleur-actif);
+  text-shadow: var(--ombre-glow-actif);
   letter-spacing: 3px;
 }
 
@@ -91,13 +91,13 @@
 
 .nav__bouton:hover {
   color: var(--couleur-accent-vif);
-  text-shadow: 0 0 8px var(--couleur-accent);
+  text-shadow: var(--ombre-glow-accent);
 }
 
 .nav__bouton.actif {
   color: var(--couleur-accent-vif);
   border-bottom-color: var(--couleur-accent-vif);
-  text-shadow: 0 0 10px var(--couleur-accent);
+  text-shadow: var(--ombre-glow-accent-fort);
 }
 
 .nav__bouton:focus-visible {

@@ -46,7 +46,7 @@
 .contact-bandeau__action:hover,
 .contact-bandeau__action:focus-visible {
   color: var(--couleur-texte-fort);
-  text-shadow: 0 0 12px var(--couleur-accent);
+  text-shadow: var(--ombre-glow-accent-fort);
 }
 
 .contact-bandeau__cv-bloc {

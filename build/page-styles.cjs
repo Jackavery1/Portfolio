@@ -35,6 +35,7 @@ const BASE_STYLE_SOURCES = [
   'styles/components/footer.css',
   'styles/components/partial-squelette.css',
   'styles/components/sw-toast.css',
+  'styles/components/dev-banner.css',
 ];
 
 const ACCUEIL_STYLE_SOURCES = [

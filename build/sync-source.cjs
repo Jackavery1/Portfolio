@@ -38,8 +38,15 @@ function executerDepuisArgv(argv = process.argv) {
   syncSource({ pageMeta: argv.includes('--page-meta') });
 }
 
-module.exports = { syncSource, executerDepuisArgv };
-
-if (require.main === module) {
-  executerDepuisArgv();
+function estEntreeDirecte(requireMain, moduleRef) {
+  return requireMain === moduleRef;
 }
+
+function executerSiEntreeDirecte(requireMain, moduleRef, argv = process.argv) {
+  if (!estEntreeDirecte(requireMain, moduleRef)) return;
+  executerDepuisArgv(argv);
+}
+
+module.exports = { syncSource, executerDepuisArgv, estEntreeDirecte, executerSiEntreeDirecte };
+
+executerSiEntreeDirecte(require.main, module);

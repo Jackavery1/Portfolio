@@ -99,3 +99,23 @@
     text-overflow: ellipsis;
   }
 }
+
+@media (max-width: 320px) {
+  .nav__bouton {
+    font-family: var(--police-crt);
+    font-size: clamp(0.95rem, 3.5vw, 1.05rem);
+    letter-spacing: 0.5px;
+  }
+
+  .nav__logo {
+    font-family: var(--police-crt);
+    font-size: clamp(0.9rem, 3.2vw, 1rem);
+    letter-spacing: 0.5px;
+  }
+
+  .arcade-label,
+  .arcade-valeur {
+    font-family: var(--police-pixel);
+    font-size: var(--taille-pixel-min);
+  }
+}

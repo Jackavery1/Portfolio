@@ -268,4 +268,16 @@ describe('musique', () => {
     document.querySelector('.nav__bouton').dispatchEvent(new MouseEvent('mouseenter'));
     expect(mockCtx.createOscillator.mock.calls.length).toBeGreaterThan(appels);
   });
+
+  it('met à jour le bouton sans planter si absent du DOM', async () => {
+    document.getElementById('js-bouton-musique').remove();
+    await musique.activerMusique();
+    expect(sequencuer.estMusiqueActive()).toBe(true);
+  });
+
+  it('utilise la destination directe si le gain maître est absent', () => {
+    musique.initialiserMusique();
+    musique.jouerJingleSecret();
+    expect(mockCtx.createOscillator).toHaveBeenCalled();
+  });
 });

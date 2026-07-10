@@ -25,6 +25,10 @@ const mocks = vi.hoisted(() => ({
   animerBarresSection: vi.fn(),
 }));
 
+vi.mock('./utils/dev-mode.js', () => ({
+  afficherBandeauDev: vi.fn(),
+}));
+
 vi.mock('./modules/partials.js', () => ({
   chargerPartiels: mocks.chargerPartiels,
 }));
@@ -89,6 +93,7 @@ vi.mock('./modules/mentions-legales.js', () => ({
 }));
 
 import { initialiser } from './main.js';
+import { afficherBandeauDev } from './utils/dev-mode.js';
 
 describe('main', () => {
   beforeEach(() => {
@@ -109,6 +114,7 @@ describe('main', () => {
     vi.runAllTimers();
 
     expect(mocks.chargerPartiels).toHaveBeenCalled();
+    expect(afficherBandeauDev).toHaveBeenCalled();
     expect(mocks.annoncerNavigationClavier).toHaveBeenCalled();
     expect(mocks.initialiserNavigationArcade).toHaveBeenCalled();
     expect(mocks.initialiserNavigationClavier).toHaveBeenCalled();

@@ -32,6 +32,9 @@ test-results/
 .lighthouseci/
 coverage/
 
+# Mesure perf locale (régénéré par npm run measure)
+scripts/bundle-baseline.json
+
 # OS
 .DS_Store
 Thumbs.db

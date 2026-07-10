@@ -70,7 +70,7 @@
   font-family: var(--police-crt);
   font-size: var(--taille-corps-crt);
   color: var(--couleur-accent-vif);
-  text-shadow: 0 0 6px var(--couleur-accent);
+  text-shadow: var(--ombre-glow-accent);
   width: 2.8rem;
   text-align: right;
 }
@@ -133,7 +133,7 @@
   font-family: var(--police-pixel);
   font-size: var(--taille-pixel-min);
   color: var(--couleur-accent-vif);
-  text-shadow: 0 0 6px rgba(var(--couleur-accent-rgb), 0.45);
+  text-shadow: var(--ombre-glow-accent-fort);
   letter-spacing: 2px;
   flex-shrink: 0;
 }

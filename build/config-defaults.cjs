@@ -2,7 +2,7 @@
 module.exports = {
   siteOrigin: 'https://jackavery1.github.io/Portfolio',
   formspree: 'https://formspree.io/f/mlgzkqbz',
-  recaptcha: '6Lc3f_csAAAAABC3ubiYwYolwRlS4XEolAMLnlqw',
+  recaptcha: '6LfAFUwtAAAAAHKmdm_P0mUV7PpE1KQmDxsm5i3p',
   social: {
     github: 'https://github.com/Jackavery1',
     linkedin: '',

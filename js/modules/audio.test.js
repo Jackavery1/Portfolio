@@ -221,4 +221,86 @@ describe('audio', () => {
     await vi.runAllTimersAsync();
     expect(start.mock.calls.length).toBeGreaterThanOrEqual(4);
   });
+
+  it('jouerSequenceBeeps planifie avec delais explicites', async () => {
+    vi.useFakeTimers();
+    const start = vi.fn();
+    vi.stubGlobal(
+      'AudioContext',
+      vi.fn(() =>
+        creerMockCtxAudio({
+          createOscillator: vi.fn(() => ({
+            type: 'square',
+            frequency: { setValueAtTime: vi.fn() },
+            connect: vi.fn().mockReturnThis(),
+            start,
+            stop: vi.fn(),
+          })),
+        })
+      )
+    );
+
+    const { jouerSequenceBeeps } = await import('./audio.js');
+    jouerSequenceBeeps([440, 880], { delais: [0, 40], duree: 90, type: 'sine' });
+    await vi.runAllTimersAsync();
+    expect(start).toHaveBeenCalledTimes(2);
+  });
+
+  it('jouerSequenceBeeps utilise delai increment par defaut', async () => {
+    vi.useFakeTimers();
+    const start = vi.fn();
+    vi.stubGlobal(
+      'AudioContext',
+      vi.fn(() =>
+        creerMockCtxAudio({
+          createOscillator: vi.fn(() => ({
+            type: 'square',
+            frequency: { setValueAtTime: vi.fn() },
+            connect: vi.fn().mockReturnThis(),
+            start,
+            stop: vi.fn(),
+          })),
+        })
+      )
+    );
+
+    const { jouerSequenceBeeps } = await import('./audio.js');
+    jouerSequenceBeeps([440, 880, 660]);
+    await vi.advanceTimersByTimeAsync(300);
+    expect(start.mock.calls.length).toBeGreaterThanOrEqual(2);
+  });
+
+  it('jouerBip utilise ctx.destination si le gain maître est absent', async () => {
+    const destination = { id: 'dest' };
+    const connect = vi.fn().mockReturnThis();
+    const ctx = {
+      state: 'running',
+      currentTime: 0,
+      destination,
+      createOscillator: vi.fn(() => ({
+        type: 'square',
+        frequency: { setValueAtTime: vi.fn() },
+        connect,
+        start: vi.fn(),
+        stop: vi.fn(),
+      })),
+      createGain: vi.fn(() => ({
+        gain: { setValueAtTime: vi.fn(), exponentialRampToValueAtTime: vi.fn() },
+        connect,
+      })),
+      createBuffer: vi.fn(() => ({ getChannelData: () => new Float32Array(8) })),
+      resume: vi.fn().mockResolvedValue(undefined),
+    };
+
+    vi.stubGlobal('AudioContext', vi.fn(() => ctx));
+    vi.resetModules();
+    vi.doMock('./musique-audio.js', () => ({
+      assurerContexteActif: () => ctx,
+      obtenirGainMaitre: () => null,
+    }));
+
+    const { jouerBip } = await import('./audio.js');
+    jouerBip(440, 60);
+    expect(connect).toHaveBeenCalledWith(destination);
+  });
 });

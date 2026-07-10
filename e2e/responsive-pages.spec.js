@@ -160,4 +160,8 @@ test('footer — mention thème sombre volontaire', async ({ page }) => {
   await expect(note).toBeVisible();
   await expect(note).toContainText(/thème sombre/i);
   await expect(note).toHaveAttribute('title', /choix volontaire/i);
+
+  const shell = page.locator('.pied-page__shell-note');
+  await expect(shell).toBeVisible();
+  await expect(shell).toContainText(/contenu FR/i);
 });

@@ -74,6 +74,25 @@ function mesurer() {
   };
 
   console.log(JSON.stringify(rapport, null, 2));
+
+  const baselinePath = path.join(rootDir, 'scripts', 'bundle-baseline.json');
+  fs.writeFileSync(
+    baselinePath,
+    `${JSON.stringify(
+      {
+        date: rapport.date.slice(0, 10),
+        note: 'Généré par npm run measure — non versionné (.gitignore)',
+        distKo: rapport.distKo,
+        cssKo: rapport.cssKo,
+        jsKo: rapport.jsKo,
+        appJsGzipKo: rapport.appJsGzipKo,
+        iconsKo: rapport.iconsKo,
+      },
+      null,
+      2
+    )}\n`
+  );
+
   return rapport;
 }
 

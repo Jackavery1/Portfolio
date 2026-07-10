@@ -33,7 +33,7 @@
 .nav__musique[data-etat='off']:hover {
   color: var(--couleur-accent-vif);
   border-color: var(--couleur-accent-dim);
-  text-shadow: 0 0 8px var(--couleur-accent);
+  text-shadow: var(--ombre-glow-accent);
   box-shadow:
     inset 0 0 12px rgba(var(--couleur-accent-rgb), 0.12),
     0 0 10px rgba(var(--couleur-accent-rgb), 0.2);
@@ -52,13 +52,13 @@
 .nav__musique[data-etat='on'] {
   color: var(--couleur-actif);
   border-color: var(--couleur-actif-dim);
-  text-shadow: 0 0 10px var(--couleur-actif);
+  text-shadow: var(--ombre-glow-actif-fort);
 }
 
 .nav__musique[data-etat='pret'] {
   color: var(--couleur-accent-vif);
   border-color: var(--couleur-accent);
-  text-shadow: 0 0 6px var(--couleur-accent);
+  text-shadow: var(--ombre-glow-accent);
   animation: nav-musique-pret 1.4s ease-in-out infinite alternate;
 }
 

@@ -69,6 +69,34 @@ Thème **sombre arcade CRT** — choix intentionnel, pas de variante claire (lig
 
 Le bloc `@media (max-width: 960px)` dans `styles/tokens.css` **assombrit/éclaircit légèrement les surfaces** pour la lisibilité mobile, sans changer l’intention visuelle arcade. Les couleurs restent dark ; seul le contraste des surfaces (--couleur-fond, --couleur-separateur) s’ajuste.
 
+### Design tokens (`styles/tokens.css`)
+
+Source unique des variables CSS. Ne pas dupliquer de hex dans les composants — réutiliser les tokens.
+
+| Catégorie | Tokens clés | Usage |
+| --------- | ----------- | ----- |
+| Surfaces | `--couleur-fond-page`, `--couleur-fond`, `--couleur-fond-carte`, `--couleur-fond-champ` | Fonds page, colonne `.ecran`, cartes, champs |
+| Accent | `--couleur-accent`, `--couleur-accent-vif`, `--couleur-accent-rgb` | CTA, liens, glow néon |
+| Texte | `--couleur-texte-fort`, `--couleur-texte-normal`, `--couleur-texte-discret`, `--couleur-texte-placeholder` | Hiérarchie typo ; ratios AA documentés dans le fichier |
+| États | `--couleur-valide`, `--couleur-actif`, `--couleur-erreur` | Succès, actif jaune arcade, erreurs formulaire |
+| Typo | `--police-pixel`, `--police-crt`, `--police-lisible`, `--taille-*` | Press Start 2P / VT323 / Rajdhani ; échelles `clamp` |
+| Espacement | `--espacement-xs` → `--espacement-2xl`, `--section-padding-*` | Grilles et sections |
+| Safe area | `--safe-area-inset-*` | Encoches ; surchargeables en E2E |
+| Breakpoints | `--bp-*` (sync `build/breakpoints.cjs`) | Documentation uniquement — **non utilisables dans `@media`** |
+| Ombres | `--ombre-texte-lisible`, `--ombre-glow-accent`, `--ombre-glow-actif`, `--ombre-glow-valide` | Halo sombre + glow néon (titres, nav, cartes) |
+
+**Shell arcade EN / contenu FR** : libellés visibles (nav HOME, WORK…) en anglais pour l’immersion ; contenu métier et annonces AT en français. Tooltips `title` sur chaque lien nav (Accueil, Projets…), note footer (`pied-page__shell-note`).
+
+**Sections** : manifeste `js/config/sections-manifest.js` + charges `js/config/sections-registry.js` — toute nouvelle page lazy-load doit y figurer (test d’alignement HTML automatique).
+
+**Audits** : choix assumés exclus des points faibles → `AUDIT-EXCLUSIONS.md`.
+
+**Mode dev** : bandeau dismissible bas d’écran (`npm start`) — PWA/offline uniquement après `npm run build && npm run start:prod`.
+
+**Mobile compact (≤ 480px / 320px)** : `--taille-pixel-min` monte à 13–14px ; nav burger passe en `--police-crt` à ≤320px.
+
+Contraste automatisé : `build/contrast.test.js` (Vitest) sur les paires critiques.
+
 ## Configuration
 
 Copier `.env.example` → `.env.local` pour surcharger :
@@ -119,7 +147,7 @@ Ne jamais committer de secrets (clé secrète reCAPTCHA, tokens privés). Voir [
 
 **Recommandation utilisateur** : après installation PWA, ouvrir une fois chaque section principale (WORK, CONTACT, DOJO) en ligne pour peupler le cache runtime.
 
-Liste d’exclusion precache JS : `JS_PRECACH_EXCLUS` dans `build/sw.cjs` (volontaire — limite taille install, ~62 entrées precache).
+Liste d’exclusion precache JS : `JS_PRECACH_EXCLUS` dans `build/sw.cjs` (musique optionnelle, reCAPTCHA/Formspree réseau-dépendants ; routes lazy precachées pour navigation offline).
 
 ## Dépannage
 
@@ -255,10 +283,11 @@ Pages hors navigation clavier (`dojo.html`, `mentions-legales.html`) : accessibl
 
 - **Unitaires** : `npm test` (Vitest) — utils, config, modules, build
 - **Couverture** : `npm run test:coverage` (seuils Vitest : 85 % lignes / **84 %** branches globaux sur `js/` + build ciblé)
+- **Seuils build (I/O fichier)** : `vitest.config.js` — `html.cjs`, `sw.cjs`, `manifest.cjs`, `page-styles.cjs`, `sync-source.cjs` ont des seuils **volontairement bas** (branches ~20 %) : logique CLI, precache SW et pipeline HTML difficilement branchables sans mocks lourds ; la logique exportée est testée unitairement.
 - **HTML** : `npm run validate:html` (sources) et `npm run validate:html:dist` (après build)
 - **E2E** : `npm run test:e2e` — projets `responsive-mobile-portrait`, `responsive-mobile-landscape`, `responsive-tablet`, `responsive-webkit`, `responsive-firefox`, `desktop-chrome`. Specs responsive : `responsive-touch`, `responsive-safe-area`, `responsive-keyboard`, `responsive-motion`, `responsive-a11y`, `responsive-pages` ; PWA : `pwa.spec.js` + `sw-toast.spec.js` (sur les 6 viewports mobile/tablette/WebKit/Firefox/desktop PWA). WebKit local : `npm run test:e2e:webkit`. Fixtures : `e2e/fixtures/pages.js`, helpers : `e2e/helpers.js`.
 - **Lighthouse** : `npm run test:lhci` (profil mobile, seuils perf/a11y/SEO en CI)
-- **Mesure bundle** : `npm run build && npm run measure` — tailles `.dist-staging/` (JSON : `distKo`, `appJsGzipKo`, `iconsKo`, détail `jsAssets`). Référence locale : `scripts/bundle-baseline.json`. Icônes PNG : `npm run icons:optimize` après `prebuild` (idempotent).
+- **Mesure bundle** : `npm run build && npm run measure` — tailles `.dist-staging/` (JSON stdout : `distKo`, `appJsGzipKo`, `iconsKo`, `jsAssets[]`). Écrit aussi `scripts/bundle-baseline.json` (**gitignoré**, snapshot local). Modèle versionné : `scripts/bundle-baseline.example.json`. Icônes PNG : `npm run icons:optimize` en `prebuild` (idempotent).
 
 ### Avant release (PWA / prod)
 

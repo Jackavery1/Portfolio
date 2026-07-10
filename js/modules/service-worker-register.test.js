@@ -184,4 +184,136 @@ describe('service-worker-register', () => {
     toast.querySelector('.sw-toast__fermer').click();
     expect(toast.hidden).toBe(true);
   });
+
+  it('signale le mode dev sans service worker', async () => {
+    vi.stubGlobal('location', { hostname: 'localhost', search: '' });
+    const debug = vi.spyOn(console, 'debug').mockImplementation(() => {});
+
+    const { enregistrerServiceWorker } = await import('./service-worker-register.js');
+    enregistrerServiceWorker();
+    enregistrerServiceWorker();
+
+    expect(debug).toHaveBeenCalledTimes(1);
+    expect(debug.mock.calls[0][0]).toContain('[sw] Service worker inactif en dev');
+    debug.mockRestore();
+  });
+
+  it('affiche le toast après updatefound + statechange installed', async () => {
+    injecterCspProd();
+    const handlers = {};
+    const worker = {
+      state: 'installing',
+      addEventListener: (evt, fn) => {
+        handlers[evt] = fn;
+      },
+    };
+    const registration = {
+      waiting: null,
+      installing: worker,
+      update: vi.fn().mockResolvedValue(undefined),
+      addEventListener: vi.fn((evt, fn) => {
+        if (evt === 'updatefound') handlers.updatefound = fn;
+      }),
+    };
+    register.mockResolvedValueOnce(registration);
+    vi.stubGlobal('navigator', {
+      serviceWorker: {
+        register,
+        controller: {},
+        addEventListener: vi.fn(),
+      },
+    });
+
+    const { enregistrerServiceWorker } = await import('./service-worker-register.js');
+    enregistrerServiceWorker();
+    await Promise.resolve();
+
+    registration.waiting = { postMessage: vi.fn() };
+    handlers.updatefound?.();
+    worker.state = 'installed';
+    handlers.statechange?.();
+
+    const toast = document.getElementById('js-sw-toast');
+    expect(toast).not.toBeNull();
+    expect(toast.hidden).toBe(false);
+  });
+
+  it('recharge la page après controllerchange si mise à jour demandée', async () => {
+    injecterCspProd();
+    let onControllerChange;
+    const waiting = { postMessage: vi.fn() };
+    const registration = {
+      waiting,
+      update: vi.fn().mockResolvedValue(undefined),
+      addEventListener: vi.fn(),
+    };
+    register.mockResolvedValueOnce(registration);
+    vi.stubGlobal('navigator', {
+      serviceWorker: {
+        register,
+        controller: {},
+        addEventListener: (evt, fn) => {
+          if (evt === 'controllerchange') onControllerChange = fn;
+        },
+      },
+    });
+    const reload = vi.fn();
+    vi.stubGlobal('location', { hostname: 'localhost', search: '', reload });
+
+    const { enregistrerServiceWorker } = await import('./service-worker-register.js');
+    enregistrerServiceWorker();
+    await Promise.resolve();
+
+    document.getElementById('js-sw-toast').querySelector('.sw-toast__bouton').click();
+    onControllerChange();
+
+    expect(reload).toHaveBeenCalled();
+    expect(waiting.postMessage).toHaveBeenCalledWith({ type: 'SKIP_WAITING' });
+  });
+
+  it('n’injecte qu’un seul élément toast dans le DOM', async () => {
+    injecterCspProd();
+    const registration = {
+      waiting: { postMessage: vi.fn() },
+      update: vi.fn().mockResolvedValue(undefined),
+      addEventListener: vi.fn(),
+    };
+    register.mockResolvedValueOnce(registration);
+    vi.stubGlobal('navigator', {
+      serviceWorker: {
+        register,
+        controller: {},
+        addEventListener: vi.fn(),
+      },
+    });
+
+    const { enregistrerServiceWorker } = await import('./service-worker-register.js');
+    enregistrerServiceWorker();
+    await Promise.resolve();
+
+    expect(document.querySelectorAll('#js-sw-toast')).toHaveLength(1);
+  });
+
+  it('n’affiche pas le toast si waiting sans controller actif', async () => {
+    injecterCspProd();
+    const registration = {
+      waiting: { postMessage: vi.fn() },
+      update: vi.fn().mockResolvedValue(undefined),
+      addEventListener: vi.fn(),
+    };
+    register.mockResolvedValueOnce(registration);
+    vi.stubGlobal('navigator', {
+      serviceWorker: {
+        register,
+        controller: null,
+        addEventListener: vi.fn(),
+      },
+    });
+
+    const { enregistrerServiceWorker } = await import('./service-worker-register.js');
+    enregistrerServiceWorker();
+    await Promise.resolve();
+
+    expect(document.getElementById('js-sw-toast')).toBeNull();
+  });
 });

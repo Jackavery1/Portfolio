@@ -197,6 +197,40 @@ describe('musique-sequencuer', () => {
     sequencuer.arreterSequencuer();
   });
 
+  it('résout le thème depuis la section seule', async () => {
+    await sequencuer.assurerThemes();
+    expect(sequencuer.resoudreThemePage('competences', 'inconnu.html')).toBe('STATS');
+  });
+
+  it('planifie un arpège simple sans doubleArpege', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue({
+        json: () =>
+          Promise.resolve({
+            THEMES: {
+              SIMPLE: {
+                bpm: 128,
+                facteurTempo: 1,
+                arpege: motifActif,
+                doubleArpege: false,
+              },
+            },
+          }),
+      })
+    );
+    vi.resetModules();
+    audio = await import('./musique-audio.js');
+    sequencuer = await import('./musique-sequencuer.js');
+    await sequencuer.assurerThemes();
+    sequencuer.definirActif(true);
+    sequencuer.definirThemeCourant('SIMPLE');
+    audio.jouerPulse.mockClear();
+    sequencuer.demarrerSequencuer();
+    expect(audio.jouerPulse).toHaveBeenCalled();
+    sequencuer.arreterSequencuer();
+  });
+
   it('arreterSequencuer est sans effet si le minuteur est absent', () => {
     expect(() => sequencuer.arreterSequencuer()).not.toThrow();
   });

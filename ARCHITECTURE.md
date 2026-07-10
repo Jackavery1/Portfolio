@@ -28,12 +28,10 @@ js/main.js (orchestrateur)
 
 ### 2. Lazy-loading par section
 
+Registry centralisée dans `js/config/sections.js` ; `main.js` appelle `initialiserSection(sid)`.
+
 ```javascript
-// main.js
-if (sid === 'projets') {
-  const { initialiserGrilleProjets } = await import('./modules/projets-grille.js');
-  initialiserGrilleProjets();
-}
+// js/config/sections.js — INITIALISEURS_SECTION[sid] → import dynamique + initialiser*
 ```
 
 Sections dynamiques : `projets`, `accueil`, `dojo`, `contact`, `mentions`. Musique via `musique-loader.js` → `musique.js` (UI) → `musique-sequencuer.js` (scheduler) → `musique-audio.js` (Web Audio) ; grilles compilées dans `musique-themes.json` (fetch). Réduit le bundle initial (~50% minification).
@@ -179,9 +177,10 @@ if (visualViewport) adjustPaddingSafeArea()
 
 ### Bundle
 
-- **JS** : minifié au build (`build/js.cjs`, ~35–40 % de réduction)
+- **JS** : minifié au build (`build/js-minify.cjs`, ~35–40 % de réduction)
 - **CSS** : `style.css` monolithique en dev + `style-base.css` / `style-page-*.css` en prod
-- **Assets** : WebP (previews), SVG inline (icons), polices locales
+- **Assets** : WebP (previews), SVG inline (icons), polices locales latin + latin-ext
+- **Mesure** : `npm run build && npm run measure` → snapshot local `scripts/bundle-baseline.json` (gitignoré) ; modèle `scripts/bundle-baseline.example.json`
 
 ### Runtime
 

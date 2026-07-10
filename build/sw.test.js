@@ -30,8 +30,10 @@ describe('build service worker', () => {
     expect(urls).not.toContain('assets/cv-martinez-joris.pdf');
     expect(urls).not.toContain('js/config/musique-themes.json');
     expect(urls).not.toContain('js/modules/musique.js');
-    expect(urls).not.toContain('js/config/projects-data.js');
-    expect(urls).not.toContain('js/modules/projets-grille.js');
+    expect(urls).toContain('js/config/projects-data.js');
+    expect(urls).toContain('js/modules/projets-grille.js');
+    expect(urls).toContain('js/modules/contact.js');
+    expect(urls).toContain('js/modules/dojo-boss.js');
     expect(urls.some((url) => url.startsWith('js/modules/'))).toBe(true);
     expect(urls.some((url) => url.startsWith('assets/fonts/'))).toBe(
       fs.existsSync(path.join(rootDir, 'assets', 'fonts'))
