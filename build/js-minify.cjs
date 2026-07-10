@@ -2,7 +2,21 @@ const fs = require('fs');
 const path = require('path');
 const UglifyJS = require('uglify-js');
 const { applyBuildEnvToJs } = require('./env.cjs');
-const { ensureDir, walkJsFiles, log } = require('./fs-utils.cjs');
+const { ensureDir, copyFile, walkJsFiles, log } = require('./fs-utils.cjs');
+
+function copyJsonConfig(root, distDir) {
+  const configDir = path.join(root, 'js', 'config');
+  if (!fs.existsSync(configDir)) return;
+
+  const jsonFiles = fs.readdirSync(configDir).filter((name) => name.endsWith('.json'));
+  if (jsonFiles.length === 0) return;
+
+  const dstConfigDir = path.join(distDir, 'js', 'config');
+  jsonFiles.forEach((name) => {
+    copyFile(path.join(configDir, name), path.join(dstConfigDir, name));
+  });
+  log(`${jsonFiles.length} fichier(s) JSON config copié(s)`, 'success');
+}
 
 function minifyAllJs(root, distDir) {
   const jsRoot = path.join(root, 'js');
@@ -61,6 +75,7 @@ function minifyAllJs(root, distDir) {
     `${files.length} module(s) JS minifié(s): ${totalIn} → ${totalOut} octets (-${savings}%)`,
     'success'
   );
+  copyJsonConfig(root, distDir);
 }
 
-module.exports = { minifyAllJs };
+module.exports = { minifyAllJs, copyJsonConfig };

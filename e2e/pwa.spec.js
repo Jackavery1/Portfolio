@@ -6,11 +6,19 @@ import {
   preparerServiceWorker,
 } from './helpers.js';
 
-async function rechargerHorsLigne(page, path) {
+async function rechargerHorsLigne(page) {
+  const horsLigne = await page.evaluate(() => !navigator.onLine);
   try {
     await page.reload({ waitUntil: 'domcontentloaded', timeout: 30_000 });
   } catch {
-    await page.goto(path, { waitUntil: 'domcontentloaded', timeout: 30_000 });
+    if (horsLigne) {
+      await page.evaluate(() => {
+        window.location.reload();
+      });
+      await page.waitForLoadState('domcontentloaded', { timeout: 30_000 });
+    } else {
+      throw new Error('Rechargement hors ligne impossible');
+    }
   }
 }
 
@@ -80,7 +88,7 @@ test.describe('service worker', () => {
     await gotoReady(page, '/projets.html');
     await context.setOffline(true);
     try {
-      await rechargerHorsLigne(page, '/projets.html');
+      await rechargerHorsLigne(page);
       await expect(page.locator('h1')).toContainText(/SELECT YOUR STAGE/i, { timeout: 20_000 });
 
       const offlinePrecache = await page.evaluate(async () => {
@@ -99,7 +107,7 @@ test.describe('service worker', () => {
       });
       expect(offlinePrecache).toContain('Mode hors ligne');
 
-      await rechargerHorsLigne(page, '/projets.html');
+      await rechargerHorsLigne(page);
       await expect(page.locator('h1')).toContainText(/SELECT YOUR STAGE/i, { timeout: 20_000 });
     } finally {
       await context.setOffline(false);

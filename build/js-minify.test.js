@@ -86,5 +86,20 @@ describe('js-minify', () => {
     const distRoot = creerTmp('portfolio-jsmin-dist-');
     minifyAllJs(rootDir, distRoot);
     expect(fs.existsSync(path.join(distRoot, 'js', 'main.js'))).toBe(true);
+    expect(fs.existsSync(path.join(distRoot, 'js', 'config', 'musique-themes.json'))).toBe(true);
+  });
+
+  it('copie les JSON runtime de js/config/', () => {
+    const srcRoot = creerTmp('portfolio-jsmin-src-');
+    const distRoot = creerTmp('portfolio-jsmin-dist-');
+    fs.mkdirSync(path.join(srcRoot, 'js', 'config'), { recursive: true });
+    fs.writeFileSync(path.join(srcRoot, 'js', 'config', 'demo.json'), '{"ok":true}', 'utf8');
+    fs.writeFileSync(path.join(srcRoot, 'js', 'demo.js'), 'export const x = 1;', 'utf8');
+
+    minifyAllJs(srcRoot, distRoot);
+
+    expect(fs.readFileSync(path.join(distRoot, 'js', 'config', 'demo.json'), 'utf8')).toBe(
+      '{"ok":true}'
+    );
   });
 });

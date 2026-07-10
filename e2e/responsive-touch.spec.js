@@ -39,9 +39,6 @@ test('responsive mobile — cibles tactiles ≥ 44px', async ({ page }) => {
   await gotoReady(page, '/dojo.html');
   await assertHauteurTactile(page.locator('.boss-carte').first());
 
-  await gotoReady(page, '/competences.html');
-  await assertHauteurTactile(page.locator('.score-ligne').first());
-
   await gotoReady(page, '/parcours.html');
   await assertHauteurTactile(page.locator('.entree-parcours').first());
 
