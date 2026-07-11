@@ -80,7 +80,18 @@ module.exports = [
     },
   },
   {
-    files: ['build.js', 'build/**/*.cjs', 'lighthouserc.cjs'],
+    files: ['build.mjs', 'build/**/*.mjs'],
+    languageOptions: {
+      ecmaVersion: 2022,
+      sourceType: 'module',
+      globals: globals.node,
+    },
+    rules: {
+      'no-console': 'off',
+    },
+  },
+  {
+    files: ['build/**/*.cjs', 'lighthouserc.cjs'],
     languageOptions: {
       ecmaVersion: 2022,
       sourceType: 'commonjs',
@@ -95,6 +106,17 @@ module.exports = [
     languageOptions: {
       ecmaVersion: 2022,
       sourceType: 'module',
+      globals: globals.node,
+    },
+    rules: {
+      'no-console': 'off',
+    },
+  },
+  {
+    files: ['scripts/**/*.cjs'],
+    languageOptions: {
+      ecmaVersion: 2022,
+      sourceType: 'commonjs',
       globals: globals.node,
     },
     rules: {

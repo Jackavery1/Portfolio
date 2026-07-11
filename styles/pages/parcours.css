@@ -95,7 +95,7 @@
   max-width: 240px;
   height: auto;
   min-height: clamp(240px, 52vw, 360px);
-  filter: drop-shadow(0 0 8px rgba(var(--couleur-accent-rgb), 0.2));
+  filter: var(--filtre-drop-accent);
 }
 
 @media (max-width: 960px) {

@@ -32,13 +32,13 @@
 
 @keyframes boss-victoire {
   0% {
-    box-shadow: 0 0 0 0 rgba(68, 204, 136, 0);
+    box-shadow: 0 0 0 0 transparent;
   }
   30% {
-    box-shadow: 0 0 0 6px rgba(68, 204, 136, 0.5);
+    box-shadow: 0 0 0 6px var(--couleur-valide-alpha-pulse);
   }
   100% {
-    box-shadow: 0 0 0 0 rgba(68, 204, 136, 0);
+    box-shadow: 0 0 0 0 transparent;
   }
 }
 
@@ -48,5 +48,5 @@
 
 .boss-carte--focus-citation {
   border-color: var(--couleur-accent);
-  box-shadow: 0 0 10px rgba(var(--couleur-accent-rgb), 0.18);
+  box-shadow: var(--ombre-carte-focus);
 }

@@ -9,6 +9,39 @@ const require = createRequire(import.meta.url);
 const rootDir = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 
 describe('sync-source', () => {
+  const IDS_ATTENDUS = [
+    'defaults',
+    'style-css',
+    'partials',
+    'nav-squelette',
+    'parcours-arbre',
+    'dojo-boss',
+    'competences-stats',
+    'accueil-hero',
+    'breakpoints',
+    'legal',
+    'projects',
+    'musique-donnees',
+    'manifest-dev',
+  ];
+
+  it('documente l’ordre des phases de synchronisation', () => {
+    const { IDS_PHASES_SYNC, getSyncPhases } = require('./sync-source.cjs');
+    expect(IDS_PHASES_SYNC).toEqual(IDS_ATTENDUS);
+    expect(getSyncPhases().map((phase) => phase.id)).toEqual(IDS_ATTENDUS);
+  });
+
+  it('exécute les phases injectées dans l’ordre', () => {
+    const { syncSource } = require('./sync-source.cjs');
+    const ordre = [];
+    const phases = IDS_ATTENDUS.map((id) => ({
+      id,
+      executer: () => ordre.push(id),
+    }));
+    syncSource({ phases });
+    expect(ordre).toEqual(IDS_ATTENDUS);
+  });
+
   it('orchestre les synchronisations attendues', () => {
     const { syncSource } = require('./sync-source.cjs');
     syncSource();
@@ -22,7 +55,9 @@ describe('sync-source', () => {
     expect(fs.existsSync(path.join(rootDir, 'manifest.webmanifest'))).toBe(true);
     expect(fs.existsSync(path.join(rootDir, 'partials/accueil-hero.html'))).toBe(true);
     expect(fs.existsSync(path.join(rootDir, 'partials/competences-stats.html'))).toBe(true);
-    expect(fs.existsSync(path.join(rootDir, 'partials/dojo-boss-rush.html'))).toBe(true);
+    expect(fs.existsSync(path.join(rootDir, 'partials/dojo-boss-rush-lot-a.html'))).toBe(true);
+    expect(fs.existsSync(path.join(rootDir, 'partials/dojo-boss-rush-lot-b.html'))).toBe(true);
+    expect(fs.existsSync(path.join(rootDir, 'partials/dojo-boss-rush-lot-c.html'))).toBe(true);
   });
 
   it('synchronise les métadonnées page si pageMeta est activé', () => {

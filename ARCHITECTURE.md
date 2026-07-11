@@ -77,6 +77,28 @@ Approche **test-per-module** : Vitest + Playwright e2e (voir `npm test` / `npm r
 | `build/`      | Pipeline : sync, minify, optimize | `build/sync-source.cjs`, `build/html.cjs`, `build/sw.cjs`          |
 | `e2e/`        | Tests end-to-end Playwright       | `responsive-*.spec.js`, `fixtures/`                                |
 
+### Dualité ESM (runtime) / CJS (build)
+
+| Couche            | Format                                 | Rôle                                                                        |
+| ----------------- | -------------------------------------- | --------------------------------------------------------------------------- |
+| `js/`             | **ESM** (`import` / `export`)          | Modules chargés par le navigateur (`type="module"`)                         |
+| `build/`          | **CJS** (`require` / `module.exports`) | Scripts Node I/O (sync, minify, SW) — 38 modules                            |
+| `build.mjs`       | **ESM** (entrée build)                 | Orchestration via `build/cjs-bridge.mjs` → `loadBuild()`                    |
+| `build/*.test.js` | ESM                                    | `loadBuild()` ou `build/test-require.mjs` (remplace `createRequire` répété) |
+
+**Pont** : `build/cjs-bridge.mjs` expose `loadBuild('env.cjs')` — point d’entrée ESM unique sans migrer tout le pipeline CJS (CLI `require.main`, I/O synchrone).
+
+### Pipeline `sync-source`
+
+Orchestrateur : `build/sync-source.cjs` — phases ordonnées exportées via `getSyncPhases()` / `IDS_PHASES_SYNC` :
+
+1. `defaults` → `style-css` → `partials` → `nav-squelette`
+2. Partials HTML : `parcours-arbre`, `dojo-boss` (3 lots), `competences-stats`, `accueil-hero`
+3. `breakpoints` → `legal` → `projects` → `musique-donnees` → `manifest-dev`
+4. Optionnel (`--page-meta`) : `sync-page-meta.cjs`
+
+L’ordre est couplé (ex. `legal` avant `manifest-dev`, partials avant injection nav). Ne pas réordonner sans vérifier les dépendances.
+
 ## Décisions architecturales clés
 
 ### ✅ Pourquoi pas de framework front ?

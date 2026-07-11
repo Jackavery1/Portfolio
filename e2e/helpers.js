@@ -98,6 +98,26 @@ export async function preparerServiceWorker(page) {
   await attendrePrecachePwa(page);
 }
 
+export async function preparerRegistrationSwAvecWorkerEnAttente(page) {
+  await page.addInitScript(() => {
+    const waiting = {
+      postMessage: (msg) => {
+        window.__e2eSkipWaiting = msg;
+      },
+    };
+    const registration = {
+      waiting,
+      update: () => Promise.resolve(),
+      addEventListener: () => {},
+    };
+    navigator.serviceWorker.register = () => Promise.resolve(registration);
+    Object.defineProperty(navigator.serviceWorker, 'controller', {
+      get: () => ({}),
+      configurable: true,
+    });
+  });
+}
+
 export async function mockRecaptcha(page) {
   await page.addInitScript(() => {
     window.__E2E_RECAPTCHA_TOKEN = 'e2e-mock-recaptcha-token';

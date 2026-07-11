@@ -16,21 +16,33 @@ const { syncMusiqueDonnees } = require('./sync-musique-donnees.cjs');
 
 const ROOT = path.join(__dirname, '..');
 
-function syncSource({ pageMeta = false } = {}) {
-  syncDefaults();
-  syncStyleCss();
-  syncPartials();
-  syncNavSquelette(ROOT);
-  syncParcoursArbre();
-  syncDojoBoss();
-  syncCompetencesStats();
-  syncAccueilHero();
-  syncBreakpoints();
-  syncLegal();
-  syncProjects();
-  syncMusiqueDonnees(ROOT);
-  syncManifestDev(ROOT);
-  if (pageMeta) syncPageMeta(ROOT);
+/** Phases ordonnées — l’ordre compte (partials avant nav, legal avant manifest, etc.). */
+function getSyncPhases(root = ROOT) {
+  return [
+    { id: 'defaults', executer: () => syncDefaults() },
+    { id: 'style-css', executer: () => syncStyleCss() },
+    { id: 'partials', executer: () => syncPartials() },
+    { id: 'nav-squelette', executer: () => syncNavSquelette(root) },
+    { id: 'parcours-arbre', executer: () => syncParcoursArbre() },
+    { id: 'dojo-boss', executer: () => syncDojoBoss() },
+    { id: 'competences-stats', executer: () => syncCompetencesStats() },
+    { id: 'accueil-hero', executer: () => syncAccueilHero() },
+    { id: 'breakpoints', executer: () => syncBreakpoints() },
+    { id: 'legal', executer: () => syncLegal() },
+    { id: 'projects', executer: () => syncProjects() },
+    { id: 'musique-donnees', executer: () => syncMusiqueDonnees(root) },
+    { id: 'manifest-dev', executer: () => syncManifestDev(root) },
+  ];
+}
+
+const IDS_PHASES_SYNC = getSyncPhases().map((phase) => phase.id);
+
+function syncSource({ pageMeta = false, root = ROOT, phases } = {}) {
+  const liste = phases ?? getSyncPhases(root);
+  for (const phase of liste) {
+    phase.executer();
+  }
+  if (pageMeta) syncPageMeta(root);
 }
 
 /** Point d’entrée CLI testable (`node build/sync-source.cjs [--page-meta]`). */
@@ -47,6 +59,13 @@ function executerSiEntreeDirecte(requireMain, moduleRef, argv = process.argv) {
   executerDepuisArgv(argv);
 }
 
-module.exports = { syncSource, executerDepuisArgv, estEntreeDirecte, executerSiEntreeDirecte };
+module.exports = {
+  syncSource,
+  getSyncPhases,
+  IDS_PHASES_SYNC,
+  executerDepuisArgv,
+  estEntreeDirecte,
+  executerSiEntreeDirecte,
+};
 
 executerSiEntreeDirecte(require.main, module);

@@ -29,7 +29,7 @@
   background: radial-gradient(
     ellipse 80% 60% at 50% 50%,
     transparent 40%,
-    rgba(0, 0, 30, 0.55) 100%
+    var(--couleur-crt-vignette) 100%
   );
   pointer-events: none;
   z-index: 999;
@@ -42,9 +42,7 @@
   bottom: 0;
   left: 0;
   border-radius: 20px;
-  box-shadow:
-    inset 0 0 80px 30px rgba(0, 0, 30, 0.75),
-    inset 0 0 20px 5px rgba(0, 0, 20, 0.4);
+  box-shadow: var(--ombre-crt-coins);
   pointer-events: none;
   z-index: 998;
 }

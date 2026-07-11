@@ -70,3 +70,88 @@
     transition: none;
   }
 }
+
+@media (prefers-contrast: more) {
+  .champ-input::placeholder {
+    color: var(--couleur-texte-normal);
+  }
+
+  .champ-input,
+  .champ-textarea,
+  .champ-select {
+    border-color: var(--couleur-bordure-active);
+  }
+
+  .nav__bouton {
+    color: var(--couleur-texte-normal);
+  }
+
+  .nav__bouton.actif {
+    color: var(--couleur-texte-fort);
+    border-bottom-color: var(--couleur-texte-fort);
+  }
+
+  .modal-overlay {
+    background-color: var(--couleur-overlay-modal-fort);
+  }
+
+  .modal-fermer,
+  .modal-lien a {
+    color: var(--couleur-texte-fort);
+  }
+
+  .nav__burger {
+    border-color: var(--couleur-bordure-active);
+  }
+
+  .nav__burger-trait {
+    background-color: var(--couleur-texte-fort);
+  }
+
+  .nav__musique {
+    border-color: var(--couleur-bordure-active);
+    color: var(--couleur-texte-normal);
+  }
+
+  .nav__musique[data-etat='on'] {
+    color: var(--couleur-actif);
+    border-color: var(--couleur-actif-bordure);
+  }
+
+  .nav__musique[data-etat='pret'] {
+    color: var(--couleur-accent-vif);
+    border-color: var(--couleur-accent);
+  }
+
+  .boss-carte {
+    border-color: var(--couleur-bordure-active);
+  }
+
+  .boss-carte--en-cours {
+    border-left-color: var(--couleur-actif);
+  }
+
+  .boss-carte--vaincu {
+    border-left-color: var(--couleur-valide);
+  }
+
+  .pied-page__lien,
+  a.pied-page__certif-texte {
+    color: var(--couleur-texte-fort);
+  }
+
+  .pied-page__theme-note,
+  .pied-page__shell-note {
+    color: var(--couleur-texte-normal);
+    opacity: 1;
+  }
+
+  .carte-contact__lien {
+    color: var(--couleur-texte-fort);
+  }
+
+  .projets-sommaire__liste a {
+    border-color: var(--couleur-bordure-active);
+    color: var(--couleur-texte-fort);
+  }
+}

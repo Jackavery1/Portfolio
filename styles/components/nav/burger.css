@@ -23,6 +23,11 @@
   border-color: var(--couleur-accent);
 }
 
+.nav__burger:active {
+  border-color: var(--couleur-accent-vif);
+  transform: scale(0.97);
+}
+
 .nav__burger:focus-visible {
   outline: 2px solid var(--couleur-accent-vif);
   outline-offset: 2px;

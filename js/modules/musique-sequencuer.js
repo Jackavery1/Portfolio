@@ -28,6 +28,19 @@ let pasCourant = 0;
 let prochainTempsAudio = 0;
 let themeCourant = 'HOME';
 
+export function reinitialiserEtatSequencuer() {
+  THEMES = null;
+  themeParSection = null;
+  themeParFichier = null;
+  promesseThemes = null;
+  actif = false;
+  if (minuteurPlanificateur) clearTimeout(minuteurPlanificateur);
+  minuteurPlanificateur = null;
+  pasCourant = 0;
+  prochainTempsAudio = 0;
+  themeCourant = 'HOME';
+}
+
 export function estMusiqueActive() {
   return actif;
 }

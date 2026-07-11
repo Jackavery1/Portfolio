@@ -1,33 +1,36 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { describe, expect, it } from 'vitest';
-import { createRequire } from 'node:module';
+import { describe, expect, it, vi } from 'vitest';
+import { loadBuild } from './cjs-bridge.mjs';
 
-const require = createRequire(import.meta.url);
 const rootDir = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
-const { ensureSyncSource } = require('./ensure-sync.cjs');
-
-const FICHIER_GENERE = path.join(rootDir, 'partials', 'dojo-boss-rush.html');
 
 describe('ensure-sync', () => {
+  const { ensureSyncSource } = loadBuild('ensure-sync.cjs');
+
   it('ne lève pas d’erreur quand les fichiers générés existent', () => {
+    loadBuild('sync-source.cjs').syncSource();
     expect(() => ensureSyncSource()).not.toThrow();
-    expect(fs.existsSync(FICHIER_GENERE)).toBe(true);
+    expect(fs.existsSync(path.join(rootDir, 'partials', 'dojo-boss-rush-lot-a.html'))).toBe(true);
   });
 
-  it('régénère les fichiers manquants via syncSource', () => {
-    const contenu = fs.readFileSync(FICHIER_GENERE, 'utf8');
-    fs.rmSync(FICHIER_GENERE);
+  it('régénère via syncSource si un artefact généré manque', () => {
+    const syncModule = loadBuild('sync-source.cjs');
+    const existsReel = fs.existsSync.bind(fs);
+    const existsSpy = vi.spyOn(fs, 'existsSync').mockImplementation((fichier) => {
+      if (String(fichier).includes('dojo-boss-rush-lot-a.html')) return false;
+      return existsReel(fichier);
+    });
+    const syncSpy = vi.spyOn(syncModule, 'syncSource').mockImplementation(() => {});
 
     try {
       ensureSyncSource();
-      expect(fs.existsSync(FICHIER_GENERE)).toBe(true);
-      expect(fs.readFileSync(FICHIER_GENERE, 'utf8')).toBe(contenu);
+      expect(syncSpy).toHaveBeenCalled();
     } finally {
-      if (!fs.existsSync(FICHIER_GENERE)) {
-        fs.writeFileSync(FICHIER_GENERE, contenu, 'utf8');
-      }
+      existsSpy.mockRestore();
+      syncSpy.mockRestore();
+      syncModule.syncSource();
     }
   });
 });

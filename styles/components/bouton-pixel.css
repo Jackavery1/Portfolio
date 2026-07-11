@@ -63,7 +63,22 @@
 }
 
 .bouton-dojo:hover:not(:disabled) {
-  background-color: rgba(255, 204, 68, 0.08);
+  background-color: var(--couleur-actif-alpha);
+  box-shadow: var(--ombre-actif-ui);
+}
+
+.bouton-arcade:active:not(:disabled),
+.bouton-envoyer:active:not(:disabled) {
+  transform: scale(0.97);
+  box-shadow: var(--ombre-accent-ui);
+}
+
+.bouton-retour-work:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.bouton-dojo:active:not(:disabled) {
+  transform: scale(0.97);
   box-shadow: var(--ombre-actif-ui);
 }
 
@@ -132,9 +147,5 @@
   .bouton-envoyer:disabled {
     color: var(--couleur-texte-fort);
     border-color: var(--couleur-bordure-active);
-  }
-
-  .champ-input::placeholder {
-    color: var(--couleur-texte-normal);
   }
 }

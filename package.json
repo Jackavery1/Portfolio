@@ -7,10 +7,10 @@
     "node": ">=20.19.0"
   },
   "scripts": {
-    "build": "node build.js",
+    "build": "node build.mjs",
     "measure": "node scripts/measure-bundle.mjs",
     "icons:optimize": "node scripts/icons-optimize.mjs",
-    "watch": "node build.js --watch",
+    "watch": "node build.mjs --watch",
     "prestart": "node build/sync-source.cjs",
     "start": "serve .",
     "start:prod": "serve .dist-staging",
@@ -24,11 +24,14 @@
     "sync:page-meta": "node build/sync-page-meta.cjs",
     "check:page-meta": "node build/sync-page-meta.cjs --check",
     "test": "vitest run",
-    "test:coverage": "vitest run --coverage",
+    "test:coverage": "node build/sync-source.cjs && node build/sync-page-meta.cjs --check && vitest run --coverage",
     "test:e2e": "playwright test",
     "test:e2e:install": "playwright install --with-deps chromium",
     "test:e2e:webkit": "playwright install --with-deps webkit && playwright test --project=responsive-webkit",
     "test:lhci": "lhci autorun --config=./lighthouserc.cjs",
+    "precommit": "npm run lint && npm run format:check && npm test",
+    "hooks:install": "node scripts/install-git-hooks.cjs",
+    "validate": "npm run lint && npm run format:check && npm test && npm run validate:html",
     "validate:html": "html-validate *.html offline.html partials/*.html partials/contact/*.html",
     "validate:html:dist": "html-validate .dist-staging/*.html .dist-staging/offline.html"
   },

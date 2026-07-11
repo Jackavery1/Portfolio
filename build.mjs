@@ -1,5 +1,14 @@
-const fs = require('fs');
-const path = require('path');
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { createRequire } from 'node:module';
+import { loadBuild } from './build/cjs-bridge.mjs';
+
+const require = createRequire(import.meta.url);
+const ROOT = path.dirname(fileURLToPath(import.meta.url));
+const DIST_DIR = path.join(ROOT, 'dist');
+const STAGING_DIR = path.join(ROOT, '.dist-staging');
+const WATCH_MODE = process.argv.includes('--watch');
 
 ['clean-css', 'uglify-js', 'sharp'].forEach((dep) => {
   try {
@@ -13,27 +22,18 @@ const path = require('path');
   }
 });
 
-const ROOT = __dirname;
-const DIST_DIR = path.join(ROOT, 'dist');
-const STAGING_DIR = path.join(ROOT, '.dist-staging');
-const WATCH_MODE = process.argv.includes('--watch');
-
-const { loadEnvFile, resolveBuildEnv } = require('./build/env.cjs');
-const { syncSource } = require('./build/sync-source.cjs');
-const { log, createDist, finalizeDist } = require('./build/fs-utils.cjs');
-const { copyHTML, HTML_FILES } = require('./build/html.cjs');
-const { writeSeoFiles } = require('./build/seo.cjs');
-const { patchOgImageWebp } = require('./build/og-image.cjs');
-const { copyFonts } = require('./build/fonts.cjs');
-const { minifyCSS } = require('./build/css.cjs');
-const { minifyAllJs } = require('./build/js-minify.cjs');
-const {
-  optimizeImages,
-  optimizePreviewImages,
-  copyAssets,
-  generatePwaIcons,
-} = require('./build/images.cjs');
-const { writeServiceWorker } = require('./build/sw.cjs');
+const { loadEnvFile, resolveBuildEnv } = loadBuild('env.cjs');
+const { syncSource } = loadBuild('sync-source.cjs');
+const { log, createDist, finalizeDist } = loadBuild('fs-utils.cjs');
+const { copyHTML, HTML_FILES } = loadBuild('html.cjs');
+const { writeSeoFiles } = loadBuild('seo.cjs');
+const { patchOgImageWebp } = loadBuild('og-image.cjs');
+const { copyFonts } = loadBuild('fonts.cjs');
+const { minifyCSS } = loadBuild('css.cjs');
+const { minifyAllJs } = loadBuild('js-minify.cjs');
+const { optimizeImages, optimizePreviewImages, copyAssets, generatePwaIcons } =
+  loadBuild('images.cjs');
+const { writeServiceWorker } = loadBuild('sw.cjs');
 const pkg = require('./package.json');
 
 loadEnvFile(ROOT);

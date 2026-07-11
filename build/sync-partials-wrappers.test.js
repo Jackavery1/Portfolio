@@ -28,14 +28,6 @@ const WRAPPERS_OUVRANTS = [
     wrapperClass: 'stats-grille',
     innerMarkers: ['class="scores-tableau"', 'class="stats-lateral"'],
   },
-  {
-    id: 'dojo-boss-rush',
-    assembled: 'partials/dojo-boss-rush.html',
-    head: 'partials/dojo-boss/_head.html',
-    foot: 'partials/dojo-boss/_foot.html',
-    wrapperClass: 'boss-rush',
-    innerMarkers: ['data-boss="domslayer"', 'data-boss="react"'],
-  },
 ];
 
 const HEADS_OUVRANTS = [
@@ -100,6 +92,19 @@ describe('sync partials — wrappers _head / _foot', () => {
       );
       expect(assembled).toMatch(motif);
     });
+  });
+
+  it('dojo boss — lots générés dans .boss-rush (dojo.html)', () => {
+    const { LOTS } = require('./sync-dojo-boss.cjs');
+    const dojo = lire('dojo.html');
+    expect(dojo).toContain('class="boss-rush"');
+    LOTS.forEach((lot) => {
+      expect(dojo).toContain(`id="${lot.id}"`);
+      const contenu = lire(lot.fichier);
+      expect(contenu).toContain('class="boss-rush__lot"');
+      expect(contenu).toContain('data-boss=');
+    });
+    expect(lire('partials/dojo-boss/_head.html').trim()).toBe('<div class="boss-rush">');
   });
 
   it('parcours-arbre.html — le contenu SVG est à l’intérieur de .svg-arbre', () => {

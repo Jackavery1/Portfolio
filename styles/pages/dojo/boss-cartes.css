@@ -33,13 +33,33 @@
 
   .boss-carte--en-cours:hover {
     border-left-color: var(--couleur-actif);
-    box-shadow: 0 0 12px rgba(255, 204, 68, 0.15);
+    box-shadow: var(--ombre-boss-actif);
   }
 }
 
 .boss-carte:focus-visible {
   outline: 2px solid var(--couleur-accent-vif);
   outline-offset: 2px;
+}
+
+.boss-carte:active {
+  border-color: var(--couleur-accent);
+}
+
+.boss-carte--en-cours:active {
+  border-left-color: var(--couleur-actif);
+  box-shadow: var(--ombre-boss-actif);
+}
+
+.boss-carte--vaincu:active {
+  cursor: pointer;
+  border-left-color: var(--couleur-valide);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .boss-carte:active {
+    transform: translateX(2px);
+  }
 }
 
 .boss-carte--vaincu {
@@ -133,13 +153,13 @@
 .boss-carte__statut--vaincu {
   color: var(--couleur-valide);
   border: 1px solid var(--couleur-valide-dim);
-  background: rgba(68, 204, 136, 0.08);
+  background: var(--couleur-valide-alpha);
 }
 
 .boss-carte__statut--en-cours {
   color: var(--couleur-actif);
   border: 1px solid var(--couleur-actif-dim);
-  background: rgba(255, 204, 68, 0.08);
+  background: var(--couleur-actif-alpha);
   animation: pulsation 2s ease-in-out infinite;
 }
 

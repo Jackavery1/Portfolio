@@ -1,13 +1,16 @@
 /**
- * E2E toast SW — structure DOM/CSS accessible (pas de simulation worker `waiting` en prod).
+ * E2E toast SW — UI responsive (fixture) + cycle registration `waiting` (prod build).
  */
 import { test, expect } from '@playwright/test';
-import { gotoReady, assertHauteurTactile, assertLargeurTactile, simulerInsets } from './helpers.js';
+import {
+  gotoReady,
+  assertHauteurTactile,
+  assertLargeurTactile,
+  simulerInsets,
+  preparerRegistrationSwAvecWorkerEnAttente,
+} from './helpers.js';
 
-test('toast SW — structure UI accessible (fixture DOM, hors cycle SW)', async ({ page }) => {
-  await page.setViewportSize({ width: 375, height: 667 });
-  await gotoReady(page, '/index.html');
-
+async function injecterToastFixture(page) {
   await page.evaluate(() => {
     if (document.getElementById('js-sw-toast')) return;
     const toast = document.createElement('div');
@@ -28,6 +31,12 @@ test('toast SW — structure UI accessible (fixture DOM, hors cycle SW)', async 
       toast.hidden = true;
     });
   });
+}
+
+test('toast SW — structure UI accessible (fixture DOM)', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 667 });
+  await gotoReady(page, '/index.html');
+  await injecterToastFixture(page);
 
   const toast = page.locator('#js-sw-toast');
   await expect(toast).toBeVisible();
@@ -40,6 +49,23 @@ test('toast SW — structure UI accessible (fixture DOM, hors cycle SW)', async 
   await simulerInsets(page, { bas: 24 });
   const bottom = await toast.evaluate((el) => getComputedStyle(el).bottom);
   expect(bottom).not.toBe('0px');
+
+  await page.locator('.sw-toast__fermer').click();
+  await expect(toast).toBeHidden();
+});
+
+test('toast SW — affiché quand registration.waiting (cycle prod)', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 667 });
+  await preparerRegistrationSwAvecWorkerEnAttente(page);
+  await gotoReady(page, '/index.html');
+
+  const toast = page.locator('#js-sw-toast');
+  await expect(toast).toBeVisible();
+  await expect(toast.locator('.sw-toast__texte')).toContainText(/nouvelle version/i);
+
+  await page.locator('.sw-toast__bouton').click();
+  const message = await page.evaluate(() => window.__e2eSkipWaiting);
+  expect(message).toEqual({ type: 'SKIP_WAITING' });
 
   await page.locator('.sw-toast__fermer').click();
   await expect(toast).toBeHidden();

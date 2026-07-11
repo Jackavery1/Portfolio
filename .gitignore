@@ -14,7 +14,9 @@ deploy-output/
 /js/config/partials.js
 /style.css
 /partials/parcours-arbre.html
-/partials/dojo-boss-rush.html
+/partials/dojo-boss-rush-lot-a.html
+/partials/dojo-boss-rush-lot-b.html
+/partials/dojo-boss-rush-lot-c.html
 /partials/competences-stats.html
 /partials/accueil-hero.html
 /assets/apple-touch-icon.png

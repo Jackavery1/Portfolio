@@ -42,7 +42,13 @@
 
 .mentions-sommaire__liste a:hover {
   border-color: var(--couleur-accent);
-  box-shadow: 0 0 10px rgba(var(--couleur-accent-rgb), 0.2);
+  box-shadow: var(--ombre-lien-survol);
+}
+
+.mentions-sommaire__liste a:active {
+  border-color: var(--couleur-accent-vif);
+  box-shadow: var(--ombre-lien-survol);
+  color: var(--couleur-texte-fort);
 }
 
 .mentions-bloc {
@@ -131,5 +137,11 @@
 
 .mentions-retour:hover {
   border-color: var(--couleur-accent);
-  box-shadow: 0 0 12px rgba(var(--couleur-accent-rgb), 0.2);
+  box-shadow: var(--ombre-lien-survol-fort);
+}
+
+.mentions-retour:active {
+  border-color: var(--couleur-accent-vif);
+  box-shadow: var(--ombre-lien-survol-fort);
+  color: var(--couleur-texte-fort);
 }

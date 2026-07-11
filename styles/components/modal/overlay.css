@@ -4,7 +4,7 @@
   position: fixed;
   inset: 0;
   z-index: 500;
-  background-color: rgba(0, 0, 20, 0.88);
+  background-color: var(--couleur-overlay-modal);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -20,7 +20,7 @@
   border-radius: 4px;
   max-width: 700px;
   width: 100%;
-  box-shadow: 0 0 40px rgba(var(--couleur-accent-rgb), 0.3);
+  box-shadow: var(--ombre-modal-boite);
   max-height: calc(90dvh - env(safe-area-inset-top, 0) - env(safe-area-inset-bottom, 0));
   max-height: calc(90vh - env(safe-area-inset-top, 0) - env(safe-area-inset-bottom, 0));
   overflow-y: auto;
@@ -57,6 +57,11 @@
 
 .modal-fermer:hover {
   color: var(--couleur-accent-vif);
+}
+
+.modal-fermer:active {
+  color: var(--couleur-texte-fort);
+  transform: scale(0.96);
 }
 
 .modal-fermer:focus-visible {
@@ -122,6 +127,11 @@
 
 .modal-lien a:hover {
   color: var(--couleur-actif);
+}
+
+.modal-lien a:active {
+  color: var(--couleur-texte-fort);
+  transform: scale(0.98);
 }
 
 .modal-lien a:focus-visible {

@@ -7,7 +7,7 @@ export { PAGES };
 export const PAGE_COQUILLE = PAGES[0];
 
 /** Pages étendues en tablette/desktop (matrice allégée mais > accueil seul). */
-export const PAGES_COQUILLE_ETENDUES = [PAGES[1], PAGES[4]];
+export const PAGES_COQUILLE_ETENDUES = PAGES.slice(1);
 
 /** Viewports représentatifs (mobile, tablette, desktop, large). */
 export const VIEWPORTS = [
@@ -17,8 +17,8 @@ export const VIEWPORTS = [
   { width: 1280, height: 800, label: 'desktop-large' },
 ];
 
-/** Viewports tablette + desktop pour la matrice étendue. */
-export const VIEWPORTS_ETENDUS = VIEWPORTS.slice(1, 3);
+/** Viewports tablette, desktop et desktop-large pour la matrice étendue. */
+export const VIEWPORTS_ETENDUS = VIEWPORTS.slice(1);
 
 /** Viewport étroit — aligné sur build/breakpoints.cjs (MOBILE_ETROIT_MAX). */
 export const VIEWPORT_ETROIT = { width: 320, height: 568, label: 'mobile-etroit' };

@@ -20,9 +20,7 @@
   background-color: var(--couleur-fond);
   display: flex;
   flex-direction: column;
-  box-shadow:
-    0 0 40px rgba(var(--couleur-accent-rgb), 0.15),
-    0 0 80px rgba(var(--couleur-accent-rgb), 0.05);
+  box-shadow: var(--ombre-ecran);
 }
 
 .ecran > main {

@@ -92,13 +92,13 @@
 .badge--valide {
   color: var(--couleur-valide);
   border-color: var(--couleur-valide-dim);
-  background-color: rgba(68, 204, 136, 0.1);
+  background-color: var(--couleur-valide-alpha-fort);
 }
 
 .badge--actif {
   color: var(--couleur-actif);
   border-color: var(--couleur-actif-dim);
-  background-color: rgba(255, 204, 68, 0.1);
+  background-color: var(--couleur-actif-alpha-fort);
   animation: pulsation 2s ease-in-out infinite;
 }
 

@@ -119,6 +119,13 @@
   box-shadow: 0 0 0 2px var(--couleur-accent-alpha);
 }
 
+.projets-sommaire__liste a:active {
+  border-color: var(--couleur-accent-vif);
+  box-shadow: 0 0 0 2px var(--couleur-accent-alpha);
+  color: var(--couleur-texte-fort);
+  transform: scale(0.97);
+}
+
 @media (min-width: 961px) {
   .projets-sommaire {
     display: none;

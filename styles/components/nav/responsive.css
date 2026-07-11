@@ -16,7 +16,7 @@
     flex-direction: column;
     padding: 0.5rem 0;
     z-index: 90;
-    box-shadow: 0 8px 20px rgba(0, 0, 20, 0.5);
+    box-shadow: var(--ombre-menu-mobile);
   }
 
   .nav__liens.ouvert {

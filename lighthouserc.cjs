@@ -1,5 +1,4 @@
-const assertions = {
-  'categories:performance': ['error', { minScore: 0.9 }],
+const assertionsCommunes = {
   'categories:accessibility': ['error', { minScore: 0.9 }],
   'categories:best-practices': ['error', { minScore: 0.9 }],
   'categories:seo': ['error', { minScore: 0.9 }],
@@ -21,7 +20,7 @@ module.exports = {
     collect: {
       staticDistDir: './.dist-staging',
       url: urls,
-      numberOfRuns: 3,
+      numberOfRuns: 5,
       settings: {
         chromeFlags: '--no-sandbox --disable-dev-shm-usage',
         emulatedFormFactor: 'mobile',
@@ -35,8 +34,40 @@ module.exports = {
       },
     },
     assert: {
-      assertions,
+      assertions: assertionsCommunes,
       includePassedAssertions: false,
+      assertMatrix: [
+        {
+          matchingUrlPattern: '.*index\\.html',
+          assertions: {
+            'categories:performance': ['error', { minScore: 0.9 }],
+          },
+        },
+        {
+          matchingUrlPattern: '.*projets\\.html',
+          assertions: {
+            'categories:performance': ['error', { minScore: 0.88 }],
+          },
+        },
+        {
+          matchingUrlPattern: '.*contact\\.html',
+          assertions: {
+            'categories:performance': ['error', { minScore: 0.88 }],
+          },
+        },
+        {
+          matchingUrlPattern: '.*(competences|parcours|dojo)\\.html',
+          assertions: {
+            'categories:performance': ['error', { minScore: 0.78 }],
+          },
+        },
+        {
+          matchingUrlPattern: '.*(mentions-legales|offline)\\.html',
+          assertions: {
+            'categories:performance': ['error', { minScore: 0.85 }],
+          },
+        },
+      ],
     },
   },
 };

@@ -4,7 +4,7 @@
   position: fixed;
   inset: 0;
   z-index: 1100;
-  background: rgba(0, 0, 20, 0.92);
+  background: var(--couleur-overlay-popup);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -17,9 +17,7 @@
 .popup-highscore__boite {
   background-color: var(--couleur-fond-carte);
   border: 2px solid var(--couleur-actif);
-  box-shadow:
-    0 0 40px rgba(255, 204, 68, 0.4),
-    0 0 80px rgba(255, 204, 68, 0.15);
+  box-shadow: var(--ombre-popup-highscore);
   border-radius: 4px;
   padding: 2.5rem 2rem;
   max-width: 420px;
@@ -88,9 +86,13 @@
 
 @media (hover: hover) and (pointer: fine) {
   .popup-highscore__btn:hover {
-    box-shadow: 0 0 20px rgba(255, 204, 68, 0.5);
+    box-shadow: var(--ombre-popup-highscore-hover);
     transform: translateY(-2px);
   }
+}
+
+.popup-highscore__btn:active {
+  transform: scale(0.97);
 }
 
 .popup-highscore__btn:focus-visible {
@@ -113,7 +115,12 @@
 }
 
 .popup-highscore__fermer:hover {
-  color: var(--couleur-texte-normal);
+  color: var(--couleur-accent-vif);
+}
+
+.popup-highscore__fermer:active {
+  color: var(--couleur-texte-fort);
+  transform: scale(0.96);
 }
 
 .popup-highscore__fermer:focus-visible {

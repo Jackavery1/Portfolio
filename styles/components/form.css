@@ -66,12 +66,12 @@
 
 .champ-input[aria-invalid='true'] {
   border-color: var(--couleur-erreur);
-  box-shadow: 0 0 10px rgba(255, 68, 68, 0.2);
+  box-shadow: 0 0 10px var(--couleur-erreur-alpha);
 }
 
-.champ-input:focus {
+.champ-input:focus:not(:focus-visible) {
   border-color: var(--couleur-accent);
-  box-shadow: 0 0 10px rgba(var(--couleur-accent-rgb), 0.25);
+  box-shadow: var(--ombre-champ-focus);
 }
 
 .champ-input:focus-visible {
@@ -128,7 +128,7 @@
   letter-spacing: 2px;
   padding: 0.75rem;
   border: 1px solid var(--couleur-valide-dim);
-  background-color: rgba(68, 204, 136, 0.08);
+  background-color: var(--couleur-valide-alpha);
 }
 
 .champ-honeypot {
@@ -154,6 +154,11 @@
 }
 
 .carte-contact__lien:hover {
+  color: var(--couleur-accent-vif);
+  text-decoration: underline;
+}
+
+.carte-contact__lien:active {
   color: var(--couleur-accent-vif);
   text-decoration: underline;
 }
@@ -186,13 +191,13 @@
 .recaptcha-zone--config {
   color: var(--couleur-actif);
   border: 1px solid var(--couleur-actif-dim);
-  background-color: rgba(255, 204, 68, 0.08);
+  background-color: var(--couleur-actif-alpha);
 }
 
 .recaptcha-zone--erreur {
   color: var(--couleur-erreur);
   border: 1px solid var(--couleur-erreur);
-  background-color: rgba(255, 68, 68, 0.08);
+  background-color: var(--couleur-erreur-alpha-soft);
 }
 
 .recaptcha-zone--v3 {
@@ -208,7 +213,7 @@
   color: var(--couleur-erreur);
   padding: 0.65rem 0.75rem;
   border: 1px solid var(--couleur-erreur);
-  background-color: rgba(255, 68, 68, 0.08);
+  background-color: var(--couleur-erreur-alpha-soft);
   border-radius: 3px;
 }
 

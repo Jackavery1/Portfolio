@@ -84,9 +84,9 @@ describe('musique-sequencuer', () => {
     );
     audio = await import('./musique-audio.js');
     sequencuer = await import('./musique-sequencuer.js');
+    sequencuer.reinitialiserEtatSequencuer();
     sequencuer.definirActif(false);
     sequencuer.arreterSequencuer();
-    sequencuer.definirThemeCourant('HOME');
   });
 
   it('charge les thèmes compilés', async () => {
@@ -231,6 +231,16 @@ describe('musique-sequencuer', () => {
     sequencuer.demarrerSequencuer();
     expect(audio.jouerPulse).toHaveBeenCalled();
     sequencuer.arreterSequencuer();
+  });
+
+  it('reinitialiserEtatSequencuer remet l’état module à zéro', async () => {
+    await sequencuer.assurerThemes();
+    sequencuer.definirActif(true);
+    sequencuer.definirThemeCourant('STATS');
+    sequencuer.reinitialiserEtatSequencuer();
+    expect(sequencuer.estMusiqueActive()).toBe(false);
+    expect(sequencuer.lireThemeCourant()).toBe('HOME');
+    await expect(sequencuer.assurerThemes()).resolves.toEqual(themesRiches);
   });
 
   it('arreterSequencuer est sans effet si le minuteur est absent', () => {

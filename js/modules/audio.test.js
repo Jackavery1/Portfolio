@@ -35,9 +35,11 @@ function creerMockCtxAudio(surcharge = {}) {
 describe('audio', () => {
   beforeEach(() => {
     vi.resetModules();
+    vi.useFakeTimers();
   });
 
   afterEach(() => {
+    vi.clearAllTimers();
     vi.unstubAllGlobals();
     vi.useRealTimers();
   });
@@ -45,11 +47,13 @@ describe('audio', () => {
   it('expose la fanfare victoire standard', async () => {
     const { jouerFanfareVictoire } = await import('./audio.js');
     expect(() => jouerFanfareVictoire()).not.toThrow();
+    await vi.runAllTimersAsync();
   });
 
   it('jouerFanfareVictoire ne lève pas sans AudioContext', async () => {
     const { jouerFanfareVictoire } = await import('./audio.js');
     expect(() => jouerFanfareVictoire()).not.toThrow();
+    await vi.runAllTimersAsync();
   });
 
   it('jouerBip utilise Web Audio quand disponible', async () => {
@@ -197,7 +201,6 @@ describe('audio', () => {
   });
 
   it('jouerFanfareVictoire utilise les délais par défaut', async () => {
-    vi.useFakeTimers();
     const start = vi.fn();
     const ctx = creerMockCtxAudio({
       createOscillator: vi.fn(() => ({
@@ -219,11 +222,9 @@ describe('audio', () => {
     await vi.runAllTimersAsync();
 
     expect(start.mock.calls.length).toBeGreaterThanOrEqual(4);
-    vi.useRealTimers();
   });
 
   it('jouerFanfareVictoire planifie plusieurs bips', async () => {
-    vi.useFakeTimers();
     const start = vi.fn();
     const ctx = creerMockCtxAudio({
       createOscillator: vi.fn(() => ({
@@ -247,7 +248,6 @@ describe('audio', () => {
   });
 
   it('jouerSequenceBeeps planifie avec delais explicites', async () => {
-    vi.useFakeTimers();
     const start = vi.fn();
     vi.stubGlobal(
       'AudioContext',
@@ -263,6 +263,7 @@ describe('audio', () => {
         })
       )
     );
+    vi.resetModules();
 
     const { jouerSequenceBeeps } = await import('./audio.js');
     jouerSequenceBeeps([440, 880], { delais: [0, 40], duree: 90, type: 'sine' });
@@ -271,7 +272,6 @@ describe('audio', () => {
   });
 
   it('jouerSequenceBeeps utilise delai increment par defaut', async () => {
-    vi.useFakeTimers();
     const start = vi.fn();
     vi.stubGlobal(
       'AudioContext',

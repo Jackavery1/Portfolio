@@ -21,7 +21,7 @@ body {
   max-width: 28rem;
   border: 1px solid var(--couleur-bordure-active);
   padding: var(--espacement-xl) var(--espacement-lg);
-  box-shadow: 0 0 40px rgba(var(--couleur-accent-rgb), 0.2);
+  box-shadow: var(--ombre-boite-accent);
   scroll-margin-top: max(var(--espacement-md), var(--safe-area-inset-top));
 }
 
@@ -89,6 +89,11 @@ body {
 
 .offline-ecran a:hover {
   background-color: var(--couleur-accent-alpha);
+  box-shadow: var(--ombre-accent-ui);
+}
+
+.offline-ecran a:active {
+  transform: scale(0.97);
   box-shadow: var(--ombre-accent-ui);
 }
 

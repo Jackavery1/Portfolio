@@ -12,7 +12,7 @@
   row-gap: 0.65rem;
   padding: 1rem 1.5rem 1.1rem;
   border-top: 1px solid var(--couleur-bordure-active);
-  background: linear-gradient(180deg, rgba(74, 111, 255, 0.04) 0%, transparent 100%);
+  background: linear-gradient(180deg, var(--couleur-accent-alpha-fade) 0%, transparent 100%);
 }
 
 .pied-page__nav {
@@ -45,6 +45,12 @@
   color: var(--couleur-texte-fort);
   border-bottom-color: var(--couleur-accent);
   text-shadow: var(--ombre-glow-accent);
+}
+
+.pied-page__lien:active {
+  color: var(--couleur-texte-fort);
+  border-bottom-color: var(--couleur-accent-vif);
+  text-shadow: var(--ombre-glow-accent-fort);
 }
 
 .pied-page__lien:focus-visible {
@@ -88,6 +94,11 @@ a.pied-page__certif-texte {
 a.pied-page__certif-texte:hover {
   color: var(--couleur-accent-vif);
   text-shadow: var(--ombre-glow-accent);
+}
+
+a.pied-page__certif-texte:active {
+  color: var(--couleur-texte-fort);
+  text-shadow: var(--ombre-glow-accent-fort);
 }
 
 a.pied-page__certif-texte:focus-visible {

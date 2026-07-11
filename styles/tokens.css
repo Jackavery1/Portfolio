@@ -21,6 +21,28 @@
   --couleur-accent-vif: #88aaff;
   --couleur-accent-dim: #1e3080;
   --couleur-accent-alpha: rgba(var(--couleur-accent-rgb), 0.12);
+  --couleur-actif-rgb: 255, 204, 68;
+  --couleur-actif-alpha: rgba(var(--couleur-actif-rgb), 0.08);
+  --couleur-erreur-rgb: 255, 68, 68;
+  --couleur-erreur-alpha: rgba(var(--couleur-erreur-rgb), 0.2);
+  --couleur-erreur-alpha-soft: rgba(var(--couleur-erreur-rgb), 0.08);
+  --couleur-valide-rgb: 68, 204, 136;
+  --couleur-valide-alpha: rgba(var(--couleur-valide-rgb), 0.08);
+  --couleur-valide-alpha-fort: rgba(var(--couleur-valide-rgb), 0.1);
+  --couleur-actif-alpha-fort: rgba(var(--couleur-actif-rgb), 0.1);
+  --couleur-accent-alpha-fade: rgba(var(--couleur-accent-rgb), 0.04);
+  --couleur-accent-alpha-leger: rgba(var(--couleur-accent-rgb), 0.06);
+  --couleur-accent-alpha-survol: rgba(var(--couleur-accent-rgb), 0.18);
+  --couleur-actif-alpha-wip: rgba(var(--couleur-actif-rgb), 0.14);
+  --couleur-actif-alpha-wip-faible: rgba(var(--couleur-actif-rgb), 0.08);
+  --couleur-actif-alpha-wip-fort: rgba(var(--couleur-actif-rgb), 0.22);
+  --couleur-valide-alpha-pulse: rgba(var(--couleur-valide-rgb), 0.5);
+  --couleur-surface-highlight: rgba(255, 255, 255, 0.05);
+  --couleur-surface-highlight-fort: rgba(255, 255, 255, 0.06);
+  --couleur-ombre-noire-ui: rgba(0, 0, 0, 0.35);
+  --couleur-fond-crt-rgb: 0, 0, 30;
+  --couleur-fond-crt-fonce-rgb: 0, 0, 20;
+  --couleur-crt-vignette: rgba(var(--couleur-fond-crt-rgb), 0.55);
 
   /* Texte */
   --couleur-texte-fort: #d0ddff;
@@ -102,6 +124,40 @@
   --transition-ui: 0.2s ease;
   --ombre-accent-ui: 0 0 16px rgba(var(--couleur-accent-rgb), 0.25);
   --ombre-actif-ui: 0 0 16px rgba(255, 204, 68, 0.2);
+  --ombre-carte-survol: 0 0 20px rgba(var(--couleur-accent-rgb), 0.22);
+  --ombre-champ-focus: 0 0 10px rgba(var(--couleur-accent-rgb), 0.25);
+  --couleur-overlay-modal: rgba(0, 0, 20, 0.88);
+  --couleur-overlay-modal-fort: rgba(0, 0, 20, 0.95);
+  --couleur-overlay-popup: rgba(0, 0, 20, 0.92);
+  --ombre-modal-boite: 0 0 40px rgba(var(--couleur-accent-rgb), 0.3);
+  --ombre-nav-barre: 0 2px 20px rgba(var(--couleur-accent-rgb), 0.1);
+  --ombre-menu-mobile: 0 8px 20px rgba(0, 0, 20, 0.5);
+  --ombre-popup-highscore: 0 0 40px rgba(255, 204, 68, 0.4), 0 0 80px rgba(255, 204, 68, 0.15);
+  --ombre-popup-highscore-hover: 0 0 20px rgba(255, 204, 68, 0.5);
+  --ombre-boss-actif: 0 0 12px rgba(255, 204, 68, 0.15);
+  --ombre-ecran:
+    0 0 40px rgba(var(--couleur-accent-rgb), 0.15), 0 0 80px rgba(var(--couleur-accent-rgb), 0.05);
+  --ombre-boite-accent: 0 0 40px rgba(var(--couleur-accent-rgb), 0.2);
+  --ombre-lien-survol: 0 0 10px rgba(var(--couleur-accent-rgb), 0.2);
+  --ombre-lien-survol-fort: 0 0 12px rgba(var(--couleur-accent-rgb), 0.2);
+  --ombre-carte-focus: 0 0 10px rgba(var(--couleur-accent-rgb), 0.18);
+  --ombre-crt-coins:
+    inset 0 0 80px 30px rgba(var(--couleur-fond-crt-rgb), 0.75),
+    inset 0 0 20px 5px rgba(var(--couleur-fond-crt-fonce-rgb), 0.4);
+  --ombre-musique-inset: inset 0 1px 0 rgba(var(--couleur-accent-rgb), 0.06);
+  --ombre-musique-off-hover:
+    inset 0 0 12px rgba(var(--couleur-accent-rgb), 0.12),
+    0 0 10px rgba(var(--couleur-accent-rgb), 0.2);
+  --ombre-musique-pret-min: 0 0 4px rgba(var(--couleur-accent-rgb), 0.25);
+  --ombre-musique-pret-max: 0 0 14px rgba(var(--couleur-accent-rgb), 0.55);
+  --ombre-wip-base:
+    inset 0 1px 0 var(--couleur-surface-highlight), 0 0 0 1px var(--couleur-ombre-noire-ui);
+  --ombre-wip-glow-repos: 0 0 8px var(--couleur-actif-alpha-wip-faible);
+  --ombre-wip-glow-peak: 0 0 14px var(--couleur-actif-alpha-wip-fort);
+  --filtre-drop-accent: drop-shadow(0 0 8px rgba(var(--couleur-accent-rgb), 0.2));
+  --filtre-drop-accent-fort: drop-shadow(0 0 8px rgba(var(--couleur-accent-rgb), 0.3));
+  --filtre-drop-accent-hero: drop-shadow(0 0 12px rgba(var(--couleur-accent-rgb), 0.35));
+  --filtre-glow-actif: drop-shadow(0 0 4px rgba(var(--couleur-actif-rgb), 0.45));
   /* Halo sombre sous glow néon — lisibilité AA sur titres hero / boss */
   --ombre-texte-lisible: 0 1px 0 var(--couleur-fond-page), 0 2px 6px var(--couleur-fond);
   --ombre-texte-neon-accent:

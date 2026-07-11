@@ -4,7 +4,7 @@
   width: clamp(180px, 26vw, 280px);
   height: auto;
   overflow: visible;
-  filter: drop-shadow(0 0 12px rgba(var(--couleur-accent-rgb), 0.35));
+  filter: var(--filtre-drop-accent-hero);
   animation: levitation 3s ease-in-out infinite;
 }
 

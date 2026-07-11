@@ -1,8 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const FRAGMENTS = [
-  'partials/dojo-boss/_head.html',
+const FRAGMENTS_BOSS = [
   'partials/dojo-boss/domslayer.html',
   'partials/dojo-boss/crud.html',
   'partials/dojo-boss/ejs.html',
@@ -14,22 +13,63 @@ const FRAGMENTS = [
   'partials/dojo-boss/angular.html',
   'partials/dojo-boss/java.html',
   'partials/dojo-boss/react.html',
-  'partials/dojo-boss/_foot.html',
 ];
 
-function syncDojoBoss(root = path.join(__dirname, '..')) {
-  const target = path.join(root, 'partials', 'dojo-boss-rush.html');
-  const parts = FRAGMENTS.map((rel) => {
+/** Lots générés — évite un partial monolithique ~380 L. */
+const LOTS = [
+  {
+    id: 'partial-dojo-boss-rush-lot-a',
+    fichier: 'partials/dojo-boss-rush-lot-a.html',
+    fragments: FRAGMENTS_BOSS.slice(0, 4),
+  },
+  {
+    id: 'partial-dojo-boss-rush-lot-b',
+    fichier: 'partials/dojo-boss-rush-lot-b.html',
+    fragments: FRAGMENTS_BOSS.slice(4, 8),
+  },
+  {
+    id: 'partial-dojo-boss-rush-lot-c',
+    fichier: 'partials/dojo-boss-rush-lot-c.html',
+    fragments: FRAGMENTS_BOSS.slice(8),
+  },
+];
+
+const FICHIER_LEGACY = 'partials/dojo-boss-rush.html';
+
+function lireFragments(root, relPaths) {
+  return relPaths.map((rel) => {
     const filePath = path.join(root, rel);
     if (!fs.existsSync(filePath)) {
       throw new Error(`Fragment manquant : ${rel}`);
     }
     return fs.readFileSync(filePath, 'utf8').trimEnd();
   });
-  fs.writeFileSync(target, `${parts.join('\n')}\n`, 'utf8');
 }
 
-module.exports = { syncDojoBoss, FRAGMENTS };
+function ecrireLot(root, { id, fichier, fragments }) {
+  const contenu = lireFragments(root, fragments).join('\n');
+  const html = `<div id="${id}" class="boss-rush__lot">\n${contenu}\n</div>\n`;
+  fs.writeFileSync(path.join(root, fichier), html, 'utf8');
+}
+
+function retirerLegacy(root) {
+  const legacy = path.join(root, FICHIER_LEGACY);
+  if (fs.existsSync(legacy)) {
+    fs.unlinkSync(legacy);
+  }
+}
+
+function syncDojoBoss(root = path.join(__dirname, '..')) {
+  LOTS.forEach((lot) => ecrireLot(root, lot));
+  retirerLegacy(root);
+}
+
+module.exports = {
+  syncDojoBoss,
+  FRAGMENTS_BOSS,
+  LOTS,
+  FICHIER_LEGACY,
+};
 
 if (require.main === module) {
   syncDojoBoss();

@@ -19,7 +19,7 @@
 }
 
 .profil-recap__bonhomme {
-  filter: drop-shadow(0 0 8px rgba(var(--couleur-accent-rgb), 0.3));
+  filter: var(--filtre-drop-accent-fort);
   width: 100%;
   display: flex;
   justify-content: center;
