@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { PARTIELS } = require('./partials-list.cjs');
+const { PARTIELS } = require('./partials-list.mjs');
 
 function syncPartials() {
   const target = path.join(__dirname, '..', 'js', 'config', 'partials.js');

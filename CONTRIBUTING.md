@@ -75,19 +75,20 @@ Le bloc `@media (max-width: 960px)` dans `styles/tokens.css` **assombrit/éclair
 
 Source unique des variables CSS. Ne pas dupliquer de hex dans les composants — réutiliser les tokens.
 
-| Catégorie   | Tokens clés                                                                                                | Usage                                                        |
-| ----------- | ---------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
-| Surfaces    | `--couleur-fond-page`, `--couleur-fond`, `--couleur-fond-carte`, `--couleur-fond-champ`                    | Fonds page, colonne `.ecran`, cartes, champs                 |
-| Accent      | `--couleur-accent`, `--couleur-accent-vif`, `--couleur-accent-rgb`                                         | CTA, liens, glow néon                                        |
-| Texte       | `--couleur-texte-fort`, `--couleur-texte-normal`, `--couleur-texte-discret`, `--couleur-texte-placeholder` | Hiérarchie typo ; ratios AA documentés dans le fichier       |
-| États       | `--couleur-valide`, `--couleur-actif`, `--couleur-erreur`                                                  | Succès, actif jaune arcade, erreurs formulaire               |
-| Typo        | `--police-pixel`, `--police-crt`, `--police-lisible`, `--taille-*`                                         | Press Start 2P / VT323 / Rajdhani ; échelles `clamp`         |
-| Espacement  | `--espacement-xs` → `--espacement-2xl`, `--section-padding-*`                                              | Grilles et sections                                          |
-| Safe area   | `--safe-area-inset-*`                                                                                      | Encoches ; surchargeables en E2E                             |
-| Breakpoints | `--bp-*` (sync `build/breakpoints.cjs`)                                                                    | Documentation uniquement — **non utilisables dans `@media`** |
-| Ombres      | `--ombre-texte-lisible`, `--ombre-glow-accent`, `--ombre-glow-actif`, `--ombre-glow-valide`                | Halo sombre + glow néon (titres, nav, cartes)                |
+| Catégorie   | Tokens clés                                                                                                | Usage                                                            |
+| ----------- | ---------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| Surfaces    | `--couleur-fond-page`, `--couleur-fond`, `--couleur-fond-carte`, `--couleur-fond-champ`                    | Fonds page, colonne `.ecran`, cartes, champs                     |
+| Accent      | `--couleur-accent`, `--couleur-accent-vif`, `--couleur-accent-rgb`                                         | CTA, liens, glow néon                                            |
+| Texte       | `--couleur-texte-fort`, `--couleur-texte-normal`, `--couleur-texte-discret`, `--couleur-texte-placeholder` | Hiérarchie typo ; ratios AA documentés dans le fichier           |
+| États       | `--couleur-valide`, `--couleur-actif`, `--couleur-erreur`                                                  | Succès, actif jaune arcade, erreurs formulaire                   |
+| Typo        | `--police-pixel`, `--police-crt`, `--police-lisible`, `--taille-*`                                         | Press Start 2P / VT323 / Rajdhani ; échelles `clamp`             |
+| Espacement  | `--espacement-xs` → `--espacement-2xl`, `--section-padding-*`                                              | Grilles et sections                                              |
+| Safe area   | `--safe-area-inset-*`                                                                                      | Encoches ; surchargeables en E2E                                 |
+| Breakpoints | `--bp-*` (sync `build/breakpoints.mjs`)                                                                    | Documentation uniquement — **non utilisables dans `@media`**     |
+| Ombres      | `--ombre-texte-lisible`, `--ombre-glow-accent`, `--ombre-glow-actif`, `--ombre-glow-valide`                | Halo sombre + glow néon (titres, nav, cartes)                    |
+| Boss dojo   | `--couleur-boss-*` (16 tokens)                                                                             | Sprites SVG `partials/dojo-boss/` — test `dojo-boss-svg.test.js` |
 
-**Shell arcade EN / contenu FR** : libellés visibles (nav HOME, WORK…) en anglais pour l’immersion ; contenu métier et annonces AT en français. Tooltips `title` sur chaque lien nav (Accueil, Projets…), note footer (`pied-page__shell-note`).
+**Shell arcade EN / contenu FR** : libellés visibles (nav HOME, WORK…) en anglais pour l’immersion ; contenu métier et annonces AT en français. Tooltips `title` sur chaque lien nav (Accueil, Projets…), tagline footer (`pied-page__tagline-ia`).
 
 **Sections** : manifeste `js/config/sections-manifest.js` + charges `js/config/sections-registry.js` — toute nouvelle page lazy-load doit y figurer (test d’alignement HTML automatique).
 
@@ -97,7 +98,19 @@ Source unique des variables CSS. Ne pas dupliquer de hex dans les composants —
 
 **Mobile compact (≤ 480px / 320px)** : `--taille-pixel-min` monte à 13–14px ; nav burger passe en `--police-crt` à ≤320px.
 
-Contraste automatisé : `build/contrast.test.js` (Vitest) sur les paires critiques.
+Contraste automatisé : `build/contrast.test.js` (Vitest) sur les paires critiques (nav SCORE, hero accueil, champs formulaire).
+
+### `styles/tokens.css` — restauration
+
+`styles/tokens.css` est la **source éditable** des design tokens (dont `--couleur-boss-*` pour les sprites dojo). En cas de fichier vidé ou corrompu :
+
+```bash
+git restore styles/tokens.css
+node build/sync-breakpoints.cjs
+npm test
+```
+
+Ne pas restaurer sans relancer `sync-breakpoints` : le bloc `BREAKPOINTS_SYNC` doit rester aligné avec `build/breakpoints.mjs`. Le test `build/dojo-boss-svg.test.js` vérifie que chaque `var(--couleur-boss-*)` des partials est déclaré dans `tokens.css`.
 
 ## Configuration
 
@@ -150,6 +163,21 @@ Ne jamais committer de secrets (clé secrète reCAPTCHA, tokens privés). Voir [
 **Recommandation utilisateur** : après installation PWA, ouvrir une fois chaque section principale (WORK, CONTACT, DOJO) en ligne pour peupler le cache runtime.
 
 Liste d’exclusion precache JS : `JS_PRECACH_EXCLUS` dans `build/sw.cjs` (musique optionnelle, reCAPTCHA/Formspree réseau-dépendants ; routes lazy precachées pour navigation offline).
+
+### Tester la PWA en local (guide rapide)
+
+Le mode dev (`npm start`) **ne charge pas** le service worker ni la CSP de production. Pour valider offline, toast SW et formulaire comme en prod :
+
+1. `npm ci` (ou `npm install`) — dépendances à jour
+2. `npm run build` — génère `.dist-staging/` (HTML minifié, `sw.js`, manifest, assets optimisés)
+3. `npm run start:prod` — sert `.dist-staging/` sur le port par défaut de `serve`
+4. Ouvrir `http://localhost:3000` (ou le port affiché) dans Chrome/Edge
+5. **Application** → vérifier le service worker actif et le precache
+6. Visiter une fois **WORK**, **CONTACT** et **DOJO** en ligne (cache runtime des modules lazy)
+7. **Réseau** → cocher « Hors ligne » → recharger : navigation et pages visitées doivent rester utilisables
+8. Optionnel : installer la PWA (icône dans la barre d’adresse) et rejouer l’étape 7 en mode standalone
+
+Pour les e2e PWA sans rebuild : `PLAYWRIGHT_SKIP_BUILD=1 npm run test:e2e -- e2e/pwa.spec.js` (`.dist-staging/` déjà présent).
 
 ## Dépannage
 
@@ -277,7 +305,7 @@ Cela permet de cibler la cause (config Google, Formspree, ou blocage navigateur)
 | `max-width: 480px` | Footer une colonne, nav compacte (score masqué)         |
 | `max-width: 320px` | Contact / dojo très petits écrans (bandeau, boss cards) |
 
-Référence technique : `build/breakpoints.cjs`, `styles/tokens.css`. Listes CSS synchronisées via `build/page-styles.cjs` → `style.css`.
+Référence technique : `build/breakpoints.mjs`, `styles/tokens.css`. Listes CSS synchronisées via `build/page-styles.cjs` → `style.css`.
 
 Pages hors navigation clavier (`dojo.html`, `mentions-legales.html`) : accessibles via liens footer ou projets.
 
@@ -287,8 +315,8 @@ Pages hors navigation clavier (`dojo.html`, `mentions-legales.html`) : accessibl
 - **Couverture** : `npm run test:coverage` (seuils Vitest : 85 % lignes / **84 %** branches globaux sur `js/` + build ciblé)
 - **Seuils build (I/O fichier)** : `vitest.config.js` — `html.cjs`, `sw.cjs`, `manifest.cjs`, `page-styles.cjs`, `sync-source.cjs` ont des seuils **volontairement bas** (branches ~20 %) : logique CLI, precache SW et pipeline HTML difficilement branchables sans mocks lourds ; la logique exportée est testée unitairement.
 - **HTML** : `npm run validate:html` (sources) et `npm run validate:html:dist` (après build)
-- **E2E** : `npm run test:e2e` — projets `responsive-mobile-portrait`, `responsive-mobile-landscape`, `responsive-tablet`, `responsive-webkit`, `responsive-firefox`, `desktop-chrome`. Specs responsive : `responsive-touch`, `responsive-safe-area`, `responsive-keyboard`, `responsive-motion`, `responsive-a11y`, `responsive-pages` ; PWA : `pwa.spec.js` + `sw-toast.spec.js` (sur les 6 viewports mobile/tablette/WebKit/Firefox/desktop PWA). WebKit local : `npm run test:e2e:webkit`. Fixtures : `e2e/fixtures/pages.js`, helpers : `e2e/helpers.js`.
-- **Lighthouse** : `npm run test:lhci` (profil mobile, 5 runs médiane ; seuils perf par page via `assertMatrix` dans `lighthouserc.cjs`)
+- **E2E** : `npm run test:e2e` — projets `responsive-mobile-portrait`, `responsive-mobile-landscape`, `responsive-tablet`, `responsive-webkit`, `responsive-firefox`, `desktop-chrome`. Specs responsive : `responsive-touch`, `responsive-safe-area`, `responsive-keyboard`, `responsive-motion`, `responsive-contrast`, `responsive-a11y`, `responsive-pages` ; PWA : `pwa.spec.js` + `sw-toast.spec.js` (sur les 6 viewports mobile/tablette/WebKit/Firefox/desktop PWA). WebKit local : `npm run test:e2e:webkit`. Fixtures : `e2e/fixtures/pages.js`, helpers : `e2e/helpers.js`.
+- **Lighthouse** : `npm run test:lhci` (profil mobile 412×823, 5 runs médiane ; seuils perf par page via `assertMatrix` dans `lighthouserc.cjs`). Complément desktop : `npm run test:lhci:desktop` (961×800, smoke `index` + `projets`, CI après le run mobile).
 - **Mesure bundle** : `npm run build && npm run measure` — tailles `.dist-staging/` (JSON stdout : `distKo`, `appJsGzipKo`, `iconsKo`, `jsAssets[]`). Écrit aussi `scripts/bundle-baseline.json` (**gitignoré**, snapshot local). Modèle versionné : `scripts/bundle-baseline.example.json`. Icônes PNG : `npm run icons:optimize` en `prebuild` (idempotent).
 
 ### Avant release (PWA / prod)
@@ -322,17 +350,18 @@ Vérification automatisée : `build/contrast.test.js` (exécuté avec `npm test`
 
 ### Tests a11y
 
-| Type                  | Fichier / outil                                                                            |
-| --------------------- | ------------------------------------------------------------------------------------------ |
-| Violations WCAG       | `e2e/a11y.spec.js` (axe-core, CI desktop-chrome)                                           |
-| Clavier               | `e2e/a11y.spec.js`, `e2e/desktop-navigation.spec.js`                                       |
-| Focus utilitaires     | `js/utils/focus.test.js`                                                                   |
-| Modales (Tab, Escape) | `js/modules/modal.test.js`                                                                 |
-| Zoom 200 %            | `e2e/responsive-viewports.spec.js`                                                         |
-| Réduction mouvement   | `e2e/responsive-motion.spec.js`, `styles/layout/responsive.css` (`prefers-reduced-motion`) |
-| Touch ≥ 44 px         | `e2e/responsive-touch.spec.js`                                                             |
-| Safe-area / encoches  | `e2e/responsive-safe-area.spec.js`, tokens `--safe-area-inset-*`                           |
-| Skeleton first-paint  | `styles/components/partial-squelette.css`, `aria-busy` sur compétences/parcours            |
+| Type                  | Fichier / outil                                                                              |
+| --------------------- | -------------------------------------------------------------------------------------------- |
+| Violations WCAG       | `e2e/a11y.spec.js` (axe-core, CI desktop-chrome)                                             |
+| Clavier               | `e2e/a11y.spec.js`, `e2e/desktop-navigation.spec.js`                                         |
+| Focus utilitaires     | `js/utils/focus.test.js`                                                                     |
+| Modales (Tab, Escape) | `js/modules/modal.test.js`                                                                   |
+| Zoom 200 %            | `e2e/responsive-viewports.spec.js`                                                           |
+| Réduction mouvement   | `e2e/responsive-motion.spec.js`, `styles/layout/responsive.css` (`prefers-reduced-motion`)   |
+| Contraste renforcé    | `e2e/responsive-contrast.spec.js`, `styles/layout/responsive.css` (`prefers-contrast: more`) |
+| Touch ≥ 44 px         | `e2e/responsive-touch.spec.js`                                                               |
+| Safe-area / encoches  | `e2e/responsive-safe-area.spec.js`, tokens `--safe-area-inset-*`                             |
+| Skeleton first-paint  | `styles/components/partial-squelette.css`, `aria-busy` sur compétences/parcours              |
 
 ### Avant merge (checklist)
 

@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
-import breakpoints from './breakpoints.cjs';
+import * as breakpoints from './breakpoints.mjs';
 
 const rootDir = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const stylesDir = path.join(rootDir, 'styles');
@@ -30,7 +30,7 @@ function extraireValeursMedia(contenu) {
 }
 
 describe('breakpoints @media', () => {
-  it('utilise uniquement des seuils définis dans breakpoints.cjs', () => {
+  it('utilise uniquement des seuils définis dans breakpoints.mjs', () => {
     const fichiers = listerFichiersCss(stylesDir);
     const invalides = [];
 

@@ -84,7 +84,25 @@
   --couleur-pixel-bouche: #c0654a;
   --couleur-pixel-chaussure: #0a0a1a;
   --couleur-pixel-accent-detail: #44aaff;
+
+  /* Sprites boss dojo (SVG pixel art — partials/dojo-boss/) */
   --couleur-boss-vie: #ff4400;
+  --couleur-boss-accent-moyen: #2a3a9a;
+  --couleur-boss-accent-clair: #3a4aaa;
+  --couleur-boss-angular-clair: #ff6b6b;
+  --couleur-boss-angular-rouge: #dd0031;
+  --couleur-boss-violet-fonce: #2a1a6a;
+  --couleur-boss-violet: #4a2080;
+  --couleur-boss-java-clair: #88ccff;
+  --couleur-boss-java-bleu: #5382a1;
+  --couleur-boss-java-orange: #f89820;
+  --couleur-boss-orange-clair: #ffaa00;
+  --couleur-boss-orange: #ff8800;
+  --couleur-boss-brun: #3a1a00;
+  --couleur-boss-rouge-fonce: #6a1a1a;
+  --couleur-boss-indigo: #3a4a80;
+  --couleur-boss-bleu-corps: #1a3a6a;
+  --couleur-boss-vert-fonce: #1a3a1a;
 
   /* Polices */
   --police-pixel: 'Press Start 2P', monospace;
@@ -171,7 +189,7 @@
   --ombre-glow-valide: var(--ombre-texte-lisible), 0 0 8px rgba(68, 204, 136, 0.35);
 
   /* BREAKPOINTS_SYNC_START */
-  /** Seuils principaux — généré depuis build/breakpoints.cjs (non utilisables dans @media). */
+  /** Seuils principaux — généré depuis build/breakpoints.mjs (non utilisables dans @media). */
   --bp-tablette-min: 600px;
   --bp-mobile-max: 960px;
   --bp-desktop: 961px;

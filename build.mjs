@@ -88,7 +88,7 @@ async function runBuild() {
     copyHTML(ROOT, STAGING_DIR, SITE_BASE);
     writeSeoFiles(STAGING_DIR, SITE_BASE);
     copyFonts(ROOT, STAGING_DIR);
-    minifyCSS(ROOT, STAGING_DIR);
+    minifyCSS(ROOT, STAGING_DIR, { inclureMonolithe: false });
     minifyAllJs(ROOT, STAGING_DIR);
     await generatePwaIcons(ROOT, STAGING_DIR);
     await optimizeImages(ROOT, STAGING_DIR);

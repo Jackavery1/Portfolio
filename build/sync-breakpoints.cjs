@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const BP = require('./breakpoints.cjs');
+const BP = require('./breakpoints.mjs');
 
 const DEBUT = '/* BREAKPOINTS_SYNC_START */';
 const FIN = '/* BREAKPOINTS_SYNC_END */';
@@ -23,7 +23,7 @@ function echapperRegex(texte) {
 
 function genererVariablesBp() {
   return `${DEBUT}
-  /** Seuils principaux — généré depuis build/breakpoints.cjs (non utilisables dans @media). */
+  /** Seuils principaux — généré depuis build/breakpoints.mjs (non utilisables dans @media). */
   --bp-tablette-min: ${BP.TABLETTE_MIN}px;
   --bp-mobile-max: ${BP.MOBILE_MAX}px;
   --bp-desktop: ${BP.DESKTOP}px;

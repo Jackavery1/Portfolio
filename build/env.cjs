@@ -2,6 +2,8 @@ const fs = require('fs');
 const path = require('path');
 const CONFIG_DEFAULTS = require('./config-defaults.cjs');
 
+const CV_HREF_LOCAL = 'assets/cv-martinez-joris.pdf';
+
 function loadEnvFile(root) {
   const envPath = path.join(root, '.env.local');
   if (!fs.existsSync(envPath)) return;
@@ -29,6 +31,7 @@ function resolveBuildEnv(env = process.env) {
     ).replace(/\/$/, ''),
     formspree: env.PORTFOLIO_FORMSPREE_ENDPOINT || CONFIG_DEFAULTS.formspree,
     recaptcha: env.PORTFOLIO_RECAPTCHA_SITE_KEY || CONFIG_DEFAULTS.recaptcha,
+    cvHref: env.PORTFOLIO_CV_URL || CONFIG_DEFAULTS.cvHref,
   };
 }
 
@@ -43,11 +46,15 @@ function applyBuildEnvToJs(source, buildEnv = resolveBuildEnv(), defaults = CONF
   if (buildEnv.recaptcha !== defaults.recaptcha) {
     out = out.split(defaults.recaptcha).join(buildEnv.recaptcha);
   }
+  if (buildEnv.cvHref && buildEnv.cvHref !== CV_HREF_LOCAL) {
+    out = out.split(CV_HREF_LOCAL).join(buildEnv.cvHref);
+  }
   return out;
 }
 
 module.exports = {
   CONFIG_DEFAULTS,
+  CV_HREF_LOCAL,
   loadEnvFile,
   resolveBuildEnv,
   applyBuildEnvToJs,

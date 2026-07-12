@@ -141,11 +141,11 @@ describe('modal', () => {
     expect(document.getElementById('js-modal-lien').hidden).toBe(true);
   });
 
-  it('ajoute une balise picture pour les aperçus raster', () => {
+  it('utilise WebP comme src pour les aperçus raster', () => {
     ouvrirModal('raster');
     const img = document.getElementById('js-modal-img');
-    expect(img.closest('picture')).not.toBeNull();
-    expect(img.closest('picture').querySelector('source[type="image/webp"]')).not.toBeNull();
+    expect(img.src).toContain('photo.webp');
+    expect(img.closest('picture')).toBeNull();
   });
 
   it('marque les SVG sans picture', () => {

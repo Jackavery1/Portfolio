@@ -1,12 +1,29 @@
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
+import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it } from 'vitest';
 import { createRequire } from 'node:module';
 
 const require = createRequire(import.meta.url);
-const { HTML_FILES } = require('./sync-nav-squelette.cjs');
 const rootDir = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
+const scriptPath = path.join(rootDir, 'build', 'sync-nav-squelette.cjs');
+const { HTML_FILES, syncNavSquelette } = require('./sync-nav-squelette.cjs');
+
+const tmpDirs = [];
+
+function creerRacineTest() {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'sync-nav-squelette-'));
+  tmpDirs.push(tmp);
+  return tmp;
+}
+
+afterEach(() => {
+  tmpDirs.splice(0).forEach((dir) => {
+    fs.rmSync(dir, { recursive: true, force: true });
+  });
+});
 
 describe('nav-squelette sync', () => {
   it('injecte le score arcade dans chaque page HTML', () => {
@@ -16,5 +33,61 @@ describe('nav-squelette sync', () => {
       expect(html).toContain('id="js-score"');
       expect(html).toContain(partial.trim().slice(0, 40));
     });
+  });
+
+  it('syncNavSquelette remplace le contenu du header partial-nav', () => {
+    const tmp = creerRacineTest();
+    const squelette = '<a href="index.html" class="nav__logo">TEST</a>';
+    fs.mkdirSync(path.join(tmp, 'partials'), { recursive: true });
+    fs.writeFileSync(path.join(tmp, 'partials', 'nav-squelette.html'), squelette, 'utf8');
+
+    const htmlInitial = `<!doctype html>
+<html lang="fr">
+  <body>
+    <header id="partial-nav" class="nav">
+      <span>ancien</span>
+    </header>
+  </body>
+</html>`;
+    fs.writeFileSync(path.join(tmp, 'index.html'), htmlInitial, 'utf8');
+
+    syncNavSquelette(tmp);
+
+    const html = fs.readFileSync(path.join(tmp, 'index.html'), 'utf8');
+    expect(html).toContain(squelette);
+    expect(html).not.toContain('<span>ancien</span>');
+  });
+
+  it('syncNavSquelette ignore les fichiers HTML absents', () => {
+    const tmp = creerRacineTest();
+    fs.mkdirSync(path.join(tmp, 'partials'), { recursive: true });
+    fs.writeFileSync(path.join(tmp, 'partials', 'nav-squelette.html'), 'ok', 'utf8');
+    expect(() => syncNavSquelette(tmp)).not.toThrow();
+  });
+
+  it('syncNavSquelette échoue si nav-squelette.html est absent', () => {
+    const tmp = creerRacineTest();
+    expect(() => syncNavSquelette(tmp)).toThrow(/nav-squelette\.html manquant/);
+  });
+
+  it('syncNavSquelette échoue si le header partial-nav est absent', () => {
+    const tmp = creerRacineTest();
+    fs.mkdirSync(path.join(tmp, 'partials'), { recursive: true });
+    fs.writeFileSync(path.join(tmp, 'partials', 'nav-squelette.html'), 'ok', 'utf8');
+    fs.writeFileSync(
+      path.join(tmp, 'index.html'),
+      '<!doctype html><html><body><header class="nav">sans id</header></body></html>',
+      'utf8'
+    );
+
+    expect(() => syncNavSquelette(tmp)).toThrow(/squelette partial-nav introuvable/);
+  });
+
+  it('CLI exécute syncNavSquelette sans erreur sur le dépôt', () => {
+    const resultat = spawnSync(process.execPath, [scriptPath], {
+      cwd: rootDir,
+      encoding: 'utf8',
+    });
+    expect(resultat.status).toBe(0);
   });
 });

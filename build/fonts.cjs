@@ -91,8 +91,15 @@ function syncFontsRoot(root) {
   genererFontsLocalCss(root);
 }
 
+function policesLocalesPretes(root) {
+  const srcDir = path.join(root, 'assets', 'fonts');
+  return FONT_FILES.every(({ dst }) => fs.existsSync(path.join(srcDir, dst)));
+}
+
 function copyFonts(root, distDir) {
-  syncFontsRoot(root);
+  if (!policesLocalesPretes(root)) {
+    syncFontsRoot(root);
+  }
   const srcDir = path.join(root, 'assets', 'fonts');
   const dstDir = path.join(distDir, 'assets', 'fonts');
   ensureDir(dstDir);
@@ -104,4 +111,4 @@ function copyFonts(root, distDir) {
   log('Polices locales → assets/fonts/ (latin + latin-ext)', 'success');
 }
 
-module.exports = { copyFonts, syncFontsRoot, genererFontsLocalCss, FONT_FILES, POLICES };
+module.exports = { copyFonts, syncFontsRoot, genererFontsLocalCss, FONT_FILES, POLICES, policesLocalesPretes };

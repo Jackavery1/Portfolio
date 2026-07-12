@@ -1,12 +1,13 @@
 const fs = require('fs');
 const path = require('path');
 const { ensureDir, log } = require('./fs-utils.cjs');
+const { CV_HREF_LOCAL, resolveBuildEnv } = require('./env.cjs');
 const { PAGE_META } = require('./page-meta.cjs');
 const { remplacerBlocPageMeta } = require('./page-meta-tags.cjs');
-const { urlPageProd } = require('./url-page.cjs');
+const { urlPageProd } = require('./url-page.mjs');
 const { BASE_STYLE_FILE, PAGE_STYLE_BY_HTML } = require('./page-styles.cjs');
 const { buildJsonLd, jsonLdScriptTag } = require('./json-ld.cjs');
-const { PARTIELS: PARTIAL_PLACEHOLDERS } = require('./partials-list.cjs');
+const { PARTIELS: PARTIAL_PLACEHOLDERS } = require('./partials-list.mjs');
 const { injectMentionsHtml } = require('./inject-mentions-html.cjs');
 
 const HEAD_COMMON_MARKER = '<!-- HEAD_COMMON -->';
@@ -155,6 +156,12 @@ function injectPerfHead(html, htmlFile, root) {
   return out.replace(needle, remplacement);
 }
 
+function injectCvLien(html) {
+  const { cvHref } = resolveBuildEnv();
+  if (!cvHref || cvHref === CV_HREF_LOCAL) return html;
+  return html.replaceAll(`href="${CV_HREF_LOCAL}"`, `href="${cvHref}"`);
+}
+
 // Chaîne appliquée à chaque page : SEO absolu → meta page → head prod → perf → partials → CSP
 function copyHTML(root, distDir, siteBase) {
   let n = 0;
@@ -173,6 +180,7 @@ function copyHTML(root, distDir, siteBase) {
     html = injectJsonLd(html, file, siteBase);
     html = injectPerfHead(html, file, root);
     html = inlinePartials(html, root);
+    html = injectCvLien(html);
     if (file === 'mentions-legales.html') {
       html = injectMentionsHtml(html, root);
     }
@@ -197,5 +205,6 @@ module.exports = {
   injectFontsAsync,
   injectPerfHead,
   injectJsonLd,
+  injectCvLien,
   liensStylesProd,
 };

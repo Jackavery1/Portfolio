@@ -9,8 +9,8 @@ const require = createRequire(import.meta.url);
 const rootDir = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 
 describe('sync-breakpoints', () => {
-  it('génère toutes les variables CSS depuis breakpoints.cjs', () => {
-    const BP = require('./breakpoints.cjs');
+  it('génère toutes les variables CSS depuis breakpoints.mjs', () => {
+    const BP = require('./breakpoints.mjs');
     const bloc = genererVariablesBp();
     expect(bloc).toContain(`--bp-mobile-etroit: ${BP.MOBILE_ETROIT_MAX}px`);
     expect(bloc).toContain('BREAKPOINTS_SYNC_START');
@@ -22,7 +22,7 @@ describe('sync-breakpoints', () => {
     expect(tokens).toContain('--bp-mobile-etroit: 320px');
   });
 
-  it('tous les @media utilisent des seuils déclarés dans breakpoints.cjs', () => {
+  it('tous les @media utilisent des seuils déclarés dans breakpoints.mjs', () => {
     syncBreakpoints(rootDir);
     const invalides = verifierSeuilsMedia(rootDir);
     expect(invalides).toEqual([]);

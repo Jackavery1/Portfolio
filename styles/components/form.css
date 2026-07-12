@@ -161,6 +161,7 @@
 .carte-contact__lien:active {
   color: var(--couleur-accent-vif);
   text-decoration: underline;
+  transform: scale(0.98);
 }
 
 .carte-contact__lien:focus-visible {
@@ -198,12 +199,6 @@
   color: var(--couleur-erreur);
   border: 1px solid var(--couleur-erreur);
   background-color: var(--couleur-erreur-alpha-soft);
-}
-
-.recaptcha-zone--v3 {
-  color: var(--couleur-texte-discret);
-  border: 1px solid var(--couleur-bordure);
-  background-color: var(--couleur-accent-alpha);
 }
 
 .formulaire-erreur {

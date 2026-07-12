@@ -9,9 +9,11 @@ const FOND_PWA = { r: 3, g: 4, b: 15, alpha: 1 };
 
 /** Qualité PNG par fichier (assets racine) — og et icônes PWA */
 const PNG_QUALITE_PAR_FICHIER = {
-  'og.png': 68,
-  'favicon.png': 78,
+  'og.png': 62,
 };
+
+/** Largeur max OG (réseaux sociaux) — redimensionnement au build */
+const OG_LARGEUR_MAX = 1200;
 
 function listerRasters(srcDir) {
   return fs.readdirSync(srcDir).filter((f) => /\.(png|jpe?g)$/i.test(f));
@@ -30,7 +32,10 @@ function creerImages(sharpLib = sharpDefaut) {
     nomFichier,
   }) {
     const image = sharpLib(srcPath, { failOn: 'none' });
-    const pipeline = image.rotate();
+    let pipeline = image.rotate();
+    if (nomFichier === 'og.png') {
+      pipeline = pipeline.resize({ width: OG_LARGEUR_MAX, withoutEnlargement: true });
+    }
     const qualitePngEffective = PNG_QUALITE_PAR_FICHIER[nomFichier] ?? qualitePng;
 
     if (ext === '.jpg' || ext === '.jpeg') {
@@ -111,9 +116,10 @@ function creerImages(sharpLib = sharpDefaut) {
   };
 
   api.optimizePreviewImages = async function optimizePreviewImages(root, distDir) {
+    const dstDir = path.join(distDir, 'assets', 'previews');
     await api.optimizeRasterDir({
       srcDir: path.join(root, 'assets', 'previews'),
-      dstDir: path.join(distDir, 'assets', 'previews'),
+      dstDir,
       label: 'assets/previews/',
       options: {
         jpegQuality: 80,
@@ -122,6 +128,14 @@ function creerImages(sharpLib = sharpDefaut) {
       },
       onError: 'copy',
     });
+    if (!fs.existsSync(dstDir)) return;
+    for (const name of listerRasters(dstDir)) {
+      const pngPath = path.join(dstDir, name);
+      const webpPath = pngPath.replace(/\.(png|jpe?g)$/i, '.webp');
+      if (fs.existsSync(webpPath)) {
+        fs.unlinkSync(pngPath);
+      }
+    }
   };
 
   api.copyAssets = function copyAssets(root, distDir) {
@@ -145,10 +159,6 @@ function creerImages(sharpLib = sharpDefaut) {
       {
         src: path.join(root, 'assets', 'icon-512.png'),
         dst: path.join(distDir, 'assets', 'icon-512.png'),
-      },
-      {
-        src: path.join(root, 'assets', 'cv-martinez-joris.pdf'),
-        dst: path.join(distDir, 'assets', 'cv-martinez-joris.pdf'),
       },
       {
         src: path.join(root, 'offline.html'),
@@ -225,6 +235,7 @@ module.exports = {
   listerRasters,
   creerImages,
   PNG_QUALITE_PAR_FICHIER,
+  OG_LARGEUR_MAX,
   ZONE_UTILE_PWA,
   FOND_PWA,
   ...api,

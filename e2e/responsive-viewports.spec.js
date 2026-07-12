@@ -56,18 +56,47 @@ for (const pageInfo of PAGES.slice(1)) {
   });
 }
 
-test('responsive paysage accueil — scroll et hero visibles', async ({ page }) => {
-  await page.setViewportSize({ width: 568, height: 320 });
-  await gotoReady(page, '/index.html');
+const PAGES_PAYSAGE = [
+  { path: '/index.html', h1: /MARTINEZ/i, contenu: '.accueil__grille' },
+  { path: '/projets.html', h1: /SELECT YOUR STAGE/i, contenu: '.grille-projets' },
+  { path: '/competences.html', h1: /HIGH SCORES/i, contenu: '.langue-item' },
+  { path: '/parcours.html', h1: /STORY MODE/i, contenu: '.svg-arbre' },
+  { path: '/dojo.html', h1: /DOJO/i, contenu: '.boss-carte' },
+  {
+    path: '/contact.html',
+    h1: /CONTINUE/i,
+    contenu: '.bouton-envoyer',
+    avantAssertion: async (page) => {
+      await expect(page.locator('#js-formulaire')).toHaveAttribute('data-ready', '1', {
+        timeout: 15_000,
+      });
+    },
+  },
+  {
+    path: '/mentions-legales.html',
+    h1: /MENTIONS/i,
+    contenu: '.mentions-sommaire__liste',
+  },
+];
 
-  await expect(page.locator('h1')).toContainText(/MARTINEZ/i);
-  await expect(page.locator('.accueil__grille')).toBeVisible();
-  await assertPasOverflowHorizontal(page);
+for (const pageInfo of PAGES_PAYSAGE) {
+  test(`responsive paysage — ${pageInfo.path} scroll et contenu visibles`, async ({ page }) => {
+    await page.setViewportSize({ width: 568, height: 320 });
+    await gotoReady(page, pageInfo.path);
 
-  const scrollHeight = await page.evaluate(() => document.documentElement.scrollHeight);
-  const clientHeight = await page.evaluate(() => document.documentElement.clientHeight);
-  expect(scrollHeight).toBeGreaterThanOrEqual(clientHeight);
-});
+    if (pageInfo.avantAssertion) {
+      await pageInfo.avantAssertion(page);
+    }
+
+    await expect(page.locator('h1')).toContainText(pageInfo.h1);
+    await expect(page.locator(pageInfo.contenu).first()).toBeVisible();
+    await assertPasOverflowHorizontal(page);
+
+    const scrollHeight = await page.evaluate(() => document.documentElement.scrollHeight);
+    const clientHeight = await page.evaluate(() => document.documentElement.clientHeight);
+    expect(scrollHeight).toBeGreaterThanOrEqual(clientHeight);
+  });
+}
 
 test('responsive seuil nav — burger à 960px, liens horizontaux à 961px', async ({ page }) => {
   await page.setViewportSize({ width: 960, height: 800 });

@@ -20,7 +20,7 @@ export const VIEWPORTS = [
 /** Viewports tablette, desktop et desktop-large pour la matrice étendue. */
 export const VIEWPORTS_ETENDUS = VIEWPORTS.slice(1);
 
-/** Viewport étroit — aligné sur build/breakpoints.cjs (MOBILE_ETROIT_MAX). */
+/** Viewport étroit — aligné sur build/breakpoints.mjs (MOBILE_ETROIT_MAX). */
 export const VIEWPORT_ETROIT = { width: 320, height: 568, label: 'mobile-etroit' };
 
 /** Référence mobile unique pour scénarios ciblés (burger, touch, contact). */

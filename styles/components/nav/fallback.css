@@ -13,6 +13,17 @@
   cursor: pointer;
 }
 
+.nav__fallback-retry:hover {
+  color: var(--couleur-texte-fort);
+  border-color: var(--couleur-accent);
+  background: var(--couleur-fond-survol);
+}
+
+.nav__fallback-retry:active {
+  transform: scale(0.98);
+  border-color: var(--couleur-accent-vif);
+}
+
 .nav__fallback-retry:focus-visible {
   outline: 2px solid var(--couleur-accent-vif);
   outline-offset: 2px;

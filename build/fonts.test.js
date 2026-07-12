@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { beforeAll, describe, expect, it } from 'vitest';
@@ -6,6 +7,7 @@ import { createRequire } from 'node:module';
 
 const require = createRequire(import.meta.url);
 const rootDir = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
+const { FONT_FILES } = require('./fonts.cjs');
 
 describe('fonts build', () => {
   beforeAll(() => {
@@ -33,5 +35,19 @@ describe('fonts build', () => {
     expect(css).toContain('unicode-range:');
     expect(css).toContain('rajdhani-latin-ext-400.woff2');
     expect((css.match(/@font-face/g) || []).length).toBe(6);
+  });
+
+  it('copyFonts évite syncFontsRoot si les polices sont déjà présentes', () => {
+    const { copyFonts, policesLocalesPretes } = require('./fonts.cjs');
+    expect(policesLocalesPretes(rootDir)).toBe(true);
+    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'portfolio-fonts-'));
+    try {
+      copyFonts(rootDir, tmp);
+      FONT_FILES.forEach(({ dst }) => {
+        expect(fs.existsSync(path.join(tmp, 'assets', 'fonts', dst))).toBe(true);
+      });
+    } finally {
+      fs.rmSync(tmp, { recursive: true, force: true });
+    }
   });
 });

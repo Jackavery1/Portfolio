@@ -79,12 +79,13 @@ Approche **test-per-module** : Vitest + Playwright e2e (voir `npm test` / `npm r
 
 ### Dualité ESM (runtime) / CJS (build)
 
-| Couche            | Format                                 | Rôle                                                                        |
-| ----------------- | -------------------------------------- | --------------------------------------------------------------------------- |
-| `js/`             | **ESM** (`import` / `export`)          | Modules chargés par le navigateur (`type="module"`)                         |
-| `build/`          | **CJS** (`require` / `module.exports`) | Scripts Node I/O (sync, minify, SW) — 38 modules                            |
-| `build.mjs`       | **ESM** (entrée build)                 | Orchestration via `build/cjs-bridge.mjs` → `loadBuild()`                    |
-| `build/*.test.js` | ESM                                    | `loadBuild()` ou `build/test-require.mjs` (remplace `createRequire` répété) |
+| Couche            | Format                                 | Rôle                                                                                       |
+| ----------------- | -------------------------------------- | ------------------------------------------------------------------------------------------ |
+| `js/`             | **ESM** (`import` / `export`)          | Modules chargés par le navigateur (`type="module"`)                                        |
+| `build/`          | **CJS** (`require` / `module.exports`) | Scripts Node I/O (sync, minify, SW) — modules I/O lourds                                   |
+| `build/*.mjs`     | **ESM** (données pures)                | `url-page.mjs`, `breakpoints.mjs`, `partials-list.mjs` — `require()` depuis CJS (Node ≥20) |
+| `build.mjs`       | **ESM** (entrée build)                 | Orchestration via `build/cjs-bridge.mjs` → `loadBuild()`                                   |
+| `build/*.test.js` | ESM                                    | `loadBuild()` ou `build/test-require.mjs` (remplace `createRequire` répété)                |
 
 **Pont** : `build/cjs-bridge.mjs` expose `loadBuild('env.cjs')` — point d’entrée ESM unique sans migrer tout le pipeline CJS (CLI `require.main`, I/O synchrone).
 
@@ -218,6 +219,33 @@ if (visualViewport) adjustPaddingSafeArea()
 Sources versionnées : `js/config/legal.json`, `js/config/projects.json`, `js/config/musique-donnees.json`.
 
 Liste complète des artefacts générés, commandes sync et workflow : **`CONTRIBUTING.md` § Configuration**.
+
+#### Phases `sync-source.cjs` (ordre et dépendances)
+
+| Phase               | Dépend de   | Rôle                                    |
+| ------------------- | ----------- | --------------------------------------- |
+| `defaults`          | —           | `js/config/defaults.js`, `partials.js`  |
+| `style-css`         | `defaults`  | Agrège `style.css`                      |
+| `partials`          | `style-css` | Fragments HTML (`partials/*.html`)      |
+| `nav-squelette`     | `partials`  | Injecte le squelette nav dans les pages |
+| `parcours-arbre`    | `partials`  | Arbre parcours assemblé                 |
+| `dojo-boss`         | `partials`  | Lots boss rush (a/b/c)                  |
+| `competences-stats` | `partials`  | Tableau scores compétences              |
+| `accueil-hero`      | `partials`  | Hero accueil                            |
+| `breakpoints`       | `style-css` | Constantes breakpoints partagées        |
+| `legal`             | —           | `legal-data.js`                         |
+| `projects`          | —           | `projects-data.js`                      |
+| `musique-donnees`   | —           | `musique-themes.json`                   |
+| `manifest-dev`      | `legal`     | `manifest.webmanifest` dev              |
+
+`sync-page-meta.cjs` est optionnel (`--page-meta`) et s’exécute après la boucle principale.
+
+#### État mutable isolé (runtime)
+
+| Module                        | Rôle                        |
+| ----------------------------- | --------------------------- |
+| `audio-context-store.js`      | Contexte Web Audio unique   |
+| `musique-sequencuer-store.js` | État planification chiptune |
 
 ### Code mort : détection
 

@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest';
 import { createRequire } from 'node:module';
 
 const require = createRequire(import.meta.url);
-const BP = require('./breakpoints.cjs');
+const BP = require('./breakpoints.mjs');
 const root = path.join(import.meta.dirname, '..');
 
 describe('breakpoints', () => {
@@ -26,7 +26,7 @@ describe('breakpoints', () => {
     expect(tokens).toContain(`@media (max-width: ${BP.MOBILE_MAX}px)`);
   });
 
-  it('styles @media alignés sur breakpoints.cjs', () => {
+  it('styles @media alignés sur breakpoints.mjs', () => {
     const { verifierSeuilsMedia } = require('./sync-breakpoints.cjs');
     const invalides = verifierSeuilsMedia(root);
     expect(invalides).toEqual([]);

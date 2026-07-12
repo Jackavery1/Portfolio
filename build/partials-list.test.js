@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { PARTIELS } from './partials-list.cjs';
+import { PARTIELS } from './partials-list.mjs';
 
 describe('partials-list', () => {
   it('expose des partials avec id et fichier', () => {

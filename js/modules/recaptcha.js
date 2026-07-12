@@ -26,13 +26,6 @@ export async function initialiserRecaptcha({ siteKey, version, mountId }) {
 
   const mount = mountId ? parId(mountId) : null;
   if (version === 3) {
-    if (mount) {
-      mount.hidden = false;
-      mount.className = 'recaptcha-zone recaptcha-zone--v3';
-      mount.setAttribute('role', 'status');
-      mount.textContent =
-        'Vérification anti-spam (reCAPTCHA v3). Domaines Google : 127.0.0.1 et localhost.';
-    }
     await chargerScriptV3(key);
     return true;
   }

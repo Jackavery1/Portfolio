@@ -11,16 +11,25 @@ const { minifyCSS } = require('./css.cjs');
 const { BASE_STYLE_FILE, PAGE_STYLE_BY_HTML } = require('./page-styles.cjs');
 
 describe('build css', () => {
-  it('génère le CSS base, par page et le fallback monolithique', () => {
+  it('génère le CSS base et par page', () => {
     const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'portfolio-css-'));
     try {
-      minifyCSS(rootDir, tmp);
+      minifyCSS(rootDir, tmp, { inclureMonolithe: false });
 
       expect(fs.existsSync(path.join(tmp, BASE_STYLE_FILE))).toBe(true);
       Object.values(PAGE_STYLE_BY_HTML).forEach(({ outfile }) => {
         expect(fs.existsSync(path.join(tmp, outfile))).toBe(true);
       });
-      expect(fs.existsSync(path.join(tmp, 'style.css'))).toBe(true);
+      expect(fs.existsSync(path.join(tmp, 'style.css'))).toBe(false);
+    } finally {
+      fs.rmSync(tmp, { recursive: true, force: true });
+    }
+  });
+
+  it('peut inclure le monolithe style.css pour le fallback dev', () => {
+    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'portfolio-css-mono-'));
+    try {
+      minifyCSS(rootDir, tmp, { inclureMonolithe: true });
 
       const baseSize = fs.statSync(path.join(tmp, BASE_STYLE_FILE)).size;
       const contactSize = fs.statSync(

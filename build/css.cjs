@@ -31,7 +31,8 @@ function ecrireCss(distDir, filename, contenu, label) {
   log(`${label} → ${filename} (${contenu.length} octets)`, 'success');
 }
 
-function minifyCSS(root, distDir) {
+function minifyCSS(root, distDir, options = {}) {
+  const { inclureMonolithe = true } = options;
   const srcMonolith = path.join(root, 'style.css');
   if (!fs.existsSync(srcMonolith)) {
     log(`CSS source non trouvé: ${srcMonolith}`, 'warning');
@@ -48,9 +49,11 @@ function minifyCSS(root, distDir) {
     ecrireCss(distDir, outfile, pageOutput, 'CSS page');
   });
 
-  const monolithInput = fs.readFileSync(srcMonolith, 'utf8');
-  const monolithOutput = minifierBundle(root, monolithInput, 'style.css (dev fallback)');
-  ecrireCss(distDir, 'style.css', monolithOutput, 'CSS monolithique (fallback)');
+  if (inclureMonolithe) {
+    const monolithInput = fs.readFileSync(srcMonolith, 'utf8');
+    const monolithOutput = minifierBundle(root, monolithInput, 'style.css (dev fallback)');
+    ecrireCss(distDir, 'style.css', monolithOutput, 'CSS monolithique (fallback)');
+  }
 }
 
 module.exports = { minifyCSS };

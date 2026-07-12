@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { ensureDir, log } = require('./fs-utils.cjs');
 const { HTML_FILES } = require('./html.cjs');
-const { urlPageProd } = require('./url-page.cjs');
+const { urlPageProd } = require('./url-page.mjs');
 const { writeManifest } = require('./manifest.cjs');
 
 const SITEMAP_PRIORITY = {

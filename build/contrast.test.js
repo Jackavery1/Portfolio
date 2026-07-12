@@ -65,24 +65,56 @@ const PAIRES_AA = [
   { fg: '--couleur-accent-texte', bg: '--couleur-fond-carte', min: 4.5 },
   { fg: '--couleur-actif', bg: '--couleur-fond-carte', min: 3 },
   { fg: '--couleur-texte-normal', bg: '--couleur-fond-page', min: 4.5 },
+  { fg: '--couleur-texte-discret', bg: '--couleur-fond', min: 4.5, label: 'arcade-label' },
+  { fg: '--couleur-accent-vif', bg: '--couleur-fond-page', min: 3, label: 'titre-arcade__nom' },
+  {
+    fg: '--couleur-texte-fort',
+    bg: '--couleur-fond-page',
+    min: 4.5,
+    label: 'titre-arcade__prenom',
+  },
+  { fg: '--couleur-actif', bg: '--couleur-fond', min: 3, label: 'arcade-valeur' },
 ];
+
+const PAIRES_UI_DOCUMENTEES = PAIRES_AA.filter((paire) => paire.label);
 
 describe('contrast tokens', () => {
   it('respecte les ratios WCAG AA sur les paires critiques', () => {
     const tokens = lireTokensCss();
-    const echecs = PAIRES_AA.flatMap(({ fg, bg, min }) => {
+    const echecs = PAIRES_AA.flatMap(({ fg, bg, min, label }) => {
       const fgHex = tokens[fg];
       const bgHex = tokens[bg];
       if (!fgHex || !bgHex) {
-        return [{ fg, bg, min, ratio: null, message: 'token manquant' }];
+        return [{ fg, bg, min, label, ratio: null, message: 'token manquant' }];
       }
       const ratio = ratioContraste(fgHex, bgHex);
       if (ratio < min) {
-        return [{ fg, bg, min, ratio: Number(ratio.toFixed(2)) }];
+        return [{ fg, bg, min, label, ratio: Number(ratio.toFixed(2)) }];
       }
       return [];
     });
 
     expect(echecs).toEqual([]);
+  });
+
+  it('documente les ratios nav et hero (≥ seuils UI)', () => {
+    const tokens = lireTokensCss();
+    const ratios = PAIRES_UI_DOCUMENTEES.map(({ fg, bg, min, label }) => {
+      const ratio = ratioContraste(tokens[fg], tokens[bg]);
+      return { label, ratio: Number(ratio.toFixed(2)), min };
+    });
+
+    ratios.forEach(({ label, ratio, min }) => {
+      expect(ratio, `${label} — ratio ${ratio} < ${min}`).toBeGreaterThanOrEqual(min);
+    });
+
+    expect(ratios.find((item) => item.label === 'arcade-label')?.ratio).toBeGreaterThanOrEqual(4.5);
+    expect(ratios.find((item) => item.label === 'titre-arcade__nom')?.ratio).toBeGreaterThanOrEqual(
+      3
+    );
+    expect(
+      ratios.find((item) => item.label === 'titre-arcade__prenom')?.ratio
+    ).toBeGreaterThanOrEqual(4.5);
+    expect(ratios.find((item) => item.label === 'arcade-valeur')?.ratio).toBeGreaterThanOrEqual(3);
   });
 });

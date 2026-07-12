@@ -16,22 +16,34 @@ const { syncMusiqueDonnees } = require('./sync-musique-donnees.cjs');
 
 const ROOT = path.join(__dirname, '..');
 
-/** Phases ordonnées — l’ordre compte (partials avant nav, legal avant manifest, etc.). */
+/** Phases ordonnées — l’ordre compte ; voir `dependDe` et ARCHITECTURE.md § Sync. */
 function getSyncPhases(root = ROOT) {
   return [
-    { id: 'defaults', executer: () => syncDefaults() },
-    { id: 'style-css', executer: () => syncStyleCss() },
-    { id: 'partials', executer: () => syncPartials() },
-    { id: 'nav-squelette', executer: () => syncNavSquelette(root) },
-    { id: 'parcours-arbre', executer: () => syncParcoursArbre() },
-    { id: 'dojo-boss', executer: () => syncDojoBoss() },
-    { id: 'competences-stats', executer: () => syncCompetencesStats() },
-    { id: 'accueil-hero', executer: () => syncAccueilHero() },
-    { id: 'breakpoints', executer: () => syncBreakpoints() },
-    { id: 'legal', executer: () => syncLegal() },
-    { id: 'projects', executer: () => syncProjects() },
-    { id: 'musique-donnees', executer: () => syncMusiqueDonnees(root) },
-    { id: 'manifest-dev', executer: () => syncManifestDev(root) },
+    { id: 'defaults', dependDe: [], executer: () => syncDefaults() },
+    { id: 'style-css', dependDe: ['defaults'], executer: () => syncStyleCss() },
+    {
+      id: 'partials',
+      dependDe: ['style-css'],
+      executer: () => syncPartials(),
+    },
+    {
+      id: 'nav-squelette',
+      dependDe: ['partials'],
+      executer: () => syncNavSquelette(root),
+    },
+    { id: 'parcours-arbre', dependDe: ['partials'], executer: () => syncParcoursArbre() },
+    { id: 'dojo-boss', dependDe: ['partials'], executer: () => syncDojoBoss() },
+    { id: 'competences-stats', dependDe: ['partials'], executer: () => syncCompetencesStats() },
+    { id: 'accueil-hero', dependDe: ['partials'], executer: () => syncAccueilHero() },
+    { id: 'breakpoints', dependDe: ['style-css'], executer: () => syncBreakpoints() },
+    { id: 'legal', dependDe: [], executer: () => syncLegal() },
+    { id: 'projects', dependDe: [], executer: () => syncProjects() },
+    { id: 'musique-donnees', dependDe: [], executer: () => syncMusiqueDonnees(root) },
+    {
+      id: 'manifest-dev',
+      dependDe: ['legal'],
+      executer: () => syncManifestDev(root),
+    },
   ];
 }
 

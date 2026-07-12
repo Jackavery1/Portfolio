@@ -51,7 +51,8 @@
   }
 
   .arcade-label {
-    font-size: var(--taille-petit-pixel);
+    font-size: var(--taille-pixel-decoratif-min);
+    letter-spacing: 1px;
   }
 }
 
@@ -73,8 +74,8 @@
 
   .arcade-label {
     display: block;
-    font-size: var(--taille-pixel-min);
-    letter-spacing: 1px;
+    font-size: 0.6875rem;
+    letter-spacing: 0.5px;
     white-space: nowrap;
     flex-shrink: 0;
   }
@@ -113,7 +114,11 @@
     letter-spacing: 0.5px;
   }
 
-  .arcade-label,
+  .arcade-label {
+    font-family: var(--police-pixel);
+    font-size: 0.6875rem;
+  }
+
   .arcade-valeur {
     font-family: var(--police-pixel);
     font-size: var(--taille-pixel-min);

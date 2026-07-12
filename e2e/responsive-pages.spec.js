@@ -152,16 +152,11 @@ test('responsive paysage mobile — hint informatif sur pages denses', async ({ 
   }
 });
 
-test('footer — mention thème sombre volontaire', async ({ page }) => {
+test('footer — tagline visible', async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 667 });
   await gotoReady(page, '/index.html');
 
-  const note = page.locator('.pied-page__theme-note');
-  await expect(note).toBeVisible();
-  await expect(note).toContainText(/thème sombre/i);
-  await expect(note).toHaveAttribute('title', /choix volontaire/i);
-
-  const shell = page.locator('.pied-page__shell-note');
-  await expect(shell).toBeVisible();
-  await expect(shell).toContainText(/contenu FR/i);
+  const tagline = page.locator('.pied-page__tagline-ia');
+  await expect(tagline).toBeVisible();
+  await expect(tagline).toContainText(/Made with code/i);
 });

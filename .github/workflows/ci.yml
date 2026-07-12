@@ -133,7 +133,7 @@ jobs:
       - name: Lighthouse CI
         run: |
           for attempt in 1 2 3; do
-            echo "Lighthouse — tentative ${attempt}/3"
+            echo "Lighthouse mobile — tentative ${attempt}/3"
             npm run test:lhci && exit 0
             if [ "${attempt}" -lt 3 ]; then
               echo "Échec Lighthouse, nouvelle tentative dans 15s…"
@@ -141,6 +141,9 @@ jobs:
             fi
           done
           exit 1
+
+      - name: Lighthouse CI desktop (smoke)
+        run: npm run test:lhci:desktop
 
   deploy:
     needs: [validate, e2e, lighthouse]

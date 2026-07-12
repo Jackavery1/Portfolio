@@ -8,11 +8,3 @@ export const SECTIONS_AVEC_INITIALISEUR = ['accueil', 'projets', 'dojo', 'contac
 export const SECTIONS_STATIQUES = ['parcours', 'competences'];
 
 export const TOUTES_LES_SECTIONS = [...SECTIONS_AVEC_INITIALISEUR, ...SECTIONS_STATIQUES];
-
-export const LIBELLES_NAV_ARCADE_FR = {
-  HOME: 'Accueil',
-  WORK: 'Projets',
-  STATS: 'Compétences',
-  STORY: 'Parcours',
-  CONTACT: 'Contact',
-};

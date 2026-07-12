@@ -22,7 +22,7 @@ describe('recaptcha', () => {
       await chargerModuleRecaptcha());
   });
 
-  it('affiche le bandeau v3 quand le script est déjà chargé', async () => {
+  it('charge v3 sans afficher de bandeau', async () => {
     const script = document.createElement('script');
     script.src = 'https://www.google.com/recaptcha/api.js?render=test-key';
     script.dataset.recaptchaV3 = '1';
@@ -41,8 +41,8 @@ describe('recaptcha', () => {
 
     expect(ok).toBe(true);
     const mount = document.getElementById('js-recaptcha-mount');
-    expect(mount.hidden).toBe(false);
-    expect(mount.textContent).toContain('reCAPTCHA v3');
+    expect(mount.textContent).toBe('');
+    expect(mount.hidden).toBe(true);
   });
 
   it('utilise le jeton e2e injecté', async () => {

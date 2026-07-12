@@ -1,6 +1,11 @@
 import { describe, expect, it } from 'vitest';
 import { createRequire } from 'node:module';
-import { balisesPageMeta, blocPageMeta, remplacerBlocPageMeta } from './page-meta-tags.cjs';
+import {
+  balisesPageMeta,
+  blocPageMeta,
+  escapeHtmlAttr,
+  remplacerBlocPageMeta,
+} from './page-meta-tags.cjs';
 
 const require = createRequire(import.meta.url);
 const { PAGE_META } = require('./page-meta.cjs');
@@ -35,5 +40,32 @@ describe('page-meta-tags', () => {
     const bloc = blocPageMeta(PAGE_META['index.html']);
     expect(bloc).toContain('<!-- PAGE_META_START -->');
     expect(bloc).toContain('<!-- PAGE_META_END -->');
+  });
+
+  it('escapeHtmlAttr échappe & et les guillemets', () => {
+    expect(escapeHtmlAttr('A & B "test"')).toBe('A &amp; B &quot;test&quot;');
+  });
+
+  it('balisesPageMeta retourne une chaîne vide sans meta', () => {
+    expect(balisesPageMeta(null)).toBe('');
+    expect(blocPageMeta(null)).toBe('');
+  });
+
+  it('metaTag multiligne pour les descriptions longues', () => {
+    const meta = {
+      description: 'x'.repeat(120),
+      ogTitle: 'Titre',
+      ogDescription: 'Court',
+      twitterTitle: 'Titre',
+      twitterDescription: 'Court',
+    };
+    const balises = balisesPageMeta(meta);
+    expect(balises).toContain('<meta\n');
+    expect(balises).toContain('name="description"');
+  });
+
+  it('remplacerBlocPageMeta laisse le HTML inchangé sans marqueurs PAGE_META', () => {
+    const source = '<head><title>Sans meta</title></head>';
+    expect(remplacerBlocPageMeta(source, PAGE_META['index.html'])).toBe(source);
   });
 });

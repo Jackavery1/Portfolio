@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { urlPageProd } from './url-page.cjs';
+import { urlPageProd } from './url-page.mjs';
 
 describe('url-page', () => {
   it('génère l’URL canonique prod', () => {

@@ -26,15 +26,16 @@ Node **≥ 20.19** (`.nvmrc`, requis par Vitest 3).
 
 ## Commandes
 
-| Commande             | Description                   |
-| -------------------- | ----------------------------- |
-| `npm start`          | Dev local (sources + sync)    |
-| `npm run start:prod` | Preview build prod            |
-| `npm run build`      | Production → `.dist-staging/` |
-| `npm run watch`      | Rebuild automatique           |
-| `npm test`           | Tests unitaires (Vitest)      |
-| `npm run test:e2e`   | Playwright (build requis)     |
-| `npm run lint`       | ESLint                        |
+| Commande                   | Description                           |
+| -------------------------- | ------------------------------------- |
+| `npm start`                | Dev local (sources + sync)            |
+| `npm run start:prod`       | Preview build prod                    |
+| `npm run build`            | Production → `.dist-staging/`         |
+| `npm run watch`            | Rebuild automatique                   |
+| `npm test`                 | Tests unitaires (Vitest)              |
+| `npm run test:e2e`         | Playwright (build requis)             |
+| `npm run test:e2e:install` | Installe Chromium pour les e2e locaux |
+| `npm run lint`             | ESLint                                |
 
 Détails (couverture, Lighthouse, validation HTML, `.env`, dépannage) : **[CONTRIBUTING.md](CONTRIBUTING.md)**.
 

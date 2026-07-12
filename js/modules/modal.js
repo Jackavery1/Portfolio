@@ -43,17 +43,7 @@ function preparerImageModale(modalImg, src, titre) {
 
   if (estImageRaster(src)) {
     modalImg.classList.remove('modal-img--svg');
-    const webp = cheminWebpDepuisRaster(src);
-    modalImg.src = src;
-    if (webp) {
-      const parent = modalImg.parentElement;
-      const picture = document.createElement('picture');
-      const source = document.createElement('source');
-      source.type = 'image/webp';
-      source.srcset = webp;
-      picture.append(source, modalImg);
-      parent?.appendChild(picture);
-    }
+    modalImg.src = cheminWebpDepuisRaster(src) || src;
     return;
   }
 

@@ -120,41 +120,12 @@ a.pied-page__certif-texte:focus-visible {
   text-align: right;
 }
 
-.pied-page__theme-note {
-  margin: 0;
-  font-family: var(--police-crt);
-  font-size: clamp(0.72rem, 1.4vw, 0.82rem);
-  letter-spacing: 0.35px;
-  line-height: 1.35;
-  color: var(--couleur-texte-discret);
-  opacity: 0.88;
-}
-
-.pied-page__shell-note {
-  margin: 0;
-  font-family: var(--police-crt);
-  font-size: clamp(0.68rem, 1.35vw, 0.78rem);
-  letter-spacing: 0.3px;
-  line-height: 1.35;
-  color: var(--couleur-texte-discret);
-  opacity: 0.82;
-}
-
-.pied-page__tagline,
 .pied-page__tagline-ia {
   margin: 0;
   font-family: var(--police-pixel);
-  font-size: var(--taille-petit-pixel);
   letter-spacing: 1px;
   line-height: 1.45;
-}
-
-.pied-page__tagline {
-  color: var(--couleur-accent-vif);
-  text-shadow: var(--ombre-glow-accent-fort);
-}
-
-.pied-page__tagline-ia {
+  font-size: clamp(0.65rem, 1.1vw, 0.72rem);
   color: var(--couleur-texte-discret);
   text-shadow: var(--ombre-glow-accent);
   opacity: 0.92;
@@ -195,7 +166,7 @@ a.pied-page__certif-texte:focus-visible {
   }
 
   .pied-page__tagline-ia {
-    font-size: var(--taille-petit-pixel);
+    font-size: var(--taille-pixel-decoratif-min);
     text-align: right;
   }
 

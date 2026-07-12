@@ -6,6 +6,7 @@ import { describe, expect, it } from 'vitest';
 import { createRequire } from 'node:module';
 
 const require = createRequire(import.meta.url);
+const { CONFIG_DEFAULTS } = require('./env.cjs');
 const rootDir = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const {
   HTML_FILES,
@@ -68,6 +69,8 @@ describe('build html', () => {
       expect(built).toContain('id="js-score"');
       expect(built).not.toContain('nav--squelette');
       expect(built).not.toContain('nav__liens--squelette');
+      expect(built).toContain(CONFIG_DEFAULTS.cvHref);
+      expect(built).not.toContain('href="assets/cv-martinez-joris.pdf"');
     } finally {
       fs.rmSync(tmp, { recursive: true, force: true });
     }

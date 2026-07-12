@@ -37,10 +37,23 @@ function verifierPageMeta(root = path.join(__dirname, '..')) {
   return fichiersPageMetaDerives(root);
 }
 
-module.exports = { syncPageMeta, verifierPageMeta, fichiersPageMetaDerives };
+function resoudreRacine(argv = process.argv) {
+  const index = argv.indexOf('--root');
+  if (index >= 0 && argv[index + 1]) {
+    return path.resolve(argv[index + 1]);
+  }
+  return path.join(__dirname, '..');
+}
+
+module.exports = {
+  syncPageMeta,
+  verifierPageMeta,
+  fichiersPageMetaDerives,
+  resoudreRacine,
+};
 
 if (require.main === module) {
-  const root = path.join(__dirname, '..');
+  const root = resoudreRacine();
   const check = process.argv.includes('--check');
 
   if (check) {

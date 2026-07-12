@@ -6,7 +6,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { loadBuild } from './cjs-bridge.mjs';
 
 const rootDir = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
-const { creerImages, listerRasters, PNG_QUALITE_PAR_FICHIER, ZONE_UTILE_PWA } =
+const { creerImages, listerRasters, PNG_QUALITE_PAR_FICHIER, OG_LARGEUR_MAX, ZONE_UTILE_PWA } =
   loadBuild('images.cjs');
 
 function creerSharpMock() {
@@ -105,9 +105,14 @@ describe('images.cjs', () => {
         qualiteWebp: 70,
         nomFichier: 'og.png',
       });
-      expect(PNG_QUALITE_PAR_FICHIER['og.png']).toBe(68);
+      expect(PNG_QUALITE_PAR_FICHIER['og.png']).toBe(62);
+      expect(OG_LARGEUR_MAX).toBe(1200);
+      expect(sharpMock.instances[0].resize).toHaveBeenCalledWith({
+        width: 1200,
+        withoutEnlargement: true,
+      });
       expect(sharpMock.instances[0].png).toHaveBeenCalledWith(
-        expect.objectContaining({ palette: true, quality: 68 })
+        expect.objectContaining({ palette: true, quality: 62 })
       );
     } finally {
       fs.rmSync(tmp, { recursive: true, force: true });
@@ -132,7 +137,7 @@ describe('images.cjs', () => {
         nomFichier: 'favicon.png',
       });
       expect(sharpMock.instances[0].png).toHaveBeenCalledWith(
-        expect.objectContaining({ palette: false, quality: 78 })
+        expect.objectContaining({ palette: false, quality: 75 })
       );
     } finally {
       fs.rmSync(tmp, { recursive: true, force: true });
@@ -267,6 +272,28 @@ describe('images.cjs', () => {
     await api.optimizeImages(rootDir, path.join(rootDir, 'dist'));
     await api.optimizePreviewImages(rootDir, path.join(rootDir, 'dist'));
     expect(spy).toHaveBeenCalledTimes(2);
+  });
+
+  it('optimizePreviewImages ne conserve que le WebP en dist', async () => {
+    const api = images();
+    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'portfolio-prev-webp-'));
+    try {
+      const srcDir = path.join(tmp, 'assets', 'previews');
+      const dist = path.join(tmp, 'dist');
+      fs.mkdirSync(srcDir, { recursive: true });
+      fs.writeFileSync(path.join(srcDir, 'demo.png'), 'png');
+      vi.spyOn(api, 'optimiserUneImage').mockImplementation(async ({ dstPath }) => {
+        fs.mkdirSync(path.dirname(dstPath), { recursive: true });
+        fs.writeFileSync(dstPath, 'png');
+        fs.writeFileSync(dstPath.replace(/\.png$/i, '.webp'), 'webp');
+      });
+      await api.optimizePreviewImages(tmp, dist);
+      const dstDir = path.join(dist, 'assets', 'previews');
+      expect(fs.existsSync(path.join(dstDir, 'demo.webp'))).toBe(true);
+      expect(fs.existsSync(path.join(dstDir, 'demo.png'))).toBe(false);
+    } finally {
+      fs.rmSync(tmp, { recursive: true, force: true });
+    }
   });
 
   it('copyAssets copie offline.html et ignore les optionnels absents', () => {

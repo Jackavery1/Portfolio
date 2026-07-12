@@ -140,12 +140,6 @@
     color: var(--couleur-texte-fort);
   }
 
-  .pied-page__theme-note,
-  .pied-page__shell-note {
-    color: var(--couleur-texte-normal);
-    opacity: 1;
-  }
-
   .carte-contact__lien {
     color: var(--couleur-texte-fort);
   }
