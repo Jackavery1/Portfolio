@@ -2,7 +2,13 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { describe, expect, it } from 'vitest';
-import { CONFIG_DEFAULTS, CV_HREF_LOCAL, applyBuildEnvToJs, loadEnvFile, resolveBuildEnv } from './env.cjs';
+import {
+  CONFIG_DEFAULTS,
+  CV_HREF_LOCAL,
+  applyBuildEnvToJs,
+  loadEnvFile,
+  resolveBuildEnv,
+} from './env.cjs';
 
 describe('resolveBuildEnv', () => {
   it('utilise les valeurs par défaut', () => {
@@ -74,9 +80,9 @@ describe('applyBuildEnvToJs', () => {
   });
 
   it('surcharge cvHref via PORTFOLIO_CV_URL', () => {
-    expect(
-      resolveBuildEnv({ PORTFOLIO_CV_URL: 'https://cdn.example/cv.pdf' }).cvHref
-    ).toBe('https://cdn.example/cv.pdf');
+    expect(resolveBuildEnv({ PORTFOLIO_CV_URL: 'https://cdn.example/cv.pdf' }).cvHref).toBe(
+      'https://cdn.example/cv.pdf'
+    );
   });
 });
 

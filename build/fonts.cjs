@@ -111,4 +111,11 @@ function copyFonts(root, distDir) {
   log('Polices locales → assets/fonts/ (latin + latin-ext)', 'success');
 }
 
-module.exports = { copyFonts, syncFontsRoot, genererFontsLocalCss, FONT_FILES, POLICES, policesLocalesPretes };
+module.exports = {
+  copyFonts,
+  syncFontsRoot,
+  genererFontsLocalCss,
+  FONT_FILES,
+  POLICES,
+  policesLocalesPretes,
+};
