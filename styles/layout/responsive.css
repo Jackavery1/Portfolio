@@ -82,11 +82,11 @@
     border-color: var(--couleur-bordure-active);
   }
 
-  .nav__bouton {
-    color: var(--couleur-texte-normal);
+  .nav .nav__bouton {
+    color: var(--couleur-texte-fort);
   }
 
-  .nav__bouton.actif {
+  .nav .nav__bouton.actif {
     color: var(--couleur-texte-fort);
     border-bottom-color: var(--couleur-texte-fort);
   }

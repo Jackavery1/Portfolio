@@ -25,6 +25,11 @@ function estProtocoleFichier() {
   return location.protocol === 'file:';
 }
 
+/** Build prod : le HTML embarque déjà le partial (pas de placeholder vide). */
+function partialDejaPeuple(conteneur) {
+  return conteneur.childElementCount > 0;
+}
+
 function appliquerFallbackPartial(conteneur, id) {
   const html = FALLBACKS_PARTIELS[id];
   if (html) {
@@ -66,7 +71,7 @@ export async function chargerPartiels() {
   await Promise.all(
     aCharger.map(async ({ id, fichier }) => {
       const conteneur = parId(id);
-      if (!conteneur) return;
+      if (!conteneur || partialDejaPeuple(conteneur)) return;
       try {
         const reponse = await fetch(fichier);
         if (!reponse.ok) {

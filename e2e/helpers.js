@@ -1,8 +1,8 @@
 import { expect } from '@playwright/test';
 
 export async function gotoReady(page, path) {
-  await page.goto(path);
-  await page.waitForSelector('body[data-app-ready="true"]');
+  await page.goto(path, { waitUntil: 'domcontentloaded' });
+  await page.waitForSelector('body[data-app-ready="true"]', { timeout: 30_000 });
 }
 
 async function waitForServiceWorker(page) {

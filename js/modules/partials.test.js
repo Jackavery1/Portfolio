@@ -99,6 +99,17 @@ describe('partials', () => {
       expect(fetch).not.toHaveBeenCalled();
     });
 
+    it('ne recharge pas un partial déjà embarqué au build', async () => {
+      document.body.innerHTML =
+        '<div id="partial-nav"><nav class="nav"><a class="nav__bouton" href="projets.html">WORK</a></nav></div>';
+      vi.stubGlobal('fetch', vi.fn());
+
+      await chargerPartiels();
+
+      expect(fetch).not.toHaveBeenCalled();
+      expect(document.querySelector('.nav__bouton')?.textContent).toBe('WORK');
+    });
+
     it('applique le fallback footer si fetch échoue', async () => {
       document.body.innerHTML = '<div id="partial-footer"></div>';
       vi.resetModules();

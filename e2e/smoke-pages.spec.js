@@ -9,7 +9,7 @@ for (const { path: pagePath, titreSmoke } of PAGES) {
       if (msg.type() === 'error') erreurs.push(msg.text());
     });
 
-    const response = await page.goto(pagePath);
+    const response = await page.goto(pagePath, { waitUntil: 'domcontentloaded' });
     expect(response?.ok()).toBeTruthy();
 
     await expect(page.locator('h1').first()).toBeVisible();

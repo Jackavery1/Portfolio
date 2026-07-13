@@ -3,6 +3,7 @@ import { gotoReady } from './helpers.js';
 
 test('prefers-contrast: more — renforce la lisibilité nav et champs', async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 667 });
+  await page.emulateMedia({ contrast: 'no-preference' });
   await gotoReady(page, '/contact.html');
 
   const lireCouleurNav = () =>
