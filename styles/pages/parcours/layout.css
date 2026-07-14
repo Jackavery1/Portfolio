@@ -13,6 +13,8 @@
 .liste-parcours {
   display: flex;
   flex-direction: column;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 480px;
 }
 
 .entree-parcours {
@@ -90,6 +92,8 @@
   display: flex;
   justify-content: center;
   align-items: flex-start;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 320px;
 }
 
 .svg-arbre {
@@ -98,35 +102,4 @@
   height: auto;
   min-height: clamp(240px, 52vw, 360px);
   filter: var(--filtre-drop-accent);
-}
-
-@media (max-width: 960px) {
-  .story-arbre {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    max-width: 100%;
-  }
-}
-
-@media (min-width: 600px) and (max-width: 960px) {
-  .story-grille {
-    grid-template-columns: minmax(0, 1fr) minmax(140px, 180px);
-    gap: var(--espacement-ml);
-    align-items: start;
-  }
-
-  .svg-arbre {
-    min-height: 300px;
-    max-width: 180px;
-  }
-}
-
-@media (min-width: 961px) {
-  .story-grille {
-    grid-template-columns: 1fr 220px;
-  }
-
-  .svg-arbre {
-    min-height: 480px;
-  }
 }

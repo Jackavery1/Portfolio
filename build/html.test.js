@@ -7,6 +7,7 @@ import { createRequire } from 'node:module';
 
 const require = createRequire(import.meta.url);
 const { CONFIG_DEFAULTS } = require('./env.cjs');
+const { stripDevHead } = require('./html-head.cjs');
 const rootDir = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const {
   HTML_FILES,
@@ -21,11 +22,6 @@ const {
   injectJsonLd,
   liensStylesProd,
 } = require('./html.cjs');
-
-function stripDevHead(html) {
-  const re = /<!-- HEAD_DEV_MIN[^>]*-->[\s\S]*?<!-- \/HEAD_DEV_MIN -->\s*/i;
-  return html.replace(re, '');
-}
 
 describe('build html', () => {
   it('retire le bloc HEAD_DEV_MIN commenté', () => {
@@ -59,7 +55,11 @@ describe('build html', () => {
       expect(built).toContain('"@type":"WebSite"');
       expect(built).toContain('"@type":"WebPage"');
       expect(built).toContain('"@id":"https://example.com/#person"');
-      expect(built).toContain('rel="modulepreload" href="js/main.js"');
+      expect(built).toContain('assets/fonts/press-start-2p-latin-400.woff2');
+      expect(built).not.toContain('assets/fonts/vt323-latin-400.woff2');
+      expect(built).not.toContain('assets/fonts/rajdhani-latin-400.woff2');
+      expect(built).not.toContain('rel="preload" href="style-base.css"');
+      expect(built).not.toContain('rel="modulepreload" href="js/main.js"');
       expect(built).toContain('name="twitter:title" content="Contact · Joris Martinez"');
       expect(built).toContain('href="https://example.com/contact.html"');
       expect(built).not.toContain('href="" id="link-canonical"');

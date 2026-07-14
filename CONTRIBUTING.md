@@ -124,11 +124,28 @@ Copier `.env.example` → `.env.local` pour surcharger :
 
 Valeurs par défaut : `build/config-defaults.mjs` → synchronisées au build dans `js/config/defaults.js`, `manifest.webmanifest` et métadonnées SEO.
 
-Fichiers générés (non versionnés, recréés par `npm test` / `npm run build`) : `js/config/defaults.js`, `js/config/legal-data.js`, `js/config/projects-data.js`, `js/config/partials.js`, `js/config/musique-themes.json`, `style.css`, `partials/parcours-arbre.html`, `partials/dojo-boss-rush-lot-{a,b,c}.html`, `partials/competences-stats.html`, `partials/accueil-hero.html`, `sw.js` — et `manifest.webmanifest` **à la racine** (dev local, URLs relatives via `sync-source`) **ou dans `.dist-staging/`** (build prod). Contenu mentions légales : `js/config/legal.json` (source éditable) → `build/sync-legal.cjs` → `js/config/legal-data.js`. Métadonnées projets : `js/config/projects.json` (source éditable, **à versionner**) → `build/sync-projects.cjs` → `js/config/projects-data.js` ; icônes SVG : `js/config/project-icons.js`. Grilles musicales : `js/config/musique-donnees.json` (source éditable, **à versionner**) → `build/sync-musique-donnees.cjs` → `js/config/musique-themes.json` (chargé à la demande par `musique-sequencuer.js`). Source unique partials : `build/partials-list.cjs`. Fragments assemblés : `partials/parcours-arbre/` → `parcours-arbre.html`, `partials/dojo-boss/` → `dojo-boss-rush.html`, `partials/competences/` → `competences-stats.html`, `partials/accueil/` → `accueil-hero.html`. Partials contact : `partials/contact/*.html` (chargés uniquement sur `contact.html`). Seuils CSS : `build/breakpoints.cjs` → `styles/tokens.css` via `build/sync-breakpoints.cjs`.
+Fichiers générés (non versionnés, recréés par `npm test` / `npm run build`) : `js/config/defaults.js`, `js/config/legal-data.js`, `js/config/projects-data.js`, `js/config/partials.js`, `js/config/musique-themes.json`, `style.css`, `partials/parcours-arbre.html`, `partials/dojo-boss-rush-lot-{a,b,c}.html`, `partials/competences-stats.html`, `partials/accueil-hero.html`, `sw.js` — et `manifest.webmanifest` **à la racine** (dev local, URLs relatives via `sync-source`) **ou dans `.dist-staging/`** (build prod). Contenu mentions légales : `js/config/legal.json` (source éditable) → `build/sync-legal.cjs` → `js/config/legal-data.js`. Métadonnées projets : `js/config/projects.json` (source éditable, **à versionner**) → `build/sync-projects.cjs` → `js/config/projects-data.js` ; icônes SVG : `js/config/project-icons.js`. Grilles musicales : `js/config/musique-donnees.json` (source éditable, **à versionner**) → `build/sync-musique-donnees.cjs` → `js/config/musique-themes.json` (chargé à la demande par `musique-sequencuer.js`). Source unique partials : `build/partials-list.mjs`. Fragments assemblés : `partials/parcours-arbre/` → `parcours-arbre.html`, `partials/dojo-boss/` → `dojo-boss-rush.html`, `partials/competences/` → `competences-stats.html`, `partials/accueil/` → `accueil-hero.html`. Partials contact : `partials/contact/*.html` (chargés uniquement sur `contact.html`). Seuils CSS : `build/breakpoints.mjs` → `styles/tokens.css` via `build/sync-breakpoints.cjs`.
 
 Métadonnées SEO par page : `build/page-meta.mjs` → injectées au build dans le dist (`build/html.cjs`). Pour mettre à jour les blocs `PAGE_META` dans les HTML sources : `npm run sync:page-meta` (évite de modifier les sources à chaque build). `npm run check:page-meta` vérifie l’alignement (exécuté avant les tests).
 
 `npm run validate:html` exécute `prevalidate:html` (sync des fichiers générés requis en CI avant les tests).
+
+### Phases `sync-source.cjs` (ordre)
+
+Ne pas réordonner sans vérifier les dépendances — détail dans `ARCHITECTURE.md`.
+
+| Phase | Dépend de | Artefacts |
+| ----- | --------- | --------- |
+| `defaults` | — | `js/config/defaults.js`, `partials.js` |
+| `style-css` | `defaults` | `style.css` |
+| `partials` | `style-css` | fragments HTML |
+| `nav-squelette` | `partials` | nav inline dans les pages |
+| `parcours-arbre`, `dojo-boss`, `competences-stats`, `accueil-hero` | `partials` | partials assemblés |
+| `breakpoints` | `style-css` | `--bp-*` dans `tokens.css` |
+| `legal`, `projects`, `musique-donnees` | — | données JS/JSON runtime |
+| `manifest-dev` | `legal` | `manifest.webmanifest` (dev) |
+
+Optionnel : `npm run sync:page-meta` après modification de `build/page-meta.mjs`.
 
 Réseaux sociaux (GitHub, LinkedIn optionnel) : même fichier `config-defaults.mjs`.
 
@@ -170,7 +187,7 @@ Le mode dev (`npm start`) **ne charge pas** le service worker ni la CSP de produ
 
 1. `npm ci` (ou `npm install`) — dépendances à jour
 2. `npm run build` — génère `.dist-staging/` (HTML minifié, `sw.js`, manifest, assets optimisés)
-3. `npm run start:prod` — sert `.dist-staging/` sur le port par défaut de `serve`
+3. `npm run start:prod` — sert l'artefact build le plus frais (`.dist-staging-build/` ou `.dist-staging/`)
 4. Ouvrir `http://localhost:3000` (ou le port affiché) dans Chrome/Edge
 5. **Application** → vérifier le service worker actif et le precache
 6. Visiter une fois **WORK**, **CONTACT** et **DOJO** en ligne (cache runtime des modules lazy)
@@ -307,6 +324,23 @@ Cela permet de cibler la cause (config Google, Formspree, ou blocage navigateur)
 
 Référence technique : `build/breakpoints.mjs`, `styles/tokens.css`. Listes CSS synchronisées via `build/page-styles.mjs` → `style.css`.
 
+## Échelle typographique
+
+Tokens dans `styles/tokens.css` (l.107–125) :
+
+| Token | Usage | Échelle |
+| ----- | ----- | ------- |
+| `--police-pixel` | Nav, titres arcade, badges | Press Start 2P |
+| `--police-crt` | Texte rétro lisible (parcours, dojo) | VT323 |
+| `--police-lisible` | Corps, formulaires, intros | Rajdhani |
+| `--taille-pixel-min` | Plancher libellés pixel interactifs | 0,75rem (12px), monte à 0,875rem @320px |
+| `--taille-petit-pixel` | Petits libellés pixel | `clamp(min, 1.2vw, 0.8rem)` |
+| `--taille-titre-pixel` | Titres section pixel | `clamp(min, 1.8vw, 0.8rem)` |
+| `--taille-corps-lisible` | Paragraphes | `clamp(0.95rem, 2.1vw, 1.1rem)` |
+| `--taille-corps-crt` | Texte CRT secondaire | `clamp(0.85rem, 1.85vw, 1.02rem)` |
+
+Règle : ne pas fixer de `font-size` en dur pour le pixel art — passer par les tokens ou `clamp()` documentés.
+
 Pages hors navigation clavier (`dojo.html`, `mentions-legales.html`) : accessibles via liens footer ou projets.
 
 ## Tests
@@ -323,15 +357,19 @@ Profil local après build :
 
 ```bash
 npm run build
-npx serve .dist-staging -p 9876
-npx lighthouse http://127.0.0.1:9876/competences.html --only-categories=performance --form-factor=mobile
+npm run start:prod
+# ou : node build/run-serve-staging.cjs 9876
+npx lighthouse http://127.0.0.1:3000/competences.html --only-categories=performance --form-factor=mobile
 ```
 
+`start:prod` et Playwright servent `.dist-staging-build/` en priorité s'il existe (build frais non promu), sinon `.dist-staging/` — voir `build/resolve-serve-dir.cjs`.
+
 Leviers perf appliqués : CSS split base/page, preload polices critiques (Press Start 2P, VT323, Rajdhani), overlay CRT différé (`html.crt-pret`), init JS non critique en `requestIdleCallback`, JSON-LD compact en fin de `<body>`, `content-visibility` sur sections denses.
+
 - **HTML** : `npm run validate:html` (sources) et `npm run validate:html:dist` (après build)
 - **E2E** : `npm run test:e2e` — projets `responsive-mobile-portrait`, `responsive-mobile-landscape`, `responsive-tablet`, `responsive-webkit`, `responsive-firefox`, `desktop-chrome`. Specs responsive : `responsive-touch`, `responsive-safe-area`, `responsive-keyboard`, `responsive-motion`, `responsive-contrast`, `responsive-a11y`, `responsive-pages` ; PWA : `pwa.spec.js` + `sw-toast.spec.js` (sur les 6 viewports mobile/tablette/WebKit/Firefox/desktop PWA). WebKit local : `npm run test:e2e:webkit`. Fixtures : `e2e/fixtures/pages.js`, helpers : `e2e/helpers.js`.
 - **Lighthouse** : `npm run test:lhci` (profil mobile 412×823, 5 runs médiane ; seuils perf par page via `assertMatrix` dans `lighthouserc.cjs`). Complément desktop : `npm run test:lhci:desktop` (961×800, smoke `index` + `projets`, CI après le run mobile).
-- **Mesure bundle** : `npm run build && npm run measure` — tailles `.dist-staging/` (JSON stdout : `distKo`, `appJsGzipKo`, `iconsKo`, `jsAssets[]`). Écrit aussi `scripts/bundle-baseline.json` (**gitignoré**, snapshot local). Modèle versionné : `scripts/bundle-baseline.example.json`. Icônes PNG : `npm run icons:optimize` en `prebuild` (idempotent).
+- **Mesure bundle** : `npm run build && npm run measure` — tailles de l’artefact le plus frais (`.dist-staging-build/` ou `.dist-staging/` ; JSON stdout : `distKo`, `appJsGzipKo`, `iconsKo`, `jsAssets[]`). Écrit aussi `scripts/bundle-baseline.json` (**gitignoré**, snapshot local). Modèle versionné : `scripts/bundle-baseline.example.json`. Icônes PNG : `npm run icons:optimize` en `prebuild` (idempotent).
 
 ### Avant release (PWA / prod)
 

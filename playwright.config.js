@@ -72,8 +72,8 @@ export default defineConfig({
   ],
   webServer: {
     command: skipBuild
-      ? `npx serve .dist-staging -l ${PORT}`
-      : `npm run build && npx serve .dist-staging -l ${PORT}`,
+      ? `node build/run-serve-staging.cjs ${PORT}`
+      : `npm run build && node build/run-serve-staging.cjs ${PORT}`,
     url: baseURL,
     reuseExistingServer: !process.env.CI,
     timeout: 180_000,

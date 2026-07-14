@@ -4,6 +4,7 @@ import {
   estImageRaster,
   estLienHttpAutorise,
   liensProjetValides,
+  preparerImageModale,
   resoudreSrcApercu,
 } from './modal-helpers.js';
 
@@ -64,5 +65,35 @@ describe('modal-helpers', () => {
       lien: 'https://github.com/foo/bar',
     });
     expect(liens).toHaveLength(2);
+  });
+});
+
+describe('preparerImageModale', () => {
+  it('utilise le WebP pour un raster PNG', () => {
+    const img = document.createElement('img');
+    preparerImageModale(img, 'assets/previews/demo.png', 'Démo');
+    expect(img.src).toContain('demo.webp');
+    expect(img.alt).toBe('Aperçu — Démo');
+    expect(img.loading).toBe('eager');
+  });
+
+  it('conserve le SVG sans conversion WebP', () => {
+    const img = document.createElement('img');
+    preparerImageModale(img, 'assets/previews/icon.svg', 'Icône');
+    expect(img.src).toContain('icon.svg');
+    expect(img.classList.contains('modal-img--svg')).toBe(true);
+  });
+
+  it('détache l’img d’un picture parent', () => {
+    const picture = document.createElement('picture');
+    const source = document.createElement('source');
+    const img = document.createElement('img');
+    picture.append(source, img);
+    document.body.append(picture);
+
+    preparerImageModale(img, 'assets/previews/demo.png', 'Démo');
+
+    expect(document.querySelector('picture')).toBeNull();
+    expect(document.body.contains(img)).toBe(true);
   });
 });

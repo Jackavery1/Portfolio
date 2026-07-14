@@ -18,7 +18,7 @@ npm run start:prod
 
 Sources brutes (partials en `fetch`, dont contact et dojo) : `npm start` — synchronise les fichiers générés puis sert la racine. La CSP, le service worker et le mode hors ligne ne sont actifs qu’après build (`npm run start:prod`).
 
-Pour tester le comportement mobile/PWA réel (safe-area, offline, precache) : build prod obligatoire — le dev `npm start` ne reflète pas la PWA.
+Pour tester le comportement mobile/PWA réel (safe-area, offline, precache) : build prod obligatoire — le dev `npm start` ne reflète pas la PWA. Le hors ligne couvre le shell (HTML, CSS, JS core) ; les modules lazy (projets, contact, dojo, musique) ne sont disponibles qu’après une visite en ligne — voir [CONTRIBUTING.md § PWA & hors ligne](CONTRIBUTING.md#pwa--hors-ligne).
 
 Node **≥ 20.19** (`.nvmrc`, requis par Vitest 3).
 

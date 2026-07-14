@@ -126,39 +126,10 @@
   transform: scale(0.97);
 }
 
-@media (min-width: 961px) {
-  .projets-sommaire {
-    display: none;
-  }
-}
-
 .work-dojo-zone {
   display: flex;
   justify-content: center;
   margin-top: 2rem;
   padding-top: 1.5rem;
   border-top: 1px solid var(--couleur-separateur);
-}
-
-/* Voir styles/components/bouton-pixel.css — .bouton-dojo */
-
-@media (prefers-reduced-motion: reduce) {
-  .grille-projets[aria-busy='true']::before,
-  .carte-projet-squelette__ligne,
-  .carte-projet-squelette__bloc {
-    animation: none;
-    opacity: 0.85;
-  }
-}
-
-@media (min-width: 700px) and (max-width: 960px) {
-  .grille-projets {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-@media (min-width: 961px) {
-  .grille-projets {
-    grid-template-columns: 1fr 1fr;
-  }
 }

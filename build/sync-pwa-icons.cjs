@@ -1,14 +1,18 @@
 const path = require('path');
-const { generatePwaIcons } = require('./images.cjs');
+const images = require('./images.cjs');
 
 async function syncPwaIcons(root = path.join(__dirname, '..')) {
-  await generatePwaIcons(root, root);
+  await images.generatePwaIcons(root, root);
 }
 
-module.exports = { syncPwaIcons };
+async function runCli(root = path.join(__dirname, '..')) {
+  await syncPwaIcons(root);
+}
+
+module.exports = { syncPwaIcons, runCli };
 
 if (require.main === module) {
-  syncPwaIcons().catch((err) => {
+  runCli().catch((err) => {
     console.error(err);
     process.exit(1);
   });

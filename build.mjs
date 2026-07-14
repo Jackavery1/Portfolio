@@ -8,6 +8,7 @@ const require = createRequire(import.meta.url);
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
 const DIST_DIR = path.join(ROOT, 'dist');
 const STAGING_DIR = path.join(ROOT, '.dist-staging');
+const STAGING_WORK = path.join(ROOT, '.dist-staging-build');
 const WATCH_MODE = process.argv.includes('--watch');
 
 ['clean-css', 'uglify-js', 'sharp'].forEach((dep) => {
@@ -24,7 +25,7 @@ const WATCH_MODE = process.argv.includes('--watch');
 
 const { loadEnvFile, resolveBuildEnv } = loadBuild('env.cjs');
 const { syncSource } = loadBuild('sync-source.cjs');
-const { log, createDist, finalizeDist } = loadBuild('fs-utils.cjs');
+const { log, createDist, finalizeDist, promouvoirStaging } = loadBuild('fs-utils.cjs');
 const { copyHTML, HTML_FILES } = loadBuild('html.cjs');
 const { writeSeoFiles } = loadBuild('seo.cjs');
 const { patchOgImageWebp } = loadBuild('og-image.cjs');
@@ -84,22 +85,32 @@ async function runBuild() {
 
   try {
     syncSource();
-    createDist(STAGING_DIR);
-    copyHTML(ROOT, STAGING_DIR, SITE_BASE);
-    writeSeoFiles(STAGING_DIR, SITE_BASE);
-    copyFonts(ROOT, STAGING_DIR);
-    minifyCSS(ROOT, STAGING_DIR, { inclureMonolithe: false });
-    minifyAllJs(ROOT, STAGING_DIR);
-    await generatePwaIcons(ROOT, STAGING_DIR);
-    await optimizeImages(ROOT, STAGING_DIR);
-    await optimizePreviewImages(ROOT, STAGING_DIR);
-    patchOgImageWebp(STAGING_DIR, SITE_BASE);
-    copyAssets(ROOT, STAGING_DIR);
-    writeServiceWorker(STAGING_DIR, pkg.version);
-    fs.writeFileSync(path.join(STAGING_DIR, '.nojekyll'), '');
+    createDist(STAGING_WORK);
+    copyHTML(ROOT, STAGING_WORK, SITE_BASE);
+    writeSeoFiles(STAGING_WORK, SITE_BASE);
+    copyFonts(ROOT, STAGING_WORK);
+    minifyCSS(ROOT, STAGING_WORK, { inclureMonolithe: false });
+    minifyAllJs(ROOT, STAGING_WORK);
+    await generatePwaIcons(ROOT, STAGING_WORK);
+    await optimizeImages(ROOT, STAGING_WORK);
+    await optimizePreviewImages(ROOT, STAGING_WORK);
+    patchOgImageWebp(STAGING_WORK, SITE_BASE);
+    copyAssets(ROOT, STAGING_WORK);
+    writeServiceWorker(STAGING_WORK, pkg.version);
+    fs.writeFileSync(path.join(STAGING_WORK, '.nojekyll'), '');
+    const serveJson = path.join(ROOT, 'serve.json');
+    if (fs.existsSync(serveJson)) {
+      fs.copyFileSync(serveJson, path.join(STAGING_WORK, 'serve.json'));
+    }
+    const promotionOk = promouvoirStaging(STAGING_WORK, STAGING_DIR);
     for (const artefact of ['sw.js', 'manifest.webmanifest']) {
       const legacy = path.join(ROOT, artefact);
-      if (fs.existsSync(legacy)) fs.unlinkSync(legacy);
+      if (!fs.existsSync(legacy)) continue;
+      try {
+        fs.unlinkSync(legacy);
+      } catch (err) {
+        log(`Artefact legacy non supprimé (${artefact}) : ${err.message}`, 'warning');
+      }
     }
     try {
       finalizeDist(STAGING_DIR, DIST_DIR);
@@ -111,7 +122,12 @@ async function runBuild() {
     }
 
     console.log(`\n${'='.repeat(50)}`);
-    log('Build terminé — .dist-staging/ prêt à déployer', 'success');
+    log(
+      promotionOk
+        ? 'Build terminé — .dist-staging/ prêt à déployer'
+        : 'Build terminé — .dist-staging-build/ prêt (promotion .dist-staging/ verrouillée)',
+      'success'
+    );
     console.log(`${'='.repeat(50)}\n`);
   } catch (err) {
     log(`Erreur build: ${err.message}`, 'error');

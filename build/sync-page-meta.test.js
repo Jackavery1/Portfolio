@@ -3,7 +3,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { createRequire } from 'node:module';
 
 const require = createRequire(import.meta.url);
@@ -14,6 +14,7 @@ const {
   fichiersPageMetaDerives,
   syncPageMeta,
   resoudreRacine,
+  runCli,
 } = require('./sync-page-meta.cjs');
 const { PAGE_META } = require('./page-meta.mjs');
 const { remplacerBlocPageMeta } = require('./page-meta-tags.mjs');
@@ -110,12 +111,67 @@ describe('sync-page-meta', () => {
   it('ignore les fichiers HTML absents ou sans entrée PAGE_META', () => {
     const tmp = creerRacineTest();
     expect(fichiersPageMetaDerives(tmp)).toEqual([]);
+    fs.writeFileSync(path.join(tmp, 'orphelin.html'), '<html><head></head><body></body></html>', 'utf8');
+    expect(fichiersPageMetaDerives(tmp)).toEqual([]);
+  });
+
+  it('CLI --check sort 0 sans fichier dérivé', () => {
+    const tmp = creerRacineTest();
+    const resultat = lancerCli(['--check', '--root', tmp]);
+    expect(resultat.status).toBe(0);
   });
 
   it('resoudreRacine — défaut et option --root', () => {
     const tmp = creerRacineTest();
     expect(resoudreRacine(['node', scriptPath])).toBe(rootDir);
     expect(resoudreRacine(['node', scriptPath, '--root', tmp])).toBe(tmp);
+    expect(resoudreRacine(['node', scriptPath, '--root'])).toBe(rootDir);
+  });
+
+  it('runCli synchronise sans --check', () => {
+    const tmp = creerRacineTest();
+    const meta = PAGE_META['projets.html'];
+    const source = `<!doctype html>
+<html lang="fr">
+  <head>
+    <!-- PAGE_META_START -->
+    <meta name="description" content="stale" />
+    <!-- PAGE_META_END -->
+    <title>Projets</title>
+  </head>
+  <body></body>
+</html>`;
+    const fichier = path.join(tmp, 'projets.html');
+    fs.writeFileSync(fichier, source, 'utf8');
+
+    runCli(['node', scriptPath, '--root', tmp]);
+
+    expect(fs.readFileSync(fichier, 'utf8')).toContain(meta.ogTitle);
+  });
+
+  it('runCli --check appelle exit 1 quand PAGE_META est désynchronisé', () => {
+    const tmp = creerRacineTest();
+    const desynchronise = `<!doctype html>
+<html lang="fr">
+  <head>
+    <!-- PAGE_META_START -->
+    <meta name="description" content="ancienne valeur" />
+    <!-- PAGE_META_END -->
+    <title>Test</title>
+  </head>
+  <body></body>
+</html>`;
+    fs.writeFileSync(path.join(tmp, 'index.html'), desynchronise, 'utf8');
+
+    const exit = vi.spyOn(process, 'exit').mockImplementation(() => {});
+    const error = vi.spyOn(console, 'error').mockImplementation(() => {});
+
+    runCli(['node', scriptPath, '--check', '--root', tmp]);
+
+    expect(error).toHaveBeenCalled();
+    expect(exit).toHaveBeenCalledWith(1);
+    exit.mockRestore();
+    error.mockRestore();
   });
 
   it('CLI --check sort 0 quand les sources sont synchronisées', () => {

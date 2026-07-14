@@ -17,7 +17,6 @@ export function afficherErreurZone(zone, texte) {
 function effacerEtatInvalideChamp(el) {
   if (!el) return;
   el.removeAttribute('aria-invalid');
-  el.style.borderColor = '';
   const erreurId = el.getAttribute('aria-errormessage');
   if (!erreurId) return;
   const zone = document.getElementById(erreurId);
@@ -36,7 +35,6 @@ export function marquerChampsInvalides(erreurs, jouerBip) {
   erreurs.forEach(({ el, message }) => {
     if (!el) return;
     el.setAttribute('aria-invalid', 'true');
-    el.style.borderColor = 'var(--couleur-erreur)';
     const erreurId = el.getAttribute('aria-errormessage');
     if (erreurId) {
       const zone = document.getElementById(erreurId);

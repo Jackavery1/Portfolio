@@ -4,6 +4,9 @@ node_modules/
 # Build output
 dist/
 .dist-staging/
+.dist-staging.old/
+.dist-staging-build/
+.dist-staging-build.old/
 deploy-output/
 /sw.js
 /manifest.webmanifest
@@ -36,6 +39,8 @@ coverage/
 
 # Mesure perf locale (régénéré par npm run measure)
 scripts/bundle-baseline.json
+tmp-lh-*.json
+test-out.txt
 
 # OS
 .DS_Store

@@ -39,3 +39,35 @@ export function liensProjetValides(projet) {
   }
   return liens.filter(({ href }) => estLienHttpAutorise(href));
 }
+
+function detacherBalisePicture(img) {
+  const picture = img.closest('picture');
+  if (!picture?.parentElement) return;
+  picture.parentElement.insertBefore(img, picture);
+  picture.remove();
+}
+
+export function preparerImageModale(modalImg, src, titre) {
+  detacherBalisePicture(modalImg);
+
+  modalImg.loading = 'eager';
+  modalImg.decoding = 'async';
+  modalImg.alt = `Aperçu — ${titre}`;
+
+  if (!src) {
+    modalImg.removeAttribute('src');
+    modalImg.classList.remove('modal-img--svg');
+    return;
+  }
+
+  const estSvg = /\.svg($|\?)/i.test(src);
+  modalImg.classList.toggle('modal-img--svg', estSvg);
+
+  if (estImageRaster(src)) {
+    modalImg.classList.remove('modal-img--svg');
+    modalImg.src = cheminWebpDepuisRaster(src) || src;
+    return;
+  }
+
+  modalImg.src = src;
+}

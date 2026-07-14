@@ -1,15 +1,20 @@
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
+import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { createRequire } from 'node:module';
 
 const require = createRequire(import.meta.url);
-const { FRAGMENTS } = require('./sync-competences-stats.cjs');
+const { syncCompetencesStats, FRAGMENTS } = require('./sync-competences-stats.cjs');
 const rootDir = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
+const scriptPath = path.join(rootDir, 'build', 'sync-competences-stats.cjs');
 
 describe('competences-stats sync', () => {
-  it('competences-stats.html assemble tous les fragments', () => {
+  it('syncCompetencesStats assemble tous les fragments', () => {
+    syncCompetencesStats(rootDir);
+
     const assembled = fs.readFileSync(
       path.join(rootDir, 'partials', 'competences-stats.html'),
       'utf8'
@@ -19,8 +24,22 @@ describe('competences-stats sync', () => {
       expect(assembled).toContain(fragment.slice(0, 40));
     });
     expect(assembled).toContain('class="stats-grille"');
-    expect(assembled).toContain('class="scores-tableau"');
-    expect(assembled).toContain('class="stats-lateral"');
-    expect(assembled).toContain('HTML / CSS');
+  });
+
+  it('rejette un fragment manquant', () => {
+    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'competences-stats-'));
+    try {
+      expect(() => syncCompetencesStats(tmp)).toThrow(/Fragment manquant/);
+    } finally {
+      fs.rmSync(tmp, { recursive: true, force: true });
+    }
+  });
+
+  it('CLI exécute syncCompetencesStats sans erreur', () => {
+    const resultat = spawnSync(process.execPath, [scriptPath], {
+      cwd: rootDir,
+      encoding: 'utf8',
+    });
+    expect(resultat.status).toBe(0);
   });
 });

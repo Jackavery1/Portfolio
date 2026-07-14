@@ -1,4 +1,5 @@
 import { expect } from '@playwright/test';
+import { ratioContrasteElementDom } from '../build/contrast-utils.mjs';
 
 export async function gotoReady(page, path) {
   await page.goto(path, { waitUntil: 'domcontentloaded' });
@@ -172,4 +173,14 @@ export function erreursConsoleBloquantes(erreurs) {
       !/recaptcha/i.test(msg) &&
       !/Failed to load resource.*404/i.test(msg)
   );
+}
+
+/** Ratio de contraste WCAG (luminance relative) entre le texte et le fond effectif d'un élément. */
+export async function ratioContrasteElement(locator) {
+  return locator.first().evaluate(ratioContrasteElementDom);
+}
+
+export async function assertContrasteAa(locator, minRatio = 4.5) {
+  const ratio = await ratioContrasteElement(locator);
+  expect(ratio).toBeGreaterThanOrEqual(minRatio);
 }

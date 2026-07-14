@@ -24,6 +24,7 @@ test('formulaire contact — envoi mocké Formspree', async ({ page }) => {
 
   await expect(formulaire.locator('#contact-nom')).toHaveValue('Test E2E');
   await expect(formulaire.locator('#contact-sujet')).toHaveValue('stage');
+  await expect(page.locator('#contact-sujet-aide')).toBeVisible();
 
   await expect(page.locator('#js-btn-envoyer')).toBeEnabled();
 
@@ -47,4 +48,19 @@ test('contact mobile — formulaire accessible après scroll', async ({ page }) 
   await formulaire.scrollIntoViewIfNeeded();
   await expect(formulaire).toBeVisible();
   await expect(formulaire.locator('#contact-nom')).toBeVisible();
+});
+
+test('formulaire contact — champs invalides marqués à la soumission vide', async ({ page }) => {
+  await gotoReady(page, '/contact.html');
+
+  const formulaire = page.locator('#js-formulaire');
+  await expect(formulaire).toHaveAttribute('data-ready', '1', { timeout: 15_000 });
+  await formulaire.locator('#js-btn-envoyer').click();
+
+  await expect(formulaire.locator('#contact-nom')).toHaveAttribute('aria-invalid', 'true');
+  await expect(formulaire.locator('#contact-email')).toHaveAttribute('aria-invalid', 'true');
+  await expect(formulaire.locator('#contact-message')).toHaveAttribute('aria-invalid', 'true');
+  await expect(formulaire.locator('#contact-nom-erreur')).toBeVisible();
+  await expect(formulaire.locator('#contact-email-erreur')).toBeVisible();
+  await expect(formulaire.locator('#contact-message-erreur')).toBeVisible();
 });

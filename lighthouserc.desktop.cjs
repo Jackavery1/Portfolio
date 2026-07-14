@@ -1,3 +1,7 @@
+const { resolveStaticDistDir } = require('./build/resolve-static-dist.cjs');
+
+const staticDistDir = resolveStaticDistDir();
+
 const assertionsCommunes = {
   'categories:accessibility': ['error', { minScore: 0.9 }],
   'categories:best-practices': ['error', { minScore: 0.9 }],
@@ -9,7 +13,7 @@ const assertionsCommunes = {
 module.exports = {
   ci: {
     collect: {
-      staticDistDir: './.dist-staging',
+      staticDistDir,
       url: ['index.html', 'projets.html'],
       numberOfRuns: 3,
       settings: {

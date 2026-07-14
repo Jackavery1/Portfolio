@@ -24,6 +24,28 @@
   scroll-margin-top: calc(2.75rem + env(safe-area-inset-top, 0));
 }
 
+.ecran {
+  transition: opacity 0.2s ease;
+}
+
+body:not([data-app-ready='true']) .ecran {
+  opacity: 0.92;
+}
+
+body[data-app-ready='true'] .ecran {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ecran {
+    transition: none;
+  }
+
+  body:not([data-app-ready='true']) .ecran {
+    opacity: 1;
+  }
+}
+
 .lien-evitement {
   position: fixed;
   top: env(safe-area-inset-top, 0);

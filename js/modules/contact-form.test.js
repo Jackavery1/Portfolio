@@ -1,4 +1,3 @@
-/* @vitest-environment jsdom */
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 const configMock = vi.hoisted(() => ({
@@ -213,5 +212,10 @@ describe('contact-form', () => {
       expect(window.location.href).toMatch(/^mailto:dest@example.com/);
     });
     expect(document.getElementById('js-confirmation').hidden).toBe(false);
+  });
+
+  it('ignore l’initialisation si le formulaire est absent', async () => {
+    document.getElementById('js-formulaire').remove();
+    await expect(initialiserFormulaireContact()).resolves.toBeUndefined();
   });
 });

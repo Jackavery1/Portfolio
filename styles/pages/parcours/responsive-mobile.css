@@ -1,0 +1,21 @@
+/* Parcours — mobile */
+
+@media (max-width: 960px) {
+  .story-arbre {
+    position: relative;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    max-width: 100%;
+  }
+
+  .story-arbre::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 2.5rem;
+    pointer-events: none;
+    background: linear-gradient(to left, var(--couleur-fond-page), transparent);
+  }
+}

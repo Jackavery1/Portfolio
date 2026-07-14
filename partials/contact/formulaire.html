@@ -45,7 +45,12 @@
 
     <div class="champ-groupe">
       <label class="champ-label" for="contact-sujet">MISSION TYPE</label>
-      <select class="champ-input champ-select" id="contact-sujet" name="sujet">
+      <select
+        class="champ-input champ-select"
+        id="contact-sujet"
+        name="sujet"
+        aria-describedby="contact-sujet-aide"
+      >
         <option value="">— Sélectionner —</option>
         <option value="emploi">💼 Proposition d'emploi</option>
         <option value="stage">🎯 Stage / Alternance</option>
@@ -53,6 +58,7 @@
         <option value="collab">🤝 Collaboration</option>
         <option value="autre">🎮 Autre</option>
       </select>
+      <p class="champ-aide" id="contact-sujet-aide">Optionnel — précise le type de demande.</p>
     </div>
 
     <div class="champ-groupe">

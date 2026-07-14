@@ -13,13 +13,13 @@
     "watch": "node build.mjs --watch",
     "prestart": "node build/sync-source.cjs",
     "start": "serve .",
-    "start:prod": "serve .dist-staging",
+    "start:prod": "node build/run-serve-staging.cjs",
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "prelint": "node build/sync-source.cjs",
     "pretest": "node build/sync-source.cjs && node build/sync-page-meta.cjs --check",
-    "prebuild": "node build/sync-fonts.cjs && node build/sync-source.cjs && node build/sync-pwa-icons.cjs && node scripts/icons-optimize.mjs",
+    "prebuild": "node build/sync-fonts.mjs && node build/sync-source.cjs && node build/sync-pwa-icons.cjs && node scripts/icons-optimize.mjs",
     "prevalidate:html": "node build/sync-source.cjs && node build/sync-page-meta.cjs --check",
     "sync:page-meta": "node build/sync-page-meta.cjs",
     "check:page-meta": "node build/sync-page-meta.cjs --check",
@@ -34,7 +34,7 @@
     "hooks:install": "node scripts/install-git-hooks.cjs",
     "validate": "npm run lint && npm run format:check && npm test && npm run validate:html",
     "validate:html": "html-validate *.html offline.html partials/*.html partials/contact/*.html",
-    "validate:html:dist": "html-validate .dist-staging/*.html .dist-staging/offline.html"
+    "validate:html:dist": "node build/validate-dist-html.cjs"
   },
   "keywords": [
     "portfolio",

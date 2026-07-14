@@ -1,16 +1,20 @@
 #!/usr/bin/env node
 /**
- * Mesure la taille du build prod (.dist-staging/) — baseline optimisation.
+ * Mesure la taille du build prod — baseline optimisation.
  * Usage : npm run build && npm run measure
  */
 
 import fs from 'node:fs';
 import path from 'node:path';
 import zlib from 'node:zlib';
+import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
 
+const require = createRequire(import.meta.url);
+const { resolveServeDir } = require('../build/resolve-serve-dir.cjs');
+
 const rootDir = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
-const distDir = path.join(rootDir, '.dist-staging');
+const distDir = resolveServeDir(rootDir);
 
 function tailleKo(bytes) {
   return Math.round((bytes / 1024) * 10) / 10;
@@ -31,8 +35,8 @@ function parcourirFichiers(dir, fichiers = []) {
 }
 
 function mesurer() {
-  if (!fs.existsSync(distDir)) {
-    console.error('❌ .dist-staging/ absent — exécutez npm run build');
+  if (!distDir) {
+    console.error('❌ Aucun artefact build (.dist-staging-build/ ou .dist-staging/) — exécutez npm run build');
     process.exit(1);
   }
 

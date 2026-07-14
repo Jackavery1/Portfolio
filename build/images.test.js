@@ -4,42 +4,11 @@ import os from 'node:os';
 import { fileURLToPath } from 'node:url';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { loadBuild } from './cjs-bridge.mjs';
+import { creerSharpMock } from './images-test-helpers.mjs';
 
 const rootDir = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const { creerImages, listerRasters, PNG_QUALITE_PAR_FICHIER, OG_LARGEUR_MAX, ZONE_UTILE_PWA } =
   loadBuild('images.cjs');
-
-function creerSharpMock() {
-  const instances = [];
-  function sharpFactory() {
-    const instance = {
-      rotate: vi.fn(function rotate() {
-        return this;
-      }),
-      jpeg: vi.fn(function jpeg() {
-        return this;
-      }),
-      png: vi.fn(function png() {
-        return this;
-      }),
-      webp: vi.fn(function webp() {
-        return this;
-      }),
-      resize: vi.fn(function resize() {
-        return this;
-      }),
-      composite: vi.fn(function composite() {
-        return this;
-      }),
-      toFile: vi.fn(() => Promise.resolve()),
-      toBuffer: vi.fn(() => Promise.resolve(Buffer.from([0x89, 0x50, 0x4e, 0x47]))),
-      metadata: vi.fn(() => Promise.resolve({ width: 80, height: 80 })),
-    };
-    instances.push(instance);
-    return instance;
-  }
-  return { sharpFactory, instances };
-}
 
 describe('images.cjs', () => {
   let sharpMock;

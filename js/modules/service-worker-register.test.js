@@ -1,34 +1,21 @@
-/* @vitest-environment jsdom */
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-
-function injecterCspProd() {
-  const meta = document.createElement('meta');
-  meta.setAttribute('http-equiv', 'Content-Security-Policy');
-  meta.setAttribute('content', "default-src 'self'");
-  document.head.appendChild(meta);
-}
+import { injecterCspProd } from '../test-fixtures/csp-prod.js';
+import {
+  creerNavigatorServiceWorker,
+  creerRegistrationAvecWaiting,
+  creerRegistrationUpdateFound,
+} from '../test-fixtures/service-worker-mock.js';
 
 describe('service-worker-register', () => {
-  const register = vi.fn();
-  const registrationParDefaut = {
-    waiting: null,
-    update: vi.fn().mockResolvedValue(undefined),
-    addEventListener: vi.fn(),
-  };
+  let register;
 
   beforeEach(() => {
     vi.resetModules();
-    register.mockReset();
-    register.mockResolvedValue(registrationParDefaut);
     document.head.innerHTML = '';
     document.body.innerHTML = '';
-    vi.stubGlobal('navigator', {
-      serviceWorker: {
-        register,
-        controller: null,
-        addEventListener: vi.fn(),
-      },
-    });
+    const nav = creerNavigatorServiceWorker();
+    register = nav.register;
+    vi.stubGlobal('navigator', nav.navigator);
   });
 
   it('enregistre sw.js au chargement de la page (build prod)', async () => {
@@ -69,43 +56,15 @@ describe('service-worker-register', () => {
     expect(register).not.toHaveBeenCalled();
   });
 
-  it('journalise en dev si l’enregistrement échoue', async () => {
+  it.each([
+    ['localhost', { hostname: 'localhost', search: '' }],
+    ['127.0.0.1', { hostname: '127.0.0.1', search: '' }],
+    ['?dev', { hostname: 'example.com', search: '?dev=1' }],
+  ])('journalise en dev si l’enregistrement échoue (%s)', async (_label, location) => {
     injecterCspProd();
     const erreur = new Error('sw fail');
     register.mockRejectedValueOnce(erreur);
-    vi.stubGlobal('location', { hostname: 'localhost', search: '' });
-    const debug = vi.spyOn(console, 'debug').mockImplementation(() => {});
-
-    const { enregistrerServiceWorker } = await import('./service-worker-register.js');
-    enregistrerServiceWorker();
-    window.dispatchEvent(new Event('load'));
-    await vi.waitFor(() => {
-      expect(debug).toHaveBeenCalledWith('[sw] enregistrement échoué', erreur);
-    });
-    debug.mockRestore();
-  });
-
-  it('journalise sur 127.0.0.1', async () => {
-    injecterCspProd();
-    const erreur = new Error('sw fail');
-    register.mockRejectedValueOnce(erreur);
-    vi.stubGlobal('location', { hostname: '127.0.0.1', search: '' });
-    const debug = vi.spyOn(console, 'debug').mockImplementation(() => {});
-
-    const { enregistrerServiceWorker } = await import('./service-worker-register.js');
-    enregistrerServiceWorker();
-    window.dispatchEvent(new Event('load'));
-    await vi.waitFor(() => {
-      expect(debug).toHaveBeenCalledWith('[sw] enregistrement échoué', erreur);
-    });
-    debug.mockRestore();
-  });
-
-  it('journalise avec le paramètre ?dev', async () => {
-    injecterCspProd();
-    const erreur = new Error('sw fail');
-    register.mockRejectedValueOnce(erreur);
-    vi.stubGlobal('location', { hostname: 'example.com', search: '?dev=1' });
+    vi.stubGlobal('location', location);
     const debug = vi.spyOn(console, 'debug').mockImplementation(() => {});
 
     const { enregistrerServiceWorker } = await import('./service-worker-register.js');
@@ -135,19 +94,8 @@ describe('service-worker-register', () => {
   it('affiche le toast si un worker attend une mise à jour', async () => {
     injecterCspProd();
     const waiting = { postMessage: vi.fn() };
-    const registration = {
-      waiting,
-      update: vi.fn().mockResolvedValue(undefined),
-      addEventListener: vi.fn(),
-    };
-    register.mockResolvedValueOnce(registration);
-    vi.stubGlobal('navigator', {
-      serviceWorker: {
-        register,
-        controller: {},
-        addEventListener: vi.fn(),
-      },
-    });
+    const { navigator } = creerRegistrationAvecWaiting({ waiting });
+    vi.stubGlobal('navigator', navigator);
 
     const { enregistrerServiceWorker } = await import('./service-worker-register.js');
     enregistrerServiceWorker();
@@ -162,19 +110,10 @@ describe('service-worker-register', () => {
 
   it('masque le toast au clic sur fermer', async () => {
     injecterCspProd();
-    const registration = {
+    const { navigator } = creerRegistrationAvecWaiting({
       waiting: { postMessage: vi.fn() },
-      update: vi.fn().mockResolvedValue(undefined),
-      addEventListener: vi.fn(),
-    };
-    register.mockResolvedValueOnce(registration);
-    vi.stubGlobal('navigator', {
-      serviceWorker: {
-        register,
-        controller: {},
-        addEventListener: vi.fn(),
-      },
     });
+    vi.stubGlobal('navigator', navigator);
 
     const { enregistrerServiceWorker } = await import('./service-worker-register.js');
     enregistrerServiceWorker();
@@ -200,29 +139,8 @@ describe('service-worker-register', () => {
 
   it('affiche le toast après updatefound + statechange installed', async () => {
     injecterCspProd();
-    const handlers = {};
-    const worker = {
-      state: 'installing',
-      addEventListener: (evt, fn) => {
-        handlers[evt] = fn;
-      },
-    };
-    const registration = {
-      waiting: null,
-      installing: worker,
-      update: vi.fn().mockResolvedValue(undefined),
-      addEventListener: vi.fn((evt, fn) => {
-        if (evt === 'updatefound') handlers.updatefound = fn;
-      }),
-    };
-    register.mockResolvedValueOnce(registration);
-    vi.stubGlobal('navigator', {
-      serviceWorker: {
-        register,
-        controller: {},
-        addEventListener: vi.fn(),
-      },
-    });
+    const { navigator, registration, handlers, worker } = creerRegistrationUpdateFound();
+    vi.stubGlobal('navigator', navigator);
 
     const { enregistrerServiceWorker } = await import('./service-worker-register.js');
     enregistrerServiceWorker();
@@ -242,21 +160,13 @@ describe('service-worker-register', () => {
     injecterCspProd();
     let onControllerChange;
     const waiting = { postMessage: vi.fn() };
-    const registration = {
+    const { navigator } = creerRegistrationAvecWaiting({
       waiting,
-      update: vi.fn().mockResolvedValue(undefined),
-      addEventListener: vi.fn(),
-    };
-    register.mockResolvedValueOnce(registration);
-    vi.stubGlobal('navigator', {
-      serviceWorker: {
-        register,
-        controller: {},
-        addEventListener: (evt, fn) => {
-          if (evt === 'controllerchange') onControllerChange = fn;
-        },
+      onControllerChange: (fn) => {
+        onControllerChange = fn;
       },
     });
+    vi.stubGlobal('navigator', navigator);
     const reload = vi.fn();
     vi.stubGlobal('location', { hostname: 'localhost', search: '', reload });
 
@@ -273,19 +183,10 @@ describe('service-worker-register', () => {
 
   it('n’injecte qu’un seul élément toast dans le DOM', async () => {
     injecterCspProd();
-    const registration = {
+    const { navigator } = creerRegistrationAvecWaiting({
       waiting: { postMessage: vi.fn() },
-      update: vi.fn().mockResolvedValue(undefined),
-      addEventListener: vi.fn(),
-    };
-    register.mockResolvedValueOnce(registration);
-    vi.stubGlobal('navigator', {
-      serviceWorker: {
-        register,
-        controller: {},
-        addEventListener: vi.fn(),
-      },
     });
+    vi.stubGlobal('navigator', navigator);
 
     const { enregistrerServiceWorker } = await import('./service-worker-register.js');
     enregistrerServiceWorker();
@@ -296,19 +197,11 @@ describe('service-worker-register', () => {
 
   it('n’affiche pas le toast si waiting sans controller actif', async () => {
     injecterCspProd();
-    const registration = {
+    const { navigator } = creerRegistrationAvecWaiting({
       waiting: { postMessage: vi.fn() },
-      update: vi.fn().mockResolvedValue(undefined),
-      addEventListener: vi.fn(),
-    };
-    register.mockResolvedValueOnce(registration);
-    vi.stubGlobal('navigator', {
-      serviceWorker: {
-        register,
-        controller: null,
-        addEventListener: vi.fn(),
-      },
+      controller: null,
     });
+    vi.stubGlobal('navigator', navigator);
 
     const { enregistrerServiceWorker } = await import('./service-worker-register.js');
     enregistrerServiceWorker();

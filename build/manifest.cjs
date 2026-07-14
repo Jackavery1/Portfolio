@@ -1,6 +1,5 @@
-const fs = require('fs');
 const path = require('path');
-const { ensureDir, log } = require('./fs-utils.cjs');
+const { log } = require('./fs-utils.cjs');
 const { person } = require('./config-defaults.mjs');
 
 function buildManifest(siteBase) {
@@ -74,9 +73,9 @@ function buildDevManifest() {
 }
 
 function writeManifest(distDir, siteBase) {
-  ensureDir(distDir);
+  const { ecrireFichierTexte } = require('./fs-utils.cjs');
   const contenu = `${JSON.stringify(buildManifest(siteBase), null, 2)}\n`;
-  fs.writeFileSync(path.join(distDir, 'manifest.webmanifest'), contenu, 'utf8');
+  ecrireFichierTexte(path.join(distDir, 'manifest.webmanifest'), contenu);
   log('manifest.webmanifest généré', 'success');
 }
 

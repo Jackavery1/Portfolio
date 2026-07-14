@@ -1,5 +1,4 @@
-/* @vitest-environment jsdom */
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 const mocks = vi.hoisted(() => ({
   initialiserAccueilSocial: vi.fn(),
@@ -105,15 +104,24 @@ describe('main', () => {
     delete document.body.dataset.appReady;
     vi.clearAllMocks();
     vi.useFakeTimers();
+    vi.stubGlobal('requestIdleCallback', (fn) => {
+      fn();
+      return 1;
+    });
     vi.stubGlobal('requestAnimationFrame', (fn) => setTimeout(fn, 0));
     sessionStorage.clear();
     mocks.lireScore.mockReturnValue(0);
     mocks.initialiserPageContact.mockResolvedValue(undefined);
   });
 
+  afterEach(async () => {
+    await vi.runOnlyPendingTimersAsync();
+    vi.clearAllTimers();
+  });
+
   it('charge les partials et initialise le socle commun', async () => {
     await initialiser();
-    vi.runAllTimers();
+    await vi.runAllTimersAsync();
 
     expect(mocks.chargerPartiels).toHaveBeenCalled();
     expect(afficherBandeauDev).toHaveBeenCalled();
@@ -121,6 +129,7 @@ describe('main', () => {
     expect(mocks.initialiserNavigationArcade).toHaveBeenCalled();
     expect(mocks.initialiserNavigationClavier).toHaveBeenCalled();
     expect(mocks.initialiserMusique).toHaveBeenCalled();
+    expect(mocks.initialiserCodeKonami).toHaveBeenCalled();
     expect(mocks.enregistrerServiceWorker).toHaveBeenCalled();
     expect(document.body.dataset.appReady).toBe('true');
     expect(document.documentElement.classList.contains('crt-pret')).toBe(true);
@@ -163,7 +172,7 @@ describe('main', () => {
   it('n’initialise que le socle commun sur la section parcours', async () => {
     document.body.dataset.sectionId = 'parcours';
     await initialiser();
-    vi.runAllTimers();
+    await vi.runAllTimersAsync();
 
     expect(mocks.initialiserAccueilSocial).not.toHaveBeenCalled();
     expect(mocks.initialiserGrilleProjets).not.toHaveBeenCalled();
@@ -240,8 +249,17 @@ describe('main', () => {
   it('anime les barres de section après un délai', async () => {
     document.body.dataset.sectionId = 'competences';
     await initialiser();
-    vi.runAllTimers();
+    await vi.runAllTimersAsync();
 
     expect(mocks.animerBarresSection).toHaveBeenCalledWith('competences');
+  });
+
+  it('planifie konami et SW via setTimeout si requestIdleCallback absent', async () => {
+    vi.stubGlobal('requestIdleCallback', undefined);
+    await initialiser();
+    await vi.runAllTimersAsync();
+
+    expect(mocks.initialiserCodeKonami).toHaveBeenCalled();
+    expect(mocks.enregistrerServiceWorker).toHaveBeenCalled();
   });
 });

@@ -1,0 +1,16 @@
+/* Projets — mobile et tablette compacte */
+
+@media (min-width: 700px) and (max-width: 960px) {
+  .grille-projets {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .grille-projets[aria-busy='true']::before,
+  .carte-projet-squelette__ligne,
+  .carte-projet-squelette__bloc {
+    animation: none;
+    opacity: 0.85;
+  }
+}

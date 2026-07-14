@@ -1,4 +1,3 @@
-/* @vitest-environment jsdom */
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 vi.mock('../config/index.js', () => ({
@@ -66,12 +65,15 @@ describe('navigation', () => {
   it('ferme le menu avec Escape', () => {
     const burger = document.getElementById('js-burger');
     const menu = document.getElementById('js-menu');
+    const focusSpy = vi.spyOn(HTMLElement.prototype, 'focus');
     burger.click();
     document.dispatchEvent(
       new KeyboardEvent('keydown', { key: 'Escape', code: 'Escape', bubbles: true })
     );
     expect(burger.getAttribute('aria-expanded')).toBe('false');
     expect(menu.classList.contains('ouvert')).toBe(false);
+    expect(focusSpy).toHaveBeenCalled();
+    focusSpy.mockRestore();
   });
 
   it('navigue vers la page suivante avec flèche droite', () => {
@@ -137,14 +139,6 @@ describe('navigation', () => {
     });
     document.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
     expect(window.location.href).toBe('index.html');
-  });
-
-  it('ferme le menu avec Escape et rend le focus au burger', () => {
-    const burger = document.getElementById('js-burger');
-    burger.click();
-    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
-    expect(burger.getAttribute('aria-expanded')).toBe('false');
-    expect(document.getElementById('js-menu').classList.contains('ouvert')).toBe(false);
   });
 
   it('ignore les flèches quand le menu burger est ouvert', () => {

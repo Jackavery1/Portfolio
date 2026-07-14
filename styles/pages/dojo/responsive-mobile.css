@@ -11,6 +11,10 @@
     width: auto;
     justify-content: flex-start;
   }
+
+  .boss-rush {
+    gap: var(--espacement-sm);
+  }
 }
 
 @media (max-width: 320px) {

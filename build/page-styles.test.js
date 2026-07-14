@@ -78,6 +78,14 @@ describe('page-styles', () => {
     ).toBe(true);
   });
 
+  it('projets et parcours sont découpés en modules dédiés', () => {
+    const { PROJETS_STYLE_SOURCES, PARCOURS_STYLE_SOURCES } = require('./page-styles.mjs');
+    expect(PROJETS_STYLE_SOURCES).toHaveLength(3);
+    expect(PROJETS_STYLE_SOURCES.every((s) => s.startsWith('styles/pages/projets/'))).toBe(true);
+    expect(PARCOURS_STYLE_SOURCES).toHaveLength(4);
+    expect(PARCOURS_STYLE_SOURCES.every((s) => s.startsWith('styles/pages/parcours/'))).toBe(true);
+  });
+
   it('bouton pixel est un composant partagé du bundle base', () => {
     expect(BASE_STYLE_SOURCES).toContain('styles/components/bouton-pixel.css');
   });

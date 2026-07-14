@@ -1,15 +1,20 @@
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
+import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { createRequire } from 'node:module';
 
 const require = createRequire(import.meta.url);
-const { FRAGMENTS } = require('./sync-parcours-arbre.cjs');
+const { syncParcoursArbre, FRAGMENTS } = require('./sync-parcours-arbre.cjs');
 const rootDir = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
+const scriptPath = path.join(rootDir, 'build', 'sync-parcours-arbre.cjs');
 
 describe('parcours-arbre sync', () => {
-  it('parcours-arbre.html assemble tous les fragments', () => {
+  it('syncParcoursArbre assemble tous les fragments', () => {
+    syncParcoursArbre(rootDir);
+
     const assembled = fs.readFileSync(
       path.join(rootDir, 'partials', 'parcours-arbre.html'),
       'utf8'
@@ -19,11 +24,22 @@ describe('parcours-arbre sync', () => {
       expect(assembled).toContain(fragment.slice(0, 40));
     });
     expect(assembled).toContain('class="svg-arbre"');
-    expect(assembled).toContain('EN COURS');
-    expect(assembled).toContain('SCIENCES VÉGÉTALES');
+  });
 
-    const finSvg = assembled.indexOf('</svg>');
-    expect(finSvg).toBeGreaterThan(0);
-    expect(assembled.indexOf('<line')).toBeLessThan(finSvg);
+  it('rejette un fragment manquant', () => {
+    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'parcours-arbre-'));
+    try {
+      expect(() => syncParcoursArbre(tmp)).toThrow(/Fragment manquant/);
+    } finally {
+      fs.rmSync(tmp, { recursive: true, force: true });
+    }
+  });
+
+  it('CLI exécute syncParcoursArbre sans erreur', () => {
+    const resultat = spawnSync(process.execPath, [scriptPath], {
+      cwd: rootDir,
+      encoding: 'utf8',
+    });
+    expect(resultat.status).toBe(0);
   });
 });

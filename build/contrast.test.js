@@ -2,33 +2,10 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
+import { ratioContrasteHex } from './contrast-utils.mjs';
 
 const rootDir = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const tokensPath = path.join(rootDir, 'styles', 'tokens.css');
-
-function parseHex(couleur) {
-  const hex = couleur.trim().replace('#', '');
-  const r = parseInt(hex.slice(0, 2), 16);
-  const g = parseInt(hex.slice(2, 4), 16);
-  const b = parseInt(hex.slice(4, 6), 16);
-  return { r, g, b };
-}
-
-function luminanceRelative({ r, g, b }) {
-  const canal = (v) => {
-    const s = v / 255;
-    return s <= 0.03928 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4;
-  };
-  return 0.2126 * canal(r) + 0.7152 * canal(g) + 0.0722 * canal(b);
-}
-
-function ratioContraste(fgHex, bgHex) {
-  const l1 = luminanceRelative(parseHex(fgHex));
-  const l2 = luminanceRelative(parseHex(bgHex));
-  const clair = Math.max(l1, l2);
-  const fonce = Math.min(l1, l2);
-  return (clair + 0.05) / (fonce + 0.05);
-}
 
 function lireTokensCss() {
   const contenu = fs.readFileSync(tokensPath, 'utf8');
@@ -74,6 +51,24 @@ const PAIRES_AA = [
     label: 'titre-arcade__prenom',
   },
   { fg: '--couleur-actif', bg: '--couleur-fond', min: 3, label: 'arcade-valeur' },
+  {
+    fg: '--couleur-texte-fort',
+    bg: '--couleur-fond-carte',
+    min: 4.5,
+    label: 'carte-projet__nom',
+  },
+  {
+    fg: '--couleur-accent-vif',
+    bg: '--couleur-fond',
+    min: 3,
+    label: 'titre-section',
+  },
+  {
+    fg: '--couleur-texte-fort',
+    bg: '--couleur-fond-carte',
+    min: 4.5,
+    label: 'boss-carte__nom',
+  },
 ];
 
 const PAIRES_UI_DOCUMENTEES = PAIRES_AA.filter((paire) => paire.label);
@@ -87,7 +82,7 @@ describe('contrast tokens', () => {
       if (!fgHex || !bgHex) {
         return [{ fg, bg, min, label, ratio: null, message: 'token manquant' }];
       }
-      const ratio = ratioContraste(fgHex, bgHex);
+      const ratio = ratioContrasteHex(fgHex, bgHex);
       if (ratio < min) {
         return [{ fg, bg, min, label, ratio: Number(ratio.toFixed(2)) }];
       }
@@ -100,7 +95,7 @@ describe('contrast tokens', () => {
   it('documente les ratios nav et hero (≥ seuils UI)', () => {
     const tokens = lireTokensCss();
     const ratios = PAIRES_UI_DOCUMENTEES.map(({ fg, bg, min, label }) => {
-      const ratio = ratioContraste(tokens[fg], tokens[bg]);
+      const ratio = ratioContrasteHex(tokens[fg], tokens[bg]);
       return { label, ratio: Number(ratio.toFixed(2)), min };
     });
 
@@ -116,5 +111,10 @@ describe('contrast tokens', () => {
       ratios.find((item) => item.label === 'titre-arcade__prenom')?.ratio
     ).toBeGreaterThanOrEqual(4.5);
     expect(ratios.find((item) => item.label === 'arcade-valeur')?.ratio).toBeGreaterThanOrEqual(3);
+    expect(ratios.find((item) => item.label === 'carte-projet__nom')?.ratio).toBeGreaterThanOrEqual(
+      4.5
+    );
+    expect(ratios.find((item) => item.label === 'titre-section')?.ratio).toBeGreaterThanOrEqual(3);
+    expect(ratios.find((item) => item.label === 'boss-carte__nom')?.ratio).toBeGreaterThanOrEqual(4.5);
   });
 });

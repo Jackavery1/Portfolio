@@ -11,6 +11,14 @@ import {
   obtenirGainMaitre,
 } from './musique-audio.js';
 import {
+  definirActifSequencuer,
+  definirCatalogueThemesSequencuer,
+  definirMinuteurPlanificateur,
+  definirPasCourant,
+  definirPromesseThemesSequencuer,
+  definirProchainTempsAudio,
+  definirSequenceurEnCours,
+  definirThemeCourantSequencuer,
   lireEtatSequencuer,
   reinitialiserEtatSequencuerStore,
 } from './musique-sequencuer-store.js';
@@ -33,7 +41,7 @@ export function estMusiqueActive() {
 }
 
 export function definirActif(valeur) {
-  lireEtatSequencuer().actif = valeur;
+  definirActifSequencuer(valeur);
 }
 
 export function lireThemeCourant() {
@@ -41,34 +49,38 @@ export function lireThemeCourant() {
 }
 
 export function definirThemeCourant(theme) {
-  lireEtatSequencuer().themeCourant = theme;
+  definirThemeCourantSequencuer(theme);
 }
 
 export function definirTheme(theme) {
-  const etat = lireEtatSequencuer();
-  if (etat.themes?.[theme]) etat.themeCourant = theme;
+  const { themes } = lireEtatSequencuer();
+  if (themes?.[theme]) definirThemeCourantSequencuer(theme);
 }
 
 export function resoudreThemePage(sectionId, fichier = 'index.html') {
-  const etat = lireEtatSequencuer();
-  if (sectionId && etat.themeParSection?.[sectionId]) return etat.themeParSection[sectionId];
-  return etat.themeParFichier?.[fichier] || 'HOME';
+  const { themeParSection, themeParFichier } = lireEtatSequencuer();
+  if (sectionId && themeParSection?.[sectionId]) return themeParSection[sectionId];
+  return themeParFichier?.[fichier] || 'HOME';
 }
 
 export async function assurerThemes() {
-  const etat = lireEtatSequencuer();
-  if (etat.themes) return etat.themes;
-  if (!etat.promesseThemes) {
-    etat.promesseThemes = fetch(new URL('../config/musique-themes.json', import.meta.url))
-      .then((reponse) => reponse.json())
-      .then((donnees) => {
-        etat.themes = donnees.THEMES;
-        etat.themeParSection = donnees.THEME_PAR_SECTION;
-        etat.themeParFichier = donnees.THEME_PAR_FICHIER;
-        return etat.themes;
-      });
+  const { themes, promesseThemes } = lireEtatSequencuer();
+  if (themes) return themes;
+  if (!promesseThemes) {
+    definirPromesseThemesSequencuer(
+      fetch(new URL('../config/musique-themes.json', import.meta.url))
+        .then((reponse) => reponse.json())
+        .then((donnees) => {
+          definirCatalogueThemesSequencuer(
+            donnees.THEMES,
+            donnees.THEME_PAR_SECTION,
+            donnees.THEME_PAR_FICHIER
+          );
+          return donnees.THEMES;
+        })
+    );
   }
-  return etat.promesseThemes;
+  return lireEtatSequencuer().promesseThemes;
 }
 
 function lireCellule(motif, mesure, pasMesure) {
@@ -79,18 +91,18 @@ function lireCellule(motif, mesure, pasMesure) {
 }
 
 function dureePas() {
-  const etat = lireEtatSequencuer();
-  const catalogue = etat.themes || {};
-  const theme = catalogue[etat.themeCourant] || catalogue.HOME;
+  const { themes, themeCourant } = lireEtatSequencuer();
+  const catalogue = themes || {};
+  const theme = catalogue[themeCourant] || catalogue.HOME;
   if (!theme) return 60 / BPM_DEFAUT / 4;
   const battement = 60 / theme.bpm;
   return (battement / 4) * theme.facteurTempo;
 }
 
 function planifierPas(pasGlobal, tempsAudio) {
-  const etat = lireEtatSequencuer();
-  const catalogue = etat.themes || {};
-  const theme = catalogue[etat.themeCourant] || catalogue.HOME;
+  const { themes, themeCourant } = lireEtatSequencuer();
+  const catalogue = themes || {};
+  const theme = catalogue[themeCourant] || catalogue.HOME;
   if (!theme) return;
 
   const destination = obtenirGainMaitre();
@@ -142,7 +154,7 @@ function planifierPas(pasGlobal, tempsAudio) {
 
   const hitHat = theme.hat ? lireCellule(theme.hat, mesure, pasMesure) : 0;
   if (hitHat) {
-    jouerHat(tempsAudio, destination, amplitudeHat(etat.themeCourant, hitHat));
+    jouerHat(tempsAudio, destination, amplitudeHat(themeCourant, hitHat));
   }
 }
 
@@ -156,43 +168,49 @@ function amplitudeHat(themeCourant, hitHat) {
 }
 
 function bouclePlanification() {
-  const etat = lireEtatSequencuer();
+  const { actif, sequenceurEnCours, prochainTempsAudio, pasCourant } = lireEtatSequencuer();
   const ctx = obtenirContexte();
-  if (!ctx || !etat.actif || !etat.sequenceurEnCours) return;
+  if (!ctx || !actif || !sequenceurEnCours) return;
 
-  while (etat.prochainTempsAudio < ctx.currentTime + PLANIFICATION_AVANCE_S) {
-    planifierPas(etat.pasCourant % PAS_PAR_BOUCLE, etat.prochainTempsAudio);
-    etat.prochainTempsAudio += dureePas();
-    etat.pasCourant += 1;
+  let temps = prochainTempsAudio;
+  let pas = pasCourant;
+
+  while (temps < ctx.currentTime + PLANIFICATION_AVANCE_S) {
+    planifierPas(pas % PAS_PAR_BOUCLE, temps);
+    temps += dureePas();
+    pas += 1;
   }
 
-  if (etat.sequenceurEnCours && etat.actif) {
-    etat.minuteurPlanificateur = setTimeout(bouclePlanification, LOOKAHEAD_MS);
+  definirProchainTempsAudio(temps);
+  definirPasCourant(pas);
+
+  if (lireEtatSequencuer().sequenceurEnCours && lireEtatSequencuer().actif) {
+    definirMinuteurPlanificateur(setTimeout(bouclePlanification, LOOKAHEAD_MS));
   }
 }
 
 export function demarrerSequencuer() {
-  const etat = lireEtatSequencuer();
+  const { minuteurPlanificateur } = lireEtatSequencuer();
   const ctx = obtenirContexte();
   if (!ctx) return;
 
-  if (etat.minuteurPlanificateur) {
-    clearTimeout(etat.minuteurPlanificateur);
-    etat.minuteurPlanificateur = null;
+  if (minuteurPlanificateur) {
+    clearTimeout(minuteurPlanificateur);
+    definirMinuteurPlanificateur(null);
   }
-  etat.sequenceurEnCours = false;
+  definirSequenceurEnCours(false);
 
-  etat.pasCourant = 0;
-  etat.prochainTempsAudio = ctx.currentTime + 0.05;
-  etat.sequenceurEnCours = true;
+  definirPasCourant(0);
+  definirProchainTempsAudio(ctx.currentTime + 0.05);
+  definirSequenceurEnCours(true);
   bouclePlanification();
 }
 
 export function arreterSequencuer() {
-  const etat = lireEtatSequencuer();
-  etat.sequenceurEnCours = false;
-  if (etat.minuteurPlanificateur) {
-    clearTimeout(etat.minuteurPlanificateur);
-    etat.minuteurPlanificateur = null;
+  const { minuteurPlanificateur } = lireEtatSequencuer();
+  definirSequenceurEnCours(false);
+  if (minuteurPlanificateur) {
+    clearTimeout(minuteurPlanificateur);
+    definirMinuteurPlanificateur(null);
   }
 }

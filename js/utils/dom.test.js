@@ -1,4 +1,3 @@
-/* @vitest-environment jsdom */
 import { describe, expect, it, beforeEach } from 'vitest';
 import { parId, tousParSelecteur } from './dom.js';
 

@@ -14,7 +14,52 @@ const etat = {
 };
 
 export function lireEtatSequencuer() {
-  return etat;
+  return {
+    themes: etat.themes,
+    themeParSection: etat.themeParSection,
+    themeParFichier: etat.themeParFichier,
+    promesseThemes: etat.promesseThemes,
+    actif: etat.actif,
+    sequenceurEnCours: etat.sequenceurEnCours,
+    minuteurPlanificateur: etat.minuteurPlanificateur,
+    pasCourant: etat.pasCourant,
+    prochainTempsAudio: etat.prochainTempsAudio,
+    themeCourant: etat.themeCourant,
+  };
+}
+
+export function definirActifSequencuer(valeur) {
+  etat.actif = valeur;
+}
+
+export function definirThemeCourantSequencuer(theme) {
+  etat.themeCourant = theme;
+}
+
+export function definirCatalogueThemesSequencuer(themes, themeParSection, themeParFichier) {
+  etat.themes = themes;
+  etat.themeParSection = themeParSection;
+  etat.themeParFichier = themeParFichier;
+}
+
+export function definirPromesseThemesSequencuer(promesse) {
+  etat.promesseThemes = promesse;
+}
+
+export function definirSequenceurEnCours(valeur) {
+  etat.sequenceurEnCours = valeur;
+}
+
+export function definirMinuteurPlanificateur(minuteur) {
+  etat.minuteurPlanificateur = minuteur;
+}
+
+export function definirPasCourant(pas) {
+  etat.pasCourant = pas;
+}
+
+export function definirProchainTempsAudio(temps) {
+  etat.prochainTempsAudio = temps;
 }
 
 export function reinitialiserEtatSequencuerStore() {

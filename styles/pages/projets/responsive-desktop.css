@@ -1,0 +1,11 @@
+/* Projets — desktop */
+
+@media (min-width: 961px) {
+  .projets-sommaire {
+    display: none;
+  }
+
+  .grille-projets {
+    grid-template-columns: 1fr 1fr;
+  }
+}

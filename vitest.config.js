@@ -29,15 +29,38 @@ const coverage = {
   },
 };
 
+/** Tests sans DOM — reste en environnement node. */
+const JS_NODE_TESTS = [
+  'js/config/**/*.test.js',
+  'js/utils/contact-form-helpers.test.js',
+  'js/utils/navigation-helpers.test.js',
+  'js/utils/page.test.js',
+  'js/utils/page.node.test.js',
+  'js/utils/pii.test.js',
+  'js/utils/score-helpers.test.js',
+  'js/utils/validation.test.js',
+  'js/modules/audio-context-store.test.js',
+  'js/modules/musique-sequencuer-store.test.js',
+  'js/modules/score.test.js',
+];
+
 export default defineConfig({
   test: {
     coverage,
     projects: [
       {
         test: {
-          name: 'js',
-          environment: 'node',
+          name: 'js-dom',
+          environment: 'jsdom',
           include: ['js/**/*.test.js'],
+          exclude: JS_NODE_TESTS,
+        },
+      },
+      {
+        test: {
+          name: 'js-node',
+          environment: 'node',
+          include: JS_NODE_TESTS,
         },
       },
       {

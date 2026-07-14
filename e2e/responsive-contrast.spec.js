@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { gotoReady } from './helpers.js';
+import { gotoReady, assertContrasteAa } from './helpers.js';
 
 test('prefers-contrast: more — renforce la lisibilité nav et champs', async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 667 });
@@ -26,4 +26,53 @@ test('prefers-contrast: more — renforce la lisibilité nav et champs', async (
     .first()
     .evaluate((el) => getComputedStyle(el).borderTopColor);
   expect(bordureChamp).toBeTruthy();
+});
+
+test('contraste WCAG AA — nav, champs et carte projet', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 667 });
+  await gotoReady(page, '/contact.html');
+
+  await assertContrasteAa(page.locator('.nav__bouton'));
+  await assertContrasteAa(page.locator('#contact-nom'));
+  await assertContrasteAa(page.locator('.champ-label').first());
+
+  await gotoReady(page, '/projets.html');
+  await page.waitForSelector('.grille-projets:not([aria-busy="true"]) .carte-projet', {
+    timeout: 15_000,
+  });
+  await assertContrasteAa(page.locator('.carte-projet').first());
+});
+
+test('contraste WCAG AA — titres néon accueil', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 667 });
+  await gotoReady(page, '/index.html');
+
+  await assertContrasteAa(page.locator('.titre-arcade__nom'), 3);
+  await assertContrasteAa(page.locator('.titre-arcade__prenom'));
+  await assertContrasteAa(page.locator('.arcade-label').first());
+});
+
+test('contraste WCAG AA — titres section et cartes projets', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 667 });
+  await gotoReady(page, '/projets.html');
+  await page.waitForSelector('.grille-projets:not([aria-busy="true"]) .carte-projet', {
+    timeout: 15_000,
+  });
+
+  await assertContrasteAa(page.locator('h1.titre-section'), 3);
+  await assertContrasteAa(page.locator('.carte-projet__nom').first());
+  await assertContrasteAa(page.locator('.carte-projet__desc').first());
+
+  await gotoReady(page, '/competences.html');
+  await assertContrasteAa(page.locator('h1.titre-section'), 3);
+
+  await gotoReady(page, '/dojo.html');
+  await assertContrasteAa(page.locator('h1.titre-section'), 3);
+  await assertContrasteAa(page.locator('.boss-carte__nom').first());
+
+  await gotoReady(page, '/contact.html');
+  await expect(page.locator('#js-formulaire')).toHaveAttribute('data-ready', '1', {
+    timeout: 15_000,
+  });
+  await assertContrasteAa(page.locator('h1.titre-section'), 3);
 });

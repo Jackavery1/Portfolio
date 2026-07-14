@@ -13,10 +13,7 @@ import {
   lireScore,
 } from './modules/score.js';
 import { initialiserMetaPartage, initialiserBonusScore } from './modules/meta.js';
-import { initialiserCodeKonami } from './modules/konami.js';
 import { initialiserMusique } from './modules/musique-loader.js';
-import { enregistrerServiceWorker } from './modules/service-worker-register.js';
-import { animerBarresSection } from './modules/animations.js';
 import { urlFaviconPng } from './config/favicon.js';
 import { SCORE_PLAFOND } from './utils/score-helpers.js';
 import { initialiserSection } from './config/sections.js';
@@ -27,6 +24,24 @@ function activerOverlayCrtApresPeinture() {
     requestAnimationFrame(() => {
       document.documentElement.classList.add('crt-pret');
     });
+  });
+}
+
+function planifierTachesDifferees(sid) {
+  setTimeout(() => {
+    import('./modules/animations.js').then((module) => module.animerBarresSection(sid));
+  }, 300);
+
+  const planifier =
+    typeof requestIdleCallback === 'function'
+      ? (fn) => requestIdleCallback(fn, { timeout: 4000 })
+      : (fn) => setTimeout(fn, 1);
+
+  planifier(() => {
+    import('./modules/konami.js').then((module) => module.initialiserCodeKonami());
+    import('./modules/service-worker-register.js').then((module) =>
+      module.enregistrerServiceWorker()
+    );
   });
 }
 
@@ -69,12 +84,11 @@ async function initialiser() {
   initialiserNavigationClavier();
   initialiserBonusScore();
   afficherScore(lireScore());
-  initialiserCodeKonami();
   initialiserMusique();
 
   await initialiserSection(sid);
 
-  setTimeout(() => animerBarresSection(sid), 300);
+  planifierTachesDifferees(sid);
 
   try {
     if (etaitDejaAuMax && !sessionStorage.getItem(CONFIGURATION.STOCKAGE.POPUP_HS_VU)) {
@@ -86,7 +100,6 @@ async function initialiser() {
 
   document.body.dataset.appReady = 'true';
   activerOverlayCrtApresPeinture();
-  enregistrerServiceWorker();
 }
 
 document.addEventListener('DOMContentLoaded', initialiser);

@@ -8,47 +8,14 @@ import { parId, tousParSelecteur } from '../utils/dom.js';
 import { piegerTabulationModale } from '../utils/focus.js';
 import { basculerInertFond } from '../utils/inert.js';
 import {
-  cheminWebpDepuisRaster,
-  estImageRaster,
   liensProjetValides,
+  preparerImageModale,
   resoudreSrcApercu,
 } from '../utils/modal-helpers.js';
 import { jouerBip } from './audio.js';
 import { accorderBonusProjet } from './score.js';
 
 let elementFocusAvantModal = null;
-
-function detacherBalisePicture(img) {
-  const picture = img.closest('picture');
-  if (!picture?.parentElement) return;
-  picture.parentElement.insertBefore(img, picture);
-  picture.remove();
-}
-
-function preparerImageModale(modalImg, src, titre) {
-  detacherBalisePicture(modalImg);
-
-  modalImg.loading = 'eager';
-  modalImg.decoding = 'async';
-  modalImg.alt = `Aperçu — ${titre}`;
-
-  if (!src) {
-    modalImg.removeAttribute('src');
-    modalImg.classList.remove('modal-img--svg');
-    return;
-  }
-
-  const estSvg = /\.svg($|\?)/i.test(src);
-  modalImg.classList.toggle('modal-img--svg', estSvg);
-
-  if (estImageRaster(src)) {
-    modalImg.classList.remove('modal-img--svg');
-    modalImg.src = cheminWebpDepuisRaster(src) || src;
-    return;
-  }
-
-  modalImg.src = src;
-}
 
 function remplirLiensModale(modalLien, projet) {
   const liensValides = liensProjetValides(projet);

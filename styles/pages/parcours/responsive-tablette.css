@@ -1,0 +1,14 @@
+/* Parcours — tablette */
+
+@media (min-width: 600px) and (max-width: 960px) {
+  .story-grille {
+    grid-template-columns: minmax(0, 1fr) minmax(140px, 180px);
+    gap: var(--espacement-ml);
+    align-items: start;
+  }
+
+  .svg-arbre {
+    min-height: 300px;
+    max-width: 180px;
+  }
+}

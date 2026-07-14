@@ -63,7 +63,7 @@ js/modules/contact-form.js
 js/modules/contact-form.test.js  ← même dossier
 ```
 
-Approche **test-per-module** : Vitest + Playwright e2e (voir `npm test` / `npm run test:e2e`), environnement `node` avec `/* @vitest-environment jsdom */` sur les modules DOM ; `vi.mock` pour config et I/O externes.
+Approche **test-per-module** : Vitest + Playwright e2e (voir `npm test` / `npm run test:e2e`), environnement `node` avec jsdom via `environmentMatchGlobs` (`vitest.config.js`) ; `vi.mock` pour config et I/O externes.
 
 ## Structure fichiers
 
@@ -85,9 +85,28 @@ Approche **test-per-module** : Vitest + Playwright e2e (voir `npm test` / `npm r
 | `build/`          | **CJS** (`require` / `module.exports`) | Scripts Node I/O (sync, minify, SW) — modules I/O lourds                                   |
 | `build/*.mjs`     | **ESM** (données pures)                | `config-defaults.mjs`, `page-meta.mjs`, `page-meta-tags.mjs`, `page-styles.mjs`, `json-ld.mjs`, `url-page.mjs`, `breakpoints.mjs`, `partials-list.mjs` — `require()` depuis CJS (Node ≥20) |
 | `build.mjs`       | **ESM** (entrée build)                 | Orchestration via `build/cjs-bridge.mjs` → `loadBuild()`                                   |
-| `build/*.test.js` | ESM                                    | `loadBuild()` ou `build/test-require.mjs` (remplace `createRequire` répété)                |
+| `build/*.test.js` | ESM                                    | `loadBuild()` via `build/cjs-bridge.mjs` ou `createRequire` ciblé                          |
 
 **Pont** : `build/cjs-bridge.mjs` expose `loadBuild('env.cjs')` — point d’entrée ESM unique sans migrer tout le pipeline CJS (CLI `require.main`, I/O synchrone).
+
+#### Build HTML prod (`build/html*.cjs`)
+
+Orchestrateur : `build/html.cjs` (`copyHTML`). Modules dédiés :
+
+| Module | Rôle |
+| ------ | ---- |
+| `html-files.cjs` | Liste des pages (`HTML_FILES`) |
+| `html-seo.cjs` | Meta page, canonical, OG absolu, JSON-LD |
+| `html-head.cjs` | `head-common`, polices async, CSS prod |
+| `html-partials-inline.cjs` | Inlining des placeholders partials |
+| `html-csp.cjs` | Injection CSP après viewport |
+
+Ordre d’injection dans le `<head>` :
+
+1. Preload police **VT323** uniquement (`partials/fonts-async.html`) — corps CRT au LCP ; Press Start 2P et Rajdhani via `@font-face` à la demande.
+2. Preload + stylesheet `style-base.css` puis `style-page-*.css`.
+3. Polices : preload **Press Start 2P** (LCP hero) via `partials/fonts-async.html` ; VT323 et Rajdhani à la demande.
+4. JS non critique (`konami`, `animations`, `service-worker-register`) chargé en `import()` après `data-app-ready` / `requestIdleCallback`.
 
 ### Pipeline `sync-source`
 
@@ -110,7 +129,7 @@ L’ordre est couplé (ex. `legal` avant `manifest-dev`, partials avant injectio
 
 ### ✅ Pourquoi JSDOM pour les tests DOM ?
 
-- Environnement Vitest `node` par défaut ; jsdom activé fichier par fichier
+- Environnement Vitest `node` par défaut ; **jsdom** activé via `environmentMatchGlobs` dans `vitest.config.js` (`js/modules/**`, `js/main.test.js`, utils DOM)
 - Performance : suite complète en quelques dizaines de secondes
 - Isolation : reset DOM par test via `beforeEach`
 
@@ -203,7 +222,7 @@ if (visualViewport) adjustPaddingSafeArea()
 - **JS** : minifié au build (`build/js-minify.cjs`, ~35–40 % de réduction)
 - **CSS** : `style.css` monolithique en dev + `style-base.css` / `style-page-*.css` en prod
 - **Assets** : WebP (previews), SVG inline (icons), polices locales latin + latin-ext
-- **Mesure** : `npm run build && npm run measure` → snapshot local `scripts/bundle-baseline.json` (gitignoré) ; modèle `scripts/bundle-baseline.example.json`
+- **Mesure** : `npm run build && npm run measure` — artefact le plus frais (`.dist-staging-build/` ou `.dist-staging/`) ; snapshot local `scripts/bundle-baseline.json` (gitignoré)
 
 ### Runtime
 

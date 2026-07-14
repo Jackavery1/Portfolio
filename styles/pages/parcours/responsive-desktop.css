@@ -1,0 +1,11 @@
+/* Parcours — desktop */
+
+@media (min-width: 961px) {
+  .story-grille {
+    grid-template-columns: 1fr 220px;
+  }
+
+  .svg-arbre {
+    min-height: 480px;
+  }
+}

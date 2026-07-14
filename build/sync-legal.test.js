@@ -1,11 +1,13 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { createRequire } from 'node:module';
 
 const require = createRequire(import.meta.url);
 const rootDir = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
+const scriptPath = path.join(rootDir, 'build', 'sync-legal.cjs');
 
 describe('sync-legal', () => {
   it('génère legal-data.js depuis legal.json', () => {
@@ -18,5 +20,13 @@ describe('sync-legal', () => {
     const contenu = fs.readFileSync(target, 'utf8');
     expect(contenu).toContain('export const MENTIONS_LEGALES');
     expect(contenu).toContain('donnees-personnelles');
+  });
+
+  it('CLI exécute syncLegal sans erreur', () => {
+    const resultat = spawnSync(process.execPath, [scriptPath], {
+      cwd: rootDir,
+      encoding: 'utf8',
+    });
+    expect(resultat.status).toBe(0);
   });
 });

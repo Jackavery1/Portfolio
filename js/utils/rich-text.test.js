@@ -1,4 +1,3 @@
-/* @vitest-environment jsdom */
 import { describe, expect, it } from 'vitest';
 import { ajouterHtmlEnrichi, echapperHtml, paragrapheHtmlEnrichi } from './rich-text.js';
 

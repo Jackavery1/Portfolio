@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
@@ -58,5 +59,18 @@ describe('build service worker', () => {
     expect(source).toContain('Promise.allSettled');
     expect(source).toContain("event.data?.type === 'SKIP_WAITING'");
     expect(source).toContain('self.registration?.active');
+  });
+
+  it('precacheUrls ignore un dossier fonts absent', () => {
+    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'portfolio-sw-'));
+    try {
+      fs.mkdirSync(path.join(tmp, 'js'), { recursive: true });
+      fs.writeFileSync(path.join(tmp, 'js', 'main.js'), 'export {};\n', 'utf8');
+      const urls = precacheUrls(tmp);
+      expect(urls.some((url) => url.startsWith('assets/fonts/'))).toBe(false);
+      expect(urls).toContain('js/main.js');
+    } finally {
+      fs.rmSync(tmp, { recursive: true, force: true });
+    }
   });
 });

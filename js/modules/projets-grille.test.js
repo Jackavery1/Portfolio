@@ -1,4 +1,3 @@
-/* @vitest-environment jsdom */
 import { describe, expect, it, beforeEach, vi } from 'vitest';
 
 vi.mock('./score.js', () => ({

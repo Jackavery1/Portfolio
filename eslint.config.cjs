@@ -6,6 +6,9 @@ module.exports = [
     ignores: [
       'dist/**',
       '.dist-staging/**',
+      '.dist-staging.old/**',
+      '.dist-staging-build/**',
+      '.dist-staging-build.old/**',
       'node_modules/**',
       'playwright-report/**',
       'test-results/**',
@@ -13,6 +16,17 @@ module.exports = [
     ],
   },
   js.configs.recommended,
+  {
+    files: ['build/contrast-utils.mjs'],
+    languageOptions: {
+      ecmaVersion: 2022,
+      sourceType: 'module',
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+      },
+    },
+  },
   {
     files: ['js/**/*.js'],
     languageOptions: {

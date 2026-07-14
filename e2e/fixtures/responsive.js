@@ -35,3 +35,21 @@ export async function assertPasOverflowHorizontal(page) {
   const clientWidth = await page.evaluate(() => document.documentElement.clientWidth);
   expect(scrollWidth).toBeLessThanOrEqual(clientWidth + 1);
 }
+
+/** Applique zoom 200 % et vérifie l’absence de scroll horizontal (WCAG reflow). */
+export async function assertZoom200SansOverflow(page, { visible } = {}) {
+  if (visible) {
+    await expect(page.locator(visible).first()).toBeVisible();
+  }
+
+  await page.evaluate(() => {
+    document.documentElement.style.zoom = '200%';
+  });
+
+  await assertPasOverflowHorizontal(page);
+
+  const hasHorizontalScroll = await page.evaluate(
+    () => document.documentElement.scrollWidth > window.innerWidth
+  );
+  expect(hasHorizontalScroll).toBe(false);
+}

@@ -86,16 +86,29 @@ export const MENTIONS_LEGALES_STYLE_SOURCES = [
   'styles/pages/mentions-legales/responsive-mobile.css',
 ];
 
+export const PROJETS_STYLE_SOURCES = [
+  'styles/pages/projets/layout.css',
+  'styles/pages/projets/responsive-mobile.css',
+  'styles/pages/projets/responsive-desktop.css',
+];
+
+export const PARCOURS_STYLE_SOURCES = [
+  'styles/pages/parcours/layout.css',
+  'styles/pages/parcours/responsive-mobile.css',
+  'styles/pages/parcours/responsive-tablette.css',
+  'styles/pages/parcours/responsive-desktop.css',
+];
+
 export const OFFLINE_STYLE_SOURCES = ['styles/pages/offline.css'];
 
 export const PAGE_STYLE_BY_HTML = {
   'index.html': { outfile: 'style-page-accueil.css', sources: ACCUEIL_STYLE_SOURCES },
-  'projets.html': { outfile: 'style-page-projets.css', sources: ['styles/pages/projets.css'] },
+  'projets.html': { outfile: 'style-page-projets.css', sources: PROJETS_STYLE_SOURCES },
   'competences.html': {
     outfile: 'style-page-competences.css',
     sources: COMPETENCES_STYLE_SOURCES,
   },
-  'parcours.html': { outfile: 'style-page-parcours.css', sources: ['styles/pages/parcours.css'] },
+  'parcours.html': { outfile: 'style-page-parcours.css', sources: PARCOURS_STYLE_SOURCES },
   'contact.html': { outfile: 'style-page-contact.css', sources: CONTACT_STYLE_SOURCES },
   'dojo.html': { outfile: 'style-page-dojo.css', sources: DOJO_STYLE_SOURCES },
   'mentions-legales.html': {

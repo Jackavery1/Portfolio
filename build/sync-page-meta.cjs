@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { PAGE_META } = require('./page-meta.mjs');
-const { HTML_FILES } = require('./html.cjs');
+const { HTML_FILES } = require('./html-files.cjs');
 const { remplacerBlocPageMeta } = require('./page-meta-tags.mjs');
 
 function fichiersPageMetaDerives(root = path.join(__dirname, '..')) {
@@ -50,11 +50,12 @@ module.exports = {
   verifierPageMeta,
   fichiersPageMetaDerives,
   resoudreRacine,
+  runCli,
 };
 
-if (require.main === module) {
-  const root = resoudreRacine();
-  const check = process.argv.includes('--check');
+function runCli(argv = process.argv) {
+  const root = resoudreRacine(argv);
+  const check = argv.includes('--check');
 
   if (check) {
     const derives = verifierPageMeta(root);
@@ -68,4 +69,8 @@ if (require.main === module) {
   }
 
   syncPageMeta(root);
+}
+
+if (require.main === module) {
+  runCli();
 }

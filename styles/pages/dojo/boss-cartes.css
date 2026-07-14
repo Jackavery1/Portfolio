@@ -9,6 +9,12 @@
   contain-intrinsic-size: auto 640px;
 }
 
+.boss-rush__lot + .boss-rush__lot {
+  margin-top: var(--espacement-md);
+  padding-top: var(--espacement-sm);
+  border-top: 1px solid var(--couleur-separateur);
+}
+
 .boss-carte {
   display: flex;
   align-items: flex-start;
@@ -21,7 +27,9 @@
   padding: 0.55rem 0.85rem;
   transition:
     border-color 0.2s,
-    transform 0.2s;
+    background-color 0.2s,
+    transform 0.2s,
+    box-shadow 0.2s;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -42,10 +50,13 @@
 .boss-carte:focus-visible {
   outline: 2px solid var(--couleur-accent-vif);
   outline-offset: 2px;
+  background-color: var(--couleur-fond-survol);
+  border-color: var(--couleur-accent);
 }
 
 .boss-carte:active {
   border-color: var(--couleur-accent);
+  background-color: var(--couleur-fond-survol);
 }
 
 .boss-carte--en-cours:active {

@@ -1,8 +1,11 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { createRequire } from 'node:module';
 import { describe, expect, it } from 'vitest';
 
+const require = createRequire(import.meta.url);
+const { HTML_FILES } = require('./html.cjs');
 const rootDir = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 
 const FICHIERS_SAFE_AREA = [
@@ -21,7 +24,7 @@ const FICHIERS_SCROLL_TACTILE = [
   'styles/components/modal/responsive.css',
   'styles/components/form.css',
   'styles/pages/competences/layout.css',
-  'styles/pages/parcours.css',
+  'styles/pages/parcours/responsive-mobile.css',
 ];
 
 function lire(rel) {
@@ -30,9 +33,7 @@ function lire(rel) {
 
 describe('responsive CSS', () => {
   it('viewport-fit=cover sur toutes les pages HTML', () => {
-    const pages = fs.readdirSync(rootDir).filter((name) => name.endsWith('.html'));
-
-    pages.forEach((file) => {
+    HTML_FILES.forEach((file) => {
       const html = lire(file);
       expect(html, file).toMatch(/viewport-fit=cover/);
     });
@@ -68,5 +69,25 @@ describe('responsive CSS', () => {
       }
       expect(contenu, file).toContain('-webkit-overflow-scrolling: touch');
     });
+  });
+
+  it('transition data-app-ready sur la coquille .ecran', () => {
+    const contenu = lire('styles/layout/utilities.css');
+    expect(contenu).toContain("body:not([data-app-ready='true']) .ecran");
+    expect(contenu).toContain("body[data-app-ready='true'] .ecran");
+    expect(contenu).toContain('prefers-reduced-motion');
+  });
+
+  it('projets et parcours ont des modules responsive dédiés', () => {
+    const { PROJETS_STYLE_SOURCES, PARCOURS_STYLE_SOURCES } = require('./page-styles.mjs');
+    expect(PROJETS_STYLE_SOURCES.some((f) => f.includes('responsive'))).toBe(true);
+    expect(PARCOURS_STYLE_SOURCES.some((f) => f.includes('responsive'))).toBe(true);
+    expect(PARCOURS_STYLE_SOURCES).toContain('styles/pages/parcours/responsive-mobile.css');
+    expect(PARCOURS_STYLE_SOURCES).toContain('styles/pages/parcours/responsive-tablette.css');
+  });
+
+  it('indicateur de scroll horizontal sur zones défilantes denses', () => {
+    expect(lire('styles/pages/competences/layout.css')).toContain('.scores-tableau-zone::after');
+    expect(lire('styles/pages/parcours/responsive-mobile.css')).toContain('.story-arbre::after');
   });
 });

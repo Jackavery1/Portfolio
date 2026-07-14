@@ -8,6 +8,7 @@ import {
   VIEWPORTS_ETENDUS,
   VIEWPORT_MOBILE,
   assertPasOverflowHorizontal,
+  assertZoom200SansOverflow,
 } from './fixtures/responsive.js';
 
 for (const viewport of VIEWPORTS) {
@@ -121,38 +122,50 @@ test('responsive score arcade — label et valeur visibles en portrait compact',
   await expect(page.locator('.arcade-label')).toHaveText('SCORE');
 });
 
-test('accessibility zoom 200% — pas overflow horizontal', async ({ page }) => {
-  await gotoReady(page, '/index.html');
+const PAGES_ZOOM_200 = [
+  { path: '/index.html', visible: 'h1.titre-arcade' },
+  {
+    path: '/projets.html',
+    visible: '.carte-projet',
+    async preparer(page) {
+      await page.waitForSelector('.grille-projets:not([aria-busy="true"]) .carte-projet', {
+        timeout: 15_000,
+      });
+    },
+  },
+  { path: '/competences.html', visible: 'h1.titre-section' },
+  { path: '/parcours.html', visible: '.svg-arbre' },
+  { path: '/mentions-legales.html', visible: '.mentions-sommaire' },
+  { path: '/dojo.html', visible: '.boss-carte' },
+  {
+    path: '/contact.html',
+    visible: '#contact-nom',
+    async preparer(page) {
+      await expect(page.locator('#js-formulaire')).toHaveAttribute('data-ready', '1', {
+        timeout: 15_000,
+      });
+    },
+  },
+];
 
-  await page.evaluate(() => {
-    document.documentElement.style.zoom = '200%';
+for (const pageInfo of PAGES_ZOOM_200) {
+  test(`accessibility zoom 200% — ${pageInfo.path} sans overflow`, async ({ page }) => {
+    await gotoReady(page, pageInfo.path);
+    if (pageInfo.preparer) {
+      await pageInfo.preparer(page);
+    }
+    await assertZoom200SansOverflow(page, { visible: pageInfo.visible });
+  });
+}
+
+test('accessibility zoom 200% projets — modale sans overflow', async ({ page }) => {
+  await gotoReady(page, '/projets.html');
+  await page.waitForSelector('.grille-projets:not([aria-busy="true"]) .carte-projet', {
+    timeout: 15_000,
   });
 
-  const bodyWidth = await page.evaluate(() => document.body.offsetWidth);
-  const windowWidth = await page.evaluate(() => window.innerWidth);
+  await page.locator('.carte-projet[data-projet="lsf"]').first().click({ force: true });
+  await expect(page.locator('#js-modal')).toBeVisible();
 
-  expect(bodyWidth).toBeLessThanOrEqual(windowWidth + 1);
-
-  const hasHorizontalScroll = await page.evaluate(() => {
-    return document.documentElement.scrollWidth > window.innerWidth;
-  });
-
-  expect(hasHorizontalScroll).toBe(false);
-});
-
-test('accessibility zoom 200% dojo — cartes boss visibles sans overflow', async ({ page }) => {
-  await gotoReady(page, '/dojo.html');
-
-  await page.evaluate(() => {
-    document.documentElement.style.zoom = '200%';
-  });
-
-  await expect(page.locator('.boss-carte').first()).toBeVisible();
-  await assertPasOverflowHorizontal(page);
-
-  const hasHorizontalScroll = await page.evaluate(() => {
-    return document.documentElement.scrollWidth > window.innerWidth;
-  });
-
-  expect(hasHorizontalScroll).toBe(false);
+  await assertZoom200SansOverflow(page, { visible: '.modal-fermer' });
 });

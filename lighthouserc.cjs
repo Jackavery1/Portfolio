@@ -1,24 +1,20 @@
+const { resolveStaticDistDir } = require('./build/resolve-static-dist.cjs');
+const { HTML_FILES } = require('./build/html-files.cjs');
+
+const staticDistDir = resolveStaticDistDir();
+
 const assertionsCommunes = {
   'categories:accessibility': ['error', { minScore: 0.9 }],
   'categories:best-practices': ['error', { minScore: 0.9 }],
   'categories:seo': ['error', { minScore: 0.9 }],
 };
 
-const urls = [
-  'index.html',
-  'projets.html',
-  'competences.html',
-  'parcours.html',
-  'contact.html',
-  'dojo.html',
-  'mentions-legales.html',
-  'offline.html',
-];
+const urls = [...HTML_FILES, 'offline.html'];
 
 module.exports = {
   ci: {
     collect: {
-      staticDistDir: './.dist-staging',
+      staticDistDir,
       url: urls,
       numberOfRuns: 5,
       settings: {

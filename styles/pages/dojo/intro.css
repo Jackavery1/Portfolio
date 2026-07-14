@@ -6,6 +6,8 @@
   color: var(--couleur-texte-normal);
   line-height: 1.7;
   margin-bottom: 1rem;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 120px;
 }
 
 .boss-rush__titre {

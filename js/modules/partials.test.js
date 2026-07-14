@@ -1,4 +1,3 @@
-/* @vitest-environment jsdom */
 import { describe, expect, it, vi, beforeEach } from 'vitest';
 import { chargerPartiels } from './partials.js';
 

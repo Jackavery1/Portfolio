@@ -85,6 +85,7 @@
   cursor: pointer;
   transition:
     border-color 0.2s,
+    background-color 0.2s,
     box-shadow 0.2s,
     transform 0.2s;
   position: relative;
@@ -99,6 +100,7 @@
 
 .carte-projet:hover {
   border-color: var(--couleur-accent);
+  background-color: var(--couleur-fond-survol);
   box-shadow: var(--ombre-carte-survol);
 }
 
@@ -111,6 +113,8 @@
 .carte-projet:active {
   transform: scale(0.99);
   border-color: var(--couleur-accent-vif);
+  background-color: var(--couleur-fond-survol);
+  box-shadow: var(--ombre-carte-survol);
 }
 
 .carte-projet:focus {
@@ -119,6 +123,7 @@
 
 .carte-projet:focus-visible {
   border-color: var(--couleur-accent);
+  background-color: var(--couleur-fond-survol);
   box-shadow:
     var(--ombre-carte-survol),
     0 0 0 3px var(--couleur-accent-vif);

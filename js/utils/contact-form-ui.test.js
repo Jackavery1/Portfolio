@@ -1,4 +1,3 @@
-/* @vitest-environment jsdom */
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import {
   afficherErreurZone,
@@ -42,7 +41,6 @@ describe('contact-form-ui', () => {
 
     expect(jouerBip).toHaveBeenCalledWith(150, 120, 'sawtooth');
     expect(champ.getAttribute('aria-invalid')).toBe('true');
-    expect(champ.style.borderColor).toBe('var(--couleur-erreur)');
     expect(erreur.hidden).toBe(false);
     expect(erreur.textContent).toBe('Champ requis.');
   });
@@ -71,6 +69,16 @@ describe('contact-form-ui', () => {
   it('enregistre le timestamp de soumission', () => {
     enregistrerSoumissionSession('test-submit');
     expect(sessionStorage.getItem('test-submit')).toBeTruthy();
+  });
+
+  it('marque les champs invalides sans zone aria-errormessage', () => {
+    document.body.innerHTML += '<input id="champ-sans-erreur" />';
+    const champ = document.getElementById('champ-sans-erreur');
+    const jouerBip = vi.fn();
+
+    marquerChampsInvalides([{ el: champ, message: 'Requis.' }], jouerBip);
+
+    expect(champ.getAttribute('aria-invalid')).toBe('true');
   });
 
   it('détecte le honeypot rempli', () => {

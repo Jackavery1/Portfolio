@@ -1,15 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-
-const HTML_FILES = [
-  'index.html',
-  'projets.html',
-  'competences.html',
-  'parcours.html',
-  'contact.html',
-  'dojo.html',
-  'mentions-legales.html',
-];
+const { HTML_FILES } = require('./html-files.cjs');
 
 const HEADER_INNER_RE = /(<header\b[^>]*\bid=["']partial-nav["'][^>]*>)([\s\S]*?)(<\/header>)/i;
 

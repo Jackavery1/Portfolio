@@ -9,14 +9,30 @@
 }
 
 .scores-tableau-zone {
+  position: relative;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 360px;
+}
+
+.scores-tableau-zone::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 2.5rem;
+  pointer-events: none;
+  background: linear-gradient(to left, var(--couleur-fond-page), transparent);
 }
 
 .stats-lateral {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 420px;
 }
 
 .stats-bloc__titre {
