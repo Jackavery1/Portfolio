@@ -6,6 +6,7 @@ const etat = {
   themeParFichier: null,
   promesseThemes: null,
   actif: false,
+  sequenceurEnCours: false,
   minuteurPlanificateur: null,
   pasCourant: 0,
   prochainTempsAudio: 0,
@@ -22,6 +23,7 @@ export function reinitialiserEtatSequencuerStore() {
   etat.themeParFichier = null;
   etat.promesseThemes = null;
   etat.actif = false;
+  etat.sequenceurEnCours = false;
   if (etat.minuteurPlanificateur) clearTimeout(etat.minuteurPlanificateur);
   etat.minuteurPlanificateur = null;
   etat.pasCourant = 0;

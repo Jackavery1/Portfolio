@@ -1,8 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { createRequire } from 'node:module';
-
-const require = createRequire(import.meta.url);
-const { buildJsonLd } = require('./json-ld.cjs');
+import { buildJsonLd, jsonLdScriptTag } from './json-ld.mjs';
 
 describe('build json-ld', () => {
   const siteBase = 'https://example.com';
@@ -44,5 +41,12 @@ describe('build json-ld', () => {
 
   it('retourne null sans ogTitle', () => {
     expect(buildJsonLd('contact.html', siteBase, {}, `${siteBase}/contact.html`)).toBeNull();
+  });
+
+  it('jsonLdScriptTag produit un script compact (sans pretty-print)', () => {
+    const payload = buildJsonLd('index.html', siteBase, meta, `${siteBase}/`);
+    const tag = jsonLdScriptTag(payload);
+    expect(tag).not.toContain('\n');
+    expect(tag).toMatch(/^<script type="application\/ld\+json">/);
   });
 });

@@ -53,10 +53,12 @@ describe('build html', () => {
       expect(built).toContain('property="og:site_name" content="Joris Martinez · Portfolio"');
       expect(built).toContain('property="og:image:width" content="1536"');
       expect(built).toContain('property="og:image:height" content="1024"');
-      expect(built).toContain('"@type": "Person"');
-      expect(built).toContain('"@type": "WebSite"');
-      expect(built).toContain('"@type": "WebPage"');
-      expect(built).toContain('"@id": "https://example.com/#person"');
+      expect(built).toContain('<script type="application/ld+json">');
+      expect(built).toMatch(/<script type="application\/ld\+json">[\s\S]*<\/body>/);
+      expect(built).toContain('"@type":"Person"');
+      expect(built).toContain('"@type":"WebSite"');
+      expect(built).toContain('"@type":"WebPage"');
+      expect(built).toContain('"@id":"https://example.com/#person"');
       expect(built).toContain('rel="modulepreload" href="js/main.js"');
       expect(built).toContain('name="twitter:title" content="Contact · Joris Martinez"');
       expect(built).toContain('href="https://example.com/contact.html"');

@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const CONFIG_DEFAULTS = require('./config-defaults.cjs');
+const CONFIG_DEFAULTS = require('./config-defaults.mjs');
 
 const CV_HREF_LOCAL = 'assets/cv-martinez-joris.pdf';
 

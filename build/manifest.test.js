@@ -3,7 +3,7 @@ import { createRequire } from 'node:module';
 
 const require = createRequire(import.meta.url);
 const { buildManifest } = require('./manifest.cjs');
-const CONFIG_DEFAULTS = require('./config-defaults.cjs');
+const CONFIG_DEFAULTS = require('./config-defaults.mjs');
 
 describe('build manifest', () => {
   const siteBase = 'https://example.com/portfolio';

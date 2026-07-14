@@ -1,219 +1,223 @@
 {
   "gamme": {
     "A2": 110,
+    "Bb2": 116.54,
+    "B2": 123.47,
+    "C3": 130.81,
     "D2": 73.42,
+    "D3": 146.83,
     "E2": 82.41,
+    "E3": 164.81,
     "F2": 87.31,
+    "F3": 174.61,
     "G2": 98,
+    "G3": 196,
     "A3": 220,
+    "B3": 246.94,
     "C4": 261.63,
     "D4": 293.66,
     "E4": 329.63,
+    "F4": 349.23,
     "G4": 392,
     "A4": 440,
+    "B4": 493.88,
     "C5": 523.25,
     "D5": 587.33,
     "E5": 659.25,
+    "F5": 698.46,
     "G5": 783.99,
     "C6": 1046.5
   },
   "gammePhrygienne": {
     "A2": 110,
+    "Bb2": 116.54,
+    "B2": 123.47,
+    "C3": 130.81,
     "D2": 73.42,
+    "D3": 146.83,
     "E2": 82.41,
+    "E3": 164.81,
     "F2": 87.31,
+    "F3": 174.61,
     "G2": 98,
+    "G3": 196,
     "A3": 220,
+    "Bb3": 233.08,
+    "B3": 246.94,
     "C4": 261.63,
     "D4": 293.66,
     "E4": 329.63,
+    "F4": 349.23,
     "G4": 392,
     "A4": 440,
+    "Bb4": 466.16,
+    "B4": 493.88,
     "C5": 523.25,
     "D5": 587.33,
     "E5": 659.25,
+    "F5": 698.46,
     "G5": 783.99,
-    "C6": 1046.5,
-    "Bb2": 116.54,
-    "Bb3": 233.08,
-    "Bb4": 466.16,
-    "F3": 174.61,
-    "F4": 349.23,
-    "F5": 698.46
+    "C6": 1046.5
   },
   "mesures": {
-    "MEL_A": [0, 0, "E4", 0, 0, "G4", 0, 0, 0, "E4", 0, "D4", 0, "C4", 0, 0],
-    "MEL_B": [0, 0, "C5", 0, 0, "D5", 0, 0, 0, "E5", 0, "D5", 0, "C5", 0, 0],
-    "MEL_B_PRIME": [0, 0, "D5", 0, 0, "E5", 0, 0, 0, "G5", 0, "E5", 0, "D5", 0, 0],
-    "MEL_C": [0, 0, 0, "A4", 0, 0, "G4", 0, 0, "E4", 0, 0, "A3", 0, 0, "A2"],
-    "BASSE_AM": ["A2", 0, "A2", 0, "E2", 0, "A2", 0, "A2", 0, "G2", 0, "E2", 0, "A2", 0],
-    "BASSE_AM_ALT": ["A2", 0, 0, "E2", 0, 0, "A2", 0, "D2", 0, 0, "E2", 0, 0, "A2", 0],
-    "BASSE_F": ["F2", 0, "D2", 0, "F2", 0, "A2", 0, "D2", 0, "F2", 0, "E2", 0, "D2", 0],
-    "BASSE_E": ["E2", 0, "E2", 0, "A2", 0, "E2", 0, "E2", 0, "G2", 0, "A2", 0, "E2", 0],
-    "BASSE_D": ["D2", 0, "D2", 0, "A2", 0, "D2", 0, "E2", 0, "D2", 0, "A2", 0, "D2", 0],
-    "BASSE_E_CADENCE": ["E2", 0, "E2", 0, "A2", 0, 0, 0, "E2", 0, "A2", 0, "A3", 0, "A2", 0],
-    "ARP_A": [0, "C4", 0, "E4", 0, "G4", 0, "C5", 0, "E4", 0, "G4", 0, "C5", 0, "E5"],
-    "ARP_HAUT": [0, "C5", 0, "E5", 0, "G5", 0, "C6", 0, "E5", 0, "G5", 0, "C6", 0, "E5"],
-    "ARP_CADENCE": [0, 0, "E4", 0, 0, "C4", 0, 0, 0, "A3", 0, 0, 0, 0, 0, 0],
-    "ARP_DOUBLE": [
-      "A3",
-      "C4",
-      "E4",
-      "A4",
-      "C4",
-      "E4",
-      "A4",
-      "C5",
-      "E4",
-      "A4",
-      "C5",
-      "E5",
-      "A4",
-      "C5",
-      "E5",
-      "A4"
-    ],
-    "KICK_STD": [1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0],
-    "KICK_FILL": [1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1],
-    "HAT_STD": [0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0],
-    "MEL_STORY_1": [0, 0, 0, 0, "A4", 0, 0, 0, 0, 0, "G4", 0, 0, 0, "E4", 0],
-    "MEL_STORY_2": [0, 0, 0, 0, 0, 0, "C5", 0, 0, 0, 0, 0, "A4", 0, 0, 0],
-    "MEL_STORY_3": [0, 0, 0, 0, "G4", 0, 0, 0, 0, 0, 0, 0, "E4", 0, "D4", 0],
-    "BASSE_STATS_1": ["A2", 0, "A2", 0, "E2", 0, "A2", 0, "A2", 0, "G2", 0, "E2", 0, "A2", 0],
-    "BASSE_STATS_2": ["A2", 0, "A2", 0, "D2", 0, "A2", 0, "A2", 0, "E2", 0, "D2", 0, "A2", 0],
-    "BASSE_STATS_3": ["D2", 0, "D2", 0, "A2", 0, "D2", 0, "E2", 0, "D2", 0, "G2", 0, "E2", 0],
-    "HAT_STATS": [0, 2, 0, 1, 0, 2, 0, 1, 0, 2, 0, 1, 0, 2, 0, 1],
+    "MEL_HOME_1": ["A4", 0, 0, 0, "C5", 0, "A4", 0, "G4", 0, "E4", 0, "G4", 0, 0, 0],
+    "MEL_HOME_2": ["A4", 0, 0, 0, "C5", 0, "A4", 0, "E4", 0, "D4", 0, "C4", 0, "D4", 0],
+    "MEL_HOME_3": ["C5", 0, "D5", 0, "E5", 0, "D5", 0, "C5", 0, "A4", 0, "C5", 0, 0, 0],
+    "MEL_HOME_4": ["E5", 0, "D5", 0, "C5", 0, "A4", 0, "G4", 0, 0, 0, "A4", 0, 0, 0],
+    "MEL_HOME_7": ["D5", 0, "E5", 0, "D5", 0, "C5", 0, "A4", 0, "G4", 0, "A4", 0, 0, 0],
+    "MEL_HOME_8": ["E4", 0, "G4", 0, "E4", 0, "D4", 0, "C4", 0, "D4", 0, "E4", 0, "G4", 0],
+    "BASSE_HOME_AM": ["A2", 0, 0, 0, "A2", 0, "E2", 0, "A2", 0, 0, 0, "E2", 0, "A2", 0],
+    "BASSE_HOME_F": ["F2", 0, 0, 0, "F2", 0, "C3", 0, "F2", 0, 0, 0, "C3", 0, "F2", 0],
+    "BASSE_HOME_G": ["G2", 0, 0, 0, "G2", 0, "D3", 0, "G2", 0, 0, 0, "D3", 0, "G2", 0],
+    "BASSE_HOME_D": ["D2", 0, 0, 0, "D2", 0, "A2", 0, "D2", 0, 0, 0, "A2", 0, "D2", 0],
+    "BASSE_HOME_E": ["E2", 0, 0, 0, "E2", 0, "B2", 0, "E2", 0, 0, 0, "B2", 0, "E2", 0],
+    "ARP_HOME_12": ["A3", 0, "C4", 0, "E4", 0, "A4", 0, "A3", 0, "C4", 0, "E4", 0, "A4", 0],
+    "ARP_HOME_3": ["F3", 0, "A3", 0, "C4", 0, "F4", 0, "F3", 0, "A3", 0, "C4", 0, "F4", 0],
+    "ARP_HOME_4": ["G3", 0, "B3", 0, "D4", 0, "G4", 0, "G3", 0, "B3", 0, "D4", 0, "G4", 0],
+    "ARP_HOME_56": ["A4", 0, "C5", 0, "E5", 0, "A4", 0, "A4", 0, "C5", 0, "E5", 0, "A4", 0],
+    "ARP_HOME_7": ["D4", 0, "F4", 0, "A4", 0, "D5", 0, "D4", 0, "F4", 0, "A4", 0, "D5", 0],
+    "ARP_HOME_8": ["E4", 0, "G4", 0, "B4", 0, "E5", 0, "E4", 0, "G4", 0, "B4", 0, "E5", 0],
+    "ARP_WORK_12": ["A3", "C4", "E4", "A4", "A3", "C4", "E4", "A4", "A3", "C4", "E4", "A4", "A3", "C4", "E4", "A4"],
+    "ARP_WORK_3": ["F3", "A3", "C4", "F4", "F3", "A3", "C4", "F4", "F3", "A3", "C4", "F4", "F3", "A3", "C4", "F4"],
+    "ARP_WORK_4": ["G3", "B3", "D4", "G4", "G3", "B3", "D4", "G4", "G3", "B3", "D4", "G4", "G3", "B3", "D4", "G4"],
+    "ARP_WORK_56": ["A4", "C5", "E5", "A4", "A4", "C5", "E5", "A4", "A4", "C5", "E5", "A4", "A4", "C5", "E5", "A4"],
+    "ARP_WORK_7": ["D4", "F4", "A4", "D5", "D4", "F4", "A4", "D5", "D4", "F4", "A4", "D5", "D4", "F4", "A4", "D5"],
+    "ARP_WORK_8": ["E4", "G4", "B4", "E5", "E4", "G4", "B4", "E5", "E4", "G4", "B4", "E5", "E4", "G4", "B4", "E5"],
+    "KICK_HOME": [1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+    "KICK_HOME_FILL": [1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0],
+    "HAT_HOME": [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+    "HAT_WORK": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    "MEL_STORY_1": ["A4", 0, 0, 0, "C5", 0, 0, 0, "G4", 0, 0, 0, "G4", 0, 0, 0],
+    "MEL_STORY_2": ["A4", 0, 0, 0, "C5", 0, 0, 0, "E4", 0, 0, 0, "D4", 0, 0, 0],
+    "MEL_STORY_3": ["C5", 0, 0, 0, "E5", 0, 0, 0, "C5", 0, 0, 0, "C5", 0, 0, 0],
+    "MEL_STORY_4": ["E5", 0, 0, 0, "C5", 0, 0, 0, "G4", 0, 0, 0, "A4", 0, 0, 0],
+    "MEL_STORY_7": ["D5", 0, 0, 0, "D5", 0, 0, 0, "A4", 0, 0, 0, "A4", 0, 0, 0],
+    "MEL_STORY_8": ["E4", 0, 0, 0, "E4", 0, 0, 0, "C4", 0, 0, 0, "E4", 0, 0, 0],
+    "HAT_STORY": [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
+    "BASSE_STATS": ["A2", 0, "A2", 0, "E2", 0, "A2", 0, "G2", 0, "A2", 0, "D2", 0, "E2", 0],
+    "BASSE_STATS_C3": ["A2", 0, "A2", 0, "E2", 0, "A2", 0, "C3", 0, "A2", 0, "D2", 0, "E2", 0],
+    "HAT_STATS": [1, 0, 1, 0, 2, 0, 1, 0, 1, 0, 1, 0, 2, 0, 1, 0],
     "KICK_STATS": [1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
-    "BASSE_DOJO_TENSION": [
-      "A2",
-      0,
-      "Bb2",
-      0,
-      "A2",
-      0,
-      "Bb2",
-      0,
-      "A2",
-      0,
-      "Bb2",
-      0,
-      "A2",
-      0,
-      "E2",
-      0
-    ],
-    "BASSE_DOJO_EXPLOSION": [
-      "A2",
-      0,
-      "Bb2",
-      0,
-      "A2",
-      0,
-      "Bb2",
-      0,
-      "A2",
-      0,
-      "Bb2",
-      0,
-      "A2",
-      0,
-      "F3",
-      0
-    ],
-    "MEL_DOJO_GRAVE": [0, "E4", 0, "F4", 0, "E4", 0, "Bb3", 0, "E4", 0, "F4", 0, "E4", 0, 0],
-    "MEL_DOJO_AIGU": [0, "E5", 0, "F5", 0, "E5", 0, "Bb4", 0, "E5", 0, "F5", 0, "E5", 0, "C5"],
-    "ARP_DOJO_SPARSE": [0, "A3", 0, "Bb3", 0, 0, "E4", 0, 0, "Bb3", 0, "A3", 0, 0, "G4", 0],
-    "ARP_DOJO_RAPIDE": [
-      "A3",
-      "Bb3",
-      "A3",
-      "Bb3",
-      "C5",
-      "Bb3",
-      "A3",
-      "G4",
-      "E4",
-      "A3",
-      "Bb3",
-      "C5",
-      "E4",
-      "Bb3",
-      "A3",
-      "G4"
-    ],
-    "KICK_DOJO": [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1],
-    "HAT_DOJO": [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-    "SNARE_DOJO_TENSION": [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
-    "SNARE_DOJO_BACKBEAT": [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
-    "SNARE_DOJO_FILL": [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1]
+    "BASSE_DOJO_1": ["A2", 0, "A2", 0, "A2", 0, "A2", 0, "A2", 0, "A2", 0, "Bb2", 0, "A2", 0],
+    "BASSE_DOJO_2": ["A2", 0, "A2", 0, "A2", 0, "A2", 0, "G2", 0, "G2", 0, "E2", 0, "E2", 0],
+    "BASSE_DOJO_4": ["A2", 0, "A2", 0, "Bb2", 0, "Bb2", 0, "C3", 0, "C3", 0, "E2", 0, "E2", 0],
+    "MEL_DOJO_1": [0, 0, "E4", 0, "F4", 0, "E4", 0, 0, "Bb3", 0, 0, 0, "A3", 0, 0],
+    "MEL_DOJO_2": [0, 0, "E4", 0, "F4", 0, "G4", 0, "F4", 0, "E4", 0, 0, 0, 0, 0],
+    "MEL_DOJO_4": ["E4", 0, "F4", 0, "E4", 0, "Bb3", 0, "A3", 0, 0, 0, 0, 0, 0, 0],
+    "MEL_DOJO_5": [0, 0, "E5", 0, "F5", 0, "E5", 0, 0, "Bb4", 0, 0, 0, "A4", 0, 0],
+    "MEL_DOJO_6": [0, 0, "E5", 0, "F5", 0, "G5", 0, "F5", 0, "E5", 0, 0, 0, 0, 0],
+    "MEL_DOJO_8": ["E5", 0, "F5", 0, "E5", 0, "Bb4", 0, "A4", 0, 0, 0, 0, 0, 0, 0],
+    "ARP_DOJO_SILENCE": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    "ARP_DOJO_RAPIDE": ["A3", "Bb3", "C4", "E4", "A3", "Bb3", "C4", "E4", "A3", "Bb3", "C4", "E4", "A3", "Bb3", "C4", "E4"],
+    "KICK_DOJO": [1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0],
+    "SNARE_DOJO_STD": [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+    "SNARE_DOJO_FILL": [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0],
+    "HAT_DOJO_SILENCE": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    "HAT_DOJO_ACTIF": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    "HAT_DOJO_M8": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0]
   },
   "motifs": {
-    "melodieAABC": {
-      "type": "sequence",
-      "mesures": ["MEL_A", "MEL_A", "MEL_B", "MEL_B", "MEL_A", "MEL_A", "MEL_B_PRIME", "MEL_C"]
-    },
-    "basseAmFED": {
+    "melodieHome": {
       "type": "sequence",
       "mesures": [
-        "BASSE_AM",
-        "BASSE_AM_ALT",
-        "BASSE_F",
-        "BASSE_E",
-        "BASSE_AM",
-        "BASSE_AM_ALT",
-        "BASSE_D",
-        "BASSE_E_CADENCE"
+        "MEL_HOME_1",
+        "MEL_HOME_2",
+        "MEL_HOME_3",
+        "MEL_HOME_4",
+        "MEL_HOME_1",
+        "MEL_HOME_2",
+        "MEL_HOME_7",
+        "MEL_HOME_8"
       ]
     },
-    "arpegeAABC": {
-      "type": "sequence",
-      "mesures": ["ARP_A", "ARP_A", "ARP_A", "ARP_A", "ARP_HAUT", "ARP_A", "ARP_A", "ARP_CADENCE"]
-    },
-    "kickStandard": {
+    "basseHome": {
       "type": "sequence",
       "mesures": [
-        "KICK_STD",
-        "KICK_STD",
-        "KICK_STD",
-        "KICK_STD",
-        "KICK_STD",
-        "KICK_STD",
-        "KICK_STD",
-        "KICK_FILL"
+        "BASSE_HOME_AM",
+        "BASSE_HOME_AM",
+        "BASSE_HOME_F",
+        "BASSE_HOME_G",
+        "BASSE_HOME_AM",
+        "BASSE_HOME_AM",
+        "BASSE_HOME_D",
+        "BASSE_HOME_E"
       ]
     },
-    "hatStandard": {
-      "type": "repeat8",
-      "mesure": "HAT_STD"
+    "arpegeHome": {
+      "type": "sequence",
+      "mesures": [
+        "ARP_HOME_12",
+        "ARP_HOME_12",
+        "ARP_HOME_3",
+        "ARP_HOME_4",
+        "ARP_HOME_56",
+        "ARP_HOME_56",
+        "ARP_HOME_7",
+        "ARP_HOME_8"
+      ]
     },
-    "arpegeDouble8": {
+    "arpegeWork": {
+      "type": "sequence",
+      "mesures": [
+        "ARP_WORK_12",
+        "ARP_WORK_12",
+        "ARP_WORK_3",
+        "ARP_WORK_4",
+        "ARP_WORK_56",
+        "ARP_WORK_56",
+        "ARP_WORK_7",
+        "ARP_WORK_8"
+      ]
+    },
+    "kickHome": {
+      "type": "sequence",
+      "mesures": [
+        "KICK_HOME",
+        "KICK_HOME",
+        "KICK_HOME",
+        "KICK_HOME",
+        "KICK_HOME",
+        "KICK_HOME",
+        "KICK_HOME",
+        "KICK_HOME_FILL"
+      ]
+    },
+    "hatHome": {
       "type": "repeat8",
-      "mesure": "ARP_DOUBLE"
+      "mesure": "HAT_HOME"
+    },
+    "hatWork": {
+      "type": "repeat8",
+      "mesure": "HAT_WORK"
     },
     "storyMelodie": {
       "type": "sequence",
       "mesures": [
         "MEL_STORY_1",
         "MEL_STORY_2",
-        "MEL_STORY_1",
         "MEL_STORY_3",
+        "MEL_STORY_4",
         "MEL_STORY_1",
         "MEL_STORY_2",
-        "MEL_STORY_3",
-        "MEL_C"
+        "MEL_STORY_7",
+        "MEL_STORY_8"
       ]
+    },
+    "hatStory": {
+      "type": "repeat8",
+      "mesure": "HAT_STORY"
     },
     "statsBasse": {
       "type": "sequence",
       "mesures": [
-        "BASSE_STATS_1",
-        "BASSE_STATS_2",
-        "BASSE_STATS_3",
-        "BASSE_STATS_2",
-        "BASSE_STATS_1",
-        "BASSE_STATS_2",
-        "BASSE_STATS_3",
-        "BASSE_E_CADENCE"
+        "BASSE_STATS",
+        "BASSE_STATS",
+        "BASSE_STATS",
+        "BASSE_STATS",
+        "BASSE_STATS_C3",
+        "BASSE_STATS_C3",
+        "BASSE_STATS_C3",
+        "BASSE_STATS_C3"
       ]
     },
     "statsKick": {
@@ -226,41 +230,41 @@
     },
     "statsNappe": {
       "type": "notes",
-      "notes": ["A2", "A2", "D2", "E2", "A2", "A2", "D2", "E2"]
+      "notes": ["A3", "A3", "A3", "G3", "A3", "A3", "F3", "E3"]
     },
     "dojoBasse": {
       "type": "sequence",
       "mesures": [
-        "BASSE_DOJO_TENSION",
-        "BASSE_DOJO_TENSION",
-        "BASSE_DOJO_TENSION",
-        "BASSE_DOJO_TENSION",
-        "BASSE_DOJO_EXPLOSION",
-        "BASSE_DOJO_EXPLOSION",
-        "BASSE_DOJO_EXPLOSION",
-        "BASSE_DOJO_EXPLOSION"
+        "BASSE_DOJO_1",
+        "BASSE_DOJO_2",
+        "BASSE_DOJO_1",
+        "BASSE_DOJO_4",
+        "BASSE_DOJO_1",
+        "BASSE_DOJO_2",
+        "BASSE_DOJO_1",
+        "BASSE_DOJO_4"
       ]
     },
     "dojoMelodie": {
       "type": "sequence",
       "mesures": [
-        "MEL_DOJO_GRAVE",
-        "MEL_DOJO_GRAVE",
-        "MEL_DOJO_GRAVE",
-        "MEL_DOJO_GRAVE",
-        "MEL_DOJO_AIGU",
-        "MEL_DOJO_AIGU",
-        "MEL_DOJO_AIGU",
-        "MEL_DOJO_AIGU"
+        "MEL_DOJO_1",
+        "MEL_DOJO_2",
+        "MEL_DOJO_1",
+        "MEL_DOJO_4",
+        "MEL_DOJO_5",
+        "MEL_DOJO_6",
+        "MEL_DOJO_5",
+        "MEL_DOJO_8"
       ]
     },
     "dojoArpege": {
       "type": "sequence",
       "mesures": [
-        "ARP_DOJO_SPARSE",
-        "ARP_DOJO_SPARSE",
-        "ARP_DOJO_SPARSE",
-        "ARP_DOJO_SPARSE",
+        "ARP_DOJO_SILENCE",
+        "ARP_DOJO_SILENCE",
+        "ARP_DOJO_SILENCE",
+        "ARP_DOJO_SILENCE",
         "ARP_DOJO_RAPIDE",
         "ARP_DOJO_RAPIDE",
         "ARP_DOJO_RAPIDE",
@@ -271,21 +275,30 @@
       "type": "repeat8",
       "mesure": "KICK_DOJO"
     },
-    "dojoHat": {
-      "type": "repeat8",
-      "mesure": "HAT_DOJO"
-    },
     "dojoSnare": {
       "type": "sequence",
       "mesures": [
-        "SNARE_DOJO_TENSION",
-        "SNARE_DOJO_TENSION",
-        "SNARE_DOJO_TENSION",
-        "SNARE_DOJO_TENSION",
-        "SNARE_DOJO_BACKBEAT",
-        "SNARE_DOJO_BACKBEAT",
-        "SNARE_DOJO_BACKBEAT",
+        "SNARE_DOJO_STD",
+        "SNARE_DOJO_STD",
+        "SNARE_DOJO_STD",
+        "SNARE_DOJO_STD",
+        "SNARE_DOJO_STD",
+        "SNARE_DOJO_STD",
+        "SNARE_DOJO_STD",
         "SNARE_DOJO_FILL"
+      ]
+    },
+    "dojoHat": {
+      "type": "sequence",
+      "mesures": [
+        "HAT_DOJO_SILENCE",
+        "HAT_DOJO_SILENCE",
+        "HAT_DOJO_SILENCE",
+        "HAT_DOJO_SILENCE",
+        "HAT_DOJO_ACTIF",
+        "HAT_DOJO_ACTIF",
+        "HAT_DOJO_ACTIF",
+        "HAT_DOJO_M8"
       ]
     }
   },
@@ -293,24 +306,24 @@
     "HOME": {
       "bpm": 128,
       "facteurTempo": 1,
-      "basse": "basseAmFED",
-      "melodie": "melodieAABC",
-      "arpege": "arpegeAABC",
-      "kick": "kickStandard",
-      "hat": "hatStandard",
+      "basse": "basseHome",
+      "melodie": "melodieHome",
+      "arpege": "arpegeHome",
+      "kick": "kickHome",
+      "hat": "hatHome",
       "vibrato": true,
       "doubleArpege": false
     },
     "WORK": {
       "bpm": 128,
       "facteurTempo": 1,
-      "basse": "basseAmFED",
-      "melodie": "melodieAABC",
-      "arpege": "arpegeDouble8",
-      "kick": "kickStandard",
-      "hat": "hatStandard",
+      "basse": "basseHome",
+      "melodie": "melodieHome",
+      "arpege": "arpegeWork",
+      "kick": "kickHome",
+      "hat": "hatWork",
       "vibrato": true,
-      "doubleArpege": true
+      "doubleArpege": false
     },
     "STATS": {
       "bpm": 128,
@@ -327,11 +340,11 @@
     "STORY": {
       "bpm": 128,
       "facteurTempo": 1.28,
-      "basse": "basseAmFED",
+      "basse": "basseHome",
       "melodie": "storyMelodie",
-      "arpege": "arpegeAABC",
+      "arpege": "arpegeHome",
       "kick": null,
-      "hat": "hatStandard",
+      "hat": "hatStory",
       "vibrato": true,
       "doubleArpege": false
     },

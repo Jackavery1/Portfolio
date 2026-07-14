@@ -139,3 +139,20 @@ test('accessibility zoom 200% — pas overflow horizontal', async ({ page }) => 
 
   expect(hasHorizontalScroll).toBe(false);
 });
+
+test('accessibility zoom 200% dojo — cartes boss visibles sans overflow', async ({ page }) => {
+  await gotoReady(page, '/dojo.html');
+
+  await page.evaluate(() => {
+    document.documentElement.style.zoom = '200%';
+  });
+
+  await expect(page.locator('.boss-carte').first()).toBeVisible();
+  await assertPasOverflowHorizontal(page);
+
+  const hasHorizontalScroll = await page.evaluate(() => {
+    return document.documentElement.scrollWidth > window.innerWidth;
+  });
+
+  expect(hasHorizontalScroll).toBe(false);
+});

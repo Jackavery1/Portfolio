@@ -6,7 +6,7 @@ import { createRequire } from 'node:module';
 import { ensureSyncSource } from './ensure-sync.cjs';
 
 const require = createRequire(import.meta.url);
-const { allMonolithSources, BASE_STYLE_SOURCES, PAGE_STYLE_BY_HTML } = require('./page-styles.cjs');
+const { allMonolithSources, BASE_STYLE_SOURCES, PAGE_STYLE_BY_HTML } = require('./page-styles.mjs');
 const rootDir = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 
 describe('style.css sync', () => {
@@ -14,7 +14,7 @@ describe('style.css sync', () => {
     ensureSyncSource();
   });
 
-  it('style.css reflète page-styles.cjs', () => {
+  it('style.css reflète page-styles.mjs', () => {
     const styleCss = fs.readFileSync(path.join(rootDir, 'style.css'), 'utf8');
     allMonolithSources().forEach((source) => {
       expect(styleCss).toContain(`@import url("${source}");`);

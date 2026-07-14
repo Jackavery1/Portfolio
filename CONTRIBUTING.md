@@ -122,15 +122,15 @@ Copier `.env.example` → `.env.local` pour surcharger :
 | `PORTFOLIO_FORMSPREE_ENDPOINT` | Endpoint Formspree                    |
 | `PORTFOLIO_RECAPTCHA_SITE_KEY` | Clé site reCAPTCHA v3                 |
 
-Valeurs par défaut : `build/config-defaults.cjs` → synchronisées au build dans `js/config/defaults.js`, `manifest.webmanifest` et métadonnées SEO.
+Valeurs par défaut : `build/config-defaults.mjs` → synchronisées au build dans `js/config/defaults.js`, `manifest.webmanifest` et métadonnées SEO.
 
 Fichiers générés (non versionnés, recréés par `npm test` / `npm run build`) : `js/config/defaults.js`, `js/config/legal-data.js`, `js/config/projects-data.js`, `js/config/partials.js`, `js/config/musique-themes.json`, `style.css`, `partials/parcours-arbre.html`, `partials/dojo-boss-rush-lot-{a,b,c}.html`, `partials/competences-stats.html`, `partials/accueil-hero.html`, `sw.js` — et `manifest.webmanifest` **à la racine** (dev local, URLs relatives via `sync-source`) **ou dans `.dist-staging/`** (build prod). Contenu mentions légales : `js/config/legal.json` (source éditable) → `build/sync-legal.cjs` → `js/config/legal-data.js`. Métadonnées projets : `js/config/projects.json` (source éditable, **à versionner**) → `build/sync-projects.cjs` → `js/config/projects-data.js` ; icônes SVG : `js/config/project-icons.js`. Grilles musicales : `js/config/musique-donnees.json` (source éditable, **à versionner**) → `build/sync-musique-donnees.cjs` → `js/config/musique-themes.json` (chargé à la demande par `musique-sequencuer.js`). Source unique partials : `build/partials-list.cjs`. Fragments assemblés : `partials/parcours-arbre/` → `parcours-arbre.html`, `partials/dojo-boss/` → `dojo-boss-rush.html`, `partials/competences/` → `competences-stats.html`, `partials/accueil/` → `accueil-hero.html`. Partials contact : `partials/contact/*.html` (chargés uniquement sur `contact.html`). Seuils CSS : `build/breakpoints.cjs` → `styles/tokens.css` via `build/sync-breakpoints.cjs`.
 
-Métadonnées SEO par page : `build/page-meta.cjs` → injectées au build dans le dist (`build/html.cjs`). Pour mettre à jour les blocs `PAGE_META` dans les HTML sources : `npm run sync:page-meta` (évite de modifier les sources à chaque build). `npm run check:page-meta` vérifie l’alignement (exécuté avant les tests).
+Métadonnées SEO par page : `build/page-meta.mjs` → injectées au build dans le dist (`build/html.cjs`). Pour mettre à jour les blocs `PAGE_META` dans les HTML sources : `npm run sync:page-meta` (évite de modifier les sources à chaque build). `npm run check:page-meta` vérifie l’alignement (exécuté avant les tests).
 
 `npm run validate:html` exécute `prevalidate:html` (sync des fichiers générés requis en CI avant les tests).
 
-Réseaux sociaux (GitHub, LinkedIn optionnel) : même fichier `config-defaults.cjs`.
+Réseaux sociaux (GitHub, LinkedIn optionnel) : même fichier `config-defaults.mjs`.
 
 Ne jamais committer de secrets (clé secrète reCAPTCHA, tokens privés). Voir [SECURITY.md](SECURITY.md).
 
@@ -305,7 +305,7 @@ Cela permet de cibler la cause (config Google, Formspree, ou blocage navigateur)
 | `max-width: 480px` | Footer une colonne, nav compacte (score masqué)         |
 | `max-width: 320px` | Contact / dojo très petits écrans (bandeau, boss cards) |
 
-Référence technique : `build/breakpoints.mjs`, `styles/tokens.css`. Listes CSS synchronisées via `build/page-styles.cjs` → `style.css`.
+Référence technique : `build/breakpoints.mjs`, `styles/tokens.css`. Listes CSS synchronisées via `build/page-styles.mjs` → `style.css`.
 
 Pages hors navigation clavier (`dojo.html`, `mentions-legales.html`) : accessibles via liens footer ou projets.
 
@@ -313,7 +313,21 @@ Pages hors navigation clavier (`dojo.html`, `mentions-legales.html`) : accessibl
 
 - **Unitaires** : `npm test` (Vitest) — utils, config, modules, build
 - **Couverture** : `npm run test:coverage` (seuils Vitest : 85 % lignes / **84 %** branches globaux sur `js/` + build ciblé)
-- **Seuils build (I/O fichier)** : `vitest.config.js` — `html.cjs`, `sw.cjs`, `manifest.cjs`, `page-styles.cjs`, `sync-source.cjs` ont des seuils **volontairement bas** (branches ~20 %) : logique CLI, precache SW et pipeline HTML difficilement branchables sans mocks lourds ; la logique exportée est testée unitairement.
+- **Seuils build (I/O fichier)** : `vitest.config.js` — `html.cjs`, `sw.cjs`, `manifest.cjs`, `sync-source.cjs` ont des seuils **volontairement bas** (branches ~20 %) : logique CLI, precache SW et pipeline HTML difficilement branchables sans mocks lourds ; la logique exportée est testée unitairement.
+
+### Profiling Lighthouse (perf mobile)
+
+Seuils CI : `lighthouserc.cjs` (mobile, 412×823). Pages denses (`competences`, `parcours`, `dojo`) : perf ≥ 0,82 (CI mobile, médiane 5 runs).
+
+Profil local après build :
+
+```bash
+npm run build
+npx serve .dist-staging -p 9876
+npx lighthouse http://127.0.0.1:9876/competences.html --only-categories=performance --form-factor=mobile
+```
+
+Leviers perf appliqués : CSS split base/page, preload polices critiques (Press Start 2P, VT323, Rajdhani), overlay CRT différé (`html.crt-pret`), init JS non critique en `requestIdleCallback`, JSON-LD compact en fin de `<body>`, `content-visibility` sur sections denses.
 - **HTML** : `npm run validate:html` (sources) et `npm run validate:html:dist` (après build)
 - **E2E** : `npm run test:e2e` — projets `responsive-mobile-portrait`, `responsive-mobile-landscape`, `responsive-tablet`, `responsive-webkit`, `responsive-firefox`, `desktop-chrome`. Specs responsive : `responsive-touch`, `responsive-safe-area`, `responsive-keyboard`, `responsive-motion`, `responsive-contrast`, `responsive-a11y`, `responsive-pages` ; PWA : `pwa.spec.js` + `sw-toast.spec.js` (sur les 6 viewports mobile/tablette/WebKit/Firefox/desktop PWA). WebKit local : `npm run test:e2e:webkit`. Fixtures : `e2e/fixtures/pages.js`, helpers : `e2e/helpers.js`.
 - **Lighthouse** : `npm run test:lhci` (profil mobile 412×823, 5 runs médiane ; seuils perf par page via `assertMatrix` dans `lighthouserc.cjs`). Complément desktop : `npm run test:lhci:desktop` (961×800, smoke `index` + `projets`, CI après le run mobile).

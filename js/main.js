@@ -22,6 +22,14 @@ import { SCORE_PLAFOND } from './utils/score-helpers.js';
 import { initialiserSection } from './config/sections.js';
 import { afficherBandeauDev } from './utils/dev-mode.js';
 
+function activerOverlayCrtApresPeinture() {
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      document.documentElement.classList.add('crt-pret');
+    });
+  });
+}
+
 // En dev on sert les HTML sources : le head de prod n'est pas injecté, on ajoute la favicon à la volée.
 function assurerFaviconLocale() {
   const href = urlFaviconPng();
@@ -77,6 +85,7 @@ async function initialiser() {
   }
 
   document.body.dataset.appReady = 'true';
+  activerOverlayCrtApresPeinture();
   enregistrerServiceWorker();
 }
 

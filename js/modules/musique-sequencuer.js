@@ -20,7 +20,7 @@ const PAS_PAR_MESURE = 16;
 const MESURES_PAR_BOUCLE = 8;
 const PAS_PAR_BOUCLE = PAS_PAR_MESURE * MESURES_PAR_BOUCLE;
 const LOOKAHEAD_MS = 25;
-const PLANIFICATION_AVANCE_S = 0.1;
+const PLANIFICATION_AVANCE_S = 0.28;
 
 export { lireEtatSequencuer } from './musique-sequencuer-store.js';
 
@@ -142,15 +142,23 @@ function planifierPas(pasGlobal, tempsAudio) {
 
   const hitHat = theme.hat ? lireCellule(theme.hat, mesure, pasMesure) : 0;
   if (hitHat) {
-    const gainHat = hitHat === 2 ? 0.18 : etat.themeCourant === 'STATS' ? 0.09 : 0.04;
-    jouerHat(tempsAudio, destination, gainHat);
+    jouerHat(tempsAudio, destination, amplitudeHat(etat.themeCourant, hitHat));
   }
+}
+
+function amplitudeHat(themeCourant, hitHat) {
+  if (hitHat === 2) {
+    if (themeCourant === 'STATS') return 0.16;
+    return 0.18;
+  }
+  const gains = { HOME: 0.07, WORK: 0.06, STORY: 0.05, DOJO: 0.05, STATS: 0.09 };
+  return gains[themeCourant] ?? 0.04;
 }
 
 function bouclePlanification() {
   const etat = lireEtatSequencuer();
   const ctx = obtenirContexte();
-  if (!ctx || !etat.actif) return;
+  if (!ctx || !etat.actif || !etat.sequenceurEnCours) return;
 
   while (etat.prochainTempsAudio < ctx.currentTime + PLANIFICATION_AVANCE_S) {
     planifierPas(etat.pasCourant % PAS_PAR_BOUCLE, etat.prochainTempsAudio);
@@ -158,7 +166,9 @@ function bouclePlanification() {
     etat.pasCourant += 1;
   }
 
-  etat.minuteurPlanificateur = setTimeout(bouclePlanification, LOOKAHEAD_MS);
+  if (etat.sequenceurEnCours && etat.actif) {
+    etat.minuteurPlanificateur = setTimeout(bouclePlanification, LOOKAHEAD_MS);
+  }
 }
 
 export function demarrerSequencuer() {
@@ -166,14 +176,21 @@ export function demarrerSequencuer() {
   const ctx = obtenirContexte();
   if (!ctx) return;
 
+  if (etat.minuteurPlanificateur) {
+    clearTimeout(etat.minuteurPlanificateur);
+    etat.minuteurPlanificateur = null;
+  }
+  etat.sequenceurEnCours = false;
+
   etat.pasCourant = 0;
   etat.prochainTempsAudio = ctx.currentTime + 0.05;
-  if (etat.minuteurPlanificateur) clearTimeout(etat.minuteurPlanificateur);
+  etat.sequenceurEnCours = true;
   bouclePlanification();
 }
 
 export function arreterSequencuer() {
   const etat = lireEtatSequencuer();
+  etat.sequenceurEnCours = false;
   if (etat.minuteurPlanificateur) {
     clearTimeout(etat.minuteurPlanificateur);
     etat.minuteurPlanificateur = null;

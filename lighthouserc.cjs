@@ -34,9 +34,12 @@ module.exports = {
       },
     },
     assert: {
-      assertions: assertionsCommunes,
       includePassedAssertions: false,
       assertMatrix: [
+        {
+          matchingUrlPattern: '.*',
+          assertions: assertionsCommunes,
+        },
         {
           matchingUrlPattern: '.*index\\.html',
           assertions: {
@@ -58,7 +61,7 @@ module.exports = {
         {
           matchingUrlPattern: '.*(competences|parcours|dojo)\\.html',
           assertions: {
-            'categories:performance': ['error', { minScore: 0.78 }],
+            'categories:performance': ['error', { minScore: 0.82 }],
           },
         },
         {

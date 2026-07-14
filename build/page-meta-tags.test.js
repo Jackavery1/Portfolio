@@ -5,10 +5,11 @@ import {
   blocPageMeta,
   escapeHtmlAttr,
   remplacerBlocPageMeta,
-} from './page-meta-tags.cjs';
+} from './page-meta-tags.mjs';
+
+import { PAGE_META } from './page-meta.mjs';
 
 const require = createRequire(import.meta.url);
-const { PAGE_META } = require('./page-meta.cjs');
 const { HTML_FILES } = require('./html.cjs');
 
 describe('page-meta-tags', () => {

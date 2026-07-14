@@ -2,6 +2,18 @@
    Composant : overlay CRT (scanlines, vignette)
    ============================================ */
 
+.crt-scanlines,
+.crt-lueur,
+.crt-coins {
+  visibility: hidden;
+}
+
+html.crt-pret .crt-scanlines,
+html.crt-pret .crt-lueur,
+html.crt-pret .crt-coins {
+  visibility: visible;
+}
+
 .crt-scanlines {
   position: fixed;
   top: 0;

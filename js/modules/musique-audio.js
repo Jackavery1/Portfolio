@@ -78,9 +78,11 @@ export async function suspendreContexte() {
 
 function appliquerEnveloppe(gain, debut, duree, amplitude) {
   const rel = Math.min(RELEASE_S, duree * 0.35);
+  const finAttaque = debut + ATTAQUE_S;
+  const debutRelease = Math.max(finAttaque + 0.001, debut + duree - rel);
   gain.gain.setValueAtTime(0, debut);
-  gain.gain.linearRampToValueAtTime(amplitude, debut + ATTAQUE_S);
-  gain.gain.setValueAtTime(amplitude, debut + duree - rel);
+  gain.gain.linearRampToValueAtTime(amplitude, finAttaque);
+  gain.gain.setValueAtTime(amplitude, debutRelease);
   gain.gain.linearRampToValueAtTime(0.0001, debut + duree);
 }
 
@@ -101,7 +103,7 @@ export function jouerPulse(frequence, debut, duree, destination, options = {}) {
   osc.type = 'square';
   osc.frequency.setValueAtTime(frequence, debut);
 
-  if (options.vibrato) {
+  if (options.vibrato && duree > 0.08) {
     const lfo = ctx.createOscillator();
     const profondeur = ctx.createGain();
     lfo.frequency.value = 5.5;

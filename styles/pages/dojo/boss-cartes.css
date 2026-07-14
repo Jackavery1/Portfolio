@@ -5,6 +5,8 @@
   flex-direction: column;
   gap: 0.65rem;
   margin-bottom: 2rem;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 640px;
 }
 
 .boss-carte {

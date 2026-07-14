@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const defaults = require('./config-defaults.cjs');
+const defaults = require('./config-defaults.mjs');
 
 function escapeJsString(value) {
   return String(value).replace(/\\/g, '\\\\').replace(/'/g, "\\'");

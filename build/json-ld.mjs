@@ -1,5 +1,5 @@
 /** JSON-LD Person / WebSite / WebPage injecté au build. */
-const { person, social } = require('./config-defaults.cjs');
+import { person, social } from './config-defaults.mjs';
 
 function sameAsProfiles() {
   return [social.github, social.linkedin].filter(Boolean);
@@ -54,7 +54,7 @@ function webPageNode(htmlFile, siteBase, meta, pageUrl) {
   return page;
 }
 
-function buildJsonLd(htmlFile, siteBase, meta, pageUrl) {
+export function buildJsonLd(htmlFile, siteBase, meta, pageUrl) {
   if (!meta?.ogTitle) return null;
 
   return {
@@ -67,8 +67,6 @@ function buildJsonLd(htmlFile, siteBase, meta, pageUrl) {
   };
 }
 
-function jsonLdScriptTag(payload) {
-  return `<script type="application/ld+json">\n${JSON.stringify(payload, null, 2)}\n    </script>`;
+export function jsonLdScriptTag(payload) {
+  return `<script type="application/ld+json">${JSON.stringify(payload)}</script>`;
 }
-
-module.exports = { buildJsonLd, jsonLdScriptTag };

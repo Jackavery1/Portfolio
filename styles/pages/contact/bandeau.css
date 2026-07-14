@@ -6,7 +6,7 @@
   color: var(--couleur-accent-vif);
   text-align: center;
   line-height: 1.8;
-  margin-bottom: 1.25rem;
+  margin-bottom: var(--espacement-ml);
   letter-spacing: 2px;
   animation: pulsation 2s ease-in-out infinite;
   overflow-wrap: anywhere;
@@ -86,7 +86,7 @@
   color: var(--couleur-texte-discret);
   text-align: center;
   letter-spacing: 1px;
-  margin: 0 0 1.25rem;
+  margin: 0 0 var(--espacement-ml);
   min-height: 44px;
   box-sizing: border-box;
   display: inline-flex;

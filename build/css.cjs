@@ -4,10 +4,10 @@ const CleanCSS = require('clean-css');
 const { ensureDir, log } = require('./fs-utils.cjs');
 const {
   BASE_STYLE_FILE,
-  BASE_STYLE_SOURCES,
+  BASE_STYLE_SOURCES_PROD,
   PAGE_STYLE_BY_HTML,
   sourcesVersImports,
-} = require('./page-styles.cjs');
+} = require('./page-styles.mjs');
 
 function minifierBundle(root, cssText, label) {
   const result = new CleanCSS({
@@ -39,7 +39,7 @@ function minifyCSS(root, distDir, options = {}) {
     return;
   }
 
-  const baseInput = sourcesVersImports(BASE_STYLE_SOURCES);
+  const baseInput = sourcesVersImports(BASE_STYLE_SOURCES_PROD);
   const baseOutput = minifierBundle(root, baseInput, 'style-base');
   ecrireCss(distDir, BASE_STYLE_FILE, baseOutput, 'CSS base');
 

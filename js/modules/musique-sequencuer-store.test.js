@@ -1,10 +1,18 @@
-import { describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import {
   lireEtatSequencuer,
   reinitialiserEtatSequencuerStore,
 } from './musique-sequencuer-store.js';
 
 describe('musique-sequencuer-store', () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+    reinitialiserEtatSequencuerStore();
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
   it('expose l’état mutable du séquenceur', () => {
     const etat = lireEtatSequencuer();
     expect(etat.themeCourant).toBe('HOME');
@@ -26,5 +34,17 @@ describe('musique-sequencuer-store', () => {
     expect(etat.themeCourant).toBe('HOME');
     expect(etat.themes).toBeNull();
     expect(etat.pasCourant).toBe(0);
+  });
+
+  it('reinitialiserEtatSequencuerStore annule le minuteur planificateur actif', () => {
+    const etat = lireEtatSequencuer();
+    const clearTimeoutSpy = vi.spyOn(globalThis, 'clearTimeout');
+    const minuteur = setTimeout(() => {}, 60_000);
+    etat.minuteurPlanificateur = minuteur;
+
+    reinitialiserEtatSequencuerStore();
+
+    expect(clearTimeoutSpy).toHaveBeenCalledWith(minuteur);
+    expect(etat.minuteurPlanificateur).toBeNull();
   });
 });

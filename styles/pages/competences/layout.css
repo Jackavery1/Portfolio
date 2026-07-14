@@ -4,6 +4,8 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: 2rem;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 520px;
 }
 
 .scores-tableau-zone {

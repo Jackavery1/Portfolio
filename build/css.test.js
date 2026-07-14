@@ -8,7 +8,7 @@ import { createRequire } from 'node:module';
 const require = createRequire(import.meta.url);
 const rootDir = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const { minifyCSS } = require('./css.cjs');
-const { BASE_STYLE_FILE, PAGE_STYLE_BY_HTML } = require('./page-styles.cjs');
+const { BASE_STYLE_FILE, PAGE_STYLE_BY_HTML } = require('./page-styles.mjs');
 
 describe('build css', () => {
   it('génère le CSS base et par page', () => {

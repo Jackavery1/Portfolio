@@ -2,9 +2,9 @@ import { describe, expect, it } from 'vitest';
 import { createRequire } from 'node:module';
 
 const require = createRequire(import.meta.url);
-const { PAGE_META } = require('./page-meta.cjs');
+const { PAGE_META } = require('./page-meta.mjs');
 const { HTML_FILES } = require('./html.cjs');
-const CONFIG_DEFAULTS = require('./config-defaults.cjs');
+const CONFIG_DEFAULTS = require('./config-defaults.mjs');
 
 describe('page-meta', () => {
   it('couvre toutes les pages HTML du build', () => {

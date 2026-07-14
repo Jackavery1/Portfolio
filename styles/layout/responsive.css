@@ -2,7 +2,7 @@
 
 @media (max-width: 960px) {
   .section {
-    padding: 1.25rem var(--espacement-md) var(--espacement-xl);
+    padding: var(--espacement-ml) var(--espacement-md) var(--espacement-xl);
   }
 }
 

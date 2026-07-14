@@ -6,6 +6,8 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: 2rem;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 560px;
 }
 
 .liste-parcours {
@@ -109,7 +111,7 @@
 @media (min-width: 600px) and (max-width: 960px) {
   .story-grille {
     grid-template-columns: minmax(0, 1fr) minmax(140px, 180px);
-    gap: 1.25rem;
+    gap: var(--espacement-ml);
     align-items: start;
   }
 

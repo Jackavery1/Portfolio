@@ -6,7 +6,7 @@ import { createRequire } from 'node:module';
 import { ensureSyncSource } from './ensure-sync.cjs';
 
 const require = createRequire(import.meta.url);
-const CONFIG_DEFAULTS = require('./config-defaults.cjs');
+const CONFIG_DEFAULTS = require('./config-defaults.mjs');
 const rootDir = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 
 describe('config defaults sync', () => {
@@ -14,7 +14,7 @@ describe('config defaults sync', () => {
     ensureSyncSource();
   });
 
-  it('defaults.js reflète build/config-defaults.cjs', () => {
+  it('defaults.js reflète build/config-defaults.mjs', () => {
     const defaultsJs = fs.readFileSync(path.join(rootDir, 'js', 'config', 'defaults.js'), 'utf8');
     expect(defaultsJs).toContain(CONFIG_DEFAULTS.siteOrigin);
     expect(defaultsJs).toContain(CONFIG_DEFAULTS.formspree);

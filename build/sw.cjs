@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { ensureDir, log, walkJsFiles } = require('./fs-utils.cjs');
 const { HTML_FILES } = require('./html.cjs');
-const { BASE_STYLE_FILE, PAGE_STYLE_BY_HTML } = require('./page-styles.cjs');
+const { BASE_STYLE_FILE, PAGE_STYLE_BY_HTML } = require('./page-styles.mjs');
 
 /** Optionnels ou réseau-dépendants — routes lazy precachées pour navigation offline. */
 const JS_PRECACH_EXCLUS = new Set([

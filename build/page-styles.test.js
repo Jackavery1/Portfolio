@@ -9,10 +9,11 @@ const rootDir = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const {
   ACCUEIL_STYLE_SOURCES,
   BASE_STYLE_SOURCES,
+  BASE_STYLE_SOURCES_PROD,
   LAYOUT_STYLE_SOURCES,
   MODAL_STYLE_SOURCES,
   PAGE_STYLE_BY_HTML,
-} = require('./page-styles.cjs');
+} = require('./page-styles.mjs');
 
 describe('page-styles', () => {
   it('chaque source CSS référencée existe sur disque', () => {
@@ -24,6 +25,11 @@ describe('page-styles', () => {
     sources.forEach((rel) => {
       expect(fs.existsSync(path.join(rootDir, rel)), rel).toBe(true);
     });
+  });
+
+  it('BASE_STYLE_SOURCES_PROD exclut le bandeau dev', () => {
+    expect(BASE_STYLE_SOURCES_PROD).not.toContain('styles/components/dev-banner.css');
+    expect(BASE_STYLE_SOURCES_PROD.length).toBe(BASE_STYLE_SOURCES.length - 1);
   });
 
   it('accueil est découpé en modules dédiés', () => {
@@ -42,7 +48,7 @@ describe('page-styles', () => {
   });
 
   it('contact et dojo sont découpés en modules dédiés', () => {
-    const { CONTACT_STYLE_SOURCES, DOJO_STYLE_SOURCES } = require('./page-styles.cjs');
+    const { CONTACT_STYLE_SOURCES, DOJO_STYLE_SOURCES } = require('./page-styles.mjs');
     expect(CONTACT_STYLE_SOURCES).toHaveLength(5);
     expect(CONTACT_STYLE_SOURCES.every((s) => s.startsWith('styles/pages/contact/'))).toBe(true);
     expect(DOJO_STYLE_SOURCES).toHaveLength(5);
@@ -50,7 +56,7 @@ describe('page-styles', () => {
   });
 
   it('compétences est découpé en modules dédiés', () => {
-    const { COMPETENCES_STYLE_SOURCES } = require('./page-styles.cjs');
+    const { COMPETENCES_STYLE_SOURCES } = require('./page-styles.mjs');
     expect(COMPETENCES_STYLE_SOURCES).toHaveLength(7);
     expect(COMPETENCES_STYLE_SOURCES.every((s) => s.startsWith('styles/pages/competences/'))).toBe(
       true
@@ -58,14 +64,14 @@ describe('page-styles', () => {
   });
 
   it('nav est découpé en modules dédiés', () => {
-    const { NAV_STYLE_SOURCES } = require('./page-styles.cjs');
+    const { NAV_STYLE_SOURCES } = require('./page-styles.mjs');
     expect(NAV_STYLE_SOURCES).toHaveLength(6);
     expect(NAV_STYLE_SOURCES.filter((s) => s.startsWith('styles/components/nav/'))).toHaveLength(5);
     expect(NAV_STYLE_SOURCES).toContain('styles/components/konami.css');
   });
 
   it('mentions légales est découpé en modules dédiés', () => {
-    const { MENTIONS_LEGALES_STYLE_SOURCES } = require('./page-styles.cjs');
+    const { MENTIONS_LEGALES_STYLE_SOURCES } = require('./page-styles.mjs');
     expect(MENTIONS_LEGALES_STYLE_SOURCES).toHaveLength(2);
     expect(
       MENTIONS_LEGALES_STYLE_SOURCES.every((s) => s.startsWith('styles/pages/mentions-legales/'))
@@ -77,7 +83,7 @@ describe('page-styles', () => {
   });
 
   it('aucun fichier CSS source orphelin sous styles/', () => {
-    const { allMonolithSources, OFFLINE_STYLE_SOURCES } = require('./page-styles.cjs');
+    const { allMonolithSources, OFFLINE_STYLE_SOURCES } = require('./page-styles.mjs');
     const references = new Set([...allMonolithSources(), ...OFFLINE_STYLE_SOURCES]);
 
     function listerCss(dir, acc = []) {

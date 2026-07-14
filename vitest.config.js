@@ -19,7 +19,7 @@ const coverage = {
     'js/config/musique-themes.json',
     'js/config/musique-donnees.json',
     'js/config/legal.json',
-    'build/config-defaults.cjs',
+    'build/config-defaults.mjs',
   ],
   thresholds: {
     lines: 85,

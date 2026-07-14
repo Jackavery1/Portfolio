@@ -1,9 +1,9 @@
-const { person } = require('./config-defaults.cjs');
+import { person } from './config-defaults.mjs';
 
 const name = person.name;
 
-// Textes description / Open Graph / Twitter — un jeu par fichier HTML.
-const PAGE_META = {
+/** Textes description / Open Graph / Twitter — un jeu par fichier HTML. */
+export const PAGE_META = {
   'index.html': {
     ogTitle: `${name} · Développeur Web`,
     twitterTitle: `${name} · Développeur Web`,
@@ -60,5 +60,3 @@ const PAGE_META = {
     twitterDescription: `Mentions légales & confidentialité — portfolio ${name}.`,
   },
 };
-
-module.exports = { PAGE_META };

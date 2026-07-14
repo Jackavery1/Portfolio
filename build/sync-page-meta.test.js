@@ -15,8 +15,8 @@ const {
   syncPageMeta,
   resoudreRacine,
 } = require('./sync-page-meta.cjs');
-const { PAGE_META } = require('./page-meta.cjs');
-const { remplacerBlocPageMeta } = require('./page-meta-tags.cjs');
+const { PAGE_META } = require('./page-meta.mjs');
+const { remplacerBlocPageMeta } = require('./page-meta-tags.mjs');
 
 const tmpDirs = [];
 
@@ -40,7 +40,7 @@ afterEach(() => {
 });
 
 describe('sync-page-meta', () => {
-  it('les HTML sources reflètent build/page-meta.cjs', () => {
+  it('les HTML sources reflètent build/page-meta.mjs', () => {
     expect(verifierPageMeta(rootDir)).toEqual([]);
   });
 

@@ -2,7 +2,7 @@
 
 @media (max-width: 960px) and (max-height: 780px) {
   body[data-section-id='accueil'] .section {
-    padding-top: 1.25rem;
+    padding-top: var(--espacement-ml);
     padding-bottom: 0.35rem;
   }
 

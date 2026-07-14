@@ -101,9 +101,11 @@ describe('main', () => {
     document.head.innerHTML = '';
     document.body.innerHTML = '<div id="js-popup-hs" hidden></div>';
     document.body.dataset.sectionId = 'accueil';
+    document.documentElement.classList.remove('crt-pret');
     delete document.body.dataset.appReady;
     vi.clearAllMocks();
     vi.useFakeTimers();
+    vi.stubGlobal('requestAnimationFrame', (fn) => setTimeout(fn, 0));
     sessionStorage.clear();
     mocks.lireScore.mockReturnValue(0);
     mocks.initialiserPageContact.mockResolvedValue(undefined);
@@ -121,6 +123,7 @@ describe('main', () => {
     expect(mocks.initialiserMusique).toHaveBeenCalled();
     expect(mocks.enregistrerServiceWorker).toHaveBeenCalled();
     expect(document.body.dataset.appReady).toBe('true');
+    expect(document.documentElement.classList.contains('crt-pret')).toBe(true);
   });
 
   it('ajoute la favicon en dev si absente du head', async () => {
@@ -160,7 +163,7 @@ describe('main', () => {
   it('n’initialise que le socle commun sur la section parcours', async () => {
     document.body.dataset.sectionId = 'parcours';
     await initialiser();
-    vi.advanceTimersByTime(300);
+    vi.runAllTimers();
 
     expect(mocks.initialiserAccueilSocial).not.toHaveBeenCalled();
     expect(mocks.initialiserGrilleProjets).not.toHaveBeenCalled();
@@ -237,7 +240,7 @@ describe('main', () => {
   it('anime les barres de section après un délai', async () => {
     document.body.dataset.sectionId = 'competences';
     await initialiser();
-    vi.advanceTimersByTime(300);
+    vi.runAllTimers();
 
     expect(mocks.animerBarresSection).toHaveBeenCalledWith('competences');
   });

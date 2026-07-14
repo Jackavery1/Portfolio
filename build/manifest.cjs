@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { ensureDir, log } = require('./fs-utils.cjs');
-const { person } = require('./config-defaults.cjs');
+const { person } = require('./config-defaults.mjs');
 
 function buildManifest(siteBase) {
   const base = siteBase.endsWith('/') ? siteBase : `${siteBase}/`;

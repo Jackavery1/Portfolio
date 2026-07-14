@@ -14,7 +14,7 @@
 .formulaire-crt {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: var(--espacement-ml);
 }
 
 .champ-groupe {
@@ -69,14 +69,11 @@
   box-shadow: 0 0 10px var(--couleur-erreur-alpha);
 }
 
-.champ-input:focus:not(:focus-visible) {
-  border-color: var(--couleur-accent);
-  box-shadow: var(--ombre-champ-focus);
-}
-
 .champ-input:focus-visible {
   outline: 3px solid var(--couleur-accent-vif);
   outline-offset: 2px;
+  border-color: var(--couleur-accent);
+  box-shadow: var(--ombre-champ-focus);
 }
 
 .champ-input::placeholder {

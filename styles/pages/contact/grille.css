@@ -10,7 +10,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.65rem;
-  margin-bottom: 1.25rem;
+  margin-bottom: var(--espacement-ml);
 }
 
 .carte-contact {

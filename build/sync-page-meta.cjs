@@ -1,8 +1,8 @@
 const fs = require('fs');
 const path = require('path');
-const { PAGE_META } = require('./page-meta.cjs');
+const { PAGE_META } = require('./page-meta.mjs');
 const { HTML_FILES } = require('./html.cjs');
-const { remplacerBlocPageMeta } = require('./page-meta-tags.cjs');
+const { remplacerBlocPageMeta } = require('./page-meta-tags.mjs');
 
 function fichiersPageMetaDerives(root = path.join(__dirname, '..')) {
   const derives = [];

@@ -4,7 +4,7 @@
   background-color: var(--couleur-fond-carte);
   border: 1px solid var(--couleur-bordure);
   border-radius: 4px;
-  padding: 1.25rem;
+  padding: var(--espacement-ml);
   display: flex;
   flex-direction: column;
   align-items: center;

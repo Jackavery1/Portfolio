@@ -7,7 +7,7 @@ import { ensureSyncSource } from './ensure-sync.cjs';
 
 const require = createRequire(import.meta.url);
 const { syncDefaults } = require('./sync-defaults.cjs');
-const CONFIG_DEFAULTS = require('./config-defaults.cjs');
+const CONFIG_DEFAULTS = require('./config-defaults.mjs');
 const rootDir = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 
 describe('sync-defaults', () => {

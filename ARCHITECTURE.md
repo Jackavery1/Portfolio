@@ -83,7 +83,7 @@ Approche **test-per-module** : Vitest + Playwright e2e (voir `npm test` / `npm r
 | ----------------- | -------------------------------------- | ------------------------------------------------------------------------------------------ |
 | `js/`             | **ESM** (`import` / `export`)          | Modules chargés par le navigateur (`type="module"`)                                        |
 | `build/`          | **CJS** (`require` / `module.exports`) | Scripts Node I/O (sync, minify, SW) — modules I/O lourds                                   |
-| `build/*.mjs`     | **ESM** (données pures)                | `url-page.mjs`, `breakpoints.mjs`, `partials-list.mjs` — `require()` depuis CJS (Node ≥20) |
+| `build/*.mjs`     | **ESM** (données pures)                | `config-defaults.mjs`, `page-meta.mjs`, `page-meta-tags.mjs`, `page-styles.mjs`, `json-ld.mjs`, `url-page.mjs`, `breakpoints.mjs`, `partials-list.mjs` — `require()` depuis CJS (Node ≥20) |
 | `build.mjs`       | **ESM** (entrée build)                 | Orchestration via `build/cjs-bridge.mjs` → `loadBuild()`                                   |
 | `build/*.test.js` | ESM                                    | `loadBuild()` ou `build/test-require.mjs` (remplace `createRequire` répété)                |
 

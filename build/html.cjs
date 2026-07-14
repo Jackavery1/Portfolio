@@ -2,11 +2,11 @@ const fs = require('fs');
 const path = require('path');
 const { ensureDir, log } = require('./fs-utils.cjs');
 const { CV_HREF_LOCAL, resolveBuildEnv } = require('./env.cjs');
-const { PAGE_META } = require('./page-meta.cjs');
-const { remplacerBlocPageMeta } = require('./page-meta-tags.cjs');
+const { PAGE_META } = require('./page-meta.mjs');
+const { remplacerBlocPageMeta } = require('./page-meta-tags.mjs');
 const { urlPageProd } = require('./url-page.mjs');
-const { BASE_STYLE_FILE, PAGE_STYLE_BY_HTML } = require('./page-styles.cjs');
-const { buildJsonLd, jsonLdScriptTag } = require('./json-ld.cjs');
+const { BASE_STYLE_FILE, PAGE_STYLE_BY_HTML } = require('./page-styles.mjs');
+const { buildJsonLd, jsonLdScriptTag } = require('./json-ld.mjs');
 const { PARTIELS: PARTIAL_PLACEHOLDERS } = require('./partials-list.mjs');
 const { injectMentionsHtml } = require('./inject-mentions-html.cjs');
 
@@ -136,7 +136,7 @@ function injectJsonLd(html, htmlFile, siteBase) {
   let out = html.replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>\s*/i, '');
 
   const bloc = jsonLdScriptTag(payload);
-  return out.replace('</head>', `    ${bloc}\n  </head>`);
+  return out.replace('</body>', `    ${bloc}\n  </body>`);
 }
 
 function injectPerfHead(html, htmlFile, root) {
