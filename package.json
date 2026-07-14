@@ -49,21 +49,21 @@
     "uglify-js": "^3.19.3"
   },
   "devDependencies": {
-    "@axe-core/playwright": "^4.10.1",
-    "@eslint/js": "^9.39.0",
+    "@axe-core/playwright": "^4.12.1",
+    "@eslint/js": "^9.39.5",
     "@fontsource/press-start-2p": "^5.2.7",
     "@fontsource/rajdhani": "^5.2.7",
     "@fontsource/vt323": "^5.2.7",
-    "@lhci/cli": "^0.14.0",
-    "@playwright/test": "^1.52.0",
+    "@lhci/cli": "^0.15.1",
+    "@playwright/test": "^1.61.1",
     "@vitest/coverage-v8": "^3.2.4",
-    "eslint": "^9.39.0",
+    "eslint": "^9.39.5",
     "globals": "^16.5.0",
     "html-validate": "^9.7.1",
     "jsdom": "^29.1.1",
-    "prettier": "^3.8.0",
+    "prettier": "^3.9.5",
     "serve": "^14.2.4",
-    "vitest": "^3.2.4"
+    "vitest": "^3.2.7"
   },
   "overrides": {
     "cross-spawn": "^7.0.6",
