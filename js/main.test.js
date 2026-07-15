@@ -254,12 +254,23 @@ describe('main', () => {
     expect(mocks.animerBarresSection).toHaveBeenCalledWith('competences');
   });
 
-  it('planifie konami et SW via setTimeout si requestIdleCallback absent', async () => {
+  it('planifie le SW via setTimeout si requestIdleCallback absent', async () => {
     vi.stubGlobal('requestIdleCallback', undefined);
     await initialiser();
     await vi.runAllTimersAsync();
 
     expect(mocks.initialiserCodeKonami).toHaveBeenCalled();
     expect(mocks.enregistrerServiceWorker).toHaveBeenCalled();
+  });
+
+  it('diffère musique et overlay CRT sur page dense', async () => {
+    document.body.dataset.sectionId = 'competences';
+    const ric = vi.fn((fn) => fn());
+    vi.stubGlobal('requestIdleCallback', ric);
+    await initialiser();
+
+    expect(ric.mock.calls.length).toBeGreaterThanOrEqual(3);
+    expect(mocks.initialiserMusique).toHaveBeenCalled();
+    expect(document.documentElement.classList.contains('crt-pret')).toBe(true);
   });
 });

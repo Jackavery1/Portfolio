@@ -9,13 +9,24 @@ function resolveServeDir(root = path.join(__dirname, '..')) {
   return null;
 }
 
-module.exports = { resolveServeDir };
+function executerResolveServeDirCli({
+  root = path.join(__dirname, '..'),
+  stdout = process.stdout,
+  stderr = process.stderr,
+  exit = process.exit,
+} = {}) {
+  const dir = resolveServeDir(root);
+  if (!dir) {
+    stderr.write('Aucun répertoire de build trouvé.\n');
+    exit(1);
+    return { ok: false, dir: null };
+  }
+  stdout.write(dir);
+  return { ok: true, dir };
+}
+
+module.exports = { resolveServeDir, executerResolveServeDirCli };
 
 if (require.main === module) {
-  const dir = resolveServeDir();
-  if (!dir) {
-    process.stderr.write('Aucun répertoire de build trouvé.\n');
-    process.exit(1);
-  }
-  process.stdout.write(dir);
+  executerResolveServeDirCli();
 }

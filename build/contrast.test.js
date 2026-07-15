@@ -69,6 +69,8 @@ const PAIRES_AA = [
     min: 4.5,
     label: 'boss-carte__nom',
   },
+  { fg: '--couleur-texte-normal', bg: '--couleur-fond-carte', min: 4.5, label: 'offline-corps' },
+  { fg: '--couleur-accent-vif', bg: '--couleur-fond-carte', min: 3, label: 'offline-lien' },
 ];
 
 const PAIRES_UI_DOCUMENTEES = PAIRES_AA.filter((paire) => paire.label);

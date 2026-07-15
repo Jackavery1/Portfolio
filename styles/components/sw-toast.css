@@ -53,16 +53,18 @@
   border-radius: 2px;
 }
 
-.sw-toast__fermer:hover,
 .sw-toast__fermer:focus-visible {
   color: var(--couleur-accent-vif);
   border-color: var(--couleur-accent);
-  outline: none;
+  outline: var(--outline-focus-largeur) solid var(--outline-focus-couleur);
+  outline-offset: var(--outline-focus-decalage-compact);
 }
 
-.sw-toast__fermer:focus-visible {
-  outline: 2px solid var(--couleur-accent-vif);
-  outline-offset: 2px;
+@media (hover: hover) and (pointer: fine) {
+  .sw-toast__fermer:hover {
+    color: var(--couleur-accent-vif);
+    border-color: var(--couleur-accent);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

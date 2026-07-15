@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { gotoReady, simulerInsetHaut, simulerInsets } from './helpers.js';
+import { VIEWPORT_ETROIT, VIEWPORT_MOBILE, VIEWPORT_PAYSAGE } from './fixtures/responsive.js';
 
 test('safe-area — marquee et nav sans encoche', async ({ page }) => {
   await gotoReady(page, '/index.html');
@@ -28,7 +29,7 @@ test('safe-area — insets simulés (encoche haut)', async ({ page }) => {
 });
 
 test('safe-area — inset bas simulé sur contact mobile', async ({ page }) => {
-  await page.setViewportSize({ width: 375, height: 667 });
+  await page.setViewportSize(VIEWPORT_MOBILE);
   await gotoReady(page, '/contact.html');
   await simulerInsets(page, { bas: 24 });
 
@@ -39,8 +40,20 @@ test('safe-area — inset bas simulé sur contact mobile', async ({ page }) => {
   expect(paddingBas).toBe('24px');
 });
 
+test('safe-area — contact étroit avec inset bas', async ({ page }) => {
+  await page.setViewportSize(VIEWPORT_ETROIT);
+  await gotoReady(page, '/contact.html');
+  await simulerInsets(page, { bas: 34 });
+
+  const paddingBas = await page
+    .locator('body[data-section-id="contact"] .section')
+    .evaluate((el) => getComputedStyle(el).paddingBottom);
+
+  expect(paddingBas).toBe('34px');
+});
+
 test('safe-area — insets latéraux sur ecran et body', async ({ page }) => {
-  await page.setViewportSize({ width: 375, height: 667 });
+  await page.setViewportSize(VIEWPORT_MOBILE);
   await gotoReady(page, '/index.html');
   await simulerInsets(page, { gauche: 16, droite: 16 });
 
@@ -67,8 +80,39 @@ test('safe-area — scénario encoche iOS simulée (4 insets)', async ({ page })
   expect(navTop).toBe('79px');
 });
 
+test('safe-area — hint paysage respecte inset haut', async ({ page }) => {
+  await page.setViewportSize(VIEWPORT_PAYSAGE);
+  await gotoReady(page, '/competences.html');
+  await simulerInsetHaut(page, 24);
+
+  const top = await page.locator('.hint-paysage').evaluate((el) => getComputedStyle(el).top);
+  expect(top).toBe('56px');
+});
+
+test('safe-area — modale paysage avec insets simulés', async ({ page }) => {
+  await page.setViewportSize(VIEWPORT_PAYSAGE);
+  await gotoReady(page, '/projets.html');
+  await page.waitForSelector('.grille-projets:not([aria-busy="true"]) .carte-projet', {
+    timeout: 15_000,
+  });
+  await simulerInsets(page, { haut: 20, bas: 20, gauche: 12, droite: 12 });
+
+  await page.locator('.carte-projet').first().click({ force: true });
+  await expect(page.locator('#js-modal')).toBeVisible();
+
+  const paddingTop = await page
+    .locator('.modal-overlay')
+    .evaluate((el) => getComputedStyle(el).paddingTop);
+  const paddingBottom = await page
+    .locator('.modal-overlay')
+    .evaluate((el) => getComputedStyle(el).paddingBottom);
+
+  expect(paddingTop).toBe('20px');
+  expect(paddingBottom).toBe('20px');
+});
+
 test('safe-area — toast SW avec inset bas simulé', async ({ page }) => {
-  await page.setViewportSize({ width: 375, height: 667 });
+  await page.setViewportSize(VIEWPORT_MOBILE);
   await gotoReady(page, '/index.html');
   await simulerInsets(page, { bas: 20, gauche: 12, droite: 12 });
 
@@ -83,4 +127,68 @@ test('safe-area — toast SW avec inset bas simulé', async ({ page }) => {
 
   const bottom = await page.locator('#js-sw-toast').evaluate((el) => getComputedStyle(el).bottom);
   expect(bottom).not.toBe('0px');
+});
+
+test('safe-area — modale projet avec insets simulés', async ({ page }) => {
+  await page.setViewportSize(VIEWPORT_MOBILE);
+  await gotoReady(page, '/projets.html');
+  await page.waitForSelector('.grille-projets:not([aria-busy="true"]) .carte-projet', {
+    timeout: 15_000,
+  });
+  await simulerInsets(page, { haut: 20, bas: 20, gauche: 12, droite: 12 });
+
+  await page.locator('.carte-projet').first().click({ force: true });
+  await expect(page.locator('#js-modal')).toBeVisible();
+
+  const paddingTop = await page
+    .locator('.modal-overlay')
+    .evaluate((el) => getComputedStyle(el).paddingTop);
+  const paddingBottom = await page
+    .locator('.modal-overlay')
+    .evaluate((el) => getComputedStyle(el).paddingBottom);
+
+  expect(paddingTop).toBe('20px');
+  expect(paddingBottom).toBe('20px');
+});
+
+test('safe-area — popup high score avec insets simulés', async ({ page }) => {
+  await page.setViewportSize(VIEWPORT_MOBILE);
+  await gotoReady(page, '/index.html');
+  await simulerInsets(page, { haut: 24, bas: 24 });
+
+  await page.evaluate(() => {
+    const popup = document.getElementById('js-popup-hs');
+    if (popup) popup.hidden = false;
+  });
+
+  const paddingTop = await page
+    .locator('.popup-highscore')
+    .evaluate((el) => getComputedStyle(el).paddingTop);
+  const paddingBottom = await page
+    .locator('.popup-highscore')
+    .evaluate((el) => getComputedStyle(el).paddingBottom);
+
+  expect(paddingTop).toBe('24px');
+  expect(paddingBottom).toBe('24px');
+});
+
+test('safe-area — popup high score paysage avec insets simulés', async ({ page }) => {
+  await page.setViewportSize(VIEWPORT_PAYSAGE);
+  await gotoReady(page, '/index.html');
+  await simulerInsets(page, { haut: 20, bas: 20 });
+
+  await page.evaluate(() => {
+    const popup = document.getElementById('js-popup-hs');
+    if (popup) popup.hidden = false;
+  });
+
+  const paddingTop = await page
+    .locator('.popup-highscore')
+    .evaluate((el) => getComputedStyle(el).paddingTop);
+  const paddingBottom = await page
+    .locator('.popup-highscore')
+    .evaluate((el) => getComputedStyle(el).paddingBottom);
+
+  expect(paddingTop).toBe('20px');
+  expect(paddingBottom).toBe('20px');
 });

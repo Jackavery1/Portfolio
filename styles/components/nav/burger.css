@@ -19,8 +19,10 @@
   transition: border-color 0.2s;
 }
 
-.nav__burger:hover {
-  border-color: var(--couleur-accent);
+@media (hover: hover) and (pointer: fine) {
+  .nav__burger:hover {
+    border-color: var(--couleur-accent);
+  }
 }
 
 .nav__burger:active {
@@ -29,8 +31,8 @@
 }
 
 .nav__burger:focus-visible {
-  outline: 2px solid var(--couleur-accent-vif);
-  outline-offset: 2px;
+  outline: var(--outline-focus-largeur) solid var(--outline-focus-couleur);
+  outline-offset: var(--outline-focus-decalage-compact);
 }
 
 .nav__burger-trait {

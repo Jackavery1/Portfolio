@@ -75,8 +75,8 @@ body[data-app-ready='true'] .ecran {
 
 .lien-evitement:focus-visible {
   transform: translate(-50%, 0);
-  outline: 2px solid var(--couleur-actif);
-  outline-offset: 2px;
+  outline: var(--outline-focus-largeur) solid var(--outline-focus-couleur-actif);
+  outline-offset: var(--outline-focus-decalage-compact);
 }
 
 .sr-only {

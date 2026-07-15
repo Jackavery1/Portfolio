@@ -2,12 +2,13 @@ import { test, expect } from '@playwright/test';
 import { gotoReady } from './helpers.js';
 import {
   VIEWPORTS_BURGER,
-  VIEWPORT_ETROIT,
+  VIEWPORT_MOBILE,
+  VIEWPORT_PAYSAGE,
   assertPasOverflowHorizontal,
 } from './fixtures/responsive.js';
 
 test('responsive mobile — sommaire projets et 6 cartes', async ({ page }) => {
-  await page.setViewportSize({ width: 375, height: 667 });
+  await page.setViewportSize(VIEWPORT_MOBILE);
   await gotoReady(page, '/projets.html');
 
   await expect(page.locator('.projets-sommaire__liste a')).toHaveCount(6);
@@ -20,7 +21,7 @@ test('responsive mobile — sommaire projets et 6 cartes', async ({ page }) => {
 });
 
 test('responsive mobile — accueil charge le partial hero', async ({ page }) => {
-  await page.setViewportSize({ width: 375, height: 667 });
+  await page.setViewportSize(VIEWPORT_MOBILE);
   await gotoReady(page, '/index.html');
 
   await expect(page.locator('h1.titre-arcade')).toContainText('JORIS');
@@ -30,7 +31,7 @@ test('responsive mobile — accueil charge le partial hero', async ({ page }) =>
 });
 
 test('responsive mobile — compétences charge le partial stats', async ({ page }) => {
-  await page.setViewportSize({ width: 375, height: 667 });
+  await page.setViewportSize(VIEWPORT_MOBILE);
   await gotoReady(page, '/competences.html');
 
   await expect(page.locator('.scores-tableau tbody tr')).toHaveCount(12);
@@ -41,7 +42,7 @@ test('responsive mobile — compétences charge le partial stats', async ({ page
 });
 
 test('responsive mobile — scroll contact', async ({ page }) => {
-  await page.setViewportSize({ width: 375, height: 667 });
+  await page.setViewportSize(VIEWPORT_MOBILE);
   await gotoReady(page, '/contact.html');
 
   const scrollHeight = await page.evaluate(() => document.documentElement.scrollHeight);
@@ -50,20 +51,8 @@ test('responsive mobile — scroll contact', async ({ page }) => {
   await assertPasOverflowHorizontal(page);
 });
 
-test('responsive mobile étroit — contact, dojo et mentions sans overflow (320px)', async ({
-  page,
-}) => {
-  await page.setViewportSize(VIEWPORT_ETROIT);
-
-  for (const path of ['/contact.html', '/dojo.html', '/mentions-legales.html']) {
-    await gotoReady(page, path);
-    await assertPasOverflowHorizontal(page);
-    await expect(page.locator('h1')).toBeVisible();
-  }
-});
-
 test('responsive contact — champ message visible après focus', async ({ page }) => {
-  await page.setViewportSize({ width: 375, height: 667 });
+  await page.setViewportSize(VIEWPORT_MOBILE);
   await gotoReady(page, '/contact.html');
   await expect(page.locator('#js-formulaire')).toHaveAttribute('data-ready', '1', {
     timeout: 15_000,
@@ -113,7 +102,7 @@ for (const viewport of VIEWPORTS_BURGER) {
 }
 
 test('responsive paysage mobile — modale projet sans overflow', async ({ page }) => {
-  await page.setViewportSize({ width: 667, height: 375 });
+  await page.setViewportSize(VIEWPORT_PAYSAGE);
   await gotoReady(page, '/projets.html');
 
   const carte = page.locator('.carte-projet[data-projet="lsf"]').first();
@@ -125,7 +114,7 @@ test('responsive paysage mobile — modale projet sans overflow', async ({ page 
 });
 
 test('responsive paysage mobile — compétences sans overflow', async ({ page }) => {
-  await page.setViewportSize({ width: 667, height: 375 });
+  await page.setViewportSize(VIEWPORT_PAYSAGE);
   await gotoReady(page, '/competences.html');
 
   await expect(page.locator('h1')).toContainText(/HIGH SCORES/i);
@@ -134,7 +123,7 @@ test('responsive paysage mobile — compétences sans overflow', async ({ page }
 });
 
 test('responsive paysage mobile — dojo sans overflow', async ({ page }) => {
-  await page.setViewportSize({ width: 667, height: 375 });
+  await page.setViewportSize(VIEWPORT_PAYSAGE);
   await gotoReady(page, '/dojo.html');
 
   await expect(page.locator('h1')).toContainText(/DOJO/i);
@@ -143,7 +132,7 @@ test('responsive paysage mobile — dojo sans overflow', async ({ page }) => {
 });
 
 test('responsive paysage mobile — hint informatif sur pages denses', async ({ page }) => {
-  await page.setViewportSize({ width: 667, height: 375 });
+  await page.setViewportSize(VIEWPORT_PAYSAGE);
 
   for (const path of ['/competences.html', '/dojo.html', '/parcours.html']) {
     await gotoReady(page, path);
@@ -153,7 +142,7 @@ test('responsive paysage mobile — hint informatif sur pages denses', async ({ 
 });
 
 test('footer — tagline visible', async ({ page }) => {
-  await page.setViewportSize({ width: 375, height: 667 });
+  await page.setViewportSize(VIEWPORT_MOBILE);
   await gotoReady(page, '/index.html');
 
   const tagline = page.locator('.pied-page__tagline-ia');

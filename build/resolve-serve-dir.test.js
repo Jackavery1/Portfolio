@@ -6,7 +6,7 @@ import { afterEach, describe, expect, it } from 'vitest';
 import { createRequire } from 'node:module';
 
 const require = createRequire(import.meta.url);
-const { resolveServeDir } = require('./resolve-serve-dir.cjs');
+const { resolveServeDir, executerResolveServeDirCli } = require('./resolve-serve-dir.cjs');
 const rootDir = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 
 describe('resolve-serve-dir', () => {
@@ -65,5 +65,39 @@ describe('resolve-serve-dir', () => {
     expect(pkg.scripts['validate:html:dist']).toContain('validate-dist-html.cjs');
     expect(lhci).toContain('resolve-static-dist.cjs');
     expect(lhciDesktop).toContain('resolve-static-dist.cjs');
+  });
+
+  it('executerResolveServeDirCli écrit le chemin résolu', () => {
+    const base = creerTmp('portfolio-serve-dir-cli-');
+    const staging = path.join(base, '.dist-staging');
+    fs.mkdirSync(staging, { recursive: true });
+
+    const chunks = [];
+    const outcome = executerResolveServeDirCli({
+      root: base,
+      stdout: { write: (text) => chunks.push(text) },
+      exit: () => {},
+    });
+
+    expect(outcome.ok).toBe(true);
+    expect(chunks.join('')).toBe(staging);
+  });
+
+  it('executerResolveServeDirCli sort en erreur sans artefact', () => {
+    const base = creerTmp('portfolio-serve-dir-cli-absent-');
+    const messages = [];
+    let code = 0;
+
+    const outcome = executerResolveServeDirCli({
+      root: base,
+      stderr: { write: (text) => messages.push(text) },
+      exit: (c) => {
+        code = c;
+      },
+    });
+
+    expect(outcome.ok).toBe(false);
+    expect(code).toBe(1);
+    expect(messages.join('')).toContain('Aucun répertoire');
   });
 });

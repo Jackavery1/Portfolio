@@ -6,6 +6,7 @@ import {
   initialiserNavigationClavier,
   annoncerNavigationClavier,
 } from './modules/navigation.js';
+import { initialiserCodeKonami } from './modules/konami.js';
 import {
   afficherPopupMeilleurScore,
   afficherScore,
@@ -18,19 +19,29 @@ import { urlFaviconPng } from './config/favicon.js';
 import { SCORE_PLAFOND } from './utils/score-helpers.js';
 import { initialiserSection } from './config/sections.js';
 import { afficherBandeauDev } from './utils/dev-mode.js';
+import { estPageDense } from './utils/pages-denses.js';
 
-function activerOverlayCrtApresPeinture() {
+function activerOverlayCrtApresPeinture(sectionId) {
+  const activer = () => document.documentElement.classList.add('crt-pret');
+  if (estPageDense(sectionId) && typeof requestIdleCallback === 'function') {
+    requestIdleCallback(activer, { timeout: 2000 });
+    return;
+  }
   requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      document.documentElement.classList.add('crt-pret');
-    });
+    requestAnimationFrame(activer);
   });
 }
 
 function planifierTachesDifferees(sid) {
-  setTimeout(() => {
+  const planifierAnim = () => {
     import('./modules/animations.js').then((module) => module.animerBarresSection(sid));
-  }, 300);
+  };
+
+  if (estPageDense(sid) && typeof requestIdleCallback === 'function') {
+    requestIdleCallback(planifierAnim, { timeout: 3000 });
+  } else {
+    setTimeout(planifierAnim, 300);
+  }
 
   const planifier =
     typeof requestIdleCallback === 'function'
@@ -38,11 +49,18 @@ function planifierTachesDifferees(sid) {
       : (fn) => setTimeout(fn, 1);
 
   planifier(() => {
-    import('./modules/konami.js').then((module) => module.initialiserCodeKonami());
     import('./modules/service-worker-register.js').then((module) =>
       module.enregistrerServiceWorker()
     );
   });
+}
+
+function planifierMusique(sid) {
+  if (estPageDense(sid) && typeof requestIdleCallback === 'function') {
+    requestIdleCallback(() => initialiserMusique(), { timeout: 2500 });
+    return;
+  }
+  initialiserMusique();
 }
 
 // En dev on sert les HTML sources : le head de prod n'est pas injecté, on ajoute la favicon à la volée.
@@ -82,9 +100,10 @@ async function initialiser() {
   initialiserMetaPartage();
   initialiserNavigationArcade();
   initialiserNavigationClavier();
+  initialiserCodeKonami();
   initialiserBonusScore();
   afficherScore(lireScore());
-  initialiserMusique();
+  planifierMusique(sid);
 
   await initialiserSection(sid);
 
@@ -99,7 +118,7 @@ async function initialiser() {
   }
 
   document.body.dataset.appReady = 'true';
-  activerOverlayCrtApresPeinture();
+  activerOverlayCrtApresPeinture(sid);
 }
 
 document.addEventListener('DOMContentLoaded', initialiser);

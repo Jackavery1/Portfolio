@@ -26,9 +26,43 @@ export const VIEWPORT_ETROIT = { width: 320, height: 568, label: 'mobile-etroit'
 /** Référence mobile unique pour scénarios ciblés (burger, touch, contact). */
 export const VIEWPORT_MOBILE = VIEWPORTS[0];
 
+/** Paysage standard — rotation VIEWPORT_MOBILE, aligné playwright.config.js */
+export const VIEWPORT_PAYSAGE = {
+  width: VIEWPORT_MOBILE.height,
+  height: VIEWPORT_MOBILE.width,
+  label: 'mobile-paysage',
+};
+
+/** Paysage étroit — rotation VIEWPORT_ETROIT (320px de hauteur, cas le plus contraint) */
+export const VIEWPORT_ETROIT_PAYSAGE = {
+  width: VIEWPORT_ETROIT.height,
+  height: VIEWPORT_ETROIT.width,
+  label: 'mobile-etroit-paysage',
+};
+
 export const VIEWPORTS_BURGER = [VIEWPORT_MOBILE, VIEWPORTS[1]];
 
+/** Viewports pour audits axe (mobile, tablette, desktop-large). */
+export const VIEWPORTS_A11Y = [VIEWPORTS[0], VIEWPORTS[1], VIEWPORTS[3]];
+
+/** Viewport Lighthouse CI mobile (lighthouserc.cjs). */
+export const VIEWPORT_LHCI = { width: 412, height: 823, label: 'lhci-mobile' };
+
 export const NAVIGATION_CLAVIER = pagesNavigationClavier();
+
+/** Séquence Konami — alignée sur js/config/konami.js */
+export const KONAMI_SEQUENCE = [
+  'ArrowUp',
+  'ArrowUp',
+  'ArrowDown',
+  'ArrowDown',
+  'ArrowLeft',
+  'ArrowRight',
+  'ArrowLeft',
+  'ArrowRight',
+  'b',
+  'a',
+];
 
 export async function assertPasOverflowHorizontal(page) {
   const scrollWidth = await page.evaluate(() => document.documentElement.scrollWidth);

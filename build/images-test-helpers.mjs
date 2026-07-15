@@ -1,3 +1,6 @@
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
 import { vi } from 'vitest';
 
 export function creerSharpMock() {
@@ -32,4 +35,22 @@ export function creerSharpMock() {
   }
 
   return { sharpFactory, instances };
+}
+
+export function avecRepertoireTemporaire(prefix, fn) {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), prefix));
+  try {
+    return fn(tmp);
+  } finally {
+    fs.rmSync(tmp, { recursive: true, force: true });
+  }
+}
+
+export async function avecRepertoireTemporaireAsync(prefix, fn) {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), prefix));
+  try {
+    return await fn(tmp);
+  } finally {
+    fs.rmSync(tmp, { recursive: true, force: true });
+  }
 }

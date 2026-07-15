@@ -7,6 +7,9 @@ import {
   VIEWPORTS,
   VIEWPORTS_ETENDUS,
   VIEWPORT_MOBILE,
+  VIEWPORT_ETROIT,
+  VIEWPORT_ETROIT_PAYSAGE,
+  VIEWPORT_LHCI,
   assertPasOverflowHorizontal,
   assertZoom200SansOverflow,
 } from './fixtures/responsive.js';
@@ -57,6 +60,64 @@ for (const pageInfo of PAGES.slice(1)) {
   });
 }
 
+for (const pageInfo of PAGES) {
+  test(`responsive mobile-etroit — ${pageInfo.path} sans overflow`, async ({ page }) => {
+    await page.setViewportSize(VIEWPORT_ETROIT);
+    await gotoReady(page, pageInfo.path);
+
+    if (pageInfo.path === '/contact.html') {
+      await expect(page.locator('#js-formulaire')).toHaveAttribute('data-ready', '1', {
+        timeout: 15_000,
+      });
+    }
+
+    if (pageInfo.path === '/projets.html') {
+      await page.waitForSelector('.grille-projets:not([aria-busy="true"]) .carte-projet', {
+        timeout: 15_000,
+      });
+    }
+
+    await expect(page.locator('h1')).toBeVisible();
+    await expect(page.locator('h1')).toContainText(pageInfo.h1);
+    await assertPasOverflowHorizontal(page);
+  });
+}
+
+const PAGES_SEUIL_NAV = PAGES;
+
+for (const pageInfo of PAGES_SEUIL_NAV) {
+  test(`responsive desktop 961px — ${pageInfo.path} sans overflow`, async ({ page }) => {
+    await page.setViewportSize({ width: 961, height: 800 });
+    await gotoReady(page, pageInfo.path);
+
+    if (pageInfo.path === '/contact.html') {
+      await expect(page.locator('#js-formulaire')).toHaveAttribute('data-ready', '1', {
+        timeout: 15_000,
+      });
+    }
+
+    if (pageInfo.path === '/projets.html') {
+      await page.waitForSelector('.grille-projets:not([aria-busy="true"]) .carte-projet', {
+        timeout: 15_000,
+      });
+    }
+
+    await expect(page.locator('h1')).toBeVisible();
+    await expect(page.locator('.nav__liens')).toBeVisible();
+    await expect(page.locator('.nav__burger')).not.toBeVisible();
+    await assertPasOverflowHorizontal(page);
+  });
+}
+
+for (const path of ['/index.html', '/competences.html', '/dojo.html']) {
+  test(`responsive lhci-mobile — ${path} coquille sans overflow`, async ({ page }) => {
+    await page.setViewportSize(VIEWPORT_LHCI);
+    await gotoReady(page, path);
+    await expect(page.locator('h1')).toBeVisible();
+    await assertPasOverflowHorizontal(page);
+  });
+}
+
 const PAGES_PAYSAGE = [
   { path: '/index.html', h1: /MARTINEZ/i, contenu: '.accueil__grille' },
   { path: '/projets.html', h1: /SELECT YOUR STAGE/i, contenu: '.grille-projets' },
@@ -82,7 +143,7 @@ const PAGES_PAYSAGE = [
 
 for (const pageInfo of PAGES_PAYSAGE) {
   test(`responsive paysage — ${pageInfo.path} scroll et contenu visibles`, async ({ page }) => {
-    await page.setViewportSize({ width: 568, height: 320 });
+    await page.setViewportSize(VIEWPORT_ETROIT_PAYSAGE);
     await gotoReady(page, pageInfo.path);
 
     if (pageInfo.avantAssertion) {

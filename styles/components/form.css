@@ -70,8 +70,8 @@
 }
 
 .champ-input:focus-visible {
-  outline: 3px solid var(--couleur-accent-vif);
-  outline-offset: 2px;
+  outline: var(--outline-focus-largeur-forte) solid var(--outline-focus-couleur);
+  outline-offset: var(--outline-focus-decalage-compact);
   border-color: var(--couleur-accent);
   box-shadow: var(--ombre-champ-focus);
 }
@@ -150,9 +150,11 @@
   padding: 0.35rem 0;
 }
 
-.carte-contact__lien:hover {
-  color: var(--couleur-accent-vif);
-  text-decoration: underline;
+@media (hover: hover) and (pointer: fine) {
+  .carte-contact__lien:hover {
+    color: var(--couleur-accent-vif);
+    text-decoration: underline;
+  }
 }
 
 .carte-contact__lien:active {
@@ -162,8 +164,8 @@
 }
 
 .carte-contact__lien:focus-visible {
-  outline: 2px solid var(--couleur-accent-vif);
-  outline-offset: 2px;
+  outline: var(--outline-focus-largeur) solid var(--outline-focus-couleur);
+  outline-offset: var(--outline-focus-decalage-compact);
 }
 
 .recaptcha-zone {

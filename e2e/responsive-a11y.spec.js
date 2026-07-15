@@ -1,22 +1,34 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { gotoReady, violationsA11y } from './helpers.js';
+import { PAGES, VIEWPORTS_A11Y } from './fixtures/responsive.js';
 
-test('a11y mobile — accueil sans violation critique', async ({ page }) => {
-  await page.setViewportSize({ width: 375, height: 667 });
-  await gotoReady(page, '/index.html');
+async function preparerPageA11y(page, pageInfo) {
+  await gotoReady(page, pageInfo.path);
 
-  const results = await new AxeBuilder({ page }).analyze();
-  expect(violationsA11y(results.violations)).toEqual([]);
-});
+  if (pageInfo.path === '/contact.html') {
+    await expect(page.locator('#js-formulaire')).toHaveAttribute('data-ready', '1', {
+      timeout: 15_000,
+    });
+  }
 
-test('a11y mobile — contact sans violation critique', async ({ page }) => {
-  await page.setViewportSize({ width: 375, height: 667 });
-  await gotoReady(page, '/contact.html');
-  await expect(page.locator('#js-formulaire')).toHaveAttribute('data-ready', '1', {
-    timeout: 15_000,
-  });
+  if (pageInfo.path === '/projets.html') {
+    await page.waitForSelector('.grille-projets:not([aria-busy="true"]) .carte-projet', {
+      timeout: 15_000,
+    });
+  }
+}
 
-  const results = await new AxeBuilder({ page }).analyze();
-  expect(violationsA11y(results.violations)).toEqual([]);
-});
+for (const viewport of VIEWPORTS_A11Y) {
+  for (const pageInfo of PAGES) {
+    test(`a11y ${viewport.label} — ${pageInfo.fichier} sans violation critique`, async ({
+      page,
+    }) => {
+      await page.setViewportSize({ width: viewport.width, height: viewport.height });
+      await preparerPageA11y(page, pageInfo);
+
+      const results = await new AxeBuilder({ page }).analyze();
+      expect(violationsA11y(results.violations)).toEqual([]);
+    });
+  }
+}

@@ -76,3 +76,28 @@ test('contraste WCAG AA — titres section et cartes projets', async ({ page }) 
   });
   await assertContrasteAa(page.locator('h1.titre-section'), 3);
 });
+
+test('contraste WCAG AA — mentions légales sommaire', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 667 });
+  await gotoReady(page, '/mentions-legales.html');
+
+  await assertContrasteAa(page.locator('.mentions-sommaire__liste a').first(), 3);
+
+  const email = page.locator('#js-mentions-email');
+  await expect(email).toBeVisible();
+  await expect(email).not.toHaveText('Chargement…');
+  await assertContrasteAa(email);
+});
+
+test('contraste WCAG AA — parcours et page offline', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 667 });
+  await gotoReady(page, '/parcours.html');
+  await page.waitForSelector('.entree-parcours__titre', { timeout: 15_000 });
+
+  await assertContrasteAa(page.locator('h1.titre-section'), 3);
+  await assertContrasteAa(page.locator('.entree-parcours__titre').first());
+
+  await page.goto('/offline.html', { waitUntil: 'domcontentloaded' });
+  await assertContrasteAa(page.locator('.offline-ecran p').first());
+  await assertContrasteAa(page.locator('.offline-ecran a'));
+});

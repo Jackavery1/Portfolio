@@ -31,8 +31,8 @@
 }
 
 .nav__logo:focus-visible {
-  outline: 3px solid var(--couleur-accent-vif);
-  outline-offset: 3px;
+  outline: var(--outline-focus-largeur-forte) solid var(--outline-focus-couleur);
+  outline-offset: var(--outline-focus-decalage);
   color: var(--couleur-texte-fort);
 }
 
@@ -89,9 +89,11 @@
   margin-bottom: -1px;
 }
 
-.nav__bouton:hover {
-  color: var(--couleur-accent-vif);
-  text-shadow: var(--ombre-glow-accent);
+@media (hover: hover) and (pointer: fine) {
+  .nav__bouton:hover {
+    color: var(--couleur-accent-vif);
+    text-shadow: var(--ombre-glow-accent);
+  }
 }
 
 .nav__bouton:active {
@@ -106,6 +108,8 @@
 }
 
 .nav__bouton:focus-visible {
-  outline: 2px solid var(--couleur-accent-vif);
-  outline-offset: 2px;
+  outline: var(--outline-focus-largeur) solid var(--outline-focus-couleur);
+  outline-offset: var(--outline-focus-decalage-compact);
+  color: var(--couleur-accent-vif);
+  text-shadow: var(--ombre-glow-accent);
 }

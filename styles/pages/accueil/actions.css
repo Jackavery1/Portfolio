@@ -17,9 +17,11 @@
     border-color var(--transition-ui);
 }
 
-.lien-github:hover {
-  color: var(--couleur-accent-vif);
-  border-color: var(--couleur-accent);
+@media (hover: hover) and (pointer: fine) {
+  .lien-github:hover {
+    color: var(--couleur-accent-vif);
+    border-color: var(--couleur-accent);
+  }
 }
 
 .lien-github:active {
@@ -28,8 +30,8 @@
 }
 
 .lien-github:focus-visible {
-  outline: 2px solid var(--couleur-accent-vif);
-  outline-offset: 3px;
+  outline: var(--outline-focus-largeur) solid var(--outline-focus-couleur);
+  outline-offset: var(--outline-focus-decalage);
 }
 
 .accueil__wip {

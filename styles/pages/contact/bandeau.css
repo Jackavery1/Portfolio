@@ -43,10 +43,16 @@
     text-shadow 0.15s;
 }
 
-.contact-bandeau__action:hover,
 .contact-bandeau__action:focus-visible {
   color: var(--couleur-texte-fort);
   text-shadow: var(--ombre-glow-accent-fort);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .contact-bandeau__action:hover {
+    color: var(--couleur-texte-fort);
+    text-shadow: var(--ombre-glow-accent-fort);
+  }
 }
 
 .contact-bandeau__cv-bloc {
@@ -75,9 +81,14 @@
   text-decoration: none;
 }
 
-.contact-bandeau__lien-cv:hover,
 .contact-bandeau__lien-cv:focus-visible {
   color: var(--couleur-valide);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .contact-bandeau__lien-cv:hover {
+    color: var(--couleur-valide);
+  }
 }
 
 .contact-bandeau-aide {
@@ -99,7 +110,12 @@
   transition: color 0.15s;
 }
 
-.contact-bandeau-aide:hover,
 .contact-bandeau-aide:focus-visible {
   color: var(--couleur-accent-vif);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .contact-bandeau-aide:hover {
+    color: var(--couleur-accent-vif);
+  }
 }

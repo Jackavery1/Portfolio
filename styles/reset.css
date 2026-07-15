@@ -74,8 +74,8 @@ a,
 }
 
 :focus-visible {
-  outline: 2px solid var(--couleur-accent-vif);
-  outline-offset: 3px;
+  outline: var(--outline-focus-largeur) solid var(--outline-focus-couleur);
+  outline-offset: var(--outline-focus-decalage);
 }
 
 /* Masquage natif : [hidden] force display:none même si une règle CSS l'écrase */

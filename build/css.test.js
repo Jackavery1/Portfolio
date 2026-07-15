@@ -42,4 +42,14 @@ describe('build css', () => {
       fs.rmSync(tmp, { recursive: true, force: true });
     }
   });
+
+  it('minifyCSS retourne sans écrire si style.css est absent', () => {
+    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'portfolio-css-absent-'));
+    try {
+      minifyCSS(tmp, path.join(tmp, 'dist'), { inclureMonolithe: false });
+      expect(fs.existsSync(path.join(tmp, 'dist'))).toBe(false);
+    } finally {
+      fs.rmSync(tmp, { recursive: true, force: true });
+    }
+  });
 });

@@ -7,7 +7,7 @@ import { createRequire } from 'node:module';
 
 const require = createRequire(import.meta.url);
 const rootDir = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
-const { precacheUrls, generateServiceWorker, JS_PRECACH_EXCLUS } = require('./sw.cjs');
+const { precacheUrls, generateServiceWorker, writeServiceWorker, JS_PRECACH_EXCLUS } = require('./sw.cjs');
 const { HTML_FILES } = require('./html.cjs');
 
 describe('build service worker', () => {
@@ -69,6 +69,20 @@ describe('build service worker', () => {
       const urls = precacheUrls(tmp);
       expect(urls.some((url) => url.startsWith('assets/fonts/'))).toBe(false);
       expect(urls).toContain('js/main.js');
+    } finally {
+      fs.rmSync(tmp, { recursive: true, force: true });
+    }
+  });
+
+  it('writeServiceWorker écrit sw.js sur disque', () => {
+    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'portfolio-sw-write-'));
+    try {
+      fs.mkdirSync(path.join(tmp, 'js'), { recursive: true });
+      fs.writeFileSync(path.join(tmp, 'js', 'main.js'), 'export {};\n', 'utf8');
+      writeServiceWorker(tmp, '9.9.9');
+      const sw = fs.readFileSync(path.join(tmp, 'sw.js'), 'utf8');
+      expect(sw).toContain('portfolio-arcade-v9-9-9');
+      expect(sw).toContain('offline.html');
     } finally {
       fs.rmSync(tmp, { recursive: true, force: true });
     }

@@ -23,8 +23,8 @@ function syncNavSquelette(root = path.join(__dirname, '..')) {
   });
 }
 
+const { executerSiEntreeDirecte } = require('./cli-entry.cjs');
+
 module.exports = { syncNavSquelette, HTML_FILES, HEADER_INNER_RE };
 
-if (require.main === module) {
-  syncNavSquelette();
-}
+executerSiEntreeDirecte(require.main, module, syncNavSquelette);

@@ -2,6 +2,8 @@
 
 .hint-paysage {
   display: none;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 48px;
   align-items: flex-start;
   gap: var(--espacement-sm);
   margin: 0 0 var(--espacement-md);

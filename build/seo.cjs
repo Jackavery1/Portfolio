@@ -15,9 +15,9 @@ const SITEMAP_PRIORITY = {
   'mentions-legales.html': '0.4',
 };
 
-function writeSeoFiles(distDir, siteBase) {
+function writeSeoFiles(distDir, siteBase, { htmlFiles = HTML_FILES } = {}) {
   const lastmod = new Date().toISOString().slice(0, 10);
-  const urlset = HTML_FILES.map((file) => {
+  const urlset = htmlFiles.map((file) => {
     const loc = urlPageProd(file, siteBase);
     const priority = SITEMAP_PRIORITY[file] || '0.8';
     return `  <url>\n    <loc>${loc}</loc>\n    <lastmod>${lastmod}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>${priority}</priority>\n  </url>`;

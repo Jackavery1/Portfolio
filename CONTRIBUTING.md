@@ -212,7 +212,7 @@ Pour les e2e PWA sans rebuild : `PLAYWRIGHT_SKIP_BUILD=1 npm run test:e2e -- e2e
 | ---------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Navigateur absent (`Executable doesn't exist`) | `npm run test:e2e:install` ou `npx playwright install --with-deps chromium webkit`                                                                                                                                                                   |
 | Téléchargement bloqué (certificat SSL)         | Même correctif que npm ci-dessus, puis relancer l’install ; sous PowerShell : `$env:NODE_TLS_REJECT_UNAUTHORIZED='0'; npx playwright install chromium webkit` (temporaire, réseau de confiance uniquement)                                           |
-| E2e lent / timeout CI                          | CI : Chromium + WebKit + Firefox (`responsive-mobile-portrait`, `responsive-mobile-landscape`, `responsive-tablet`, `responsive-webkit`, `responsive-firefox`, `desktop-chrome`). Safari local : `npm run test:e2e:webkit`. Timeout job e2e : 25 min |
+| E2e lent / timeout CI                          | CI : Chromium + WebKit + Firefox (`responsive-mobile-portrait`, `responsive-mobile-landscape`, `responsive-tablet`, `responsive-webkit`, `responsive-firefox`, `responsive-desktop-chrome`, `desktop-chrome`). Safari local : `npm run test:e2e:webkit`. Timeout job e2e : 25 min |
 
 ### Site / UX
 
@@ -346,12 +346,11 @@ Pages hors navigation clavier (`dojo.html`, `mentions-legales.html`) : accessibl
 ## Tests
 
 - **Unitaires** : `npm test` (Vitest) — utils, config, modules, build
-- **Couverture** : `npm run test:coverage` (seuils Vitest : 85 % lignes / **84 %** branches globaux sur `js/` + build ciblé)
-- **Seuils build (I/O fichier)** : `vitest.config.js` — `html.cjs`, `sw.cjs`, `manifest.cjs`, `sync-source.cjs` ont des seuils **volontairement bas** (branches ~20 %) : logique CLI, precache SW et pipeline HTML difficilement branchables sans mocks lourds ; la logique exportée est testée unitairement.
+- **Couverture** : `npm run test:coverage` (seuils Vitest globaux dans `vitest.config.js` : **85 %** lignes / statements, **90 %** fonctions, **84 %** branches sur `js/` + `build/**/*.cjs` ; fichiers générés exclus — voir `coverage.exclude`)
 
 ### Profiling Lighthouse (perf mobile)
 
-Seuils CI : `lighthouserc.cjs` (mobile, 412×823). Pages denses (`competences`, `parcours`, `dojo`) : perf ≥ 0,82 (CI mobile, médiane 5 runs).
+Seuils CI : `lighthouserc.cjs` (mobile, 412×823). Pages denses (`competences`, `parcours`, `dojo`) : perf ≥ 0,85 (CI mobile, médiane 5 runs).
 
 Profil local après build :
 
@@ -364,10 +363,10 @@ npx lighthouse http://127.0.0.1:3000/competences.html --only-categories=performa
 
 `start:prod` et Playwright servent `.dist-staging-build/` en priorité s'il existe (build frais non promu), sinon `.dist-staging/` — voir `build/resolve-serve-dir.cjs`.
 
-Leviers perf appliqués : CSS split base/page, preload polices critiques (Press Start 2P, VT323, Rajdhani), overlay CRT différé (`html.crt-pret`), init JS non critique en `requestIdleCallback`, JSON-LD compact en fin de `<body>`, `content-visibility` sur sections denses.
+Leviers perf appliqués : CSS split base/page, preload polices critiques (Press Start 2P, VT323), animation section sans fade opacity (LCP), overlay CRT différé (`html.crt-pret`, `requestIdleCallback` sur pages denses), init musique et animations barres en idle sur pages denses, JSON-LD compact en fin de `<body>`, `content-visibility` sur sections denses.
 
 - **HTML** : `npm run validate:html` (sources) et `npm run validate:html:dist` (après build)
-- **E2E** : `npm run test:e2e` — projets `responsive-mobile-portrait`, `responsive-mobile-landscape`, `responsive-tablet`, `responsive-webkit`, `responsive-firefox`, `desktop-chrome`. Specs responsive : `responsive-touch`, `responsive-safe-area`, `responsive-keyboard`, `responsive-motion`, `responsive-contrast`, `responsive-a11y`, `responsive-pages` ; PWA : `pwa.spec.js` + `sw-toast.spec.js` (sur les 6 viewports mobile/tablette/WebKit/Firefox/desktop PWA). WebKit local : `npm run test:e2e:webkit`. Fixtures : `e2e/fixtures/pages.js`, helpers : `e2e/helpers.js`.
+- **E2E** : `npm run test:e2e` — projets `responsive-mobile-portrait`, `responsive-mobile-landscape`, `responsive-tablet`, `responsive-webkit`, `responsive-firefox`, `responsive-desktop-chrome`, `desktop-chrome`. Specs responsive : `responsive-touch`, `responsive-safe-area`, `responsive-keyboard`, `responsive-motion`, `responsive-contrast`, `responsive-a11y`, `responsive-pages` ; PWA : `pwa.spec.js` + `sw-toast.spec.js` (sur les viewports mobile/tablette/WebKit/Firefox/desktop responsive + desktop PWA). WebKit local : `npm run test:e2e:webkit`. Fixtures : `e2e/fixtures/pages.js`, helpers : `e2e/helpers.js`.
 - **Lighthouse** : `npm run test:lhci` (profil mobile 412×823, 5 runs médiane ; seuils perf par page via `assertMatrix` dans `lighthouserc.cjs`). Complément desktop : `npm run test:lhci:desktop` (961×800, smoke `index` + `projets`, CI après le run mobile).
 - **Mesure bundle** : `npm run build && npm run measure` — tailles de l’artefact le plus frais (`.dist-staging-build/` ou `.dist-staging/` ; JSON stdout : `distKo`, `appJsGzipKo`, `iconsKo`, `jsAssets[]`). Écrit aussi `scripts/bundle-baseline.json` (**gitignoré**, snapshot local). Modèle versionné : `scripts/bundle-baseline.example.json`. Icônes PNG : `npm run icons:optimize` en `prebuild` (idempotent).
 

@@ -5,6 +5,7 @@
 import { CONFIGURATION } from '../config/index.js';
 import { parId } from '../utils/dom.js';
 import { piegerTabulationModale } from '../utils/focus.js';
+import { prefixeKonamiActif } from '../utils/konami-buffer.js';
 import { indexDansOrdreNavigation, libellerPageNavigation } from '../utils/navigation-helpers.js';
 import { jouerBip } from './audio.js';
 
@@ -102,6 +103,9 @@ export function initialiserNavigationClavier() {
     const idx = indexNavigationClavier();
     if (idx < 0) return;
     const ordre = CONFIGURATION.NAVIGATION.ORDRE;
+    if (evt.key === 'ArrowRight' || evt.key === 'ArrowLeft') {
+      if (prefixeKonamiActif()) return;
+    }
     if (evt.key === 'ArrowRight' && idx < ordre.length - 1) {
       jouerBip(440, 40);
       enregistrerAnnonceNavigation(ordre[idx + 1]);

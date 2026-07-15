@@ -5,6 +5,20 @@ vi.mock('../config/index.js', () => ({
     SELECTEURS: { BURGER: 'js-burger', MENU: 'js-menu', MODALE: 'js-modal' },
     NAVIGATION: { ORDRE: ['index.html', 'projets.html'] },
     STOCKAGE: { ANNONCE_NAV_CLAVIER: 'jm_nav_clavier_annonce' },
+    KONAMI: {
+      SEQUENCE: [
+        'ArrowUp',
+        'ArrowUp',
+        'ArrowDown',
+        'ArrowDown',
+        'ArrowLeft',
+        'ArrowRight',
+        'ArrowLeft',
+        'ArrowRight',
+        'b',
+        'a',
+      ],
+    },
   },
 }));
 
@@ -23,11 +37,13 @@ import {
 } from './navigation.js';
 import { jouerBip } from './audio.js';
 import { piegerTabulationModale } from '../utils/focus.js';
+import { enregistrerToucheKonami, reinitialiserSaisieKonami } from '../utils/konami-buffer.js';
 
 describe('navigation', () => {
   beforeEach(() => {
     sessionStorage.clear();
     delete document.documentElement.dataset.navClavier;
+    reinitialiserSaisieKonami();
     document.body.innerHTML = `
       <header class="nav">
         <button id="js-burger" type="button" aria-expanded="false" aria-label="Ouvrir le menu"></button>
@@ -133,6 +149,19 @@ describe('navigation', () => {
   it('ignore les flèches depuis un champ de formulaire', () => {
     document.body.innerHTML += '<input id="champ" />';
     document.getElementById('champ').focus();
+    Object.defineProperty(window, 'location', {
+      value: { pathname: '/index.html', href: 'index.html' },
+      writable: true,
+    });
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
+    expect(window.location.href).toBe('index.html');
+  });
+
+  it('ignore les flèches pendant la saisie Konami', () => {
+    reinitialiserSaisieKonami();
+    ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft'].forEach((key) => {
+      enregistrerToucheKonami(key);
+    });
     Object.defineProperty(window, 'location', {
       value: { pathname: '/index.html', href: 'index.html' },
       writable: true,

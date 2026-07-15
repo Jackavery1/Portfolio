@@ -8,8 +8,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: max(1rem, env(safe-area-inset-top, 0)) max(1rem, env(safe-area-inset-right, 0))
-    max(1rem, env(safe-area-inset-bottom, 0)) max(1rem, env(safe-area-inset-left, 0));
+  padding: max(1rem, var(--safe-area-inset-top)) max(1rem, var(--safe-area-inset-right))
+    max(1rem, var(--safe-area-inset-bottom)) max(1rem, var(--safe-area-inset-left));
   backdrop-filter: blur(3px);
   animation: apparition 0.2s ease;
 }
@@ -21,8 +21,8 @@
   max-width: 700px;
   width: 100%;
   box-shadow: var(--ombre-modal-boite);
-  max-height: calc(90dvh - env(safe-area-inset-top, 0) - env(safe-area-inset-bottom, 0));
-  max-height: calc(90vh - env(safe-area-inset-top, 0) - env(safe-area-inset-bottom, 0));
+  max-height: calc(90dvh - var(--safe-area-inset-top) - var(--safe-area-inset-bottom));
+  max-height: calc(90vh - var(--safe-area-inset-top) - var(--safe-area-inset-bottom));
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
@@ -55,18 +55,20 @@
   transition: color 0.15s;
 }
 
-.modal-fermer:hover {
-  color: var(--couleur-accent-vif);
-}
-
 .modal-fermer:active {
   color: var(--couleur-texte-fort);
   transform: scale(0.96);
 }
 
+@media (hover: hover) and (pointer: fine) {
+  .modal-fermer:hover {
+    color: var(--couleur-accent-vif);
+  }
+}
+
 .modal-fermer:focus-visible {
-  outline: 2px solid var(--couleur-accent-vif);
-  outline-offset: 2px;
+  outline: var(--outline-focus-largeur) solid var(--outline-focus-couleur);
+  outline-offset: var(--outline-focus-decalage-compact);
 }
 
 .modal-contenu {
@@ -125,8 +127,10 @@
   transition: color 0.15s;
 }
 
-.modal-lien a:hover {
-  color: var(--couleur-actif);
+@media (hover: hover) and (pointer: fine) {
+  .modal-lien a:hover {
+    color: var(--couleur-actif);
+  }
 }
 
 .modal-lien a:active {
@@ -135,8 +139,8 @@
 }
 
 .modal-lien a:focus-visible {
-  outline: 2px solid var(--couleur-accent-vif);
-  outline-offset: 2px;
+  outline: var(--outline-focus-largeur) solid var(--outline-focus-couleur);
+  outline-offset: var(--outline-focus-decalage-compact);
 }
 
 .modal-tech {

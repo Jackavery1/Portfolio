@@ -15,8 +15,8 @@ ${entries}
   fs.writeFileSync(target, content, 'utf8');
 }
 
+const { executerSiEntreeDirecte } = require('./cli-entry.cjs');
+
 module.exports = { syncPartials };
 
-if (require.main === module) {
-  syncPartials();
-}
+executerSiEntreeDirecte(require.main, module, syncPartials);

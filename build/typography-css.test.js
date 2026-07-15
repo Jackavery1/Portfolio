@@ -92,4 +92,19 @@ describe('typography CSS', () => {
     expect(card).toMatch(/\.carte-projet__clic-hint[\s\S]*?font-family:\s*var\(--police-crt\)/);
     expect(card).toMatch(/\.barre-completion__val[\s\S]*?font-family:\s*var\(--police-crt\)/);
   });
+
+  it('tokens focus — échelle outline centralisée, pas de px en dur dans les composants', () => {
+    const tokens = fs.readFileSync(path.join(rootDir, 'styles/tokens.css'), 'utf8');
+    expect(tokens).toContain('--outline-focus-largeur:');
+    expect(tokens).toContain('--outline-focus-decalage-compact:');
+
+    const composants = listerCss(path.join(rootDir, 'styles/components'))
+      .concat(listerCss(path.join(rootDir, 'styles/pages')))
+      .concat(listerCss(path.join(rootDir, 'styles/layout')));
+    composants.forEach((absolu) => {
+      const rel = path.relative(rootDir, absolu).replace(/\\/g, '/');
+      const contenu = fs.readFileSync(absolu, 'utf8');
+      expect(contenu, rel).not.toMatch(/outline-offset:\s*\d+px/);
+    });
+  });
 });

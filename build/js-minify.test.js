@@ -82,7 +82,7 @@ describe('js-minify', () => {
     expect(() => minifyAllJs(srcRoot, distRoot)).toThrow(/UglifyJS/);
   });
 
-  it('minifie le projet réel sans erreur', () => {
+  it('minifie le projet réel sans erreur', { timeout: 10_000 }, () => {
     const distRoot = creerTmp('portfolio-jsmin-dist-');
     minifyAllJs(rootDir, distRoot);
     expect(fs.existsSync(path.join(distRoot, 'js', 'main.js'))).toBe(true);

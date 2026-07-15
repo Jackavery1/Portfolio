@@ -16,6 +16,19 @@
   contain-intrinsic-size: auto 360px;
 }
 
+.scores-tableau-zone:focus {
+  outline: none;
+}
+
+.scores-tableau-zone:focus-visible {
+  outline: var(--outline-focus-largeur-forte) solid var(--outline-focus-couleur);
+  outline-offset: var(--outline-focus-decalage-compact);
+}
+
+.scores-tableau-zone:focus-visible .score-ligne:first-child {
+  background-color: var(--couleur-fond-survol);
+}
+
 .scores-tableau-zone::after {
   content: '';
   position: absolute;

@@ -9,11 +9,17 @@ async function runCli(root = path.join(__dirname, '..')) {
   await syncPwaIcons(root);
 }
 
-module.exports = { syncPwaIcons, runCli };
+async function executerSyncPwaIconsCli(root = path.join(__dirname, '..'), { exit = process.exit } = {}) {
+  try {
+    await runCli(root);
+  } catch (err) {
+    console.error(err);
+    exit(1);
+  }
+}
+
+module.exports = { syncPwaIcons, runCli, executerSyncPwaIconsCli };
 
 if (require.main === module) {
-  runCli().catch((err) => {
-    console.error(err);
-    process.exit(1);
-  });
+  executerSyncPwaIconsCli();
 }

@@ -112,11 +112,17 @@
   border: 1px solid var(--couleur-bordure);
 }
 
-.projets-sommaire__liste a:hover,
 .projets-sommaire__liste a:focus-visible {
   border-color: var(--couleur-accent);
   outline: none;
   box-shadow: 0 0 0 2px var(--couleur-accent-alpha);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .projets-sommaire__liste a:hover {
+    border-color: var(--couleur-accent);
+    box-shadow: 0 0 0 2px var(--couleur-accent-alpha);
+  }
 }
 
 .projets-sommaire__liste a:active {

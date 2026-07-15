@@ -98,14 +98,11 @@
   -webkit-appearance: none;
 }
 
-.carte-projet:hover {
-  border-color: var(--couleur-accent);
-  background-color: var(--couleur-fond-survol);
-  box-shadow: var(--ombre-carte-survol);
-}
-
 @media (hover: hover) and (pointer: fine) {
   .carte-projet:hover {
+    border-color: var(--couleur-accent);
+    background-color: var(--couleur-fond-survol);
+    box-shadow: var(--ombre-carte-survol);
     transform: translateY(-2px);
   }
 }

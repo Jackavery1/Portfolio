@@ -139,6 +139,15 @@
   /* Texte secondaire accentué (tags modale, etc.) */
   --couleur-accent-texte: #a9c2ff;
 
+  /* Focus clavier — outline uniforme (surcharges contextuelles par composant) */
+  --outline-focus-largeur: 2px;
+  --outline-focus-largeur-forte: 3px;
+  --outline-focus-couleur: var(--couleur-accent-vif);
+  --outline-focus-couleur-actif: var(--couleur-actif);
+  --outline-focus-couleur-inverse: var(--couleur-fond);
+  --outline-focus-decalage: 3px;
+  --outline-focus-decalage-compact: 2px;
+
   /* Transitions et ombres UI */
   --transition-ui: 0.2s ease;
   --ombre-accent-ui: 0 0 16px rgba(var(--couleur-accent-rgb), 0.25);

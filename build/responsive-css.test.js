@@ -78,6 +78,14 @@ describe('responsive CSS', () => {
     expect(contenu).toContain('prefers-reduced-motion');
   });
 
+  it('section — animation LCP sans fade opacity', () => {
+    const contenu = lire('styles/layout/ecran.css');
+    const blocSection = contenu.match(/@keyframes apparition-section\s*\{[^}]+\}/)?.[0] ?? '';
+    expect(contenu).toContain('animation: apparition-section');
+    expect(blocSection).toContain('transform: translateY(6px)');
+    expect(blocSection).not.toContain('opacity');
+  });
+
   it('projets et parcours ont des modules responsive dédiés', () => {
     const { PROJETS_STYLE_SOURCES, PARCOURS_STYLE_SOURCES } = require('./page-styles.mjs');
     expect(PROJETS_STYLE_SOURCES.some((f) => f.includes('responsive'))).toBe(true);
@@ -89,5 +97,10 @@ describe('responsive CSS', () => {
   it('indicateur de scroll horizontal sur zones défilantes denses', () => {
     expect(lire('styles/pages/competences/layout.css')).toContain('.scores-tableau-zone::after');
     expect(lire('styles/pages/parcours/responsive-mobile.css')).toContain('.story-arbre::after');
+  });
+
+  it('squelettes et hint paysage diffèrent le rendu pour le LCP', () => {
+    expect(lire('styles/components/partial-squelette.css')).toContain('content-visibility: auto');
+    expect(lire('styles/components/hint-paysage.css')).toContain('content-visibility: auto');
   });
 });

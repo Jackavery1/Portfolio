@@ -48,23 +48,19 @@
   padding: 0.65rem 1.2rem;
 }
 
-.bouton-arcade:hover:not(:disabled),
-.bouton-envoyer:hover:not(:disabled) {
-  background-color: var(--couleur-accent-alpha);
-  box-shadow: var(--ombre-accent-ui);
-  color: var(--couleur-texte-fort);
-}
-
 @media (hover: hover) and (pointer: fine) {
+  .bouton-arcade:hover:not(:disabled),
+  .bouton-envoyer:hover:not(:disabled),
   .bouton-retour-work:hover:not(:disabled) {
     background-color: var(--couleur-accent-alpha);
     box-shadow: var(--ombre-accent-ui);
+    color: var(--couleur-texte-fort);
   }
-}
 
-.bouton-dojo:hover:not(:disabled) {
-  background-color: var(--couleur-actif-alpha);
-  box-shadow: var(--ombre-actif-ui);
+  .bouton-dojo:hover:not(:disabled) {
+    background-color: var(--couleur-actif-alpha);
+    box-shadow: var(--ombre-actif-ui);
+  }
 }
 
 .bouton-arcade:active:not(:disabled),
@@ -96,18 +92,18 @@
 
 .bouton-arcade:focus-visible,
 .bouton-retour-work:focus-visible {
-  outline: 2px solid var(--couleur-accent-vif);
-  outline-offset: 3px;
+  outline: var(--outline-focus-largeur) solid var(--outline-focus-couleur);
+  outline-offset: var(--outline-focus-decalage);
 }
 
 .bouton-dojo:focus-visible {
-  outline: 2px solid var(--couleur-actif);
-  outline-offset: 3px;
+  outline: var(--outline-focus-largeur) solid var(--outline-focus-couleur-actif);
+  outline-offset: var(--outline-focus-decalage);
 }
 
 .bouton-envoyer:focus-visible {
-  outline: 3px solid var(--couleur-actif);
-  outline-offset: 3px;
+  outline: var(--outline-focus-largeur-forte) solid var(--outline-focus-couleur-actif);
+  outline-offset: var(--outline-focus-decalage);
 }
 
 .bouton-envoyer--chargement {

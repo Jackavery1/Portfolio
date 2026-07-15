@@ -197,4 +197,359 @@ describe('fs-utils', () => {
     expect(copyFile(src, dst)).toBe(true);
     expect(fs.readFileSync(dst, 'utf8')).toBe('nouveau');
   });
+
+  it('copyFile récupère un EPERM initial via fichier temporaire', () => {
+    const fsModule = require('node:fs');
+    const base = creerTmp('portfolio-fs-eperm-');
+    const src = path.join(base, 'source.txt');
+    const dst = path.join(base, 'dest.txt');
+    fs.writeFileSync(src, 'ok', 'utf8');
+
+    let appels = 0;
+    const original = fsModule.copyFileSync;
+    fsModule.copyFileSync = (source, cible) => {
+      appels += 1;
+      if (appels === 1) {
+        const err = new Error('EPERM');
+        err.code = 'EPERM';
+        throw err;
+      }
+      return original(source, cible);
+    };
+
+    try {
+      expect(copyFile(src, dst)).toBe(true);
+      expect(fs.readFileSync(dst, 'utf8')).toBe('ok');
+    } finally {
+      fsModule.copyFileSync = original;
+    }
+  });
+
+  it('copyDirRecursive avec tolererEchecs collecte les chemins en échec', () => {
+    const fsModule = require('node:fs');
+    const base = creerTmp('portfolio-fs-tolerer-');
+    const src = path.join(base, 'src');
+    const dst = path.join(base, 'dst');
+    fs.mkdirSync(src, { recursive: true });
+    fs.writeFileSync(path.join(src, 'a.txt'), 'A', 'utf8');
+
+    const original = fsModule.copyFileSync;
+    fsModule.copyFileSync = () => {
+      throw new Error('copie impossible');
+    };
+
+    try {
+      const echecs = copyDirRecursive(src, dst, { tolererEchecs: true });
+      expect(echecs).toHaveLength(1);
+      expect(echecs[0]).toMatch(/a\.txt$/);
+    } finally {
+      fsModule.copyFileSync = original;
+    }
+  });
+
+  it('prepareStagingDir vide le staging si rename et suppression échouent', () => {
+    const fsModule = require('node:fs');
+    const base = creerTmp('portfolio-fs-prepare-lock-');
+    const staging = path.join(base, 'staging');
+    fs.mkdirSync(staging, { recursive: true });
+    fs.writeFileSync(path.join(staging, 'old.txt'), 'old', 'utf8');
+
+    const originalRename = fsModule.renameSync;
+    const originalRm = fsModule.rmSync;
+    fsModule.renameSync = () => {
+      throw new Error('rename impossible');
+    };
+    fsModule.rmSync = () => {
+      throw new Error('staging verrouillé');
+    };
+
+    try {
+      prepareStagingDir(staging);
+      expect(fs.existsSync(staging)).toBe(true);
+      expect(fs.existsSync(path.join(staging, 'old.txt'))).toBe(false);
+    } finally {
+      fsModule.renameSync = originalRename;
+      fsModule.rmSync = originalRm;
+    }
+  });
+
+  it('ecrireFichierTexte propage l’erreur après les tentatives', () => {
+    const fsModule = require('node:fs');
+    const { ecrireFichierTexte } = require('./fs-utils.cjs');
+    const base = creerTmp('portfolio-fs-write-fail-');
+    const cible = path.join(base, 'demo.txt');
+    const original = fsModule.writeFileSync;
+
+    fsModule.writeFileSync = () => {
+      const err = new Error('EACCES');
+      err.code = 'EACCES';
+      throw err;
+    };
+
+    try {
+      expect(() =>
+        ecrireFichierTexte(cible, 'x', { tentatives: 2, delaiMs: 0 })
+      ).toThrow('EACCES');
+    } finally {
+      fsModule.writeFileSync = original;
+    }
+  });
+
+  it('promouvoirStaging retourne false si la copie de repli est partielle', () => {
+    const fsModule = require('node:fs');
+    const { promouvoirStaging } = require('./fs-utils.cjs');
+    const base = creerTmp('portfolio-fs-promo-partial-');
+    const work = path.join(base, 'work');
+    const staging = path.join(base, 'staging');
+
+    fs.mkdirSync(work, { recursive: true });
+    fs.writeFileSync(path.join(work, 'a.txt'), 'A', 'utf8');
+    fs.writeFileSync(path.join(work, 'b.txt'), 'B', 'utf8');
+    fs.mkdirSync(staging, { recursive: true });
+
+    const originalRename = fsModule.renameSync;
+    const originalCopy = fsModule.copyFileSync;
+    fsModule.renameSync = () => {
+      const err = new Error('EPERM');
+      err.code = 'EPERM';
+      throw err;
+    };
+    fsModule.copyFileSync = (source, cible) => {
+      if (String(cible).endsWith(`${path.sep}b.txt`)) {
+        throw new Error('fichier verrouillé');
+      }
+      return originalCopy(source, cible);
+    };
+
+    try {
+      expect(promouvoirStaging(work, staging)).toBe(false);
+      expect(fs.readFileSync(path.join(staging, 'a.txt'), 'utf8')).toBe('A');
+      expect(fs.existsSync(path.join(staging, 'b.txt'))).toBe(false);
+      expect(fs.existsSync(work)).toBe(true);
+    } finally {
+      fsModule.renameSync = originalRename;
+      fsModule.copyFileSync = originalCopy;
+    }
+  });
+
+  it('promouvoirStaging conserve staging.old si suppression impossible', () => {
+    const fsModule = require('node:fs');
+    const { promouvoirStaging } = require('./fs-utils.cjs');
+    const base = creerTmp('portfolio-fs-promo-old-');
+    const work = path.join(base, 'work');
+    const staging = path.join(base, 'staging');
+
+    fs.mkdirSync(work, { recursive: true });
+    fs.writeFileSync(path.join(work, 'index.html'), '<html>new</html>', 'utf8');
+    fs.mkdirSync(staging, { recursive: true });
+    fs.writeFileSync(path.join(staging, 'index.html'), '<html>old</html>', 'utf8');
+
+    const originalRm = fsModule.rmSync;
+    fsModule.rmSync = (target, options) => {
+      if (String(target).endsWith('.old')) {
+        const err = new Error('EBUSY');
+        err.code = 'EBUSY';
+        throw err;
+      }
+      return originalRm(target, options);
+    };
+
+    try {
+      expect(promouvoirStaging(work, staging)).toBe(true);
+      expect(fs.existsSync(`${staging}.old`)).toBe(true);
+    } finally {
+      fsModule.rmSync = originalRm;
+    }
+  });
+
+  it('promouvoirStaging avertit si work/ reste après copie de repli', () => {
+    const fsModule = require('node:fs');
+    const { promouvoirStaging } = require('./fs-utils.cjs');
+    const base = creerTmp('portfolio-fs-promo-work-lock-');
+    const work = path.join(base, 'work');
+    const staging = path.join(base, 'staging');
+
+    fs.mkdirSync(work, { recursive: true });
+    fs.writeFileSync(path.join(work, 'index.html'), '<html>copie</html>', 'utf8');
+    fs.mkdirSync(staging, { recursive: true });
+
+    const originalRename = fsModule.renameSync;
+    const originalRm = fsModule.rmSync;
+    fsModule.renameSync = () => {
+      const err = new Error('EPERM');
+      err.code = 'EPERM';
+      throw err;
+    };
+    fsModule.rmSync = (target, options) => {
+      if (target === work) throw new Error('work verrouillé');
+      return originalRm(target, options);
+    };
+
+    try {
+      expect(promouvoirStaging(work, staging)).toBe(true);
+      expect(fs.existsSync(work)).toBe(true);
+      expect(fs.readFileSync(path.join(staging, 'index.html'), 'utf8')).toBe('<html>copie</html>');
+    } finally {
+      fsModule.renameSync = originalRename;
+      fsModule.rmSync = originalRm;
+    }
+  });
+
+  it('copyFile utilise ecrireFichierTexte si rename du tmp échoue', () => {
+    const fsModule = require('node:fs');
+    const base = creerTmp('portfolio-fs-text-fallback-');
+    const src = path.join(base, 'source.txt');
+    const dst = path.join(base, 'dest.txt');
+    fs.writeFileSync(src, 'texte', 'utf8');
+
+    let copyCalls = 0;
+    const originalCopy = fsModule.copyFileSync;
+    const originalRename = fsModule.renameSync;
+
+    fsModule.copyFileSync = (source, cible) => {
+      copyCalls += 1;
+      if (copyCalls === 1) {
+        const err = new Error('EPERM');
+        err.code = 'EPERM';
+        throw err;
+      }
+      return originalCopy(source, cible);
+    };
+    fsModule.renameSync = () => {
+      const err = new Error('EBUSY');
+      err.code = 'EBUSY';
+      throw err;
+    };
+
+    try {
+      expect(copyFile(src, dst)).toBe(true);
+      expect(fs.readFileSync(dst, 'utf8')).toBe('texte');
+    } finally {
+      fsModule.copyFileSync = originalCopy;
+      fsModule.renameSync = originalRename;
+    }
+  });
+
+  it('copyFile nettoie le tmp si unlink échoue après rename', () => {
+    const fsModule = require('node:fs');
+    const base = creerTmp('portfolio-fs-tmp-unlink-');
+    const src = path.join(base, 'source.txt');
+    const dst = path.join(base, 'dest.txt');
+    fs.writeFileSync(src, 'ok', 'utf8');
+
+    let copyCalls = 0;
+    const originalCopy = fsModule.copyFileSync;
+    const originalRename = fsModule.renameSync;
+    const originalUnlink = fsModule.unlinkSync;
+
+    fsModule.copyFileSync = (source, cible) => {
+      copyCalls += 1;
+      if (copyCalls === 1) {
+        const err = new Error('EPERM');
+        err.code = 'EPERM';
+        throw err;
+      }
+      return originalCopy(source, cible);
+    };
+    fsModule.renameSync = () => {
+      const err = new Error('EBUSY');
+      err.code = 'EBUSY';
+      throw err;
+    };
+    fsModule.unlinkSync = (cible) => {
+      if (String(cible).endsWith('.portfolio-tmp')) {
+        throw new Error('unlink impossible');
+      }
+      return originalUnlink(cible);
+    };
+
+    try {
+      expect(copyFile(src, dst)).toBe(true);
+      expect(fs.readFileSync(dst, 'utf8')).toBe('ok');
+    } finally {
+      fsModule.copyFileSync = originalCopy;
+      fsModule.renameSync = originalRename;
+      fsModule.unlinkSync = originalUnlink;
+    }
+  });
+
+  it('prepareStagingDir supprime un staging.old existant avant rename', () => {
+    const base = creerTmp('portfolio-fs-repli-');
+    const staging = path.join(base, 'staging');
+    const repli = `${staging}.old`;
+    fs.mkdirSync(staging, { recursive: true });
+    fs.writeFileSync(path.join(staging, 'current.txt'), 'current', 'utf8');
+    fs.mkdirSync(repli, { recursive: true });
+    fs.writeFileSync(path.join(repli, 'old.txt'), 'old', 'utf8');
+
+    prepareStagingDir(staging);
+
+    expect(fs.existsSync(path.join(repli, 'old.txt'))).toBe(false);
+    expect(fs.readFileSync(path.join(repli, 'current.txt'), 'utf8')).toBe('current');
+    expect(fs.existsSync(path.join(staging, 'current.txt'))).toBe(false);
+  });
+
+  it('prepareStagingDir tolère un sous-répertoire verrouillé lors du vidage', () => {
+    const fsModule = require('node:fs');
+    const base = creerTmp('portfolio-fs-nested-rmdir-');
+    const staging = path.join(base, 'staging');
+    const nested = path.join(staging, 'nested');
+    fs.mkdirSync(nested, { recursive: true });
+    fs.writeFileSync(path.join(nested, 'file.txt'), 'x', 'utf8');
+
+    const originalRename = fsModule.renameSync;
+    const originalRm = fsModule.rmSync;
+    const originalRmdir = fsModule.rmdirSync;
+    fsModule.renameSync = () => {
+      throw new Error('lock');
+    };
+    fsModule.rmSync = () => {
+      throw new Error('lock');
+    };
+    fsModule.rmdirSync = () => {
+      throw new Error('rmdir lock');
+    };
+
+    try {
+      expect(() => prepareStagingDir(staging)).not.toThrow();
+      expect(fs.existsSync(staging)).toBe(true);
+      expect(fs.existsSync(nested)).toBe(true);
+    } finally {
+      fsModule.renameSync = originalRename;
+      fsModule.rmSync = originalRm;
+      fsModule.rmdirSync = originalRmdir;
+    }
+  });
+
+  it('prepareStagingDir tolère un fichier verrouillé dans le staging', () => {
+    const fsModule = require('node:fs');
+    const base = creerTmp('portfolio-fs-vider-lock-');
+    const staging = path.join(base, 'staging');
+    const locked = path.join(staging, 'locked.txt');
+    fs.mkdirSync(staging, { recursive: true });
+    fs.writeFileSync(locked, 'stay', 'utf8');
+
+    const originalRename = fsModule.renameSync;
+    const originalRm = fsModule.rmSync;
+    const originalUnlink = fsModule.unlinkSync;
+    fsModule.renameSync = () => {
+      throw new Error('lock');
+    };
+    fsModule.rmSync = () => {
+      throw new Error('lock');
+    };
+    fsModule.unlinkSync = (cible) => {
+      if (cible === locked) throw new Error('file locked');
+      return originalUnlink(cible);
+    };
+
+    try {
+      expect(() => prepareStagingDir(staging)).not.toThrow();
+      expect(fs.existsSync(locked)).toBe(true);
+    } finally {
+      fsModule.renameSync = originalRename;
+      fsModule.rmSync = originalRm;
+      fsModule.unlinkSync = originalUnlink;
+    }
+  });
 });

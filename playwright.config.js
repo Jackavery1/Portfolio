@@ -61,6 +61,15 @@ export default defineConfig({
       },
     },
     {
+      name: 'responsive-desktop-chrome',
+      testMatch: [RESPONSIVE_SPECS, PWA_SPECS, /sw-toast\.spec\.js/],
+      use: {
+        ...devices['Desktop Chrome'],
+        viewport: { width: 1280, height: 800 },
+        ...(process.env.CI ? {} : { channel: 'chrome' }),
+      },
+    },
+    {
       name: 'desktop-chrome',
       testIgnore: RESPONSIVE_SPECS,
       testMatch: [PWA_SPECS, /sw-toast\.spec\.js/, /^(?!.*responsive-).*\.spec\.js$/],

@@ -17,6 +17,7 @@ const {
   injectSeoMeta,
   injectPageMeta,
   injectHeadCommon,
+  injectCvLien,
   injectFontsAsync,
   injectPerfHead,
   injectJsonLd,
@@ -56,7 +57,7 @@ describe('build html', () => {
       expect(built).toContain('"@type":"WebPage"');
       expect(built).toContain('"@id":"https://example.com/#person"');
       expect(built).toContain('assets/fonts/press-start-2p-latin-400.woff2');
-      expect(built).not.toContain('assets/fonts/vt323-latin-400.woff2');
+      expect(built).toContain('assets/fonts/vt323-latin-400.woff2');
       expect(built).not.toContain('assets/fonts/rajdhani-latin-400.woff2');
       expect(built).not.toContain('rel="preload" href="style-base.css"');
       expect(built).not.toContain('rel="modulepreload" href="js/main.js"');
@@ -177,6 +178,38 @@ describe('build html', () => {
       const html = '<head><!-- FONTS_ASYNC --></head>';
       const out = injectFontsAsync(html, tmp);
       expect(out).toContain('FONTS_ASYNC');
+    } finally {
+      fs.rmSync(tmp, { recursive: true, force: true });
+    }
+  });
+
+  it('injectCvLien laisse le lien local si cvHref est local', () => {
+    const { CV_HREF_LOCAL } = require('./env.cjs');
+    const previous = process.env.PORTFOLIO_CV_URL;
+    process.env.PORTFOLIO_CV_URL = CV_HREF_LOCAL;
+    try {
+      const html = `<a href="${CV_HREF_LOCAL}">CV</a>`;
+      expect(injectCvLien(html)).toBe(html);
+    } finally {
+      if (previous === undefined) delete process.env.PORTFOLIO_CV_URL;
+      else process.env.PORTFOLIO_CV_URL = previous;
+    }
+  });
+
+  it('copyHTML ignore les fichiers HTML absents', () => {
+    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'portfolio-html-missing-'));
+    try {
+      const srcHtml = path.join(tmp, 'index.html');
+      fs.writeFileSync(
+        srcHtml,
+        `<!doctype html><html><head><!-- HEAD_COMMON --></head><body></body></html>`,
+        'utf8'
+      );
+      copyHTML(tmp, path.join(tmp, 'dist'), 'https://example.com', {
+        htmlFiles: ['index.html', 'absent.html'],
+      });
+      expect(fs.existsSync(path.join(tmp, 'dist', 'index.html'))).toBe(true);
+      expect(fs.existsSync(path.join(tmp, 'dist', 'absent.html'))).toBe(false);
     } finally {
       fs.rmSync(tmp, { recursive: true, force: true });
     }

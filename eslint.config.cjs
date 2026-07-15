@@ -43,6 +43,14 @@ module.exports = [
     },
   },
   {
+    files: ['js/modules/**/*.js'],
+    ignores: ['js/modules/**/*.test.js'],
+    rules: {
+      complexity: ['warn', { max: 15 }],
+      'max-lines': ['warn', { max: 250, skipBlankLines: true, skipComments: true }],
+    },
+  },
+  {
     files: ['js/**/*.test.js', 'build/**/*.test.js'],
     languageOptions: {
       ecmaVersion: 2022,

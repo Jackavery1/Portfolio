@@ -15,10 +15,10 @@ function injectCvLien(html) {
   return html.replaceAll(`href="${CV_HREF_LOCAL}"`, `href="${cvHref}"`);
 }
 
-function copyHTML(root, distDir, siteBase) {
+function copyHTML(root, distDir, siteBase, { htmlFiles = HTML_FILES } = {}) {
   let n = 0;
 
-  HTML_FILES.forEach((file) => {
+  htmlFiles.forEach((file) => {
     const src = path.join(root, file);
     const dst = path.join(distDir, file);
     if (!fs.existsSync(src)) return;
@@ -45,6 +45,7 @@ function copyHTML(root, distDir, siteBase) {
 module.exports = {
   HTML_FILES,
   copyHTML,
+  injectCvLien,
   inlinePartials,
   placeholderRegex,
   injectSeoMeta,

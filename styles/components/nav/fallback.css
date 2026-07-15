@@ -13,10 +13,12 @@
   cursor: pointer;
 }
 
-.nav__fallback-retry:hover {
-  color: var(--couleur-texte-fort);
-  border-color: var(--couleur-accent);
-  background: var(--couleur-fond-survol);
+@media (hover: hover) and (pointer: fine) {
+  .nav__fallback-retry:hover {
+    color: var(--couleur-texte-fort);
+    border-color: var(--couleur-accent);
+    background: var(--couleur-fond-survol);
+  }
 }
 
 .nav__fallback-retry:active {
@@ -25,8 +27,8 @@
 }
 
 .nav__fallback-retry:focus-visible {
-  outline: 2px solid var(--couleur-accent-vif);
-  outline-offset: 2px;
+  outline: var(--outline-focus-largeur) solid var(--outline-focus-couleur);
+  outline-offset: var(--outline-focus-decalage-compact);
 }
 
 .nav__fallback {
@@ -43,6 +45,24 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 0.35rem;
+}
+
+@media (max-width: 960px) {
+  .nav--squelette .nav__liens--squelette {
+    display: none;
+    flex-wrap: nowrap;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    padding: 0.5rem 0;
+    z-index: 90;
+  }
+
+  .nav--squelette .nav__liens--squelette.ouvert {
+    display: flex;
+  }
 }
 
 .nav--squelette .nav__liens--squelette .nav__bouton {

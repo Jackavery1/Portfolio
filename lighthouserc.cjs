@@ -57,7 +57,7 @@ module.exports = {
         {
           matchingUrlPattern: '.*(competences|parcours|dojo)\\.html',
           assertions: {
-            'categories:performance': ['error', { minScore: 0.82 }],
+            'categories:performance': ['error', { minScore: 0.85 }],
           },
         },
         {

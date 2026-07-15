@@ -49,6 +49,23 @@ export async function assertLargeurTactile(locator, minPx = 44) {
   expect(box.width).toBeGreaterThanOrEqual(minPx - 1);
 }
 
+/** Vérifie un ring ou une ombre de focus (pas outline: none seul). */
+export async function assertIndicateurFocusVisible(locator) {
+  await locator.focus();
+  await expect(locator).toBeFocused();
+  const styles = await locator.evaluate((el) => {
+    const computed = getComputedStyle(el);
+    return {
+      boxShadow: computed.boxShadow,
+      outlineWidth: computed.outlineWidth,
+    };
+  });
+  const ringVisible =
+    styles.boxShadow !== 'none' ||
+    (styles.outlineWidth !== '0px' && styles.outlineWidth !== '');
+  expect(ringVisible).toBe(true);
+}
+
 /** Simule les encoches (safe-area) via custom properties testables en E2E. */
 export async function simulerInsets(page, { haut = 0, bas = 0, gauche = 0, droite = 0 } = {}) {
   await page.evaluate(

@@ -26,11 +26,13 @@ afterEach(() => {
 });
 
 describe('nav-squelette sync', () => {
-  it('injecte le score arcade dans chaque page HTML', () => {
+  it('injecte le score arcade et le burger dans chaque page HTML', () => {
     const partial = fs.readFileSync(path.join(rootDir, 'partials', 'nav-squelette.html'), 'utf8');
     HTML_FILES.forEach((file) => {
       const html = fs.readFileSync(path.join(rootDir, file), 'utf8');
       expect(html).toContain('id="js-score"');
+      expect(html).toContain('id="js-burger"');
+      expect(html).toContain('id="js-menu"');
       expect(html).toContain(partial.trim().slice(0, 40));
     });
   });

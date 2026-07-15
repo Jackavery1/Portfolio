@@ -19,6 +19,7 @@ body {
 
 .offline-ecran {
   max-width: 28rem;
+  background-color: var(--couleur-fond-carte);
   border: 1px solid var(--couleur-bordure-active);
   padding: var(--espacement-xl) var(--espacement-lg);
   box-shadow: var(--ombre-boite-accent);
@@ -47,8 +48,8 @@ body {
 
 .lien-evitement:focus-visible {
   transform: translate(-50%, 0.5rem);
-  outline: 2px solid var(--couleur-actif);
-  outline-offset: 2px;
+  outline: var(--outline-focus-largeur) solid var(--outline-focus-couleur-actif);
+  outline-offset: var(--outline-focus-decalage-compact);
 }
 
 .offline-ecran h1 {
@@ -87,9 +88,11 @@ body {
     box-shadow var(--transition-ui);
 }
 
-.offline-ecran a:hover {
-  background-color: var(--couleur-accent-alpha);
-  box-shadow: var(--ombre-accent-ui);
+@media (hover: hover) and (pointer: fine) {
+  .offline-ecran a:hover {
+    background-color: var(--couleur-accent-alpha);
+    box-shadow: var(--ombre-accent-ui);
+  }
 }
 
 .offline-ecran a:active {
@@ -98,6 +101,6 @@ body {
 }
 
 .offline-ecran a:focus-visible {
-  outline: 2px solid var(--couleur-accent-vif);
-  outline-offset: 2px;
+  outline: var(--outline-focus-largeur) solid var(--outline-focus-couleur);
+  outline-offset: var(--outline-focus-decalage-compact);
 }

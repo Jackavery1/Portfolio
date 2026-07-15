@@ -99,63 +99,73 @@ function dureePas() {
   return (battement / 4) * theme.facteurTempo;
 }
 
-function planifierPas(pasGlobal, tempsAudio) {
+function lireThemeActif() {
   const { themes, themeCourant } = lireEtatSequencuer();
   const catalogue = themes || {};
-  const theme = catalogue[themeCourant] || catalogue.HOME;
+  return { theme: catalogue[themeCourant] || catalogue.HOME, themeCourant };
+}
+
+function planifierNappe(theme, mesure, pasMesure, tempsAudio, destination) {
+  if (!theme.nappe || pasMesure !== 0) return;
+  const noteNappe = theme.nappe[mesure];
+  if (!noteNappe) return;
+  jouerNappe(noteNappe, tempsAudio, dureePas() * PAS_PAR_MESURE, destination);
+}
+
+function planifierBasse(theme, mesure, pasMesure, tempsAudio, destination, duree) {
+  if (!theme.basse) return;
+  const noteBasse = lireCellule(theme.basse, mesure, pasMesure);
+  if (noteBasse) jouerTriangle(noteBasse, tempsAudio, duree, destination);
+}
+
+function planifierMelodie(theme, mesure, pasMesure, tempsAudio, destination, duree) {
+  if (!theme.melodie) return;
+  const noteMel = lireCellule(theme.melodie, mesure, pasMesure);
+  if (!noteMel) return;
+  jouerPulse(noteMel, tempsAudio, duree * 0.85, destination, {
+    vibrato: theme.vibrato,
+    amplitude: 0.14,
+  });
+}
+
+function planifierArpege(theme, mesure, pasMesure, tempsAudio, destination, duree) {
+  if (!theme.arpege) return;
+  const noteArp = lireCellule(theme.arpege, mesure, pasMesure);
+  if (!noteArp) return;
+  const decalage = theme.doubleArpege ? 0 : dureePas() * 0.08;
+  jouerPulse(noteArp, tempsAudio + decalage, duree * 0.7, destination, { amplitude: 0.1 });
+  if (theme.doubleArpege && pasMesure % 2 === 0) {
+    jouerPulse(noteArp * 1.5, tempsAudio + dureePas() * 0.04, duree * 0.55, destination, {
+      amplitude: 0.07,
+    });
+  }
+}
+
+function planifierPercussions(theme, mesure, pasMesure, tempsAudio, destination, themeCourant) {
+  if (theme.kick && lireCellule(theme.kick, mesure, pasMesure)) {
+    jouerKick(tempsAudio, destination);
+  }
+  if (theme.snare && lireCellule(theme.snare, mesure, pasMesure)) {
+    jouerSnare(tempsAudio, destination);
+  }
+  const hitHat = theme.hat ? lireCellule(theme.hat, mesure, pasMesure) : 0;
+  if (hitHat) jouerHat(tempsAudio, destination, amplitudeHat(themeCourant, hitHat));
+}
+
+function planifierPas(pasGlobal, tempsAudio) {
+  const { theme, themeCourant } = lireThemeActif();
   if (!theme) return;
 
   const destination = obtenirGainMaitre();
   const pasMesure = pasGlobal % PAS_PAR_MESURE;
   const mesure = Math.floor(pasGlobal / PAS_PAR_MESURE) % MESURES_PAR_BOUCLE;
   const duree = dureePas() * 0.92;
-  const dureeMesure = dureePas() * PAS_PAR_MESURE;
 
-  if (theme.nappe && pasMesure === 0) {
-    const noteNappe = theme.nappe[mesure];
-    if (noteNappe) jouerNappe(noteNappe, tempsAudio, dureeMesure, destination);
-  }
-
-  if (theme.basse) {
-    const noteBasse = lireCellule(theme.basse, mesure, pasMesure);
-    if (noteBasse) jouerTriangle(noteBasse, tempsAudio, duree, destination);
-  }
-
-  if (theme.melodie) {
-    const noteMel = lireCellule(theme.melodie, mesure, pasMesure);
-    if (noteMel) {
-      jouerPulse(noteMel, tempsAudio, duree * 0.85, destination, {
-        vibrato: theme.vibrato,
-        amplitude: 0.14,
-      });
-    }
-  }
-
-  if (theme.arpege) {
-    const noteArp = lireCellule(theme.arpege, mesure, pasMesure);
-    if (noteArp) {
-      const decalage = theme.doubleArpege ? 0 : dureePas() * 0.08;
-      jouerPulse(noteArp, tempsAudio + decalage, duree * 0.7, destination, { amplitude: 0.1 });
-      if (theme.doubleArpege && pasMesure % 2 === 0) {
-        jouerPulse(noteArp * 1.5, tempsAudio + dureePas() * 0.04, duree * 0.55, destination, {
-          amplitude: 0.07,
-        });
-      }
-    }
-  }
-
-  if (theme.kick && lireCellule(theme.kick, mesure, pasMesure)) {
-    jouerKick(tempsAudio, destination);
-  }
-
-  if (theme.snare && lireCellule(theme.snare, mesure, pasMesure)) {
-    jouerSnare(tempsAudio, destination);
-  }
-
-  const hitHat = theme.hat ? lireCellule(theme.hat, mesure, pasMesure) : 0;
-  if (hitHat) {
-    jouerHat(tempsAudio, destination, amplitudeHat(themeCourant, hitHat));
-  }
+  planifierNappe(theme, mesure, pasMesure, tempsAudio, destination);
+  planifierBasse(theme, mesure, pasMesure, tempsAudio, destination, duree);
+  planifierMelodie(theme, mesure, pasMesure, tempsAudio, destination, duree);
+  planifierArpege(theme, mesure, pasMesure, tempsAudio, destination, duree);
+  planifierPercussions(theme, mesure, pasMesure, tempsAudio, destination, themeCourant);
 }
 
 function amplitudeHat(themeCourant, hitHat) {

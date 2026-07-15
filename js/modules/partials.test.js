@@ -98,6 +98,23 @@ describe('partials', () => {
       expect(fetch).not.toHaveBeenCalled();
     });
 
+    it('charge un conteneur squelette même s’il contient des placeholders', async () => {
+      document.body.innerHTML =
+        '<div id="partial-nav" class="partial-squelette" aria-busy="true"><span></span></div>';
+      vi.stubGlobal(
+        'fetch',
+        vi.fn().mockResolvedValue({
+          ok: true,
+          text: () => Promise.resolve('<nav class="nav"><a class="nav__bouton" href="index.html">HOME</a></nav>'),
+        })
+      );
+
+      await chargerPartiels();
+
+      expect(fetch).toHaveBeenCalled();
+      expect(document.querySelector('.nav__bouton')?.textContent).toBe('HOME');
+    });
+
     it('ne recharge pas un partial déjà embarqué au build', async () => {
       document.body.innerHTML =
         '<div id="partial-nav"><nav class="nav"><a class="nav__bouton" href="projets.html">WORK</a></nav></div>';

@@ -46,12 +46,9 @@ describe('sync-pwa-icons', () => {
     vi.spyOn(images, 'generatePwaIcons').mockRejectedValue(new Error('sharp indisponible'));
     const exit = vi.spyOn(process, 'exit').mockImplementation(() => {});
     const error = vi.spyOn(console, 'error').mockImplementation(() => {});
-    const { runCli } = require('./sync-pwa-icons.cjs');
+    const { executerSyncPwaIconsCli } = require('./sync-pwa-icons.cjs');
 
-    await runCli(rootDir).catch((err) => {
-      console.error(err);
-      process.exit(1);
-    });
+    await executerSyncPwaIconsCli(rootDir);
 
     expect(error).toHaveBeenCalled();
     expect(exit).toHaveBeenCalledWith(1);

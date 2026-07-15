@@ -3,6 +3,8 @@
    ============================================ */
 
 .partial-squelette {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 120px;
   display: grid;
   gap: 0.75rem;
   min-height: 8rem;

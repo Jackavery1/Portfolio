@@ -1,24 +1,20 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { retirerScriptsRecaptcha } from './recaptcha-chargement.js';
+import {
+  chargerModuleRecaptcha,
+  declencherErreurScriptV3,
+  declencherOnloadScriptV2,
+  declencherOnloadScriptV3,
+  preparerDomRecaptcha,
+} from '../test-fixtures/recaptcha-test-setup.js';
 
-async function chargerModuleRecaptcha() {
-  return import('./recaptcha.js');
-}
-
-describe('recaptcha', () => {
+describe('recaptcha — initialisation', () => {
   let initialiserRecaptcha;
-  let obtenirTokenRecaptcha;
   let reinitialiserWidgetRecaptcha;
 
   beforeEach(async () => {
     vi.resetModules();
-    document.body.innerHTML = '<div id="js-recaptcha-mount" hidden></div>';
-    document.head.innerHTML = '';
-    delete window.grecaptcha;
-    delete window.__E2E_RECAPTCHA_TOKEN;
-    retirerScriptsRecaptcha();
-    ({ initialiserRecaptcha, obtenirTokenRecaptcha, reinitialiserWidgetRecaptcha } =
-      await chargerModuleRecaptcha());
+    preparerDomRecaptcha();
+    ({ initialiserRecaptcha, reinitialiserWidgetRecaptcha } = await chargerModuleRecaptcha());
   });
 
   it('charge v3 sans afficher de bandeau', async () => {
@@ -42,18 +38,6 @@ describe('recaptcha', () => {
     const mount = document.getElementById('js-recaptcha-mount');
     expect(mount.textContent).toBe('');
     expect(mount.hidden).toBe(true);
-  });
-
-  it('utilise le jeton e2e injecté', async () => {
-    window.__E2E_RECAPTCHA_TOKEN = 'e2e-token';
-
-    const token = await obtenirTokenRecaptcha({
-      siteKey: 'test-key',
-      version: 3,
-      action: 'submit',
-    });
-
-    expect(token).toBe('e2e-token');
   });
 
   it('reinitialiserWidgetRecaptcha ne plante pas sans widget', () => {
@@ -93,54 +77,16 @@ describe('recaptcha', () => {
       mountId: 'js-recaptcha-mount',
     });
     await Promise.resolve();
-    const script = document.querySelector('script[data-recaptcha-v2]');
-    script?.onload?.();
+    declencherOnloadScriptV2();
     await initPromise;
 
     reinitialiserWidgetRecaptcha();
     expect(reset).toHaveBeenCalledWith(42);
   });
 
-  it('obtenirTokenRecaptcha v3 propage erreur clé invalide', async () => {
-    window.grecaptcha = {
-      ready: (cb) => cb(),
-      execute: vi.fn().mockRejectedValue(new Error('invalid site key')),
-    };
-    const script = document.createElement('script');
-    script.src = 'https://www.google.com/recaptcha/api.js?render=bad-key';
-    script.dataset.recaptchaV3 = '1';
-    document.head.appendChild(script);
-
-    await expect(obtenirTokenRecaptcha({ siteKey: 'bad-key', version: 3 })).rejects.toThrow(
-      /PORTFOLIO_RECAPTCHA_SITE_KEY/
-    );
-  });
-
   it('initialiserRecaptcha v2 retourne false sans conteneur', async () => {
     const ok = await initialiserRecaptcha({ siteKey: 'v2-key', version: 2, mountId: 'absent' });
     expect(ok).toBe(false);
-  });
-
-  it('obtenirTokenRecaptcha v2 retourne la réponse du widget', async () => {
-    const getResponse = vi.fn().mockReturnValue('token-v2');
-    window.grecaptcha = {
-      ready: (cb) => cb(),
-      render: vi.fn().mockReturnValue(7),
-      getResponse,
-    };
-
-    const initPromise = initialiserRecaptcha({
-      siteKey: 'v2-key',
-      version: 2,
-      mountId: 'js-recaptcha-mount',
-    });
-    await Promise.resolve();
-    document.querySelector('script[data-recaptcha-v2]')?.onload?.();
-    await initPromise;
-
-    const token = await obtenirTokenRecaptcha({ siteKey: 'v2-key', version: 2 });
-    expect(token).toBe('token-v2');
-    expect(getResponse).toHaveBeenCalledWith(7);
   });
 
   it('initialiserRecaptcha v2 re-render si le mount a été vidé', async () => {
@@ -157,7 +103,7 @@ describe('recaptcha', () => {
       mountId: 'js-recaptcha-mount',
     });
     await Promise.resolve();
-    document.querySelector('script[data-recaptcha-v2]')?.onload?.();
+    declencherOnloadScriptV2();
     await initPromise;
 
     document.getElementById('js-recaptcha-mount').innerHTML = '';
@@ -194,7 +140,7 @@ describe('recaptcha', () => {
       mountId: 'js-recaptcha-mount',
     });
     await Promise.resolve();
-    document.querySelector('script[data-recaptcha-v2]')?.onload?.();
+    declencherOnloadScriptV2();
     await initPromise;
 
     const reinitPromise = initialiserRecaptcha({
@@ -209,57 +155,6 @@ describe('recaptcha', () => {
     expect(render).toHaveBeenCalledTimes(1);
   });
 
-  it('obtenirTokenRecaptcha v3 exécute grecaptcha avec la clé', async () => {
-    const execute = vi.fn().mockResolvedValue('jeton-execute');
-    window.grecaptcha = {
-      ready: (cb) => cb(),
-      execute,
-    };
-    const script = document.createElement('script');
-    script.src = 'https://www.google.com/recaptcha/api.js?render=site-v3';
-    script.dataset.recaptchaV3 = '1';
-    document.head.appendChild(script);
-
-    const token = await obtenirTokenRecaptcha({
-      siteKey: 'site-v3',
-      version: 3,
-      action: 'contact',
-    });
-
-    expect(token).toBe('jeton-execute');
-    expect(execute).toHaveBeenCalledWith('site-v3', { action: 'contact' });
-  });
-
-  it('obtenirTokenRecaptcha v3 propage une erreur générique', async () => {
-    window.grecaptcha = {
-      ready: (cb) => cb(),
-      execute: vi.fn().mockRejectedValue(new Error('timeout réseau')),
-    };
-    const script = document.createElement('script');
-    script.src = 'https://www.google.com/recaptcha/api.js?render=key';
-    script.dataset.recaptchaV3 = '1';
-    document.head.appendChild(script);
-
-    await expect(obtenirTokenRecaptcha({ siteKey: 'key', version: 3 })).rejects.toThrow(
-      'Jeton reCAPTCHA : timeout réseau'
-    );
-  });
-
-  it('obtenirTokenRecaptcha v3 sans détail d’erreur', async () => {
-    window.grecaptcha = {
-      ready: (cb) => cb(),
-      execute: vi.fn().mockRejectedValue(new Error('')),
-    };
-    const script = document.createElement('script');
-    script.src = 'https://www.google.com/recaptcha/api.js?render=key';
-    script.dataset.recaptchaV3 = '1';
-    document.head.appendChild(script);
-
-    await expect(obtenirTokenRecaptcha({ siteKey: 'key', version: 3 })).rejects.toThrow(
-      'Impossible de générer le jeton reCAPTCHA'
-    );
-  });
-
   it('chargerScriptV3 rejette si le script est bloqué', async () => {
     const promesse = initialiserRecaptcha({
       siteKey: 'blocked-key',
@@ -267,8 +162,7 @@ describe('recaptcha', () => {
       mountId: 'js-recaptcha-mount',
     });
     await Promise.resolve();
-    const script = document.querySelector('script[data-recaptcha-v3]');
-    script?.onerror?.();
+    declencherErreurScriptV3();
 
     await expect(promesse).rejects.toThrow(/bloqué/);
   });
@@ -292,8 +186,7 @@ describe('recaptcha', () => {
       mountId: 'js-recaptcha-mount',
     });
     await Promise.resolve();
-    const scriptB = document.querySelector('script[data-recaptcha-v3]');
-    scriptB?.onload?.();
+    declencherOnloadScriptV3();
     await promesseB;
 
     const scripts = document.querySelectorAll('script[data-recaptcha-v3]');

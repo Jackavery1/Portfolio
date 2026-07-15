@@ -63,6 +63,7 @@ describe('konami', () => {
   beforeEach(() => {
     document.body.innerHTML = '<div id="js-modal" hidden></div>';
     document.body.classList.remove('konami-actif');
+    delete document.documentElement.dataset.konamiInit;
     vi.clearAllMocks();
     scoreMocks.lireScore.mockReturnValue(0);
     initialiserCodeKonami();

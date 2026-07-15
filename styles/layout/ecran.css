@@ -38,9 +38,18 @@
   display: flex;
   flex-direction: column;
   padding: var(--section-padding-y) var(--section-padding-x) var(--espacement-md);
-  animation: apparition 0.25s ease;
+  animation: apparition-section 0.25s ease;
   content-visibility: auto;
   contain-intrinsic-size: auto 480px;
+}
+
+@keyframes apparition-section {
+  from {
+    transform: translateY(6px);
+  }
+  to {
+    transform: translateY(0);
+  }
 }
 
 @keyframes apparition {

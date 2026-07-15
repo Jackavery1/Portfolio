@@ -1,5 +1,6 @@
 const path = require('path');
 const { spawnSync } = require('child_process');
+const { executerSiEntreeDirecte } = require('./cli-entry.cjs');
 const { resolveServeDir } = require('./resolve-serve-dir.cjs');
 
 function runServeStaging({ root = path.join(__dirname, '..'), port = '3000', spawn = spawnSync } = {}) {
@@ -17,14 +18,22 @@ function runServeStaging({ root = path.join(__dirname, '..'), port = '3000', spa
   return { ok: true, code: result.status ?? 1, dir };
 }
 
-if (require.main === module) {
-  const port = process.argv[2] || '3000';
-  const outcome = runServeStaging({ port });
+function executerRunServeStagingCli({
+  root = path.join(__dirname, '..'),
+  port = process.argv[2] || '3000',
+  spawn = spawnSync,
+  exit = process.exit,
+} = {}) {
+  const outcome = runServeStaging({ root, port, spawn });
   if (!outcome.ok) {
     console.error('Répertoire de serve introuvable (.dist-staging-build/ ou .dist-staging/)');
-    process.exit(1);
+    exit(1);
+    return outcome;
   }
-  process.exit(outcome.code);
+  exit(outcome.code);
+  return outcome;
 }
 
-module.exports = { runServeStaging };
+module.exports = { runServeStaging, executerRunServeStagingCli };
+
+executerSiEntreeDirecte(require.main, module, executerRunServeStagingCli);

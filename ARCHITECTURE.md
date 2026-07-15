@@ -103,10 +103,9 @@ Orchestrateur : `build/html.cjs` (`copyHTML`). Modules dédiés :
 
 Ordre d’injection dans le `<head>` :
 
-1. Preload police **VT323** uniquement (`partials/fonts-async.html`) — corps CRT au LCP ; Press Start 2P et Rajdhani via `@font-face` à la demande.
+1. Preload **Press Start 2P** (`fetchpriority="high"`) et **VT323** (`partials/fonts-async.html`) — LCP titres pixel + corps CRT ; Rajdhani via `@font-face` à la demande (`styles/fonts-local.css`).
 2. Preload + stylesheet `style-base.css` puis `style-page-*.css`.
-3. Polices : preload **Press Start 2P** (LCP hero) via `partials/fonts-async.html` ; VT323 et Rajdhani à la demande.
-4. JS non critique (`konami`, `animations`, `service-worker-register`) chargé en `import()` après `data-app-ready` / `requestIdleCallback`.
+3. JS non critique (`konami`, `animations`, `service-worker-register`) chargé en `import()` après `data-app-ready` / `requestIdleCallback`.
 
 ### Pipeline `sync-source`
 
@@ -169,15 +168,16 @@ Pas de dependency injection ; découplage via événements localStorage.
 ### Command pattern (contact form)
 
 ```javascript
-// js/modules/contact-form-submit.js
-async envoyerViaFormspree({ formulaire, ... })
-  → valider (contact-form-validation.js)
-  → reCAPTCHA (contact-form-recaptcha.js)
-  → Formspree API
-  → feedback UI
+// js/modules/contact-form-handler.js — orchestration submit
+// js/modules/contact-form-submit.js — réseau (Formspree, mailto)
+// js/modules/contact-form-submit-ui.js — état bouton envoi / confirmation
+async envoyerViaFormspree({ ... })
+  → reCAPTCHA (recaptcha.js)
+  → fetch Formspree
+  → feedback via contact-form-submit-ui.js
 ```
 
-Séparation orchestration (contact.js) vs exécution (contact-form-submit.js).
+Séparation orchestration (`contact-form-handler.js`) vs réseau (`contact-form-submit.js`) vs UI bouton (`contact-form-submit-ui.js`).
 
 ### Strategy pattern (modal interactions)
 
@@ -193,7 +193,7 @@ Deux stratégies importer séparément selon context.
 
 ### Couverture
 
-Voir `CONTRIBUTING.md` § Tests (seuils Vitest ≥ 85 % lignes / ≥ 84 % branches, e2e multi-navigateurs).
+Voir `CONTRIBUTING.md` § Tests (seuils Vitest ≥ 85 % lignes / ≥ 84 % branches, e2e multi-navigateurs). Scripts build CLI exportés et testés (`run-serve-staging.cjs`, `validate-dist-html.cjs`) ; `fs-utils.cjs` couvre les repli Windows (EPERM, staging verrouillé, sync partielle).
 
 ### Mocking strategy
 

@@ -11,8 +11,8 @@ export const MENTIONS_LEGALES = ${JSON.stringify(data, null, 2)};
   fs.writeFileSync(target, content, 'utf8');
 }
 
+const { executerSiEntreeDirecte } = require('./cli-entry.cjs');
+
 module.exports = { syncLegal };
 
-if (require.main === module) {
-  syncLegal();
-}
+executerSiEntreeDirecte(require.main, module, syncLegal);

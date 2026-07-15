@@ -27,6 +27,8 @@ function estProtocoleFichier() {
 
 /** Build prod : le HTML embarque déjà le partial (pas de placeholder vide). */
 function partialDejaPeuple(conteneur) {
+  if (conteneur.classList.contains('partial-squelette')) return false;
+  if (conteneur.getAttribute('aria-busy') === 'true') return false;
   return conteneur.childElementCount > 0;
 }
 

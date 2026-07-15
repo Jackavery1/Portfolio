@@ -30,4 +30,16 @@ describe('build seo', () => {
       fs.rmSync(tmp, { recursive: true, force: true });
     }
   });
+
+  it('utilise la priorité 0.8 pour une page hors mapping', () => {
+    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'portfolio-seo-fallback-'));
+    try {
+      writeSeoFiles(tmp, 'https://example.com', { htmlFiles: ['foo.html'] });
+      const sitemap = fs.readFileSync(path.join(tmp, 'sitemap.xml'), 'utf8');
+      expect(sitemap).toContain('<loc>https://example.com/foo.html</loc>');
+      expect(sitemap).toContain('<priority>0.8</priority>');
+    } finally {
+      fs.rmSync(tmp, { recursive: true, force: true });
+    }
+  });
 });

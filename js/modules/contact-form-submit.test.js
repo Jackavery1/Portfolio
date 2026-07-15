@@ -15,32 +15,28 @@ vi.mock('./audio.js', () => ({
   jouerBip: vi.fn(),
 }));
 
-vi.mock('./score.js', () => ({
-  ajouterScore: vi.fn(),
-}));
-
 vi.mock('./recaptcha.js', () => ({
   obtenirTokenRecaptcha: vi.fn(),
   reinitialiserWidgetRecaptcha: vi.fn(),
 }));
 
 import { jouerBip } from './audio.js';
-import { ajouterScore } from './score.js';
-import { obtenirTokenRecaptcha, reinitialiserWidgetRecaptcha } from './recaptcha.js';
+import { reinitialiserWidgetRecaptcha, obtenirTokenRecaptcha } from './recaptcha.js';
 import {
   envoyerViaFormspree,
   envoyerViaMailto,
-  finaliserEnvoiReussi,
   lireSujetUtile,
 } from './contact-form-submit.js';
+import {
+  champsContactDemo,
+  configurationFormspree,
+  preparerDomEnvoi,
+} from '../test-fixtures/contact-form-submit-fixtures.js';
 
 describe('contact-form-submit', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    document.body.innerHTML = `
-      <button id="btn">Envoyer</button>
-      <p id="confirm" hidden>OK</p>
-    `;
+    preparerDomEnvoi();
   });
 
   it('lireSujetUtile retourne le libellé de l’option sélectionnée', () => {
@@ -68,17 +64,14 @@ describe('contact-form-submit', () => {
     window.location = original;
   });
 
-  it('finaliserEnvoiReussi affiche la confirmation et ajoute le score', () => {
-    const btn = document.getElementById('btn');
-    const confirmation = document.getElementById('confirm');
-
-    finaliserEnvoiReussi({ btnEnvoyer: btn, confirmation });
-
-    expect(confirmation.hidden).toBe(false);
-    expect(btn.textContent).toBe('✓ ENVOYÉ');
-    expect(btn.disabled).toBe(true);
-    expect(ajouterScore).toHaveBeenCalledWith(500);
-    expect(reinitialiserWidgetRecaptcha).toHaveBeenCalled();
+  it('envoyerViaMailto retourne false sans email configuré', () => {
+    expect(
+      envoyerViaMailto({
+        configuration: { CONTACT: { EMAIL_B64: '' } },
+        champs: champsContactDemo,
+        sujetUtile: '',
+      })
+    ).toBe(false);
   });
 
   it('envoyerViaFormspree retourne ok si Formspree répond 200', async () => {
@@ -92,14 +85,8 @@ describe('contact-form-submit', () => {
     const afficherErreur = vi.fn();
 
     const result = await envoyerViaFormspree({
-      configuration: {
-        CONTACT: {
-          RECAPTCHA_SITE_KEY: 'key',
-          FORMSPREE_ENDPOINT: 'https://formspree.io/f/test',
-          RECAPTCHA_VERSION: 3,
-        },
-      },
-      champs: { nom: 'Joris', email: 'a@b.c', message: 'Hi' },
+      configuration: configurationFormspree(),
+      champs: champsContactDemo,
       sujetUtile: 'Projet',
       btnEnvoyer: btn,
       mount: null,
@@ -129,14 +116,8 @@ describe('contact-form-submit', () => {
     const afficherErreur = vi.fn();
 
     const envoi = envoyerViaFormspree({
-      configuration: {
-        CONTACT: {
-          RECAPTCHA_SITE_KEY: 'key',
-          FORMSPREE_ENDPOINT: 'https://formspree.io/f/test',
-          RECAPTCHA_VERSION: 3,
-        },
-      },
-      champs: { nom: 'Joris', email: 'a@b.c', message: 'Hi' },
+      configuration: configurationFormspree(),
+      champs: champsContactDemo,
       sujetUtile: 'Projet',
       btnEnvoyer: btn,
       mount: null,
@@ -161,14 +142,8 @@ describe('contact-form-submit', () => {
     const afficherErreur = vi.fn();
 
     await envoyerViaFormspree({
-      configuration: {
-        CONTACT: {
-          RECAPTCHA_SITE_KEY: 'key',
-          FORMSPREE_ENDPOINT: 'https://formspree.io/f/test',
-          RECAPTCHA_VERSION: 3,
-        },
-      },
-      champs: { nom: 'Joris', email: 'a@b.c', message: 'Hi' },
+      configuration: configurationFormspree(),
+      champs: champsContactDemo,
       sujetUtile: '',
       btnEnvoyer: btn,
       mount: null,
@@ -190,14 +165,8 @@ describe('contact-form-submit', () => {
     const afficherErreur = vi.fn();
 
     await envoyerViaFormspree({
-      configuration: {
-        CONTACT: {
-          RECAPTCHA_SITE_KEY: '',
-          FORMSPREE_ENDPOINT: 'https://formspree.io/f/test',
-          RECAPTCHA_VERSION: 3,
-        },
-      },
-      champs: { nom: 'Joris', email: 'a@b.c', message: 'Hi' },
+      configuration: configurationFormspree({ CONTACT: { RECAPTCHA_SITE_KEY: '' } }),
+      champs: champsContactDemo,
       sujetUtile: '',
       btnEnvoyer: btn,
       mount,
@@ -216,14 +185,8 @@ describe('contact-form-submit', () => {
     const afficherErreur = vi.fn();
 
     await envoyerViaFormspree({
-      configuration: {
-        CONTACT: {
-          RECAPTCHA_SITE_KEY: 'key',
-          FORMSPREE_ENDPOINT: 'https://formspree.io/f/test',
-          RECAPTCHA_VERSION: 2,
-        },
-      },
-      champs: { nom: 'Joris', email: 'a@b.c', message: 'Hi' },
+      configuration: configurationFormspree({ CONTACT: { RECAPTCHA_VERSION: 2 } }),
+      champs: champsContactDemo,
       sujetUtile: '',
       btnEnvoyer: btn,
       mount: null,
@@ -250,14 +213,8 @@ describe('contact-form-submit', () => {
     const afficherErreur = vi.fn();
 
     await envoyerViaFormspree({
-      configuration: {
-        CONTACT: {
-          RECAPTCHA_SITE_KEY: 'key',
-          FORMSPREE_ENDPOINT: 'https://formspree.io/f/test',
-          RECAPTCHA_VERSION: 3,
-        },
-      },
-      champs: { nom: 'Joris', email: 'a@b.c', message: 'Hi' },
+      configuration: configurationFormspree(),
+      champs: champsContactDemo,
       sujetUtile: '',
       btnEnvoyer: btn,
       mount: null,
@@ -277,14 +234,8 @@ describe('contact-form-submit', () => {
     const afficherErreur = vi.fn();
 
     await envoyerViaFormspree({
-      configuration: {
-        CONTACT: {
-          RECAPTCHA_SITE_KEY: 'key',
-          FORMSPREE_ENDPOINT: 'https://formspree.io/f/test',
-          RECAPTCHA_VERSION: 3,
-        },
-      },
-      champs: { nom: 'Joris', email: 'a@b.c', message: 'Hi' },
+      configuration: configurationFormspree(),
+      champs: champsContactDemo,
       sujetUtile: '',
       btnEnvoyer: btn,
       mount: null,
@@ -294,21 +245,5 @@ describe('contact-form-submit', () => {
 
     expect(afficherErreur).toHaveBeenCalled();
     expect(reinitialiserWidgetRecaptcha).toHaveBeenCalled();
-  });
-
-  it('envoyerViaMailto retourne false sans email configuré', () => {
-    expect(
-      envoyerViaMailto({
-        configuration: { CONTACT: { EMAIL_B64: '' } },
-        champs: { nom: 'Joris', email: 'a@b.c', message: 'Hi' },
-        sujetUtile: '',
-      })
-    ).toBe(false);
-  });
-
-  it('finaliserEnvoiReussi peut laisser le bouton actif', () => {
-    const btn = document.getElementById('btn');
-    finaliserEnvoiReussi({ btnEnvoyer: btn, confirmation: null, desactiver: false });
-    expect(btn.disabled).toBe(false);
   });
 });

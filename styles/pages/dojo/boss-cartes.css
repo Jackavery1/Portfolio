@@ -48,8 +48,8 @@
 }
 
 .boss-carte:focus-visible {
-  outline: 2px solid var(--couleur-accent-vif);
-  outline-offset: 2px;
+  outline: var(--outline-focus-largeur) solid var(--outline-focus-couleur);
+  outline-offset: var(--outline-focus-decalage-compact);
   background-color: var(--couleur-fond-survol);
   border-color: var(--couleur-accent);
 }
