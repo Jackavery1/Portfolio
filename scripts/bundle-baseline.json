@@ -1,9 +1,0 @@
-{
-  "date": "2026-07-14",
-  "note": "Généré par npm run measure — non versionné (.gitignore)",
-  "distKo": 691.8,
-  "cssKo": 80.5,
-  "jsKo": 73.5,
-  "appJsGzipKo": 35.4,
-  "iconsKo": 36.6
-}
