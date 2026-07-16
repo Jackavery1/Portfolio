@@ -75,7 +75,7 @@
   padding: 1.1rem;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: var(--espacement-md);
 }
 
 .modal-apercu {

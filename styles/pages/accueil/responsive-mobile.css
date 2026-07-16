@@ -33,8 +33,8 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
-    gap: 0.5rem;
-    padding: 0.75rem 0 1.5rem;
+    gap: var(--espacement-sm);
+    padding: 0.75rem 0 var(--espacement-lg);
     overflow: visible;
     height: auto;
     width: 100%;
@@ -76,7 +76,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 1rem 0;
+    margin: var(--espacement-md) 0;
   }
 
   .texte-intro {
@@ -160,16 +160,16 @@
   }
 
   body[data-section-id='accueil'] .section {
-    padding: 1.75rem 1.5rem 0.5rem;
+    padding: var(--section-padding-y) var(--espacement-lg) var(--espacement-sm);
   }
 
   body[data-section-id='accueil'] .accueil__grille {
     padding-top: 0;
-    padding-bottom: 0.25rem;
+    padding-bottom: var(--espacement-xs);
   }
 
   body[data-section-id='accueil'] .etiquette-crt {
-    margin-bottom: 0.5rem;
+    margin-bottom: var(--espacement-sm);
   }
 
   body[data-section-id='accueil'] .titre-arcade {

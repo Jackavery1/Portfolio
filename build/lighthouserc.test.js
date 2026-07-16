@@ -3,7 +3,7 @@ import { createRequire } from 'node:module';
 
 const require = createRequire(import.meta.url);
 const mobile = require('../lighthouserc.cjs');
-const { HTML_FILES } = require('./html-files.cjs');
+const { HTML_FILES } = require('./html-files.mjs');
 
 describe('lighthouserc', () => {
   it('audit mobile — URLs .html (express.static LHCI, pas de redirect)', () => {

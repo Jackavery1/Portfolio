@@ -1,4 +1,4 @@
-const HTML_FILES = [
+export const HTML_FILES = [
   'index.html',
   'projets.html',
   'competences.html',
@@ -7,5 +7,3 @@ const HTML_FILES = [
   'dojo.html',
   'mentions-legales.html',
 ];
-
-module.exports = { HTML_FILES };

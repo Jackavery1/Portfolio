@@ -2,12 +2,12 @@
 
 @media (max-height: 480px) and (orientation: landscape) {
   .dojo-intro {
-    margin-bottom: 0.5rem;
+    margin-bottom: var(--espacement-sm);
   }
 
   .boss-rush {
     gap: 0.45rem;
-    margin-bottom: 1rem;
+    margin-bottom: var(--espacement-md);
   }
 
   .boss-carte {

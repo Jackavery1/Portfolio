@@ -38,47 +38,47 @@
     <div class="ecran">
       <header id="partial-nav" class="nav nav--squelette" role="banner">
 <a href="index.html" class="nav__logo">
-  <span class="pixel-accent" aria-hidden="true">▶</span> J.MARTINEZ
-</a>
-<div class="nav__arcade-info" role="status" aria-live="polite" aria-atomic="true">
-  <span class="arcade-label">SCORE</span>
-  <span class="arcade-valeur" id="js-score">000000</span>
-</div>
-<button
-  type="button"
-  class="nav__musique"
-  id="js-bouton-musique"
-  aria-label="Activer la musique"
-  aria-pressed="false"
-  data-etat="off"
->
-  <span class="nav__musique-icone" aria-hidden="true">♪</span>
-  <span class="nav__musique-libelle" aria-hidden="true"></span>
-</button>
-<button
-  type="button"
-  class="nav__burger"
-  id="js-burger"
-  aria-label="Ouvrir le menu"
-  aria-expanded="false"
-  aria-controls="js-menu"
->
-  <span class="nav__burger-trait"></span>
-  <span class="nav__burger-trait"></span>
-  <span class="nav__burger-trait"></span>
-</button>
-<nav
-  class="nav__liens nav__liens--squelette"
-  id="js-menu"
-  role="navigation"
-  aria-label="Navigation principale — libellés arcade en anglais, contenu du site en français"
->
-  <a class="nav__bouton" href="index.html" title="Accueil" lang="en">HOME</a>
-  <a class="nav__bouton" href="projets.html" title="Projets" lang="en">WORK</a>
-  <a class="nav__bouton" href="competences.html" title="Compétences" lang="en">STATS</a>
-  <a class="nav__bouton" href="parcours.html" title="Parcours" lang="en">STORY</a>
-  <a class="nav__bouton" href="contact.html" title="Contact" lang="en">CONTACT</a>
-</nav>
+    <span class="pixel-accent" aria-hidden="true">▶</span> J.MARTINEZ
+  </a>
+  <div class="nav__arcade-info" role="status" aria-live="polite" aria-atomic="true">
+    <span class="arcade-label">SCORE</span>
+    <span class="arcade-valeur" id="js-score">000000</span>
+  </div>
+  <button
+    type="button"
+    class="nav__musique"
+    id="js-bouton-musique"
+    aria-label="Activer la musique"
+    aria-pressed="false"
+    data-etat="off"
+  >
+    <span class="nav__musique-icone" aria-hidden="true">♪</span>
+    <span class="nav__musique-libelle" aria-hidden="true"></span>
+  </button>
+  <button
+    type="button"
+    class="nav__burger"
+    id="js-burger"
+    aria-label="Ouvrir le menu"
+    aria-expanded="false"
+    aria-controls="js-menu"
+  >
+    <span class="nav__burger-trait"></span>
+    <span class="nav__burger-trait"></span>
+    <span class="nav__burger-trait"></span>
+  </button>
+  <nav
+    class="nav__liens nav__liens--squelette"
+    id="js-menu"
+    role="navigation"
+    aria-label="Navigation principale — libellés arcade en anglais, contenu du site en français"
+  >
+    <a class="nav__bouton" href="index.html" title="Accueil" lang="en">HOME</a>
+    <a class="nav__bouton" href="projets.html" title="Projets" lang="en">WORK</a>
+    <a class="nav__bouton" href="competences.html" title="Compétences" lang="en">STATS</a>
+    <a class="nav__bouton" href="parcours.html" title="Parcours" lang="en">STORY</a>
+    <a class="nav__bouton" href="contact.html" title="Contact" lang="en">CONTACT</a>
+  </nav>
       </header>
 
       <main id="js-contenu-principal" tabindex="-1">
@@ -92,7 +92,16 @@
 
           <div id="js-mentions-sommaire"></div>
 
-          <div id="js-mentions-sections" aria-live="polite"></div>
+          <div
+            id="js-mentions-sections"
+            class="partial-squelette"
+            aria-live="polite"
+            aria-busy="true"
+          >
+            <span class="partial-squelette__ligne partial-squelette__ligne--large" aria-hidden="true"></span>
+            <span class="partial-squelette__bloc" aria-hidden="true"></span>
+            <span class="partial-squelette__ligne partial-squelette__ligne--pleine" aria-hidden="true"></span>
+          </div>
 
           <a class="mentions-retour" href="index.html">◀ Retour à l’accueil</a>
         </section>

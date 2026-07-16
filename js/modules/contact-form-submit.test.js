@@ -22,11 +22,7 @@ vi.mock('./recaptcha.js', () => ({
 
 import { jouerBip } from './audio.js';
 import { reinitialiserWidgetRecaptcha, obtenirTokenRecaptcha } from './recaptcha.js';
-import {
-  envoyerViaFormspree,
-  envoyerViaMailto,
-  lireSujetUtile,
-} from './contact-form-submit.js';
+import { envoyerViaFormspree, envoyerViaMailto, lireSujetUtile } from './contact-form-submit.js';
 import {
   champsContactDemo,
   configurationFormspree,
@@ -244,6 +240,35 @@ describe('contact-form-submit', () => {
     });
 
     expect(afficherErreur).toHaveBeenCalled();
+    expect(reinitialiserWidgetRecaptcha).toHaveBeenCalled();
+  });
+
+  it('envoyerViaFormspree tolère un corps de réponse non JSON', async () => {
+    obtenirTokenRecaptcha.mockResolvedValue('token');
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue({
+        ok: false,
+        status: 500,
+        json: () => Promise.reject(new SyntaxError('Unexpected token')),
+      })
+    );
+
+    const btn = document.getElementById('btn');
+    const afficherErreur = vi.fn();
+
+    await envoyerViaFormspree({
+      configuration: configurationFormspree(),
+      champs: champsContactDemo,
+      sujetUtile: '',
+      btnEnvoyer: btn,
+      mount: null,
+      optionsRecaptcha: {},
+      afficherErreur,
+    });
+
+    expect(afficherErreur).toHaveBeenCalledWith('Erreur serveur');
+    expect(btn.disabled).toBe(false);
     expect(reinitialiserWidgetRecaptcha).toHaveBeenCalled();
   });
 });

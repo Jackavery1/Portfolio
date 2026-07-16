@@ -90,9 +90,9 @@ describe('sync-projects', () => {
   it('rejette un numéro de projet invalide', () => {
     const { validerProjet } = require('./sync-projects.cjs');
 
-    expect(() =>
-      validerProjet('demo', { ...projetValide, num: 'INVALID' })
-    ).toThrow(/num invalide/);
+    expect(() => validerProjet('demo', { ...projetValide, num: 'INVALID' })).toThrow(
+      /num invalide/
+    );
   });
 
   it('rejette etoiles, completion, tech, apercu et lien invalides', () => {

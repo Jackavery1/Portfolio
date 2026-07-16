@@ -16,8 +16,7 @@ export function runCli(root = ROOT) {
 }
 
 const estPointEntree =
-  process.argv[1] &&
-  path.resolve(fileURLToPath(import.meta.url)) === path.resolve(process.argv[1]);
+  process.argv[1] && path.resolve(fileURLToPath(import.meta.url)) === path.resolve(process.argv[1]);
 
 if (estPointEntree) {
   runCli();

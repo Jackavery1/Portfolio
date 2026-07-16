@@ -5,6 +5,14 @@ import { ajouterScore } from './score.js';
 import { reinitialiserWidgetRecaptcha } from './recaptcha.js';
 
 const LABEL_ENVOI_EN_COURS = 'ENVOI…';
+const SELECTEUR_CHAMPS_ENVOI = 'input:not([type="hidden"]):not([type="submit"]), textarea, select';
+
+function basculerChampsFormulaire(form, desactiver) {
+  if (!form) return;
+  form.querySelectorAll(SELECTEUR_CHAMPS_ENVOI).forEach((champ) => {
+    champ.disabled = desactiver;
+  });
+}
 
 export function marquerEnvoiEnCours(btnEnvoyer) {
   btnEnvoyer.disabled = true;
@@ -12,6 +20,7 @@ export function marquerEnvoiEnCours(btnEnvoyer) {
   btnEnvoyer.classList.add('bouton-envoyer--chargement');
   btnEnvoyer.textContent = LABEL_ENVOI_EN_COURS;
   btnEnvoyer.form?.setAttribute('aria-busy', 'true');
+  basculerChampsFormulaire(btnEnvoyer.form, true);
 }
 
 export function restaurerBoutonEnvoi(btnEnvoyer, labelEnvoyer) {
@@ -21,6 +30,7 @@ export function restaurerBoutonEnvoi(btnEnvoyer, labelEnvoyer) {
   btnEnvoyer.textContent = labelEnvoyer;
   btnEnvoyer.form?.removeAttribute('aria-busy');
   delete btnEnvoyer.form?.dataset.envoiEnCours;
+  basculerChampsFormulaire(btnEnvoyer.form, false);
 }
 
 export function signalerEchecEnvoi({

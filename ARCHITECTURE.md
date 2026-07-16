@@ -79,33 +79,33 @@ Approche **test-per-module** : Vitest + Playwright e2e (voir `npm test` / `npm r
 
 ### Dualité ESM (runtime) / CJS (build)
 
-| Couche            | Format                                 | Rôle                                                                                       |
-| ----------------- | -------------------------------------- | ------------------------------------------------------------------------------------------ |
-| `js/`             | **ESM** (`import` / `export`)          | Modules chargés par le navigateur (`type="module"`)                                        |
-| `build/`          | **CJS** (`require` / `module.exports`) | Scripts Node I/O (sync, minify, SW) — modules I/O lourds                                   |
-| `build/*.mjs`     | **ESM** (données pures)                | `config-defaults.mjs`, `page-meta.mjs`, `page-meta-tags.mjs`, `page-styles.mjs`, `json-ld.mjs`, `url-page.mjs`, `breakpoints.mjs`, `partials-list.mjs` — `require()` depuis CJS (Node ≥20) |
-| `build.mjs`       | **ESM** (entrée build)                 | Orchestration via `build/cjs-bridge.mjs` → `loadBuild()`                                   |
-| `build/*.test.js` | ESM                                    | `loadBuild()` via `build/cjs-bridge.mjs` ou `createRequire` ciblé                          |
+| Couche            | Format                                 | Rôle                                                                                                                                                                                                                                                                                               |
+| ----------------- | -------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `js/`             | **ESM** (`import` / `export`)          | Modules chargés par le navigateur (`type="module"`)                                                                                                                                                                                                                                                |
+| `build/`          | **CJS** (`require` / `module.exports`) | Scripts Node I/O (sync, minify, SW) — modules I/O lourds                                                                                                                                                                                                                                           |
+| `build/*.mjs`     | **ESM** (données pures)                | `config-defaults.mjs`, `page-meta.mjs`, `page-meta-tags.mjs`, `page-styles.mjs`, `json-ld.mjs`, `url-page.mjs`, `breakpoints.mjs`, `partials-list.mjs`, `html-files.mjs`, `html-csp.mjs`, `html-seo.mjs`, `cli-entry.mjs`, `fonts-data.mjs`, `sw-precache.mjs` — `require()` depuis CJS (Node ≥20) |
+| `build.mjs`       | **ESM** (entrée build)                 | Orchestration via `build/cjs-bridge.mjs` → `loadBuild()`                                                                                                                                                                                                                                           |
+| `build/*.test.js` | ESM                                    | `loadBuild()` via `build/cjs-bridge.mjs` ou `createRequire` ciblé                                                                                                                                                                                                                                  |
 
-**Pont** : `build/cjs-bridge.mjs` expose `loadBuild('env.cjs')` — point d’entrée ESM unique sans migrer tout le pipeline CJS (CLI `require.main`, I/O synchrone).
+**Pont** : `build/cjs-bridge.mjs` expose `loadBuild('env.cjs')` — point d’entrée ESM unique sans migrer tout le pipeline CJS (CLI `require.main`, I/O synchrone). **Choix figé** : pas de migration CJS→ESM massive du dossier `build/` (voir `AUDIT-EXCLUSIONS.md`).
 
 #### Build HTML prod (`build/html*.cjs`)
 
 Orchestrateur : `build/html.cjs` (`copyHTML`). Modules dédiés :
 
-| Module | Rôle |
-| ------ | ---- |
-| `html-files.cjs` | Liste des pages (`HTML_FILES`) |
-| `html-seo.cjs` | Meta page, canonical, OG absolu, JSON-LD |
-| `html-head.cjs` | `head-common`, polices async, CSS prod |
-| `html-partials-inline.cjs` | Inlining des placeholders partials |
-| `html-csp.cjs` | Injection CSP après viewport |
+| Module                     | Rôle                                     |
+| -------------------------- | ---------------------------------------- |
+| `html-files.mjs`           | Liste des pages (`HTML_FILES`)           |
+| `html-seo.mjs`             | Meta page, canonical, OG absolu, JSON-LD |
+| `html-head.cjs`            | `head-common`, polices async, CSS prod   |
+| `html-partials-inline.cjs` | Inlining des placeholders partials       |
+| `html-csp.mjs`             | Injection CSP après viewport             |
 
 Ordre d’injection dans le `<head>` :
 
 1. Preload **Press Start 2P** (`fetchpriority="high"`) et **VT323** (`partials/fonts-async.html`) — LCP titres pixel + corps CRT ; Rajdhani via `@font-face` à la demande (`styles/fonts-local.css`).
 2. Preload + stylesheet `style-base.css` puis `style-page-*.css`.
-3. JS non critique (`konami`, `animations`, `service-worker-register`) chargé en `import()` après `data-app-ready` / `requestIdleCallback`.
+3. JS non critique (`konami`, bonus score, section dojo, `animations`, `service-worker-register`) chargé / planifié en `import()` / `requestIdleCallback` après peinture (pages denses).
 
 ### Pipeline `sync-source`
 
@@ -193,7 +193,7 @@ Deux stratégies importer séparément selon context.
 
 ### Couverture
 
-Voir `CONTRIBUTING.md` § Tests (seuils Vitest ≥ 85 % lignes / ≥ 84 % branches, e2e multi-navigateurs). Scripts build CLI exportés et testés (`run-serve-staging.cjs`, `validate-dist-html.cjs`) ; `fs-utils.cjs` couvre les repli Windows (EPERM, staging verrouillé, sync partielle).
+Voir `CONTRIBUTING.md` § Tests (seuils Vitest ≥ 85 % lignes / ≥ 84 % branches, e2e multi-navigateurs). Scripts build CLI exportés et testés (`run-serve-staging.cjs`, `validate-dist-html.cjs`) ; I/O fichiers dans `fs-utils-io.cjs`, staging/dist dans `fs-utils-staging.cjs` (façade `fs-utils.cjs`) — repli Windows (EPERM, staging verrouillé, sync partielle, prune orphelins).
 
 ### Mocking strategy
 
@@ -229,13 +229,13 @@ if (visualViewport) adjustPaddingSafeArea()
 - **LCP < 2.5s** (Lighthouse 90+)
 - **No layout thrashing** : DOM reads batched
 - **Animations 60fps** : `transform` / `will-change` only
-- **Service worker** : Precache shell (HTML, CSS pages, JS core, polices) ; modules lazy exclus — voir `CONTRIBUTING.md` § PWA pour le détail offline
+- **Service worker** : Precache shell (HTML, CSS pages dont offline, JS de page, polices) ; musique / reCAPTCHA / Formspree exclus — voir `CONTRIBUTING.md` § PWA pour le détail offline
 
 ## Maintenance
 
 ### Sync générés (ne pas committer)
 
-Sources versionnées : `js/config/legal.json`, `js/config/projects.json`, `js/config/musique-donnees.json`.
+Sources versionnées : `js/config/legal.json`, `js/config/projects.json`, `js/config/musique-donnees.json`. Artefact prod : seul `musique-themes.json` est embarqué (les sources JSON ne partent pas dans dist).
 
 Liste complète des artefacts générés, commandes sync et workflow : **`CONTRIBUTING.md` § Configuration**.
 

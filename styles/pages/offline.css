@@ -104,3 +104,13 @@ body {
   outline: var(--outline-focus-largeur) solid var(--outline-focus-couleur);
   outline-offset: var(--outline-focus-decalage-compact);
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .lien-evitement {
+    transition: none;
+  }
+
+  .lien-evitement:focus-visible {
+    transform: translate(-50%, 0.5rem);
+  }
+}

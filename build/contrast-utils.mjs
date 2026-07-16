@@ -15,14 +15,8 @@ function luminanceRelative({ r, g, b }) {
 }
 
 function ratioContrasteCouleurs(premierPlan, arrierePlan) {
-  const lumClaire = Math.max(
-    luminanceRelative(premierPlan),
-    luminanceRelative(arrierePlan)
-  );
-  const lumFoncee = Math.min(
-    luminanceRelative(premierPlan),
-    luminanceRelative(arrierePlan)
-  );
+  const lumClaire = Math.max(luminanceRelative(premierPlan), luminanceRelative(arrierePlan));
+  const lumFoncee = Math.min(luminanceRelative(premierPlan), luminanceRelative(arrierePlan));
   return (lumClaire + 0.05) / (lumFoncee + 0.05);
 }
 

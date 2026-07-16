@@ -7,7 +7,7 @@ function syncStyleCss() {
   fs.writeFileSync(target, genererStyleCss(), 'utf8');
 }
 
-const { executerSiEntreeDirecte } = require('./cli-entry.cjs');
+const { executerSiEntreeDirecte } = require('./cli-entry.mjs');
 
 module.exports = { syncStyleCss };
 

@@ -209,4 +209,106 @@ describe('service-worker-register', () => {
 
     expect(document.getElementById('js-sw-toast')).toBeNull();
   });
+
+  it('attend l’événement load si le document n’est pas encore complete', async () => {
+    injecterCspProd();
+    vi.spyOn(document, 'readyState', 'get').mockReturnValue('loading');
+
+    const { enregistrerServiceWorker } = await import('./service-worker-register.js');
+    enregistrerServiceWorker();
+    expect(register).not.toHaveBeenCalled();
+
+    window.dispatchEvent(new Event('load'));
+    expect(register).toHaveBeenCalledWith('sw.js');
+  });
+
+  it('ignore updatefound si installing est absent', async () => {
+    injecterCspProd();
+    const handlers = {};
+    const registration = {
+      waiting: null,
+      installing: null,
+      update: vi.fn().mockResolvedValue(undefined),
+      addEventListener: vi.fn((evt, fn) => {
+        if (evt === 'updatefound') handlers.updatefound = fn;
+      }),
+    };
+    register.mockResolvedValueOnce(registration);
+    vi.spyOn(document, 'readyState', 'get').mockReturnValue('complete');
+
+    const { enregistrerServiceWorker } = await import('./service-worker-register.js');
+    enregistrerServiceWorker();
+    await Promise.resolve();
+
+    expect(() => handlers.updatefound?.()).not.toThrow();
+    expect(document.getElementById('js-sw-toast')).toBeNull();
+  });
+
+  it('tolère un rejet de registration.update()', async () => {
+    injecterCspProd();
+    const registration = {
+      waiting: null,
+      update: vi.fn().mockRejectedValue(new Error('update fail')),
+      addEventListener: vi.fn(),
+    };
+    register.mockResolvedValueOnce(registration);
+    vi.spyOn(document, 'readyState', 'get').mockReturnValue('complete');
+
+    const { enregistrerServiceWorker } = await import('./service-worker-register.js');
+    expect(() => enregistrerServiceWorker()).not.toThrow();
+    await Promise.resolve();
+    expect(registration.update).toHaveBeenCalled();
+  });
+
+  it('ne recharge pas sur controllerchange sans clic Actualiser', async () => {
+    injecterCspProd();
+    let onControllerChange;
+    const { navigator } = creerRegistrationAvecWaiting({
+      waiting: { postMessage: vi.fn() },
+      onControllerChange: (fn) => {
+        onControllerChange = fn;
+      },
+    });
+    vi.stubGlobal('navigator', navigator);
+    const reload = vi.fn();
+    vi.stubGlobal('location', { hostname: 'localhost', search: '', reload });
+
+    const { enregistrerServiceWorker } = await import('./service-worker-register.js');
+    enregistrerServiceWorker();
+    await Promise.resolve();
+
+    onControllerChange();
+    expect(reload).not.toHaveBeenCalled();
+  });
+
+  it('n’affiche le toast qu’une fois si waiting est déjà connu', async () => {
+    injecterCspProd();
+    const handlers = {};
+    const waiting = { postMessage: vi.fn() };
+    const registration = {
+      waiting,
+      update: vi.fn().mockResolvedValue(undefined),
+      addEventListener: vi.fn((evt, fn) => {
+        if (evt === 'updatefound') handlers.updatefound = fn;
+      }),
+    };
+    const { navigator } = creerNavigatorServiceWorker({
+      register: vi.fn().mockResolvedValue(registration),
+      controller: {},
+    });
+    vi.stubGlobal('navigator', navigator);
+    vi.spyOn(document, 'readyState', 'get').mockReturnValue('complete');
+
+    const { enregistrerServiceWorker } = await import('./service-worker-register.js');
+    enregistrerServiceWorker();
+    await Promise.resolve();
+
+    expect(document.querySelectorAll('#js-sw-toast')).toHaveLength(1);
+    registration.installing = {
+      state: 'installed',
+      addEventListener: (_evt, fn) => fn(),
+    };
+    handlers.updatefound?.();
+    expect(document.querySelectorAll('#js-sw-toast')).toHaveLength(1);
+  });
 });

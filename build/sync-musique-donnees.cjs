@@ -95,7 +95,8 @@ function syncMusiqueDonnees(root = path.join(__dirname, '..')) {
 
 module.exports = { syncMusiqueDonnees, compilerThemes };
 
-if (require.main === module) {
+const { executerSiEntreeDirecte } = require('./cli-entry.mjs');
+executerSiEntreeDirecte(require.main, module, () => {
   syncMusiqueDonnees();
   console.log('✅ js/config/musique-themes.json synchronisé');
-}
+});

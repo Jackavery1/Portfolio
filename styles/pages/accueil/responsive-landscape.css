@@ -29,8 +29,8 @@
   .accueil__grille {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
-    gap: 1.5rem;
-    padding: 0.5rem 0 1rem;
+    gap: var(--espacement-lg);
+    padding: var(--espacement-sm) 0 var(--espacement-md);
     align-items: center;
     text-align: left;
   }

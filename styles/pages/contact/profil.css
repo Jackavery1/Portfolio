@@ -8,7 +8,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  gap: var(--espacement-md);
 }
 
 .profil-recap__titre {
@@ -42,8 +42,8 @@
   font-size: clamp(0.95rem, 2.3vw, 1.1rem);
   color: var(--couleur-texte-normal);
   display: flex;
-  gap: 0.5rem;
-  padding: 0.25rem 0;
+  gap: var(--espacement-sm);
+  padding: var(--espacement-xs) 0;
   border-bottom: 1px solid var(--couleur-separateur);
   letter-spacing: 1px;
 }

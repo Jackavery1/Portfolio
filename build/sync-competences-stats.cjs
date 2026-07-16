@@ -26,6 +26,5 @@ function syncCompetencesStats(root = path.join(__dirname, '..')) {
 
 module.exports = { syncCompetencesStats, FRAGMENTS };
 
-if (require.main === module) {
-  syncCompetencesStats();
-}
+const { executerSiEntreeDirecte } = require('./cli-entry.mjs');
+executerSiEntreeDirecte(require.main, module, syncCompetencesStats);

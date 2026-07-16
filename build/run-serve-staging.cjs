@@ -1,9 +1,13 @@
 const path = require('path');
 const { spawnSync } = require('child_process');
-const { executerSiEntreeDirecte } = require('./cli-entry.cjs');
+const { executerSiEntreeDirecte } = require('./cli-entry.mjs');
 const { resolveServeDir } = require('./resolve-serve-dir.cjs');
 
-function runServeStaging({ root = path.join(__dirname, '..'), port = '3000', spawn = spawnSync } = {}) {
+function runServeStaging({
+  root = path.join(__dirname, '..'),
+  port = '3000',
+  spawn = spawnSync,
+} = {}) {
   const dir = resolveServeDir(root);
   if (!dir) {
     return { ok: false, code: 1, dir: null };

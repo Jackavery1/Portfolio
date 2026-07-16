@@ -20,7 +20,7 @@ function syncAccueilHero(root = path.join(__dirname, '..')) {
   fs.writeFileSync(target, `${parts.join('\n')}\n`, 'utf8');
 }
 
-const { executerSiEntreeDirecte } = require('./cli-entry.cjs');
+const { executerSiEntreeDirecte } = require('./cli-entry.mjs');
 
 module.exports = { syncAccueilHero, FRAGMENTS };
 

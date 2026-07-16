@@ -5,16 +5,12 @@
 .story-grille {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 2rem;
-  content-visibility: auto;
-  contain-intrinsic-size: auto 560px;
+  gap: var(--espacement-xl);
 }
 
 .liste-parcours {
   display: flex;
   flex-direction: column;
-  content-visibility: auto;
-  contain-intrinsic-size: auto 480px;
 }
 
 .entree-parcours {
@@ -31,11 +27,11 @@
 .entree-parcours__marqueur {
   font-family: var(--police-pixel);
   font-size: var(--taille-pixel-min);
-  color: var(--couleur-accent);
+  color: var(--couleur-accent-vif);
   text-shadow: var(--ombre-glow-accent);
   width: 2.2rem;
   flex-shrink: 0;
-  padding-top: 0.25rem;
+  padding-top: var(--espacement-xs);
   line-height: 2;
 }
 
@@ -65,7 +61,7 @@
   font-size: var(--taille-petit-pixel);
   color: var(--couleur-texte-fort);
   letter-spacing: 1px;
-  margin-bottom: 0.25rem;
+  margin-bottom: var(--espacement-xs);
   line-height: 1.8;
 }
 
@@ -92,8 +88,6 @@
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  content-visibility: auto;
-  contain-intrinsic-size: auto 320px;
 }
 
 .svg-arbre {

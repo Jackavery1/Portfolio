@@ -71,6 +71,24 @@ const PAIRES_AA = [
   },
   { fg: '--couleur-texte-normal', bg: '--couleur-fond-carte', min: 4.5, label: 'offline-corps' },
   { fg: '--couleur-accent-vif', bg: '--couleur-fond-carte', min: 3, label: 'offline-lien' },
+  {
+    fg: '--couleur-accent-vif',
+    bg: '--couleur-fond',
+    min: 4.5,
+    label: 'boss-rush__titre',
+  },
+  {
+    fg: '--couleur-accent-vif',
+    bg: '--couleur-fond',
+    min: 4.5,
+    label: 'stats-bloc__titre',
+  },
+  {
+    fg: '--couleur-accent-vif',
+    bg: '--couleur-fond',
+    min: 4.5,
+    label: 'entree-parcours__marqueur',
+  },
 ];
 
 const PAIRES_UI_DOCUMENTEES = PAIRES_AA.filter((paire) => paire.label);
@@ -117,6 +135,8 @@ describe('contrast tokens', () => {
       4.5
     );
     expect(ratios.find((item) => item.label === 'titre-section')?.ratio).toBeGreaterThanOrEqual(3);
-    expect(ratios.find((item) => item.label === 'boss-carte__nom')?.ratio).toBeGreaterThanOrEqual(4.5);
+    expect(ratios.find((item) => item.label === 'boss-carte__nom')?.ratio).toBeGreaterThanOrEqual(
+      4.5
+    );
   });
 });

@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const defaults = require('./config-defaults.mjs');
+const { executerSiEntreeDirecte } = require('./cli-entry.mjs');
 
 function escapeJsString(value) {
   return String(value).replace(/\\/g, '\\\\').replace(/'/g, "\\'");
@@ -21,8 +22,6 @@ export const SOCIAL = {
   fs.writeFileSync(target, content, 'utf8');
 }
 
-module.exports = { syncDefaults };
+module.exports = { syncDefaults, escapeJsString };
 
-if (require.main === module) {
-  syncDefaults();
-}
+executerSiEntreeDirecte(require.main, module, syncDefaults);

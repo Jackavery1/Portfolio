@@ -106,6 +106,13 @@ describe('build html', () => {
     expect(out).toContain('https://example.com/');
   });
 
+  it('injectSeoMeta force og:image vers og.webp', () => {
+    const html = `<head><meta property="og:image" content="assets/og.png" /></head>`;
+    const out = injectSeoMeta(html, 'index.html', 'https://example.com');
+    expect(out).toContain('content="https://example.com/assets/og.webp"');
+    expect(out).not.toContain('og.png');
+  });
+
   it('injectPageMeta laisse le HTML inchangé pour une page inconnue', () => {
     const html = '<title>Test</title>';
     expect(injectPageMeta(html, 'inconnue.html')).toBe(html);

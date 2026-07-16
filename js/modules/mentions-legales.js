@@ -122,6 +122,8 @@ function remplirSommaire(conteneur) {
 export function initialiserMentionsLegales() {
   const sections = document.getElementById('js-mentions-sections');
   if (sections?.querySelector('.mentions-bloc')) {
+    sections.classList.remove('partial-squelette');
+    sections.setAttribute('aria-busy', 'false');
     const editeur = sections.querySelector('.mentions-bloc');
     if (editeur) remplirBlocEditeur(editeur);
     return;
@@ -138,6 +140,9 @@ export function initialiserMentionsLegales() {
 
   if (!sections) return;
 
+  sections.classList.remove('partial-squelette');
+  sections.setAttribute('aria-busy', 'true');
   sections.replaceChildren();
   MENTIONS_LEGALES.sections.forEach((cfg) => remplirSection(cfg, sections));
+  sections.setAttribute('aria-busy', 'false');
 }

@@ -17,6 +17,8 @@ describe('inject-mentions-html', () => {
     expect(out).toContain('id="donnees-personnelles"');
     expect(out).toContain('id="js-mentions-email"');
     expect(out).toMatch(/href="mailto:[^"]+"/);
-    expect(out).not.toMatch(/<div id="js-mentions-sections" aria-live="polite"><\/div>/);
+    expect(out).not.toContain('partial-squelette__ligne');
+    expect(out).toContain('aria-busy="false"');
+    expect(out).toMatch(/<div id="js-mentions-sections" aria-live="polite" aria-busy="false">/);
   });
 });

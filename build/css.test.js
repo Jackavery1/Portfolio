@@ -8,7 +8,7 @@ import { createRequire } from 'node:module';
 const require = createRequire(import.meta.url);
 const rootDir = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const { minifyCSS } = require('./css.cjs');
-const { BASE_STYLE_FILE, PAGE_STYLE_BY_HTML } = require('./page-styles.mjs');
+const { BASE_STYLE_FILE, OFFLINE_STYLE_FILE, PAGE_STYLE_BY_HTML } = require('./page-styles.mjs');
 
 describe('build css', () => {
   it('génère le CSS base et par page', () => {
@@ -17,6 +17,7 @@ describe('build css', () => {
       minifyCSS(rootDir, tmp, { inclureMonolithe: false });
 
       expect(fs.existsSync(path.join(tmp, BASE_STYLE_FILE))).toBe(true);
+      expect(fs.existsSync(path.join(tmp, OFFLINE_STYLE_FILE))).toBe(true);
       Object.values(PAGE_STYLE_BY_HTML).forEach(({ outfile }) => {
         expect(fs.existsSync(path.join(tmp, outfile))).toBe(true);
       });

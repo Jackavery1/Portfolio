@@ -245,4 +245,21 @@ describe('musique-sequencuer', () => {
   it('arreterSequencuer est sans effet si le minuteur est absent', () => {
     expect(() => sequencuer.arreterSequencuer()).not.toThrow();
   });
+
+  it('demarrerSequencuer annule un minuteur déjà actif', async () => {
+    vi.useFakeTimers();
+    const clearSpy = vi.spyOn(globalThis, 'clearTimeout');
+    try {
+      await sequencuer.assurerThemes();
+      sequencuer.definirActif(true);
+      sequencuer.definirThemeCourant('HOME');
+      sequencuer.demarrerSequencuer();
+      sequencuer.demarrerSequencuer();
+      expect(clearSpy).toHaveBeenCalled();
+      sequencuer.arreterSequencuer();
+    } finally {
+      clearSpy.mockRestore();
+      vi.useRealTimers();
+    }
+  });
 });

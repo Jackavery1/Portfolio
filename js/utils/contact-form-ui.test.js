@@ -36,13 +36,16 @@ describe('contact-form-ui', () => {
     const champ = document.getElementById('champ-a');
     const erreur = document.getElementById('champ-a-erreur');
     const jouerBip = vi.fn();
+    const focusSpy = vi.spyOn(champ, 'focus');
 
     marquerChampsInvalides([{ el: champ, message: 'Champ requis.' }], jouerBip);
 
-    expect(jouerBip).toHaveBeenCalledWith(150, 120, 'sawtooth');
+    expect(jouerBip).toHaveBeenCalled();
     expect(champ.getAttribute('aria-invalid')).toBe('true');
     expect(erreur.hidden).toBe(false);
     expect(erreur.textContent).toBe('Champ requis.');
+    expect(focusSpy).toHaveBeenCalled();
+    expect(jouerBip).toHaveBeenCalledWith(150, 120, 'sawtooth');
   });
 
   it('efface aria-invalid et le message de champ', () => {

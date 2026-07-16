@@ -15,6 +15,14 @@ const PNG_QUALITE_PAR_FICHIER = {
 /** Largeur max OG (réseaux sociaux) — redimensionnement au build */
 const OG_LARGEUR_MAX = 1200;
 
+/** Icônes PWA / favicon : servies en PNG uniquement (pas de .webp orphelin dans dist). */
+const RASTERS_SANS_WEBP = new Set([
+  'favicon.png',
+  'apple-touch-icon.png',
+  'icon-192.png',
+  'icon-512.png',
+]);
+
 function listerRasters(srcDir) {
   return fs.readdirSync(srcDir).filter((f) => /\.(png|jpe?g)$/i.test(f));
 }
@@ -52,8 +60,10 @@ function creerImages(sharpLib = sharpDefaut) {
       await copyFile(srcPath, dstPath);
     }
 
-    const webpPath = dstPath.replace(/\.(png|jpe?g)$/i, '.webp');
-    await image.rotate().webp({ quality: qualiteWebp }).toFile(webpPath);
+    if (!RASTERS_SANS_WEBP.has(nomFichier)) {
+      const webpPath = dstPath.replace(/\.(png|jpe?g)$/i, '.webp');
+      await image.rotate().webp({ quality: qualiteWebp }).toFile(webpPath);
+    }
   };
 
   api.optimizeRasterDir = async function optimizeRasterDir({
@@ -178,6 +188,17 @@ function creerImages(sharpLib = sharpDefaut) {
       }
     });
 
+    const offlineDst = path.join(distDir, 'offline.html');
+    if (fs.existsSync(offlineDst)) {
+      const stats = fs.statSync(offlineDst);
+      const estFichier = typeof stats.isFile === 'function' ? stats.isFile() : !stats.isDirectory();
+      if (estFichier) {
+        const { reecrireLiensStylesOffline } = require('./page-styles.mjs');
+        const html = fs.readFileSync(offlineDst, 'utf8');
+        fs.writeFileSync(offlineDst, reecrireLiensStylesOffline(html), 'utf8');
+      }
+    }
+
     log('Assets (previews, favicon) copiés', 'success');
   };
 
@@ -238,5 +259,6 @@ module.exports = {
   OG_LARGEUR_MAX,
   ZONE_UTILE_PWA,
   FOND_PWA,
+  RASTERS_SANS_WEBP,
   ...api,
 };

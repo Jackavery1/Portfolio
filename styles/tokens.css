@@ -104,6 +104,12 @@
   --couleur-boss-bleu-corps: #1a3a6a;
   --couleur-boss-vert-fonce: #1a3a1a;
 
+  /* Icônes SVG projets (project-icons.js) */
+  --couleur-icone-floppy-ciel: #5c94fc;
+  --couleur-icone-dl-fond: #1a1030;
+  --couleur-icone-dl-violet: #4a1f7a;
+  --couleur-icone-dl-magenta: #ff2fd6;
+
   /* Polices */
   --police-pixel: 'Press Start 2P', monospace;
   --police-crt: 'VT323', monospace;
@@ -125,9 +131,18 @@
   --taille-corps-crt: clamp(0.85rem, 1.85vw, 1.02rem);
 
   /* Espacements (rythme vertical et grilles) */
+  --espacement-3xs: 0.22rem;
+  --espacement-2xs: 0.28rem;
   --espacement-xs: 0.25rem;
+  --espacement-xs-plus: 0.35rem;
+  --espacement-sm-tight: 0.4rem;
+  --espacement-sm-plus: 0.45rem;
   --espacement-sm: 0.5rem;
+  --espacement-ms: 0.65rem;
+  --espacement-ms-lg: 0.75rem;
+  --espacement-md-tight: 0.85rem;
   --espacement-md: 1rem;
+  --espacement-md-plus: 1.1rem;
   --espacement-ml: 1.25rem;
   --espacement-lg: 1.5rem;
   --espacement-xl: 2rem;

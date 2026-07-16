@@ -6,14 +6,12 @@
   color: var(--couleur-texte-normal);
   line-height: 1.7;
   margin-bottom: 1rem;
-  content-visibility: auto;
-  contain-intrinsic-size: auto 120px;
 }
 
 .boss-rush__titre {
   font-family: var(--police-pixel);
   font-size: var(--taille-petit-pixel);
-  color: var(--couleur-accent);
+  color: var(--couleur-accent-vif);
   letter-spacing: 2px;
   text-align: center;
   margin-bottom: var(--espacement-ml);

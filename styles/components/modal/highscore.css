@@ -19,13 +19,13 @@
   border: 2px solid var(--couleur-actif);
   box-shadow: var(--ombre-popup-highscore);
   border-radius: 4px;
-  padding: 2.5rem 2rem;
+  padding: 2.5rem var(--espacement-xl);
   max-width: 420px;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.25rem;
+  gap: var(--espacement-ml);
   text-align: center;
 }
 
@@ -75,7 +75,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.75rem 1.5rem;
+  padding: 0.75rem var(--espacement-lg);
   letter-spacing: 2px;
   text-decoration: none;
   cursor: pointer;

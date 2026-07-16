@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { gotoReady, assertHauteurTactile, assertLargeurTactile } from './helpers.js';
+import { gotoReady, gotoPage, assertHauteurTactile, assertLargeurTactile } from './helpers.js';
 import { VIEWPORT_ETROIT, VIEWPORT_MOBILE, VIEWPORT_PAYSAGE } from './fixtures/responsive.js';
 
 const CIBLES_ETROITES = [
@@ -105,6 +105,19 @@ test('responsive mobile — cibles tactiles ≥ 44px', async ({ page }) => {
     timeout: 15_000,
   });
   await assertHauteurTactile(page.locator('.bouton-envoyer'));
+  await assertHauteurTactile(page.locator('.contact-bandeau__action'));
+
+  await gotoPage(page, '/offline.html');
+  await assertHauteurTactile(page.locator('.offline-ecran a[href="index.html"]'));
+
+  await gotoReady(page, '/index.html');
+  await page.evaluate(() => {
+    const popup = document.getElementById('js-popup-hs');
+    if (popup) popup.hidden = false;
+  });
+  await expect(page.locator('#js-popup-hs')).toBeVisible();
+  await assertHauteurTactile(page.locator('.popup-highscore__btn'));
+  await assertHauteurTactile(page.locator('.popup-highscore__fermer'));
 
   await gotoReady(page, '/dojo.html');
   await assertHauteurTactile(page.locator('.boss-carte').first());

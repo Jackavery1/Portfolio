@@ -6,12 +6,10 @@ import {
 } from '../utils/contact-form-helpers.js';
 import { PARAMETRES_BIP_ERREUR_VALIDATION } from '../utils/contact-form-ui.js';
 import { decoderBase64Utf8 } from '../utils/pii.js';
+import { comportementScroll } from '../utils/scroll-comportement.js';
 import { jouerBip } from './audio.js';
 import { obtenirTokenRecaptcha } from './recaptcha.js';
-import {
-  marquerEnvoiEnCours,
-  signalerEchecEnvoi,
-} from './contact-form-submit-ui.js';
+import { marquerEnvoiEnCours, signalerEchecEnvoi } from './contact-form-submit-ui.js';
 
 export { finaliserEnvoiReussi } from './contact-form-submit-ui.js';
 
@@ -39,7 +37,7 @@ export async function envoyerViaFormspree({
       'title',
       'Renseignez PORTFOLIO_RECAPTCHA_SITE_KEY dans .env.local puis relancez npm test pour envoyer via Formspree.'
     );
-    if (mount) mount.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    if (mount) mount.scrollIntoView({ behavior: comportementScroll(), block: 'nearest' });
     return;
   }
 

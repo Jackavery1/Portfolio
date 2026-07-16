@@ -1,5 +1,6 @@
 const path = require('path');
 const images = require('./images.cjs');
+const { executerSiEntreeDirecte } = require('./cli-entry.mjs');
 
 async function syncPwaIcons(root = path.join(__dirname, '..')) {
   await images.generatePwaIcons(root, root);
@@ -9,7 +10,10 @@ async function runCli(root = path.join(__dirname, '..')) {
   await syncPwaIcons(root);
 }
 
-async function executerSyncPwaIconsCli(root = path.join(__dirname, '..'), { exit = process.exit } = {}) {
+async function executerSyncPwaIconsCli(
+  root = path.join(__dirname, '..'),
+  { exit = process.exit } = {}
+) {
   try {
     await runCli(root);
   } catch (err) {
@@ -20,6 +24,6 @@ async function executerSyncPwaIconsCli(root = path.join(__dirname, '..'), { exit
 
 module.exports = { syncPwaIcons, runCli, executerSyncPwaIconsCli };
 
-if (require.main === module) {
+executerSiEntreeDirecte(require.main, module, () => {
   executerSyncPwaIconsCli();
-}
+});

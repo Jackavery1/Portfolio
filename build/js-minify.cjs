@@ -4,11 +4,14 @@ const UglifyJS = require('uglify-js');
 const { applyBuildEnvToJs } = require('./env.cjs');
 const { ensureDir, copyFile, walkJsFiles, log } = require('./fs-utils.cjs');
 
-function copyJsonConfig(root, distDir) {
+/** JSON runtime servis au client — sources éditoriales (legal, projects, musique-donnees) exclus. */
+const JSON_CONFIG_RUNTIME = new Set(['musique-themes.json']);
+
+function copierJsonConfig(root, distDir) {
   const configDir = path.join(root, 'js', 'config');
   if (!fs.existsSync(configDir)) return;
 
-  const jsonFiles = fs.readdirSync(configDir).filter((name) => name.endsWith('.json'));
+  const jsonFiles = fs.readdirSync(configDir).filter((name) => JSON_CONFIG_RUNTIME.has(name));
   if (jsonFiles.length === 0) return;
 
   const dstConfigDir = path.join(distDir, 'js', 'config');
@@ -75,7 +78,12 @@ function minifyAllJs(root, distDir) {
     `${files.length} module(s) JS minifié(s): ${totalIn} → ${totalOut} octets (-${savings}%)`,
     'success'
   );
-  copyJsonConfig(root, distDir);
+  copierJsonConfig(root, distDir);
 }
 
-module.exports = { minifyAllJs, copyJsonConfig };
+module.exports = {
+  minifyAllJs,
+  copierJsonConfig,
+  copyJsonConfig: copierJsonConfig,
+  JSON_CONFIG_RUNTIME,
+};

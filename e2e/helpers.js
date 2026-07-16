@@ -6,6 +6,15 @@ export async function gotoReady(page, path) {
   await page.waitForSelector('body[data-app-ready="true"]', { timeout: 30_000 });
 }
 
+/** Navigation page app (data-app-ready) ou page autonome (offline). */
+export async function gotoPage(page, path) {
+  if (path.includes('offline.html')) {
+    await page.goto(path, { waitUntil: 'domcontentloaded' });
+    return;
+  }
+  await gotoReady(page, path);
+}
+
 async function waitForServiceWorker(page) {
   await page.waitForFunction(
     async () => {
@@ -61,8 +70,7 @@ export async function assertIndicateurFocusVisible(locator) {
     };
   });
   const ringVisible =
-    styles.boxShadow !== 'none' ||
-    (styles.outlineWidth !== '0px' && styles.outlineWidth !== '');
+    styles.boxShadow !== 'none' || (styles.outlineWidth !== '0px' && styles.outlineWidth !== '');
   expect(ringVisible).toBe(true);
 }
 

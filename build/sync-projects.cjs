@@ -94,6 +94,5 @@ export const PROJETS = ${JSON.stringify(data.projets, null, 2)};
 
 module.exports = { syncProjects, validerProjectsJson, validerProjet };
 
-if (require.main === module) {
-  syncProjects();
-}
+const { executerSiEntreeDirecte } = require('./cli-entry.mjs');
+executerSiEntreeDirecte(require.main, module, syncProjects);

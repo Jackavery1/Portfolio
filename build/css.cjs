@@ -5,6 +5,8 @@ const { ensureDir, log } = require('./fs-utils.cjs');
 const {
   BASE_STYLE_FILE,
   BASE_STYLE_SOURCES_PROD,
+  OFFLINE_STYLE_FILE,
+  OFFLINE_STYLE_SOURCES,
   PAGE_STYLE_BY_HTML,
   sourcesVersImports,
 } = require('./page-styles.mjs');
@@ -48,6 +50,10 @@ function minifyCSS(root, distDir, options = {}) {
     const pageOutput = minifierBundle(root, pageInput, outfile);
     ecrireCss(distDir, outfile, pageOutput, 'CSS page');
   });
+
+  const offlineInput = sourcesVersImports(OFFLINE_STYLE_SOURCES);
+  const offlineOutput = minifierBundle(root, offlineInput, OFFLINE_STYLE_FILE);
+  ecrireCss(distDir, OFFLINE_STYLE_FILE, offlineOutput, 'CSS page');
 
   if (inclureMonolithe) {
     const monolithInput = fs.readFileSync(srcMonolith, 'utf8');

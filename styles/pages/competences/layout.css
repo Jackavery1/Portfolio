@@ -3,7 +3,7 @@
 .stats-grille {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 2rem;
+  gap: var(--espacement-xl);
   content-visibility: auto;
   contain-intrinsic-size: auto 520px;
 }
@@ -43,7 +43,7 @@
 .stats-lateral {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: var(--espacement-lg);
   content-visibility: auto;
   contain-intrinsic-size: auto 420px;
 }
@@ -51,7 +51,7 @@
 .stats-bloc__titre {
   font-family: var(--police-pixel);
   font-size: var(--taille-pixel-decoratif);
-  color: var(--couleur-accent);
+  color: var(--couleur-accent-vif);
   letter-spacing: 2px;
   margin-bottom: 0.75rem;
   padding-bottom: 0.35rem;

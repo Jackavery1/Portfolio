@@ -37,6 +37,6 @@
   align-items: center;
   justify-content: center;
   overflow: visible;
-  padding-right: 1.5rem;
+  padding-right: var(--espacement-lg);
   min-width: 0;
 }

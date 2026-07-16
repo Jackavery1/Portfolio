@@ -148,4 +148,22 @@ describe('dojo-boss', () => {
     carte.click();
     expect(jouerFanfareVictoire).not.toHaveBeenCalled();
   });
+
+  it('fait osciller la barre de PV des boss en cours', () => {
+    initialiserDojoBoss();
+    const fill = document.querySelector('.boss-carte--en-cours .boss-carte__vie-fill');
+    expect(fill).not.toBeNull();
+
+    vi.advanceTimersByTime(800);
+    const largeur1 = fill.style.width;
+    expect(largeur1).toMatch(/%$/);
+
+    vi.advanceTimersByTime(800);
+    expect(fill.style.width).toMatch(/%$/);
+
+    window.dispatchEvent(new Event('pagehide'));
+    const apresStop = fill.style.width;
+    vi.advanceTimersByTime(1600);
+    expect(fill.style.width).toBe(apresStop);
+  });
 });

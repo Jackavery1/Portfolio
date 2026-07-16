@@ -3,7 +3,11 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { loadBuild } from './cjs-bridge.mjs';
-import { avecRepertoireTemporaire, avecRepertoireTemporaireAsync, creerSharpMock } from './images-test-helpers.mjs';
+import {
+  avecRepertoireTemporaire,
+  avecRepertoireTemporaireAsync,
+  creerSharpMock,
+} from './images-test-helpers.mjs';
 
 const rootDir = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const { creerImages, listerRasters, ZONE_UTILE_PWA } = loadBuild('images.cjs');
@@ -40,16 +44,24 @@ describe('images.cjs — assets et icônes', () => {
     avecRepertoireTemporaire('portfolio-assets-', (tmp) => {
       images().copyAssets(rootDir, tmp);
       expect(fs.existsSync(path.join(tmp, 'offline.html'))).toBe(true);
-      expect(fs.readFileSync(path.join(tmp, 'offline.html'), 'utf8')).toContain('Mode hors ligne');
+      const offline = fs.readFileSync(path.join(tmp, 'offline.html'), 'utf8');
+      expect(offline).toContain('Mode hors ligne');
+      expect(offline).toContain('href="style-page-offline.css"');
+      expect(offline).not.toContain('styles/pages/offline.css');
     });
   });
 
   it('copyAssets ignore les optionnels absents', () => {
     avecRepertoireTemporaire('portfolio-assets-root-', (tmpRoot) => {
       avecRepertoireTemporaire('portfolio-assets-dist-', (tmpDist) => {
-        fs.writeFileSync(path.join(tmpRoot, 'offline.html'), 'offline');
+        fs.writeFileSync(
+          path.join(tmpRoot, 'offline.html'),
+          '<title>x</title>\n<link rel="stylesheet" href="styles/pages/offline.css" />'
+        );
         images().copyAssets(tmpRoot, tmpDist);
         expect(fs.existsSync(path.join(tmpDist, 'offline.html'))).toBe(true);
+        const offline = fs.readFileSync(path.join(tmpDist, 'offline.html'), 'utf8');
+        expect(offline).toContain('style-page-offline.css');
         expect(fs.existsSync(path.join(tmpDist, 'assets', 'favicon.png'))).toBe(false);
       });
     });

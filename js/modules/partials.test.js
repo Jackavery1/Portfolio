@@ -105,7 +105,10 @@ describe('partials', () => {
         'fetch',
         vi.fn().mockResolvedValue({
           ok: true,
-          text: () => Promise.resolve('<nav class="nav"><a class="nav__bouton" href="index.html">HOME</a></nav>'),
+          text: () =>
+            Promise.resolve(
+              '<nav class="nav"><a class="nav__bouton" href="index.html">HOME</a></nav>'
+            ),
         })
       );
 

@@ -5,7 +5,7 @@
   font-size: 1rem;
   min-height: 44px;
   margin-top: 0.5rem;
-  padding: 0.5rem 0.75rem;
+  padding: var(--espacement-sm) 0.75rem;
   color: var(--couleur-accent-vif);
   background: none;
   border: 1px solid var(--couleur-bordure);
@@ -33,7 +33,7 @@
 
 .nav__fallback {
   margin: 0;
-  padding: 0.75rem 1.5rem;
+  padding: 0.75rem var(--espacement-lg);
   font-family: var(--police-crt);
   font-size: clamp(0.95rem, 2.5vw, 1.1rem);
   color: var(--couleur-erreur);
@@ -56,7 +56,7 @@
     left: 0;
     right: 0;
     flex-direction: column;
-    padding: 0.5rem 0;
+    padding: var(--espacement-sm) 0;
     z-index: 90;
   }
 
@@ -67,7 +67,7 @@
 
 .nav--squelette .nav__liens--squelette .nav__bouton {
   min-height: 44px;
-  padding: 0.5rem 0.65rem;
+  padding: var(--espacement-sm) 0.65rem;
 }
 
 .pied-page--squelette .pied-page__certif {

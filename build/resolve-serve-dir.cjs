@@ -27,6 +27,5 @@ function executerResolveServeDirCli({
 
 module.exports = { resolveServeDir, executerResolveServeDirCli };
 
-if (require.main === module) {
-  executerResolveServeDirCli();
-}
+const { executerSiEntreeDirecte } = require('./cli-entry.mjs');
+executerSiEntreeDirecte(require.main, module, executerResolveServeDirCli);

@@ -1,8 +1,9 @@
 const fs = require('fs');
 const path = require('path');
 const { PAGE_META } = require('./page-meta.mjs');
-const { HTML_FILES } = require('./html-files.cjs');
+const { HTML_FILES } = require('./html-files.mjs');
 const { remplacerBlocPageMeta } = require('./page-meta-tags.mjs');
+const { executerSiEntreeDirecte } = require('./cli-entry.mjs');
 
 function fichiersPageMetaDerives(root = path.join(__dirname, '..')) {
   const derives = [];
@@ -45,14 +46,6 @@ function resoudreRacine(argv = process.argv) {
   return path.join(__dirname, '..');
 }
 
-module.exports = {
-  syncPageMeta,
-  verifierPageMeta,
-  fichiersPageMetaDerives,
-  resoudreRacine,
-  runCli,
-};
-
 function runCli(argv = process.argv) {
   const root = resoudreRacine(argv);
   const check = argv.includes('--check');
@@ -71,6 +64,14 @@ function runCli(argv = process.argv) {
   syncPageMeta(root);
 }
 
-if (require.main === module) {
+module.exports = {
+  syncPageMeta,
+  verifierPageMeta,
+  fichiersPageMetaDerives,
+  resoudreRacine,
+  runCli,
+};
+
+executerSiEntreeDirecte(require.main, module, () => {
   runCli();
-}
+});

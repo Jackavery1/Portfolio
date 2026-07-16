@@ -44,6 +44,10 @@ export function marquerChampsInvalides(erreurs, jouerBip) {
       }
     }
   });
+  const premier = erreurs.find(({ el }) => el)?.el;
+  if (premier && typeof premier.focus === 'function') {
+    premier.focus({ preventScroll: false });
+  }
 }
 
 export function peutSoumettreAvecSession(storageKey, rateLimitMs) {

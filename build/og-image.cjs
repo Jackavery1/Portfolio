@@ -29,6 +29,12 @@ function patchOgImageWebp(distDir, siteBase) {
   });
 
   if (n > 0) log(`og:image / twitter:image → WebP sur ${n} page(s)`, 'success');
+
+  const pngPath = path.join(distDir, 'assets', 'og.png');
+  if (fs.existsSync(pngPath)) {
+    fs.unlinkSync(pngPath);
+    log('assets/og.png retiré (og.webp servi)', 'success');
+  }
 }
 
 module.exports = { patchOgImageWebp };

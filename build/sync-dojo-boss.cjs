@@ -71,6 +71,5 @@ module.exports = {
   FICHIER_LEGACY,
 };
 
-if (require.main === module) {
-  syncDojoBoss();
-}
+const { executerSiEntreeDirecte } = require('./cli-entry.mjs');
+executerSiEntreeDirecte(require.main, module, syncDojoBoss);

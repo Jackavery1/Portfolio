@@ -10,7 +10,6 @@
   .grille-projets[aria-busy='true']::before,
   .carte-projet-squelette__ligne,
   .carte-projet-squelette__bloc {
-    animation: none;
     opacity: 0.85;
   }
 }

@@ -33,7 +33,7 @@
   font-family: var(--police-pixel);
   font-size: var(--taille-petit-pixel);
   color: var(--couleur-texte-discret);
-  padding: 0.5rem 0.75rem;
+  padding: var(--espacement-sm) 0.75rem;
   width: 3rem;
 }
 
@@ -41,13 +41,13 @@
   font-family: var(--police-crt);
   font-size: clamp(1rem, 2.5vw, 1.2rem);
   color: var(--couleur-texte-fort);
-  padding: 0.5rem 0.75rem;
+  padding: var(--espacement-sm) 0.75rem;
   letter-spacing: 1px;
   width: 9rem;
 }
 
 .score-barre-cell {
-  padding: 0.5rem 0.75rem;
+  padding: var(--espacement-sm) 0.75rem;
 }
 
 .score-barre-fond {
@@ -70,6 +70,6 @@
   font-family: var(--police-pixel);
   font-size: var(--taille-pixel-min);
   color: var(--couleur-texte-discret);
-  padding: 0.5rem 0.75rem;
+  padding: var(--espacement-sm) 0.75rem;
   letter-spacing: 1px;
 }

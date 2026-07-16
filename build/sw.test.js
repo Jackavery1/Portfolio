@@ -7,7 +7,12 @@ import { createRequire } from 'node:module';
 
 const require = createRequire(import.meta.url);
 const rootDir = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
-const { precacheUrls, generateServiceWorker, writeServiceWorker, JS_PRECACH_EXCLUS } = require('./sw.cjs');
+const {
+  precacheUrls,
+  generateServiceWorker,
+  writeServiceWorker,
+  JS_PRECACH_EXCLUS,
+} = require('./sw.cjs');
 const { HTML_FILES } = require('./html.cjs');
 
 describe('build service worker', () => {
@@ -15,8 +20,9 @@ describe('build service worker', () => {
     const urls = precacheUrls(rootDir);
 
     expect(urls).toContain('offline.html');
-    expect(urls).toContain('styles/tokens.css');
-    expect(urls).toContain('styles/pages/offline.css');
+    expect(urls).toContain('style-page-offline.css');
+    expect(urls).not.toContain('styles/tokens.css');
+    expect(urls).not.toContain('styles/pages/offline.css');
     expect(urls).toContain('style-base.css');
     expect(urls).toContain('style-page-accueil.css');
     expect(urls).toContain('style-page-projets.css');

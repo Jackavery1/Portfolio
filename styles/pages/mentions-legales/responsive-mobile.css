@@ -40,15 +40,15 @@
 
 @media (max-width: 320px) {
   body[data-section-id='mentions'] .section {
-    padding-left: 0.75rem;
-    padding-right: 0.75rem;
+    padding-left: var(--espacement-ms-lg);
+    padding-right: var(--espacement-ms-lg);
   }
 
   .mentions-sommaire__liste {
-    gap: 0.35rem 0.5rem;
+    gap: var(--espacement-xs-plus) var(--espacement-sm);
   }
 
   .mentions-sous-bloc {
-    padding-left: 0.65rem;
+    padding-left: var(--espacement-ms);
   }
 }

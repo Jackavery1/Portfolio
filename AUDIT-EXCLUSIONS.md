@@ -21,11 +21,13 @@ Ce fichier liste les **choix de design assumés** pour ce dépôt. Lors d'un aud
 
 ## Architecture & technique
 
-| Choix                                             | Justification                                                                     |
-| ------------------------------------------------- | --------------------------------------------------------------------------------- |
-| Instance unique Web Audio (`audio-context-store`) | Contrainte API navigateur ; état isolé et réinitialisable en tests                |
-| Musique / reCAPTCHA / Formspree hors precache SW  | Fonctions réseau-dépendantes ou optionnelles ; precache limité aux routes offline |
-| Données volumineuses (`musique-themes.json`) lazy | Taille install PWA ; chargement à la demande                                      |
+| Choix                                             | Justification                                                                                |
+| ------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| Instance unique Web Audio (`audio-context-store`) | Contrainte API navigateur ; état isolé et réinitialisable en tests                           |
+| Musique / reCAPTCHA / Formspree hors precache SW  | Fonctions réseau-dépendantes ou optionnelles ; precache limité aux routes offline            |
+| Données volumineuses (`musique-themes.json`) lazy | Taille install PWA ; chargement à la demande                                                 |
+| Dualité ESM runtime / CJS build (+ pont)          | Navigateur ESM ; Node I/O synchrone CJS ; `cjs-bridge.mjs` — pas de migration massive prévue |
+| Breakpoints `--bp-*` hors `@media`                | Limitation CSS : custom properties interdites dans `@media` ; seuils dans `breakpoints.mjs`  |
 
 ## Mise à jour
 

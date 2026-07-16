@@ -44,5 +44,8 @@ export function creerCtxAvecOscillateur({ start, stop, surchargeCtx = {} } = {})
 }
 
 export function stubAudioContext(ctx) {
-  vi.stubGlobal('AudioContext', vi.fn(() => ctx));
+  vi.stubGlobal(
+    'AudioContext',
+    vi.fn(() => ctx)
+  );
 }

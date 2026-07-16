@@ -14,7 +14,7 @@
 
 .contact-bandeau {
   cursor: default;
-  margin-bottom: 0.35rem;
+  margin-bottom: var(--espacement-xs-plus);
   color: var(--couleur-accent-vif);
   transition:
     color 0.15s,
@@ -37,7 +37,7 @@
   cursor: pointer;
   text-align: center;
   letter-spacing: 2px;
-  padding: 0.5rem 0.75rem;
+  padding: var(--espacement-sm) var(--espacement-ms-lg);
   transition:
     color 0.15s,
     text-shadow 0.15s;
@@ -59,7 +59,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.35rem;
+  gap: var(--espacement-xs-plus);
 }
 
 .contact-bandeau__cv-bloc .contact-bandeau-aide {
@@ -76,7 +76,7 @@
   align-items: center;
   min-height: 44px;
   box-sizing: border-box;
-  padding: 0.35rem 0;
+  padding: var(--espacement-xs-plus) 0;
   color: inherit;
   text-decoration: none;
 }
@@ -103,7 +103,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.5rem 0.75rem;
+  padding: var(--espacement-sm) var(--espacement-ms-lg);
   border: none;
   background: none;
   cursor: pointer;

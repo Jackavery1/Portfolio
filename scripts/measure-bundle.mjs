@@ -36,7 +36,9 @@ function parcourirFichiers(dir, fichiers = []) {
 
 function mesurer() {
   if (!distDir) {
-    console.error('❌ Aucun artefact build (.dist-staging-build/ ou .dist-staging/) — exécutez npm run build');
+    console.error(
+      '❌ Aucun artefact build (.dist-staging-build/ ou .dist-staging/) — exécutez npm run build'
+    );
     process.exit(1);
   }
 

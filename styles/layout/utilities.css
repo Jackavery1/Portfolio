@@ -21,7 +21,7 @@
 }
 
 #js-contenu-principal {
-  scroll-margin-top: calc(2.75rem + env(safe-area-inset-top, 0));
+  scroll-margin-top: calc(2.75rem + var(--safe-area-inset-top));
 }
 
 .ecran {
@@ -48,7 +48,7 @@ body[data-app-ready='true'] .ecran {
 
 .lien-evitement {
   position: fixed;
-  top: env(safe-area-inset-top, 0);
+  top: var(--safe-area-inset-top);
   left: 50%;
   z-index: 10000;
   min-height: 44px;

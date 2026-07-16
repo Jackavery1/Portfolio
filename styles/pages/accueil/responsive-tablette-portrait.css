@@ -24,7 +24,7 @@
     height: auto;
     min-height: auto;
     justify-content: flex-start;
-    padding: 2rem 2rem 2rem;
+    padding: var(--espacement-xl);
   }
 
   body[data-section-id='accueil'] .accueil__grille {

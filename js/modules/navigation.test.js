@@ -248,6 +248,13 @@ describe('navigation', () => {
     expect(() => initialiserNavigationArcade()).not.toThrow();
   });
 
+  it('fermerMenuBurger tolère un burger retiré du DOM', () => {
+    const burger = document.getElementById('js-burger');
+    burger.click();
+    burger.remove();
+    expect(() => document.body.click()).not.toThrow();
+  });
+
   it('piege la tabulation dans le menu ouvert', () => {
     document.getElementById('js-burger').click();
     document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Tab', bubbles: true }));

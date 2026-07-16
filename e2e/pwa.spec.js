@@ -63,6 +63,17 @@ test('page offline — accessible et meta PWA', async ({ page }) => {
     'content',
     /viewport-fit=cover/
   );
+  await expect(page.locator('link[rel="stylesheet"]')).toHaveAttribute(
+    'href',
+    'style-page-offline.css'
+  );
+  const cssOk = await page.evaluate(async () => {
+    const link = document.querySelector('link[rel="stylesheet"]');
+    if (!link?.href) return false;
+    const res = await fetch(link.href);
+    return res.ok;
+  });
+  expect(cssOk).toBe(true);
 });
 
 test.describe('service worker', () => {
@@ -75,6 +86,8 @@ test.describe('service worker', () => {
     const { urls } = await lireEntreesPrecache(page);
     expect(urls.length).toBeGreaterThanOrEqual(35);
     expect(precacheContient(urls, 'offline.html')).toBe(true);
+    expect(precacheContient(urls, 'style-page-offline.css')).toBe(true);
+    expect(precacheContient(urls, 'styles/pages/offline.css')).toBe(false);
     expect(precacheContient(urls, 'js/main.js')).toBe(true);
     expect(precacheContient(urls, 'assets/previews/lsf.webp')).toBe(false);
     expect(precacheContient(urls, 'assets/cv-martinez-joris.pdf')).toBe(false);

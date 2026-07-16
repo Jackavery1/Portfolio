@@ -33,7 +33,7 @@ function lire(rel) {
 
 describe('responsive CSS', () => {
   it('viewport-fit=cover sur toutes les pages HTML', () => {
-    HTML_FILES.forEach((file) => {
+    [...HTML_FILES, 'offline.html'].forEach((file) => {
       const html = lire(file);
       expect(html, file).toMatch(/viewport-fit=cover/);
     });
@@ -51,6 +51,8 @@ describe('responsive CSS', () => {
       'styles/layout/marquee.css',
       'styles/components/nav/base.css',
       'styles/layout/ecran.css',
+      'styles/layout/utilities.css',
+      'styles/components/modal/responsive.css',
       'styles/pages/contact/responsive-mobile.css',
       'styles/pages/mentions-legales/responsive-mobile.css',
     ];
@@ -102,5 +104,12 @@ describe('responsive CSS', () => {
   it('squelettes et hint paysage diffèrent le rendu pour le LCP', () => {
     expect(lire('styles/components/partial-squelette.css')).toContain('content-visibility: auto');
     expect(lire('styles/components/hint-paysage.css')).toContain('content-visibility: auto');
+  });
+
+  it('pages denses — content-visibility sur sections compétences (pas parcours/dojo)', () => {
+    expect(lire('styles/pages/competences/layout.css')).toContain('content-visibility: auto');
+    expect(lire('styles/pages/parcours/layout.css')).not.toContain('content-visibility');
+    expect(lire('styles/pages/dojo/boss-cartes.css')).not.toContain('content-visibility');
+    expect(lire('styles/pages/dojo/intro.css')).not.toContain('content-visibility');
   });
 });

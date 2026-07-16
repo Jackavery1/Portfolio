@@ -11,6 +11,14 @@
     scroll-behavior: auto;
   }
 
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
   .crt-scanlines,
   .crt-lueur,
   .crt-coins {
@@ -42,20 +50,6 @@
     animation: none !important;
   }
 
-  .section,
-  .carte-projet,
-  .modal-overlay,
-  .popup-highscore,
-  .popup-highscore__btn,
-  .boss-carte,
-  .nav__burger-trait,
-  .nav__bouton,
-  .modal-fermer,
-  .modal-lien a,
-  .lien-evitement {
-    transition: none !important;
-  }
-
   .carte-projet:hover,
   .carte-projet:focus-visible,
   .popup-highscore__btn:hover,
@@ -63,11 +57,8 @@
     transform: none !important;
   }
 
-  .barre-completion__fill,
-  .score-barre,
-  .langue-item__barre,
-  .boss-carte__vie-fill {
-    transition: none;
+  .boss-citation--visible {
+    transform: translateX(-50%) translateY(0);
   }
 }
 

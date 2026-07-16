@@ -24,12 +24,16 @@ describe('mentions-legales', () => {
   });
 
   it('génère sommaire, sections et email éditeur', () => {
+    document.getElementById('js-mentions-sections').setAttribute('aria-busy', 'true');
     initialiserMentionsLegales();
 
     expect(document.getElementById('js-mentions-intro')?.textContent).toBeTruthy();
     expect(document.querySelectorAll('.mentions-sommaire__liste a')).toHaveLength(5);
     expect(document.getElementById('donnees-personnelles')).toBeTruthy();
     expect(document.querySelectorAll('.mentions-sous-bloc h3').length).toBeGreaterThanOrEqual(5);
+    expect(document.getElementById('js-mentions-sections')?.getAttribute('aria-busy')).toBe(
+      'false'
+    );
 
     const email = document.getElementById('js-mentions-email');
     expect(email?.getAttribute('href')).toBe('mailto:test@example.com');

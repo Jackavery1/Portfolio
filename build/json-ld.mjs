@@ -12,7 +12,7 @@ function personNode(siteBase) {
     name: person.name,
     jobTitle: person.jobTitle,
     url: `${siteBase}/`,
-    image: `${siteBase}/assets/og.png`,
+    image: `${siteBase}/assets/og.webp`,
     address: {
       '@type': 'PostalAddress',
       addressLocality: person.locality,

@@ -18,6 +18,7 @@ describe('visual-viewport', () => {
     desinscrire?.();
     desinscrire = undefined;
     delete window.visualViewport;
+    vi.unstubAllGlobals();
   });
 
   it('ne fait rien sans visualViewport', () => {
@@ -42,6 +43,7 @@ describe('visual-viewport', () => {
         }
       },
     };
+    vi.stubGlobal('matchMedia', () => ({ matches: false }));
 
     const msg = document.getElementById('msg');
     msg.getBoundingClientRect = () => ({
@@ -63,12 +65,41 @@ describe('visual-viewport', () => {
     });
   });
 
+  it('scroll en auto sous prefers-reduced-motion', async () => {
+    window.visualViewport = {
+      height: 400,
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+    };
+    vi.stubGlobal('matchMedia', () => ({ matches: true }));
+
+    const msg = document.getElementById('msg');
+    msg.getBoundingClientRect = () => ({
+      top: 350,
+      bottom: 430,
+      left: 0,
+      right: 100,
+      width: 100,
+      height: 80,
+    });
+
+    desinscrire = initialiserScrollChampClavier(document.getElementById('f'));
+    msg.dispatchEvent(new FocusEvent('focusin', { bubbles: true }));
+    await new Promise((resolve) => requestAnimationFrame(resolve));
+
+    expect(window.scrollBy).toHaveBeenCalledWith({
+      top: 46,
+      behavior: 'auto',
+    });
+  });
+
   it('scroll vers le haut si le champ est trop haut', async () => {
     window.visualViewport = {
       height: 400,
       addEventListener: vi.fn(),
       removeEventListener: vi.fn(),
     };
+    vi.stubGlobal('matchMedia', () => ({ matches: false }));
 
     const nom = document.getElementById('nom');
     nom.getBoundingClientRect = () => ({

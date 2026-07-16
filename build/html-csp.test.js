@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { createRequire } from 'node:module';
 
 const require = createRequire(import.meta.url);
-const { injectCspMeta, CSP_META } = require('./html-csp.cjs');
+const { injectCspMeta, CSP_META } = require('./html-csp.mjs');
 
 describe('html-csp', () => {
   it('injecte la CSP après le viewport si absente', () => {

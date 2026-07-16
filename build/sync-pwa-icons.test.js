@@ -21,7 +21,9 @@ describe('sync-pwa-icons', () => {
   it('runCli propage les erreurs generatePwaIcons', async () => {
     vi.resetModules();
     const images = require('./images.cjs');
-    const spy = vi.spyOn(images, 'generatePwaIcons').mockRejectedValue(new Error('sharp indisponible'));
+    const spy = vi
+      .spyOn(images, 'generatePwaIcons')
+      .mockRejectedValue(new Error('sharp indisponible'));
     const { runCli } = require('./sync-pwa-icons.cjs');
     await expect(runCli(rootDir)).rejects.toThrow('sharp indisponible');
     spy.mockRestore();
@@ -54,5 +56,28 @@ describe('sync-pwa-icons', () => {
     expect(exit).toHaveBeenCalledWith(1);
     exit.mockRestore();
     error.mockRestore();
+  });
+
+  it('executerSyncPwaIconsCli réussit sans exit', async () => {
+    vi.resetModules();
+    const images = require('./images.cjs');
+    vi.spyOn(images, 'generatePwaIcons').mockResolvedValue(undefined);
+    const exit = vi.fn();
+    const { executerSyncPwaIconsCli } = require('./sync-pwa-icons.cjs');
+
+    await expect(executerSyncPwaIconsCli(rootDir, { exit })).resolves.toBeUndefined();
+    expect(exit).not.toHaveBeenCalled();
+  });
+
+  it('syncPwaIcons utilise la racine par défaut', async () => {
+    vi.resetModules();
+    const images = require('./images.cjs');
+    const spy = vi.spyOn(images, 'generatePwaIcons').mockResolvedValue(undefined);
+    const { syncPwaIcons } = require('./sync-pwa-icons.cjs');
+
+    await syncPwaIcons();
+
+    expect(spy).toHaveBeenCalledWith(rootDir, rootDir);
+    spy.mockRestore();
   });
 });

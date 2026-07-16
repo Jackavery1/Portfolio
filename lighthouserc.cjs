@@ -1,5 +1,5 @@
 const { resolveStaticDistDir } = require('./build/resolve-static-dist.cjs');
-const { HTML_FILES } = require('./build/html-files.cjs');
+const { HTML_FILES } = require('./build/html-files.mjs');
 
 const staticDistDir = resolveStaticDistDir();
 

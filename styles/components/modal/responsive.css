@@ -8,9 +8,9 @@
   }
 
   .modal-boite {
-    max-height: calc(100dvh - 2rem - env(safe-area-inset-top, 0) - env(safe-area-inset-bottom, 0));
-    max-height: calc(100vh - 2rem - env(safe-area-inset-top, 0) - env(safe-area-inset-bottom, 0));
-    margin: 0.5rem 0;
+    max-height: calc(100dvh - 2rem - var(--safe-area-inset-top) - var(--safe-area-inset-bottom));
+    max-height: calc(100vh - 2rem - var(--safe-area-inset-top) - var(--safe-area-inset-bottom));
+    margin: var(--espacement-sm) 0;
   }
 
   .modal-img {
@@ -29,10 +29,10 @@
   }
 
   .popup-highscore__boite {
-    margin: 0.5rem 0;
-    padding: 1.25rem 1rem;
-    max-height: calc(100dvh - 2rem - env(safe-area-inset-top, 0) - env(safe-area-inset-bottom, 0));
-    max-height: calc(100vh - 2rem - env(safe-area-inset-top, 0) - env(safe-area-inset-bottom, 0));
+    margin: var(--espacement-sm) 0;
+    padding: var(--espacement-ml) var(--espacement-md);
+    max-height: calc(100dvh - 2rem - var(--safe-area-inset-top) - var(--safe-area-inset-bottom));
+    max-height: calc(100vh - 2rem - var(--safe-area-inset-top) - var(--safe-area-inset-bottom));
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
   }

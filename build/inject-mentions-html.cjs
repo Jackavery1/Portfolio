@@ -112,8 +112,8 @@ function injectMentionsHtml(html, root) {
     `<div id="js-mentions-sommaire">${sommaire}</div>`
   );
   out = out.replace(
-    /<div id="js-mentions-sections" aria-live="polite"><\/div>/,
-    `<div id="js-mentions-sections" aria-live="polite">${sections}</div>`
+    /<div\b[^>]*\bid="js-mentions-sections"[^>]*>\s*(?:<span\b[^>]*class="[^"]*partial-squelette[^"]*"[^>]*><\/span>\s*)*<\/div>/,
+    `<div id="js-mentions-sections" aria-live="polite" aria-busy="false">${sections}</div>`
   );
   return out;
 }

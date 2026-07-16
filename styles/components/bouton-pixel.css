@@ -108,7 +108,7 @@
 
 .bouton-envoyer--chargement {
   cursor: wait;
-  gap: 0.5rem;
+  gap: var(--espacement-sm);
   pointer-events: auto;
 }
 

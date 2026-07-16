@@ -8,7 +8,7 @@
   font-size: var(--taille-petit-pixel);
   color: var(--couleur-accent-vif);
   letter-spacing: 2px;
-  margin-bottom: 1rem;
+  margin-bottom: var(--espacement-md);
 }
 
 .formulaire-crt {
@@ -20,7 +20,7 @@
 .champ-groupe {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: var(--espacement-sm);
 }
 
 .champ-label {
@@ -64,6 +64,13 @@
   cursor: text;
 }
 
+.champ-input:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  color: var(--couleur-texte-discret);
+  background-color: var(--couleur-fond-carte);
+}
+
 .champ-input[aria-invalid='true'] {
   border-color: var(--couleur-erreur);
   box-shadow: 0 0 10px var(--couleur-erreur-alpha);
@@ -74,6 +81,16 @@
   outline-offset: var(--outline-focus-decalage-compact);
   border-color: var(--couleur-accent);
   box-shadow: var(--ombre-champ-focus);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .champ-input:hover:not(:disabled):not(:focus-visible):not([aria-invalid='true']) {
+    border-color: var(--couleur-bordure-active);
+  }
+}
+
+.champ-input:active:not(:disabled):not(:focus-visible) {
+  border-color: var(--couleur-accent);
 }
 
 .champ-input::placeholder {
@@ -216,7 +233,7 @@
   font-size: clamp(0.8rem, 2vw, 0.9rem);
   color: var(--couleur-texte-normal);
   line-height: 1.5;
-  margin-top: 0.25rem;
+  margin-top: var(--espacement-xs);
 }
 
 @media (max-width: 960px) {

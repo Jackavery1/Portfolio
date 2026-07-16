@@ -127,6 +127,5 @@ module.exports = {
   listerFichiersCss,
 };
 
-if (require.main === module) {
-  syncBreakpoints();
-}
+const { executerSiEntreeDirecte } = require('./cli-entry.mjs');
+executerSiEntreeDirecte(require.main, module, syncBreakpoints);

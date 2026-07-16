@@ -14,7 +14,11 @@ vi.mock('./recaptcha.js', () => ({
 
 import { ajouterScore } from './score.js';
 import { reinitialiserWidgetRecaptcha } from './recaptcha.js';
-import { finaliserEnvoiReussi } from './contact-form-submit-ui.js';
+import {
+  finaliserEnvoiReussi,
+  marquerEnvoiEnCours,
+  restaurerBoutonEnvoi,
+} from './contact-form-submit-ui.js';
 import { preparerDomEnvoi } from '../test-fixtures/contact-form-submit-fixtures.js';
 
 describe('contact-form-submit-ui', () => {
@@ -40,5 +44,28 @@ describe('contact-form-submit-ui', () => {
     const btn = document.getElementById('btn');
     finaliserEnvoiReussi({ btnEnvoyer: btn, confirmation: null, desactiver: false });
     expect(btn.disabled).toBe(false);
+  });
+
+  it('marquerEnvoiEnCours désactive les champs du formulaire', () => {
+    const btn = document.getElementById('btn');
+    marquerEnvoiEnCours(btn);
+
+    expect(btn.disabled).toBe(true);
+    expect(document.getElementById('contact-nom').disabled).toBe(true);
+    expect(document.getElementById('contact-email').disabled).toBe(true);
+    expect(document.getElementById('contact-sujet').disabled).toBe(true);
+    expect(document.getElementById('contact-message').disabled).toBe(true);
+    expect(btn.form?.getAttribute('aria-busy')).toBe('true');
+  });
+
+  it('restaurerBoutonEnvoi réactive les champs du formulaire', () => {
+    const btn = document.getElementById('btn');
+    marquerEnvoiEnCours(btn);
+    restaurerBoutonEnvoi(btn, '► ENVOYER');
+
+    expect(btn.disabled).toBe(false);
+    expect(document.getElementById('contact-nom').disabled).toBe(false);
+    expect(document.getElementById('contact-message').disabled).toBe(false);
+    expect(btn.textContent).toBe('► ENVOYER');
   });
 });

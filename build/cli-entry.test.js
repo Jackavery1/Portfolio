@@ -2,7 +2,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { createRequire } from 'node:module';
 
 const require = createRequire(import.meta.url);
-const { estEntreeDirecte, executerSiEntreeDirecte } = require('./cli-entry.cjs');
+const { estEntreeDirecte, executerSiEntreeDirecte } = require('./cli-entry.mjs');
 
 describe('cli-entry', () => {
   it('estEntreeDirecte compare require.main et module', () => {

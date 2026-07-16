@@ -51,9 +51,3 @@
     background-position: 0 0;
   }
 }
-
-@media (prefers-reduced-motion: reduce) {
-  .partial-squelette__ligne {
-    animation: none;
-  }
-}

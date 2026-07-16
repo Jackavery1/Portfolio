@@ -22,7 +22,10 @@ import {
   lireSujetUtile,
 } from './contact-form-submit.js';
 
-export function initialiserEcouteurSoumission(formulaire, { endpoint, assurerRecaptcha, optionsRecaptcha }) {
+export function initialiserEcouteurSoumission(
+  formulaire,
+  { endpoint, assurerRecaptcha, optionsRecaptcha }
+) {
   const zoneErreur = parId(CONFIGURATION.SELECTEURS.CONTACT_ERREUR);
   const afficherErreur = (texte) => afficherErreurZone(zoneErreur, texte);
 
@@ -60,7 +63,6 @@ export function initialiserEcouteurSoumission(formulaire, { endpoint, assurerRec
         construireErreursValidation({ nom, email, message, champsDom: champsDomLus }),
         jouerBip
       );
-      formulaire.reportValidity();
       return;
     }
 

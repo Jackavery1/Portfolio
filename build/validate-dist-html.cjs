@@ -1,6 +1,6 @@
 const path = require('path');
 const { spawnSync } = require('child_process');
-const { executerSiEntreeDirecte } = require('./cli-entry.cjs');
+const { executerSiEntreeDirecte } = require('./cli-entry.mjs');
 const { resolveServeDir } = require('./resolve-serve-dir.cjs');
 
 function validerDistHtml({ root = path.join(__dirname, '..'), spawn = spawnSync } = {}) {

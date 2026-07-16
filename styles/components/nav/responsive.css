@@ -14,7 +14,7 @@
     background-color: var(--couleur-fond);
     border-bottom: 1px solid var(--couleur-bordure);
     flex-direction: column;
-    padding: 0.5rem 0;
+    padding: var(--espacement-sm) 0;
     z-index: 90;
     box-shadow: var(--ombre-menu-mobile);
   }
@@ -25,7 +25,7 @@
 
   .nav__bouton {
     font-size: var(--taille-petit-pixel);
-    padding: 0.8rem 1.5rem;
+    padding: 0.8rem var(--espacement-lg);
     min-height: 44px;
     box-sizing: border-box;
     display: flex;
@@ -65,7 +65,7 @@
   .nav__arcade-info {
     flex-direction: row;
     align-items: center;
-    gap: 0.25rem;
+    gap: var(--espacement-xs);
     margin-left: auto;
     margin-right: 0.1rem;
     flex-shrink: 1;

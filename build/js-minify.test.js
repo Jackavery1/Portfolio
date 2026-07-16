@@ -87,19 +87,28 @@ describe('js-minify', () => {
     minifyAllJs(rootDir, distRoot);
     expect(fs.existsSync(path.join(distRoot, 'js', 'main.js'))).toBe(true);
     expect(fs.existsSync(path.join(distRoot, 'js', 'config', 'musique-themes.json'))).toBe(true);
+    expect(fs.existsSync(path.join(distRoot, 'js', 'config', 'legal.json'))).toBe(false);
+    expect(fs.existsSync(path.join(distRoot, 'js', 'config', 'projects.json'))).toBe(false);
+    expect(fs.existsSync(path.join(distRoot, 'js', 'config', 'musique-donnees.json'))).toBe(false);
   });
 
-  it('copie les JSON runtime de js/config/', () => {
+  it('copie uniquement les JSON runtime de js/config/', () => {
     const srcRoot = creerTmp('portfolio-jsmin-src-');
     const distRoot = creerTmp('portfolio-jsmin-dist-');
     fs.mkdirSync(path.join(srcRoot, 'js', 'config'), { recursive: true });
-    fs.writeFileSync(path.join(srcRoot, 'js', 'config', 'demo.json'), '{"ok":true}', 'utf8');
+    fs.writeFileSync(
+      path.join(srcRoot, 'js', 'config', 'musique-themes.json'),
+      '{"ok":true}',
+      'utf8'
+    );
+    fs.writeFileSync(path.join(srcRoot, 'js', 'config', 'legal.json'), '{"src":true}', 'utf8');
     fs.writeFileSync(path.join(srcRoot, 'js', 'demo.js'), 'export const x = 1;', 'utf8');
 
     minifyAllJs(srcRoot, distRoot);
 
-    expect(fs.readFileSync(path.join(distRoot, 'js', 'config', 'demo.json'), 'utf8')).toBe(
-      '{"ok":true}'
-    );
+    expect(
+      fs.readFileSync(path.join(distRoot, 'js', 'config', 'musique-themes.json'), 'utf8')
+    ).toBe('{"ok":true}');
+    expect(fs.existsSync(path.join(distRoot, 'js', 'config', 'legal.json'))).toBe(false);
   });
 });

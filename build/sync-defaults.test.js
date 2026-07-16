@@ -1,14 +1,16 @@
+import { beforeAll, describe, expect, it } from 'vitest';
 import fs from 'node:fs';
 import path from 'node:path';
+import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { beforeAll, describe, expect, it } from 'vitest';
 import { createRequire } from 'node:module';
 import { ensureSyncSource } from './ensure-sync.cjs';
 
 const require = createRequire(import.meta.url);
-const { syncDefaults } = require('./sync-defaults.cjs');
+const { syncDefaults, escapeJsString } = require('./sync-defaults.cjs');
 const CONFIG_DEFAULTS = require('./config-defaults.mjs');
 const rootDir = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
+const scriptPath = path.join(rootDir, 'build', 'sync-defaults.cjs');
 
 describe('sync-defaults', () => {
   beforeAll(() => {
@@ -25,5 +27,19 @@ describe('sync-defaults', () => {
     expect(content).toContain(`GITHUB: '${CONFIG_DEFAULTS.social.github}'`);
     expect(content).toContain(`LINKEDIN: '${CONFIG_DEFAULTS.social.linkedin}'`);
     expect(content).toMatch(/Généré par build\/sync-defaults\.cjs/);
+  });
+
+  it('escapeJsString échappe backslash et apostrophe', () => {
+    expect(escapeJsString("O'Reilly")).toBe("O\\'Reilly");
+    expect(escapeJsString('C:\\path')).toBe('C:\\\\path');
+  });
+
+  it('CLI exécute syncDefaults sans erreur', () => {
+    const resultat = spawnSync(process.execPath, [scriptPath], {
+      cwd: rootDir,
+      encoding: 'utf8',
+    });
+    expect(resultat.status).toBe(0);
+    expect(fs.existsSync(path.join(rootDir, 'js', 'config', 'defaults.js'))).toBe(true);
   });
 });

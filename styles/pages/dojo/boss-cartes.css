@@ -4,9 +4,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.65rem;
-  margin-bottom: 2rem;
-  content-visibility: auto;
-  contain-intrinsic-size: auto 640px;
+  margin-bottom: var(--espacement-xl);
 }
 
 .boss-rush__lot + .boss-rush__lot {
@@ -101,7 +99,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.25rem;
+  gap: var(--espacement-xs);
   flex-shrink: 0;
   width: 52px;
 }
@@ -201,7 +199,7 @@
 .boss-carte__xp {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--espacement-sm);
   margin-top: 0.05rem;
 }
 
@@ -222,7 +220,7 @@
 .boss-carte__barre-vie {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--espacement-sm);
   margin-top: 0.05rem;
 }
 

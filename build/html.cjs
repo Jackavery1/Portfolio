@@ -2,10 +2,15 @@ const fs = require('fs');
 const path = require('path');
 const { ensureDir, log } = require('./fs-utils.cjs');
 const { CV_HREF_LOCAL, resolveBuildEnv } = require('./env.cjs');
-const { HTML_FILES } = require('./html-files.cjs');
-const { injectCspMeta } = require('./html-csp.cjs');
-const { injectSeoMeta, injectPageMeta, injectJsonLd } = require('./html-seo.cjs');
-const { injectHeadCommon, injectFontsAsync, injectPerfHead, liensStylesProd } = require('./html-head.cjs');
+const { HTML_FILES } = require('./html-files.mjs');
+const { injectCspMeta } = require('./html-csp.mjs');
+const { injectSeoMeta, injectPageMeta, injectJsonLd } = require('./html-seo.mjs');
+const {
+  injectHeadCommon,
+  injectFontsAsync,
+  injectPerfHead,
+  liensStylesProd,
+} = require('./html-head.cjs');
 const { inlinePartials, placeholderRegex } = require('./html-partials-inline.cjs');
 const { injectMentionsHtml } = require('./inject-mentions-html.cjs');
 

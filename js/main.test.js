@@ -211,8 +211,9 @@ describe('main', () => {
   it('initialise dojo-boss sur la section dojo', async () => {
     document.body.dataset.sectionId = 'dojo';
     await initialiser();
-
-    expect(mocks.initialiserDojoBoss).toHaveBeenCalled();
+    await vi.waitFor(() => {
+      expect(mocks.initialiserDojoBoss).toHaveBeenCalled();
+    });
   });
 
   it('initialise la page contact via la facade', async () => {
@@ -263,14 +264,28 @@ describe('main', () => {
     expect(mocks.enregistrerServiceWorker).toHaveBeenCalled();
   });
 
-  it('diffère musique et overlay CRT sur page dense', async () => {
+  it('diffère musique, section, konami et overlay CRT sur page dense', async () => {
     document.body.dataset.sectionId = 'competences';
     const ric = vi.fn((fn) => fn());
     vi.stubGlobal('requestIdleCallback', ric);
     await initialiser();
 
-    expect(ric.mock.calls.length).toBeGreaterThanOrEqual(3);
+    expect(ric.mock.calls.length).toBeGreaterThanOrEqual(5);
     expect(mocks.initialiserMusique).toHaveBeenCalled();
+    expect(mocks.initialiserCodeKonami).toHaveBeenCalled();
+    expect(mocks.initialiserBonusScore).toHaveBeenCalled();
     expect(document.documentElement.classList.contains('crt-pret')).toBe(true);
+  });
+
+  it('diffère l’init dojo-boss sur page dense', async () => {
+    document.body.dataset.sectionId = 'dojo';
+    const ric = vi.fn((fn) => fn());
+    vi.stubGlobal('requestIdleCallback', ric);
+    await initialiser();
+
+    expect(ric.mock.calls.length).toBeGreaterThanOrEqual(5);
+    await vi.waitFor(() => {
+      expect(mocks.initialiserDojoBoss).toHaveBeenCalled();
+    });
   });
 });

@@ -2,19 +2,8 @@ const fs = require('fs');
 const path = require('path');
 const { ensureDir, log, walkJsFiles } = require('./fs-utils.cjs');
 const { HTML_FILES } = require('./html.cjs');
-const { BASE_STYLE_FILE, PAGE_STYLE_BY_HTML } = require('./page-styles.mjs');
-
-/** Optionnels ou réseau-dépendants — routes lazy precachées pour navigation offline. */
-const JS_PRECACH_EXCLUS = new Set([
-  'js/config/musique-themes.json',
-  'js/modules/musique.js',
-  'js/modules/musique-audio.js',
-  'js/modules/musique-sequencuer.js',
-  'js/modules/musique-bouton.js',
-  'js/modules/contact-form-submit.js',
-  'js/modules/recaptcha.js',
-  'js/modules/recaptcha-chargement.js',
-]);
+const { BASE_STYLE_FILE, OFFLINE_STYLE_FILE, PAGE_STYLE_BY_HTML } = require('./page-styles.mjs');
+const { JS_PRECACH_EXCLUS } = require('./sw-precache.mjs');
 
 function listerPolicesPrecache(distDir) {
   const fontsDir = path.join(distDir, 'assets', 'fonts');
@@ -48,9 +37,7 @@ function precacheUrls(distDir) {
 
   return [
     'offline.html',
-    'styles/tokens.css',
-    'styles/fonts-local.css',
-    'styles/pages/offline.css',
+    OFFLINE_STYLE_FILE,
     'manifest.webmanifest',
     'assets/favicon.png',
     'assets/apple-touch-icon.png',

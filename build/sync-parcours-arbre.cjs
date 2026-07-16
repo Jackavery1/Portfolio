@@ -24,6 +24,5 @@ function syncParcoursArbre(root = path.join(__dirname, '..')) {
 
 module.exports = { syncParcoursArbre, FRAGMENTS };
 
-if (require.main === module) {
-  syncParcoursArbre();
-}
+const { executerSiEntreeDirecte } = require('./cli-entry.mjs');
+executerSiEntreeDirecte(require.main, module, syncParcoursArbre);

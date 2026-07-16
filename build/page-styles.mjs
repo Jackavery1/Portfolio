@@ -31,7 +31,6 @@ export const BASE_STYLE_SOURCES = [
   'styles/components/card.css',
   'styles/components/bouton-pixel.css',
   'styles/components/hint-paysage.css',
-  'styles/components/form.css',
   'styles/components/footer.css',
   'styles/components/partial-squelette.css',
   'styles/components/sw-toast.css',
@@ -56,6 +55,7 @@ export const ACCUEIL_STYLE_SOURCES = [
 ];
 
 export const CONTACT_STYLE_SOURCES = [
+  'styles/components/form.css',
   'styles/pages/contact/grille.css',
   'styles/pages/contact/bandeau.css',
   'styles/pages/contact/profil.css',
@@ -99,7 +99,27 @@ export const PARCOURS_STYLE_SOURCES = [
   'styles/pages/parcours/responsive-desktop.css',
 ];
 
-export const OFFLINE_STYLE_SOURCES = ['styles/pages/offline.css'];
+/** Bundle autonome page hors-ligne (pas de style-base / nav / CRT). */
+export const OFFLINE_STYLE_SOURCES = [
+  'styles/tokens.css',
+  'styles/fonts-local.css',
+  'styles/pages/offline.css',
+];
+
+export const OFFLINE_STYLE_FILE = 'style-page-offline.css';
+
+/** Remplace les <link> styles/… de offline.html par le bundle prod. */
+export function reecrireLiensStylesOffline(html) {
+  const sansAnciens = html.replace(
+    /\s*<link\s+rel="stylesheet"\s+href="styles\/[^"]+"\s*\/>/gi,
+    ''
+  );
+  if (sansAnciens.includes(`href="${OFFLINE_STYLE_FILE}"`)) return sansAnciens;
+  return sansAnciens.replace(
+    /(<title>[^<]*<\/title>)/i,
+    `$1\n    <link rel="stylesheet" href="${OFFLINE_STYLE_FILE}" />`
+  );
+}
 
 export const PAGE_STYLE_BY_HTML = {
   'index.html': { outfile: 'style-page-accueil.css', sources: ACCUEIL_STYLE_SOURCES },

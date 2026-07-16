@@ -49,10 +49,16 @@ describe('page-styles', () => {
 
   it('contact et dojo sont découpés en modules dédiés', () => {
     const { CONTACT_STYLE_SOURCES, DOJO_STYLE_SOURCES } = require('./page-styles.mjs');
-    expect(CONTACT_STYLE_SOURCES).toHaveLength(5);
-    expect(CONTACT_STYLE_SOURCES.every((s) => s.startsWith('styles/pages/contact/'))).toBe(true);
+    expect(CONTACT_STYLE_SOURCES).toContain('styles/components/form.css');
+    expect(CONTACT_STYLE_SOURCES.filter((s) => s.startsWith('styles/pages/contact/'))).toHaveLength(
+      5
+    );
     expect(DOJO_STYLE_SOURCES).toHaveLength(5);
     expect(DOJO_STYLE_SOURCES.every((s) => s.startsWith('styles/pages/dojo/'))).toBe(true);
+  });
+
+  it('formulaire CSS n’est pas dans le bundle base', () => {
+    expect(BASE_STYLE_SOURCES).not.toContain('styles/components/form.css');
   });
 
   it('compétences est découpé en modules dédiés', () => {
@@ -106,5 +112,28 @@ describe('page-styles', () => {
 
     const orphelins = listerCss(path.join(rootDir, 'styles')).filter((rel) => !references.has(rel));
     expect(orphelins, orphelins.join(', ')).toEqual([]);
+  });
+
+  it('offline bundle inclut tokens et police locale', () => {
+    const {
+      OFFLINE_STYLE_SOURCES,
+      OFFLINE_STYLE_FILE,
+      reecrireLiensStylesOffline,
+    } = require('./page-styles.mjs');
+    expect(OFFLINE_STYLE_FILE).toBe('style-page-offline.css');
+    expect(OFFLINE_STYLE_SOURCES).toEqual([
+      'styles/tokens.css',
+      'styles/fonts-local.css',
+      'styles/pages/offline.css',
+    ]);
+    const html = reecrireLiensStylesOffline(`<!doctype html><html><head>
+    <link rel="stylesheet" href="styles/tokens.css" />
+    <link rel="stylesheet" href="styles/fonts-local.css" />
+    <link rel="stylesheet" href="styles/pages/offline.css" />
+    <title>Hors ligne</title>
+  </head></html>`);
+    expect(html).toContain('href="style-page-offline.css"');
+    expect(html).not.toContain('styles/tokens.css');
+    expect(html).not.toContain('styles/pages/offline.css');
   });
 });

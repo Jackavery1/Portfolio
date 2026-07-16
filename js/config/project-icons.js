@@ -8,7 +8,7 @@ export const ICONES_PROJETS = {
     <rect x="0" y="13" width="5" height="7" rx="2" fill="var(--couleur-accent)" />
   </svg>`,
   floppybird: `<svg viewBox="0 0 32 24" width="40" height="30" shape-rendering="crispEdges">
-    <rect x="0" y="0" width="32" height="24" fill="#5c94fc" opacity="0.35" />
+    <rect x="0" y="0" width="32" height="24" fill="var(--couleur-icone-floppy-ciel)" opacity="0.35" />
     <rect x="20" y="0" width="5" height="11" fill="var(--couleur-valide)" />
     <rect x="20" y="17" width="5" height="7" fill="var(--couleur-valide)" />
     <rect x="8" y="2" width="5" height="7" fill="var(--couleur-valide)" />
@@ -18,13 +18,13 @@ export const ICONES_PROJETS = {
     <rect x="12" y="11" width="2" height="2" fill="var(--couleur-fond)" />
   </svg>`,
   derniereligne: `<svg viewBox="0 0 32 24" width="40" height="30" shape-rendering="crispEdges">
-    <rect x="0" y="0" width="32" height="24" fill="#1a1030" />
-    <rect x="8" y="2" width="16" height="14" fill="#4a1f7a" opacity="0.8" />
-    <ellipse cx="12" cy="9" rx="3" ry="4" fill="#ff2fd6" />
-    <ellipse cx="20" cy="9" rx="3" ry="4" fill="#ff2fd6" />
-    <rect x="14" y="18" width="4" height="4" fill="#ff2fd6" />
-    <rect x="10" y="20" width="4" height="2" fill="#ff2fd6" opacity="0.8" />
-    <rect x="18" y="20" width="4" height="2" fill="#ff2fd6" opacity="0.8" />
+    <rect x="0" y="0" width="32" height="24" fill="var(--couleur-icone-dl-fond)" />
+    <rect x="8" y="2" width="16" height="14" fill="var(--couleur-icone-dl-violet)" opacity="0.8" />
+    <ellipse cx="12" cy="9" rx="3" ry="4" fill="var(--couleur-icone-dl-magenta)" />
+    <ellipse cx="20" cy="9" rx="3" ry="4" fill="var(--couleur-icone-dl-magenta)" />
+    <rect x="14" y="18" width="4" height="4" fill="var(--couleur-icone-dl-magenta)" />
+    <rect x="10" y="20" width="4" height="2" fill="var(--couleur-icone-dl-magenta)" opacity="0.8" />
+    <rect x="18" y="20" width="4" height="2" fill="var(--couleur-icone-dl-magenta)" opacity="0.8" />
   </svg>`,
   gamehub: `<svg viewBox="0 0 32 20" width="40" height="25" shape-rendering="crispEdges">
     <rect x="1" y="4" width="30" height="14" rx="4" fill="none" stroke="var(--couleur-accent)" stroke-width="1.5" />

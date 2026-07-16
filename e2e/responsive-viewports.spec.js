@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { gotoReady } from './helpers.js';
+import { gotoReady, gotoPage } from './helpers.js';
 import {
   PAGE_COQUILLE,
   PAGES,
@@ -82,6 +82,14 @@ for (const pageInfo of PAGES) {
     await assertPasOverflowHorizontal(page);
   });
 }
+
+test('responsive mobile-etroit — /offline.html sans overflow', async ({ page }) => {
+  await page.setViewportSize(VIEWPORT_ETROIT);
+  await gotoPage(page, '/offline.html');
+  await expect(page.locator('.offline-ecran')).toBeVisible();
+  await expect(page.locator('.offline-ecran a[href="index.html"]')).toBeVisible();
+  await assertPasOverflowHorizontal(page);
+});
 
 const PAGES_SEUIL_NAV = PAGES;
 
@@ -197,7 +205,8 @@ const PAGES_ZOOM_200 = [
   { path: '/competences.html', visible: 'h1.titre-section' },
   { path: '/parcours.html', visible: '.svg-arbre' },
   { path: '/mentions-legales.html', visible: '.mentions-sommaire' },
-  { path: '/dojo.html', visible: '.boss-carte' },
+  { path: '/dojo.html', visible: '.boss-carte__sprite' },
+  { path: '/offline.html', visible: '.offline-ecran' },
   {
     path: '/contact.html',
     visible: '#contact-nom',
@@ -211,7 +220,7 @@ const PAGES_ZOOM_200 = [
 
 for (const pageInfo of PAGES_ZOOM_200) {
   test(`accessibility zoom 200% — ${pageInfo.path} sans overflow`, async ({ page }) => {
-    await gotoReady(page, pageInfo.path);
+    await gotoPage(page, pageInfo.path);
     if (pageInfo.preparer) {
       await pageInfo.preparer(page);
     }

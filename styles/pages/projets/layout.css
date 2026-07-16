@@ -70,7 +70,7 @@
   font-size: var(--taille-petit-pixel);
   color: var(--couleur-texte-discret);
   letter-spacing: 2px;
-  padding: 1.5rem 0;
+  padding: var(--espacement-lg) 0;
   animation: grille-projets-pulse 1.4s ease-in-out infinite;
 }
 
@@ -85,7 +85,7 @@
 }
 
 .projets-sommaire {
-  margin-bottom: 1rem;
+  margin-bottom: var(--espacement-md);
 }
 
 .projets-sommaire__liste {
@@ -135,7 +135,7 @@
 .work-dojo-zone {
   display: flex;
   justify-content: center;
-  margin-top: 2rem;
-  padding-top: 1.5rem;
+  margin-top: var(--espacement-xl);
+  padding-top: var(--espacement-lg);
   border-top: 1px solid var(--couleur-separateur);
 }

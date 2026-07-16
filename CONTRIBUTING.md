@@ -36,14 +36,12 @@ La **CSP** et le **service worker** ne sont injectés qu’après `npm run build
 
 ## Navigation (squelette vs partial runtime)
 
-Deux sources complémentaires — ne pas les confondre :
+| Fichier                       | Rôle                                                 | Quand                                                                         |
+| ----------------------------- | ---------------------------------------------------- | ----------------------------------------------------------------------------- |
+| `partials/nav.html`           | **Source unique** (score, burger, liens, annonce SR) | Éditer ici uniquement ; fetch runtime + inline build prod (`build/html.cjs`)  |
+| `partials/nav-squelette.html` | Nav minimale first paint (générée)                   | Dérivée par `build/sync-nav-squelette.cjs` puis inlinée dans les HTML sources |
 
-| Fichier                       | Rôle                                         | Quand                                                                               |
-| ----------------------------- | -------------------------------------------- | ----------------------------------------------------------------------------------- |
-| `partials/nav-squelette.html` | Nav minimale (first paint, landmarks, liens) | Inlinée dans les HTML sources via `build/sync-nav-squelette.cjs`                    |
-| `partials/nav.html`           | Nav complète (score, burger, annonce AT)     | Fetch runtime (`js/modules/partials.js`) ; inlinée au build prod (`build/html.cjs`) |
-
-**Workflow** : modifier le squelette → `node build/sync-nav-squelette.cjs` (ou `npm run pretest`). Modifier la nav interactive → `partials/nav.html` uniquement. Les deux doivent rester alignés sur les liens et le seuil burger (960/961 px).
+**Workflow** : modifier `partials/nav.html` → `node build/sync-nav-squelette.cjs` (ou `npm run pretest` / `prestart`). Ne plus éditer le squelette à la main.
 
 ## Contact (modules)
 
@@ -53,19 +51,7 @@ Point d’entrée unique : `js/modules/contact.js` (`initialiserPageContact`). S
 
 ### Identité visuelle
 
-Thème **sombre arcade CRT** — choix intentionnel, pas de variante claire (light mode). `prefers-color-scheme` n’est **pas utilisé** ; le design ignore la préférence utilisateur et assume dark-only.
-
-**Pourquoi dark-only :**
-
-- Identité neon arcade assume (cyberpunk, pixel art, rétro 80s)
-- Palette 3-couleurs optimisée pour dark (#000008 fond, #4a6fff bleu, #ffcc44 jaune)
-- Contrastes AA+ mesurés sur fond dark uniquement
-- Expérience utilisateur unifiée = pas de friction choix thème
-
-**Limitation et acceptation :**
-
-- Utilisateurs en mode light préfèrent dark : expérience potentiellement inconfortable
-- Cette décision doit être communiquée dans l’UX (clarifier que dark-only est volontaire, pas un bug)
+Thème **sombre arcade CRT** — dark-only, shell nav EN + contenu FR, Press Start dense : choix assumés, détail et justifications dans `AUDIT-EXCLUSIONS.md` (ne pas les traiter comme dette en audit).
 
 ### Responsive design (surfaces mobiles)
 
@@ -91,6 +77,18 @@ Source unique des variables CSS. Ne pas dupliquer de hex dans les composants —
 **Shell arcade EN / contenu FR** : libellés visibles (nav HOME, WORK…) en anglais pour l’immersion ; contenu métier et annonces AT en français. Tooltips `title` sur chaque lien nav (Accueil, Projets…), tagline footer (`pied-page__tagline-ia`).
 
 **Sections** : manifeste `js/config/sections-manifest.js` + charges `js/config/sections-registry.js` — toute nouvelle page lazy-load doit y figurer (test d’alignement HTML automatique).
+
+### Checklist — ajouter une page HTML
+
+1. Créer `ma-page.html` (viewport, `PAGE_META`, `HEAD_COMMON` / `HEAD_DEV_MIN`, landmarks).
+2. Enregistrer le fichier dans `build/html-files.mjs` (`HTML_FILES`).
+3. Métadonnées SEO : entrée dans `build/page-meta.mjs` puis `npm run sync:page-meta`.
+4. Styles : sources dans `build/page-styles.mjs` (`PAGE_STYLE_BY_HTML` + éventuel découpage `styles/pages/…`).
+5. Navigation : `js/config/navigation.js` (ordre / libellés) + lien dans `partials/nav.html` → `npm start` (sync nav-squelette).
+6. Lazy-load JS : `js/config/sections-manifest.js` + `js/config/sections-registry.js` si la page a un `data-section-id`.
+7. E2E : entrée dans `e2e/fixtures/pages.js` (+ smoke / a11y si besoin).
+8. Lighthouse : inclus via `HTML_FILES` (`lighthouserc.cjs`) — ajuster le seuil perf si page dense.
+9. Valider : `npm test` + `npm run build` + `npm run start:prod`.
 
 **Audits** : choix assumés exclus des points faibles → `AUDIT-EXCLUSIONS.md`.
 
@@ -124,7 +122,7 @@ Copier `.env.example` → `.env.local` pour surcharger :
 
 Valeurs par défaut : `build/config-defaults.mjs` → synchronisées au build dans `js/config/defaults.js`, `manifest.webmanifest` et métadonnées SEO.
 
-Fichiers générés (non versionnés, recréés par `npm test` / `npm run build`) : `js/config/defaults.js`, `js/config/legal-data.js`, `js/config/projects-data.js`, `js/config/partials.js`, `js/config/musique-themes.json`, `style.css`, `partials/parcours-arbre.html`, `partials/dojo-boss-rush-lot-{a,b,c}.html`, `partials/competences-stats.html`, `partials/accueil-hero.html`, `sw.js` — et `manifest.webmanifest` **à la racine** (dev local, URLs relatives via `sync-source`) **ou dans `.dist-staging/`** (build prod). Contenu mentions légales : `js/config/legal.json` (source éditable) → `build/sync-legal.cjs` → `js/config/legal-data.js`. Métadonnées projets : `js/config/projects.json` (source éditable, **à versionner**) → `build/sync-projects.cjs` → `js/config/projects-data.js` ; icônes SVG : `js/config/project-icons.js`. Grilles musicales : `js/config/musique-donnees.json` (source éditable, **à versionner**) → `build/sync-musique-donnees.cjs` → `js/config/musique-themes.json` (chargé à la demande par `musique-sequencuer.js`). Source unique partials : `build/partials-list.mjs`. Fragments assemblés : `partials/parcours-arbre/` → `parcours-arbre.html`, `partials/dojo-boss/` → `dojo-boss-rush.html`, `partials/competences/` → `competences-stats.html`, `partials/accueil/` → `accueil-hero.html`. Partials contact : `partials/contact/*.html` (chargés uniquement sur `contact.html`). Seuils CSS : `build/breakpoints.mjs` → `styles/tokens.css` via `build/sync-breakpoints.cjs`.
+Fichiers générés (non versionnés, recréés par `npm test` / `npm run build`) : `js/config/defaults.js`, `js/config/legal-data.js`, `js/config/projects-data.js`, `js/config/partials.js`, `js/config/musique-themes.json`, `style.css`, `partials/parcours-arbre.html`, `partials/dojo-boss-rush-lot-{a,b,c}.html`, `partials/competences-stats.html`, `partials/accueil-hero.html`, `partials/nav-squelette.html`, `sw.js` — et `manifest.webmanifest` **à la racine** (dev local, URLs relatives via `sync-source`) **ou dans `.dist-staging/`** (build prod). Contenu mentions légales : `js/config/legal.json` (source éditable) → `build/sync-legal.cjs` → `js/config/legal-data.js`. Métadonnées projets : `js/config/projects.json` (source éditable, **à versionner**) → `build/sync-projects.cjs` → `js/config/projects-data.js` ; icônes SVG : `js/config/project-icons.js`. Grilles musicales : `js/config/musique-donnees.json` (source éditable, **à versionner**) → `build/sync-musique-donnees.cjs` → `js/config/musique-themes.json` (chargé à la demande par `musique-sequencuer.js`). Source unique partials : `build/partials-list.mjs`. Fragments assemblés : `partials/parcours-arbre/` → `parcours-arbre.html`, `partials/dojo-boss/` → `dojo-boss-rush.html`, `partials/competences/` → `competences-stats.html`, `partials/accueil/` → `accueil-hero.html`. Partials contact : `partials/contact/*.html` (chargés uniquement sur `contact.html`). Seuils CSS : `build/breakpoints.mjs` → `styles/tokens.css` via `build/sync-breakpoints.cjs`.
 
 Métadonnées SEO par page : `build/page-meta.mjs` → injectées au build dans le dist (`build/html.cjs`). Pour mettre à jour les blocs `PAGE_META` dans les HTML sources : `npm run sync:page-meta` (évite de modifier les sources à chaque build). `npm run check:page-meta` vérifie l’alignement (exécuté avant les tests).
 
@@ -134,16 +132,16 @@ Métadonnées SEO par page : `build/page-meta.mjs` → injectées au build dans 
 
 Ne pas réordonner sans vérifier les dépendances — détail dans `ARCHITECTURE.md`.
 
-| Phase | Dépend de | Artefacts |
-| ----- | --------- | --------- |
-| `defaults` | — | `js/config/defaults.js`, `partials.js` |
-| `style-css` | `defaults` | `style.css` |
-| `partials` | `style-css` | fragments HTML |
-| `nav-squelette` | `partials` | nav inline dans les pages |
-| `parcours-arbre`, `dojo-boss`, `competences-stats`, `accueil-hero` | `partials` | partials assemblés |
-| `breakpoints` | `style-css` | `--bp-*` dans `tokens.css` |
-| `legal`, `projects`, `musique-donnees` | — | données JS/JSON runtime |
-| `manifest-dev` | `legal` | `manifest.webmanifest` (dev) |
+| Phase                                                              | Dépend de   | Artefacts                                                 |
+| ------------------------------------------------------------------ | ----------- | --------------------------------------------------------- |
+| `defaults`                                                         | —           | `js/config/defaults.js`, `partials.js`                    |
+| `style-css`                                                        | `defaults`  | `style.css`                                               |
+| `partials`                                                         | `style-css` | fragments HTML                                            |
+| `nav-squelette`                                                    | `partials`  | nav inline dans les pages                                 |
+| `parcours-arbre`, `dojo-boss`, `competences-stats`, `accueil-hero` | `partials`  | partials assemblés                                        |
+| `breakpoints`                                                      | `style-css` | `--bp-*` dans `tokens.css`                                |
+| `legal`, `projects`, `musique-donnees`                             | —           | sources éditoriales → `*-data.js` / `musique-themes.json` |
+| `manifest-dev`                                                     | `legal`     | `manifest.webmanifest` (dev)                              |
 
 Optionnel : `npm run sync:page-meta` après modification de `build/page-meta.mjs`.
 
@@ -163,23 +161,22 @@ Ne jamais committer de secrets (clé secrète reCAPTCHA, tokens privés). Voir [
 | Ressource                                                                                                  | Precache install | Cache au 1er visit | Hors ligne sans visite préalable |
 | ---------------------------------------------------------------------------------------------------------- | ---------------- | ------------------ | -------------------------------- |
 | HTML toutes pages                                                                                          | ✅               | —                  | ✅                               |
-| `style-base.css` + tous les `style-page-*.css`                                                             | ✅               | —                  | ✅                               |
-| JS core (`main.js`, `navigation.js`, `partials.js`, `score-*`, `musique-loader.js`, `config/index.js`…)    | ✅               | —                  | ✅                               |
+| `style-base.css` + tous les `style-page-*.css` (dont `style-page-offline.css`)                             | ✅               | —                  | ✅                               |
+| JS core + modules de page (`main.js`, `navigation.js`, `projets-grille.js`, `dojo-boss.js`, `contact.js`…) | ✅               | —                  | ✅                               |
 | Polices locales (`assets/fonts/*.woff2`)                                                                   | ✅               | —                  | ✅                               |
 | Favicon, icônes 192, `offline.html`                                                                        | ✅               | —                  | ✅                               |
-| **JS lazy par route** (`projets-grille.js`, `modal.js`, `contact-form*.js`, `dojo-boss.js`, `musique.js`…) | ❌               | ✅ fetch SW        | ❌ page vide ou partielle        |
-| **Données lazy** (`projects-data.js`, `legal-data.js`, `musique-themes.json`)                              | ❌               | ✅ fetch SW        | ❌                               |
+| **Musique / reCAPTCHA / Formspree** (`musique*.js`, `recaptcha*.js`, `contact-form-submit.js`, thèmes)     | ❌               | ✅ fetch SW        | ❌ (réseau-dépendants)           |
 | Previews projet, CV PDF, `icon-512.png`                                                                    | ❌               | optionnel          | ❌                               |
 
 **Comportement attendu :**
 
-1. **Navigation hors ligne** vers une page déjà visitée en ligne → HTML + CSS precachés ; JS lazy servi depuis le cache runtime si la page a été chargée au moins une fois.
-2. **Première visite offline** (app installée sans historique) → HTML + CSS OK ; contenu dynamique (grille projets, formulaire contact, musique, boss dojo) **incomplet** tant que les modules lazy n’ont pas été mis en cache.
-3. **Fallback** : si le HTML de navigation échoue → `offline.html`.
+1. **Navigation hors ligne** vers une page déjà precachée → HTML + CSS + JS de page disponibles (shell PWA).
+2. **Première visite offline** (app installée) → pages et modules precachés OK ; musique, reCAPTCHA et envoi Formspree restent indisponibles sans réseau.
+3. **Fallback** : si le HTML de navigation échoue → `offline.html` (stylé via `style-page-offline.css`).
 
-**Recommandation utilisateur** : après installation PWA, ouvrir une fois chaque section principale (WORK, CONTACT, DOJO) en ligne pour peupler le cache runtime.
+**Recommandation utilisateur** : après installation PWA, une visite en ligne peuplera surtout le cache runtime des assets optionnels (previews, musique).
 
-Liste d’exclusion precache JS : `JS_PRECACH_EXCLUS` dans `build/sw.cjs` (musique optionnelle, reCAPTCHA/Formspree réseau-dépendants ; routes lazy precachées pour navigation offline).
+Liste d’exclusion precache JS : `JS_PRECACH_EXCLUS` dans `build/sw-precache.mjs` (musique optionnelle, reCAPTCHA/Formspree réseau-dépendants).
 
 ### Tester la PWA en local (guide rapide)
 
@@ -190,8 +187,8 @@ Le mode dev (`npm start`) **ne charge pas** le service worker ni la CSP de produ
 3. `npm run start:prod` — sert l'artefact build le plus frais (`.dist-staging-build/` ou `.dist-staging/`)
 4. Ouvrir `http://localhost:3000` (ou le port affiché) dans Chrome/Edge
 5. **Application** → vérifier le service worker actif et le precache
-6. Visiter une fois **WORK**, **CONTACT** et **DOJO** en ligne (cache runtime des modules lazy)
-7. **Réseau** → cocher « Hors ligne » → recharger : navigation et pages visitées doivent rester utilisables
+6. Optionnel : une visite en ligne peuplera le cache runtime des assets hors precache (previews, musique)
+7. **Réseau** → cocher « Hors ligne » → recharger : navigation et pages precachées doivent rester utilisables
 8. Optionnel : installer la PWA (icône dans la barre d’adresse) et rejouer l’étape 7 en mode standalone
 
 Pour les e2e PWA sans rebuild : `PLAYWRIGHT_SKIP_BUILD=1 npm run test:e2e -- e2e/pwa.spec.js` (`.dist-staging/` déjà présent).
@@ -208,10 +205,10 @@ Pour les e2e PWA sans rebuild : `PLAYWRIGHT_SKIP_BUILD=1 npm run test:e2e -- e2e
 
 ### Playwright (e2e)
 
-| Problème                                       | Solution                                                                                                                                                                                                                                             |
-| ---------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Navigateur absent (`Executable doesn't exist`) | `npm run test:e2e:install` ou `npx playwright install --with-deps chromium webkit`                                                                                                                                                                   |
-| Téléchargement bloqué (certificat SSL)         | Même correctif que npm ci-dessus, puis relancer l’install ; sous PowerShell : `$env:NODE_TLS_REJECT_UNAUTHORIZED='0'; npx playwright install chromium webkit` (temporaire, réseau de confiance uniquement)                                           |
+| Problème                                       | Solution                                                                                                                                                                                                                                                                          |
+| ---------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Navigateur absent (`Executable doesn't exist`) | `npm run test:e2e:install` ou `npx playwright install --with-deps chromium webkit`                                                                                                                                                                                                |
+| Téléchargement bloqué (certificat SSL)         | Même correctif que npm ci-dessus, puis relancer l’install ; sous PowerShell : `$env:NODE_TLS_REJECT_UNAUTHORIZED='0'; npx playwright install chromium webkit` (temporaire, réseau de confiance uniquement)                                                                        |
 | E2e lent / timeout CI                          | CI : Chromium + WebKit + Firefox (`responsive-mobile-portrait`, `responsive-mobile-landscape`, `responsive-tablet`, `responsive-webkit`, `responsive-firefox`, `responsive-desktop-chrome`, `desktop-chrome`). Safari local : `npm run test:e2e:webkit`. Timeout job e2e : 25 min |
 
 ### Site / UX
@@ -328,16 +325,16 @@ Référence technique : `build/breakpoints.mjs`, `styles/tokens.css`. Listes CSS
 
 Tokens dans `styles/tokens.css` (l.107–125) :
 
-| Token | Usage | Échelle |
-| ----- | ----- | ------- |
-| `--police-pixel` | Nav, titres arcade, badges | Press Start 2P |
-| `--police-crt` | Texte rétro lisible (parcours, dojo) | VT323 |
-| `--police-lisible` | Corps, formulaires, intros | Rajdhani |
-| `--taille-pixel-min` | Plancher libellés pixel interactifs | 0,75rem (12px), monte à 0,875rem @320px |
-| `--taille-petit-pixel` | Petits libellés pixel | `clamp(min, 1.2vw, 0.8rem)` |
-| `--taille-titre-pixel` | Titres section pixel | `clamp(min, 1.8vw, 0.8rem)` |
-| `--taille-corps-lisible` | Paragraphes | `clamp(0.95rem, 2.1vw, 1.1rem)` |
-| `--taille-corps-crt` | Texte CRT secondaire | `clamp(0.85rem, 1.85vw, 1.02rem)` |
+| Token                    | Usage                                | Échelle                                 |
+| ------------------------ | ------------------------------------ | --------------------------------------- |
+| `--police-pixel`         | Nav, titres arcade, badges           | Press Start 2P                          |
+| `--police-crt`           | Texte rétro lisible (parcours, dojo) | VT323                                   |
+| `--police-lisible`       | Corps, formulaires, intros           | Rajdhani                                |
+| `--taille-pixel-min`     | Plancher libellés pixel interactifs  | 0,75rem (12px), monte à 0,875rem @320px |
+| `--taille-petit-pixel`   | Petits libellés pixel                | `clamp(min, 1.2vw, 0.8rem)`             |
+| `--taille-titre-pixel`   | Titres section pixel                 | `clamp(min, 1.8vw, 0.8rem)`             |
+| `--taille-corps-lisible` | Paragraphes                          | `clamp(0.95rem, 2.1vw, 1.1rem)`         |
+| `--taille-corps-crt`     | Texte CRT secondaire                 | `clamp(0.85rem, 1.85vw, 1.02rem)`       |
 
 Règle : ne pas fixer de `font-size` en dur pour le pixel art — passer par les tokens ou `clamp()` documentés.
 
@@ -350,7 +347,7 @@ Pages hors navigation clavier (`dojo.html`, `mentions-legales.html`) : accessibl
 
 ### Profiling Lighthouse (perf mobile)
 
-Seuils CI : `lighthouserc.cjs` (mobile, 412×823). Pages denses (`competences`, `parcours`, `dojo`) : perf ≥ 0,85 (CI mobile, médiane 5 runs).
+Seuils CI : `lighthouserc.cjs` (mobile, 412×823). Pages denses (`competences`, `parcours`, `dojo`) : perf ≥ 0,85 (CI mobile, médiane 5 runs). Objectif informel 0,88 — non tenu en CI tant que CLS arcade (SVG / grilles) reste au-dessus du budget.
 
 Profil local après build :
 
@@ -363,12 +360,12 @@ npx lighthouse http://127.0.0.1:3000/competences.html --only-categories=performa
 
 `start:prod` et Playwright servent `.dist-staging-build/` en priorité s'il existe (build frais non promu), sinon `.dist-staging/` — voir `build/resolve-serve-dir.cjs`.
 
-Leviers perf appliqués : CSS split base/page, preload polices critiques (Press Start 2P, VT323), animation section sans fade opacity (LCP), overlay CRT différé (`html.crt-pret`, `requestIdleCallback` sur pages denses), init musique et animations barres en idle sur pages denses, JSON-LD compact en fin de `<body>`, `content-visibility` sur sections denses.
+Leviers perf appliqués : CSS split base/page (`form.css` uniquement sur contact), preload polices critiques (Press Start 2P, VT323), animation section sans fade opacity (LCP), overlay CRT différé (`html.crt-pret`, `requestIdleCallback` sur pages denses), init musique / konami / section / animations barres en idle sur pages denses, JSON-LD compact en fin de `<body>`, `content-visibility` sur sections compétences (évité sur parcours/dojo à cause du CLS).
 
 - **HTML** : `npm run validate:html` (sources) et `npm run validate:html:dist` (après build)
-- **E2E** : `npm run test:e2e` — projets `responsive-mobile-portrait`, `responsive-mobile-landscape`, `responsive-tablet`, `responsive-webkit`, `responsive-firefox`, `responsive-desktop-chrome`, `desktop-chrome`. Specs responsive : `responsive-touch`, `responsive-safe-area`, `responsive-keyboard`, `responsive-motion`, `responsive-contrast`, `responsive-a11y`, `responsive-pages` ; PWA : `pwa.spec.js` + `sw-toast.spec.js` (sur les viewports mobile/tablette/WebKit/Firefox/desktop responsive + desktop PWA). WebKit local : `npm run test:e2e:webkit`. Fixtures : `e2e/fixtures/pages.js`, helpers : `e2e/helpers.js`.
+- **E2E** : `npm run test:e2e` — projets `responsive-mobile-portrait`, `responsive-mobile-landscape`, `responsive-tablet`, `responsive-webkit`, `responsive-firefox`, `responsive-desktop-chrome`, `desktop-chrome`. Specs responsive : `responsive-touch`, `responsive-safe-area`, `responsive-keyboard`, `responsive-motion`, `responsive-contrast`, `responsive-a11y`, `responsive-pages` ; PWA : `pwa.spec.js` + `sw-toast.spec.js` (sur les viewports mobile/tablette/WebKit/Firefox/desktop responsive + desktop PWA). **Install navigateurs** : `npm run test:e2e:install` (Chromium seul) ; WebKit n’est **pas** inclus — utiliser `npm run test:e2e:webkit` (installe WebKit puis lance le projet `responsive-webkit`) ou `npx playwright install --with-deps webkit`. Fixtures : `e2e/fixtures/pages.js`, helpers : `e2e/helpers.js`.
 - **Lighthouse** : `npm run test:lhci` (profil mobile 412×823, 5 runs médiane ; seuils perf par page via `assertMatrix` dans `lighthouserc.cjs`). Complément desktop : `npm run test:lhci:desktop` (961×800, smoke `index` + `projets`, CI après le run mobile).
-- **Mesure bundle** : `npm run build && npm run measure` — tailles de l’artefact le plus frais (`.dist-staging-build/` ou `.dist-staging/` ; JSON stdout : `distKo`, `appJsGzipKo`, `iconsKo`, `jsAssets[]`). Écrit aussi `scripts/bundle-baseline.json` (**gitignoré**, snapshot local). Modèle versionné : `scripts/bundle-baseline.example.json`. Icônes PNG : `npm run icons:optimize` en `prebuild` (idempotent).
+- **Mesure bundle** : `npm run build && npm run measure` — tailles de l’artefact le plus frais (`.dist-staging-build/` ou `.dist-staging/` ; JSON stdout : `distKo`, `appJsGzipKo`, `iconsKo`, `jsAssets[]`). Écrit aussi `scripts/bundle-baseline.json` (**gitignoré**, snapshot local). Modèle versionné : `scripts/bundle-baseline.example.json`. Icônes PNG : `npm run icons:optimize` en `prebuild` (idempotent). Au build, seul `musique-themes.json` est copié dans dist (sources `legal.json` / `projects.json` / `musique-donnees.json` restent hors artefact).
 
 ### Avant release (PWA / prod)
 

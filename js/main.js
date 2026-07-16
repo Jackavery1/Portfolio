@@ -55,6 +55,31 @@ function planifierTachesDifferees(sid) {
   });
 }
 
+function planifierExtrasInteractifs(sid) {
+  const lancer = () => {
+    initialiserCodeKonami();
+    initialiserBonusScore();
+  };
+  if (estPageDense(sid) && typeof requestIdleCallback === 'function') {
+    requestIdleCallback(lancer, { timeout: 2500 });
+    return;
+  }
+  lancer();
+}
+
+async function planifierSection(sid) {
+  if (estPageDense(sid) && typeof requestIdleCallback === 'function') {
+    requestIdleCallback(
+      () => {
+        void initialiserSection(sid);
+      },
+      { timeout: 2500 }
+    );
+    return;
+  }
+  await initialiserSection(sid);
+}
+
 function planifierMusique(sid) {
   if (estPageDense(sid) && typeof requestIdleCallback === 'function') {
     requestIdleCallback(() => initialiserMusique(), { timeout: 2500 });
@@ -100,12 +125,11 @@ async function initialiser() {
   initialiserMetaPartage();
   initialiserNavigationArcade();
   initialiserNavigationClavier();
-  initialiserCodeKonami();
-  initialiserBonusScore();
+  planifierExtrasInteractifs(sid);
   afficherScore(lireScore());
   planifierMusique(sid);
 
-  await initialiserSection(sid);
+  await planifierSection(sid);
 
   planifierTachesDifferees(sid);
 

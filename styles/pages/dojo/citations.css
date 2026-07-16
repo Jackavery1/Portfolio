@@ -10,7 +10,7 @@
   color: var(--couleur-accent-vif);
   font-family: var(--police-crt);
   font-size: clamp(0.85rem, 2vw, 1rem);
-  padding: 0.25rem 0.6rem;
+  padding: var(--espacement-xs) 0.6rem;
   white-space: normal;
   text-align: center;
   max-width: min(92vw, 20rem);

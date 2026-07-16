@@ -91,4 +91,21 @@ describe('musique-loader', () => {
     document.body.innerHTML = '';
     expect(() => initialiserMusique()).not.toThrow();
   });
+
+  it('ignore le premier clic si le bouton est déjà branché', async () => {
+    initialiserMusique();
+    const btn = document.getElementById('js-bouton-musique');
+    btn.dataset.branche = '1';
+    btn.click();
+    await Promise.resolve();
+    expect(mocksMusique.basculerMusique).not.toHaveBeenCalled();
+  });
+
+  it('n’active pas via document si le clic vient du bouton (préférence PRÊT)', async () => {
+    localStorage.setItem('portfolio_musique_active', 'true');
+    initialiserMusique();
+    document.getElementById('js-bouton-musique').click();
+    await vi.waitFor(() => expect(mocksMusique.basculerMusique).toHaveBeenCalled());
+    expect(mocksMusique.activerMusique).not.toHaveBeenCalled();
+  });
 });

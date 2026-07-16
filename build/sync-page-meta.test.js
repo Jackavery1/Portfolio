@@ -111,7 +111,11 @@ describe('sync-page-meta', () => {
   it('ignore les fichiers HTML absents ou sans entrée PAGE_META', () => {
     const tmp = creerRacineTest();
     expect(fichiersPageMetaDerives(tmp)).toEqual([]);
-    fs.writeFileSync(path.join(tmp, 'orphelin.html'), '<html><head></head><body></body></html>', 'utf8');
+    fs.writeFileSync(
+      path.join(tmp, 'orphelin.html'),
+      '<html><head></head><body></body></html>',
+      'utf8'
+    );
     expect(fichiersPageMetaDerives(tmp)).toEqual([]);
   });
 
