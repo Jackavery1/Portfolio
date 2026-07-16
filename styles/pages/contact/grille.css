@@ -3,13 +3,13 @@
 .contact-grille {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 2rem;
+  gap: var(--espacement-xl);
 }
 
 .grille-contact {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 0.65rem;
+  gap: var(--espacement-ms);
   margin-bottom: var(--espacement-ml);
 }
 
@@ -17,7 +17,7 @@
   background-color: var(--couleur-fond-carte);
   border: 1px solid var(--couleur-bordure);
   border-radius: 4px;
-  padding: 0.9rem;
+  padding: var(--espacement-md);
 }
 
 .carte-contact__label {
@@ -25,7 +25,7 @@
   font-size: var(--taille-pixel-min);
   color: var(--couleur-texte-discret);
   letter-spacing: 1px;
-  margin-bottom: 0.4rem;
+  margin-bottom: var(--espacement-xs);
 }
 
 .carte-contact__valeur {

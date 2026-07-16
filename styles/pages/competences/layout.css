@@ -53,8 +53,8 @@
   font-size: var(--taille-pixel-decoratif);
   color: var(--couleur-accent-vif);
   letter-spacing: 2px;
-  margin-bottom: 0.75rem;
-  padding-bottom: 0.35rem;
+  margin-bottom: var(--espacement-ms);
+  padding-bottom: var(--espacement-xs);
   border-bottom: 1px solid var(--couleur-bordure);
   font-weight: normal;
 }

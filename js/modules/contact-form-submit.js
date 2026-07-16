@@ -4,70 +4,38 @@ import {
   messageErreurCapture,
   messageErreurFormspree,
 } from '../utils/contact-form-helpers.js';
-import { PARAMETRES_BIP_ERREUR_VALIDATION } from '../utils/contact-form-ui.js';
 import { decoderBase64Utf8 } from '../utils/pii.js';
-import { comportementScroll } from '../utils/scroll-comportement.js';
-import { jouerBip } from './audio.js';
 import { obtenirTokenRecaptcha } from './recaptcha.js';
-import { marquerEnvoiEnCours, signalerEchecEnvoi } from './contact-form-submit-ui.js';
-
-export { finaliserEnvoiReussi } from './contact-form-submit-ui.js';
 
 export function lireSujetUtile(sujetSelect) {
   return libellerSujetSelect(sujetSelect?.options[sujetSelect.selectedIndex]?.text);
 }
 
-export async function envoyerViaFormspree({
-  configuration,
-  champs,
-  sujetUtile,
-  btnEnvoyer,
-  mount,
-  optionsRecaptcha,
-  afficherErreur,
-}) {
+export async function envoyerViaFormspree({ configuration, champs, sujetUtile, optionsRecaptcha }) {
   const { nom, email, message } = champs;
   const recaptchaKey = configuration.CONTACT.RECAPTCHA_SITE_KEY?.trim();
   const endpoint = configuration.CONTACT.FORMSPREE_ENDPOINT?.trim();
-  const labelEnvoyer = btnEnvoyer.textContent;
 
   if (!recaptchaKey) {
-    jouerBip(...PARAMETRES_BIP_ERREUR_VALIDATION);
-    btnEnvoyer.setAttribute(
-      'title',
-      'Renseignez PORTFOLIO_RECAPTCHA_SITE_KEY dans .env.local puis relancez npm test pour envoyer via Formspree.'
-    );
-    if (mount) mount.scrollIntoView({ behavior: comportementScroll(), block: 'nearest' });
-    return;
+    return { ok: false, code: 'sans-cle' };
   }
 
-  btnEnvoyer.removeAttribute('title');
-  marquerEnvoiEnCours(btnEnvoyer);
   let recaptchaToken = null;
 
   try {
     recaptchaToken = await obtenirTokenRecaptcha(optionsRecaptcha);
   } catch (err) {
-    signalerEchecEnvoi({
-      btnEnvoyer,
-      labelEnvoyer,
-      msg: messageErreurCapture(err),
-      afficherErreur,
-    });
-    return;
+    return { ok: false, msg: messageErreurCapture(err) };
   }
 
   if (!recaptchaToken) {
-    signalerEchecEnvoi({
-      btnEnvoyer,
-      labelEnvoyer,
+    return {
+      ok: false,
       msg:
         configuration.CONTACT.RECAPTCHA_VERSION === 3
           ? 'Vérification anti-spam en cours… réessayez.'
           : 'Cochez la case « Je ne suis pas un robot ».',
-      afficherErreur,
-    });
-    return;
+    };
   }
 
   const fd = construireDonneesFormspree({
@@ -95,21 +63,17 @@ export async function envoyerViaFormspree({
       return { ok: true };
     }
 
-    signalerEchecEnvoi({
-      btnEnvoyer,
-      labelEnvoyer,
+    return {
+      ok: false,
       msg: messageErreurFormspree(corpsReponse, res),
-      afficherErreur,
       reinitialiserRecaptcha: true,
-    });
+    };
   } catch (err) {
-    signalerEchecEnvoi({
-      btnEnvoyer,
-      labelEnvoyer,
+    return {
+      ok: false,
       msg: messageErreurCapture(err),
-      afficherErreur,
       reinitialiserRecaptcha: true,
-    });
+    };
   }
 }
 

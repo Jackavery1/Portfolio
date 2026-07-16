@@ -6,13 +6,13 @@
   content-visibility: auto;
   contain-intrinsic-size: auto 120px;
   display: grid;
-  gap: 0.75rem;
+  gap: var(--espacement-ms);
   min-height: 8rem;
 }
 
 .partial-squelette__ligne {
   display: block;
-  height: 0.85rem;
+  height: var(--espacement-md);
   border-radius: 2px;
   background: linear-gradient(
     90deg,
@@ -26,7 +26,7 @@
 
 .partial-squelette__ligne--large {
   width: 55%;
-  height: 1.1rem;
+  height: var(--espacement-md);
 }
 
 .partial-squelette__ligne--pleine {
@@ -49,5 +49,15 @@
   }
   50% {
     background-position: 0 0;
+  }
+}
+
+@keyframes partial-squelette-opacite {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
   }
 }

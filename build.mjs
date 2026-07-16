@@ -32,7 +32,7 @@ const { patchOgImageWebp } = loadBuild('og-image.cjs');
 const { copyFonts } = loadBuild('fonts.cjs');
 const { minifyCSS } = loadBuild('css.cjs');
 const { minifyAllJs } = loadBuild('js-minify.cjs');
-const { optimizeImages, optimizePreviewImages, copyAssets, generatePwaIcons } =
+const { optimizeImages, optimizePreviewImages, copyAssets, genererIconesPwa } =
   loadBuild('images.cjs');
 const { writeServiceWorker } = loadBuild('sw.cjs');
 const pkg = require('./package.json');
@@ -91,7 +91,7 @@ async function runBuild() {
     copyFonts(ROOT, STAGING_WORK);
     minifyCSS(ROOT, STAGING_WORK, { inclureMonolithe: false });
     minifyAllJs(ROOT, STAGING_WORK);
-    await generatePwaIcons(ROOT, STAGING_WORK);
+    await genererIconesPwa(ROOT, STAGING_WORK);
     await optimizeImages(ROOT, STAGING_WORK);
     await optimizePreviewImages(ROOT, STAGING_WORK);
     patchOgImageWebp(STAGING_WORK, SITE_BASE);

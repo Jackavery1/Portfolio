@@ -97,6 +97,8 @@ function monterModal({ avecLien = true } = {}) {
 
 describe('modal', () => {
   beforeEach(() => {
+    delete document.documentElement.dataset.modalClavier;
+    delete document.documentElement.dataset.modalClics;
     monterModal();
   });
 
@@ -177,6 +179,19 @@ describe('modal', () => {
 
     document.querySelector('.carte-projet').click();
     document.getElementById('js-modal').click();
+    expect(document.getElementById('js-modal').hidden).toBe(true);
+  });
+
+  it('initialiserClavierModale et initialiserClicsModale sont idempotents', () => {
+    vi.mocked(accorderBonusProjet).mockClear();
+    initialiserClavierModale();
+    initialiserClavierModale();
+    initialiserClicsModale();
+    initialiserClicsModale();
+    document.querySelector('.carte-projet').click();
+    expect(accorderBonusProjet).toHaveBeenCalledTimes(1);
+    expect(document.getElementById('js-modal').hidden).toBe(false);
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
     expect(document.getElementById('js-modal').hidden).toBe(true);
   });
 

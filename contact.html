@@ -84,14 +84,47 @@
             <span class="pixel-accent">▶</span> CONTINUE ? — INSERT COIN
           </h1>
 
-          <div id="partial-contact-bandeau"></div>
+          <div
+            id="partial-contact-bandeau"
+            class="partial-squelette"
+            aria-busy="true"
+            aria-live="polite"
+          >
+            <span class="partial-squelette__ligne partial-squelette__ligne--large" aria-hidden="true"></span>
+            <span class="partial-squelette__ligne partial-squelette__ligne--pleine" aria-hidden="true"></span>
+          </div>
 
           <div class="contact-grille">
             <div class="contact-gauche">
-              <div id="partial-contact-coordonnees"></div>
-              <div id="partial-contact-formulaire"></div>
+              <div
+                id="partial-contact-coordonnees"
+                class="partial-squelette"
+                aria-busy="true"
+                aria-live="polite"
+              >
+                <span class="partial-squelette__ligne partial-squelette__ligne--large" aria-hidden="true"></span>
+                <span class="partial-squelette__ligne" aria-hidden="true"></span>
+              </div>
+              <div
+                id="partial-contact-formulaire"
+                class="partial-squelette"
+                aria-busy="true"
+                aria-live="polite"
+              >
+                <span class="partial-squelette__ligne partial-squelette__ligne--large" aria-hidden="true"></span>
+                <span class="partial-squelette__bloc" aria-hidden="true"></span>
+                <span class="partial-squelette__ligne partial-squelette__ligne--pleine" aria-hidden="true"></span>
+              </div>
             </div>
-            <div id="partial-contact-profil"></div>
+            <div
+              id="partial-contact-profil"
+              class="partial-squelette"
+              aria-busy="true"
+              aria-live="polite"
+            >
+              <span class="partial-squelette__bloc" aria-hidden="true"></span>
+              <span class="partial-squelette__ligne partial-squelette__ligne--pleine" aria-hidden="true"></span>
+            </div>
           </div>
         </section>
       </main>

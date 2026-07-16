@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
@@ -29,5 +30,55 @@ describe('sync-musique-donnees', () => {
     expect(donnees.THEMES.HOME).toBeDefined();
     expect(donnees.THEME_PAR_SECTION.dojo).toBe('DOJO');
     expect(fs.existsSync(path.join(rootDir, 'js', 'config', 'musique-themes.js'))).toBe(false);
+  });
+
+  it('accepte fréquences numériques et ignore pistes absentes', () => {
+    const compiled = compilerThemes({
+      gamme: { C4: 261.63 },
+      gammePhrygienne: {},
+      mesures: {},
+      motifs: {
+        piste: { type: 'notes', notes: [110, 'C4', null] },
+      },
+      themes: {
+        TEST: { bpm: 120, basse: 'piste' },
+      },
+      themeParSection: {},
+      themeParFichier: {},
+    });
+    expect(compiled.THEMES.TEST.basse).toEqual([110, 261.63, 0]);
+    expect(compiled.THEMES.TEST.melodie).toBeNull();
+  });
+
+  it('rejette une note ou un motif inconnu', () => {
+    expect(() =>
+      compilerThemes({
+        gamme: {},
+        gammePhrygienne: {},
+        mesures: {},
+        motifs: { piste: { type: 'notes', notes: ['Z9'] } },
+        themes: { X: { bpm: 100, basse: 'piste' } },
+        themeParSection: {},
+        themeParFichier: {},
+      })
+    ).toThrow(/Note inconnue/);
+
+    expect(() =>
+      compilerThemes({
+        gamme: {},
+        gammePhrygienne: {},
+        mesures: {},
+        motifs: { piste: { type: 'inconnu' } },
+        themes: { X: { bpm: 100, basse: 'piste' } },
+        themeParSection: {},
+        themeParFichier: {},
+      })
+    ).toThrow(/Motif inconnu/);
+  });
+
+  it('lève une erreur si la source JSON est absente', () => {
+    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'musique-tmp-'));
+    expect(() => syncMusiqueDonnees(tmp)).toThrow(/Source manquante/);
+    fs.rmSync(tmp, { recursive: true, force: true });
   });
 });

@@ -64,7 +64,7 @@ describe('images.cjs — optimisation raster', () => {
     });
   });
 
-  it('optimiserUneImage — PNG favicon sans WebP', async () => {
+  it('optimiserUneImage — PNG favicon palette sans WebP', async () => {
     await avecRepertoireTemporaireAsync('portfolio-png-', async (tmp) => {
       const src = path.join(tmp, 'favicon.png');
       const dst = path.join(tmp, 'out', 'favicon.png');
@@ -80,7 +80,7 @@ describe('images.cjs — optimisation raster', () => {
         nomFichier: 'favicon.png',
       });
       expect(sharpMock.instances[0].png).toHaveBeenCalledWith(
-        expect.objectContaining({ palette: false, quality: 75 })
+        expect.objectContaining({ palette: true, quality: 75 })
       );
       expect(sharpMock.instances[0].webp).not.toHaveBeenCalled();
     });

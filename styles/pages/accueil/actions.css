@@ -7,7 +7,8 @@
   letter-spacing: 2px;
   text-decoration: none;
   border-bottom: 1px solid var(--couleur-bordure);
-  padding: 0.35rem 0.15rem 0.2rem;
+  padding: var(--espacement-xs) var(--espacement-sm) var(--espacement-2xs);
+  min-width: 44px;
   min-height: 44px;
   box-sizing: border-box;
   display: inline-flex;
@@ -39,9 +40,9 @@
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: start;
   column-gap: var(--espacement-sm);
-  row-gap: 0.2rem;
-  margin: 0;
-  padding: 0.55rem 0.65rem 0.6rem 0.85rem;
+  row-gap: var(--espacement-2xs);
+  margin: var(--espacement-md) 0 0;
+  padding: var(--espacement-sm) var(--espacement-ms) var(--espacement-ms) var(--espacement-md);
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
@@ -60,17 +61,15 @@
       var(--couleur-fond-carte) 38%,
       var(--couleur-accent-alpha-leger) 100%
     );
-  box-shadow:
-    var(--ombre-wip-base),
-    0 0 10px var(--couleur-actif-alpha-wip);
-  text-shadow: var(--ombre-glow-actif);
-  animation: accueil-wip-glow 3.2s ease-in-out infinite;
+  box-shadow: var(--ombre-wip-base);
+  text-shadow: none;
+  animation: none;
 }
 
 .accueil__wip-line {
   display: flex;
   align-items: flex-start;
-  gap: 0.45rem;
+  gap: var(--espacement-sm);
   min-width: 0;
 }
 
@@ -99,26 +98,13 @@
   font-size: var(--taille-petit-pixel);
   letter-spacing: 2px;
   color: var(--couleur-actif-clair);
-  padding: 0.08rem 0.3rem;
+  padding: var(--espacement-2xs) var(--espacement-2xs);
   background: var(--couleur-fond);
   border: 1px solid var(--couleur-actif-bordure);
   line-height: 1.2;
-  text-shadow: var(--ombre-glow-actif);
+  text-shadow: none;
   white-space: normal;
   overflow-wrap: anywhere;
-}
-
-@keyframes accueil-wip-glow {
-  0%,
-  100% {
-    box-shadow: var(--ombre-wip-base), var(--ombre-wip-glow-repos);
-  }
-  50% {
-    box-shadow:
-      inset 0 1px 0 var(--couleur-surface-highlight-fort),
-      0 0 0 1px var(--couleur-ombre-noire-ui),
-      var(--ombre-wip-glow-peak);
-  }
 }
 
 /* Voir styles/components/bouton-pixel.css — .bouton-arcade */

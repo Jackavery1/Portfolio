@@ -43,7 +43,7 @@
   color: var(--couleur-texte-normal);
   display: flex;
   gap: var(--espacement-sm);
-  padding: var(--espacement-xs) 0;
+  padding: var(--espacement-2xs) 0;
   border-bottom: 1px solid var(--couleur-separateur);
   letter-spacing: 1px;
 }
@@ -56,24 +56,4 @@
   color: var(--couleur-accent-vif);
   width: 3.5rem;
   flex-shrink: 0;
-}
-
-.profil-liens {
-  width: 100%;
-  text-align: center;
-}
-
-.profil-liens__label {
-  font-family: var(--police-pixel);
-  font-size: var(--taille-pixel-decoratif);
-  color: var(--couleur-texte-discret);
-  letter-spacing: 2px;
-  margin-bottom: 0.35rem;
-}
-
-.profil-liens__note {
-  font-family: var(--police-crt);
-  font-size: clamp(0.95rem, 2.3vw, 1.1rem);
-  color: var(--couleur-texte-normal);
-  letter-spacing: 1px;
 }

@@ -147,12 +147,17 @@ const PAGES_PAYSAGE = [
     h1: /MENTIONS/i,
     contenu: '.mentions-sommaire__liste',
   },
+  {
+    path: '/offline.html',
+    h1: /hors ligne/i,
+    contenu: '.offline-ecran',
+  },
 ];
 
 for (const pageInfo of PAGES_PAYSAGE) {
   test(`responsive paysage — ${pageInfo.path} scroll et contenu visibles`, async ({ page }) => {
     await page.setViewportSize(VIEWPORT_ETROIT_PAYSAGE);
-    await gotoReady(page, pageInfo.path);
+    await gotoPage(page, pageInfo.path);
 
     if (pageInfo.avantAssertion) {
       await pageInfo.avantAssertion(page);

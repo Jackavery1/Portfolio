@@ -3,17 +3,17 @@
 .sw-toast {
   position: fixed;
   z-index: 9000;
-  left: max(var(--espacement-ms-lg), var(--safe-area-inset-left, env(safe-area-inset-left, 0)));
-  right: max(var(--espacement-ms-lg), var(--safe-area-inset-right, env(safe-area-inset-right, 0)));
+  left: max(var(--espacement-ms), var(--safe-area-inset-left, env(safe-area-inset-left, 0)));
+  right: max(var(--espacement-ms), var(--safe-area-inset-right, env(safe-area-inset-right, 0)));
   bottom: max(
-    var(--espacement-ms-lg),
+    var(--espacement-ms),
     var(--safe-area-inset-bottom, env(safe-area-inset-bottom, 0))
   );
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--espacement-ms) var(--espacement-md-tight);
-  padding: var(--espacement-ms-lg) var(--espacement-md-tight);
+  gap: var(--espacement-ms) var(--espacement-md);
+  padding: var(--espacement-ms) var(--espacement-md);
   max-width: min(100%, 28rem);
   margin: 0 auto;
   box-sizing: border-box;
@@ -39,7 +39,7 @@
 }
 
 .sw-toast__bouton {
-  padding: var(--espacement-sm-plus) var(--espacement-ms-lg);
+  padding: var(--espacement-sm) var(--espacement-ms);
   min-height: 44px;
 }
 

@@ -76,9 +76,20 @@ export async function assertZoom200SansOverflow(page, { visible } = {}) {
     await expect(page.locator(visible).first()).toBeVisible();
   }
 
-  await page.evaluate(() => {
+  const zoomApplique = await page.evaluate(() => {
     document.documentElement.style.zoom = '200%';
+    return document.documentElement.style.zoom === '200%';
   });
+
+  if (!zoomApplique) {
+    const viewport = page.viewportSize();
+    if (viewport) {
+      await page.setViewportSize({
+        width: Math.max(320, Math.floor(viewport.width / 2)),
+        height: viewport.height,
+      });
+    }
+  }
 
   await assertPasOverflowHorizontal(page);
 

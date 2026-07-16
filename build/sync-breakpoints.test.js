@@ -1,9 +1,16 @@
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { createRequire } from 'node:module';
-import { genererVariablesBp, syncBreakpoints, verifierSeuilsMedia } from './sync-breakpoints.cjs';
+import {
+  genererVariablesBp,
+  syncBreakpoints,
+  syncMediaBreakpoints,
+  syncMediaDansCss,
+  verifierSeuilsMedia,
+} from './sync-breakpoints.cjs';
 
 const require = createRequire(import.meta.url);
 const rootDir = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -26,5 +33,16 @@ describe('sync-breakpoints', () => {
     syncBreakpoints(rootDir);
     const invalides = verifierSeuilsMedia(rootDir);
     expect(invalides).toEqual([]);
+  });
+
+  it('syncMediaDansCss remplace les seuils littéraux', () => {
+    const css = '@media (min-width: 961px) { .x { color: red; } }';
+    expect(syncMediaDansCss(css)).toContain('min-width: 961px');
+  });
+
+  it('syncMediaBreakpoints ignore un dossier styles absent', () => {
+    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'bp-sans-styles-'));
+    expect(syncMediaBreakpoints(tmp)).toEqual([]);
+    fs.rmSync(tmp, { recursive: true, force: true });
   });
 });

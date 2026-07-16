@@ -2,6 +2,8 @@
    Animations barres (completion, stats, langues)
    ============================================ */
 
+import { prefereMouvementReduit } from '../utils/mouvement-reduit.js';
+
 const sectionsAnimees = new Set();
 
 export function animerBarresSection(id) {
@@ -17,9 +19,15 @@ export function animerBarresSection(id) {
     '.boss-carte__vie-fill',
   ];
 
+  const sansAnimation = prefereMouvementReduit();
+
   selecteurs.forEach((sel) => {
     section.querySelectorAll(sel).forEach((barre) => {
       const cible = barre.style.getPropertyValue('--cible') || '0%';
+      if (sansAnimation) {
+        barre.style.width = cible;
+        return;
+      }
       barre.style.width = '0%';
       requestAnimationFrame(() =>
         requestAnimationFrame(() => {

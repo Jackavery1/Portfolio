@@ -52,7 +52,7 @@
   display: flex;
   align-items: center;
   gap: var(--espacement-sm);
-  margin-bottom: 0.4rem;
+  margin-bottom: var(--espacement-xs);
 }
 
 .bonus-item__icone {
@@ -78,9 +78,9 @@
   font-family: var(--police-crt);
   font-size: clamp(0.95rem, 2.3vw, 1.1rem);
   color: var(--couleur-texte-normal);
-  margin-bottom: 0.35rem;
+  margin-bottom: var(--espacement-xs);
   display: flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: var(--espacement-xs);
   letter-spacing: 1px;
 }

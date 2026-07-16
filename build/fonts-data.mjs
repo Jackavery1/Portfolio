@@ -1,4 +1,5 @@
-export const SOUS_ENSEMBLES = ['latin', 'latin-ext'];
+/** Latin suffit pour le FR (accents Latin-1) ; pas de œ/€ dans l’UI. */
+export const SOUS_ENSEMBLES = ['latin'];
 
 export const POLICES = [
   {

@@ -6,6 +6,7 @@
 .bouton-envoyer {
   font-family: var(--police-pixel);
   font-size: var(--taille-bouton-pixel);
+  min-width: 44px;
   min-height: 44px;
   box-sizing: border-box;
   display: inline-flex;
@@ -28,24 +29,24 @@
 }
 
 .bouton-arcade {
-  padding: 0.7rem 1.1rem;
+  padding: var(--espacement-ms) var(--espacement-md);
 }
 
 .bouton-retour-work {
   font-size: var(--taille-petit-pixel);
   border-color: var(--couleur-bordure-active);
-  padding: 0.6rem 1.1rem;
+  padding: var(--espacement-ms) var(--espacement-md);
 }
 
 .bouton-envoyer {
-  padding: 0.85rem 1.25rem;
+  padding: var(--espacement-md) var(--espacement-ml);
   align-self: flex-start;
 }
 
 .bouton-dojo {
   color: var(--couleur-actif);
   border: 1px solid var(--couleur-actif-dim);
-  padding: 0.65rem 1.2rem;
+  padding: var(--espacement-ms) var(--espacement-ml);
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -114,8 +115,8 @@
 
 .bouton-envoyer--chargement::before {
   content: '';
-  width: 0.75rem;
-  height: 0.75rem;
+  width: var(--espacement-ms);
+  height: var(--espacement-ms);
   border: 2px solid currentColor;
   border-top-color: transparent;
   border-radius: 50%;

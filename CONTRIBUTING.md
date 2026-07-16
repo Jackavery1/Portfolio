@@ -68,7 +68,7 @@ Source unique des variables CSS. Ne pas dupliquer de hex dans les composants —
 | Texte       | `--couleur-texte-fort`, `--couleur-texte-normal`, `--couleur-texte-discret`, `--couleur-texte-placeholder` | Hiérarchie typo ; ratios AA documentés dans le fichier           |
 | États       | `--couleur-valide`, `--couleur-actif`, `--couleur-erreur`                                                  | Succès, actif jaune arcade, erreurs formulaire                   |
 | Typo        | `--police-pixel`, `--police-crt`, `--police-lisible`, `--taille-*`                                         | Press Start 2P / VT323 / Rajdhani ; échelles `clamp`             |
-| Espacement  | `--espacement-xs` → `--espacement-2xl`, `--section-padding-*`                                              | Grilles et sections                                              |
+| Espacement  | `--espacement-2xs` → `--espacement-xl`, `--section-padding-*`, `--hauteur-marquee`                         | Grilles, sections, coquille CRT                                  |
 | Safe area   | `--safe-area-inset-*`                                                                                      | Encoches ; surchargeables en E2E                                 |
 | Breakpoints | `--bp-*` (sync `build/breakpoints.mjs`)                                                                    | Documentation uniquement — **non utilisables dans `@media`**     |
 | Ombres      | `--ombre-texte-lisible`, `--ombre-glow-accent`, `--ombre-glow-actif`, `--ombre-glow-valide`                | Halo sombre + glow néon (titres, nav, cartes)                    |
@@ -76,7 +76,7 @@ Source unique des variables CSS. Ne pas dupliquer de hex dans les composants —
 
 **Shell arcade EN / contenu FR** : libellés visibles (nav HOME, WORK…) en anglais pour l’immersion ; contenu métier et annonces AT en français. Tooltips `title` sur chaque lien nav (Accueil, Projets…), tagline footer (`pied-page__tagline-ia`).
 
-**Sections** : manifeste `js/config/sections-manifest.js` + charges `js/config/sections-registry.js` — toute nouvelle page lazy-load doit y figurer (test d’alignement HTML automatique).
+**Sections** : lazy-load via `sections-manifest.js` + `sections-registry.js` — détail → [ARCHITECTURE.md § Lazy-loading](ARCHITECTURE.md#2-lazy-loading-par-section).
 
 ### Checklist — ajouter une page HTML
 
@@ -165,7 +165,8 @@ Ne jamais committer de secrets (clé secrète reCAPTCHA, tokens privés). Voir [
 | JS core + modules de page (`main.js`, `navigation.js`, `projets-grille.js`, `dojo-boss.js`, `contact.js`…) | ✅               | —                  | ✅                               |
 | Polices locales (`assets/fonts/*.woff2`)                                                                   | ✅               | —                  | ✅                               |
 | Favicon, icônes 192, `offline.html`                                                                        | ✅               | —                  | ✅                               |
-| **Musique / reCAPTCHA / Formspree** (`musique*.js`, `recaptcha*.js`, `contact-form-submit.js`, thèmes)     | ❌               | ✅ fetch SW        | ❌ (réseau-dépendants)           |
+| **Musique optionnelle / reCAPTCHA / Formspree** (`musique.js`, séquenceur, voix, thèmes, `recaptcha*`, submit) | ❌               | ✅ fetch SW        | ❌ (réseau-dépendants)           |
+| `musique-audio.js` / `musique-bouton.js` (deps shell : bips + loader)                                     | ✅               | —                  | ✅ (sans lecture thèmes)         |
 | Previews projet, CV PDF, `icon-512.png`                                                                    | ❌               | optionnel          | ❌                               |
 
 **Comportement attendu :**
@@ -176,7 +177,7 @@ Ne jamais committer de secrets (clé secrète reCAPTCHA, tokens privés). Voir [
 
 **Recommandation utilisateur** : après installation PWA, une visite en ligne peuplera surtout le cache runtime des assets optionnels (previews, musique).
 
-Liste d’exclusion precache JS : `JS_PRECACH_EXCLUS` dans `build/sw-precache.mjs` (musique optionnelle, reCAPTCHA/Formspree réseau-dépendants).
+Liste d’exclusion precache JS : `JS_PRECACH_EXCLUS` dans `build/sw-precache.mjs` (musique optionnelle hors shell, reCAPTCHA/Formspree réseau-dépendants). `musique-audio` / `musique-bouton` restent dans le precache (bips + loader).
 
 ### Tester la PWA en local (guide rapide)
 
@@ -342,8 +343,8 @@ Pages hors navigation clavier (`dojo.html`, `mentions-legales.html`) : accessibl
 
 ## Tests
 
-- **Unitaires** : `npm test` (Vitest) — utils, config, modules, build
-- **Couverture** : `npm run test:coverage` (seuils Vitest globaux dans `vitest.config.js` : **85 %** lignes / statements, **90 %** fonctions, **84 %** branches sur `js/` + `build/**/*.cjs` ; fichiers générés exclus — voir `coverage.exclude`)
+- **Unitaires** : `npm test` (Vitest) — utils, config, modules, build. Trois projects : `js-dom` (jsdom), `js-node`, `build` (`vitest.config.js`). Tout nouveau test **sans DOM** doit être ajouté à la liste `JS_NODE_TESTS` dans `vitest.config.js`, sinon il tourne sous jsdom.
+- **Couverture** : `npm run test:coverage` (seuils Vitest globaux dans `vitest.config.js` : **85 %** lignes / statements, **90 %** fonctions, **84 %** branches sur `js/` + `build/**/*.{cjs,mjs}` ; exclus : générés, `config-defaults.mjs`, `fonts-data.mjs` — voir `coverage.exclude`)
 
 ### Profiling Lighthouse (perf mobile)
 

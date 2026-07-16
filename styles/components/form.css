@@ -28,7 +28,7 @@
   font-size: var(--taille-petit-pixel);
   color: var(--couleur-texte-normal);
   letter-spacing: 2px;
-  padding-bottom: 0.1rem;
+  padding-bottom: var(--espacement-2xs);
 }
 
 .champ-aide {
@@ -55,7 +55,7 @@
   background-color: var(--couleur-fond-champ);
   border: 1px solid var(--couleur-bordure);
   border-radius: 3px;
-  padding: 0.75rem 1rem;
+  padding: var(--espacement-ms) var(--espacement-md);
   min-height: 44px;
   width: 100%;
   transition:
@@ -124,8 +124,8 @@
   resize: vertical;
   min-height: 8rem;
   line-height: 1.5;
-  padding-top: 0.75rem;
-  padding-bottom: 0.75rem;
+  padding-top: var(--espacement-ms);
+  padding-bottom: var(--espacement-ms);
 }
 
 .bouton-envoyer--chargement:disabled {
@@ -140,7 +140,7 @@
   color: var(--couleur-valide);
   text-shadow: var(--ombre-glow-valide);
   letter-spacing: 2px;
-  padding: 0.75rem;
+  padding: var(--espacement-ms);
   border: 1px solid var(--couleur-valide-dim);
   background-color: var(--couleur-valide-alpha);
 }
@@ -160,11 +160,12 @@
 .carte-contact__lien {
   color: inherit;
   text-decoration: none;
+  min-width: 44px;
   min-height: 44px;
   box-sizing: border-box;
   display: inline-flex;
   align-items: center;
-  padding: 0.35rem 0;
+  padding: var(--espacement-xs) 0;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -200,7 +201,7 @@
   font-family: var(--police-lisible);
   font-size: clamp(0.8rem, 2vw, 0.9rem);
   line-height: 1.45;
-  padding: 0.65rem 0.75rem;
+  padding: var(--espacement-ms) var(--espacement-ms);
   border-radius: 3px;
   min-height: auto;
 }
@@ -222,7 +223,7 @@
   font-size: clamp(0.8rem, 2vw, 0.9rem);
   line-height: 1.45;
   color: var(--couleur-erreur);
-  padding: 0.65rem 0.75rem;
+  padding: var(--espacement-ms) var(--espacement-ms);
   border: 1px solid var(--couleur-erreur);
   background-color: var(--couleur-erreur-alpha-soft);
   border-radius: 3px;
@@ -233,7 +234,7 @@
   font-size: clamp(0.8rem, 2vw, 0.9rem);
   color: var(--couleur-texte-normal);
   line-height: 1.5;
-  margin-top: var(--espacement-xs);
+  margin-top: var(--espacement-2xs);
 }
 
 @media (max-width: 960px) {

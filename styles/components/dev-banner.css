@@ -2,16 +2,18 @@
 
 .dev-banner {
   position: fixed;
-  bottom: calc(var(--safe-area-inset-bottom, env(safe-area-inset-bottom, 0)) + 0.5rem);
-  left: max(0.5rem, var(--safe-area-inset-left, env(safe-area-inset-left, 0)));
-  right: max(0.5rem, var(--safe-area-inset-right, env(safe-area-inset-right, 0)));
+  bottom: calc(
+    var(--safe-area-inset-bottom, env(safe-area-inset-bottom, 0)) + var(--espacement-sm)
+  );
+  left: max(var(--espacement-sm), var(--safe-area-inset-left, env(safe-area-inset-left, 0)));
+  right: max(var(--espacement-sm), var(--safe-area-inset-right, env(safe-area-inset-right, 0)));
   z-index: 9999;
   display: flex;
   align-items: center;
   gap: var(--espacement-sm);
   max-width: min(96vw, 32rem);
   margin: 0 auto;
-  padding: 0.45rem 0.5rem 0.45rem 0.75rem;
+  padding: var(--espacement-sm) var(--espacement-sm) var(--espacement-sm) var(--espacement-ms);
   font-family: var(--police-crt);
   font-size: clamp(0.78rem, 2vw, 0.88rem);
   line-height: 1.35;

@@ -2,7 +2,12 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 vi.mock('../config/index.js', () => ({
   CONFIGURATION: {
-    SELECTEURS: { BURGER: 'js-burger', MENU: 'js-menu', MODALE: 'js-modal' },
+    SELECTEURS: {
+      BURGER: 'js-burger',
+      MENU: 'js-menu',
+      MODALE: 'js-modal',
+      POPUP_HS: 'js-popup-hs',
+    },
     NAVIGATION: { ORDRE: ['index.html', 'projets.html'] },
     STOCKAGE: { ANNONCE_NAV_CLAVIER: 'jm_nav_clavier_annonce' },
     KONAMI: {
@@ -138,6 +143,18 @@ describe('navigation', () => {
     document.body.innerHTML += '<div id="js-modal"></div>';
     const modal = document.getElementById('js-modal');
     modal.hidden = false;
+    Object.defineProperty(window, 'location', {
+      value: { pathname: '/index.html', href: 'index.html' },
+      writable: true,
+    });
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
+    expect(window.location.href).toBe('index.html');
+  });
+
+  it('ignore les flèches quand le popup high score est ouvert', () => {
+    document.body.innerHTML += '<div id="js-popup-hs"></div>';
+    const popup = document.getElementById('js-popup-hs');
+    popup.hidden = false;
     Object.defineProperty(window, 'location', {
       value: { pathname: '/index.html', href: 'index.html' },
       writable: true,

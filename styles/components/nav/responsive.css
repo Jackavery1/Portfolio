@@ -25,7 +25,8 @@
 
   .nav__bouton {
     font-size: var(--taille-petit-pixel);
-    padding: 0.8rem var(--espacement-lg);
+    padding: var(--espacement-ms) var(--espacement-lg);
+    min-width: 44px;
     min-height: 44px;
     box-sizing: border-box;
     display: flex;
@@ -58,16 +59,16 @@
 
 @media (max-width: 480px) {
   .nav {
-    padding: 0.5rem 0.65rem;
-    gap: 0.3rem;
+    padding: var(--espacement-sm) var(--espacement-ms);
+    gap: var(--espacement-2xs);
   }
 
   .nav__arcade-info {
     flex-direction: row;
     align-items: center;
-    gap: var(--espacement-xs);
+    gap: var(--espacement-2xs);
     margin-left: auto;
-    margin-right: 0.1rem;
+    margin-right: var(--espacement-2xs);
     flex-shrink: 1;
     min-width: 0;
   }
@@ -87,8 +88,8 @@
   }
 
   .nav__musique {
-    padding: 0.35rem 0.45rem;
-    gap: 0.2rem;
+    padding: var(--espacement-xs) var(--espacement-sm);
+    gap: var(--espacement-2xs);
   }
 
   .nav__logo {

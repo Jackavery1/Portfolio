@@ -3,7 +3,7 @@
 .boss-rush {
   display: flex;
   flex-direction: column;
-  gap: 0.65rem;
+  gap: var(--espacement-ms);
   margin-bottom: var(--espacement-xl);
 }
 
@@ -16,18 +16,18 @@
 .boss-carte {
   display: flex;
   align-items: flex-start;
-  gap: 0.75rem;
+  gap: var(--espacement-ms);
   min-height: 44px;
   touch-action: manipulation;
   background-color: var(--couleur-fond-carte);
   border: 1px solid var(--couleur-bordure);
   border-radius: 4px;
-  padding: 0.55rem 0.85rem;
+  padding: var(--espacement-sm) var(--espacement-md);
   transition:
-    border-color 0.2s,
-    background-color 0.2s,
-    transform 0.2s,
-    box-shadow 0.2s;
+    border-color var(--transition-ui),
+    background-color var(--transition-ui),
+    transform var(--transition-ui),
+    box-shadow var(--transition-ui);
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -99,7 +99,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--espacement-xs);
+  gap: var(--espacement-2xs);
   flex-shrink: 0;
   width: 52px;
 }
@@ -130,7 +130,7 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 0.15rem;
+  gap: var(--espacement-2xs);
   min-width: 0;
 }
 
@@ -139,7 +139,7 @@
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  gap: 0.35rem;
+  gap: var(--espacement-xs);
 }
 
 .boss-carte__nom {
@@ -156,7 +156,7 @@
   font-family: var(--police-crt);
   font-size: clamp(0.9rem, 2vw, 1.1rem);
   letter-spacing: 1px;
-  padding: 0.05rem 0.4rem;
+  padding: var(--espacement-2xs) var(--espacement-xs);
   border-radius: 2px;
   line-height: 1.25;
 }
@@ -200,7 +200,7 @@
   display: flex;
   align-items: center;
   gap: var(--espacement-sm);
-  margin-top: 0.05rem;
+  margin-top: var(--espacement-2xs);
 }
 
 .boss-carte__xp-label {
@@ -221,7 +221,7 @@
   display: flex;
   align-items: center;
   gap: var(--espacement-sm);
-  margin-top: 0.05rem;
+  margin-top: var(--espacement-2xs);
 }
 
 .boss-carte__vie-label {

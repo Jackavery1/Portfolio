@@ -33,7 +33,7 @@
     flex: none;
     padding-top: 1.5rem;
     padding-bottom: 2.5rem;
-    gap: 2.5rem;
+    gap: var(--espacement-xl);
     align-items: center;
     text-align: left;
   }
@@ -69,6 +69,6 @@
 
   .bouton-arcade {
     font-size: var(--taille-bouton-pixel);
-    padding: 0.85rem 1.2rem;
+    padding: var(--espacement-md) var(--espacement-ml);
   }
 }

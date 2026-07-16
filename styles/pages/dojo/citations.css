@@ -10,7 +10,7 @@
   color: var(--couleur-accent-vif);
   font-family: var(--police-crt);
   font-size: clamp(0.85rem, 2vw, 1rem);
-  padding: var(--espacement-xs) 0.6rem;
+  padding: var(--espacement-2xs) var(--espacement-ms);
   white-space: normal;
   text-align: center;
   max-width: min(92vw, 20rem);
@@ -19,8 +19,8 @@
   pointer-events: none;
   opacity: 0;
   transition:
-    opacity 0.2s,
-    transform 0.2s;
+    opacity var(--transition-ui),
+    transform var(--transition-ui);
   z-index: 10;
   letter-spacing: 1px;
 }

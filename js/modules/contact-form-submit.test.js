@@ -11,17 +11,11 @@ vi.mock('../utils/pii.js', () => ({
   decoderBase64Utf8: vi.fn((b64) => (b64 === 'dGVzdEBleGFtcGxlLmNvbQ==' ? 'test@example.com' : '')),
 }));
 
-vi.mock('./audio.js', () => ({
-  jouerBip: vi.fn(),
-}));
-
 vi.mock('./recaptcha.js', () => ({
   obtenirTokenRecaptcha: vi.fn(),
-  reinitialiserWidgetRecaptcha: vi.fn(),
 }));
 
-import { jouerBip } from './audio.js';
-import { reinitialiserWidgetRecaptcha, obtenirTokenRecaptcha } from './recaptcha.js';
+import { obtenirTokenRecaptcha } from './recaptcha.js';
 import { envoyerViaFormspree, envoyerViaMailto, lireSujetUtile } from './contact-form-submit.js';
 import {
   champsContactDemo,
@@ -77,124 +71,77 @@ describe('contact-form-submit', () => {
       vi.fn().mockResolvedValue({ ok: true, json: () => Promise.resolve({}) })
     );
 
-    const btn = document.getElementById('btn');
-    const afficherErreur = vi.fn();
-
     const result = await envoyerViaFormspree({
       configuration: configurationFormspree(),
       champs: champsContactDemo,
       sujetUtile: 'Projet',
-      btnEnvoyer: btn,
-      mount: null,
       optionsRecaptcha: {},
-      afficherErreur,
     });
 
     expect(result).toEqual({ ok: true });
-    expect(afficherErreur).not.toHaveBeenCalled();
   });
 
-  it('envoyerViaFormspree affiche ENVOI… pendant l’envoi', async () => {
-    obtenirTokenRecaptcha.mockResolvedValue('token');
-    let resolveFetch;
-    vi.stubGlobal(
-      'fetch',
-      vi.fn(
-        () =>
-          new Promise((resolve) => {
-            resolveFetch = resolve;
-          })
-      )
-    );
-
-    const btn = document.getElementById('btn');
-    btn.textContent = '► ENVOYER LE MESSAGE';
-    const afficherErreur = vi.fn();
-
-    const envoi = envoyerViaFormspree({
-      configuration: configurationFormspree(),
-      champs: champsContactDemo,
-      sujetUtile: 'Projet',
-      btnEnvoyer: btn,
-      mount: null,
-      optionsRecaptcha: {},
-      afficherErreur,
-    });
-
-    await Promise.resolve();
-    expect(btn.textContent).toBe('ENVOI…');
-    expect(btn.getAttribute('aria-busy')).toBe('true');
-    expect(btn.classList.contains('bouton-envoyer--chargement')).toBe(true);
-    expect(btn.disabled).toBe(true);
-
-    resolveFetch({ ok: true, json: () => Promise.resolve({}) });
-    await envoi;
-  });
-
-  it('envoyerViaFormspree affiche une erreur si reCAPTCHA échoue', async () => {
+  it('envoyerViaFormspree retourne l’erreur reCAPTCHA', async () => {
     obtenirTokenRecaptcha.mockRejectedValue(new Error('captcha'));
 
-    const btn = document.getElementById('btn');
-    const afficherErreur = vi.fn();
-
-    await envoyerViaFormspree({
+    const result = await envoyerViaFormspree({
       configuration: configurationFormspree(),
       champs: champsContactDemo,
       sujetUtile: '',
-      btnEnvoyer: btn,
-      mount: null,
       optionsRecaptcha: {},
-      afficherErreur,
     });
 
-    expect(btn.disabled).toBe(false);
-    expect(jouerBip).toHaveBeenCalled();
-    expect(afficherErreur).toHaveBeenCalledWith('captcha');
+    expect(result).toEqual({ ok: false, msg: 'captcha' });
   });
 
   it('envoyerViaFormspree refuse l’envoi sans clé reCAPTCHA', async () => {
     const fetchMock = vi.fn();
     vi.stubGlobal('fetch', fetchMock);
-    const btn = document.getElementById('btn');
-    const mount = document.createElement('div');
-    mount.scrollIntoView = vi.fn();
-    const afficherErreur = vi.fn();
 
-    await envoyerViaFormspree({
+    const result = await envoyerViaFormspree({
       configuration: configurationFormspree({ CONTACT: { RECAPTCHA_SITE_KEY: '' } }),
       champs: champsContactDemo,
       sujetUtile: '',
-      btnEnvoyer: btn,
-      mount,
       optionsRecaptcha: {},
-      afficherErreur,
     });
 
-    expect(jouerBip).toHaveBeenCalled();
-    expect(mount.scrollIntoView).toHaveBeenCalled();
+    expect(result).toEqual({ ok: false, code: 'sans-cle' });
     expect(fetchMock).not.toHaveBeenCalled();
   });
 
   it('envoyerViaFormspree demande la case v2 si le jeton est vide', async () => {
     obtenirTokenRecaptcha.mockResolvedValue(null);
-    const btn = document.getElementById('btn');
-    const afficherErreur = vi.fn();
 
-    await envoyerViaFormspree({
+    const result = await envoyerViaFormspree({
       configuration: configurationFormspree({ CONTACT: { RECAPTCHA_VERSION: 2 } }),
       champs: champsContactDemo,
       sujetUtile: '',
-      btnEnvoyer: btn,
-      mount: null,
       optionsRecaptcha: {},
-      afficherErreur,
     });
 
-    expect(afficherErreur).toHaveBeenCalledWith('Cochez la case « Je ne suis pas un robot ».');
-    expect(reinitialiserWidgetRecaptcha).not.toHaveBeenCalled();
+    expect(result).toEqual({
+      ok: false,
+      msg: 'Cochez la case « Je ne suis pas un robot ».',
+    });
   });
 
-  it('envoyerViaFormspree affiche une erreur Formspree', async () => {
+  it('envoyerViaFormspree demande un nouvel essai v3 si le jeton est vide', async () => {
+    obtenirTokenRecaptcha.mockResolvedValue(null);
+
+    const result = await envoyerViaFormspree({
+      configuration: configurationFormspree({ CONTACT: { RECAPTCHA_VERSION: 3 } }),
+      champs: champsContactDemo,
+      sujetUtile: '',
+      optionsRecaptcha: {},
+    });
+
+    expect(result).toEqual({
+      ok: false,
+      msg: 'Vérification anti-spam en cours… réessayez.',
+    });
+  });
+
+  it('envoyerViaFormspree retourne une erreur Formspree', async () => {
     obtenirTokenRecaptcha.mockResolvedValue('token');
     vi.stubGlobal(
       'fetch',
@@ -205,42 +152,36 @@ describe('contact-form-submit', () => {
       })
     );
 
-    const btn = document.getElementById('btn');
-    const afficherErreur = vi.fn();
-
-    await envoyerViaFormspree({
+    const result = await envoyerViaFormspree({
       configuration: configurationFormspree(),
       champs: champsContactDemo,
       sujetUtile: '',
-      btnEnvoyer: btn,
-      mount: null,
       optionsRecaptcha: {},
-      afficherErreur,
     });
 
-    expect(afficherErreur).toHaveBeenCalledWith('Erreur serveur');
-    expect(reinitialiserWidgetRecaptcha).toHaveBeenCalled();
+    expect(result).toEqual({
+      ok: false,
+      msg: 'Erreur serveur',
+      reinitialiserRecaptcha: true,
+    });
   });
 
   it('envoyerViaFormspree gère une erreur réseau', async () => {
     obtenirTokenRecaptcha.mockResolvedValue('token');
     vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('Failed to fetch')));
 
-    const btn = document.getElementById('btn');
-    const afficherErreur = vi.fn();
-
-    await envoyerViaFormspree({
+    const result = await envoyerViaFormspree({
       configuration: configurationFormspree(),
       champs: champsContactDemo,
       sujetUtile: '',
-      btnEnvoyer: btn,
-      mount: null,
       optionsRecaptcha: {},
-      afficherErreur,
     });
 
-    expect(afficherErreur).toHaveBeenCalled();
-    expect(reinitialiserWidgetRecaptcha).toHaveBeenCalled();
+    expect(result).toEqual({
+      ok: false,
+      msg: 'Failed to fetch',
+      reinitialiserRecaptcha: true,
+    });
   });
 
   it('envoyerViaFormspree tolère un corps de réponse non JSON', async () => {
@@ -254,21 +195,17 @@ describe('contact-form-submit', () => {
       })
     );
 
-    const btn = document.getElementById('btn');
-    const afficherErreur = vi.fn();
-
-    await envoyerViaFormspree({
+    const result = await envoyerViaFormspree({
       configuration: configurationFormspree(),
       champs: champsContactDemo,
       sujetUtile: '',
-      btnEnvoyer: btn,
-      mount: null,
       optionsRecaptcha: {},
-      afficherErreur,
     });
 
-    expect(afficherErreur).toHaveBeenCalledWith('Erreur serveur');
-    expect(btn.disabled).toBe(false);
-    expect(reinitialiserWidgetRecaptcha).toHaveBeenCalled();
+    expect(result).toEqual({
+      ok: false,
+      msg: 'Erreur serveur',
+      reinitialiserRecaptcha: true,
+    });
   });
 });

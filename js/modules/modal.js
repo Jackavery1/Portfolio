@@ -109,6 +109,9 @@ export function fermerModal() {
 }
 
 export function initialiserClavierModale() {
+  if (document.documentElement.dataset.modalClavier) return;
+  document.documentElement.dataset.modalClavier = '1';
+
   document.addEventListener('keydown', (evt) => {
     const modalOverlay = parId(CONFIGURATION.SELECTEURS.MODALE);
     if (!modalOverlay || modalOverlay.hidden) return;
@@ -122,6 +125,9 @@ export function initialiserClavierModale() {
 }
 
 export function initialiserClicsModale() {
+  if (document.documentElement.dataset.modalClics) return;
+  document.documentElement.dataset.modalClics = '1';
+
   const modalOverlay = parId(CONFIGURATION.SELECTEURS.MODALE);
   const btnFermer = parId(CONFIGURATION.SELECTEURS.MODALE_FERMER);
 

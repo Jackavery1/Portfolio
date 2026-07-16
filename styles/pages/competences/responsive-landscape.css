@@ -2,14 +2,14 @@
 
 @media (max-height: 480px) and (orientation: landscape) {
   .stats-grille {
-    gap: 1rem;
+    gap: var(--espacement-md);
   }
 
   .scores-tableau th,
   .score-rang,
   .score-techno,
   .score-last {
-    padding-top: 0.35rem;
-    padding-bottom: 0.35rem;
+    padding-top: var(--espacement-xs);
+    padding-bottom: var(--espacement-xs);
   }
 }

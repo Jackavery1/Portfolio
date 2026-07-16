@@ -13,14 +13,14 @@
   font-family: var(--police-pixel);
   font-size: var(--taille-pixel-decoratif);
   color: var(--couleur-accent-vif);
-  padding: 0.55rem 0.75rem;
+  padding: var(--espacement-sm) var(--espacement-ms);
   text-align: left;
   letter-spacing: 1px;
 }
 
 .score-ligne {
   border-bottom: 1px solid var(--couleur-separateur);
-  transition: background 0.15s;
+  transition: background var(--transition-ui);
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -33,7 +33,7 @@
   font-family: var(--police-pixel);
   font-size: var(--taille-petit-pixel);
   color: var(--couleur-texte-discret);
-  padding: var(--espacement-sm) 0.75rem;
+  padding: var(--espacement-sm) var(--espacement-ms);
   width: 3rem;
 }
 
@@ -41,13 +41,13 @@
   font-family: var(--police-crt);
   font-size: clamp(1rem, 2.5vw, 1.2rem);
   color: var(--couleur-texte-fort);
-  padding: var(--espacement-sm) 0.75rem;
+  padding: var(--espacement-sm) var(--espacement-ms);
   letter-spacing: 1px;
   width: 9rem;
 }
 
 .score-barre-cell {
-  padding: var(--espacement-sm) 0.75rem;
+  padding: var(--espacement-sm) var(--espacement-ms);
 }
 
 .score-barre-fond {
@@ -70,6 +70,6 @@
   font-family: var(--police-pixel);
   font-size: var(--taille-pixel-min);
   color: var(--couleur-texte-discret);
-  padding: var(--espacement-sm) 0.75rem;
+  padding: var(--espacement-sm) var(--espacement-ms);
   letter-spacing: 1px;
 }

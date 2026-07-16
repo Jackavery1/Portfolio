@@ -5,6 +5,6 @@
 
 export const SECTIONS_AVEC_INITIALISEUR = ['accueil', 'projets', 'dojo', 'contact', 'mentions'];
 
-export const SECTIONS_STATIQUES = ['parcours', 'competences'];
+const SECTIONS_STATIQUES = ['parcours', 'competences'];
 
 export const TOUTES_LES_SECTIONS = [...SECTIONS_AVEC_INITIALISEUR, ...SECTIONS_STATIQUES];

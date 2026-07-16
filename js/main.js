@@ -19,14 +19,11 @@ import { urlFaviconPng } from './config/favicon.js';
 import { SCORE_PLAFOND } from './utils/score-helpers.js';
 import { initialiserSection } from './config/sections.js';
 import { afficherBandeauDev } from './utils/dev-mode.js';
-import { estPageDense } from './utils/pages-denses.js';
+import { planifierIdleDense } from './utils/pages-denses.js';
 
 function activerOverlayCrtApresPeinture(sectionId) {
   const activer = () => document.documentElement.classList.add('crt-pret');
-  if (estPageDense(sectionId) && typeof requestIdleCallback === 'function') {
-    requestIdleCallback(activer, { timeout: 2000 });
-    return;
-  }
+  if (planifierIdleDense(sectionId, activer, 2000)) return;
   requestAnimationFrame(() => {
     requestAnimationFrame(activer);
   });
@@ -37,9 +34,7 @@ function planifierTachesDifferees(sid) {
     import('./modules/animations.js').then((module) => module.animerBarresSection(sid));
   };
 
-  if (estPageDense(sid) && typeof requestIdleCallback === 'function') {
-    requestIdleCallback(planifierAnim, { timeout: 3000 });
-  } else {
+  if (!planifierIdleDense(sid, planifierAnim, 3000)) {
     setTimeout(planifierAnim, 300);
   }
 
@@ -60,32 +55,28 @@ function planifierExtrasInteractifs(sid) {
     initialiserCodeKonami();
     initialiserBonusScore();
   };
-  if (estPageDense(sid) && typeof requestIdleCallback === 'function') {
-    requestIdleCallback(lancer, { timeout: 2500 });
-    return;
-  }
-  lancer();
+  if (!planifierIdleDense(sid, lancer, 2500)) lancer();
 }
 
 async function planifierSection(sid) {
-  if (estPageDense(sid) && typeof requestIdleCallback === 'function') {
-    requestIdleCallback(
+  if (
+    planifierIdleDense(
+      sid,
       () => {
         void initialiserSection(sid);
       },
-      { timeout: 2500 }
-    );
+      2500
+    )
+  ) {
     return;
   }
   await initialiserSection(sid);
 }
 
 function planifierMusique(sid) {
-  if (estPageDense(sid) && typeof requestIdleCallback === 'function') {
-    requestIdleCallback(() => initialiserMusique(), { timeout: 2500 });
-    return;
+  if (!planifierIdleDense(sid, () => initialiserMusique(), 2500)) {
+    initialiserMusique();
   }
-  initialiserMusique();
 }
 
 // En dev on sert les HTML sources : le head de prod n'est pas injecté, on ajoute la favicon à la volée.

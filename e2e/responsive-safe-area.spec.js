@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { gotoReady, simulerInsetHaut, simulerInsets } from './helpers.js';
+import { gotoReady, gotoPage, simulerInsetHaut, simulerInsets } from './helpers.js';
 import { VIEWPORT_ETROIT, VIEWPORT_MOBILE, VIEWPORT_PAYSAGE } from './fixtures/responsive.js';
 
 test('safe-area — marquee et nav sans encoche', async ({ page }) => {
@@ -191,4 +191,25 @@ test('safe-area — popup high score paysage avec insets simulés', async ({ pag
 
   expect(paddingTop).toBe('20px');
   expect(paddingBottom).toBe('20px');
+});
+
+test('safe-area — offline avec insets simulés', async ({ page }) => {
+  await page.setViewportSize(VIEWPORT_MOBILE);
+  await gotoPage(page, '/offline.html');
+  await simulerInsets(page, { haut: 24, bas: 34, gauche: 16, droite: 16 });
+
+  const paddings = await page.locator('body').evaluate((el) => {
+    const styles = getComputedStyle(el);
+    return {
+      top: styles.paddingTop,
+      bottom: styles.paddingBottom,
+      left: styles.paddingLeft,
+      right: styles.paddingRight,
+    };
+  });
+
+  expect(paddings.top).toBe('24px');
+  expect(paddings.bottom).toBe('34px');
+  expect(paddings.left).toBe('16px');
+  expect(paddings.right).toBe('16px');
 });

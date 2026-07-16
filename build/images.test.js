@@ -86,19 +86,19 @@ describe('images.cjs — assets et icônes', () => {
     }
   });
 
-  it('generatePwaIcons ignore si favicon.png absent', async () => {
+  it('genererIconesPwa ignore si favicon.png absent', async () => {
     await avecRepertoireTemporaireAsync('portfolio-pwa-absent-', async (tmp) => {
-      await expect(images().generatePwaIcons(tmp, path.join(tmp, 'dist'))).resolves.toBeUndefined();
+      await expect(images().genererIconesPwa(tmp, path.join(tmp, 'dist'))).resolves.toBeUndefined();
       expect(sharpMock.instances).toHaveLength(0);
     });
   });
 
-  it('generatePwaIcons écrit les trois tailles en racine et dist', async () => {
+  it('genererIconesPwa écrit les trois tailles en racine et dist', async () => {
     await avecRepertoireTemporaireAsync('portfolio-pwa-ok-', async (tmp) => {
       fs.mkdirSync(path.join(tmp, 'assets'), { recursive: true });
       fs.writeFileSync(path.join(tmp, 'assets', 'favicon.png'), 'png');
       const dist = path.join(tmp, 'dist');
-      await images().generatePwaIcons(tmp, dist);
+      await images().genererIconesPwa(tmp, dist);
       for (const name of ['apple-touch-icon.png', 'icon-192.png', 'icon-512.png']) {
         expect(fs.existsSync(path.join(tmp, 'assets', name))).toBe(true);
         expect(fs.existsSync(path.join(dist, 'assets', name))).toBe(true);

@@ -18,8 +18,10 @@ import {
   finaliserEnvoiReussi,
   marquerEnvoiEnCours,
   restaurerBoutonEnvoi,
+  signalerEchecEnvoi,
 } from './contact-form-submit-ui.js';
 import { preparerDomEnvoi } from '../test-fixtures/contact-form-submit-fixtures.js';
+import { jouerBip } from './audio.js';
 
 describe('contact-form-submit-ui', () => {
   beforeEach(() => {
@@ -67,5 +69,54 @@ describe('contact-form-submit-ui', () => {
     expect(document.getElementById('contact-nom').disabled).toBe(false);
     expect(document.getElementById('contact-message').disabled).toBe(false);
     expect(btn.textContent).toBe('► ENVOYER');
+  });
+
+  it('signalerEchecEnvoi restaure le bouton et affiche l’erreur', () => {
+    const btn = document.getElementById('btn');
+    const afficherErreur = vi.fn();
+    marquerEnvoiEnCours(btn);
+
+    signalerEchecEnvoi({
+      btnEnvoyer: btn,
+      labelEnvoyer: '► ENVOYER',
+      msg: 'Échec réseau',
+      afficherErreur,
+    });
+
+    expect(jouerBip).toHaveBeenCalled();
+    expect(btn.disabled).toBe(false);
+    expect(btn.textContent).toBe('► ENVOYER');
+    expect(btn.getAttribute('title')).toBe('Échec réseau');
+    expect(afficherErreur).toHaveBeenCalledWith('Échec réseau');
+    expect(reinitialiserWidgetRecaptcha).not.toHaveBeenCalled();
+  });
+
+  it('signalerEchecEnvoi peut réinitialiser reCAPTCHA', () => {
+    const btn = document.getElementById('btn');
+    signalerEchecEnvoi({
+      btnEnvoyer: btn,
+      labelEnvoyer: '► ENVOYER',
+      msg: 'Erreur',
+      afficherErreur: vi.fn(),
+      reinitialiserRecaptcha: true,
+    });
+    expect(reinitialiserWidgetRecaptcha).toHaveBeenCalled();
+  });
+
+  it('signalerEchecEnvoi tolère un bouton hors formulaire', () => {
+    const btn = document.createElement('button');
+    btn.textContent = 'OK';
+    document.body.appendChild(btn);
+    const afficherErreur = vi.fn();
+
+    signalerEchecEnvoi({
+      btnEnvoyer: btn,
+      labelEnvoyer: 'OK',
+      msg: 'Erreur',
+      afficherErreur,
+    });
+
+    expect(btn.disabled).toBe(false);
+    expect(afficherErreur).toHaveBeenCalledWith('Erreur');
   });
 });

@@ -37,6 +37,9 @@ describe('build service worker', () => {
     expect(urls).not.toContain('assets/cv-martinez-joris.pdf');
     expect(urls).not.toContain('js/config/musique-themes.json');
     expect(urls).not.toContain('js/modules/musique.js');
+    expect(urls).not.toContain('js/modules/musique-sequencuer-store.js');
+    expect(urls).toContain('js/modules/musique-audio.js');
+    expect(urls).toContain('js/modules/musique-bouton.js');
     expect(urls).toContain('js/config/projects-data.js');
     expect(urls).toContain('js/modules/projets-grille.js');
     expect(urls).toContain('js/modules/contact.js');

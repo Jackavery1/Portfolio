@@ -7,11 +7,13 @@ import { parId } from '../utils/dom.js';
 import { jouerBip } from './audio.js';
 
 export function initialiserBandeauContact() {
-  const dispo = parId(CONFIGURATION.SELECTEURS.CONTACT_BANDEAU_DISPO);
-  const cvBloc = parId('js-bandeau-cv-bloc');
-  const cv = parId(CONFIGURATION.SELECTEURS.CONTACT_BANDEAU_CV);
-  const retour = parId('js-bandeau-retour');
-  if (!dispo || !cvBloc || !cv || !retour) return;
+  const { SELECTEURS } = CONFIGURATION;
+  const bandeau = parId(SELECTEURS.CONTACT_BANDEAU);
+  const dispo = parId(SELECTEURS.CONTACT_BANDEAU_DISPO);
+  const cvBloc = parId(SELECTEURS.CONTACT_BANDEAU_CV_BLOC);
+  const cv = parId(SELECTEURS.CONTACT_BANDEAU_CV);
+  const retour = parId(SELECTEURS.CONTACT_BANDEAU_RETOUR);
+  if (!bandeau || !dispo || !cvBloc || !cv || !retour) return;
 
   cv.href = CONFIGURATION.CONTACT.CV_HREF;
   cv.download = CONFIGURATION.CONTACT.CV_DOWNLOAD;

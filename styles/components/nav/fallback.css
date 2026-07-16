@@ -3,9 +3,10 @@
 .nav__fallback-retry {
   font-family: var(--police-crt);
   font-size: 1rem;
+  min-width: 44px;
   min-height: 44px;
-  margin-top: 0.5rem;
-  padding: var(--espacement-sm) 0.75rem;
+  margin-top: var(--espacement-sm);
+  padding: var(--espacement-sm) var(--espacement-ms);
   color: var(--couleur-accent-vif);
   background: none;
   border: 1px solid var(--couleur-bordure);
@@ -33,7 +34,7 @@
 
 .nav__fallback {
   margin: 0;
-  padding: 0.75rem var(--espacement-lg);
+  padding: var(--espacement-ms) var(--espacement-lg);
   font-family: var(--police-crt);
   font-size: clamp(0.95rem, 2.5vw, 1.1rem);
   color: var(--couleur-erreur);
@@ -44,7 +45,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.35rem;
+  gap: var(--espacement-xs);
 }
 
 @media (max-width: 960px) {
@@ -67,7 +68,7 @@
 
 .nav--squelette .nav__liens--squelette .nav__bouton {
   min-height: 44px;
-  padding: var(--espacement-sm) 0.65rem;
+  padding: var(--espacement-sm) var(--espacement-ms);
 }
 
 .pied-page--squelette .pied-page__certif {

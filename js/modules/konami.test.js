@@ -38,6 +38,7 @@ vi.mock('./musique-loader.js', () => ({
 
 vi.mock('./score.js', () => scoreMocks);
 
+import { reinitialiserSaisieKonami } from '../utils/konami-buffer.js';
 import { initialiserCodeKonami } from './konami.js';
 
 const SEQ = [
@@ -64,6 +65,7 @@ describe('konami', () => {
     document.body.innerHTML = '<div id="js-modal" hidden></div>';
     document.body.classList.remove('konami-actif');
     delete document.documentElement.dataset.konamiInit;
+    reinitialiserSaisieKonami();
     vi.clearAllMocks();
     scoreMocks.lireScore.mockReturnValue(0);
     initialiserCodeKonami();
@@ -100,5 +102,34 @@ describe('konami', () => {
     scoreMocks.lireScore.mockReturnValue(9999);
     saisirSequence();
     expect(scoreMocks.sauvegarderScore).not.toHaveBeenCalled();
+  });
+
+  it('ignore la séquence dans un SELECT', () => {
+    document.body.innerHTML =
+      '<div id="js-modal" hidden></div><select id="liste"><option>a</option></select>';
+    document.getElementById('liste').focus();
+    saisirSequence();
+    expect(document.body.classList.contains('konami-actif')).toBe(false);
+  });
+
+  it('ignore la séquence dans un contentEditable', () => {
+    document.body.innerHTML = '<div id="js-modal" hidden></div><div id="edit"></div>';
+    const edit = document.getElementById('edit');
+    Object.defineProperty(edit, 'isContentEditable', { configurable: true, get: () => true });
+    edit.tabIndex = 0;
+    edit.focus();
+    Object.defineProperty(document, 'activeElement', {
+      configurable: true,
+      get: () => edit,
+    });
+    saisirSequence();
+    expect(document.body.classList.contains('konami-actif')).toBe(false);
+    Reflect.deleteProperty(document, 'activeElement');
+  });
+
+  it('ignore une seconde initialisation', () => {
+    expect(document.documentElement.dataset.konamiInit).toBe('1');
+    initialiserCodeKonami();
+    expect(document.documentElement.dataset.konamiInit).toBe('1');
   });
 });

@@ -28,4 +28,10 @@ describe('page-meta', () => {
       expect(meta.twitterDescription).toBeTruthy();
     });
   });
+
+  it('metaPour résout une page ou null', () => {
+    const { metaPour } = require('./page-meta.mjs');
+    expect(metaPour('index.html').ogTitle).toContain(CONFIG_DEFAULTS.person.name);
+    expect(metaPour('absent.html')).toBeNull();
+  });
 });

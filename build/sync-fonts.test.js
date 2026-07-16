@@ -18,6 +18,27 @@ describe('sync-fonts', () => {
     spy.mockRestore();
   });
 
+  it('runCli appelle syncFonts', async () => {
+    vi.resetModules();
+    const fonts = require('./fonts.cjs');
+    const spy = vi.spyOn(fonts, 'syncFontsRoot').mockImplementation(() => {});
+    const { runCli } = await import('./sync-fonts.mjs');
+    runCli(rootDir);
+    expect(spy).toHaveBeenCalledWith(rootDir);
+    spy.mockRestore();
+  });
+
+  it('runCli propage les erreurs syncFontsRoot', async () => {
+    vi.resetModules();
+    const fonts = require('./fonts.cjs');
+    const spy = vi.spyOn(fonts, 'syncFontsRoot').mockImplementation(() => {
+      throw new Error('Police manquante: test');
+    });
+    const { runCli } = await import('./sync-fonts.mjs');
+    expect(() => runCli(rootDir)).toThrow(/Police manquante/);
+    spy.mockRestore();
+  });
+
   it('génère les polices locales via le point d’entrée CLI', () => {
     expect(() =>
       execSync('node build/sync-fonts.mjs', { cwd: rootDir, stdio: 'pipe' })

@@ -28,23 +28,28 @@ js/main.js (orchestrateur)
 
 ### 2. Lazy-loading par section
 
-Registry centralisée dans `js/config/sections.js` ; `main.js` appelle `initialiserSection(sid)`.
+Trio config : `sections-manifest.js` (ids) → `sections-registry.js` (charges `import()`) → `sections.js` (`initialiserSection`) ; `main.js` appelle `initialiserSection(sid)`.
 
 ```javascript
-// js/config/sections.js — INITIALISEURS_SECTION[sid] → import dynamique + initialiser*
+// js/config/sections-registry.js — CHARGES_SECTION[sid] → modules + init
+// js/config/sections.js — import dynamique puis initialiser*
 ```
 
-Sections dynamiques : `projets`, `accueil`, `dojo`, `contact`, `mentions`. Musique via `musique-loader.js` → `musique.js` (UI) → `musique-sequencuer.js` (scheduler) → `musique-audio.js` (Web Audio) ; grilles compilées dans `musique-themes.json` (fetch). Réduit le bundle initial (~50% minification).
+Sections dynamiques : `projets`, `accueil`, `dojo`, `contact`, `mentions`. Musique via `musique-loader.js` (voir stack ci-dessous). Réduit le JS critique au démarrage (~35–40 % après minification build).
 
 ### Stack musique
 
-| Module                  | Rôle                                                                       |
-| ----------------------- | -------------------------------------------------------------------------- |
-| `musique-loader.js`     | Import dynamique, point d'entrée `main.js`                                 |
-| `musique.js`            | Bouton, préférences localStorage, jingles                                  |
-| `musique-sequencuer.js` | Planification lookahead, grilles et résolution section → thème             |
-| `musique-audio.js`      | Oscillateurs, percussions Web Audio                                        |
-| `musique-donnees.json`  | Source éditable → `build/sync-musique-donnees.cjs` → `musique-themes.json` |
+| Module                        | Rôle                                                        |
+| ----------------------------- | ----------------------------------------------------------- |
+| `musique-loader.js`           | Import dynamique, point d’entrée `main.js`                  |
+| `musique.js`                  | Bouton, préférences localStorage, jingles                   |
+| `musique-bouton.js`           | Préférence + état visuel du bouton                          |
+| `musique-sequencuer.js`       | Lookahead, démarrage / arrêt, résolution section → thème    |
+| `musique-sequencuer-plan.js`  | Planification d’un pas de grille (motifs)                   |
+| `musique-sequencuer-store.js` | État mutable isolé du séquenceur                            |
+| `musique-audio.js`            | Contexte Web Audio, gain maître                             |
+| `musique-voix.js`             | Oscillateurs et percussions                                 |
+| `musique-donnees.json`        | Source éditable → sync → `musique-themes.json` (fetch lazy) |
 
 ### 3. Modules découplés
 
@@ -63,7 +68,7 @@ js/modules/contact-form.js
 js/modules/contact-form.test.js  ← même dossier
 ```
 
-Approche **test-per-module** : Vitest + Playwright e2e (voir `npm test` / `npm run test:e2e`), environnement `node` avec jsdom via `environmentMatchGlobs` (`vitest.config.js`) ; `vi.mock` pour config et I/O externes.
+Approche **test-per-module** : Vitest + Playwright e2e (voir `npm test` / `npm run test:e2e`). Trois projects Vitest (`vitest.config.js`) : `js-dom` (jsdom), `js-node`, `build` (node) ; `vi.mock` pour config et I/O externes.
 
 ## Structure fichiers
 
@@ -123,12 +128,12 @@ L’ordre est couplé (ex. `legal` avant `manifest-dev`, partials avant injectio
 ### ✅ Pourquoi pas de framework front ?
 
 - Portfolio statique : vanille JS suffit
-- Contrôle total des perfs (36% JS minification vs React overhead)
+- Contrôle total des perfs (~35–40 % JS minification vs overhead framework)
 - CSP stricte, service worker custom : framework ajouterait friction
 
 ### ✅ Pourquoi JSDOM pour les tests DOM ?
 
-- Environnement Vitest `node` par défaut ; **jsdom** activé via `environmentMatchGlobs` dans `vitest.config.js` (`js/modules/**`, `js/main.test.js`, utils DOM)
+- Project Vitest **`js-dom`** (jsdom) pour modules / utils DOM ; **`js-node`** et **`build`** restent en node (`vitest.config.js`)
 - Performance : suite complète en quelques dizaines de secondes
 - Isolation : reset DOM par test via `beforeEach`
 
@@ -152,7 +157,7 @@ L’ordre est couplé (ex. `legal` avant `manifest-dev`, partials avant injectio
 
 ## Patterns utilisés
 
-### Observer pattern (score, highscore)
+### Appels directs (score, highscore)
 
 ```javascript
 // js/modules/score-session.js + popup-highscore.js (barrel score.js)
@@ -163,31 +168,31 @@ lireScore() → getter localStorage
 if (score >= PLAFOND) afficherPopupMeilleurScore()
 ```
 
-Pas de dependency injection ; découplage via événements localStorage.
+Pas d’événements `storage` cross-onglets : appels synchrones + `localStorage` / `sessionStorage` pour persistance.
 
 ### Command pattern (contact form)
 
 ```javascript
-// js/modules/contact-form-handler.js — orchestration submit
-// js/modules/contact-form-submit.js — réseau (Formspree, mailto)
+// js/modules/contact-form-handler.js — orchestration submit + feedback UI
+// js/modules/contact-form-submit.js — réseau (Formspree, mailto) → { ok } | { ok:false, msg }
 // js/modules/contact-form-submit-ui.js — état bouton envoi / confirmation
 async envoyerViaFormspree({ ... })
   → reCAPTCHA (recaptcha.js)
   → fetch Formspree
-  → feedback via contact-form-submit-ui.js
+  → résultat ; feedback UI via handler → contact-form-submit-ui.js
 ```
 
 Séparation orchestration (`contact-form-handler.js`) vs réseau (`contact-form-submit.js`) vs UI bouton (`contact-form-submit-ui.js`).
 
-### Strategy pattern (modal interactions)
+### Init modale (clavier + clics)
 
 ```javascript
-// js/modules/modal.js
-initialiserClavierModale(); // Tab, Escape
-initialiserClicsModale(); // click handlers
+// js/modules/modal.js — les deux inits sont toujours chargés ensemble (sections-registry projets)
+initialiserClavierModale(); // Escape, piège Tab
+initialiserClicsModale(); // cartes, overlay, bouton fermer
 ```
 
-Deux stratégies importer séparément selon context.
+Idempotents via `dataset.modalClavier` / `dataset.modalClics` (évite double `addEventListener`).
 
 ## Testabilité
 
@@ -202,78 +207,26 @@ Voir `CONTRIBUTING.md` § Tests (seuils Vitest ≥ 85 % lignes / ≥ 84 % branch
 - **API mocking** : Formspree via `fetch` mocké dans les tests contact
 - **E2E** : Playwright (Chromium, WebKit, Firefox) sur le build staging
 
-### Edge cases couverts
-
-```javascript
-// score.js : Score maxé
-lireScore() >= SCORE_PLAFOND → afficherPopupMeilleurScore()
-
-// contact-form.js : Champ vide
-validate(email) → /^.+@.+$/ check
-
-// visual-viewport.js : Notch détection
-if (visualViewport) adjustPaddingSafeArea()
-```
-
 ## Performance
 
 ### Bundle
 
 - **JS** : minifié au build (`build/js-minify.cjs`, ~35–40 % de réduction)
 - **CSS** : `style.css` monolithique en dev + `style-base.css` / `style-page-*.css` en prod
-- **Assets** : WebP (previews), SVG inline (icons), polices locales latin + latin-ext
-- **Mesure** : `npm run build && npm run measure` — artefact le plus frais (`.dist-staging-build/` ou `.dist-staging/`) ; snapshot local `scripts/bundle-baseline.json` (gitignoré)
+- **Assets** : WebP (previews), SVG inline (icons), polices locales subset **latin** (accents FR)
+- **Mesure** : `npm run build && npm run measure` — voir `CONTRIBUTING.md` § Mesure bundle
 
 ### Runtime
 
-- **LCP < 2.5s** (Lighthouse 90+)
-- **No layout thrashing** : DOM reads batched
-- **Animations 60fps** : `transform` / `will-change` only
-- **Service worker** : Precache shell (HTML, CSS pages dont offline, JS de page, polices) ; musique / reCAPTCHA / Formspree exclus — voir `CONTRIBUTING.md` § PWA pour le détail offline
+- **Service worker** : precache shell ; musique / reCAPTCHA / Formspree exclus — détail offline dans `CONTRIBUTING.md` § PWA
 
 ## Maintenance
 
-### Sync générés (ne pas committer)
+Sources versionnées : `js/config/legal.json`, `js/config/projects.json`, `js/config/musique-donnees.json`. Artefact prod : seul `musique-themes.json` est embarqué.
 
-Sources versionnées : `js/config/legal.json`, `js/config/projects.json`, `js/config/musique-donnees.json`. Artefact prod : seul `musique-themes.json` est embarqué (les sources JSON ne partent pas dans dist).
+Artefacts générés, phases `sync-source`, lint/coverage : **`CONTRIBUTING.md`**.
 
-Liste complète des artefacts générés, commandes sync et workflow : **`CONTRIBUTING.md` § Configuration**.
-
-#### Phases `sync-source.cjs` (ordre et dépendances)
-
-| Phase               | Dépend de   | Rôle                                    |
-| ------------------- | ----------- | --------------------------------------- |
-| `defaults`          | —           | `js/config/defaults.js`, `partials.js`  |
-| `style-css`         | `defaults`  | Agrège `style.css`                      |
-| `partials`          | `style-css` | Fragments HTML (`partials/*.html`)      |
-| `nav-squelette`     | `partials`  | Injecte le squelette nav dans les pages |
-| `parcours-arbre`    | `partials`  | Arbre parcours assemblé                 |
-| `dojo-boss`         | `partials`  | Lots boss rush (a/b/c)                  |
-| `competences-stats` | `partials`  | Tableau scores compétences              |
-| `accueil-hero`      | `partials`  | Hero accueil                            |
-| `breakpoints`       | `style-css` | Constantes breakpoints partagées        |
-| `legal`             | —           | `legal-data.js`                         |
-| `projects`          | —           | `projects-data.js`                      |
-| `musique-donnees`   | —           | `musique-themes.json`                   |
-| `manifest-dev`      | `legal`     | `manifest.webmanifest` dev              |
-
-`sync-page-meta.cjs` est optionnel (`--page-meta`) et s’exécute après la boucle principale.
-
-#### État mutable isolé (runtime)
-
-| Module                        | Rôle                        |
-| ----------------------------- | --------------------------- |
-| `audio-context-store.js`      | Contexte Web Audio unique   |
-| `musique-sequencuer-store.js` | État planification chiptune |
-
-### Code mort : détection
-
-```bash
-npm run lint           # ESLint : no-unused-vars + recommends
-npm run test:coverage  # Vitest coverage : rapports HTML/JSON
-```
-
-Aucun TODO/FIXME. Si un fichier est marqué "unused" → supprimer directement.
+État mutable runtime : `audio-context-store.js`, `musique-sequencuer-store.js`.
 
 ## Ressources
 

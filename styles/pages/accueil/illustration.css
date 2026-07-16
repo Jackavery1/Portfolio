@@ -50,8 +50,3 @@
     opacity: 0.5;
   }
 }
-
-.svg-label {
-  font-family: var(--police-pixel);
-  fill: var(--couleur-texte-discret);
-}

@@ -47,11 +47,10 @@
 
 @media (max-width: 320px) {
   body[data-section-id='contact'] .section {
-    padding-left: 0.75rem;
-    padding-right: 0.75rem;
+    padding-left: var(--espacement-ms);
+    padding-right: var(--espacement-ms);
   }
 
-  .texte-continue,
   .contact-bandeau__action,
   .contact-bandeau__ligne {
     letter-spacing: 0;
@@ -60,11 +59,11 @@
 
   .contact-bandeau__action,
   .contact-bandeau-aide {
-    padding-left: 0.35rem;
-    padding-right: 0.35rem;
+    padding-left: var(--espacement-xs);
+    padding-right: var(--espacement-xs);
   }
 
   .profil-recap {
-    padding: 0.85rem;
+    padding: var(--espacement-md);
   }
 }

@@ -6,12 +6,12 @@
   }
 
   .boss-rush {
-    gap: 0.45rem;
+    gap: var(--espacement-sm);
     margin-bottom: var(--espacement-md);
   }
 
   .boss-carte {
-    padding: 0.45rem 0.65rem;
+    padding: var(--espacement-sm) var(--espacement-ms);
     min-height: 44px;
   }
 }

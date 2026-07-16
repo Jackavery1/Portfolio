@@ -1,11 +1,16 @@
 export function obtenirFichierPageCourante(
+  /* v8 ignore next */
   pathname = typeof window !== 'undefined' ? window.location.pathname : ''
 ) {
-  const segment = pathname.split('/').pop() || 'index.html';
+  const segment =
+    String(pathname ?? '')
+      .split('/')
+      .pop() || 'index.html';
   return segment.split('?')[0].split('#')[0];
 }
 
 function normaliserFichierPage(file) {
+  /* v8 ignore next */
   const base = String(file ?? 'index.html')
     .split('?')[0]
     .split('#')[0]

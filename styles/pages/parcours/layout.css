@@ -15,8 +15,8 @@
 
 .entree-parcours {
   display: flex;
-  gap: 0.9rem;
-  padding: 0.85rem 0;
+  gap: var(--espacement-md);
+  padding: var(--espacement-md) 0;
   border-bottom: 1px solid var(--couleur-separateur);
 }
 
@@ -31,7 +31,7 @@
   text-shadow: var(--ombre-glow-accent);
   width: 2.2rem;
   flex-shrink: 0;
-  padding-top: var(--espacement-xs);
+  padding-top: var(--espacement-2xs);
   line-height: 2;
 }
 
@@ -44,8 +44,8 @@
 .entree-parcours__haut {
   display: flex;
   align-items: center;
-  gap: 0.65rem;
-  margin-bottom: 0.3rem;
+  gap: var(--espacement-ms);
+  margin-bottom: var(--espacement-xs);
   flex-wrap: wrap;
 }
 
@@ -61,7 +61,7 @@
   font-size: var(--taille-petit-pixel);
   color: var(--couleur-texte-fort);
   letter-spacing: 1px;
-  margin-bottom: var(--espacement-xs);
+  margin-bottom: var(--espacement-2xs);
   line-height: 1.8;
 }
 
@@ -70,7 +70,7 @@
   font-size: clamp(0.95rem, 2.3vw, 1.1rem);
   color: var(--couleur-texte-normal);
   letter-spacing: 1px;
-  margin-bottom: 0.3rem;
+  margin-bottom: var(--espacement-xs);
 }
 
 .entree-parcours__detail {

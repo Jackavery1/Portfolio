@@ -47,5 +47,7 @@ describe('page utils', () => {
     expect(fichierPageDepuisPathname('/?')).toBe('index.html');
     expect(obtenirFichierPageCourante('')).toBe('index.html');
     expect(fichierPageDepuisPathname('?x')).toBe('index.html');
+    expect(fichierPageDepuisPathname(null)).toBe('index.html');
+    expect(fichierPageDepuisPathname(undefined)).toBe('index.html');
   });
 });

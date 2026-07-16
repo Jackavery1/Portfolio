@@ -60,3 +60,7 @@ export const PAGE_META = {
     twitterDescription: `Mentions légales & confidentialité — portfolio ${name}.`,
   },
 };
+
+export function metaPour(fichier) {
+  return PAGE_META[fichier] ?? null;
+}

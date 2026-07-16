@@ -3,7 +3,7 @@ const images = require('./images.cjs');
 const { executerSiEntreeDirecte } = require('./cli-entry.mjs');
 
 async function syncPwaIcons(root = path.join(__dirname, '..')) {
-  await images.generatePwaIcons(root, root);
+  await images.genererIconesPwa(root, root);
 }
 
 async function runCli(root = path.join(__dirname, '..')) {

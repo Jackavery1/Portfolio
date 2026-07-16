@@ -55,6 +55,11 @@ function syncFontsRoot(root) {
     fs.copyFileSync(from, to);
   });
 
+  const attendus = new Set(FONT_FILES.map(({ dst }) => dst));
+  fs.readdirSync(dstDir)
+    .filter((name) => name.endsWith('.woff2') && !attendus.has(name))
+    .forEach((name) => fs.unlinkSync(path.join(dstDir, name)));
+
   genererFontsLocalCss(root);
 }
 
@@ -75,7 +80,7 @@ function copyFonts(root, distDir) {
     fs.copyFileSync(path.join(srcDir, dst), path.join(dstDir, dst));
   });
 
-  log('Polices locales → assets/fonts/ (latin + latin-ext)', 'success');
+  log('Polices locales → assets/fonts/ (latin)', 'success');
 }
 
 module.exports = {

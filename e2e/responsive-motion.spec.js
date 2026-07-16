@@ -35,7 +35,7 @@ test('prefers-reduced-motion — animations désactivées', async ({ page }) => 
 
   await gotoReady(page, '/contact.html');
   const bandeauAnim = await page
-    .locator('.texte-continue')
+    .locator('.contact-bandeau')
     .evaluate((el) => getComputedStyle(el).animationName);
   expect(bandeauAnim).toBe('none');
 
@@ -45,4 +45,10 @@ test('prefers-reduced-motion — animations désactivées', async ({ page }) => 
     .first()
     .evaluate((el) => getComputedStyle(el).animationName);
   expect(barreCompletion).toBe('none');
+
+  const badgeActif = page.locator('.badge--actif').first();
+  if ((await badgeActif.count()) > 0) {
+    const badgeAnim = await badgeActif.evaluate((el) => getComputedStyle(el).animationName);
+    expect(badgeAnim).toBe('none');
+  }
 });

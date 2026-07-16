@@ -30,7 +30,7 @@
   .hint-paysage {
     display: flex;
     position: sticky;
-    top: calc(32px + var(--safe-area-inset-top, env(safe-area-inset-top, 0)));
+    top: calc(var(--hauteur-marquee) + var(--safe-area-inset-top, env(safe-area-inset-top, 0)));
     z-index: 5;
   }
 }

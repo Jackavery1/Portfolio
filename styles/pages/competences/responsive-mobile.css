@@ -21,8 +21,8 @@
   .score-rang,
   .score-techno,
   .score-last {
-    padding-left: 0.45rem;
-    padding-right: 0.45rem;
+    padding-left: var(--espacement-sm);
+    padding-right: var(--espacement-sm);
   }
 
   .score-techno {

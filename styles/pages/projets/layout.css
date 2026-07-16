@@ -5,7 +5,7 @@
 .grille-projets {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 0.9rem;
+  gap: var(--espacement-md);
 }
 
 .grille-projets[aria-busy='true'] {
@@ -17,25 +17,25 @@
   background-color: var(--couleur-fond-carte);
   border: 1px solid var(--couleur-bordure);
   border-radius: 4px;
-  padding: 1.1rem;
+  padding: var(--espacement-md);
   min-height: 9rem;
   display: grid;
-  gap: 0.65rem;
+  gap: var(--espacement-ms);
   pointer-events: none;
 }
 
 .carte-projet-squelette__ligne {
   display: block;
-  height: 0.65rem;
+  height: var(--espacement-ms);
   border-radius: 2px;
   background: linear-gradient(
     90deg,
-    var(--couleur-separateur) 0%,
-    var(--couleur-fond-survol) 45%,
-    var(--couleur-separateur) 100%
+    var(--couleur-fond-survol) 0%,
+    var(--couleur-separateur) 50%,
+    var(--couleur-fond-survol) 100%
   );
   background-size: 200% 100%;
-  animation: grille-projets-pulse 1.4s ease-in-out infinite;
+  animation: partial-squelette-pulse 1.4s ease-in-out infinite;
 }
 
 .carte-projet-squelette__ligne--large {
@@ -49,14 +49,15 @@
 .carte-projet-squelette__bloc {
   height: 2.75rem;
   border-radius: 2px;
+  border: 1px solid var(--couleur-separateur);
   background: linear-gradient(
     90deg,
-    var(--couleur-separateur) 0%,
-    var(--couleur-fond-survol) 45%,
-    var(--couleur-separateur) 100%
+    var(--couleur-fond-survol) 0%,
+    var(--couleur-separateur) 50%,
+    var(--couleur-fond-survol) 100%
   );
   background-size: 200% 100%;
-  animation: grille-projets-pulse 1.4s ease-in-out infinite;
+  animation: partial-squelette-pulse 1.4s ease-in-out infinite;
 }
 
 .grille-projets[aria-busy='true']:has(.carte-projet-squelette)::before {
@@ -71,17 +72,7 @@
   color: var(--couleur-texte-discret);
   letter-spacing: 2px;
   padding: var(--espacement-lg) 0;
-  animation: grille-projets-pulse 1.4s ease-in-out infinite;
-}
-
-@keyframes grille-projets-pulse {
-  0%,
-  100% {
-    opacity: 0.55;
-  }
-  50% {
-    opacity: 1;
-  }
+  animation: partial-squelette-opacite 1.4s ease-in-out infinite;
 }
 
 .projets-sommaire {
@@ -91,7 +82,7 @@
 .projets-sommaire__liste {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem 0.75rem;
+  gap: var(--espacement-xs) var(--espacement-ms);
   list-style: none;
   padding: 0;
   margin: 0;
@@ -102,7 +93,7 @@
   font-size: var(--taille-petit-pixel);
   color: var(--couleur-accent-vif);
   text-decoration: none;
-  padding: 0.35rem 0.5rem;
+  padding: var(--espacement-xs) var(--espacement-sm);
   min-height: 44px;
   min-width: 44px;
   box-sizing: border-box;

@@ -4,13 +4,14 @@
   flex: 1;
   width: 100%;
   max-width: 960px;
-  margin: calc(32px + var(--safe-area-inset-top, env(safe-area-inset-top, 0))) auto 0;
+  margin: calc(var(--hauteur-marquee) + var(--safe-area-inset-top, env(safe-area-inset-top, 0)))
+    auto 0;
   min-height: calc(
-    100vh - 32px - var(--safe-area-inset-top, env(safe-area-inset-top, 0)) -
+    100vh - var(--hauteur-marquee) - var(--safe-area-inset-top, env(safe-area-inset-top, 0)) -
       var(--safe-area-inset-bottom, env(safe-area-inset-bottom, 0))
   );
   min-height: calc(
-    100dvh - 32px - var(--safe-area-inset-top, env(safe-area-inset-top, 0)) -
+    100dvh - var(--hauteur-marquee) - var(--safe-area-inset-top, env(safe-area-inset-top, 0)) -
       var(--safe-area-inset-bottom, env(safe-area-inset-bottom, 0))
   );
   padding-bottom: var(--safe-area-inset-bottom, env(safe-area-inset-bottom, 0));

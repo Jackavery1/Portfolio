@@ -10,6 +10,7 @@ const coverage = {
     'js/modules/**/*.js',
     'js/main.js',
     'build/**/*.cjs',
+    'build/**/*.mjs',
   ],
   exclude: [
     '**/*.test.js',
@@ -20,6 +21,7 @@ const coverage = {
     'js/config/musique-donnees.json',
     'js/config/legal.json',
     'build/config-defaults.mjs',
+    'build/fonts-data.mjs',
   ],
   thresholds: {
     lines: 85,

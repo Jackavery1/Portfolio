@@ -7,8 +7,11 @@ vi.mock('../config/index.js', () => ({
       CV_DOWNLOAD: 'CV-test.pdf',
     },
     SELECTEURS: {
+      CONTACT_BANDEAU: 'js-contact-bandeau',
       CONTACT_BANDEAU_DISPO: 'js-bandeau-dispo',
+      CONTACT_BANDEAU_CV_BLOC: 'js-bandeau-cv-bloc',
       CONTACT_BANDEAU_CV: 'js-bandeau-cv',
+      CONTACT_BANDEAU_RETOUR: 'js-bandeau-retour',
     },
   },
 }));
@@ -22,10 +25,12 @@ import { initialiserBandeauContact } from './contact-bandeau.js';
 describe('contact-bandeau', () => {
   beforeEach(() => {
     document.body.innerHTML = `
-      <button type="button" id="js-bandeau-dispo">Afficher</button>
-      <div id="js-bandeau-cv-bloc" hidden>
-        <a id="js-bandeau-cv" href="#">CV</a>
-        <button type="button" id="js-bandeau-retour">Retour</button>
+      <div id="js-contact-bandeau">
+        <button type="button" id="js-bandeau-dispo">Afficher</button>
+        <div id="js-bandeau-cv-bloc" hidden>
+          <a id="js-bandeau-cv" href="#">CV</a>
+          <button type="button" id="js-bandeau-retour">Retour</button>
+        </div>
       </div>
     `;
   });

@@ -5,13 +5,13 @@
   font-size: var(--taille-pixel-decoratif);
   color: var(--couleur-texte-discret);
   letter-spacing: 3px;
-  margin-bottom: 0.9rem;
+  margin-bottom: var(--espacement-md);
 }
 
 .titre-arcade {
   font-family: var(--police-pixel);
   line-height: 1.6;
-  margin-bottom: 0.7rem;
+  margin-bottom: var(--espacement-ms);
 }
 
 .titre-arcade__prenom {
@@ -33,7 +33,7 @@
   font-size: clamp(1.1rem, 2.8vw, 1.4rem);
   color: var(--couleur-texte-fort);
   letter-spacing: 3px;
-  margin-bottom: 0.65rem;
+  margin-bottom: var(--espacement-ms);
   display: flex;
   align-items: center;
   gap: var(--espacement-sm);
@@ -44,8 +44,8 @@
   font-size: clamp(1rem, 2.5vw, 1.3rem);
   color: var(--couleur-accent-dim);
   letter-spacing: -1px;
-  margin-top: 0.3rem;
-  margin-bottom: 0.9rem;
+  margin-top: var(--espacement-2xs);
+  margin-bottom: var(--espacement-md);
   line-height: 1;
 }
 
@@ -54,15 +54,15 @@
   font-size: clamp(1rem, 2.8vw, 1.2rem);
   color: var(--couleur-texte-normal);
   line-height: 1.7;
-  margin-bottom: 1.1rem;
+  margin-bottom: var(--espacement-md);
   max-width: 100%;
 }
 
 .badges-statut {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.45rem;
-  margin: 0 0 1.3rem;
+  gap: var(--espacement-sm);
+  margin: var(--espacement-md) 0 var(--espacement-ml);
   padding: 0;
   list-style: none;
 }

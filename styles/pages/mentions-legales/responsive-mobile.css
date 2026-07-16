@@ -40,12 +40,12 @@
 
 @media (max-width: 320px) {
   body[data-section-id='mentions'] .section {
-    padding-left: var(--espacement-ms-lg);
-    padding-right: var(--espacement-ms-lg);
+    padding-left: var(--espacement-ms);
+    padding-right: var(--espacement-ms);
   }
 
   .mentions-sommaire__liste {
-    gap: var(--espacement-xs-plus) var(--espacement-sm);
+    gap: var(--espacement-xs) var(--espacement-sm);
   }
 
   .mentions-sous-bloc {

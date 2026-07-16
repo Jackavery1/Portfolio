@@ -1,8 +1,17 @@
 /* Page hors ligne — charte arcade (standalone, precache PWA) */
 
+html {
+  margin: 0;
+  overflow-x: hidden;
+}
+
 body {
+  margin: 0;
   min-height: 100dvh;
   min-height: 100vh;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -15,10 +24,14 @@ body {
   font-family: var(--police-crt);
   font-size: var(--taille-corps-crt);
   text-align: center;
+  overflow-x: hidden;
 }
 
 .offline-ecran {
-  max-width: 28rem;
+  width: 100%;
+  max-width: min(28rem, 100%);
+  min-width: 0;
+  box-sizing: border-box;
   background-color: var(--couleur-fond-carte);
   border: 1px solid var(--couleur-bordure-active);
   padding: var(--espacement-xl) var(--espacement-lg);
@@ -31,17 +44,21 @@ body {
   top: var(--safe-area-inset-top, 0);
   left: 50%;
   z-index: 10000;
+  max-width: calc(100% - 2 * var(--espacement-md));
   min-height: 44px;
   box-sizing: border-box;
   display: inline-flex;
+  flex-wrap: wrap;
   align-items: center;
-  padding: 0.6rem 1rem;
+  justify-content: center;
+  padding: var(--espacement-ms) var(--espacement-md);
   font-family: var(--police-pixel);
   font-size: var(--taille-petit-pixel);
   color: var(--couleur-fond);
   background: var(--couleur-actif);
   border: 2px solid var(--couleur-actif);
   text-decoration: none;
+  overflow-wrap: anywhere;
   transform: translate(-50%, -200%);
   transition: transform var(--transition-ui);
 }
@@ -60,29 +77,38 @@ body {
   color: var(--couleur-accent-vif);
   margin-bottom: var(--espacement-md);
   line-height: 1.5;
+  max-width: 100%;
+  overflow-wrap: anywhere;
 }
 
 .offline-ecran p {
   line-height: 1.6;
   margin-bottom: var(--espacement-lg);
   color: var(--couleur-texte-normal);
+  max-width: 100%;
+  overflow-wrap: break-word;
 }
 
 .offline-ecran a {
   font-family: var(--police-pixel);
   font-size: var(--taille-petit-pixel);
+  min-width: 44px;
   min-height: 44px;
+  max-width: 100%;
   box-sizing: border-box;
   display: inline-flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  padding: 0.7rem 1.1rem;
+  padding: var(--espacement-ms) var(--espacement-md);
   letter-spacing: 2px;
   color: var(--couleur-accent-vif);
   border: 1px solid var(--couleur-accent);
   background: none;
   text-decoration: none;
   touch-action: manipulation;
+  overflow-wrap: anywhere;
+  white-space: normal;
   transition:
     background var(--transition-ui),
     box-shadow var(--transition-ui);

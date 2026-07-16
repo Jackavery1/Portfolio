@@ -8,10 +8,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: max(1rem, var(--safe-area-inset-top)) max(1rem, var(--safe-area-inset-right))
-    max(1rem, var(--safe-area-inset-bottom)) max(1rem, var(--safe-area-inset-left));
+  padding: max(var(--espacement-md), var(--safe-area-inset-top))
+    max(var(--espacement-md), var(--safe-area-inset-right))
+    max(var(--espacement-md), var(--safe-area-inset-bottom))
+    max(var(--espacement-md), var(--safe-area-inset-left));
   backdrop-filter: blur(3px);
-  animation: apparition 0.2s ease;
+  animation: apparition var(--transition-ui);
 }
 
 .modal-boite {
@@ -31,7 +33,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.9rem 1.1rem;
+  padding: var(--espacement-md) var(--espacement-md);
   border-bottom: 1px solid var(--couleur-bordure);
 }
 
@@ -48,11 +50,11 @@
   font-family: var(--police-pixel);
   font-size: var(--taille-petit-pixel);
   color: var(--couleur-texte-normal);
-  padding: 0.5rem 0.75rem;
+  padding: var(--espacement-sm) var(--espacement-ms);
   min-height: 44px;
   min-width: 44px;
   box-sizing: border-box;
-  transition: color 0.15s;
+  transition: color var(--transition-ui);
 }
 
 .modal-fermer:active {
@@ -72,7 +74,7 @@
 }
 
 .modal-contenu {
-  padding: 1.1rem;
+  padding: var(--espacement-md);
   display: flex;
   flex-direction: column;
   gap: var(--espacement-md);
@@ -110,7 +112,7 @@
 .modal-lien {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.65rem 1rem;
+  gap: var(--espacement-ms) var(--espacement-md);
 }
 
 .modal-lien a {
@@ -119,12 +121,13 @@
   color: var(--couleur-accent-vif);
   letter-spacing: 2px;
   text-decoration: none;
+  min-width: 44px;
   min-height: 44px;
   box-sizing: border-box;
   display: inline-flex;
   align-items: center;
-  padding: 0.5rem 0.75rem;
-  transition: color 0.15s;
+  padding: var(--espacement-sm) var(--espacement-ms);
+  transition: color var(--transition-ui);
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -146,7 +149,7 @@
 .modal-tech {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.35rem;
+  gap: var(--espacement-xs);
 }
 
 .modal-tech-tag {
@@ -154,6 +157,6 @@
   font-size: 1rem;
   color: var(--couleur-accent-texte);
   border: 1px solid var(--couleur-bordure);
-  padding: 0.1rem 0.45rem;
+  padding: var(--espacement-2xs) var(--espacement-sm);
   letter-spacing: 1px;
 }

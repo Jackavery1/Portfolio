@@ -10,7 +10,7 @@
   align-items: center;
   column-gap: var(--espacement-md);
   row-gap: var(--espacement-ms);
-  padding: var(--espacement-md) var(--espacement-lg) var(--espacement-md-plus);
+  padding: var(--espacement-md) var(--espacement-lg) var(--espacement-md);
   border-top: 1px solid var(--couleur-bordure-active);
   background: linear-gradient(180deg, var(--couleur-accent-alpha-fade) 0%, transparent 100%);
 }
@@ -29,16 +29,17 @@
   color: var(--couleur-accent-vif);
   text-decoration: none;
   letter-spacing: 0.4px;
+  min-width: 44px;
   min-height: 44px;
   box-sizing: border-box;
   display: inline-flex;
   align-items: center;
-  padding: var(--espacement-xs-plus) 0;
+  padding: var(--espacement-xs) var(--espacement-sm);
   border-bottom: 1px solid transparent;
   transition:
-    color 0.2s,
-    border-color 0.2s,
-    text-shadow 0.2s;
+    color var(--transition-ui),
+    border-color var(--transition-ui),
+    text-shadow var(--transition-ui);
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -72,7 +73,7 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: var(--espacement-sm-tight) var(--espacement-sm);
+  gap: var(--espacement-xs) var(--espacement-sm);
   margin: 0;
   justify-self: center;
   text-align: center;
@@ -86,16 +87,17 @@
   color: var(--couleur-texte-normal);
   text-decoration: none;
   transition:
-    color 0.2s,
-    text-shadow 0.2s;
+    color var(--transition-ui),
+    text-shadow var(--transition-ui);
 }
 
 a.pied-page__certif-texte {
+  min-width: 44px;
   min-height: 44px;
   box-sizing: border-box;
   display: inline-flex;
   align-items: center;
-  padding: var(--espacement-xs-plus) var(--espacement-sm);
+  padding: var(--espacement-xs) var(--espacement-sm);
 }
 
 a.pied-page__certif-texte:active {
@@ -117,7 +119,7 @@ a.pied-page__certif-texte:focus-visible {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: var(--espacement-3xs);
+  gap: var(--espacement-2xs);
   justify-self: end;
   text-align: right;
 }
@@ -147,8 +149,8 @@ a.pied-page__certif-texte:focus-visible {
   .pied-page {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto auto;
-    padding: var(--espacement-md) var(--espacement-md) var(--espacement-md-plus);
-    row-gap: var(--espacement-ms-lg);
+    padding: var(--espacement-md) var(--espacement-md) var(--espacement-md);
+    row-gap: var(--espacement-ms);
   }
 
   .pied-page__nav {
@@ -190,7 +192,7 @@ a.pied-page__certif-texte:focus-visible {
 @media (max-width: 480px) {
   .pied-page {
     grid-template-columns: 1fr;
-    row-gap: 0.85rem;
+    row-gap: var(--espacement-md);
     text-align: center;
   }
 

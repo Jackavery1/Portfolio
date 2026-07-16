@@ -34,8 +34,6 @@
   --couleur-accent-alpha-leger: rgba(var(--couleur-accent-rgb), 0.06);
   --couleur-accent-alpha-survol: rgba(var(--couleur-accent-rgb), 0.18);
   --couleur-actif-alpha-wip: rgba(var(--couleur-actif-rgb), 0.14);
-  --couleur-actif-alpha-wip-faible: rgba(var(--couleur-actif-rgb), 0.08);
-  --couleur-actif-alpha-wip-fort: rgba(var(--couleur-actif-rgb), 0.22);
   --couleur-valide-alpha-pulse: rgba(var(--couleur-valide-rgb), 0.5);
   --couleur-surface-highlight: rgba(255, 255, 255, 0.05);
   --couleur-surface-highlight-fort: rgba(255, 255, 255, 0.06);
@@ -130,26 +128,19 @@
   --taille-corps-lisible: clamp(0.95rem, 2.1vw, 1.1rem);
   --taille-corps-crt: clamp(0.85rem, 1.85vw, 1.02rem);
 
-  /* Espacements (rythme vertical et grilles) */
-  --espacement-3xs: 0.22rem;
-  --espacement-2xs: 0.28rem;
-  --espacement-xs: 0.25rem;
-  --espacement-xs-plus: 0.35rem;
-  --espacement-sm-tight: 0.4rem;
-  --espacement-sm-plus: 0.45rem;
+  /* Espacements (rythme vertical et grilles) — échelle consolidée */
+  --espacement-2xs: 0.25rem;
+  --espacement-xs: 0.35rem;
   --espacement-sm: 0.5rem;
   --espacement-ms: 0.65rem;
-  --espacement-ms-lg: 0.75rem;
-  --espacement-md-tight: 0.85rem;
   --espacement-md: 1rem;
-  --espacement-md-plus: 1.1rem;
   --espacement-ml: 1.25rem;
   --espacement-lg: 1.5rem;
   --espacement-xl: 2rem;
-  --espacement-2xl: 3rem;
   --section-padding-y: 1.75rem;
   --section-padding-x: 1.5rem;
   --gap-grille-accueil: 3rem;
+  --hauteur-marquee: 32px;
 
   /* Texte secondaire accentué (tags modale, etc.) */
   --couleur-accent-texte: #a9c2ff;
@@ -195,8 +186,6 @@
   --ombre-musique-pret-max: 0 0 14px rgba(var(--couleur-accent-rgb), 0.55);
   --ombre-wip-base:
     inset 0 1px 0 var(--couleur-surface-highlight), 0 0 0 1px var(--couleur-ombre-noire-ui);
-  --ombre-wip-glow-repos: 0 0 8px var(--couleur-actif-alpha-wip-faible);
-  --ombre-wip-glow-peak: 0 0 14px var(--couleur-actif-alpha-wip-fort);
   --filtre-drop-accent: drop-shadow(0 0 8px rgba(var(--couleur-accent-rgb), 0.2));
   --filtre-drop-accent-fort: drop-shadow(0 0 8px rgba(var(--couleur-accent-rgb), 0.3));
   --filtre-drop-accent-hero: drop-shadow(0 0 12px rgba(var(--couleur-accent-rgb), 0.35));

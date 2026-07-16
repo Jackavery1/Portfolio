@@ -65,8 +65,20 @@ describe('page-meta-tags', () => {
     expect(balises).toContain('name="description"');
   });
 
-  it('remplacerBlocPageMeta laisse le HTML inchangé sans marqueurs PAGE_META', () => {
-    const source = '<head><title>Sans meta</title></head>';
-    expect(remplacerBlocPageMeta(source, PAGE_META['index.html'])).toBe(source);
+  it('balisesPageMeta ignore les champs absents', () => {
+    const balises = balisesPageMeta({ description: 'Seul champ' });
+    expect(balises).toContain('name="description"');
+    expect(balises).not.toContain('og:title');
+    expect(balises).not.toContain('twitter:title');
+  });
+
+  it('remplacerBlocPageMeta laisse le HTML inchangé si meta vide', () => {
+    const source = `<head>
+    <!-- PAGE_META_START -->
+    old
+    <!-- PAGE_META_END -->
+  </head>`;
+    expect(remplacerBlocPageMeta(source, null)).toBe(source);
+    expect(remplacerBlocPageMeta(source, {})).toBe(source);
   });
 });

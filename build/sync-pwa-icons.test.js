@@ -11,18 +11,18 @@ const scriptPath = path.join(rootDir, 'build', 'sync-pwa-icons.cjs');
 describe('sync-pwa-icons', () => {
   it('délègue la génération des icônes PWA', async () => {
     const images = require('./images.cjs');
-    const spy = vi.spyOn(images, 'generatePwaIcons').mockResolvedValue(undefined);
+    const spy = vi.spyOn(images, 'genererIconesPwa').mockResolvedValue(undefined);
     const { syncPwaIcons } = require('./sync-pwa-icons.cjs');
     await syncPwaIcons(rootDir);
     expect(spy).toHaveBeenCalledWith(rootDir, rootDir);
     spy.mockRestore();
   });
 
-  it('runCli propage les erreurs generatePwaIcons', async () => {
+  it('runCli propage les erreurs genererIconesPwa', async () => {
     vi.resetModules();
     const images = require('./images.cjs');
     const spy = vi
-      .spyOn(images, 'generatePwaIcons')
+      .spyOn(images, 'genererIconesPwa')
       .mockRejectedValue(new Error('sharp indisponible'));
     const { runCli } = require('./sync-pwa-icons.cjs');
     await expect(runCli(rootDir)).rejects.toThrow('sharp indisponible');
@@ -45,7 +45,7 @@ describe('sync-pwa-icons', () => {
   it('runCli propage erreur vers exit 1 (logique CLI)', async () => {
     vi.resetModules();
     const images = require('./images.cjs');
-    vi.spyOn(images, 'generatePwaIcons').mockRejectedValue(new Error('sharp indisponible'));
+    vi.spyOn(images, 'genererIconesPwa').mockRejectedValue(new Error('sharp indisponible'));
     const exit = vi.spyOn(process, 'exit').mockImplementation(() => {});
     const error = vi.spyOn(console, 'error').mockImplementation(() => {});
     const { executerSyncPwaIconsCli } = require('./sync-pwa-icons.cjs');
@@ -61,7 +61,7 @@ describe('sync-pwa-icons', () => {
   it('executerSyncPwaIconsCli réussit sans exit', async () => {
     vi.resetModules();
     const images = require('./images.cjs');
-    vi.spyOn(images, 'generatePwaIcons').mockResolvedValue(undefined);
+    vi.spyOn(images, 'genererIconesPwa').mockResolvedValue(undefined);
     const exit = vi.fn();
     const { executerSyncPwaIconsCli } = require('./sync-pwa-icons.cjs');
 
@@ -72,7 +72,7 @@ describe('sync-pwa-icons', () => {
   it('syncPwaIcons utilise la racine par défaut', async () => {
     vi.resetModules();
     const images = require('./images.cjs');
-    const spy = vi.spyOn(images, 'generatePwaIcons').mockResolvedValue(undefined);
+    const spy = vi.spyOn(images, 'genererIconesPwa').mockResolvedValue(undefined);
     const { syncPwaIcons } = require('./sync-pwa-icons.cjs');
 
     await syncPwaIcons();

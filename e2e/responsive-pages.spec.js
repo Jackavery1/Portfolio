@@ -3,9 +3,51 @@ import { gotoReady } from './helpers.js';
 import {
   VIEWPORTS_BURGER,
   VIEWPORT_MOBILE,
+  VIEWPORT_ETROIT,
   VIEWPORT_PAYSAGE,
   assertPasOverflowHorizontal,
 } from './fixtures/responsive.js';
+
+async function injecterMockVisualViewport(page) {
+  await page.addInitScript(() => {
+    const hauteurClavier = () => Math.min(280, Math.round(window.innerHeight * 0.42));
+    const ecouteurs = new Map();
+    const fauxVv = {
+      get width() {
+        return window.innerWidth;
+      },
+      get height() {
+        return hauteurClavier();
+      },
+      offsetTop: 0,
+      offsetLeft: 0,
+      get pageTop() {
+        return window.scrollY;
+      },
+      get pageLeft() {
+        return window.scrollX;
+      },
+      scale: 1,
+      addEventListener(type, fn) {
+        if (!ecouteurs.has(type)) ecouteurs.set(type, new Set());
+        ecouteurs.get(type).add(fn);
+      },
+      removeEventListener(type, fn) {
+        ecouteurs.get(type)?.delete(fn);
+      },
+      dispatchEvent(event) {
+        ecouteurs.get(event.type)?.forEach((fn) => fn(event));
+        return true;
+      },
+    };
+    Object.defineProperty(window, 'visualViewport', {
+      configurable: true,
+      get() {
+        return fauxVv;
+      },
+    });
+  });
+}
 
 test('responsive mobile — sommaire projets et 6 cartes', async ({ page }) => {
   await page.setViewportSize(VIEWPORT_MOBILE);
@@ -72,46 +114,36 @@ test('responsive contact — champ message visible après focus', async ({ page 
 });
 
 test('responsive contact — visualViewport clavier garde le champ visible', async ({ page }) => {
-  await page.addInitScript(() => {
-    const hauteurClavier = () => Math.min(280, Math.round(window.innerHeight * 0.42));
-    const ecouteurs = new Map();
-    const fauxVv = {
-      get width() {
-        return window.innerWidth;
-      },
-      get height() {
-        return hauteurClavier();
-      },
-      offsetTop: 0,
-      offsetLeft: 0,
-      get pageTop() {
-        return window.scrollY;
-      },
-      get pageLeft() {
-        return window.scrollX;
-      },
-      scale: 1,
-      addEventListener(type, fn) {
-        if (!ecouteurs.has(type)) ecouteurs.set(type, new Set());
-        ecouteurs.get(type).add(fn);
-      },
-      removeEventListener(type, fn) {
-        ecouteurs.get(type)?.delete(fn);
-      },
-      dispatchEvent(event) {
-        ecouteurs.get(event.type)?.forEach((fn) => fn(event));
-        return true;
-      },
-    };
-    Object.defineProperty(window, 'visualViewport', {
-      configurable: true,
-      get() {
-        return fauxVv;
-      },
-    });
+  await injecterMockVisualViewport(page);
+  await page.setViewportSize(VIEWPORT_MOBILE);
+  await gotoReady(page, '/contact.html');
+  await expect(page.locator('#js-formulaire')).toHaveAttribute('data-ready', '1', {
+    timeout: 15_000,
   });
 
-  await page.setViewportSize(VIEWPORT_MOBILE);
+  const message = page.locator('#contact-message');
+  await message.focus();
+  await page.evaluate(() => {
+    window.visualViewport.dispatchEvent(new Event('resize'));
+  });
+
+  await expect
+    .poll(async () =>
+      message.evaluate((el) => {
+        const rect = el.getBoundingClientRect();
+        const vv = window.visualViewport;
+        const marge = 16;
+        return rect.bottom <= vv.height - marge + 2 && rect.top >= -2;
+      })
+    )
+    .toBe(true);
+});
+
+test('responsive contact étroit — visualViewport clavier garde le champ visible', async ({
+  page,
+}) => {
+  await injecterMockVisualViewport(page);
+  await page.setViewportSize(VIEWPORT_ETROIT);
   await gotoReady(page, '/contact.html');
   await expect(page.locator('#js-formulaire')).toHaveAttribute('data-ready', '1', {
     timeout: 15_000,

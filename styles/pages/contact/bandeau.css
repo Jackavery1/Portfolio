@@ -1,24 +1,12 @@
 /* Contact — bandeau CV et aide */
 
-.texte-continue {
-  font-family: var(--police-crt);
-  font-size: clamp(0.85rem, 2.2vw, 1.05rem);
-  color: var(--couleur-accent-vif);
-  text-align: center;
-  line-height: 1.8;
-  margin-bottom: var(--espacement-ml);
-  letter-spacing: 2px;
-  animation: pulsation 2s ease-in-out infinite;
-  overflow-wrap: anywhere;
-}
-
 .contact-bandeau {
   cursor: default;
-  margin-bottom: var(--espacement-xs-plus);
+  margin-bottom: var(--espacement-xs);
   color: var(--couleur-accent-vif);
   transition:
-    color 0.15s,
-    text-shadow 0.15s;
+    color var(--transition-ui),
+    text-shadow var(--transition-ui);
   outline: none;
   max-width: 100%;
   overflow-wrap: anywhere;
@@ -27,6 +15,7 @@
 .contact-bandeau__action {
   display: block;
   width: 100%;
+  min-width: 44px;
   min-height: 44px;
   box-sizing: border-box;
   border: none;
@@ -37,15 +26,22 @@
   cursor: pointer;
   text-align: center;
   letter-spacing: 2px;
-  padding: var(--espacement-sm) var(--espacement-ms-lg);
+  padding: var(--espacement-sm) var(--espacement-ms);
   transition:
-    color 0.15s,
-    text-shadow 0.15s;
+    color var(--transition-ui),
+    text-shadow var(--transition-ui),
+    transform var(--transition-ui);
 }
 
 .contact-bandeau__action:focus-visible {
   color: var(--couleur-texte-fort);
   text-shadow: var(--ombre-glow-accent-fort);
+  outline: var(--outline-focus-largeur) solid var(--outline-focus-couleur);
+  outline-offset: var(--outline-focus-decalage-compact);
+}
+
+.contact-bandeau__action:active {
+  transform: scale(0.98);
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -59,7 +55,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--espacement-xs-plus);
+  gap: var(--espacement-xs);
 }
 
 .contact-bandeau__cv-bloc .contact-bandeau-aide {
@@ -74,15 +70,22 @@
 .contact-bandeau__lien-cv {
   display: inline-flex;
   align-items: center;
+  min-width: 44px;
   min-height: 44px;
   box-sizing: border-box;
-  padding: var(--espacement-xs-plus) 0;
+  padding: var(--espacement-xs) 0;
   color: inherit;
   text-decoration: none;
 }
 
 .contact-bandeau__lien-cv:focus-visible {
   color: var(--couleur-valide);
+  outline: var(--outline-focus-largeur) solid var(--outline-focus-couleur);
+  outline-offset: var(--outline-focus-decalage-compact);
+}
+
+.contact-bandeau__lien-cv:active {
+  transform: scale(0.98);
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -99,19 +102,28 @@
   letter-spacing: 1px;
   margin: 0 0 var(--espacement-ml);
   min-height: 44px;
+  min-width: 44px;
   box-sizing: border-box;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: var(--espacement-sm) var(--espacement-ms-lg);
+  padding: var(--espacement-sm) var(--espacement-ms);
   border: none;
   background: none;
   cursor: pointer;
-  transition: color 0.15s;
+  transition:
+    color var(--transition-ui),
+    transform var(--transition-ui);
 }
 
 .contact-bandeau-aide:focus-visible {
   color: var(--couleur-accent-vif);
+  outline: var(--outline-focus-largeur) solid var(--outline-focus-couleur);
+  outline-offset: var(--outline-focus-decalage-compact);
+}
+
+.contact-bandeau-aide:active {
+  transform: scale(0.98);
 }
 
 @media (hover: hover) and (pointer: fine) {

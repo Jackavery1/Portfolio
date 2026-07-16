@@ -90,31 +90,35 @@ export function annoncerNavigationClavier() {
   }
 }
 
+function navigationClavierBloquee() {
+  const modalOverlay = parId(CONFIGURATION.SELECTEURS.MODALE);
+  if (modalOverlay && !modalOverlay.hidden) return true;
+  const popupHs = parId(CONFIGURATION.SELECTEURS.POPUP_HS);
+  if (popupHs && !popupHs.hidden) return true;
+  if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement?.tagName)) return true;
+  const menuNav = parId(CONFIGURATION.SELECTEURS.MENU);
+  return Boolean(menuNav?.classList.contains('ouvert'));
+}
+
+function allerPageVoisine(delta) {
+  const idx = indexNavigationClavier();
+  if (idx < 0) return;
+  const ordre = CONFIGURATION.NAVIGATION.ORDRE;
+  const cible = idx + delta;
+  if (cible < 0 || cible >= ordre.length) return;
+  if (prefixeKonamiActif()) return;
+  jouerBip(delta > 0 ? 440 : 330, 40);
+  enregistrerAnnonceNavigation(ordre[cible]);
+  window.location.href = ordre[cible];
+}
+
 export function initialiserNavigationClavier() {
   if (document.documentElement.dataset.navClavier) return;
   document.documentElement.dataset.navClavier = '1';
 
   document.addEventListener('keydown', (evt) => {
-    const modalOverlay = parId(CONFIGURATION.SELECTEURS.MODALE);
-    if (modalOverlay && !modalOverlay.hidden) return;
-    if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return;
-    const menuNav = parId(CONFIGURATION.SELECTEURS.MENU);
-    if (menuNav?.classList.contains('ouvert')) return;
-    const idx = indexNavigationClavier();
-    if (idx < 0) return;
-    const ordre = CONFIGURATION.NAVIGATION.ORDRE;
-    if (evt.key === 'ArrowRight' || evt.key === 'ArrowLeft') {
-      if (prefixeKonamiActif()) return;
-    }
-    if (evt.key === 'ArrowRight' && idx < ordre.length - 1) {
-      jouerBip(440, 40);
-      enregistrerAnnonceNavigation(ordre[idx + 1]);
-      window.location.href = ordre[idx + 1];
-    }
-    if (evt.key === 'ArrowLeft' && idx > 0) {
-      jouerBip(330, 40);
-      enregistrerAnnonceNavigation(ordre[idx - 1]);
-      window.location.href = ordre[idx - 1];
-    }
+    if (navigationClavierBloquee()) return;
+    if (evt.key === 'ArrowRight') allerPageVoisine(1);
+    else if (evt.key === 'ArrowLeft') allerPageVoisine(-1);
   });
 }

@@ -10,6 +10,10 @@ describe('animations', () => {
         return 1;
       })
     );
+    vi.stubGlobal(
+      'matchMedia',
+      vi.fn(() => ({ matches: false, addEventListener: vi.fn(), removeEventListener: vi.fn() }))
+    );
     document.body.innerHTML = `
       <section id="sec">
         <div class="score-barre" style="--cible: 80%"></div>
@@ -38,5 +42,20 @@ describe('animations', () => {
     `;
     animerBarresSection('sec2');
     expect(document.querySelector('.barre-completion__fill').style.width).toBe('0%');
+  });
+
+  it('applique la cible immédiatement si prefers-reduced-motion', () => {
+    vi.stubGlobal(
+      'matchMedia',
+      vi.fn(() => ({ matches: true, addEventListener: vi.fn(), removeEventListener: vi.fn() }))
+    );
+    document.body.innerHTML = `
+      <section id="sec3">
+        <div class="score-barre" style="--cible: 60%"></div>
+      </section>
+    `;
+    animerBarresSection('sec3');
+    expect(document.querySelector('.score-barre').style.width).toBe('60%');
+    expect(requestAnimationFrame).not.toHaveBeenCalled();
   });
 });

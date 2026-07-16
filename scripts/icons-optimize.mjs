@@ -28,7 +28,7 @@ async function optimiser(rel) {
     .png({
       compressionLevel: 9,
       quality: rel.includes('512') ? 65 : 72,
-      palette: rel.includes('512'),
+      palette: true,
     })
     .toBuffer();
 

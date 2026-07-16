@@ -16,7 +16,8 @@
   body[data-section-id='accueil'] .ecran {
     overflow: visible;
     min-height: calc(
-      100dvh - 32px - var(--safe-area-inset-top, 0px) - var(--safe-area-inset-bottom, 0px)
+      100dvh - var(--hauteur-marquee) - var(--safe-area-inset-top, 0px) -
+        var(--safe-area-inset-bottom, 0px)
     );
     height: auto;
   }
@@ -34,7 +35,7 @@
     align-items: center;
     text-align: center;
     gap: var(--espacement-sm);
-    padding: 0.75rem 0 var(--espacement-lg);
+    padding: var(--espacement-ms) 0 var(--espacement-lg);
     overflow: visible;
     height: auto;
     width: 100%;
@@ -83,12 +84,16 @@
     order: 6;
   }
 
-  .badges-statut {
+  .accueil__actions {
     order: 7;
   }
 
-  .accueil__actions {
+  .badges-statut {
     order: 8;
+  }
+
+  .accueil__wip {
+    order: 9;
   }
 
   .svg-bonhomme {
@@ -105,6 +110,8 @@
   .badges-statut {
     width: 100%;
     justify-content: center;
+    margin-bottom: var(--espacement-sm);
+    gap: var(--espacement-2xs);
   }
 
   .accueil__actions {
@@ -123,10 +130,12 @@
   .accueil__wip {
     width: 100%;
     max-width: 100%;
+    padding: var(--espacement-2xs) var(--espacement-sm);
   }
 
+  .accueil__wip-picto,
   .accueil__wip-badge {
-    font-size: var(--taille-petit-pixel);
+    display: none;
   }
 
   .titre-arcade__prenom,
@@ -147,12 +156,13 @@
   }
 
   .badge {
-    font-size: clamp(1rem, 3.5vw, 1.3rem);
+    font-size: var(--taille-petit-pixel);
+    padding: var(--espacement-2xs) var(--espacement-2xs);
   }
 
   .bouton-arcade {
     font-size: var(--taille-bouton-pixel);
-    padding: 0.9rem 1.2rem;
+    padding: var(--espacement-md) var(--espacement-ml);
   }
 
   .lien-github {
@@ -165,7 +175,7 @@
 
   body[data-section-id='accueil'] .accueil__grille {
     padding-top: 0;
-    padding-bottom: var(--espacement-xs);
+    padding-bottom: var(--espacement-2xs);
   }
 
   body[data-section-id='accueil'] .etiquette-crt {
@@ -173,19 +183,19 @@
   }
 
   body[data-section-id='accueil'] .titre-arcade {
-    margin-bottom: 0.45rem;
+    margin-bottom: var(--espacement-sm);
   }
 
   body[data-section-id='accueil'] .sous-titre-arcade {
-    margin-bottom: 0.45rem;
+    margin-bottom: var(--espacement-sm);
   }
 
   body[data-section-id='accueil'] .separateur-arcade {
-    margin-top: 0.15rem;
-    margin-bottom: 0.55rem;
+    margin-top: var(--espacement-2xs);
+    margin-bottom: var(--espacement-ms);
   }
 
   body[data-section-id='accueil'] .accueil__actions {
-    gap: 0.55rem;
+    gap: var(--espacement-sm);
   }
 }

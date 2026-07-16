@@ -9,18 +9,67 @@ import {
   peutSoumettreAvecSession,
   PARAMETRES_BIP_ERREUR_VALIDATION,
 } from '../utils/contact-form-ui.js';
+import { comportementScroll } from '../utils/scroll-comportement.js';
 import { jouerBip } from './audio.js';
 import {
   champsFormulaireValides,
   construireErreursValidation,
   lireChampsFormulaire,
 } from './contact-form-validation.js';
+import { envoyerViaFormspree, envoyerViaMailto, lireSujetUtile } from './contact-form-submit.js';
 import {
-  envoyerViaFormspree,
-  envoyerViaMailto,
   finaliserEnvoiReussi,
-  lireSujetUtile,
-} from './contact-form-submit.js';
+  marquerEnvoiEnCours,
+  signalerEchecEnvoi,
+} from './contact-form-submit-ui.js';
+
+const MSG_CLE_RECAPTCHA_MANQUANTE =
+  'Renseignez PORTFOLIO_RECAPTCHA_SITE_KEY dans .env.local puis relancez npm test pour envoyer via Formspree.';
+
+async function traiterEnvoiFormspree({
+  formulaire,
+  champs,
+  sujetUtile,
+  btnEnvoyer,
+  confirmation,
+  labelEnvoyer,
+  optionsRecaptcha,
+  afficherErreur,
+  assurerRecaptcha,
+}) {
+  await assurerRecaptcha();
+
+  if (!CONFIGURATION.CONTACT.RECAPTCHA_SITE_KEY?.trim()) {
+    jouerBip(...PARAMETRES_BIP_ERREUR_VALIDATION);
+    btnEnvoyer.setAttribute('title', MSG_CLE_RECAPTCHA_MANQUANTE);
+    const mount = parId(CONFIGURATION.SELECTEURS.MONTE_RECAPTCHA);
+    if (mount) mount.scrollIntoView({ behavior: comportementScroll(), block: 'nearest' });
+    delete formulaire.dataset.envoiEnCours;
+    return;
+  }
+
+  marquerEnvoiEnCours(btnEnvoyer);
+  const resultat = await envoyerViaFormspree({
+    configuration: CONFIGURATION,
+    champs,
+    sujetUtile,
+    optionsRecaptcha,
+  });
+
+  if (resultat?.ok) {
+    enregistrerSoumissionSession(CONFIGURATION.STOCKAGE.DERNIERE_SOUMISSION_CONTACT);
+    finaliserEnvoiReussi({ btnEnvoyer, confirmation });
+    return;
+  }
+
+  signalerEchecEnvoi({
+    btnEnvoyer,
+    labelEnvoyer,
+    msg: resultat?.msg || 'Erreur d’envoi.',
+    afficherErreur,
+    reinitialiserRecaptcha: Boolean(resultat?.reinitialiserRecaptcha),
+  });
+}
 
 export function initialiserEcouteurSoumission(
   formulaire,
@@ -75,27 +124,20 @@ export function initialiserEcouteurSoumission(
 
     const sujetUtile = lireSujetUtile(parId(CONFIGURATION.SELECTEURS.CONTACT_SUJET));
     const champs = { nom, email, message };
+    const labelEnvoyer = btnEnvoyer.textContent;
 
     if (endpoint) {
-      await assurerRecaptcha();
-      const result = await envoyerViaFormspree({
-        configuration: CONFIGURATION,
+      await traiterEnvoiFormspree({
+        formulaire,
         champs,
         sujetUtile,
         btnEnvoyer,
-        mount: parId(CONFIGURATION.SELECTEURS.MONTE_RECAPTCHA),
+        confirmation,
+        labelEnvoyer,
         optionsRecaptcha,
         afficherErreur,
+        assurerRecaptcha,
       });
-      if (result?.ok) {
-        enregistrerSoumissionSession(CONFIGURATION.STOCKAGE.DERNIERE_SOUMISSION_CONTACT);
-        finaliserEnvoiReussi({
-          btnEnvoyer,
-          confirmation,
-        });
-      } else {
-        delete formulaire.dataset.envoiEnCours;
-      }
       return;
     }
 

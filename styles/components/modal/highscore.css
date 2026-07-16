@@ -8,8 +8,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: max(1rem, var(--safe-area-inset-top)) max(1rem, var(--safe-area-inset-right))
-    max(1rem, var(--safe-area-inset-bottom)) max(1rem, var(--safe-area-inset-left));
+  padding: max(var(--espacement-md), var(--safe-area-inset-top))
+    max(var(--espacement-md), var(--safe-area-inset-right))
+    max(var(--espacement-md), var(--safe-area-inset-bottom))
+    max(var(--espacement-md), var(--safe-area-inset-left));
   backdrop-filter: blur(4px);
   animation: apparition 0.3s ease;
 }
@@ -19,7 +21,7 @@
   border: 2px solid var(--couleur-actif);
   box-shadow: var(--ombre-popup-highscore);
   border-radius: 4px;
-  padding: 2.5rem var(--espacement-xl);
+  padding: var(--espacement-xl) var(--espacement-xl);
   max-width: 420px;
   width: 100%;
   display: flex;
@@ -37,6 +39,8 @@
   letter-spacing: 3px;
   margin: 0;
   font-weight: normal;
+  max-width: 100%;
+  overflow-wrap: anywhere;
 }
 
 .popup-highscore__score {
@@ -45,6 +49,8 @@
   color: var(--couleur-actif);
   text-shadow: var(--ombre-texte-neon-actif);
   letter-spacing: 6px;
+  max-width: 100%;
+  overflow-wrap: anywhere;
 }
 
 .popup-highscore__texte {
@@ -70,18 +76,19 @@
   background-color: var(--couleur-actif);
   border: none;
   border-radius: 3px;
+  min-width: 44px;
   min-height: 44px;
   box-sizing: border-box;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.75rem var(--espacement-lg);
+  padding: var(--espacement-ms) var(--espacement-lg);
   letter-spacing: 2px;
   text-decoration: none;
   cursor: pointer;
   transition:
-    box-shadow 0.2s,
-    transform 0.15s;
+    box-shadow var(--transition-ui),
+    transform var(--transition-ui);
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -108,10 +115,11 @@
   background: none;
   border: none;
   cursor: pointer;
+  min-width: 44px;
   min-height: 44px;
-  padding: 0.5rem 0.75rem;
+  padding: var(--espacement-sm) var(--espacement-ms);
   box-sizing: border-box;
-  transition: color 0.2s;
+  transition: color var(--transition-ui);
 }
 
 @media (hover: hover) and (pointer: fine) {
