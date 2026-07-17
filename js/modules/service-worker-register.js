@@ -101,7 +101,11 @@ export function enregistrerServiceWorker() {
       .register('sw.js')
       .then((registration) => {
         ecouterMiseAJour(registration);
-        registration.update().catch(() => {});
+        registration.update().catch((err) => {
+          if (estEnvironnementDevLocal()) {
+            console.debug('[sw] update échoué', err);
+          }
+        });
       })
       .catch((err) => {
         if (estEnvironnementDevLocal()) {

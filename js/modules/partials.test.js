@@ -118,6 +118,36 @@ describe('partials', () => {
       expect(document.querySelector('.nav__bouton')?.textContent).toBe('HOME');
     });
 
+    it('charge le footer squelette même s’il a déjà nav + copyright', async () => {
+      document.body.innerHTML = `<footer id="partial-footer" class="pied-page pied-page--squelette" role="contentinfo">
+        <nav class="pied-page__nav"><a href="mentions-legales.html">Mentions</a></nav>
+        <p class="pied-page__certif">© 2026</p>
+      </footer>`;
+      vi.resetModules();
+      vi.doMock('../config/index.js', () => ({
+        CONFIGURATION: {
+          PARTIELS: [{ id: 'partial-footer', fichier: 'partials/footer.html' }],
+        },
+      }));
+      vi.stubGlobal(
+        'fetch',
+        vi.fn().mockResolvedValue({
+          ok: true,
+          text: () =>
+            Promise.resolve(
+              '<footer class="pied-page"><p class="pied-page__tagline-ia">Made with love</p></footer>'
+            ),
+        })
+      );
+
+      const { chargerPartiels: charger } = await import('./partials.js');
+      await charger();
+
+      expect(fetch).toHaveBeenCalled();
+      expect(document.querySelector('.pied-page__tagline-ia')?.textContent).toBe('Made with love');
+      expect(document.querySelector('.pied-page--squelette')).toBeNull();
+    });
+
     it('ne recharge pas un partial déjà embarqué au build', async () => {
       document.body.innerHTML =
         '<div id="partial-nav"><nav class="nav"><a class="nav__bouton" href="projets.html">WORK</a></nav></div>';

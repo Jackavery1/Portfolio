@@ -44,7 +44,7 @@
 
 .barre-completion__fill {
   height: 100%;
-  width: 0%;
+  width: var(--cible, 0%);
   background: linear-gradient(
     90deg,
     var(--couleur-accent-dim),

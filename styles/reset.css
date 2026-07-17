@@ -21,8 +21,6 @@ body {
   background-color: var(--couleur-fond);
   color: var(--couleur-texte-normal);
   font-family: var(--police-crt);
-  line-height: var(--interligne-corps);
-  letter-spacing: var(--tracking-crt);
   min-height: 100vh;
   min-height: 100dvh;
   display: flex;

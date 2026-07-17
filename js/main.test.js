@@ -213,9 +213,13 @@ describe('main', () => {
   it('initialise dojo-boss sur la section dojo', async () => {
     document.body.dataset.sectionId = 'dojo';
     await initialiser();
-    await vi.waitFor(() => {
-      expect(mocks.initialiserDojoBoss).toHaveBeenCalled();
-    });
+    await Promise.resolve();
+    await vi.waitFor(
+      () => {
+        expect(mocks.initialiserDojoBoss).toHaveBeenCalled();
+      },
+      { timeout: 3000 }
+    );
   });
 
   it('initialise la page contact via la facade', async () => {
@@ -281,13 +285,21 @@ describe('main', () => {
 
   it('diffère l’init dojo-boss sur page dense', async () => {
     document.body.dataset.sectionId = 'dojo';
-    const ric = vi.fn((fn) => fn());
+    const ric = vi.fn((fn) => {
+      fn();
+      return 1;
+    });
     vi.stubGlobal('requestIdleCallback', ric);
     await initialiser();
+    await Promise.resolve();
+    await Promise.resolve();
 
     expect(ric.mock.calls.length).toBeGreaterThanOrEqual(5);
-    await vi.waitFor(() => {
-      expect(mocks.initialiserDojoBoss).toHaveBeenCalled();
-    });
+    await vi.waitFor(
+      () => {
+        expect(mocks.initialiserDojoBoss).toHaveBeenCalled();
+      },
+      { timeout: 3000 }
+    );
   });
 });

@@ -45,10 +45,6 @@
     display: contents;
   }
 
-  .accueil__principal {
-    display: contents;
-  }
-
   .etiquette-crt {
     order: 1;
     width: 100%;
@@ -92,8 +88,12 @@
     order: 7;
   }
 
-  .accueil__meta {
+  .badges-statut {
     order: 8;
+  }
+
+  .accueil__wip {
+    order: 9;
   }
 
   .svg-bonhomme {
@@ -117,12 +117,6 @@
   .accueil__actions {
     width: 100%;
     align-items: center;
-  }
-
-  .accueil__meta {
-    width: 100%;
-    align-items: center;
-    margin-top: var(--espacement-md);
   }
 
   .accueil__actions-secondaires {

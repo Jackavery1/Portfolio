@@ -52,8 +52,8 @@
   }
 
   .arcade-label {
-    font-size: var(--taille-pixel-decoratif-min);
-    letter-spacing: 1px;
+    font-size: 0.5rem;
+    letter-spacing: 0.5px;
   }
 }
 
@@ -75,8 +75,8 @@
 
   .arcade-label {
     display: block;
-    font-size: var(--taille-pixel-decoratif-min);
-    letter-spacing: 0.5px;
+    font-size: 0.45rem;
+    letter-spacing: 0.35px;
     white-space: nowrap;
     flex-shrink: 0;
   }
@@ -90,6 +90,10 @@
   .nav__musique {
     padding: var(--espacement-xs) var(--espacement-sm);
     gap: var(--espacement-2xs);
+  }
+
+  .nav__musique-icone {
+    font-size: 1.55rem;
   }
 
   .nav__logo {
@@ -117,7 +121,8 @@
 
   .arcade-label {
     font-family: var(--police-pixel);
-    font-size: var(--taille-pixel-decoratif-min);
+    font-size: 0.4rem;
+    letter-spacing: 0.25px;
   }
 
   .arcade-valeur {

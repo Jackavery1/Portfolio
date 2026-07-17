@@ -35,13 +35,16 @@ describe('animations', () => {
   });
 
   it('utilise 0% par défaut sans variable --cible', () => {
+    vi.useFakeTimers();
     document.body.innerHTML = `
       <section id="sec2">
         <div class="barre-completion__fill"></div>
       </section>
     `;
     animerBarresSection('sec2');
+    vi.advanceTimersByTime(120);
     expect(document.querySelector('.barre-completion__fill').style.width).toBe('0%');
+    vi.useRealTimers();
   });
 
   it('applique la cible immédiatement si prefers-reduced-motion', () => {

@@ -2,6 +2,7 @@
 /**
  * Mesure la taille du build prod — baseline optimisation.
  * Usage : npm run build && npm run measure
+ * CI     : npm run build && npm run measure:check
  */
 
 import fs from 'node:fs';
@@ -15,6 +16,8 @@ const { resolveServeDir } = require('../build/resolve-serve-dir.cjs');
 
 const rootDir = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const distDir = resolveServeDir(rootDir);
+const MODE_CHECK = process.argv.includes('--check');
+const CLEFS_PLAFOND = ['distKo', 'cssKo', 'jsKo', 'appJsGzipKo', 'iconsKo'];
 
 function tailleKo(bytes) {
   return Math.round((bytes / 1024) * 10) / 10;
@@ -32,6 +35,19 @@ function parcourirFichiers(dir, fichiers = []) {
     else fichiers.push(abs);
   }
   return fichiers;
+}
+
+export function verifierPlafonds(rapport, plafonds) {
+  const depassements = [];
+  for (const cle of CLEFS_PLAFOND) {
+    const valeur = rapport[cle];
+    const plafond = plafonds[cle];
+    if (typeof valeur !== 'number' || typeof plafond !== 'number') continue;
+    if (valeur > plafond) {
+      depassements.push(`${cle}: ${valeur} > ${plafond}`);
+    }
+  }
+  return depassements;
 }
 
 function mesurer() {
@@ -99,7 +115,22 @@ function mesurer() {
     )}\n`
   );
 
+  if (MODE_CHECK) {
+    const ceilingsPath = path.join(rootDir, 'scripts', 'bundle-ceilings.json');
+    const plafonds = JSON.parse(fs.readFileSync(ceilingsPath, 'utf8'));
+    const depassements = verifierPlafonds(rapport, plafonds);
+    if (depassements.length) {
+      console.error('❌ Bundle au-delà des plafonds CI :');
+      for (const ligne of depassements) console.error(`  - ${ligne}`);
+      process.exit(1);
+    }
+    console.error('✅ Bundle sous les plafonds CI');
+  }
+
   return rapport;
 }
 
-mesurer();
+const estEntreeDirecte = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+if (estEntreeDirecte) {
+  mesurer();
+}

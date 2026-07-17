@@ -159,6 +159,7 @@ describe('dojo-boss', () => {
     initialiserDojoBoss();
     const fill = document.querySelector('.boss-carte--en-cours .boss-carte__vie-fill');
     expect(fill).not.toBeNull();
+    expect(fill.style.width).toBe('40%');
 
     vi.advanceTimersByTime(800);
     const largeur1 = fill.style.width;

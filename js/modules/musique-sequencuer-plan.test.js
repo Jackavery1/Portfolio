@@ -10,7 +10,7 @@ vi.mock('./musique-audio.js', () => ({
   jouerTriangle: vi.fn(),
 }));
 
-import { jouerHat, jouerKick, jouerNappe, jouerPulse, jouerTriangle } from './musique-audio.js';
+import { jouerHat, jouerKick, jouerNappe, jouerPulse, jouerSnare, jouerTriangle } from './musique-audio.js';
 import { dureePas, planifierPas } from './musique-sequencuer-plan.js';
 import {
   definirCatalogueThemesSequencuer,
@@ -142,5 +142,92 @@ describe('musique-sequencuer-plan', () => {
     expect(jouerPulse).toHaveBeenCalledTimes(1);
     const temps = jouerPulse.mock.calls[0][1];
     expect(temps).toBeGreaterThan(0);
+  });
+
+  it('joue la nappe au premier pas de mesure', () => {
+    definirCatalogueThemesSequencuer(
+      {
+        HOME: {
+          bpm: 128,
+          facteurTempo: 1,
+          nappe: [110, 0, 0, 0, 0, 0, 0, 0],
+        },
+      },
+      null,
+      null
+    );
+    planifierPas(0, 1.5);
+    expect(jouerNappe).toHaveBeenCalledWith(110, 1.5, expect.any(Number), expect.anything());
+  });
+
+  it('applique le gain hat fort hors STATS (0,18)', () => {
+    definirCatalogueThemesSequencuer(
+      {
+        HOME: {
+          bpm: 128,
+          facteurTempo: 1,
+          hat: grilleAuPas(2),
+        },
+      },
+      null,
+      null
+    );
+    planifierPas(0, 0);
+    expect(jouerHat).toHaveBeenCalledWith(0, expect.anything(), 0.18);
+  });
+
+  it('joue snare et basse quand les cellules sont actives', () => {
+    definirCatalogueThemesSequencuer(
+      {
+        HOME: {
+          bpm: 128,
+          facteurTempo: 1,
+          snare: grilleAuPas(1),
+          basse: grilleAuPas(55),
+        },
+      },
+      null,
+      null
+    );
+    planifierPas(0, 0);
+    expect(jouerSnare).toHaveBeenCalled();
+    expect(jouerTriangle).toHaveBeenCalledWith(55, 0, expect.any(Number), expect.anything());
+  });
+
+  it('ignore mélodie/arpège à 0 et ligne de motif absente', () => {
+    const melodie = grilleVide(0);
+    melodie[0] = null;
+    definirCatalogueThemesSequencuer(
+      {
+        HOME: {
+          bpm: 128,
+          facteurTempo: 1,
+          melodie,
+          arpege: grilleAuPas(0),
+          doubleArpege: true,
+        },
+      },
+      null,
+      null
+    );
+    planifierPas(0, 0);
+    expect(jouerPulse).not.toHaveBeenCalled();
+  });
+
+  it('n’ajoute pas le 2ᵉ pulse d’arpège sur pas impair', () => {
+    definirCatalogueThemesSequencuer(
+      {
+        HOME: {
+          bpm: 128,
+          facteurTempo: 1,
+          doubleArpege: true,
+          arpege: grilleAuPas(220, 0, 1),
+        },
+      },
+      null,
+      null
+    );
+    planifierPas(1, 0);
+    expect(jouerPulse).toHaveBeenCalledTimes(1);
   });
 });

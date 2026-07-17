@@ -63,6 +63,9 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Mesure bundle (plafonds CI)
+        run: npm run measure:check
+
       - name: Validate HTML (dist)
         run: npm run validate:html:dist
 

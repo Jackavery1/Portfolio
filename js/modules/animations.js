@@ -28,12 +28,16 @@ export function animerBarresSection(id) {
         barre.style.width = cible;
         return;
       }
-      barre.style.width = '0%';
-      requestAnimationFrame(() =>
-        requestAnimationFrame(() => {
-          barre.style.width = cible;
-        })
-      );
+      /* CSS width: var(--cible) reste visible tant qu’aucun inline 0% n’est posé.
+         On anime ensuite, avec filet de sécurité si le 2e rAF est sauté. */
+      const appliquerCible = () => {
+        barre.style.width = cible;
+      };
+      requestAnimationFrame(() => {
+        barre.style.width = '0%';
+        requestAnimationFrame(appliquerCible);
+      });
+      setTimeout(appliquerCible, 120);
     });
   });
 }

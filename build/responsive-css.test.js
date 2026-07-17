@@ -111,5 +111,6 @@ describe('responsive CSS', () => {
     expect(lire('styles/pages/parcours/layout.css')).not.toContain('content-visibility');
     expect(lire('styles/pages/dojo/boss-cartes.css')).not.toContain('content-visibility');
     expect(lire('styles/pages/dojo/intro.css')).not.toContain('content-visibility');
+    expect(lire('styles/layout/ecran.css')).not.toContain('content-visibility');
   });
 });

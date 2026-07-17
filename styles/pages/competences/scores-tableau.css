@@ -60,7 +60,7 @@
 
 .score-barre {
   height: 100%;
-  width: 0%;
+  width: var(--cible, 0%);
   background: linear-gradient(90deg, var(--couleur-accent-dim), var(--couleur-accent-vif));
   border-radius: 2px;
   transition: width 1s ease-out;

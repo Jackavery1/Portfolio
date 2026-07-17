@@ -1,0 +1,8 @@
+{
+  "note": "Plafonds CI pour npm run measure --check (marge ~20 % vs build 2026-07-17).",
+  "distKo": 640,
+  "cssKo": 125,
+  "jsKo": 95,
+  "appJsGzipKo": 45,
+  "iconsKo": 18
+}

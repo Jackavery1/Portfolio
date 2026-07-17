@@ -9,6 +9,7 @@
   "scripts": {
     "build": "node build.mjs",
     "measure": "node scripts/measure-bundle.mjs",
+    "measure:check": "node scripts/measure-bundle.mjs --check",
     "icons:optimize": "node scripts/icons-optimize.mjs",
     "watch": "node build.mjs --watch",
     "prestart": "node build/sync-source.cjs",

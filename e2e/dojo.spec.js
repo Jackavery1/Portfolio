@@ -23,6 +23,19 @@ test('page dojo charge sans erreur console critique', async ({ page }) => {
   expect(bloquantes).toEqual([]);
 });
 
+test('page dojo — cartes en cours ont une barre HP visible', async ({ page }) => {
+  await gotoReady(page, '/dojo.html');
+  const fills = page.locator('.boss-carte--en-cours .boss-carte__vie-fill');
+  await expect(fills).not.toHaveCount(0);
+  const count = await fills.count();
+  for (let i = 0; i < count; i++) {
+    const fill = fills.nth(i);
+    await expect(fill).toBeVisible();
+    const widthPx = await fill.evaluate((el) => el.getBoundingClientRect().width);
+    expect(widthPx).toBeGreaterThan(2);
+  }
+});
+
 test('page dojo zoom 200% — cartes et sprites sans overflow', async ({ page }) => {
   await gotoReady(page, '/dojo.html');
   await expect(page.locator('.boss-carte__sprite').first()).toBeVisible();

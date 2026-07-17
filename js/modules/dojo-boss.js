@@ -103,6 +103,7 @@ function initialiserBarresPv() {
   document.querySelectorAll('.boss-carte--en-cours .boss-carte__vie-fill').forEach((fill) => {
     const raw = fill.style.getPropertyValue('--cible') || '50%';
     const base = parseFloat(raw) || 50;
+    fill.style.width = `${base}%`;
 
     const id = setInterval(() => {
       const ecart = (Math.random() - 0.5) * 3;

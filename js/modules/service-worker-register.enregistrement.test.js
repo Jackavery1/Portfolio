@@ -114,17 +114,22 @@ describe('service-worker-register — enregistrement', () => {
 
   it('tolère un rejet de registration.update()', async () => {
     injecterCspProd();
+    const erreur = new Error('update fail');
     const registration = {
       waiting: null,
-      update: vi.fn().mockRejectedValue(new Error('update fail')),
+      update: vi.fn().mockRejectedValue(erreur),
       addEventListener: vi.fn(),
     };
     register.mockResolvedValueOnce(registration);
+    vi.stubGlobal('location', { hostname: 'localhost', search: '' });
     vi.spyOn(document, 'readyState', 'get').mockReturnValue('complete');
+    const debug = vi.spyOn(console, 'debug').mockImplementation(() => {});
 
     const { enregistrerServiceWorker } = await import('./service-worker-register.js');
     expect(() => enregistrerServiceWorker()).not.toThrow();
-    await Promise.resolve();
-    expect(registration.update).toHaveBeenCalled();
+    await expect(register.mock.results[0].value).resolves.toBe(registration);
+    await expect(registration.update.mock.results[0].value).rejects.toBe(erreur);
+    expect(debug).toHaveBeenCalledWith('[sw] update échoué', erreur);
+    debug.mockRestore();
   });
 });

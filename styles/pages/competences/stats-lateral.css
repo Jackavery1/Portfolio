@@ -22,8 +22,8 @@
 }
 
 .langue-item__barre-fond {
-  flex: 1 1 2.5rem;
-  min-width: 2rem;
+  flex: 1 1 3rem;
+  min-width: 3rem;
   height: 7px;
   background-color: var(--couleur-separateur);
   border-radius: 2px;
@@ -32,19 +32,20 @@
 
 .langue-item__barre {
   height: 100%;
-  width: 0%;
+  width: var(--cible, 0%);
   background: linear-gradient(90deg, var(--couleur-accent-dim), var(--couleur-accent));
   border-radius: 2px;
   transition: width 1s ease-out;
 }
 
 .langue-item__val {
-  font-family: var(--police-pixel);
-  font-size: var(--taille-pixel-decoratif);
+  font-family: var(--police-crt);
+  font-size: clamp(0.7rem, 1.5vw, 0.8rem);
   color: var(--couleur-accent-vif);
   flex-shrink: 0;
+  max-width: 2.75rem;
   text-align: right;
-  line-height: 1.25;
+  line-height: 1.2;
   letter-spacing: 0;
 }
 

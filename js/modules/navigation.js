@@ -5,9 +5,29 @@
 import { CONFIGURATION } from '../config/index.js';
 import { parId } from '../utils/dom.js';
 import { piegerTabulationModale } from '../utils/focus.js';
+import { basculerInertFond } from '../utils/inert.js';
 import { prefixeKonamiActif } from '../utils/konami-buffer.js';
 import { indexDansOrdreNavigation, libellerPageNavigation } from '../utils/navigation-helpers.js';
 import { jouerBip } from './audio.js';
+
+function contenusSousEcran(menuNav) {
+  const ecran = menuNav?.closest('.ecran');
+  if (!ecran) return { ecran: null, contenus: [] };
+  return {
+    ecran,
+    contenus: [...ecran.querySelectorAll(':scope > main, :scope > footer')],
+  };
+}
+
+function definirMenuOuvert(ouvert, menuNav) {
+  document.body.classList.toggle('nav-scroll-lock', ouvert);
+  const { ecran, contenus } = contenusSousEcran(menuNav);
+  if (ecran) basculerInertFond(ouvert, ecran);
+  contenus.forEach((el) => {
+    if (ouvert) el.setAttribute('inert', '');
+    else el.removeAttribute('inert');
+  });
+}
 
 function fermerMenuBurger() {
   const burger = parId(CONFIGURATION.SELECTEURS.BURGER);
@@ -16,11 +36,7 @@ function fermerMenuBurger() {
   burger.setAttribute('aria-expanded', 'false');
   burger.setAttribute('aria-label', 'Ouvrir le menu');
   if (menuNav) menuNav.classList.remove('ouvert');
-  document.body.classList.remove('nav-scroll-lock');
-}
-
-function definirMenuOuvert(ouvert) {
-  document.body.classList.toggle('nav-scroll-lock', ouvert);
+  definirMenuOuvert(false, menuNav);
 }
 
 function focusPremierLienMenu(menuNav) {
@@ -44,25 +60,33 @@ export function initialiserNavigationArcade() {
     burger.setAttribute('aria-expanded', String(ouvre));
     burger.setAttribute('aria-label', ouvre ? 'Fermer le menu' : 'Ouvrir le menu');
     menuNav.classList.toggle('ouvert', ouvre);
-    definirMenuOuvert(ouvre);
+    definirMenuOuvert(ouvre, menuNav);
     if (ouvre) focusPremierLienMenu(menuNav);
     jouerBip(estOuvert ? 220 : 330, 40);
   });
 
+  if (document.documentElement.dataset.navArcadeDoc) return;
+  document.documentElement.dataset.navArcadeDoc = '1';
+
   document.addEventListener('click', (evt) => {
-    if (!burger.contains(evt.target) && !menuNav.contains(evt.target)) {
+    const b = parId(CONFIGURATION.SELECTEURS.BURGER);
+    const m = parId(CONFIGURATION.SELECTEURS.MENU);
+    if (!b || !m) return;
+    if (!b.contains(evt.target) && !m.contains(evt.target)) {
       fermerMenuBurger();
     }
   });
 
   document.addEventListener('keydown', (evt) => {
-    if (!menuNav.classList.contains('ouvert')) return;
+    const m = parId(CONFIGURATION.SELECTEURS.MENU);
+    const b = parId(CONFIGURATION.SELECTEURS.BURGER);
+    if (!m?.classList.contains('ouvert')) return;
     if (evt.key === 'Escape') {
       fermerMenuBurger();
-      burger.focus();
+      b?.focus();
       return;
     }
-    const nav = menuNav.closest('.nav');
+    const nav = m.closest('.nav');
     if (nav) piegerTabulationModale(evt, nav);
   });
 }

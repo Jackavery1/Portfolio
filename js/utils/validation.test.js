@@ -21,6 +21,10 @@ describe('estEmailValide', () => {
     expect(estEmailValide('', 254)).toBe(false);
     expect(estEmailValide('pas-un-email', 254)).toBe(false);
     expect(estEmailValide('a@b.c', 254)).toBe(false);
+    expect(estEmailValide('a@b..cd', 254)).toBe(false);
+    expect(estEmailValide('x@y.12', 254)).toBe(false);
+    expect(estEmailValide('.a@b.co', 254)).toBe(false);
+    expect(estEmailValide('a.@b.co', 254)).toBe(false);
   });
 
   it('respecte maxLen', () => {

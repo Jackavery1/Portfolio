@@ -52,7 +52,7 @@ test('safe-area — contact étroit avec inset bas', async ({ page }) => {
   expect(paddingBas).toBe('34px');
 });
 
-test('safe-area — insets latéraux sur ecran et body', async ({ page }) => {
+test('safe-area — insets latéraux sur body (pas doublés sur .ecran)', async ({ page }) => {
   await page.setViewportSize(VIEWPORT_MOBILE);
   await gotoReady(page, '/index.html');
   await simulerInsets(page, { gauche: 16, droite: 16 });
@@ -63,7 +63,7 @@ test('safe-area — insets latéraux sur ecran et body', async ({ page }) => {
     .evaluate((el) => getComputedStyle(el).paddingLeft);
 
   expect(paddingBody).toBe('16px');
-  expect(paddingEcran).toBe('16px');
+  expect(paddingEcran).toBe('0px');
 });
 
 test('safe-area — scénario encoche iOS simulée (4 insets)', async ({ page }) => {
@@ -80,18 +80,24 @@ test('safe-area — scénario encoche iOS simulée (4 insets)', async ({ page })
   expect(navTop).toBe('79px');
 });
 
-test('safe-area — paysage insets L/R sur .ecran', async ({ page }) => {
+test('safe-area — paysage insets L/R sur body', async ({ page }) => {
   await page.setViewportSize(VIEWPORT_PAYSAGE);
   await gotoReady(page, '/competences.html');
   await simulerInsets(page, { gauche: 18, droite: 22 });
 
-  const pad = await page.locator('.ecran').evaluate((el) => {
+  const pad = await page.locator('body').evaluate((el) => {
+    const cs = getComputedStyle(el);
+    return { left: cs.paddingLeft, right: cs.paddingRight };
+  });
+  const padEcran = await page.locator('.ecran').evaluate((el) => {
     const cs = getComputedStyle(el);
     return { left: cs.paddingLeft, right: cs.paddingRight };
   });
 
   expect(pad.left).toBe('18px');
   expect(pad.right).toBe('22px');
+  expect(padEcran.left).toBe('0px');
+  expect(padEcran.right).toBe('0px');
 });
 
 test('safe-area — modale paysage avec insets simulés', async ({ page }) => {

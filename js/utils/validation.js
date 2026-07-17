@@ -18,7 +18,14 @@ export function nettoyerChamp(texte, maxLen) {
 }
 
 export function estEmailValide(email, maxLen = 254) {
-  return email.length > 0 && email.length <= maxLen && /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i.test(email);
+  if (!email || email.length > maxLen) return false;
+  if (email.includes('..')) return false;
+  if (!/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(email)) return false;
+  const [local, domaine] = email.split('@');
+  if (!local || !domaine) return false;
+  if (local.startsWith('.') || local.endsWith('.')) return false;
+  if (domaine.startsWith('.') || domaine.endsWith('.')) return false;
+  return true;
 }
 
 export function cleDansScriptRecaptchaV3(script) {

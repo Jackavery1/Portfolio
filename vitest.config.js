@@ -73,6 +73,13 @@ export default defineConfig({
           fileParallelism: false,
         },
       },
+      {
+        test: {
+          name: 'scripts',
+          environment: 'node',
+          include: ['scripts/**/*.test.js'],
+        },
+      },
     ],
   },
 });

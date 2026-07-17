@@ -243,5 +243,5 @@ test('footer — tagline visible', async ({ page }) => {
 
   const tagline = page.locator('.pied-page__tagline-ia');
   await expect(tagline).toBeVisible();
-  await expect(tagline).toContainText(/Made with code/i);
+  await expect(tagline).toContainText(/Made with love/i);
 });

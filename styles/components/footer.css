@@ -122,27 +122,18 @@ a.pied-page__certif-texte:focus-visible {
   gap: var(--espacement-2xs);
   justify-self: end;
   text-align: right;
+  min-width: min(100%, 11rem);
 }
 
 .pied-page__tagline-ia {
   margin: 0;
-  font-family: var(--police-pixel);
-  letter-spacing: 1px;
-  line-height: 1.45;
-  font-size: clamp(0.65rem, 1.1vw, 0.72rem);
-  color: var(--couleur-texte-discret);
-  text-shadow: var(--ombre-glow-accent);
-  opacity: 0.92;
-}
-
-.pied-page__theme-note {
-  margin: 0;
   font-family: var(--police-crt);
-  font-size: clamp(0.72rem, 1.4vw, 0.82rem);
-  color: var(--couleur-texte-discret);
-  letter-spacing: 0.3px;
-  line-height: 1.4;
-  opacity: 0.88;
+  letter-spacing: 0.4px;
+  line-height: 1.45;
+  font-size: clamp(0.82rem, 1.5vw, 0.95rem);
+  color: var(--couleur-texte-normal);
+  text-shadow: var(--ombre-glow-accent);
+  opacity: 1;
 }
 
 @media (max-width: 960px) {
@@ -180,7 +171,7 @@ a.pied-page__certif-texte:focus-visible {
   }
 
   .pied-page__tagline-ia {
-    font-size: var(--taille-pixel-decoratif-min);
+    font-size: clamp(0.85rem, 2.4vw, 0.95rem);
     text-align: right;
   }
 

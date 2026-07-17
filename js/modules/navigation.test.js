@@ -48,12 +48,18 @@ describe('navigation', () => {
   beforeEach(() => {
     sessionStorage.clear();
     delete document.documentElement.dataset.navClavier;
+    delete document.documentElement.dataset.navArcadeDoc;
     reinitialiserSaisieKonami();
     document.body.innerHTML = `
-      <header class="nav">
-        <button id="js-burger" type="button" aria-expanded="false" aria-label="Ouvrir le menu"></button>
-        <nav id="js-menu"><a class="nav__bouton" href="index.html">HOME</a></nav>
-      </header>
+      <div id="js-marquee-sibling">marquee</div>
+      <div class="ecran">
+        <header class="nav">
+          <button id="js-burger" type="button" aria-expanded="false" aria-label="Ouvrir le menu"></button>
+          <nav id="js-menu"><a class="nav__bouton" href="index.html">HOME</a></nav>
+        </header>
+        <main id="js-contenu-principal">contenu</main>
+        <footer>pied</footer>
+      </div>
     `;
     vi.mocked(jouerBip).mockClear();
     initialiserNavigationArcade();
@@ -63,6 +69,10 @@ describe('navigation', () => {
   it('ouvre et ferme le menu burger', () => {
     const burger = document.getElementById('js-burger');
     const menu = document.getElementById('js-menu');
+    const main = document.getElementById('js-contenu-principal');
+    const footer = document.querySelector('.ecran > footer');
+    const ecran = document.querySelector('.ecran');
+    const marquee = document.getElementById('js-marquee-sibling');
 
     burger.click();
     expect(burger.getAttribute('aria-expanded')).toBe('true');
@@ -70,11 +80,18 @@ describe('navigation', () => {
     expect(menu.classList.contains('ouvert')).toBe(true);
     expect(document.body.classList.contains('nav-scroll-lock')).toBe(true);
     expect(document.activeElement).toBe(menu.querySelector('.nav__bouton'));
+    expect(main.hasAttribute('inert')).toBe(true);
+    expect(footer.hasAttribute('inert')).toBe(true);
+    expect(ecran.hasAttribute('inert')).toBe(false);
+    expect(marquee.hasAttribute('inert')).toBe(true);
 
     burger.click();
     expect(burger.getAttribute('aria-expanded')).toBe('false');
     expect(menu.classList.contains('ouvert')).toBe(false);
     expect(document.body.classList.contains('nav-scroll-lock')).toBe(false);
+    expect(main.hasAttribute('inert')).toBe(false);
+    expect(footer.hasAttribute('inert')).toBe(false);
+    expect(marquee.hasAttribute('inert')).toBe(false);
   });
 
   it('ferme le menu au clic extérieur', () => {
@@ -86,13 +103,16 @@ describe('navigation', () => {
   it('ferme le menu avec Escape', () => {
     const burger = document.getElementById('js-burger');
     const menu = document.getElementById('js-menu');
-    const focusSpy = vi.spyOn(HTMLElement.prototype, 'focus');
+    const main = document.getElementById('js-contenu-principal');
     burger.click();
+    expect(main.hasAttribute('inert')).toBe(true);
+    const focusSpy = vi.spyOn(HTMLElement.prototype, 'focus');
     document.dispatchEvent(
       new KeyboardEvent('keydown', { key: 'Escape', code: 'Escape', bubbles: true })
     );
     expect(burger.getAttribute('aria-expanded')).toBe('false');
     expect(menu.classList.contains('ouvert')).toBe(false);
+    expect(main.hasAttribute('inert')).toBe(false);
     expect(focusSpy).toHaveBeenCalled();
     focusSpy.mockRestore();
   });
