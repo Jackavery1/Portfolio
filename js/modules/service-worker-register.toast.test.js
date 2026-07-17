@@ -1,94 +1,22 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { injecterCspProd } from '../test-fixtures/csp-prod.js';
 import {
   creerNavigatorServiceWorker,
   creerRegistrationAvecWaiting,
   creerRegistrationUpdateFound,
 } from '../test-fixtures/service-worker-mock.js';
+import { preparerEnvironnementSw } from '../test-fixtures/service-worker-register-setup.js';
 
-describe('service-worker-register', () => {
+describe('service-worker-register — toast', () => {
   let register;
 
   beforeEach(() => {
-    vi.resetModules();
-    document.head.innerHTML = '';
-    document.body.innerHTML = '';
-    const nav = creerNavigatorServiceWorker();
+    const nav = preparerEnvironnementSw();
     register = nav.register;
-    vi.stubGlobal('navigator', nav.navigator);
   });
 
-  it('enregistre sw.js au chargement de la page (build prod)', async () => {
-    injecterCspProd();
-    const { enregistrerServiceWorker } = await import('./service-worker-register.js');
-    enregistrerServiceWorker();
-    window.dispatchEvent(new Event('load'));
-
-    expect(register).toHaveBeenCalledWith('sw.js');
-  });
-
-  it('enregistre immédiatement si le document est déjà chargé', async () => {
-    injecterCspProd();
-    vi.spyOn(document, 'readyState', 'get').mockReturnValue('complete');
-
-    const { enregistrerServiceWorker } = await import('./service-worker-register.js');
-    enregistrerServiceWorker();
-
-    expect(register).toHaveBeenCalledWith('sw.js');
-  });
-
-  it('ne fait rien en mode sources (sans CSP build)', async () => {
-    const { enregistrerServiceWorker } = await import('./service-worker-register.js');
-    enregistrerServiceWorker();
-    window.dispatchEvent(new Event('load'));
-
-    expect(register).not.toHaveBeenCalled();
-  });
-
-  it('ne fait rien si serviceWorker est indisponible', async () => {
-    injecterCspProd();
-    vi.stubGlobal('navigator', {});
-    const { enregistrerServiceWorker } = await import('./service-worker-register.js');
-
-    expect(() => enregistrerServiceWorker()).not.toThrow();
-    window.dispatchEvent(new Event('load'));
-
-    expect(register).not.toHaveBeenCalled();
-  });
-
-  it.each([
-    ['localhost', { hostname: 'localhost', search: '' }],
-    ['127.0.0.1', { hostname: '127.0.0.1', search: '' }],
-    ['?dev', { hostname: 'example.com', search: '?dev=1' }],
-  ])('journalise en dev si l’enregistrement échoue (%s)', async (_label, location) => {
-    injecterCspProd();
-    const erreur = new Error('sw fail');
-    register.mockRejectedValueOnce(erreur);
-    vi.stubGlobal('location', location);
-    const debug = vi.spyOn(console, 'debug').mockImplementation(() => {});
-
-    const { enregistrerServiceWorker } = await import('./service-worker-register.js');
-    enregistrerServiceWorker();
-    window.dispatchEvent(new Event('load'));
-    await vi.waitFor(() => {
-      expect(debug).toHaveBeenCalledWith('[sw] enregistrement échoué', erreur);
-    });
-    debug.mockRestore();
-  });
-
-  it('reste silencieux en prod si l’enregistrement échoue', async () => {
-    injecterCspProd();
-    register.mockRejectedValueOnce(new Error('sw fail'));
-    vi.stubGlobal('location', { hostname: 'portfolio.example', search: '' });
-    const debug = vi.spyOn(console, 'debug').mockImplementation(() => {});
-
-    const { enregistrerServiceWorker } = await import('./service-worker-register.js');
-    enregistrerServiceWorker();
-    window.dispatchEvent(new Event('load'));
-    await Promise.resolve();
-
-    expect(debug).not.toHaveBeenCalled();
-    debug.mockRestore();
+  afterEach(() => {
+    vi.unstubAllGlobals();
   });
 
   it('affiche le toast si un worker attend une mise à jour', async () => {
@@ -122,19 +50,6 @@ describe('service-worker-register', () => {
     const toast = document.getElementById('js-sw-toast');
     toast.querySelector('.sw-toast__fermer').click();
     expect(toast.hidden).toBe(true);
-  });
-
-  it('signale le mode dev sans service worker', async () => {
-    vi.stubGlobal('location', { hostname: 'localhost', search: '' });
-    const debug = vi.spyOn(console, 'debug').mockImplementation(() => {});
-
-    const { enregistrerServiceWorker } = await import('./service-worker-register.js');
-    enregistrerServiceWorker();
-    enregistrerServiceWorker();
-
-    expect(debug).toHaveBeenCalledTimes(1);
-    expect(debug.mock.calls[0][0]).toContain('[sw] Service worker inactif en dev');
-    debug.mockRestore();
   });
 
   it('affiche le toast après updatefound + statechange installed', async () => {
@@ -210,18 +125,6 @@ describe('service-worker-register', () => {
     expect(document.getElementById('js-sw-toast')).toBeNull();
   });
 
-  it('attend l’événement load si le document n’est pas encore complete', async () => {
-    injecterCspProd();
-    vi.spyOn(document, 'readyState', 'get').mockReturnValue('loading');
-
-    const { enregistrerServiceWorker } = await import('./service-worker-register.js');
-    enregistrerServiceWorker();
-    expect(register).not.toHaveBeenCalled();
-
-    window.dispatchEvent(new Event('load'));
-    expect(register).toHaveBeenCalledWith('sw.js');
-  });
-
   it('ignore updatefound si installing est absent', async () => {
     injecterCspProd();
     const handlers = {};
@@ -242,22 +145,6 @@ describe('service-worker-register', () => {
 
     expect(() => handlers.updatefound?.()).not.toThrow();
     expect(document.getElementById('js-sw-toast')).toBeNull();
-  });
-
-  it('tolère un rejet de registration.update()', async () => {
-    injecterCspProd();
-    const registration = {
-      waiting: null,
-      update: vi.fn().mockRejectedValue(new Error('update fail')),
-      addEventListener: vi.fn(),
-    };
-    register.mockResolvedValueOnce(registration);
-    vi.spyOn(document, 'readyState', 'get').mockReturnValue('complete');
-
-    const { enregistrerServiceWorker } = await import('./service-worker-register.js');
-    expect(() => enregistrerServiceWorker()).not.toThrow();
-    await Promise.resolve();
-    expect(registration.update).toHaveBeenCalled();
   });
 
   it('ne recharge pas sur controllerchange sans clic Actualiser', async () => {

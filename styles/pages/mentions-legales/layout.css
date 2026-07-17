@@ -26,8 +26,8 @@
 .mentions-sommaire__liste a {
   display: inline-flex;
   align-items: center;
-  min-width: 44px;
-  min-height: 44px;
+  min-width: var(--cible-tactile);
+  min-height: var(--cible-tactile);
   padding: var(--espacement-xs) var(--espacement-ms);
   font-family: var(--police-pixel);
   font-size: var(--taille-pixel-decoratif);
@@ -137,8 +137,8 @@
   align-items: center;
   justify-content: center;
   margin-top: var(--espacement-ms);
-  min-width: 44px;
-  min-height: 44px;
+  min-width: var(--cible-tactile);
+  min-height: var(--cible-tactile);
   box-sizing: border-box;
   font-family: var(--police-pixel);
   font-size: var(--taille-petit-pixel);

@@ -5,15 +5,15 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 6px;
+  gap: var(--espacement-xs);
   box-sizing: border-box;
-  width: 44px;
-  height: 44px;
-  min-width: 44px;
-  min-height: 44px;
+  width: var(--cible-tactile);
+  height: var(--cible-tactile);
+  min-width: var(--cible-tactile);
+  min-height: var(--cible-tactile);
   border: 1px solid var(--couleur-bordure);
   border-radius: 3px;
-  padding: 10px;
+  padding: var(--espacement-ms);
   margin-left: auto;
   flex-shrink: 0;
   transition: border-color var(--transition-ui);
@@ -47,7 +47,7 @@
 }
 
 .nav__burger[aria-expanded='true'] .nav__burger-trait:nth-child(1) {
-  transform: translateY(8px) rotate(45deg);
+  transform: translateY(calc(var(--espacement-xs) + 2px)) rotate(45deg);
 }
 
 .nav__burger[aria-expanded='true'] .nav__burger-trait:nth-child(2) {
@@ -55,5 +55,5 @@
 }
 
 .nav__burger[aria-expanded='true'] .nav__burger-trait:nth-child(3) {
-  transform: translateY(-8px) rotate(-45deg);
+  transform: translateY(calc(-1 * (var(--espacement-xs) + 2px))) rotate(-45deg);
 }

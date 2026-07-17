@@ -52,8 +52,8 @@ body[data-app-ready='true'] .ecran {
   left: 50%;
   z-index: 10000;
   max-width: calc(100% - 2 * var(--espacement-md));
-  min-width: 44px;
-  min-height: 44px;
+  min-width: var(--cible-tactile);
+  min-height: var(--cible-tactile);
   box-sizing: border-box;
   display: inline-flex;
   flex-wrap: wrap;

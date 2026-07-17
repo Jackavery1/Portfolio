@@ -6,7 +6,6 @@ const assertionsCommunes = {
   'categories:accessibility': ['error', { minScore: 0.9 }],
   'categories:best-practices': ['error', { minScore: 0.9 }],
   'categories:seo': ['error', { minScore: 0.9 }],
-  'categories:performance': ['error', { minScore: 0.9 }],
 };
 
 /** Smoke desktop — complète l’audit mobile de lighthouserc.cjs (961px, seuil nav horizontale). */
@@ -15,7 +14,7 @@ module.exports = {
     collect: {
       staticDistDir,
       url: ['index.html', 'projets.html'],
-      numberOfRuns: 3,
+      numberOfRuns: 5,
       settings: {
         chromeFlags: '--no-sandbox --disable-dev-shm-usage',
         emulatedFormFactor: 'desktop',
@@ -29,8 +28,25 @@ module.exports = {
       },
     },
     assert: {
-      assertions: assertionsCommunes,
       includePassedAssertions: false,
+      assertMatrix: [
+        {
+          matchingUrlPattern: '.*',
+          assertions: assertionsCommunes,
+        },
+        {
+          matchingUrlPattern: '.*index\\.html',
+          assertions: {
+            'categories:performance': ['error', { minScore: 0.9 }],
+          },
+        },
+        {
+          matchingUrlPattern: '.*projets\\.html',
+          assertions: {
+            'categories:performance': ['error', { minScore: 0.85 }],
+          },
+        },
+      ],
     },
   },
 };

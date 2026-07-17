@@ -17,7 +17,7 @@
   display: flex;
   align-items: flex-start;
   gap: var(--espacement-ms);
-  min-height: 44px;
+  min-height: var(--cible-tactile);
   touch-action: manipulation;
   background-color: var(--couleur-fond-carte);
   border: 1px solid var(--couleur-bordure);
@@ -110,8 +110,8 @@
 
 .boss-carte__sprite svg {
   display: block;
-  width: 44px;
-  height: 44px;
+  width: var(--cible-tactile);
+  height: var(--cible-tactile);
 }
 
 .boss-carte__rang {

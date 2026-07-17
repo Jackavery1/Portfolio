@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 vi.mock('../config/index.js', () => ({
   CONFIGURATION: {
@@ -24,6 +24,11 @@ describe('score-session', () => {
   beforeEach(() => {
     document.body.innerHTML = '<span id="js-score">000000</span>';
     sessionStorage.clear();
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+    vi.resetModules();
   });
 
   it('ajoute des points et met à jour l’affichage', () => {
@@ -110,6 +115,5 @@ describe('score-session', () => {
     ajouterScore(20);
     await vi.advanceTimersByTimeAsync(600);
     expect(afficherPopupMeilleurScore).toHaveBeenCalled();
-    vi.useRealTimers();
   });
 });

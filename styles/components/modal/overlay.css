@@ -51,8 +51,8 @@
   font-size: var(--taille-petit-pixel);
   color: var(--couleur-texte-normal);
   padding: var(--espacement-sm) var(--espacement-ms);
-  min-height: 44px;
-  min-width: 44px;
+  min-height: var(--cible-tactile);
+  min-width: var(--cible-tactile);
   box-sizing: border-box;
   transition: color var(--transition-ui);
 }
@@ -121,8 +121,8 @@
   color: var(--couleur-accent-vif);
   letter-spacing: 2px;
   text-decoration: none;
-  min-width: 44px;
-  min-height: 44px;
+  min-width: var(--cible-tactile);
+  min-height: var(--cible-tactile);
   box-sizing: border-box;
   display: inline-flex;
   align-items: center;

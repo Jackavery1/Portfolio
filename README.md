@@ -18,7 +18,9 @@ npm run start:prod
 
 Sources brutes (partials en `fetch`, dont contact et dojo) : `npm start` — synchronise les fichiers générés puis sert la racine. La CSP, le service worker et le mode hors ligne ne sont actifs qu’après build (`npm run start:prod`).
 
-Pour tester le comportement mobile/PWA réel (safe-area, offline, precache) : build prod obligatoire — le dev `npm start` ne reflète pas la PWA. Le hors ligne couvre le shell (HTML, CSS, JS de page precachés) ; musique, reCAPTCHA et envoi Formspree restent réseau-dépendants — voir [CONTRIBUTING.md § PWA & hors ligne](CONTRIBUTING.md#pwa--hors-ligne).
+Identité : borne arcade CRT — marque JORIS MARTINEZ en hero, CTA PRESS START, dark-only néon (exclusions d’audit dans `AUDIT-EXCLUSIONS.md`).
+
+Pour tester le comportement mobile/PWA réel (safe-area, offline, precache, `theme-color` / manifest via `HEAD_COMMON`) : build prod obligatoire — le dev `npm start` ne remplace pas le marqueur `<!-- HEAD_COMMON -->` et ne reflète pas la PWA. Le hors ligne couvre le shell (HTML, CSS, JS de page precachés) ; musique, reCAPTCHA et envoi Formspree restent réseau-dépendants — voir [CONTRIBUTING.md § PWA & hors ligne](CONTRIBUTING.md#pwa--hors-ligne).
 
 Node **≥ 20.19** (`.nvmrc`, requis par Vitest 3).
 
@@ -37,6 +39,8 @@ Node **≥ 20.19** (`.nvmrc`, requis par Vitest 3).
 | `npm run test:e2e:install` | Installe **Chromium** seul (base locale)           |
 | `npm run test:e2e:webkit`  | Installe **WebKit** puis lance les specs iPhone 13 |
 | `npm run lint`             | ESLint                                             |
+
+WebKit n’est pas dans `test:e2e:install` : pour Safari local, `npm run test:e2e:webkit` (détail → [CONTRIBUTING.md § Playwright](CONTRIBUTING.md#playwright--navigateurs-locaux)).
 
 Détails (couverture, Lighthouse, validation HTML, `.env`, dépannage) : **[CONTRIBUTING.md](CONTRIBUTING.md)**.
 

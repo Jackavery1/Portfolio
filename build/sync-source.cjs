@@ -17,7 +17,7 @@ const { syncMusiqueDonnees } = require('./sync-musique-donnees.cjs');
 
 const ROOT = path.join(__dirname, '..');
 
-/** Phases ordonnées — l’ordre compte ; voir `dependDe` et ARCHITECTURE.md § Sync. */
+/** Phases ordonnées — l’ordre compte ; voir `dependDe` et ARCHITECTURE.md § Pipeline sync-source. */
 function getSyncPhases(root = ROOT) {
   return [
     { id: 'defaults', dependDe: [], executer: () => syncDefaults() },

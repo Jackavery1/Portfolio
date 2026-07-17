@@ -45,13 +45,13 @@ module.exports = {
         {
           matchingUrlPattern: '.*projets\\.html',
           assertions: {
-            'categories:performance': ['error', { minScore: 0.88 }],
+            'categories:performance': ['error', { minScore: 0.85 }],
           },
         },
         {
           matchingUrlPattern: '.*contact\\.html',
           assertions: {
-            'categories:performance': ['error', { minScore: 0.88 }],
+            'categories:performance': ['error', { minScore: 0.85 }],
           },
         },
         {

@@ -118,7 +118,12 @@ export function initialiserNavigationClavier() {
 
   document.addEventListener('keydown', (evt) => {
     if (navigationClavierBloquee()) return;
-    if (evt.key === 'ArrowRight') allerPageVoisine(1);
-    else if (evt.key === 'ArrowLeft') allerPageVoisine(-1);
+    if (evt.key === 'ArrowRight') {
+      evt.preventDefault();
+      allerPageVoisine(1);
+    } else if (evt.key === 'ArrowLeft') {
+      evt.preventDefault();
+      allerPageVoisine(-1);
+    }
   });
 }

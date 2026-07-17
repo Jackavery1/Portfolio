@@ -80,7 +80,7 @@
   border: 1px solid var(--couleur-bordure);
   border-radius: 4px;
   padding: var(--espacement-md);
-  min-height: 44px;
+  min-height: var(--cible-tactile);
   touch-action: manipulation;
   cursor: pointer;
   transition:

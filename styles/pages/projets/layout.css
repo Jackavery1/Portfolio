@@ -94,8 +94,8 @@
   color: var(--couleur-accent-vif);
   text-decoration: none;
   padding: var(--espacement-xs) var(--espacement-sm);
-  min-height: 44px;
-  min-width: 44px;
+  min-height: var(--cible-tactile);
+  min-width: var(--cible-tactile);
   box-sizing: border-box;
   display: inline-flex;
   align-items: center;

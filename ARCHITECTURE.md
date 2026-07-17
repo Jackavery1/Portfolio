@@ -114,14 +114,42 @@ Ordre d’injection dans le `<head>` :
 
 ### Pipeline `sync-source`
 
-Orchestrateur : `build/sync-source.cjs` — phases ordonnées exportées via `getSyncPhases()` / `IDS_PHASES_SYNC` :
+Orchestrateur : `build/sync-source.cjs` — phases via `getSyncPhases()` / `IDS_PHASES_SYNC`. L’ordre est couplé (`dependDe`) : ne pas réordonner sans vérifier les dépendances.
 
-1. `defaults` → `style-css` → `partials` → `nav-squelette`
-2. Partials HTML : `parcours-arbre`, `dojo-boss` (3 lots), `competences-stats`, `accueil-hero`
-3. `breakpoints` → `legal` → `projects` → `musique-donnees` → `manifest-dev`
-4. Optionnel (`--page-meta`) : `sync-page-meta.cjs`
+| Phase (id)          | Script                       | `dependDe`  | Entrées (sources)                | Sorties (artefacts)                              |
+| ------------------- | ---------------------------- | ----------- | -------------------------------- | ------------------------------------------------ |
+| `defaults`          | `sync-defaults.cjs`          | —           | `config-defaults.mjs`            | `js/config/defaults.js`                          |
+| `style-css`         | `sync-style-css.cjs`         | `defaults`  | `styles/**` (+ imports)          | `style.css` (dev)                                |
+| `partials`          | `sync-partials.cjs`          | `style-css` | `partials-list.mjs`              | `js/config/partials.js`                          |
+| `nav-squelette`     | `sync-nav-squelette.cjs`     | `partials`  | `partials/nav.html`              | `partials/nav-squelette.html` + injection pages  |
+| `parcours-arbre`    | `sync-parcours-arbre.cjs`    | `partials`  | `partials/parcours-arbre/*`      | `partials/parcours-arbre.html`                   |
+| `dojo-boss`         | `sync-dojo-boss.cjs`         | `partials`  | `partials/dojo-boss/*`           | `partials/dojo-boss-rush-lot-{a,b,c}.html`       |
+| `competences-stats` | `sync-competences-stats.cjs` | `partials`  | `partials/competences/*`         | `partials/competences-stats.html`                |
+| `accueil-hero`      | `sync-accueil-hero.cjs`      | `partials`  | `partials/accueil/*`             | `partials/accueil-hero.html`                     |
+| `breakpoints`       | `sync-breakpoints.cjs`       | `style-css` | `breakpoints.mjs`                | `--bp-*` dans `styles/tokens.css` (+ media sync) |
+| `legal`             | `sync-legal.cjs`             | —           | `js/config/legal.json`           | `js/config/legal-data.js`                        |
+| `projects`          | `sync-projects.cjs`          | —           | `js/config/projects.json`        | `js/config/projects-data.js`                     |
+| `musique-donnees`   | `sync-musique-donnees.cjs`   | —           | `js/config/musique-donnees.json` | `js/config/musique-themes.json`                  |
+| `manifest-dev`      | `sync-manifest-dev.cjs`      | `legal`     | `manifest.cjs` / legal           | `manifest.webmanifest` (racine, URLs relatives)  |
 
-L’ordre est couplé (ex. `legal` avant `manifest-dev`, partials avant injection nav). Ne pas réordonner sans vérifier les dépendances.
+Optionnel (hors liste par défaut, flag `--page-meta` ou `npm run sync:page-meta`) :
+
+| Script               | Rôle                                    | Entrées         | Sorties                                  |
+| -------------------- | --------------------------------------- | --------------- | ---------------------------------------- |
+| `sync-page-meta.cjs` | Blocs `PAGE_META` dans les HTML sources | `page-meta.mjs` | `*.html` (racine) ; `--check` en pretest |
+
+#### Prébuild (hors `getSyncPhases()`)
+
+Exécutés par `npm run prebuild` **avant** le pipeline dist — **pas** des phases `sync-source` :
+
+| Script                         | Rôle                        | Artefacts                                  |
+| ------------------------------ | --------------------------- | ------------------------------------------ |
+| `sync-fonts.mjs` → `fonts.cjs` | Subset woff2 + CSS local    | `assets/fonts/*`, `styles/fonts-local.css` |
+| `sync-source.cjs`              | Phases ci-dessus            | (table sync)                               |
+| `sync-pwa-icons.cjs`           | Icônes PWA via `images.cjs` | `assets/icon-*.png`, apple-touch, etc.     |
+| `scripts/icons-optimize.mjs`   | Optimisation icônes         | assets PNG                                 |
+
+Workflow ops (commandes, artefacts versionnés vs générés) : **`CONTRIBUTING.md`**. Cette section est la source de vérité structurelle du graphe sync.
 
 ## Décisions architecturales clés
 
@@ -224,13 +252,25 @@ Voir `CONTRIBUTING.md` § Tests (seuils Vitest ≥ 85 % lignes / ≥ 84 % branch
 
 Sources versionnées : `js/config/legal.json`, `js/config/projects.json`, `js/config/musique-donnees.json`. Artefact prod : seul `musique-themes.json` est embarqué.
 
-Artefacts générés, phases `sync-source`, lint/coverage : **`CONTRIBUTING.md`**.
+Artefacts générés, lint/coverage : **`CONTRIBUTING.md`**. Cartographie phases sync / prébuild : section **Pipeline `sync-source`** ci-dessus.
 
 État mutable runtime : `audio-context-store.js`, `musique-sequencuer-store.js`.
 
+## Conventions
+
+- Identifiants et commentaires en **français** (modules, tests, docs).
+- Runtime navigateur en **ESM** ; pipeline `build/` en CJS + pont `cjs-bridge.mjs` (voir exclusions).
+- Couches : `config` → `utils` → `modules` ← `main.js` (pas d’import modules depuis utils/config).
+- ESLint : `complexity` ≤ 15, `max-lines` modules ≤ 250 ; **0 warning** attendu en CI.
+- Pas de TODO/FIXME orphelins dans le code source.
+
+## Ajouter une page
+
+Checklist ops : **`CONTRIBUTING.md` § Checklist — ajouter une page HTML**. Contrat technique testé : `build/extension-pages.test.js` (`HTML_FILES` ⊆ `PAGE_META` ∩ `PAGE_STYLE_BY_HTML` ∩ fixtures e2e).
+
 ## Ressources
 
-- **CONTRIBUTING.md** : setup local, debugging, conventions
+- **CONTRIBUTING.md** : setup local, debugging, design, responsive
 - **vitest.config.js** : coverage thresholds, test env
 - **playwright.config.js** : e2e multi-viewports, CI setup
 - **build/** : pipeline détaillé (sync, minify, optimize, sw, seo)

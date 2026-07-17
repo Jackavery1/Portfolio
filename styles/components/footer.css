@@ -29,8 +29,8 @@
   color: var(--couleur-accent-vif);
   text-decoration: none;
   letter-spacing: 0.4px;
-  min-width: 44px;
-  min-height: 44px;
+  min-width: var(--cible-tactile);
+  min-height: var(--cible-tactile);
   box-sizing: border-box;
   display: inline-flex;
   align-items: center;
@@ -92,8 +92,8 @@
 }
 
 a.pied-page__certif-texte {
-  min-width: 44px;
-  min-height: 44px;
+  min-width: var(--cible-tactile);
+  min-height: var(--cible-tactile);
   box-sizing: border-box;
   display: inline-flex;
   align-items: center;

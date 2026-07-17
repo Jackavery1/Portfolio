@@ -49,8 +49,8 @@
   }
 
   .boss-carte__sprite svg {
-    width: 44px;
-    height: 44px;
+    width: var(--cible-tactile);
+    height: var(--cible-tactile);
   }
 
   .boss-carte__haut {

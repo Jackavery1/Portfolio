@@ -10,7 +10,8 @@
 
 .titre-arcade {
   font-family: var(--police-pixel);
-  line-height: 1.6;
+  line-height: var(--interligne-pixel);
+  letter-spacing: var(--tracking-pixel);
   margin-bottom: var(--espacement-ms);
 }
 
@@ -53,7 +54,7 @@
   font-family: var(--police-lisible);
   font-size: clamp(1rem, 2.8vw, 1.2rem);
   color: var(--couleur-texte-normal);
-  line-height: 1.7;
+  line-height: var(--interligne-corps);
   margin-bottom: var(--espacement-md);
   max-width: 100%;
 }

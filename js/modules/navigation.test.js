@@ -102,7 +102,13 @@ describe('navigation', () => {
       value: { pathname: '/index.html', href: 'index.html' },
       writable: true,
     });
-    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
+    const evt = new KeyboardEvent('keydown', {
+      key: 'ArrowRight',
+      bubbles: true,
+      cancelable: true,
+    });
+    document.dispatchEvent(evt);
+    expect(evt.defaultPrevented).toBe(true);
     expect(window.location.href).toBe('projets.html');
     expect(sessionStorage.getItem('jm_nav_clavier_annonce')).toBe('Projets');
     expect(jouerBip).toHaveBeenCalled();

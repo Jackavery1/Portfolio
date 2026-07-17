@@ -40,12 +40,12 @@
 
 .sw-toast__bouton {
   padding: var(--espacement-sm) var(--espacement-ms);
-  min-height: 44px;
+  min-height: var(--cible-tactile);
 }
 
 .sw-toast__fermer {
-  min-width: 44px;
-  min-height: 44px;
+  min-width: var(--cible-tactile);
+  min-height: var(--cible-tactile);
   padding: 0;
   border: 1px solid var(--couleur-bordure);
   background: transparent;

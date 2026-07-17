@@ -12,6 +12,6 @@
 
   .boss-carte {
     padding: var(--espacement-sm) var(--espacement-ms);
-    min-height: 44px;
+    min-height: var(--cible-tactile);
   }
 }

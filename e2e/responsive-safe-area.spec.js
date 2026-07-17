@@ -80,13 +80,18 @@ test('safe-area — scénario encoche iOS simulée (4 insets)', async ({ page })
   expect(navTop).toBe('79px');
 });
 
-test('safe-area — hint paysage respecte inset haut', async ({ page }) => {
+test('safe-area — paysage insets L/R sur .ecran', async ({ page }) => {
   await page.setViewportSize(VIEWPORT_PAYSAGE);
   await gotoReady(page, '/competences.html');
-  await simulerInsetHaut(page, 24);
+  await simulerInsets(page, { gauche: 18, droite: 22 });
 
-  const top = await page.locator('.hint-paysage').evaluate((el) => getComputedStyle(el).top);
-  expect(top).toBe('56px');
+  const pad = await page.locator('.ecran').evaluate((el) => {
+    const cs = getComputedStyle(el);
+    return { left: cs.paddingLeft, right: cs.paddingRight };
+  });
+
+  expect(pad.left).toBe('18px');
+  expect(pad.right).toBe('22px');
 });
 
 test('safe-area — modale paysage avec insets simulés', async ({ page }) => {

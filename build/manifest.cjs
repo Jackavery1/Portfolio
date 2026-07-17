@@ -11,8 +11,8 @@ function buildManifest(siteBase) {
     start_url: `${base}index.html`,
     scope: base,
     display: 'standalone',
-    background_color: '#03040f',
-    theme_color: '#03040f',
+    background_color: '#03040f', // = --couleur-fond (tokens.css)
+    theme_color: '#03040f', // = meta theme-color / --couleur-fond
     lang: 'fr-FR',
     orientation: 'any',
     icons: [
@@ -59,8 +59,8 @@ function buildDevManifest() {
     start_url: './index.html',
     scope: './',
     display: 'standalone',
-    background_color: '#03040f',
-    theme_color: '#03040f',
+    background_color: '#03040f', // = --couleur-fond (tokens.css)
+    theme_color: '#03040f', // = meta theme-color / --couleur-fond
     lang: 'fr-FR',
     orientation: 'any',
     icons: [

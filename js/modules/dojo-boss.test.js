@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 vi.mock('./audio.js', () => ({
   jouerFanfareVictoire: vi.fn(),
@@ -45,6 +45,12 @@ describe('dojo-boss', () => {
         </article>
       </main>
     `;
+  });
+
+  afterEach(() => {
+    window.dispatchEvent(new Event('pagehide'));
+    vi.clearAllTimers();
+    vi.useRealTimers();
   });
 
   it('ajoute une citation et nettoie les intervalles au pagehide', () => {

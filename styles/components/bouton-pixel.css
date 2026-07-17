@@ -6,8 +6,8 @@
 .bouton-envoyer {
   font-family: var(--police-pixel);
   font-size: var(--taille-bouton-pixel);
-  min-width: 44px;
-  min-height: 44px;
+  min-width: var(--cible-tactile);
+  min-height: var(--cible-tactile);
   box-sizing: border-box;
   display: inline-flex;
   align-items: center;

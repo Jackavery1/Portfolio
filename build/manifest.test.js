@@ -20,6 +20,8 @@ describe('build manifest', () => {
     expect(manifest.icons.some((icon) => icon.sizes === '512x512')).toBe(true);
     expect(manifest.icons[0].src).toContain('icon-192.png');
     expect(manifest.theme_color).toBe('#03040f');
+    expect(manifest.background_color).toBe(manifest.theme_color);
+    // Aligné sur --couleur-fond (#03040f) dans styles/tokens.css / HEAD_COMMON theme-color
   });
 
   it('normalise une base URL déjà terminée par /', () => {

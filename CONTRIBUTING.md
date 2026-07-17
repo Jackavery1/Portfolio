@@ -53,9 +53,24 @@ Point d’entrée unique : `js/modules/contact.js` (`initialiserPageContact`). S
 
 Thème **sombre arcade CRT** — dark-only, shell nav EN + contenu FR, Press Start dense : choix assumés, détail et justifications dans `AUDIT-EXCLUSIONS.md` (ne pas les traiter comme dette en audit).
 
+**Intention (5 secondes)** : marque **JORIS MARTINEZ** en hero, sous-titre métier, un CTA **PRESS START**, sprite pixel — le reste (liens, badges, WIP) est secondaire hors fold desktop. Trois polices (Press Start 2P / VT323 / Rajdhani) portent l’identité ; la densité pixel mobile est volontaire (voir exclusions).
+
 ### Responsive design (surfaces mobiles)
 
-Le bloc `@media (max-width: 960px)` dans `styles/tokens.css` **assombrit/éclaircit légèrement les surfaces** pour la lisibilité mobile, sans changer l’intention visuelle arcade. Les couleurs restent dark ; seul le contraste des surfaces (--couleur-fond, --couleur-separateur) s’ajuste.
+Le bloc `@media (max-width: 960px)` dans `styles/tokens.css` **assombrit/éclaircit légèrement les surfaces** pour la lisibilité mobile, **sans créer un second thème** : même identité dark / néon, seuls les contrastes de surface (`--couleur-fond`, séparateurs) s’ajustent.
+
+**Coquille** : layout fluide centré `max-width: var(--largeur-coquille)` (960px, aligné `--bp-mobile-max`) — pas de letterbox canvas (N/A, voir exclusions).
+
+### Clavier (desktop)
+
+| Touche          | Action                                          |
+| --------------- | ----------------------------------------------- |
+| `←` / `→`       | Page voisine (cycle nav ; `preventDefault`)     |
+| `Escape`        | Ferme burger / modale                           |
+| `Tab`           | Focus visible ; piège Tab en modale             |
+| `↑↓←→` (Konami) | Easter egg — ne pas réutiliser pour la nav page |
+
+Pages hors cycle clavier : `dojo.html`, `mentions-legales.html` (footer / liens projets).
 
 ### Design tokens (`styles/tokens.css`)
 
@@ -67,8 +82,8 @@ Source unique des variables CSS. Ne pas dupliquer de hex dans les composants —
 | Accent      | `--couleur-accent`, `--couleur-accent-vif`, `--couleur-accent-rgb`                                         | CTA, liens, glow néon                                            |
 | Texte       | `--couleur-texte-fort`, `--couleur-texte-normal`, `--couleur-texte-discret`, `--couleur-texte-placeholder` | Hiérarchie typo ; ratios AA documentés dans le fichier           |
 | États       | `--couleur-valide`, `--couleur-actif`, `--couleur-erreur`                                                  | Succès, actif jaune arcade, erreurs formulaire                   |
-| Typo        | `--police-pixel`, `--police-crt`, `--police-lisible`, `--taille-*`                                         | Press Start 2P / VT323 / Rajdhani ; échelles `clamp`             |
-| Espacement  | `--espacement-2xs` → `--espacement-xl`, `--section-padding-*`, `--hauteur-marquee`                         | Grilles, sections, coquille CRT                                  |
+| Typo        | `--police-*`, `--taille-*`, `--interligne-*`, `--tracking-*`                                               | Press Start / VT323 / Rajdhani ; rythme ligne + tracking         |
+| Espacement  | `--espacement-2xs` → `--espacement-2xl`, `--largeur-coquille`, `--cible-tactile`                           | Grilles, coquille 960px, cibles ≥44px                            |
 | Safe area   | `--safe-area-inset-*`                                                                                      | Encoches ; surchargeables en E2E                                 |
 | Breakpoints | `--bp-*` (sync `build/breakpoints.mjs`)                                                                    | Documentation uniquement — **non utilisables dans `@media`**     |
 | Ombres      | `--ombre-texte-lisible`, `--ombre-glow-accent`, `--ombre-glow-actif`, `--ombre-glow-valide`                | Halo sombre + glow néon (titres, nav, cartes)                    |
@@ -92,7 +107,7 @@ Source unique des variables CSS. Ne pas dupliquer de hex dans les composants —
 
 **Audits** : choix assumés exclus des points faibles → `AUDIT-EXCLUSIONS.md`.
 
-**Mode dev** : bandeau dismissible bas d’écran (`npm start`) — PWA/offline uniquement après `npm run build && npm run start:prod`.
+**Mode dev** : bandeau dismissible bas d’écran (`npm start`) — PWA/offline, CSP et `HEAD_COMMON` (`theme-color`, manifest, méta Apple/OG) uniquement après `npm run build && npm run start:prod`. En `npm start`, le marqueur `<!-- HEAD_COMMON -->` n’est pas remplacé.
 
 **Mobile compact (≤ 480px / 320px)** : `--taille-pixel-min` monte à 13–14px ; nav burger passe en `--police-crt` à ≤320px.
 
@@ -130,20 +145,20 @@ Métadonnées SEO par page : `build/page-meta.mjs` → injectées au build dans 
 
 ### Phases `sync-source.cjs` (ordre)
 
-Ne pas réordonner sans vérifier les dépendances — détail dans `ARCHITECTURE.md`.
+Ne pas réordonner sans vérifier les dépendances — **cartographie complète** (entrées / sorties / `dependDe` / prébuild hors graphe) dans `ARCHITECTURE.md` § Pipeline `sync-source`.
 
 | Phase                                                              | Dépend de   | Artefacts                                                 |
 | ------------------------------------------------------------------ | ----------- | --------------------------------------------------------- |
-| `defaults`                                                         | —           | `js/config/defaults.js`, `partials.js`                    |
+| `defaults`                                                         | —           | `js/config/defaults.js`                                   |
 | `style-css`                                                        | `defaults`  | `style.css`                                               |
-| `partials`                                                         | `style-css` | fragments HTML                                            |
-| `nav-squelette`                                                    | `partials`  | nav inline dans les pages                                 |
+| `partials`                                                         | `style-css` | `js/config/partials.js`                                   |
+| `nav-squelette`                                                    | `partials`  | nav inline + `partials/nav-squelette.html`                |
 | `parcours-arbre`, `dojo-boss`, `competences-stats`, `accueil-hero` | `partials`  | partials assemblés                                        |
 | `breakpoints`                                                      | `style-css` | `--bp-*` dans `tokens.css`                                |
 | `legal`, `projects`, `musique-donnees`                             | —           | sources éditoriales → `*-data.js` / `musique-themes.json` |
 | `manifest-dev`                                                     | `legal`     | `manifest.webmanifest` (dev)                              |
 
-Optionnel : `npm run sync:page-meta` après modification de `build/page-meta.mjs`.
+Optionnel : `npm run sync:page-meta` après modification de `build/page-meta.mjs`. Prébuild (`sync-fonts`, `sync-pwa-icons`, `icons-optimize`) : hors `getSyncPhases()` — voir `ARCHITECTURE.md`.
 
 Réseaux sociaux (GitHub, LinkedIn optionnel) : même fichier `config-defaults.mjs`.
 
@@ -158,16 +173,16 @@ Ne jamais committer de secrets (clé secrète reCAPTCHA, tokens privés). Voir [
 
 ### Stratégie offline (precache vs cache runtime)
 
-| Ressource                                                                                                  | Precache install | Cache au 1er visit | Hors ligne sans visite préalable |
-| ---------------------------------------------------------------------------------------------------------- | ---------------- | ------------------ | -------------------------------- |
-| HTML toutes pages                                                                                          | ✅               | —                  | ✅                               |
-| `style-base.css` + tous les `style-page-*.css` (dont `style-page-offline.css`)                             | ✅               | —                  | ✅                               |
-| JS core + modules de page (`main.js`, `navigation.js`, `projets-grille.js`, `dojo-boss.js`, `contact.js`…) | ✅               | —                  | ✅                               |
-| Polices locales (`assets/fonts/*.woff2`)                                                                   | ✅               | —                  | ✅                               |
-| Favicon, icônes 192, `offline.html`                                                                        | ✅               | —                  | ✅                               |
+| Ressource                                                                                                      | Precache install | Cache au 1er visit | Hors ligne sans visite préalable |
+| -------------------------------------------------------------------------------------------------------------- | ---------------- | ------------------ | -------------------------------- |
+| HTML toutes pages                                                                                              | ✅               | —                  | ✅                               |
+| `style-base.css` + tous les `style-page-*.css` (dont `style-page-offline.css`)                                 | ✅               | —                  | ✅                               |
+| JS core + modules de page (`main.js`, `navigation.js`, `projets-grille.js`, `dojo-boss.js`, `contact.js`…)     | ✅               | —                  | ✅                               |
+| Polices locales (`assets/fonts/*.woff2`)                                                                       | ✅               | —                  | ✅                               |
+| Favicon, icônes 192, `offline.html`                                                                            | ✅               | —                  | ✅                               |
 | **Musique optionnelle / reCAPTCHA / Formspree** (`musique.js`, séquenceur, voix, thèmes, `recaptcha*`, submit) | ❌               | ✅ fetch SW        | ❌ (réseau-dépendants)           |
-| `musique-audio.js` / `musique-bouton.js` (deps shell : bips + loader)                                     | ✅               | —                  | ✅ (sans lecture thèmes)         |
-| Previews projet, CV PDF, `icon-512.png`                                                                    | ❌               | optionnel          | ❌                               |
+| `musique-audio.js` / `musique-bouton.js` (deps shell : bips + loader)                                          | ✅               | —                  | ✅ (sans lecture thèmes)         |
+| Previews projet, CV PDF, `icon-512.png`                                                                        | ❌               | optionnel          | ❌                               |
 
 **Comportement attendu :**
 
@@ -336,8 +351,11 @@ Tokens dans `styles/tokens.css` (l.107–125) :
 | `--taille-titre-pixel`   | Titres section pixel                 | `clamp(min, 1.8vw, 0.8rem)`             |
 | `--taille-corps-lisible` | Paragraphes                          | `clamp(0.95rem, 2.1vw, 1.1rem)`         |
 | `--taille-corps-crt`     | Texte CRT secondaire                 | `clamp(0.85rem, 1.85vw, 1.02rem)`       |
+| `--interligne-corps`     | Corps / intros                       | 1,7                                     |
+| `--interligne-pixel`     | Titres pixel                         | 1,6                                     |
+| `--tracking-pixel`       | Titres / libellés pixel              | 0,12em                                  |
 
-Règle : ne pas fixer de `font-size` en dur pour le pixel art — passer par les tokens ou `clamp()` documentés.
+Règle : ne pas fixer de `font-size` en dur pour le pixel art — passer par les tokens ou `clamp()` documentés. Densité Press Start sur mobile = choix assumé (`AUDIT-EXCLUSIONS.md`).
 
 Pages hors navigation clavier (`dojo.html`, `mentions-legales.html`) : accessibles via liens footer ou projets.
 
@@ -348,7 +366,7 @@ Pages hors navigation clavier (`dojo.html`, `mentions-legales.html`) : accessibl
 
 ### Profiling Lighthouse (perf mobile)
 
-Seuils CI : `lighthouserc.cjs` (mobile, 412×823). Pages denses (`competences`, `parcours`, `dojo`) : perf ≥ 0,85 (CI mobile, médiane 5 runs). Objectif informel 0,88 — non tenu en CI tant que CLS arcade (SVG / grilles) reste au-dessus du budget.
+Seuils CI : `lighthouserc.cjs` (mobile, 412×823, médiane 5 runs). Perf **≥ 0,90** (accueil) ; **≥ 0,85** (projets, contact, pages denses, mentions, offline). Desktop smoke (`lighthouserc.desktop.cjs`, 961×800) : index ≥ 0,90, projets ≥ 0,85 — retry CI ×3 comme le mobile.
 
 Profil local après build :
 
@@ -364,7 +382,19 @@ npx lighthouse http://127.0.0.1:3000/competences.html --only-categories=performa
 Leviers perf appliqués : CSS split base/page (`form.css` uniquement sur contact), preload polices critiques (Press Start 2P, VT323), animation section sans fade opacity (LCP), overlay CRT différé (`html.crt-pret`, `requestIdleCallback` sur pages denses), init musique / konami / section / animations barres en idle sur pages denses, JSON-LD compact en fin de `<body>`, `content-visibility` sur sections compétences (évité sur parcours/dojo à cause du CLS).
 
 - **HTML** : `npm run validate:html` (sources) et `npm run validate:html:dist` (après build)
-- **E2E** : `npm run test:e2e` — projets `responsive-mobile-portrait`, `responsive-mobile-landscape`, `responsive-tablet`, `responsive-webkit`, `responsive-firefox`, `responsive-desktop-chrome`, `desktop-chrome`. Specs responsive : `responsive-touch`, `responsive-safe-area`, `responsive-keyboard`, `responsive-motion`, `responsive-contrast`, `responsive-a11y`, `responsive-pages` ; PWA : `pwa.spec.js` + `sw-toast.spec.js` (sur les viewports mobile/tablette/WebKit/Firefox/desktop responsive + desktop PWA). **Install navigateurs** : `npm run test:e2e:install` (Chromium seul) ; WebKit n’est **pas** inclus — utiliser `npm run test:e2e:webkit` (installe WebKit puis lance le projet `responsive-webkit`) ou `npx playwright install --with-deps webkit`. Fixtures : `e2e/fixtures/pages.js`, helpers : `e2e/helpers.js`.
+
+### Playwright — navigateurs locaux
+
+| Besoin                                  | Commande                                                                             |
+| --------------------------------------- | ------------------------------------------------------------------------------------ |
+| Base locale (Chromium)                  | `npm run test:e2e:install`                                                           |
+| Safari / iPhone 13 (WebKit)             | `npm run test:e2e:webkit` _(installe puis lance `responsive-webkit`)_                |
+| Install WebKit seul                     | `npx playwright install --with-deps webkit`                                          |
+| Parité CI (Chromium + WebKit + Firefox) | `npx playwright install --with-deps chromium webkit firefox` puis `npm run test:e2e` |
+
+`test:e2e:install` n’installe **pas** WebKit. Sous Windows / proxy SSL : voir § Dépannage → Playwright.
+
+- **E2E** : `npm run test:e2e` — projets `responsive-mobile-portrait`, `responsive-mobile-landscape`, `responsive-tablet`, `responsive-webkit`, `responsive-firefox`, `responsive-desktop-chrome`, `desktop-chrome`. Specs responsive : `responsive-viewports` (dont zoom 200 % + dojo sprites), `responsive-touch`, `responsive-safe-area`, `responsive-keyboard`, `responsive-motion`, `responsive-contrast`, `responsive-a11y`, `responsive-pages` ; PWA : `pwa.spec.js` + `sw-toast.spec.js`. Fixtures : `e2e/fixtures/pages.js`, helpers : `e2e/helpers.js`.
 - **Lighthouse** : `npm run test:lhci` (profil mobile 412×823, 5 runs médiane ; seuils perf par page via `assertMatrix` dans `lighthouserc.cjs`). Complément desktop : `npm run test:lhci:desktop` (961×800, smoke `index` + `projets`, CI après le run mobile).
 - **Mesure bundle** : `npm run build && npm run measure` — tailles de l’artefact le plus frais (`.dist-staging-build/` ou `.dist-staging/` ; JSON stdout : `distKo`, `appJsGzipKo`, `iconsKo`, `jsAssets[]`). Écrit aussi `scripts/bundle-baseline.json` (**gitignoré**, snapshot local). Modèle versionné : `scripts/bundle-baseline.example.json`. Icônes PNG : `npm run icons:optimize` en `prebuild` (idempotent). Au build, seul `musique-themes.json` est copié dans dist (sources `legal.json` / `projects.json` / `musique-donnees.json` restent hors artefact).
 

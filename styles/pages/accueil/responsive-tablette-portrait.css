@@ -31,8 +31,8 @@
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
     flex: none;
-    padding-top: 1.5rem;
-    padding-bottom: 2.5rem;
+    padding-top: var(--espacement-lg);
+    padding-bottom: var(--espacement-2xl);
     gap: var(--espacement-xl);
     align-items: center;
     text-align: left;

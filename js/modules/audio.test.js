@@ -20,13 +20,13 @@ describe('audio', () => {
   it('expose la fanfare victoire standard', async () => {
     const { jouerFanfareVictoire } = await import('./audio.js');
     expect(() => jouerFanfareVictoire()).not.toThrow();
-    await vi.runAllTimersAsync();
+    await vi.advanceTimersByTimeAsync(400);
   });
 
   it('jouerFanfareVictoire ne lève pas sans AudioContext', async () => {
     const { jouerFanfareVictoire } = await import('./audio.js');
     expect(() => jouerFanfareVictoire()).not.toThrow();
-    await vi.runAllTimersAsync();
+    await vi.advanceTimersByTimeAsync(400);
   });
 
   it('jouerBip utilise Web Audio quand disponible', async () => {
@@ -136,7 +136,7 @@ describe('audio', () => {
 
     const { jouerFanfareVictoire } = await import('./audio.js');
     jouerFanfareVictoire();
-    await vi.runAllTimersAsync();
+    await vi.advanceTimersByTimeAsync(400);
 
     expect(start.mock.calls.length).toBeGreaterThanOrEqual(4);
   });
@@ -148,7 +148,7 @@ describe('audio', () => {
 
     const { jouerFanfareVictoire } = await import('./audio.js');
     jouerFanfareVictoire({ delais: [0, 10, 20, 30] });
-    await vi.runAllTimersAsync();
+    await vi.advanceTimersByTimeAsync(40);
     expect(start.mock.calls.length).toBeGreaterThanOrEqual(4);
   });
 
@@ -159,7 +159,7 @@ describe('audio', () => {
 
     const { jouerSequenceBeeps } = await import('./audio.js');
     jouerSequenceBeeps([440, 880], { delais: [0, 40], duree: 90, type: 'sine' });
-    await vi.runAllTimersAsync();
+    await vi.advanceTimersByTimeAsync(50);
     expect(start).toHaveBeenCalledTimes(2);
   });
 

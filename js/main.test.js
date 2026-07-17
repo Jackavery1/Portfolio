@@ -117,11 +117,13 @@ describe('main', () => {
   afterEach(async () => {
     await vi.runOnlyPendingTimersAsync();
     vi.clearAllTimers();
+    vi.useRealTimers();
+    vi.unstubAllGlobals();
   });
 
   it('charge les partials et initialise le socle commun', async () => {
     await initialiser();
-    await vi.runAllTimersAsync();
+    await vi.runOnlyPendingTimersAsync();
 
     expect(mocks.chargerPartiels).toHaveBeenCalled();
     expect(afficherBandeauDev).toHaveBeenCalled();
@@ -172,7 +174,7 @@ describe('main', () => {
   it('n’initialise que le socle commun sur la section parcours', async () => {
     document.body.dataset.sectionId = 'parcours';
     await initialiser();
-    await vi.runAllTimersAsync();
+    await vi.runOnlyPendingTimersAsync();
 
     expect(mocks.initialiserAccueilSocial).not.toHaveBeenCalled();
     expect(mocks.initialiserGrilleProjets).not.toHaveBeenCalled();
@@ -186,7 +188,7 @@ describe('main', () => {
     });
 
     await expect(initialiser()).resolves.toBeUndefined();
-    vi.runAllTimers();
+    await vi.runOnlyPendingTimersAsync();
 
     expect(document.body.dataset.appReady).toBe('true');
   });
@@ -233,7 +235,7 @@ describe('main', () => {
   it('affiche le popup high score si le score était déjà au max', async () => {
     mocks.lireScore.mockReturnValue(9999);
     await initialiser();
-    vi.runAllTimers();
+    await vi.runOnlyPendingTimersAsync();
 
     expect(mocks.afficherPopupMeilleurScore).toHaveBeenCalled();
   });
@@ -242,7 +244,7 @@ describe('main', () => {
     mocks.lireScore.mockReturnValue(9999);
     sessionStorage.setItem('hs_popup_vu', '1');
     await initialiser();
-    vi.runAllTimers();
+    await vi.runOnlyPendingTimersAsync();
 
     expect(mocks.afficherPopupMeilleurScore).not.toHaveBeenCalled();
   });
@@ -250,7 +252,7 @@ describe('main', () => {
   it('anime les barres de section après un délai', async () => {
     document.body.dataset.sectionId = 'competences';
     await initialiser();
-    await vi.runAllTimersAsync();
+    await vi.runOnlyPendingTimersAsync();
 
     expect(mocks.animerBarresSection).toHaveBeenCalledWith('competences');
   });
@@ -258,7 +260,7 @@ describe('main', () => {
   it('planifie le SW via setTimeout si requestIdleCallback absent', async () => {
     vi.stubGlobal('requestIdleCallback', undefined);
     await initialiser();
-    await vi.runAllTimersAsync();
+    await vi.runOnlyPendingTimersAsync();
 
     expect(mocks.initialiserCodeKonami).toHaveBeenCalled();
     expect(mocks.enregistrerServiceWorker).toHaveBeenCalled();

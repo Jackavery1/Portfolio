@@ -3,8 +3,8 @@
 .nav__fallback-retry {
   font-family: var(--police-crt);
   font-size: 1rem;
-  min-width: 44px;
-  min-height: 44px;
+  min-width: var(--cible-tactile);
+  min-height: var(--cible-tactile);
   margin-top: var(--espacement-sm);
   padding: var(--espacement-sm) var(--espacement-ms);
   color: var(--couleur-accent-vif);
@@ -67,7 +67,7 @@
 }
 
 .nav--squelette .nav__liens--squelette .nav__bouton {
-  min-height: 44px;
+  min-height: var(--cible-tactile);
   padding: var(--espacement-sm) var(--espacement-ms);
 }
 
