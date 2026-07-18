@@ -7,7 +7,6 @@ export const cvHref =
   'https://github.com/Jackavery1/Portfolio/raw/main/assets/cv-martinez-joris.pdf';
 export const social = {
   github: 'https://github.com/Jackavery1',
-  linkedin: '',
 };
 export const person = {
   name: 'Joris Martinez',

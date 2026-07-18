@@ -160,7 +160,7 @@ Ne pas réordonner sans vérifier les dépendances — **cartographie complète*
 
 Optionnel : `npm run sync:page-meta` après modification de `build/page-meta.mjs`. Prébuild (`sync-fonts`, `sync-pwa-icons`, `icons-optimize`) : hors `getSyncPhases()` — voir `ARCHITECTURE.md`.
 
-Réseaux sociaux (GitHub, LinkedIn optionnel) : même fichier `config-defaults.mjs`.
+Réseaux sociaux (GitHub) : même fichier `config-defaults.mjs`.
 
 Ne jamais committer de secrets (clé secrète reCAPTCHA, tokens privés). Voir [SECURITY.md](SECURITY.md).
 

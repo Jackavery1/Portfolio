@@ -25,7 +25,7 @@ describe('sync-defaults', () => {
     expect(content).toContain(`export const FORMSPREE_ENDPOINT = '${CONFIG_DEFAULTS.formspree}'`);
     expect(content).toContain(`export const RECAPTCHA_SITE_KEY = '${CONFIG_DEFAULTS.recaptcha}'`);
     expect(content).toContain(`GITHUB: '${CONFIG_DEFAULTS.social.github}'`);
-    expect(content).toContain(`LINKEDIN: '${CONFIG_DEFAULTS.social.linkedin}'`);
+    expect(content).not.toContain('LINKEDIN');
     expect(content).toMatch(/Généré par build\/sync-defaults\.cjs/);
   });
 

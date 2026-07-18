@@ -7,5 +7,4 @@ export const STOCKAGE = {
   DERNIERE_SOUMISSION_CONTACT: 'jm_contact_last_submit',
   ANNONCE_NAV_CLAVIER: 'jm_nav_clavier_annonce',
   CLE_MUSIQUE: 'portfolio_musique_active',
-  BANDEAU_DEV_MASQUE: 'jm_dev_banner_dismiss',
 };

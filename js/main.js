@@ -18,7 +18,6 @@ import { initialiserMusique } from './modules/musique-loader.js';
 import { urlFaviconPng } from './config/favicon.js';
 import { SCORE_PLAFOND } from './utils/score-helpers.js';
 import { initialiserSection } from './config/sections.js';
-import { afficherBandeauDev } from './utils/dev-mode.js';
 import { planifierIdleDense } from './utils/pages-denses.js';
 
 function activerOverlayCrtApresPeinture(sectionId) {
@@ -105,7 +104,6 @@ async function initialiser() {
   const etaitDejaAuMax = lireScore() >= SCORE_PLAFOND;
 
   assurerFaviconLocale();
-  afficherBandeauDev();
   await chargerPartiels();
   annoncerNavigationClavier();
 

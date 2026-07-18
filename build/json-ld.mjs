@@ -2,7 +2,7 @@
 import { person, social } from './config-defaults.mjs';
 
 function sameAsProfiles() {
-  return [social.github, social.linkedin].filter(Boolean);
+  return [social.github].filter(Boolean);
 }
 
 function personNode(siteBase) {

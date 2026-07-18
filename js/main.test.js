@@ -1,7 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 const mocks = vi.hoisted(() => ({
-  initialiserAccueilSocial: vi.fn(),
   initialiserGrilleProjets: vi.fn(),
   initialiserClavierModale: vi.fn(),
   initialiserClicsModale: vi.fn(),
@@ -22,10 +21,6 @@ const mocks = vi.hoisted(() => ({
   initialiserCodeKonami: vi.fn(),
   initialiserMusique: vi.fn(),
   animerBarresSection: vi.fn(),
-}));
-
-vi.mock('./utils/dev-mode.js', () => ({
-  afficherBandeauDev: vi.fn(),
 }));
 
 vi.mock('./modules/partials.js', () => ({
@@ -66,10 +61,6 @@ vi.mock('./modules/service-worker-register.js', () => ({
   enregistrerServiceWorker: mocks.enregistrerServiceWorker,
 }));
 
-vi.mock('./modules/accueil-social.js', () => ({
-  initialiserAccueilSocial: mocks.initialiserAccueilSocial,
-}));
-
 vi.mock('./modules/projets-grille.js', () => ({
   initialiserGrilleProjets: mocks.initialiserGrilleProjets,
 }));
@@ -92,7 +83,6 @@ vi.mock('./modules/mentions-legales.js', () => ({
 }));
 
 import { initialiser } from './main.js';
-import { afficherBandeauDev } from './utils/dev-mode.js';
 
 describe('main', () => {
   beforeEach(() => {
@@ -126,7 +116,6 @@ describe('main', () => {
     await vi.runOnlyPendingTimersAsync();
 
     expect(mocks.chargerPartiels).toHaveBeenCalled();
-    expect(afficherBandeauDev).toHaveBeenCalled();
     expect(mocks.annoncerNavigationClavier).toHaveBeenCalled();
     expect(mocks.initialiserNavigationArcade).toHaveBeenCalled();
     expect(mocks.initialiserNavigationClavier).toHaveBeenCalled();
@@ -168,7 +157,8 @@ describe('main', () => {
 
     await initialiser();
 
-    expect(mocks.initialiserAccueilSocial).toHaveBeenCalled();
+    expect(mocks.chargerPartiels).toHaveBeenCalled();
+    expect(mocks.initialiserGrilleProjets).not.toHaveBeenCalled();
   });
 
   it('n’initialise que le socle commun sur la section parcours', async () => {
@@ -176,7 +166,6 @@ describe('main', () => {
     await initialiser();
     await vi.runOnlyPendingTimersAsync();
 
-    expect(mocks.initialiserAccueilSocial).not.toHaveBeenCalled();
     expect(mocks.initialiserGrilleProjets).not.toHaveBeenCalled();
     expect(mocks.animerBarresSection).toHaveBeenCalledWith('parcours');
   });
@@ -193,12 +182,12 @@ describe('main', () => {
     expect(document.body.dataset.appReady).toBe('true');
   });
 
-  it('initialise accueil-social sur la section accueil', async () => {
+  it('n’initialise pas de charge lazy sur la section accueil', async () => {
     document.body.dataset.sectionId = 'accueil';
     await initialiser();
 
-    expect(mocks.initialiserAccueilSocial).toHaveBeenCalled();
     expect(mocks.initialiserGrilleProjets).not.toHaveBeenCalled();
+    expect(mocks.initialiserDojoBoss).not.toHaveBeenCalled();
   });
 
   it('initialise projets et modale sur la section projets', async () => {

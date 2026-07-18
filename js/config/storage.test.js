@@ -9,10 +9,9 @@ describe('STOCKAGE', () => {
     expect(STOCKAGE.PREFIXE_DOJO_BOSS).toBe('jm_dojo_boss_');
   });
 
-  it('isole les clés fonctionnelles (musique, contact, dev)', () => {
+  it('isole les clés fonctionnelles (musique, contact)', () => {
     expect(STOCKAGE.CLE_MUSIQUE).toBe('portfolio_musique_active');
     expect(STOCKAGE.DERNIERE_SOUMISSION_CONTACT).toBe('jm_contact_last_submit');
-    expect(STOCKAGE.BANDEAU_DEV_MASQUE).toBe('jm_dev_banner_dismiss');
   });
 
   it('n’utilise pas de valeurs vides', () => {

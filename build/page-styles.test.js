@@ -27,9 +27,9 @@ describe('page-styles', () => {
     });
   });
 
-  it('BASE_STYLE_SOURCES_PROD exclut le bandeau dev', () => {
+  it('BASE_STYLE_SOURCES_PROD est aligné sur la base (sans bandeau dev)', () => {
+    expect(BASE_STYLE_SOURCES_PROD).toEqual(BASE_STYLE_SOURCES);
     expect(BASE_STYLE_SOURCES_PROD).not.toContain('styles/components/dev-banner.css');
-    expect(BASE_STYLE_SOURCES_PROD.length).toBe(BASE_STYLE_SOURCES.length - 1);
   });
 
   it('accueil est découpé en modules dédiés', () => {

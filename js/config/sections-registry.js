@@ -14,7 +14,6 @@ export const CHARGES_SECTION = {
       init: ['initialiserClavierModale', 'initialiserClicsModale'],
     },
   ],
-  accueil: [{ module: '../modules/accueil-social.js', init: 'initialiserAccueilSocial' }],
   dojo: [{ module: '../modules/dojo-boss.js', init: 'initialiserDojoBoss' }],
   contact: [{ module: '../modules/contact.js', init: 'initialiserPageContact' }],
   mentions: [{ module: '../modules/mentions-legales.js', init: 'initialiserMentionsLegales' }],

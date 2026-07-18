@@ -16,7 +16,6 @@ export const FORMSPREE_ENDPOINT = '${escapeJsString(defaults.formspree)}';
 export const RECAPTCHA_SITE_KEY = '${escapeJsString(defaults.recaptcha)}';
 export const SOCIAL = {
   GITHUB: '${escapeJsString(defaults.social.github)}',
-  LINKEDIN: '${escapeJsString(defaults.social.linkedin)}',
 };
 `;
   fs.writeFileSync(target, content, 'utf8');

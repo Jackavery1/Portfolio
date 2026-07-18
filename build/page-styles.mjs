@@ -34,13 +34,10 @@ export const BASE_STYLE_SOURCES = [
   'styles/components/footer.css',
   'styles/components/partial-squelette.css',
   'styles/components/sw-toast.css',
-  'styles/components/dev-banner.css',
 ];
 
-/** CSS base prod — sans bandeau dev (npm start uniquement). */
-export const BASE_STYLE_SOURCES_PROD = BASE_STYLE_SOURCES.filter(
-  (source) => source !== 'styles/components/dev-banner.css'
-);
+/** CSS base prod (identique à la base : plus de bandeau dev). */
+export const BASE_STYLE_SOURCES_PROD = BASE_STYLE_SOURCES;
 
 export const ACCUEIL_STYLE_SOURCES = [
   'styles/pages/accueil/layout.css',
