@@ -197,12 +197,14 @@ describe('musique', () => {
     sequencuer.definirTheme('INCONNU');
   });
 
-  it('ignore activerMusique si resume échoue', async () => {
+  it('conserve la préférence si resume échoue', async () => {
     mockCtx.resume.mockRejectedValueOnce(new Error('autoplay'));
     musique.initialiserMusique();
     document.getElementById('js-bouton-musique').click();
     await vi.waitFor(() => expect(mockCtx.resume).toHaveBeenCalled());
-    expect(sequencuer.estMusiqueActive()).toBe(false);
+    expect(sequencuer.estMusiqueActive()).toBe(true);
+    expect(document.getElementById('js-bouton-musique').dataset.etat).toBe('on');
+    expect(localStorage.getItem('portfolio_musique_active')).toBe('true');
   });
 
   it('ne joue pas de blip nav si le contexte est suspendu', async () => {
@@ -231,7 +233,7 @@ describe('musique', () => {
     expect(sequencuer.lireThemeCourant()).toBe('STATS');
   });
 
-  it('ignore activerMusique sans contexte audio', async () => {
+  it('active la préférence même sans contexte audio', async () => {
     delete window.AudioContext;
     delete window.webkitAudioContext;
     vi.resetModules();
@@ -239,7 +241,7 @@ describe('musique', () => {
     const mod = await import('./musique.js');
     const seq = await import('./musique-sequencuer.js');
     await mod.activerMusique();
-    expect(seq.estMusiqueActive()).toBe(false);
+    expect(seq.estMusiqueActive()).toBe(true);
   });
 
   it('ignore les jingles sans contexte audio', async () => {

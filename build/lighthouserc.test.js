@@ -39,15 +39,23 @@ describe('lighthouserc', () => {
     );
   });
 
-  it('desktop utilise assertMatrix (index 0,85 / projets 0,85)', () => {
+  it('desktop utilise assertMatrix (index 0,9 / projets 0,85) et preset desktop', () => {
     const desktop = require('../lighthouserc.desktop.cjs');
     expect(desktop.ci.collect.numberOfRuns).toBe(5);
+    expect(desktop.ci.collect.settings.preset).toBe('desktop');
+    expect(desktop.ci.collect.settings.screenEmulation.mobile).toBe(false);
+    expect(desktop.ci.collect.settings.screenEmulation.width).toBe(961);
     const perf = desktop.ci.assert.assertMatrix
       .filter((row) => row.assertions['categories:performance'])
       .map((row) => [row.matchingUrlPattern, row.assertions['categories:performance'][1].minScore]);
     expect(perf).toEqual([
-      ['.*index\\.html', 0.85],
+      ['.*index\\.html', 0.9],
       ['.*projets\\.html', 0.85],
     ]);
+  });
+
+  it('mobile utilise formFactor mobile cohérent avec screenEmulation', () => {
+    expect(mobile.ci.collect.settings.formFactor).toBe('mobile');
+    expect(mobile.ci.collect.settings.screenEmulation.mobile).toBe(true);
   });
 });

@@ -214,11 +214,16 @@ test('touch mobile — bouton musique bascule data-etat', async ({ page }) => {
   await page.evaluate(() => localStorage.removeItem('portfolio_musique_active'));
 
   const musique = page.locator('.nav__musique');
+  await expect(musique).toHaveAttribute('data-musique-loader', '1');
   const etatInitial = await musique.getAttribute('data-etat');
   await musique.click();
-  await expect(musique).not.toHaveAttribute('data-etat', etatInitial);
+  await expect
+    .poll(async () => musique.getAttribute('data-etat'), { timeout: 10_000 })
+    .not.toBe(etatInitial);
   await musique.click();
-  await expect(musique).toHaveAttribute('data-etat', etatInitial);
+  await expect
+    .poll(async () => musique.getAttribute('data-etat'), { timeout: 10_000 })
+    .toBe(etatInitial);
 });
 
 test('desktop-large — coquille accueil sans overflow', async ({ page }) => {

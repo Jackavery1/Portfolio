@@ -42,19 +42,20 @@ function mettreAJourBouton(bouton) {
 
 export async function activerMusique() {
   await assurerThemes();
-  const ctx = assurerContexteActif();
-  if (!ctx) return;
-
-  try {
-    await ctx.resume();
-  } catch {
-    return;
-  }
-
   definirThemeCourant(detecterTheme());
   definirActif(true);
   sauvegarderPreferenceMusique(CLE_PREF, true);
-  demarrerSequencuer();
+
+  const ctx = assurerContexteActif();
+  if (ctx) {
+    try {
+      await ctx.resume();
+      demarrerSequencuer();
+    } catch {
+      /* autoplay refusé — préférence / bouton restent actifs pour le prochain geste */
+    }
+  }
+
   mettreAJourBouton(parId(CONFIGURATION.SELECTEURS.BOUTON_MUSIQUE));
 }
 

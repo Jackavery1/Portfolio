@@ -17,7 +17,7 @@ module.exports = {
       numberOfRuns: 5,
       settings: {
         chromeFlags: '--no-sandbox --disable-dev-shm-usage',
-        emulatedFormFactor: 'desktop',
+        preset: 'desktop',
         screenEmulation: {
           mobile: false,
           width: 961,
@@ -37,7 +37,7 @@ module.exports = {
         {
           matchingUrlPattern: '.*index\\.html',
           assertions: {
-            'categories:performance': ['error', { minScore: 0.85 }],
+            'categories:performance': ['error', { minScore: 0.9 }],
           },
         },
         {
