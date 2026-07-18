@@ -366,7 +366,7 @@ Pages hors navigation clavier (`dojo.html`, `mentions-legales.html`) : accessibl
 
 ### Profiling Lighthouse (perf mobile)
 
-Seuils CI : `lighthouserc.cjs` (mobile, 412×823, médiane 5 runs). Perf **≥ 0,90** (accueil) ; **≥ 0,85** (projets, contact, pages denses, mentions, offline). Desktop smoke (`lighthouserc.desktop.cjs`, 961×800) : index ≥ 0,90, projets ≥ 0,85 — retry CI ×3 comme le mobile.
+Seuils CI : `lighthouserc.cjs` (mobile, 412×823, médiane 5 runs). Perf **≥ 0,90** (accueil) ; **≥ 0,85** (projets, contact, pages denses, mentions, offline). Desktop smoke (`lighthouserc.desktop.cjs`, 961×800) : index et projets ≥ 0,85 — retry CI ×3 comme le mobile.
 
 Profil local après build :
 

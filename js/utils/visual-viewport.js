@@ -1,7 +1,5 @@
 /** Ajuste le scroll quand le clavier virtuel réduit visualViewport (mobile). */
 
-import { comportementScroll } from './scroll-comportement.js';
-
 const SELECTEUR_CHAMPS = 'input, textarea, select';
 
 export function initialiserScrollChampClavier(conteneur) {
@@ -18,12 +16,11 @@ export function initialiserScrollChampClavier(conteneur) {
     const rect = champActif.getBoundingClientRect();
     const marge = 16;
     const basVisible = vv.height - marge;
-    const behavior = comportementScroll();
 
     if (rect.bottom > basVisible) {
-      window.scrollBy({ top: rect.bottom - basVisible, behavior });
+      window.scrollBy({ top: rect.bottom - basVisible, behavior: 'auto' });
     } else if (rect.top < marge) {
-      window.scrollBy({ top: rect.top - marge, behavior });
+      window.scrollBy({ top: rect.top - marge, behavior: 'auto' });
     }
   };
 

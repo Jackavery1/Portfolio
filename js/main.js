@@ -23,6 +23,10 @@ import { planifierIdleDense } from './utils/pages-denses.js';
 function activerOverlayCrtApresPeinture(sectionId) {
   const activer = () => document.documentElement.classList.add('crt-pret');
   if (planifierIdleDense(sectionId, activer, 2000)) return;
+  if (typeof requestIdleCallback === 'function') {
+    requestIdleCallback(activer, { timeout: 2500 });
+    return;
+  }
   requestAnimationFrame(() => {
     requestAnimationFrame(activer);
   });

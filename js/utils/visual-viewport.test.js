@@ -61,17 +61,17 @@ describe('visual-viewport', () => {
 
     expect(window.scrollBy).toHaveBeenCalledWith({
       top: 46,
-      behavior: 'smooth',
+      behavior: 'auto',
     });
   });
 
-  it('scroll en auto sous prefers-reduced-motion', async () => {
+  it('scroll clavier toujours en auto (évite flake WebKit smooth)', async () => {
     window.visualViewport = {
       height: 400,
       addEventListener: vi.fn(),
       removeEventListener: vi.fn(),
     };
-    vi.stubGlobal('matchMedia', () => ({ matches: true }));
+    vi.stubGlobal('matchMedia', () => ({ matches: false }));
 
     const msg = document.getElementById('msg');
     msg.getBoundingClientRect = () => ({
@@ -117,7 +117,7 @@ describe('visual-viewport', () => {
 
     expect(window.scrollBy).toHaveBeenCalledWith({
       top: -12,
-      behavior: 'smooth',
+      behavior: 'auto',
     });
   });
 

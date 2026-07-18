@@ -17,6 +17,11 @@ vi.mock('../config/index.js', () => ({
 
 vi.mock('./musique.js', () => mocksMusique);
 
+const mockUnlock = vi.hoisted(() => vi.fn());
+vi.mock('./audio-unlock.js', () => ({
+  deverrouillerAudioAuGeste: mockUnlock,
+}));
+
 import { initialiserMusique, jouerJingleSecret, jouerJingleVictoire } from './musique-loader.js';
 
 describe('musique-loader', () => {
@@ -51,6 +56,7 @@ describe('musique-loader', () => {
     initialiserMusique();
     document.getElementById('js-bouton-musique').click();
     await vi.waitFor(() => expect(mocksMusique.initialiserMusique).toHaveBeenCalled());
+    expect(mockUnlock).toHaveBeenCalled();
     expect(mocksMusique.basculerMusique).toHaveBeenCalled();
   });
 

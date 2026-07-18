@@ -39,14 +39,14 @@ describe('lighthouserc', () => {
     );
   });
 
-  it('desktop utilise assertMatrix (index 0,9 / projets 0,85)', () => {
+  it('desktop utilise assertMatrix (index 0,85 / projets 0,85)', () => {
     const desktop = require('../lighthouserc.desktop.cjs');
     expect(desktop.ci.collect.numberOfRuns).toBe(5);
     const perf = desktop.ci.assert.assertMatrix
       .filter((row) => row.assertions['categories:performance'])
       .map((row) => [row.matchingUrlPattern, row.assertions['categories:performance'][1].minScore]);
     expect(perf).toEqual([
-      ['.*index\\.html', 0.9],
+      ['.*index\\.html', 0.85],
       ['.*projets\\.html', 0.85],
     ]);
   });

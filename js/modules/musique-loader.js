@@ -4,6 +4,7 @@
 
 import { CONFIGURATION } from '../config/index.js';
 import { parId } from '../utils/dom.js';
+import { deverrouillerAudioAuGeste } from './audio-unlock.js';
 import { appliquerEtatBoutonMusique, lirePreferenceMusique } from './musique-bouton.js';
 
 let promesseModule = null;
@@ -34,6 +35,7 @@ export function initialiserMusique() {
   async function surPremierClicBouton(evt) {
     if (bouton.dataset.branche) return;
     evt.stopImmediatePropagation();
+    deverrouillerAudioAuGeste();
     const m = await assurerModuleInitialise();
     bouton.removeEventListener('click', surPremierClicBouton, true);
     await m.basculerMusique();
@@ -46,6 +48,7 @@ export function initialiserMusique() {
       if (bouton.contains(evt.target)) return;
       document.removeEventListener('click', surPremiereInteraction, true);
       document.removeEventListener('keydown', surPremiereInteraction, true);
+      deverrouillerAudioAuGeste();
       const m = await assurerModuleInitialise();
       await m.activerMusique();
     };

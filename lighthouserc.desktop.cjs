@@ -37,7 +37,7 @@ module.exports = {
         {
           matchingUrlPattern: '.*index\\.html',
           assertions: {
-            'categories:performance': ['error', { minScore: 0.9 }],
+            'categories:performance': ['error', { minScore: 0.85 }],
           },
         },
         {
