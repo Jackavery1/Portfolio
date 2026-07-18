@@ -28,7 +28,7 @@ npm run watch                # rebuild auto
 npm run build && npm run start:prod   # comme en prod
 ```
 
-Hook pre-commit optionnel (lint + format + tests avant chaque commit) : `npm run hooks:install`.
+Hook pre-commit optionnel (lint + format + tests avant chaque commit) : `npm run hooks:install` (`.githooks` → `node scripts/pre-commit.cjs`).
 
 Ne pas ouvrir les HTML en `file://` ni via Live Server : les partials et modules ES requièrent un serveur HTTP (`npm start` ou `npx serve .` après sync).
 
@@ -53,7 +53,7 @@ Point d’entrée unique : `js/modules/contact.js` (`initialiserPageContact`). S
 
 Thème **sombre arcade CRT** — dark-only, shell nav EN + contenu FR, Press Start dense : choix assumés, détail et justifications dans `AUDIT-EXCLUSIONS.md` (ne pas les traiter comme dette en audit).
 
-**Intention (5 secondes)** : marque **JORIS MARTINEZ** en hero, sous-titre métier, un CTA **PRESS START**, sprite pixel — le reste (liens, badges, WIP) est secondaire hors fold desktop. Trois polices (Press Start 2P / VT323 / Rajdhani) portent l’identité ; la densité pixel mobile est volontaire (voir exclusions).
+**Intention (5 secondes)** : marque **JORIS MARTINEZ** en hero, sous-titre métier, un CTA **PRESS START**, sprite pixel — le reste (liens, badges) est secondaire hors fold desktop. Trois polices (Press Start 2P / VT323 / Rajdhani) portent l’identité ; la densité pixel mobile est volontaire (voir exclusions).
 
 ### Responsive design (surfaces mobiles)
 

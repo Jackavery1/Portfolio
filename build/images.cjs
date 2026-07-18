@@ -13,6 +13,9 @@ const PNG_QUALITE_PAR_FICHIER = {
 /** Largeur max OG (réseaux sociaux) — redimensionnement au build */
 const OG_LARGEUR_MAX = 1200;
 
+/** Largeur max previews projets (modale ≪ 1024 px source) */
+const PREVIEW_LARGEUR_MAX = 800;
+
 /** Icônes PWA / favicon : servies en PNG uniquement (pas de .webp orphelin dans dist). */
 const RASTERS_SANS_WEBP = new Set([
   'favicon.png',
@@ -36,12 +39,21 @@ function creerImages(sharpLib = sharpDefaut) {
     qualitePng,
     qualiteWebp,
     nomFichier,
+    largeurMax,
   }) {
     const image = sharpLib(srcPath, { failOn: 'none' });
-    let pipeline = image.rotate();
-    if (nomFichier === 'og.png') {
-      pipeline = pipeline.resize({ width: OG_LARGEUR_MAX, withoutEnlargement: true });
+    const largeurCible =
+      nomFichier === 'og.png' ? OG_LARGEUR_MAX : largeurMax || null;
+
+    function pipelineAvecResize() {
+      let pipeline = image.rotate();
+      if (largeurCible) {
+        pipeline = pipeline.resize({ width: largeurCible, withoutEnlargement: true });
+      }
+      return pipeline;
     }
+
+    const pipeline = pipelineAvecResize();
     const qualitePngEffective = PNG_QUALITE_PAR_FICHIER[nomFichier] ?? qualitePng;
 
     if (ext === '.jpg' || ext === '.jpeg') {
@@ -60,7 +72,7 @@ function creerImages(sharpLib = sharpDefaut) {
 
     if (!RASTERS_SANS_WEBP.has(nomFichier)) {
       const webpPath = dstPath.replace(/\.(png|jpe?g)$/i, '.webp');
-      await image.rotate().webp({ quality: qualiteWebp }).toFile(webpPath);
+      await pipelineAvecResize().webp({ quality: qualiteWebp }).toFile(webpPath);
     }
   };
 
@@ -70,6 +82,7 @@ function creerImages(sharpLib = sharpDefaut) {
     label,
     options,
     onError,
+    largeurMax,
   }) {
     if (!fs.existsSync(srcDir)) {
       log(`Pas de ${label} — ignoré`, 'warning');
@@ -97,6 +110,7 @@ function creerImages(sharpLib = sharpDefaut) {
           qualiteJpeg: options.jpegQuality,
           qualitePng: options.pngQuality,
           qualiteWebp: options.webpQuality,
+          largeurMax,
         });
       }
       log(`Images → ${dstDir}`, 'success');
@@ -132,8 +146,9 @@ function creerImages(sharpLib = sharpDefaut) {
       options: {
         jpegQuality: 80,
         pngQuality: 78,
-        webpQuality: 78,
+        webpQuality: 72,
       },
+      largeurMax: PREVIEW_LARGEUR_MAX,
       onError: 'copy',
     });
     if (!fs.existsSync(dstDir)) return;
@@ -159,6 +174,7 @@ module.exports = {
   creerImages,
   PNG_QUALITE_PAR_FICHIER,
   OG_LARGEUR_MAX,
+  PREVIEW_LARGEUR_MAX,
   ZONE_UTILE_PWA,
   FOND_PWA,
   RASTERS_SANS_WEBP,

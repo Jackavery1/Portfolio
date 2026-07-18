@@ -11,6 +11,11 @@ test('favicon PNG est référencée et accessible', async ({ page, request }) =>
   expect(response.ok()).toBeTruthy();
 });
 
+test('GET /favicon.ico répond sans 404', async ({ request }) => {
+  const response = await request.get('/favicon.ico');
+  expect(response.ok()).toBeTruthy();
+});
+
 test('apple-touch-icon et og image accessibles', async ({ page, request }) => {
   await page.goto('/index.html');
 

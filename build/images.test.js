@@ -103,6 +103,8 @@ describe('images.cjs — assets et icônes', () => {
         expect(fs.existsSync(path.join(tmp, 'assets', name))).toBe(true);
         expect(fs.existsSync(path.join(dist, 'assets', name))).toBe(true);
       }
+      expect(fs.existsSync(path.join(tmp, 'favicon.ico'))).toBe(true);
+      expect(fs.existsSync(path.join(dist, 'favicon.ico'))).toBe(true);
     });
   });
 

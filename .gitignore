@@ -25,6 +25,7 @@ deploy-output/
 /assets/apple-touch-icon.png
 /assets/icon-192.png
 /assets/icon-512.png
+/favicon.ico
 /assets/fonts/
 /assets/**/*.webp
 /style-base.css

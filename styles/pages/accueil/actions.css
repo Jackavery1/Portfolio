@@ -1,4 +1,4 @@
-/* Accueil — CTA, lien GitHub et bandeau WIP */
+/* Accueil — CTA et lien GitHub */
 
 .lien-github {
   font-family: var(--police-pixel);
@@ -33,78 +33,6 @@
 .lien-github:focus-visible {
   outline: var(--outline-focus-largeur) solid var(--outline-focus-couleur);
   outline-offset: var(--outline-focus-decalage);
-}
-
-.accueil__wip {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: start;
-  column-gap: var(--espacement-sm);
-  row-gap: var(--espacement-2xs);
-  margin: var(--espacement-md) 0 0;
-  padding: var(--espacement-sm) var(--espacement-ms) var(--espacement-ms) var(--espacement-md);
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
-  font-family: var(--police-crt);
-  font-size: var(--taille-corps-crt);
-  color: var(--couleur-actif);
-  letter-spacing: 0.35px;
-  line-height: 1.55;
-  border: 1px solid var(--couleur-actif-bordure);
-  border-left: 4px solid var(--couleur-actif);
-  background:
-    linear-gradient(90deg, var(--couleur-actif), transparent 78%) top / 100% 2px no-repeat,
-    linear-gradient(
-      118deg,
-      var(--couleur-actif-alpha-wip) 0%,
-      var(--couleur-fond-carte) 38%,
-      var(--couleur-accent-alpha-leger) 100%
-    );
-  box-shadow: var(--ombre-wip-base);
-  text-shadow: none;
-  animation: none;
-}
-
-.accueil__wip-line {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--espacement-sm);
-  min-width: 0;
-}
-
-.accueil__wip-picto {
-  flex: 0 0 auto;
-  color: var(--couleur-actif);
-  line-height: 0;
-  filter: var(--filtre-glow-actif);
-}
-
-.accueil__wip-icone {
-  display: block;
-  width: clamp(26px, 5vw, 32px);
-  height: auto;
-}
-
-.accueil__wip-texte {
-  min-width: 0;
-  overflow-wrap: break-word;
-}
-
-.accueil__wip-badge {
-  grid-column: 2;
-  grid-row: 1;
-  font-family: var(--police-pixel);
-  font-size: var(--taille-petit-pixel);
-  letter-spacing: 2px;
-  color: var(--couleur-actif-clair);
-  padding: var(--espacement-2xs) var(--espacement-2xs);
-  background: var(--couleur-fond);
-  border: 1px solid var(--couleur-actif-bordure);
-  line-height: 1.2;
-  text-shadow: none;
-  white-space: normal;
-  overflow-wrap: anywhere;
 }
 
 /* Voir styles/components/bouton-pixel.css — .bouton-arcade */

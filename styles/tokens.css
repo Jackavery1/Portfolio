@@ -33,11 +33,7 @@
   --couleur-accent-alpha-fade: rgba(var(--couleur-accent-rgb), 0.04);
   --couleur-accent-alpha-leger: rgba(var(--couleur-accent-rgb), 0.06);
   --couleur-accent-alpha-survol: rgba(var(--couleur-accent-rgb), 0.18);
-  --couleur-actif-alpha-wip: rgba(var(--couleur-actif-rgb), 0.14);
   --couleur-valide-alpha-pulse: rgba(var(--couleur-valide-rgb), 0.5);
-  --couleur-surface-highlight: rgba(255, 255, 255, 0.05);
-  --couleur-surface-highlight-fort: rgba(255, 255, 255, 0.06);
-  --couleur-ombre-noire-ui: rgba(0, 0, 0, 0.35);
   --couleur-fond-crt-rgb: 0, 0, 30;
   --couleur-fond-crt-fonce-rgb: 0, 0, 20;
   --couleur-crt-vignette: rgba(var(--couleur-fond-crt-rgb), 0.55);
@@ -117,7 +113,11 @@
   --taille-pixel-min: 0.75rem;
   /* Libellés pixel décoratifs non interactifs (≥ 12px, aligné sur --taille-pixel-min) */
   --taille-pixel-decoratif-min: 0.75rem;
-  --taille-pixel-decoratif: clamp(var(--taille-pixel-min), 1.1vw, var(--taille-pixel-petit-max));
+  --taille-pixel-decoratif: clamp(
+    var(--taille-pixel-decoratif-min),
+    1.1vw,
+    var(--taille-pixel-petit-max)
+  );
   /* Maximum courant pour petits libellés pixel (≥ min) */
   --taille-pixel-petit-max: 0.8rem;
 
@@ -193,12 +193,9 @@
     0 0 10px rgba(var(--couleur-accent-rgb), 0.2);
   --ombre-musique-pret-min: 0 0 4px rgba(var(--couleur-accent-rgb), 0.25);
   --ombre-musique-pret-max: 0 0 14px rgba(var(--couleur-accent-rgb), 0.55);
-  --ombre-wip-base:
-    inset 0 1px 0 var(--couleur-surface-highlight), 0 0 0 1px var(--couleur-ombre-noire-ui);
   --filtre-drop-accent: drop-shadow(0 0 8px rgba(var(--couleur-accent-rgb), 0.2));
   --filtre-drop-accent-fort: drop-shadow(0 0 8px rgba(var(--couleur-accent-rgb), 0.3));
   --filtre-drop-accent-hero: drop-shadow(0 0 12px rgba(var(--couleur-accent-rgb), 0.35));
-  --filtre-glow-actif: drop-shadow(0 0 4px rgba(var(--couleur-actif-rgb), 0.45));
   /* Halo sombre sous glow néon — lisibilité AA sur titres hero / boss */
   --ombre-texte-lisible: 0 1px 0 var(--couleur-fond-page), 0 2px 6px var(--couleur-fond);
   --ombre-texte-neon-accent:

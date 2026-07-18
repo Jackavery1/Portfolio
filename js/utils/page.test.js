@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { obtenirFichierPageCourante, fichierPageDepuisPathname } from './page.js';
 
-describe('page utils', () => {
+describe('utilitaires page', () => {
   it('extrait le fichier depuis un pathname', () => {
     expect(obtenirFichierPageCourante('/Portfolio/projets.html')).toBe('projets.html');
     expect(obtenirFichierPageCourante('/Portfolio/')).toBe('index.html');

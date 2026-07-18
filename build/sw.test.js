@@ -31,6 +31,7 @@ describe('build service worker', () => {
     expect(urls).toContain('js/main.js');
     expect(urls).toContain('js/modules/musique-loader.js');
     expect(urls).toContain('manifest.webmanifest');
+    expect(urls).toContain('favicon.ico');
     expect(urls).toContain('assets/apple-touch-icon.png');
     expect(urls).toContain('assets/icon-192.png');
     expect(urls).not.toContain('assets/icon-512.png');

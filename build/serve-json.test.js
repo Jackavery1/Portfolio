@@ -9,6 +9,11 @@ describe('artefacts build', () => {
   it('serve.json à la racine désactive cleanUrls pour start:prod', () => {
     const serve = JSON.parse(fs.readFileSync(path.join(rootDir, 'serve.json'), 'utf8'));
     expect(serve.cleanUrls).toBe(false);
+    expect(serve.directoryListing).toBe(false);
+    expect(serve.rewrites).toEqual([
+      { source: '/', destination: '/index.html' },
+      { source: '/favicon.ico', destination: '/assets/favicon.png' },
+    ]);
   });
 
   it('build.mjs copie serve.json vers le répertoire de build', () => {

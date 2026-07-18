@@ -92,10 +92,6 @@
     order: 8;
   }
 
-  .accueil__wip {
-    order: 9;
-  }
-
   .svg-bonhomme {
     width: clamp(180px, 28vw, 260px);
   }
@@ -130,17 +126,6 @@
 
   .lien-github {
     text-align: center;
-  }
-
-  .accueil__wip {
-    width: 100%;
-    max-width: 100%;
-    padding: var(--espacement-2xs) var(--espacement-sm);
-  }
-
-  .accueil__wip-picto,
-  .accueil__wip-badge {
-    display: none;
   }
 
   .titre-arcade__prenom,

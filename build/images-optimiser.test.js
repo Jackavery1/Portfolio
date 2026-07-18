@@ -4,7 +4,8 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { loadBuild } from './cjs-bridge.mjs';
 import { avecRepertoireTemporaireAsync, creerSharpMock } from './images-test-helpers.mjs';
 
-const { creerImages, PNG_QUALITE_PAR_FICHIER, OG_LARGEUR_MAX } = loadBuild('images.cjs');
+const { creerImages, PNG_QUALITE_PAR_FICHIER, OG_LARGEUR_MAX, PREVIEW_LARGEUR_MAX } =
+  loadBuild('images.cjs');
 
 describe('images.cjs — optimisation raster', () => {
   let sharpMock;
@@ -54,6 +55,7 @@ describe('images.cjs — optimisation raster', () => {
       });
       expect(PNG_QUALITE_PAR_FICHIER['og.png']).toBe(62);
       expect(OG_LARGEUR_MAX).toBe(1200);
+      expect(PREVIEW_LARGEUR_MAX).toBe(800);
       expect(sharpMock.instances[0].resize).toHaveBeenCalledWith({
         width: 1200,
         withoutEnlargement: true,
@@ -201,6 +203,23 @@ describe('images.cjs — optimisation raster', () => {
       const dstDir = path.join(dist, 'assets', 'previews');
       expect(fs.existsSync(path.join(dstDir, 'demo.webp'))).toBe(true);
       expect(fs.existsSync(path.join(dstDir, 'demo.png'))).toBe(false);
+    });
+  });
+
+  it('optimizePreviewImages passe largeurMax et qualité WebP resserrée', async () => {
+    await avecRepertoireTemporaireAsync('portfolio-prev-max-', async (tmp) => {
+      const api = images();
+      const srcDir = path.join(tmp, 'assets', 'previews');
+      fs.mkdirSync(srcDir, { recursive: true });
+      fs.writeFileSync(path.join(srcDir, 'demo.png'), 'png');
+      const spy = vi.spyOn(api, 'optimizeRasterDir').mockResolvedValue(undefined);
+      await api.optimizePreviewImages(tmp, path.join(tmp, 'dist'));
+      expect(spy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          largeurMax: PREVIEW_LARGEUR_MAX,
+          options: expect.objectContaining({ webpQuality: 72 }),
+        })
+      );
     });
   });
 });
