@@ -34,11 +34,16 @@ export function initialiserMusique() {
 
   async function surPremierClicBouton(evt) {
     if (bouton.dataset.branche) return;
+    evt.preventDefault();
     evt.stopImmediatePropagation();
     deverrouillerAudioAuGeste();
-    const m = await assurerModuleInitialise();
-    bouton.removeEventListener('click', surPremierClicBouton, true);
-    await m.basculerMusique();
+    try {
+      const m = await assurerModuleInitialise();
+      bouton.removeEventListener('click', surPremierClicBouton, true);
+      await m.basculerMusique();
+    } catch {
+      bouton.removeEventListener('click', surPremierClicBouton, true);
+    }
   }
 
   bouton.addEventListener('click', surPremierClicBouton, true);

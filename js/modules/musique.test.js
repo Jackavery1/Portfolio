@@ -151,7 +151,7 @@ describe('musique', () => {
     const btn = document.getElementById('js-bouton-musique');
     btn.click();
     await vi.waitFor(() => expect(btn.dataset.etat).toBe('on'), { timeout: 5000 });
-    expect(mockCtx.resume).toHaveBeenCalled();
+    await vi.waitFor(() => expect(mockCtx.resume).toHaveBeenCalled());
     expect(sequencuer.estMusiqueActive()).toBe(true);
     expect(localStorage.getItem('portfolio_musique_active')).toBe('true');
   });
@@ -221,16 +221,16 @@ describe('musique', () => {
     document.body.dataset.sectionId = 'projets';
     musique.initialiserMusique();
     document.getElementById('js-bouton-musique').click();
-    await vi.waitFor(() => expect(sequencuer.estMusiqueActive()).toBe(true));
-    expect(sequencuer.lireThemeCourant()).toBe('WORK');
+    await vi.waitFor(() => expect(sequencuer.lireThemeCourant()).toBe('WORK'));
+    expect(sequencuer.estMusiqueActive()).toBe(true);
   });
 
   it('détecte le thème STATS pour competences (data-section-id)', async () => {
     document.body.dataset.sectionId = 'competences';
     musique.initialiserMusique();
     document.getElementById('js-bouton-musique').click();
-    await vi.waitFor(() => expect(sequencuer.estMusiqueActive()).toBe(true));
-    expect(sequencuer.lireThemeCourant()).toBe('STATS');
+    await vi.waitFor(() => expect(sequencuer.lireThemeCourant()).toBe('STATS'));
+    expect(sequencuer.estMusiqueActive()).toBe(true);
   });
 
   it('active la préférence même sans contexte audio', async () => {

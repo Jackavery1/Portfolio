@@ -41,22 +41,26 @@ function mettreAJourBouton(bouton) {
 }
 
 export async function activerMusique() {
-  await assurerThemes();
-  definirThemeCourant(detecterTheme());
   definirActif(true);
   sauvegarderPreferenceMusique(CLE_PREF, true);
+  mettreAJourBouton(parId(CONFIGURATION.SELECTEURS.BOUTON_MUSIQUE));
 
-  const ctx = assurerContexteActif();
-  if (ctx) {
-    try {
-      await ctx.resume();
-      demarrerSequencuer();
-    } catch {
-      /* autoplay refusé — préférence / bouton restent actifs pour le prochain geste */
-    }
+  try {
+    await assurerThemes();
+    definirThemeCourant(detecterTheme());
+  } catch {
+    /* catalogue thèmes indisponible — UI déjà active */
   }
 
-  mettreAJourBouton(parId(CONFIGURATION.SELECTEURS.BOUTON_MUSIQUE));
+  const ctx = assurerContexteActif();
+  if (!ctx) return;
+
+  try {
+    await ctx.resume();
+    demarrerSequencuer();
+  } catch {
+    /* autoplay refusé — préférence / bouton restent actifs pour le prochain geste */
+  }
 }
 
 async function desactiverMusique() {

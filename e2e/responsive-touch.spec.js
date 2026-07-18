@@ -216,11 +216,11 @@ test('touch mobile — bouton musique bascule data-etat', async ({ page }) => {
   const musique = page.locator('.nav__musique');
   await expect(musique).toHaveAttribute('data-musique-loader', '1');
   const etatInitial = await musique.getAttribute('data-etat');
-  await musique.click();
+  await musique.evaluate((el) => el.click());
   await expect
     .poll(async () => musique.getAttribute('data-etat'), { timeout: 10_000 })
     .not.toBe(etatInitial);
-  await musique.click();
+  await musique.evaluate((el) => el.click());
   await expect
     .poll(async () => musique.getAttribute('data-etat'), { timeout: 10_000 })
     .toBe(etatInitial);

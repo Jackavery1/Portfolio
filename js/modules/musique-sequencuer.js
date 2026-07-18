@@ -57,7 +57,12 @@ export async function assurerThemes() {
   if (!promesseThemes) {
     definirPromesseThemesSequencuer(
       fetch(new URL('../config/musique-themes.json', import.meta.url))
-        .then((reponse) => reponse.json())
+        .then((reponse) => {
+          if (reponse.ok === false) {
+            throw new Error(`thèmes HTTP ${reponse.status}`);
+          }
+          return reponse.json();
+        })
         .then((donnees) => {
           definirCatalogueThemesSequencuer(
             donnees.THEMES,
@@ -65,6 +70,10 @@ export async function assurerThemes() {
             donnees.THEME_PAR_FICHIER
           );
           return donnees.THEMES;
+        })
+        .catch((err) => {
+          definirPromesseThemesSequencuer(null);
+          throw err;
         })
     );
   }
