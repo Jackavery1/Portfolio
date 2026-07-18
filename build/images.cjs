@@ -42,8 +42,7 @@ function creerImages(sharpLib = sharpDefaut) {
     largeurMax,
   }) {
     const image = sharpLib(srcPath, { failOn: 'none' });
-    const largeurCible =
-      nomFichier === 'og.png' ? OG_LARGEUR_MAX : largeurMax || null;
+    const largeurCible = nomFichier === 'og.png' ? OG_LARGEUR_MAX : largeurMax || null;
 
     function pipelineAvecResize() {
       let pipeline = image.rotate();

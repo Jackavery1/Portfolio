@@ -10,7 +10,14 @@ vi.mock('./musique-audio.js', () => ({
   jouerTriangle: vi.fn(),
 }));
 
-import { jouerHat, jouerKick, jouerNappe, jouerPulse, jouerSnare, jouerTriangle } from './musique-audio.js';
+import {
+  jouerHat,
+  jouerKick,
+  jouerNappe,
+  jouerPulse,
+  jouerSnare,
+  jouerTriangle,
+} from './musique-audio.js';
 import { dureePas, planifierPas } from './musique-sequencuer-plan.js';
 import {
   definirCatalogueThemesSequencuer,

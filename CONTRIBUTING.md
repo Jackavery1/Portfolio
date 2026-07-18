@@ -221,10 +221,10 @@ Pour les e2e PWA sans rebuild : `PLAYWRIGHT_SKIP_BUILD=1 npm run test:e2e -- e2e
 
 ### Playwright (e2e)
 
-| Problème                                       | Solution                                                                                                                                                                                                                                                                          |
-| ---------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Navigateur absent (`Executable doesn't exist`) | `npm run test:e2e:install` ou `npx playwright install --with-deps chromium webkit`                                                                                                                                                                                                |
-| Téléchargement bloqué (certificat SSL)         | Même correctif que npm ci-dessus, puis relancer l’install ; sous PowerShell : `$env:NODE_TLS_REJECT_UNAUTHORIZED='0'; npx playwright install chromium webkit` (temporaire, réseau de confiance uniquement)                                                                        |
+| Problème                                       | Solution                                                                                                                                                                                                                     |
+| ---------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Navigateur absent (`Executable doesn't exist`) | `npm run test:e2e:install` ou `npx playwright install --with-deps chromium webkit`                                                                                                                                           |
+| Téléchargement bloqué (certificat SSL)         | Même correctif que npm ci-dessus, puis relancer l’install ; sous PowerShell : `$env:NODE_TLS_REJECT_UNAUTHORIZED='0'; npx playwright install chromium webkit` (temporaire, réseau de confiance uniquement)                   |
 | E2e lent / timeout CI                          | CI : Chromium + WebKit + Firefox sur specs **responsive / PWA / sw-toast** ; specs fonctionnelles (a11y, contact, dojo…) sur `desktop-chrome` uniquement. Safari local : `npm run test:e2e:webkit`. Timeout job e2e : 25 min |
 
 ### Site / UX

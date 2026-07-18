@@ -130,7 +130,8 @@ function mesurer() {
   return rapport;
 }
 
-const estEntreeDirecte = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+const estEntreeDirecte =
+  process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
 if (estEntreeDirecte) {
   mesurer();
 }

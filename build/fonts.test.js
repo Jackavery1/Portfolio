@@ -24,9 +24,9 @@ describe('fonts build', () => {
     attendus.forEach((fichier) => {
       expect(fs.existsSync(path.join(rootDir, 'assets', 'fonts', fichier))).toBe(true);
     });
-    expect(fs.existsSync(path.join(rootDir, 'assets', 'fonts', 'rajdhani-latin-ext-400.woff2'))).toBe(
-      false
-    );
+    expect(
+      fs.existsSync(path.join(rootDir, 'assets', 'fonts', 'rajdhani-latin-ext-400.woff2'))
+    ).toBe(false);
   });
 
   it('génère fonts-local.css avec unicode-range', () => {

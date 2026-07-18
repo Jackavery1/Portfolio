@@ -5,10 +5,7 @@
   z-index: 9000;
   left: max(var(--espacement-ms), var(--safe-area-inset-left, env(safe-area-inset-left, 0)));
   right: max(var(--espacement-ms), var(--safe-area-inset-right, env(safe-area-inset-right, 0)));
-  bottom: max(
-    var(--espacement-ms),
-    var(--safe-area-inset-bottom, env(safe-area-inset-bottom, 0))
-  );
+  bottom: max(var(--espacement-ms), var(--safe-area-inset-bottom, env(safe-area-inset-bottom, 0)));
   display: flex;
   flex-wrap: wrap;
   align-items: center;
