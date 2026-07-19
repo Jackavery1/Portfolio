@@ -10,6 +10,7 @@ module.exports = [
       '.dist-staging-build/**',
       '.dist-staging-build.old/**',
       'node_modules/**',
+      'coverage/**',
       'playwright-report/**',
       'test-results/**',
       'js/config/*.json',

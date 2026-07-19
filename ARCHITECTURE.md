@@ -35,7 +35,7 @@ Trio config : `sections-manifest.js` (ids) → `sections-registry.js` (charges `
 // js/config/sections.js — import dynamique puis initialiser*
 ```
 
-Sections dynamiques : `projets`, `accueil`, `dojo`, `contact`, `mentions`. Musique via `musique-loader.js` (voir stack ci-dessous). Réduit le JS critique au démarrage (~35–40 % après minification build).
+Sections dynamiques (lazy) : `projets`, `dojo`, `contact`, `mentions`. Sections statiques (pas d’`import()` dédié) : `accueil`, `parcours`, `competences`. Musique via `musique-loader.js` (voir stack ci-dessous). Réduit le JS critique au démarrage (~35–40 % après minification build).
 
 ### Stack musique
 

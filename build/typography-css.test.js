@@ -54,6 +54,7 @@ describe('typography CSS', () => {
       '--taille-petit-pixel',
       '--taille-bouton-pixel',
       '--taille-titre-pixel',
+      '--taille-titre-section',
       '--taille-pixel-decoratif',
       '--taille-corps-lisible',
       '--taille-corps-crt',

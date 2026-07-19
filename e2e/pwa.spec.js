@@ -48,6 +48,18 @@ test('lien manifest dans le head', async ({ page }) => {
   );
 });
 
+test('theme-color aligné head et manifest', async ({ page }) => {
+  await gotoReady(page, '/index.html');
+  await expect(page.locator('meta[name="theme-color"]')).toHaveAttribute('content', '#03040f');
+  const themeManifest = await page.evaluate(async () => {
+    const response = await fetch('/manifest.webmanifest');
+    if (!response.ok) throw new Error(`manifest HTTP ${response.status}`);
+    const data = await response.json();
+    return data.theme_color;
+  });
+  expect(themeManifest).toBe('#03040f');
+});
+
 test('page offline — accessible et meta PWA', async ({ page }) => {
   const response = await page.goto('/offline.html');
   expect(response?.ok()).toBeTruthy();
@@ -63,6 +75,8 @@ test('page offline — accessible et meta PWA', async ({ page }) => {
     'content',
     /viewport-fit=cover/
   );
+  await expect(page.locator('meta[name="theme-color"]')).toHaveAttribute('content', '#03040f');
+  await expect(page.locator('meta[name="color-scheme"]')).toHaveAttribute('content', 'dark');
   await expect(page.locator('link[rel="stylesheet"]')).toHaveAttribute(
     'href',
     'style-page-offline.css'

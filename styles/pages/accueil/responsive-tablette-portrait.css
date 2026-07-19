@@ -1,4 +1,5 @@
-/* Accueil — tablette portrait (600–960px, ≥552px hauteur) */
+/* Accueil — tablette portrait (600–960px, ≥552px hauteur)
+   Même stack vertical centré que le téléphone (étiquette → titre → sprite → intro → CTA). */
 
 @media (min-width: 600px) and (max-width: 960px) and (min-height: 552px) {
   html:has(body[data-section-id='accueil']) {
@@ -14,61 +15,107 @@
   }
 
   body[data-section-id='accueil'] .ecran {
-    height: auto;
     overflow: visible;
+    min-height: calc(
+      100dvh - var(--hauteur-marquee) - var(--safe-area-inset-top, 0px) -
+        var(--safe-area-inset-bottom, 0px)
+    );
+    height: auto;
   }
 
   body[data-section-id='accueil'] .section {
-    flex: none;
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     overflow: visible;
     height: auto;
-    min-height: auto;
-    justify-content: flex-start;
-    padding: var(--espacement-xl);
+    min-height: 0;
+    padding: var(--espacement-xl) var(--espacement-xl) var(--espacement-lg);
   }
 
   body[data-section-id='accueil'] .accueil__grille {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    flex: none;
-    padding-top: var(--espacement-lg);
-    padding-bottom: var(--espacement-2xl);
-    gap: var(--espacement-xl);
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    text-align: left;
+    text-align: center;
+    flex: none;
+    width: 100%;
+    gap: var(--espacement-md);
+    padding: var(--espacement-md) 0 var(--espacement-lg);
   }
 
   body[data-section-id='accueil'] .accueil__texte {
-    display: block;
+    display: contents;
   }
 
   body[data-section-id='accueil'] .accueil__illustration {
+    order: 5;
+    width: 100%;
     padding-right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: var(--espacement-lg) 0;
+  }
+
+  body[data-section-id='accueil'] .texte-intro {
+    order: 6;
+    width: 100%;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  body[data-section-id='accueil'] .accueil__actions {
+    order: 7;
+    width: 100%;
+    align-items: center;
+    gap: var(--espacement-md);
+  }
+
+  body[data-section-id='accueil'] .badges-statut {
+    order: 8;
+    width: 100%;
+    justify-content: center;
+    margin-top: var(--espacement-xl);
+    padding-top: var(--espacement-md);
+  }
+
+  body[data-section-id='accueil'] .accueil__actions-secondaires {
+    width: 100%;
+    align-items: center;
   }
 
   .svg-bonhomme {
-    width: clamp(140px, 20vw, 190px);
+    width: clamp(200px, 34vw, 280px);
   }
 
   .titre-arcade__prenom,
   .titre-arcade__nom {
-    font-size: clamp(1.5rem, 6vw, 2.4rem);
+    font-size: clamp(1.7rem, 5.5vw, 2.6rem);
   }
 
   .sous-titre-arcade {
-    font-size: clamp(1.2rem, 3.5vw, 1.6rem);
+    font-size: clamp(1.35rem, 3.5vw, 1.75rem);
+    justify-content: center;
   }
 
   .texte-intro {
-    font-size: clamp(1.1rem, 2.5vw, 1.25rem);
+    font-size: clamp(1.15rem, 2.4vw, 1.35rem);
   }
 
   .badge {
-    font-size: clamp(1rem, 2.5vw, 1.15rem);
+    font-size: clamp(1rem, 2.2vw, 1.15rem);
   }
 
   .bouton-arcade {
     font-size: var(--taille-bouton-pixel);
     padding: var(--espacement-md) var(--espacement-ml);
+    text-align: center;
+  }
+
+  .lien-github {
+    text-align: center;
   }
 }

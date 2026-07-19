@@ -125,6 +125,8 @@
   --taille-petit-pixel: clamp(var(--taille-pixel-min), 1.2vw, var(--taille-pixel-petit-max));
   --taille-bouton-pixel: clamp(var(--taille-pixel-min), 1.3vw, var(--taille-pixel-petit-max));
   --taille-titre-pixel: clamp(var(--taille-pixel-min), 1.8vw, var(--taille-pixel-petit-max));
+  /* Titres de section : un cran au-dessus du plafond décoratif sur desktop */
+  --taille-titre-section: clamp(var(--taille-pixel-min), 2.2vw, 0.95rem);
   --taille-corps-lisible: clamp(0.95rem, 2.1vw, 1.1rem);
   --taille-corps-crt: clamp(0.85rem, 1.85vw, 1.02rem);
   --interligne-corps: 1.7;
@@ -166,7 +168,7 @@
   /* Transitions et ombres UI */
   --transition-ui: 0.2s ease;
   --ombre-accent-ui: 0 0 16px rgba(var(--couleur-accent-rgb), 0.25);
-  --ombre-actif-ui: 0 0 16px rgba(255, 204, 68, 0.2);
+  --ombre-actif-ui: 0 0 16px rgba(var(--couleur-actif-rgb), 0.2);
   --ombre-carte-survol: 0 0 20px rgba(var(--couleur-accent-rgb), 0.22);
   --ombre-champ-focus: 0 0 10px rgba(var(--couleur-accent-rgb), 0.25);
   --couleur-overlay-modal: rgba(0, 0, 20, 0.88);
@@ -175,9 +177,10 @@
   --ombre-modal-boite: 0 0 40px rgba(var(--couleur-accent-rgb), 0.3);
   --ombre-nav-barre: 0 2px 20px rgba(var(--couleur-accent-rgb), 0.1);
   --ombre-menu-mobile: 0 8px 20px rgba(0, 0, 20, 0.5);
-  --ombre-popup-highscore: 0 0 40px rgba(255, 204, 68, 0.4), 0 0 80px rgba(255, 204, 68, 0.15);
-  --ombre-popup-highscore-hover: 0 0 20px rgba(255, 204, 68, 0.5);
-  --ombre-boss-actif: 0 0 12px rgba(255, 204, 68, 0.15);
+  --ombre-popup-highscore:
+    0 0 40px rgba(var(--couleur-actif-rgb), 0.4), 0 0 80px rgba(var(--couleur-actif-rgb), 0.15);
+  --ombre-popup-highscore-hover: 0 0 20px rgba(var(--couleur-actif-rgb), 0.5);
+  --ombre-boss-actif: 0 0 12px rgba(var(--couleur-actif-rgb), 0.15);
   --ombre-ecran:
     0 0 40px rgba(var(--couleur-accent-rgb), 0.15), 0 0 80px rgba(var(--couleur-accent-rgb), 0.05);
   --ombre-boite-accent: 0 0 40px rgba(var(--couleur-accent-rgb), 0.2);
@@ -200,13 +203,14 @@
   --ombre-texte-lisible: 0 1px 0 var(--couleur-fond-page), 0 2px 6px var(--couleur-fond);
   --ombre-texte-neon-accent:
     var(--ombre-texte-lisible), 0 0 20px rgba(var(--couleur-accent-rgb), 0.45);
-  --ombre-texte-neon-actif: var(--ombre-texte-lisible), 0 0 24px rgba(255, 204, 68, 0.35);
+  --ombre-texte-neon-actif:
+    var(--ombre-texte-lisible), 0 0 24px rgba(var(--couleur-actif-rgb), 0.35);
   --ombre-glow-accent: var(--ombre-texte-lisible), 0 0 8px rgba(var(--couleur-accent-rgb), 0.35);
   --ombre-glow-accent-fort:
     var(--ombre-texte-lisible), 0 0 12px rgba(var(--couleur-accent-rgb), 0.4);
-  --ombre-glow-actif: var(--ombre-texte-lisible), 0 0 10px rgba(255, 204, 68, 0.35);
-  --ombre-glow-actif-fort: var(--ombre-texte-lisible), 0 0 20px rgba(255, 204, 68, 0.4);
-  --ombre-glow-valide: var(--ombre-texte-lisible), 0 0 8px rgba(68, 204, 136, 0.35);
+  --ombre-glow-actif: var(--ombre-texte-lisible), 0 0 10px rgba(var(--couleur-actif-rgb), 0.35);
+  --ombre-glow-actif-fort: var(--ombre-texte-lisible), 0 0 20px rgba(var(--couleur-actif-rgb), 0.4);
+  --ombre-glow-valide: var(--ombre-texte-lisible), 0 0 8px rgba(var(--couleur-valide-rgb), 0.35);
 
   /* BREAKPOINTS_SYNC_START */
   /** Seuils principaux — généré depuis build/breakpoints.mjs (non utilisables dans @media). */

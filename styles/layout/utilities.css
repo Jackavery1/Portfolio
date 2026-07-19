@@ -99,7 +99,7 @@ body[data-app-ready='true'] .ecran {
 
 .titre-section {
   font-family: var(--police-pixel);
-  font-size: var(--taille-titre-pixel);
+  font-size: var(--taille-titre-section);
   color: var(--couleur-accent-vif);
   text-shadow: var(--ombre-glow-accent-fort);
   letter-spacing: 2px;

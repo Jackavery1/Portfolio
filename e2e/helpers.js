@@ -49,13 +49,13 @@ export function precacheContient(urls, fragment) {
 export async function assertHauteurTactile(locator, minPx = 44) {
   const box = await locator.boundingBox();
   expect(box).not.toBeNull();
-  expect(box.height).toBeGreaterThanOrEqual(minPx - 1);
+  expect(box.height).toBeGreaterThanOrEqual(minPx);
 }
 
 export async function assertLargeurTactile(locator, minPx = 44) {
   const box = await locator.boundingBox();
   expect(box).not.toBeNull();
-  expect(box.width).toBeGreaterThanOrEqual(minPx - 1);
+  expect(box.width).toBeGreaterThanOrEqual(minPx);
 }
 
 /** Vérifie un ring ou une ombre de focus (pas outline: none seul). */

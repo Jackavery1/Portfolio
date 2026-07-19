@@ -31,11 +31,34 @@ describe('sync-source', () => {
     expect(getSyncPhases().map((phase) => phase.id)).toEqual(IDS_ATTENDUS);
   });
 
+  it('valide le graphe dependDe (deps connues et antérieures)', () => {
+    const { getSyncPhases, validerDependancesPhases } = require('./sync-source.cjs');
+    const phases = getSyncPhases();
+    expect(() => validerDependancesPhases(phases)).not.toThrow();
+    expect(phases.find((p) => p.id === 'partials')?.dependDe).toEqual(['style-css']);
+    expect(phases.find((p) => p.id === 'accueil-hero')?.dependDe).toEqual(['partials']);
+    expect(phases.find((p) => p.id === 'manifest-dev')?.dependDe).toEqual(['legal']);
+  });
+
+  it('rejette une dépendance inconnue ou mal ordonnée', () => {
+    const { validerDependancesPhases } = require('./sync-source.cjs');
+    expect(() =>
+      validerDependancesPhases([{ id: 'a', dependDe: ['fantome'], executer: () => {} }])
+    ).toThrow(/inconnue/);
+    expect(() =>
+      validerDependancesPhases([
+        { id: 'tot', dependDe: ['tard'], executer: () => {} },
+        { id: 'tard', dependDe: [], executer: () => {} },
+      ])
+    ).toThrow(/précéder/);
+  });
+
   it('exécute les phases injectées dans l’ordre', () => {
     const { syncSource } = require('./sync-source.cjs');
     const ordre = [];
     const phases = IDS_ATTENDUS.map((id) => ({
       id,
+      dependDe: [],
       executer: () => ordre.push(id),
     }));
     syncSource({ phases });

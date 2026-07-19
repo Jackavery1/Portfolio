@@ -188,4 +188,10 @@
   body[data-section-id='accueil'] .accueil__actions {
     gap: var(--espacement-sm);
   }
+
+  /* Badges hors fold : premier viewport = marque + sprite + CTA (comme téléphone) */
+  body[data-section-id='accueil'] .badges-statut {
+    margin-top: var(--espacement-xl);
+    padding-top: var(--espacement-md);
+  }
 }

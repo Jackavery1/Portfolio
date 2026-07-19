@@ -50,8 +50,27 @@ function getSyncPhases(root = ROOT) {
 
 const IDS_PHASES_SYNC = getSyncPhases().map((phase) => phase.id);
 
+/** Vérifie que chaque `dependDe` existe et précède la phase dans l’ordre d’exécution. */
+function validerDependancesPhases(phases) {
+  const indexParId = new Map(phases.map((phase, index) => [phase.id, index]));
+  for (const phase of phases) {
+    const deps = phase.dependDe ?? [];
+    for (const dep of deps) {
+      if (!indexParId.has(dep)) {
+        throw new Error(`Phase « ${phase.id} » : dépendance inconnue « ${dep} »`);
+      }
+      if (indexParId.get(dep) >= indexParId.get(phase.id)) {
+        throw new Error(
+          `Phase « ${phase.id} » : « ${dep} » doit précéder la phase (ordre sync-source)`
+        );
+      }
+    }
+  }
+}
+
 function syncSource({ pageMeta = false, root = ROOT, phases } = {}) {
   const liste = phases ?? getSyncPhases(root);
+  validerDependancesPhases(liste);
   for (const phase of liste) {
     phase.executer();
   }
@@ -67,6 +86,7 @@ module.exports = {
   syncSource,
   getSyncPhases,
   IDS_PHASES_SYNC,
+  validerDependancesPhases,
   executerDepuisArgv,
   estEntreeDirecte,
   executerSiEntreeDirecte,
